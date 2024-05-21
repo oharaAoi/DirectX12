@@ -22,15 +22,27 @@
     <Filter Include="Engine\Utilities">
       <UniqueIdentifier>{844c8d2f-aef7-403c-9c4c-e263774d3a67}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\DirectXCommon">
+    <Filter Include="Engine\DirectX">
       <UniqueIdentifier>{862e9b1d-f7f8-485d-8ed2-ba3a6bcd7536}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DirectX\DirectXCommon">
+      <UniqueIdentifier>{fcb3e8bb-3505-4515-addd-264f6b93f46a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DirectX\DirectXDevice">
+      <UniqueIdentifier>{24e2676a-afc1-4558-994c-4531176772a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DirectX\DirectXCommands">
+      <UniqueIdentifier>{0e53879a-5617-48ab-b64a-152ec83281eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DirectX\Descriptor">
+      <UniqueIdentifier>{7e20fc99-99c0-4418-954f-f5b00a41d2c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DirectX\RTV">
+      <UniqueIdentifier>{e4cd0dae-e80c-47fe-bbb5-4826e2ec7b1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\WinApp\WinApp.cpp">
@@ -39,27 +51,63 @@
     <ClCompile Include="Engine\Utilities\Convert.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXCommon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Utilities\DirectXUtils.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXCommon\DirectXCommon.cpp">
+      <Filter>Engine\DirectX\DirectXCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp">
+      <Filter>Engine\DirectX\DirectXDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXCommands\DirectXCommands.cpp">
+      <Filter>Engine\DirectX\DirectXCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Descriptor\DescriptorHeap.cpp">
+      <Filter>Engine\DirectX\Descriptor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp">
+      <Filter>Engine\DirectX\Descriptor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\RTV\RenderTargetView.cpp">
+      <Filter>Engine\DirectX\RTV</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\WinApp\WinApp.h">
       <Filter>Engine\WinApp</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utilities\Convert.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXCommon.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Utilities\DirectXUtils.h">
+      <Filter>Engine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXCommon\DirectXCommon.h">
+      <Filter>Engine\DirectX\DirectXCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h">
+      <Filter>Engine\DirectX\DirectXDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXCommands\DirectXCommands.h">
+      <Filter>Engine\DirectX\DirectXCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Descriptor\DescriptorHeap.h">
+      <Filter>Engine\DirectX\Descriptor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h">
+      <Filter>Engine\DirectX\Descriptor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\RTV\RenderTargetView.h">
+      <Filter>Engine\DirectX\RTV</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Engine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utilities\Debug.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
   </ItemGroup>

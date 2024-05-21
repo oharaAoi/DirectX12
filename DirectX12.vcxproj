@@ -53,7 +53,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Engine\WinApp;$(ProjectDir)\Engine\Utilities;$(ProjectDir)\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Engine\DirectX\RTV;$(ProjectDir)\Engine\DirectX\Descriptor;$(ProjectDir)\Engine\DirectX\DirectXCommands;$(ProjectDir)\Engine\DirectX\DirectXDevice;$(ProjectDir)\Engine\DirectX\DirectXCommon;$(ProjectDir)\Engine\DirectX;$(ProjectDir)\Engine\WinApp;$(ProjectDir)\Engine\Utilities;$(ProjectDir)\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -82,17 +82,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DirectXCommon.cpp" />
-    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Engine\DirectX\Descriptor\DescriptorHeap.cpp" />
+    <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXCommands\DirectXCommands.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXCommon\DirectXCommon.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp" />
+    <ClCompile Include="Engine\DirectX\RTV\RenderTargetView.cpp" />
+    <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Utilities\Convert.cpp" />
     <ClCompile Include="Engine\Utilities\DirectXUtils.cpp" />
     <ClCompile Include="Engine\WinApp\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DirectXCommon.h" />
-    <ClInclude Include="Engine.h" />
+    <ClInclude Include="Engine\DirectX\Descriptor\DescriptorHeap.h" />
+    <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h" />
+    <ClInclude Include="Engine\DirectX\DirectXCommands\DirectXCommands.h" />
+    <ClInclude Include="Engine\DirectX\DirectXCommon\DirectXCommon.h" />
+    <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h" />
+    <ClInclude Include="Engine\DirectX\RTV\RenderTargetView.h" />
+    <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Utilities\Convert.h" />
+    <ClInclude Include="Engine\Utilities\Debug.h" />
     <ClInclude Include="Engine\Utilities\DirectXUtils.h" />
     <ClInclude Include="Engine\WinApp\WinApp.h" />
   </ItemGroup>

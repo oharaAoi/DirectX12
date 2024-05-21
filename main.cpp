@@ -13,7 +13,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// mainループ
 	while (Engine::ProcessMessage()) {
+		Engine::BeginFrame();
 
+		Engine::EndFrame();
 	}
 
 	return 0;

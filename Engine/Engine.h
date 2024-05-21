@@ -1,5 +1,10 @@
 #pragma once
+#include <memory>
 #include "WinApp.h"
+#include "DirectXCommon.h"
+#include "DirectXDevice.h"
+#include "DirectXCommands.h"
+#include "DescriptorHeap.h"
 
 class Engine {
 public:
@@ -17,6 +22,10 @@ public:
 	/// <returns></returns>
 	static bool ProcessMessage();
 
+	static void BeginFrame();
+
+	static void EndFrame();
+
 private:
 
 };
@@ -29,5 +38,11 @@ namespace {
 	int32_t kClientHeight_;
 
 	WinApp* winApp_ = nullptr;
+	DirectXCommon* dxCommon_ = nullptr;
+	std::unique_ptr<DirectXDevice> dxDevice_ = nullptr;
+
+	std::unique_ptr<DescriptorHeap> descriptorHeap_ = nullptr;
+
+	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
 }
 
