@@ -10,6 +10,8 @@
 #include "DescriptorSize.h"
 #include "DescriptorHeap.h"
 #include "DirectXCommands.h"
+// DXC
+#include <dxcapi.h>
 // utilities
 #include "Convert.h"
 #include "DirectXUtils.h"
@@ -47,8 +49,14 @@ public:
 	/// </summary>
 	void Finalize();
 
+	/// <summary>
+	/// フレームを開始する
+	/// </summary>
 	void Begin();
 
+	/// <summary>
+	/// フレームを終了する
+	/// </summary>
 	void End();
 
 public:
@@ -80,6 +88,11 @@ public:
 	/// Fenceの生成
 	/// </summary>
 	void CrateFence();
+
+	/// <summary>
+	/// Viewport変換
+	/// </summary>
+	void SetViewport();
 
 public:
 
@@ -122,5 +135,7 @@ private:
 	// barrier
 	D3D12_RESOURCE_BARRIER barrier_;
 
+	D3D12_VIEWPORT viewport_;
+	D3D12_RECT scissorRect_;
 };
 

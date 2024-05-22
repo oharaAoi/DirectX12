@@ -26,6 +26,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get());
 
+	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice());
+
 	Log("Clear!\n");
 }
 
@@ -39,4 +41,21 @@ void Engine::BeginFrame() {
 
 void Engine::EndFrame() {
 	dxCommon_->End();
+}
+
+//------------------------------------------------------------------------------------------------------
+// 生成
+//------------------------------------------------------------------------------------------------------
+std::unique_ptr<Triangle> Engine::CreateTriangle(const Mesh::Vertices& vertex) {
+	std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>();
+	triangle->Init(dxDevice_->GetDevice(), vertex);
+	return triangle;
+}
+
+//------------------------------------------------------------------------------------------------------
+// 描画
+//------------------------------------------------------------------------------------------------------
+void Engine::DrawTriangle(Triangle* triangle) {
+	pipeline_->Draw(dxCommands_->GetCommandList());
+	triangle->Draw(dxCommands_->GetCommandList());
 }

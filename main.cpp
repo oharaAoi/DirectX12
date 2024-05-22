@@ -11,9 +11,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 初期化
 	Engine::Initialize(kWindowWidth, kWindowHeight);
 
+	Mesh::Vertices vertex = {
+		{-0.5f, -0.5f, 0.0f, 1.0f},
+		{ 0.0f, 0.5f, 0.0f, 1.0f },
+		{ 0.5f, -0.5f, 0.0f, 1.0f }
+	};
+
+	std::unique_ptr<Triangle> triangle = Engine::CreateTriangle(vertex);
+
 	// mainループ
 	while (Engine::ProcessMessage()) {
 		Engine::BeginFrame();
+
+		Engine::DrawTriangle(triangle.get());
 
 		Engine::EndFrame();
 	}

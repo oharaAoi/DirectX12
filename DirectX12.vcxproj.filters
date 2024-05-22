@@ -40,6 +40,21 @@
     <Filter Include="Engine\DirectX\RTV">
       <UniqueIdentifier>{e4cd0dae-e80c-47fe-bbb5-4826e2ec7b1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\HLSL">
+      <UniqueIdentifier>{631f411d-35f3-49f4-ba91-b3bfd4fb23bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DirectX\RootSignature">
+      <UniqueIdentifier>{56dfa324-b9e4-4f93-9cb5-d047a12c517d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DirectX\Pipeline">
+      <UniqueIdentifier>{ec2583b0-fab6-4ec0-8c2e-9bf42b46acb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject">
+      <UniqueIdentifier>{e859b2d8-c6d1-48c5-8dc2-82a2bbe41fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Math">
+      <UniqueIdentifier>{dbb79eb9-12a6-489e-b143-b02f8418e2cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,6 +89,24 @@
     </ClCompile>
     <ClCompile Include="Engine\DirectX\RTV\RenderTargetView.cpp">
       <Filter>Engine\DirectX\RTV</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp">
+      <Filter>Engine\DirectX\RootSignature</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\Mesh.cpp">
+      <Filter>Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\MyMath.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\MyMatrix.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\Triangle.cpp">
+      <Filter>Engine\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,5 +143,46 @@
     <ClInclude Include="Engine\Utilities\Debug.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h">
+      <Filter>Engine\DirectX\RootSignature</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\Mesh.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Matrix3x3.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Matrix4x4.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Vector2.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Vector3.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Vector4.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\MyMath.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\MyMatrix.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\Triangle.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Object3d.VS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

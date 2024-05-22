@@ -1,6 +1,7 @@
 #include "DirectXCommon.h"
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "dxcompiler.lib")
 
 DirectXCommon::~DirectXCommon() {
 	CloseHandle(fenceEvent_);
@@ -36,6 +37,9 @@ void DirectXCommon::Initialize(WinApp* win, int32_t backBufferWidth, int32_t bac
 void DirectXCommon::Finalize() {
 }
 
+//------------------------------------------------------------------------------------------------------
+// 命令
+//------------------------------------------------------------------------------------------------------
 void DirectXCommon::Begin() {
 	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
@@ -60,6 +64,10 @@ void DirectXCommon::Begin() {
 
 	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
 	commandList->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor, 0, nullptr);
+
+	// ---------------------------------------------------------------
+	commandList->RSSetViewports(1, &viewport_);
+	commandList->RSSetScissorRects(1, &scissorRect_);
 }
 
 void DirectXCommon::End() {
@@ -201,10 +209,15 @@ void DirectXCommon::Setting(ID3D12Device* device, DirectXCommands* dxCommands, D
 	CreateSwapChain();
 	// RTV
 	CreateRTV();
-
+	// fence
 	CrateFence();
+	// viewportとscissor
+	SetViewport();
 }
 
+//------------------------------------------------------------------------------------------------------
+// swapChainの生成
+//------------------------------------------------------------------------------------------------------
 void DirectXCommon::CreateSwapChain() {
 	HRESULT hr = S_FALSE;
 	DXGI_SWAP_CHAIN_DESC1 desc{};
@@ -227,6 +240,9 @@ void DirectXCommon::CreateSwapChain() {
 	assert(SUCCEEDED(hr));
 }
 
+//------------------------------------------------------------------------------------------------------
+// RTVの生成
+//------------------------------------------------------------------------------------------------------
 void DirectXCommon::CreateRTV() {
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
@@ -241,6 +257,9 @@ void DirectXCommon::CreateRTV() {
 	device_->CreateRenderTargetView(swapChainResource_[1].Get(), &rtvDesc, rtvHandles_[1]);
 }
 
+//------------------------------------------------------------------------------------------------------
+// Fenceの生成
+//------------------------------------------------------------------------------------------------------
 void DirectXCommon::CrateFence() {
 	HRESULT hr = S_FALSE;
 	fenceValue_ = 0;
@@ -250,4 +269,22 @@ void DirectXCommon::CrateFence() {
 	// Fenceのsignalを待つためのイベントを作成する
 	fenceEvent_ = CreateEvent(NULL, false, false, NULL);
 	assert(fenceEvent_ != nullptr);
+}
+
+void DirectXCommon::SetViewport() {
+	// ビューポート
+	// クライアント領域のサイズと一緒にして画面全体を表示
+	viewport_.Width = static_cast<float>(kClientWidth_);
+	viewport_.Height = static_cast<float>(kClientHeight_);
+	viewport_.TopLeftX = 0;
+	viewport_.TopLeftY = 0;
+	viewport_.MinDepth = 0.0f;
+	viewport_.MaxDepth = 1.0f;
+
+	// シザー矩形
+	// 基本的にビューポートと同じ矩形が構成されるようにする
+	scissorRect_.left = 0;
+	scissorRect_.right = static_cast<LONG>(kClientWidth_);
+	scissorRect_.top = 0;
+	scissorRect_.bottom = static_cast<LONG>(kClientHeight_);
 }
