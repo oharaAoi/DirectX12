@@ -96,6 +96,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTargetView.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\GameObject\Material.cpp" />
     <ClCompile Include="Engine\GameObject\Mesh.cpp" />
     <ClCompile Include="Engine\GameObject\Triangle.cpp" />
     <ClCompile Include="Engine\Math\MyMath.cpp" />
@@ -116,6 +117,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTargetView.h" />
     <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\GameObject\Material.h" />
     <ClInclude Include="Engine\GameObject\Mesh.h" />
     <ClInclude Include="Engine\GameObject\Triangle.h" />
     <ClInclude Include="Engine\Math\Matrix3x3.h" />

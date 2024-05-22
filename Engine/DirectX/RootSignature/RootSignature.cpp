@@ -22,6 +22,15 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateRootSignature()
 	D3D12_ROOT_SIGNATURE_DESC desc{};
 	desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
+	// rootparameter
+	D3D12_ROOT_PARAMETER rootParameters[1] = {};
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	// CBVを使う
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	// PixelShaderで使う
+	rootParameters[0].Descriptor.ShaderRegister = 0;					// レジスタ番号とバインド
+
+	desc.pParameters = rootParameters;
+	desc.NumParameters = _countof(rootParameters);
+
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 	Comptr<ID3DBlob> signatureBlob = nullptr;
 	Comptr<ID3DBlob> errorBlob = nullptr;

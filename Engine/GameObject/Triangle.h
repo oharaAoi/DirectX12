@@ -1,5 +1,6 @@
 #pragma once
 #include "Mesh.h"
+#include "Material.h"
 
 class Triangle {
 public:
@@ -18,5 +19,6 @@ public:
 private:
 
 	std::unique_ptr<Mesh> mesh_;
+	std::unique_ptr<Material> material_;
 
 };

@@ -33,6 +33,8 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
+	void Finalize();
+
 public:
 
 	ID3D12Resource* GetVertexBuffer() { return vertexBuffer_.Get(); }

@@ -114,6 +114,9 @@
     <ClCompile Include="Game\GameScene.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\GameObject\Material.cpp">
+      <Filter>Engine\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -184,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\Material.h">
+      <Filter>Engine\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

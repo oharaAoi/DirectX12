@@ -4,6 +4,11 @@ Mesh::Mesh() {
 }
 
 Mesh::~Mesh() {
+	Finalize();
+}
+
+void Mesh::Finalize() {
+	vertexBuffer_.Reset();
 }
 
 void Mesh::Init(ID3D12Device* device, const uint32_t& vBSize) {
