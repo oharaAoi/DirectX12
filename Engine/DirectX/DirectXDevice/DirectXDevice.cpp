@@ -9,6 +9,11 @@ DirectXDevice::DirectXDevice(IDXGIAdapter4* useAdapter) {
 DirectXDevice::~DirectXDevice() {
 }
 
+
+void DirectXDevice::Finalize() {
+	device_.Reset();
+}
+
 void DirectXDevice::Initialize(IDXGIAdapter4* useAdapter) {
 	HRESULT hr;
 	device_ = nullptr;

@@ -129,7 +129,7 @@ private:
 
 	// Fence & Event
 	Comptr<ID3D12Fence> fence_ = nullptr;
-	uint64_t  fenceValue_;
+	uint64_t fenceValue_;
 	HANDLE fenceEvent_;
 
 	// barrier

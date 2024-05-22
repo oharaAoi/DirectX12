@@ -25,6 +25,8 @@ public:
 	/// <param name="device"></param>
 	void Initialize(ID3D12Device* device);
 
+	void Finalize();
+
 public:
 
 	ID3D12DescriptorHeap* GetRTVHeap() { return rtvHeap.Get(); }

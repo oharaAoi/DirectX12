@@ -19,7 +19,7 @@ public:
 private:
 
 	// descriptorHeap
-	Comptr<ID3D12DescriptorHeap> descriptorHeap_ = nullptr;
+	//Comptr<ID3D12DescriptorHeap> descriptorHeap_ = nullptr;
 
 	// rtv
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc_;

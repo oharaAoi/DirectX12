@@ -13,6 +13,10 @@ void RootSignature::Initialize(ID3D12Device* device) {
 	rootSignature_ = CreateRootSignature();
 }
 
+void RootSignature::Finalize() {
+	rootSignature_.Reset();
+}
+
 Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateRootSignature() {
 	HRESULT hr = S_FALSE;
 	D3D12_ROOT_SIGNATURE_DESC desc{};

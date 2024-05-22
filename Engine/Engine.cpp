@@ -4,6 +4,7 @@ Engine::Engine() {
 }
 
 Engine::~Engine() {
+	
 }
 
 void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
@@ -29,6 +30,15 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice());
 
 	Log("Clear!\n");
+}
+
+void Engine::Finalize() {
+	pipeline_->Finalize();
+	descriptorHeap_->Finalize();
+	dxCommands_->Finalize();
+	dxCommon_->Finalize();
+	dxDevice_->Finalize();
+	winApp_->Finalize();
 }
 
 bool Engine::ProcessMessage() {

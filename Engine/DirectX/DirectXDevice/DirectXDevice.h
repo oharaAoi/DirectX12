@@ -19,6 +19,8 @@ public:
 
 	void Initialize(IDXGIAdapter4* useAdapter);
 
+	void Finalize();
+
 public:
 
 	ID3D12Device* GetDevice() { return device_.Get(); }

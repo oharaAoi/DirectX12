@@ -18,6 +18,8 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
+	void Finalize();
+
 public:
 
 	/// <summary>

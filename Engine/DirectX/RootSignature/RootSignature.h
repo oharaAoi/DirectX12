@@ -20,6 +20,8 @@ public:
 
 	void Initialize(ID3D12Device* device);
 
+	void Finalize();
+
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateRootSignature();
 
 public:

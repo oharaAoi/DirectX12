@@ -14,6 +14,12 @@ void DirectXCommands::Initialize(ID3D12Device* device) {
 	CreateCommand();
 }
 
+void DirectXCommands::Finalize() {
+	commandQueue_.Reset();
+	commandAllocator_.Reset();
+	commandList_.Reset();
+}
+
 void DirectXCommands::CreateCommand() {
 	HRESULT hr = S_FALSE;
 	// GPUに命令を投げてくれる人　--------------------------

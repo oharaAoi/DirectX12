@@ -9,6 +9,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 出力ウィンドウへの文字出力
 	OutputDebugStringA("Hello, DirectX\n");
 
+	D3DResourceLeakChecker debugChecker;
+
 	// 初期化
 	Engine::Initialize(kWindowWidth, kWindowHeight);
 
@@ -32,6 +34,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Engine::EndFrame();
 	}
+
+	Engine::Finalize();
 
 	return 0;
 }

@@ -17,6 +17,8 @@ public:
 
 	static void Initialize(uint32_t backBufferWidth, int32_t backBufferHeight);
 
+	static void Finalize();
+
 public:
 
 	/// <summary>

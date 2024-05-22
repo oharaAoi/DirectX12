@@ -4,7 +4,7 @@
 #pragma comment(lib, "dxcompiler.lib")
 
 DirectXCommon::~DirectXCommon() {
-	CloseHandle(fenceEvent_);
+	
 }
 
 DirectXCommon* DirectXCommon::GetInstacne() {
@@ -35,6 +35,14 @@ void DirectXCommon::Initialize(WinApp* win, int32_t backBufferWidth, int32_t bac
 }
 
 void DirectXCommon::Finalize() {
+	CloseHandle(fenceEvent_);
+	fence_.Reset();
+	swapChain_.Reset();
+	swapChainResource_[0].Reset();;
+	swapChainResource_[1].Reset();;
+	dxgiFactory_.Reset();;
+	useAdapter_.Reset();;
+	debugController_.Reset();;
 }
 
 //------------------------------------------------------------------------------------------------------

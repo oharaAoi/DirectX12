@@ -24,6 +24,16 @@ void Pipeline::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetPipelineState(graphicsPipelineState_.Get());
 }
 
+void Pipeline::Finalize() {
+	dxcUtils_.Reset();
+	dxcCompiler_.Reset();
+	includeHandler_.Reset();
+	rootSignature_->Finalize();
+	vertexShaderBlob_.Reset();
+	pixelShaderBlob_.Reset();
+	graphicsPipelineState_.Reset();
+}
+
 //------------------------------------------------------------------------------------------------------
 // ↓HLSLからDXILに変換するCompilerの初期化
 //------------------------------------------------------------------------------------------------------
