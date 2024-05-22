@@ -53,7 +53,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Game;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\GameObject;$(ProjectDir)\Engine\DirectX\Pipeline;$(ProjectDir)\Engine\DirectX\RootSignature;$(ProjectDir)\Engine\DirectX\RTV;$(ProjectDir)\Engine\DirectX\Descriptor;$(ProjectDir)\Engine\DirectX\DirectXCommands;$(ProjectDir)\Engine\DirectX\DirectXDevice;$(ProjectDir)\Engine\DirectX\DirectXCommon;$(ProjectDir)\Engine\DirectX;$(ProjectDir)\Engine\WinApp;$(ProjectDir)\Engine\Utilities;$(ProjectDir)\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Game;$(ProjectDir)\Engine\Lib;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\GameObject;$(ProjectDir)\Engine\DirectX\Pipeline;$(ProjectDir)\Engine\DirectX\RootSignature;$(ProjectDir)\Engine\DirectX\RTV;$(ProjectDir)\Engine\DirectX\Descriptor;$(ProjectDir)\Engine\DirectX\DirectXCommands;$(ProjectDir)\Engine\DirectX\DirectXDevice;$(ProjectDir)\Engine\DirectX\DirectXCommon;$(ProjectDir)\Engine\DirectX;$(ProjectDir)\Engine\WinApp;$(ProjectDir)\Engine\Utilities;$(ProjectDir)\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -96,8 +96,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTargetView.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\GameObject\Camera.cpp" />
     <ClCompile Include="Engine\GameObject\Material.cpp" />
     <ClCompile Include="Engine\GameObject\Mesh.cpp" />
+    <ClCompile Include="Engine\GameObject\TransformationMatrix.cpp" />
     <ClCompile Include="Engine\GameObject\Triangle.cpp" />
     <ClCompile Include="Engine\Math\MyMath.cpp" />
     <ClCompile Include="Engine\Math\MyMatrix.cpp" />
@@ -117,9 +119,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTargetView.h" />
     <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\GameObject\Camera.h" />
     <ClInclude Include="Engine\GameObject\Material.h" />
     <ClInclude Include="Engine\GameObject\Mesh.h" />
+    <ClInclude Include="Engine\GameObject\TransformationMatrix.h" />
     <ClInclude Include="Engine\GameObject\Triangle.h" />
+    <ClInclude Include="Engine\Lib\Transform.h" />
     <ClInclude Include="Engine\Math\Matrix3x3.h" />
     <ClInclude Include="Engine\Math\Matrix4x4.h" />
     <ClInclude Include="Engine\Math\MyMath.h" />

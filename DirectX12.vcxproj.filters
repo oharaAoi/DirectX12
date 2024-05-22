@@ -58,6 +58,9 @@
     <Filter Include="Game">
       <UniqueIdentifier>{daff35cd-1cd4-43ce-a26e-34f4c59941ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Lib">
+      <UniqueIdentifier>{22d38944-61ac-493d-8dd6-f68f5efbe841}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -115,6 +118,12 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameObject\Material.cpp">
+      <Filter>Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\TransformationMatrix.cpp">
+      <Filter>Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\Camera.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
@@ -189,6 +198,15 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GameObject\Material.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\TransformationMatrix.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Lib\Transform.h">
+      <Filter>Engine\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\Camera.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
   </ItemGroup>

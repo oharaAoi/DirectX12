@@ -1,6 +1,10 @@
 #pragma once
 #include "Engine.h"
 #include "GameScene.h"
+// lib
+#include "Transform.h"
+// gameObject
+#include "Camera.h"
 
 class GameScene {
 public:
@@ -16,12 +20,17 @@ public:
 
 private:
 
+	std::unique_ptr<Camera> camera_ = nullptr;
+
+	std::unique_ptr<Triangle> triangle_ = nullptr;
+
 	Mesh::Vertices vertex_ = {
 		{-0.5f, -0.5f, 0.0f, 1.0f},
 		{ 0.0f, 0.5f, 0.0f, 1.0f },
 		{ 0.5f, -0.5f, 0.0f, 1.0f }
 	};
 
-	std::unique_ptr<Triangle> triangle_ = nullptr;
+
+	kTransform transform_;
 
 };

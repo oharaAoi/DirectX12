@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <cmath>
 
-//#include "Transform.h"
+#include "Transform.h"
 
 /// <summary>
 /// 加算
@@ -88,7 +88,7 @@ Matrix4x4 MakeRotateXYZMatrix(const Vector3& radian);
 /// <returns></returns>
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
-//Matrix4x4 MakeAffineMatrix(const kTransform& transform);
+Matrix4x4 MakeAffineMatrix(const kTransform& transform);
 
 /// <summary>
 /// 座標変換

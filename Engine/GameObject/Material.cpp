@@ -11,7 +11,6 @@ void Material::Finalize() {
 	materialBuffer_.Reset();
 }
 
-
 void Material::Init(ID3D12Device* device) {
 	// ---------------------------------------------------------------
 	// ↓Materialの設定
