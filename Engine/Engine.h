@@ -10,6 +10,8 @@
 #include "TextureManager.h"
 // GameObject
 #include "Triangle.h"
+#include "Sprite.h"
+#include "Sphere.h"
 
 class Engine {
 public:
@@ -46,10 +48,18 @@ public:
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	static std::unique_ptr<Triangle> CreateTriangle(const Mesh::Vertices& vertex);
 
+	static std::unique_ptr<Sprite> CreateSprite(const Mesh::RectVetices& rect);
+
+	static std::unique_ptr<Sphere> CreateSphere(const uint32_t& devision);
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 描画系
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	static void DrawTriangle(Triangle* triangle);
+
+	static void DrawSprite(Sprite* sprite);
+
+	static void DrawSphere(Sphere* sphere);
 
 private:
 

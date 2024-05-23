@@ -99,6 +99,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GameObject\Camera.cpp" />
     <ClCompile Include="Engine\GameObject\Material.cpp" />
     <ClCompile Include="Engine\GameObject\Mesh.cpp" />
+    <ClCompile Include="Engine\GameObject\Sphere.cpp" />
+    <ClCompile Include="Engine\GameObject\Sprite.cpp" />
     <ClCompile Include="Engine\GameObject\TransformationMatrix.cpp" />
     <ClCompile Include="Engine\GameObject\Triangle.cpp" />
     <ClCompile Include="Engine\Manager\ImGuiManager.cpp" />
@@ -131,9 +133,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GameObject\Camera.h" />
     <ClInclude Include="Engine\GameObject\Material.h" />
     <ClInclude Include="Engine\GameObject\Mesh.h" />
+    <ClInclude Include="Engine\GameObject\Sphere.h" />
+    <ClInclude Include="Engine\GameObject\Sprite.h" />
     <ClInclude Include="Engine\GameObject\TransformationMatrix.h" />
     <ClInclude Include="Engine\GameObject\Triangle.h" />
     <ClInclude Include="Engine\Lib\Transform.h" />
+    <ClInclude Include="Engine\Lib\VertexData.h" />
     <ClInclude Include="Engine\Manager\ImGuiManager.h" />
     <ClInclude Include="Engine\Manager\TextureManager.h" />
     <ClInclude Include="Engine\Math\Matrix3x3.h" />

@@ -77,10 +77,32 @@ std::unique_ptr<Triangle> Engine::CreateTriangle(const Mesh::Vertices& vertex) {
 	return triangle;
 }
 
+std::unique_ptr<Sprite> Engine::CreateSprite(const Mesh::RectVetices& rect) {
+	std::unique_ptr<Sprite> sprite = std::make_unique<Sprite>();
+	sprite->Init(dxDevice_->GetDevice(), rect);
+	return sprite;
+}
+
+std::unique_ptr<Sphere> Engine::CreateSphere(const uint32_t& devision) {
+	std::unique_ptr<Sphere> sphere = std::make_unique<Sphere>();
+	sphere->Init(dxDevice_->GetDevice(), devision);
+	return sphere;
+}
+
 //------------------------------------------------------------------------------------------------------
 // 描画
 //------------------------------------------------------------------------------------------------------
 void Engine::DrawTriangle(Triangle* triangle) {
 	pipeline_->Draw(dxCommands_->GetCommandList());
 	triangle->Draw(dxCommands_->GetCommandList());
+}
+
+void Engine::DrawSprite(Sprite* sprite) {
+	pipeline_->Draw(dxCommands_->GetCommandList());
+	sprite->Draw(dxCommands_->GetCommandList());
+}
+
+void Engine::DrawSphere(Sphere* sphere) {
+	pipeline_->Draw(dxCommands_->GetCommandList());
+	sphere->Draw(dxCommands_->GetCommandList());
 }

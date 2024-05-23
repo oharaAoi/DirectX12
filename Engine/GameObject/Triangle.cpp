@@ -4,6 +4,9 @@ Triangle::Triangle() {
 }
 
 Triangle::~Triangle() {
+	mesh_->Finalize();
+	material_->Finalize();
+	transformation_->Finalize();
 }
 
 void Triangle::Init(ID3D12Device* device, const Mesh::Vertices& vertex) {
@@ -11,7 +14,7 @@ void Triangle::Init(ID3D12Device* device, const Mesh::Vertices& vertex) {
 	material_ = std::make_unique<Material>();
 	transformation_ = std::make_unique<TransformationMatrix>();
 
-	mesh_->Init(device, sizeof(Mesh::VertexData) * 3);
+	mesh_->Init(device, sizeof(Mesh::VertexData) * 3, 3);
 	material_->Init(device);
 	transformation_->Init(device);
 
@@ -26,6 +29,12 @@ void Triangle::Init(ID3D12Device* device, const Mesh::Vertices& vertex) {
 	// 右下
 	vertexData[2].pos = vertex.vertex3;
 	vertexData[2].texcoord = { 1.0f, 1.0f };
+
+	// indexの設定
+	uint32_t* indexData = mesh_->GetIndexData();
+	for (size_t index = 0; index < 3; index++) {
+		indexData[index] = index;
+	}
 }
 
 void Triangle::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection) {
@@ -38,5 +47,6 @@ void Triangle::Draw(ID3D12GraphicsCommandList* commandList) {
 	material_->Draw(commandList);
 	transformation_->Draw(commandList);
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, 0);
-	commandList->DrawInstanced(3, 1, 0, 0);
+	//commandList->DrawInstanced(3, 1, 0, 0);
+	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }

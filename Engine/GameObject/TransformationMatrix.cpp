@@ -15,6 +15,8 @@ void TransformationMatrix::Init(ID3D12Device* device) {
 	cBuffer_ = CreateBufferResource(device, sizeof(ResTransformationMatrix));
 	// データをマップ
 	cBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&TransformationData_));
+
+	//*TransformationData_ = MakeIdentity4x4();
 }
 
 void TransformationMatrix::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection) {

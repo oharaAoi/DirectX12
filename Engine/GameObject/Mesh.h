@@ -1,8 +1,8 @@
+#pragma once
 #include <Windows.h>
 #include <cstdint>
 #include <d3d12.h>
 #include <wrl.h>
-#include <string>
 // DirectX
 #include "DirectXUtils.h"
 // math
@@ -25,22 +25,40 @@ public: // 構造体
 		Vector4 vertex3;// 右下
 	};
 
+	struct RectVetices {
+		Vector4 leftTop;
+		Vector4 rightTop;
+		Vector4 leftBottom;
+		Vector4 rightBottom;
+	};
+
 public:
 
 	Mesh();
 	~Mesh();
 
-	void Init(ID3D12Device* device, const uint32_t& vBSize);
+	void Init(ID3D12Device* device, const uint32_t& vBSize, const uint32_t& iBSize);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
 	void Finalize();
 
 public:
-
+	/// <summary>
+	/// vertexBuffer
+	/// </summary>
+	/// <returns></returns>
 	ID3D12Resource* GetVertexBuffer() { return vertexBuffer_.Get(); }
 
+	/// <summary>
+	/// vertexDataを取得する
+	/// </summary>
+	/// <returns></returns>
 	VertexData* GetVertexData() { return vertexData_; }
+
+	ID3D12Resource* GetIndexBuffer() { return indexBuffer_.Get(); }
+
+	uint32_t* GetIndexData() { return indexData_; }
 
 private:
 
@@ -48,4 +66,7 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 	VertexData* vertexData_ = nullptr;
 	
+	Comptr<ID3D12Resource> indexBuffer_;
+	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
+	uint32_t* indexData_ = nullptr;
 };

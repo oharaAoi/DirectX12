@@ -1,3 +1,4 @@
+#pragma once
 #include <Windows.h>
 #include <cstdint>
 #include <d3d12.h>
@@ -32,6 +33,10 @@ public:
 	void Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
+
+public:
+
+	ResTransformationMatrix* GetTransformationData() { return TransformationData_; }
 
 private:
 

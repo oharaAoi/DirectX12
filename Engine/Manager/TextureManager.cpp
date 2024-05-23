@@ -16,6 +16,7 @@ void TextureManager::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList*
 	srvData_.clear();
 
 	CreateShaderResource("Resources/uvChecker.png", commandList);
+	CreateShaderResource("Resources/monsterBall.png", commandList);
 }
 
 void TextureManager::Finalize() {
