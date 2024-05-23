@@ -61,6 +61,12 @@
     <Filter Include="Engine\Lib">
       <UniqueIdentifier>{22d38944-61ac-493d-8dd6-f68f5efbe841}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ImGui">
+      <UniqueIdentifier>{7960cc40-5853-4ec6-89a5-198b98173fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Manager">
+      <UniqueIdentifier>{a8601339-16a1-46ea-aaea-fb81fb3e1997}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -125,6 +131,33 @@
     </ClCompile>
     <ClCompile Include="Engine\GameObject\Camera.cpp">
       <Filter>Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_demo.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_draw.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_impl_dx12.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_impl_win32.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_tables.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_widgets.cpp">
+      <Filter>Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Manager\ImGuiManager.cpp">
+      <Filter>Engine\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Manager\TextureManager.cpp">
+      <Filter>Engine\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +242,36 @@
     <ClInclude Include="Engine\GameObject\Camera.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Externals\ImGui\imconfig.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\imgui.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\imgui_impl_dx12.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\imgui_impl_win32.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\imgui_internal.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\imstb_rectpack.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\imstb_textedit.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\imstb_truetype.h">
+      <Filter>Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Manager\ImGuiManager.h">
+      <Filter>Engine\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Manager\TextureManager.h">
+      <Filter>Engine\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
@@ -217,5 +280,15 @@
     <FxCompile Include="Engine\HLSL\Object3d.VS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Externals\ImGui\LICENSE.txt">
+      <Filter>Engine\ImGui</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\HLSL\Object3d.hlsli">
+      <Filter>Engine\HLSL</Filter>
+    </None>
   </ItemGroup>
 </Project>

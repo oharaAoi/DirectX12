@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <cstdint>
-
+#include "ImGuiManager.h"
 //#include "Utilities/Convert.h"
 
 /// <summary>

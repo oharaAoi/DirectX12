@@ -11,9 +11,13 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	kClientWidth_ = backBufferWidth;
 	kClientHeight_ = backBufferHeight;
 
+	CoInitializeEx(0, COINIT_MULTITHREADED);
+
 	// ↓インスタンスの生成
 	winApp_ = WinApp::GetInstance();
 	dxCommon_ = DirectXCommon::GetInstacne();
+	imguiManager_ = ImGuiManager::GetInstacne();
+	textureManager_ = TextureManager::GetInstance();
 
 	// ↓各初期化
 	winApp_->CreateGameWindow();
@@ -24,9 +28,13 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	dxCommands_ = std::make_unique<DirectXCommands>(dxDevice_->GetDevice());
 	descriptorHeap_ = std::make_unique<DescriptorHeap>(dxDevice_->GetDevice());
-
+	// dxcommon
 	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get());
-
+	// ImGui
+	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_->GetDevice(), dxCommon_->GetSwapChainBfCount(), descriptorHeap_->GetSRVHeap());
+	// texture
+	textureManager_->Initialize(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV());
+	// pipeline
 	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice());
 
 	Log("Clear!\n");
@@ -38,7 +46,11 @@ void Engine::Finalize() {
 	dxCommands_->Finalize();
 	dxCommon_->Finalize();
 	dxDevice_->Finalize();
+	imguiManager_->Finalize();
+	textureManager_->Finalize();
 	winApp_->Finalize();
+
+	CoUninitialize();
 }
 
 bool Engine::ProcessMessage() {
@@ -46,10 +58,13 @@ bool Engine::ProcessMessage() {
 }
 
 void Engine::BeginFrame() {
+	imguiManager_->Begin();
 	dxCommon_->Begin();
 }
 
 void Engine::EndFrame() {
+	imguiManager_->End();
+	imguiManager_->Draw(dxCommands_->GetCommandList());
 	dxCommon_->End();
 }
 

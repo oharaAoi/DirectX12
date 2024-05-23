@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "TransformationMatrix.h"
+#include "TextureManager.h"
 
 class Triangle {
 public:

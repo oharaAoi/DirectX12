@@ -12,9 +12,9 @@ WinApp* WinApp::GetInstance(){
 ==========================================================================*/
 LRESULT CALLBACK WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam){
 
-	/*if (ImGuiManager::ImGuiHandler(hwnd, msg, wparam, lparam)) {
+	if (ImGuiManager::ImGuiHandler(hwnd, msg, wparam, lparam)) {
 		return true;
-	}*/
+	}
 
 	// メッセージに応じてゲーム固有の処理を行う
 	switch (msg) {

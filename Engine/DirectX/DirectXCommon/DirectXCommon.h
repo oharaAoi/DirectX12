@@ -94,14 +94,24 @@ public:
 	/// </summary>
 	void SetViewport();
 
+////////////////////////////////////////////////////////////////////////////////////
+// accseser
+////////////////////////////////////////////////////////////////////////////////////
+
+	int32_t GetSwapChainBfCount() {return swapChainBufferCount_;}
+
 public:
 
 	IDXGIAdapter4* GetUseAdapter() { return useAdapter_.Get(); }
+
+	DescriptorSize* GetDescriptorSize() { return descriptorSize_.get(); }
 
 private:
 
 	int32_t kClientWidth_;
 	int32_t kClientHeight_;
+
+	int32_t swapChainBufferCount_;
 
 	WinApp* winApp_ = nullptr;
 	DescriptorHeap* descriptorHeaps_ = nullptr;

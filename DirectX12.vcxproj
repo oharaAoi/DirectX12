@@ -53,7 +53,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Game;$(ProjectDir)\Engine\Lib;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\GameObject;$(ProjectDir)\Engine\DirectX\Pipeline;$(ProjectDir)\Engine\DirectX\RootSignature;$(ProjectDir)\Engine\DirectX\RTV;$(ProjectDir)\Engine\DirectX\Descriptor;$(ProjectDir)\Engine\DirectX\DirectXCommands;$(ProjectDir)\Engine\DirectX\DirectXDevice;$(ProjectDir)\Engine\DirectX\DirectXCommon;$(ProjectDir)\Engine\DirectX;$(ProjectDir)\Engine\WinApp;$(ProjectDir)\Engine\Utilities;$(ProjectDir)\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Game;$(ProjectDir)\Engine\Lib;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\GameObject;$(ProjectDir)\Engine\DirectX\Pipeline;$(ProjectDir)\Engine\DirectX\RootSignature;$(ProjectDir)\Engine\DirectX\RTV;$(ProjectDir)\Engine\DirectX\Descriptor;$(ProjectDir)\Engine\DirectX\DirectXCommands;$(ProjectDir)\Engine\DirectX\DirectXDevice;$(ProjectDir)\Engine\DirectX\DirectXCommon;$(ProjectDir)\Engine\DirectX;$(ProjectDir)\Engine\Manager;$(ProjectDir)\Engine\WinApp;$(ProjectDir)\Engine\Utilities;$(ProjectDir)\Externals;$(ProjectDir)\Engine;$(ProjectDir)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -101,11 +101,20 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GameObject\Mesh.cpp" />
     <ClCompile Include="Engine\GameObject\TransformationMatrix.cpp" />
     <ClCompile Include="Engine\GameObject\Triangle.cpp" />
+    <ClCompile Include="Engine\Manager\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\Manager\TextureManager.cpp" />
     <ClCompile Include="Engine\Math\MyMath.cpp" />
     <ClCompile Include="Engine\Math\MyMatrix.cpp" />
     <ClCompile Include="Engine\Utilities\Convert.cpp" />
     <ClCompile Include="Engine\Utilities\DirectXUtils.cpp" />
     <ClCompile Include="Engine\WinApp\WinApp.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_impl_dx12.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Game\GameScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -125,6 +134,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GameObject\TransformationMatrix.h" />
     <ClInclude Include="Engine\GameObject\Triangle.h" />
     <ClInclude Include="Engine\Lib\Transform.h" />
+    <ClInclude Include="Engine\Manager\ImGuiManager.h" />
+    <ClInclude Include="Engine\Manager\TextureManager.h" />
     <ClInclude Include="Engine\Math\Matrix3x3.h" />
     <ClInclude Include="Engine\Math\Matrix4x4.h" />
     <ClInclude Include="Engine\Math\MyMath.h" />
@@ -136,6 +147,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Utilities\Debug.h" />
     <ClInclude Include="Engine\Utilities\DirectXUtils.h" />
     <ClInclude Include="Engine\WinApp\WinApp.h" />
+    <ClInclude Include="Externals\ImGui\imconfig.h" />
+    <ClInclude Include="Externals\ImGui\imgui.h" />
+    <ClInclude Include="Externals\ImGui\imgui_impl_dx12.h" />
+    <ClInclude Include="Externals\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="Externals\ImGui\imgui_internal.h" />
+    <ClInclude Include="Externals\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
+    <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\GameScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +164,17 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <FxCompile Include="Engine\HLSL\Object3d.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Externals\ImGui\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CG2_No1\CG2_No1\Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
+      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\HLSL\Object3d.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

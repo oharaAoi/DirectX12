@@ -10,6 +10,7 @@ void GameScene::Init() {
 	camera_ = std::make_unique<Camera>();
 
 	triangle_ = Engine::CreateTriangle(vertex_);
+	triangle2_ = Engine::CreateTriangle(vertex2_);
 
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 }
@@ -19,8 +20,14 @@ void GameScene::Update() {
 	Matrix4x4 triangleWorld = MakeAffineMatrix(transform_);
 
 	triangle_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	triangle2_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
+	ImGui::Begin("Setting");
+
+	ImGui::End();
 }
 
 void GameScene::Draw() {
 	Engine::DrawTriangle(triangle_.get());
+	Engine::DrawTriangle(triangle2_.get());
 }

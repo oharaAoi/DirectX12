@@ -19,10 +19,13 @@ void Triangle::Init(ID3D12Device* device, const Mesh::Vertices& vertex) {
 	Mesh::VertexData* vertexData = mesh_->GetVertexData();
 	// 左下
 	vertexData[0].pos = vertex.vertex1;
+	vertexData[0].texcoord = { 0.0f, 1.0f };
 	// 上
 	vertexData[1].pos = vertex.vertex2;
+	vertexData[1].texcoord = { 0.5f, 0.0f };
 	// 右下
 	vertexData[2].pos = vertex.vertex3;
+	vertexData[2].texcoord = { 1.0f, 1.0f };
 }
 
 void Triangle::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection) {
@@ -34,6 +37,6 @@ void Triangle::Draw(ID3D12GraphicsCommandList* commandList) {
 	mesh_->Draw(commandList);
 	material_->Draw(commandList);
 	transformation_->Draw(commandList);
-
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, 0);
 	commandList->DrawInstanced(3, 1, 0, 0);
 }

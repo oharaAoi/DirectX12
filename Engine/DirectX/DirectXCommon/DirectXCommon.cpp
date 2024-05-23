@@ -72,6 +72,9 @@ void DirectXCommon::Begin() {
 
 	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
 	commandList->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor, 0, nullptr);
+	// srv
+	ID3D12DescriptorHeap* descriptorHeaps[] = { descriptorHeaps_->GetSRVHeap() };
+	commandList->SetDescriptorHeaps(1, descriptorHeaps);
 
 	// ---------------------------------------------------------------
 	commandList->RSSetViewports(1, &viewport_);
@@ -237,6 +240,9 @@ void DirectXCommon::CreateSwapChain() {
 	desc.BufferCount = 2;								// ダブルバッファ
 	desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;	// モニタに移したら中身を破棄
 
+	// bufferCountを保存しておく
+	swapChainBufferCount_ = desc.BufferCount;
+
 	// コマンドキュー、ウィンドウハンドルを設定して生成する
 	hr = dxgiFactory_->CreateSwapChainForHwnd(dxCommands_->GetCommandQueue(), winApp_->GetHwnd(), &desc, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain_.GetAddressOf()));
 	assert(SUCCEEDED(hr));
@@ -279,6 +285,9 @@ void DirectXCommon::CrateFence() {
 	assert(fenceEvent_ != nullptr);
 }
 
+//------------------------------------------------------------------------------------------------------
+// ↓viewportの生成
+//------------------------------------------------------------------------------------------------------
 void DirectXCommon::SetViewport() {
 	// ビューポート
 	// クライアント領域のサイズと一緒にして画面全体を表示

@@ -48,6 +48,9 @@ void Pipeline::InitializeDXC() {
 	assert(SUCCEEDED(hr));
 }
 
+//------------------------------------------------------------------------------------------------------
+// ↓Iputlayoutの生成
+//------------------------------------------------------------------------------------------------------
 D3D12_INPUT_LAYOUT_DESC Pipeline::CreateInputLayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& elementDesc) {
 	D3D12_INPUT_LAYOUT_DESC result{};
 	result.pInputElementDescs = elementDesc.data();
@@ -55,6 +58,9 @@ D3D12_INPUT_LAYOUT_DESC Pipeline::CreateInputLayout(const std::vector<D3D12_INPU
 	return result;
 }
 
+//------------------------------------------------------------------------------------------------------
+// ↓shaderを読む
+//------------------------------------------------------------------------------------------------------
 void Pipeline::ShaderCompile(const std::string& vertexShader, const std::string& pixelShader) {
 	vertexShaderBlob_ = CompilerShader(ConvertWString(vertexShader), L"vs_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
 	assert(vertexShaderBlob_ != nullptr);
@@ -63,6 +69,9 @@ void Pipeline::ShaderCompile(const std::string& vertexShader, const std::string&
 	assert(pixelShaderBlob_ != nullptr);
 }
 
+//------------------------------------------------------------------------------------------------------
+// ↓ブレンドの設定
+//------------------------------------------------------------------------------------------------------
 D3D12_BLEND_DESC Pipeline::SetBlendState() {
 	D3D12_BLEND_DESC blendDesc{};
 	// すべての色要素を書き込む
@@ -71,6 +80,9 @@ D3D12_BLEND_DESC Pipeline::SetBlendState() {
 	return blendDesc;
 }
 
+//------------------------------------------------------------------------------------------------------
+// ↓ラスタライズの設定
+//------------------------------------------------------------------------------------------------------
 D3D12_RASTERIZER_DESC Pipeline::SetRasterizerState() {
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 	// 裏面を表示しない
@@ -81,6 +93,9 @@ D3D12_RASTERIZER_DESC Pipeline::SetRasterizerState() {
 	return rasterizerDesc;
 }
 
+//------------------------------------------------------------------------------------------------------
+// ↓PSOの追加
+//------------------------------------------------------------------------------------------------------
 void Pipeline::CreatePSO() {
 	// InputLayoutの生成
 	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
@@ -89,7 +104,13 @@ void Pipeline::CreatePSO() {
 	elementDesc.SemanticIndex = 0;
 	elementDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	elementDesc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	elementDescs.push_back(elementDesc);
 
+	// texture
+	elementDesc.SemanticName = "TEXCOORD";
+	elementDesc.SemanticIndex = 0;
+	elementDesc.Format = DXGI_FORMAT_R32G32_FLOAT;
+	elementDesc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 	elementDescs.push_back(elementDesc);
 
 	// PSOの生成
