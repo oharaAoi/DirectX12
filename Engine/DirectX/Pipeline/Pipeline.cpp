@@ -93,6 +93,22 @@ D3D12_RASTERIZER_DESC Pipeline::SetRasterizerState() {
 	return rasterizerDesc;
 }
 
+/// <summary>
+/// DepthStencilStateの設定
+/// </summary>
+/// <returns></returns>
+D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState() {
+	D3D12_DEPTH_STENCIL_DESC desc{};
+	// Depthの機能を有効化する
+	desc.DepthEnable = true;
+	// 書き込み
+	desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	// 地下駆ければ描画
+	desc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+
+	return desc;
+}
+
 //------------------------------------------------------------------------------------------------------
 // ↓PSOの追加
 //------------------------------------------------------------------------------------------------------
@@ -121,6 +137,8 @@ void Pipeline::CreatePSO() {
 	desc.PS = { pixelShaderBlob_->GetBufferPointer(), pixelShaderBlob_->GetBufferSize() };
 	desc.BlendState = SetBlendState();
 	desc.RasterizerState = SetRasterizerState();
+	desc.DepthStencilState = SetDepthStencilState();
+	desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	// 書き込むRTVの情報
 	desc.NumRenderTargets = 1;
 	desc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;

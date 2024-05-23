@@ -35,14 +35,15 @@ void DirectXCommon::Initialize(WinApp* win, int32_t backBufferWidth, int32_t bac
 }
 
 void DirectXCommon::Finalize() {
+	depthStencilResource_.Reset();
 	CloseHandle(fenceEvent_);
 	fence_.Reset();
 	swapChain_.Reset();
-	swapChainResource_[0].Reset();;
-	swapChainResource_[1].Reset();;
-	dxgiFactory_.Reset();;
-	useAdapter_.Reset();;
-	debugController_.Reset();;
+	swapChainResource_[0].Reset();
+	swapChainResource_[1].Reset();
+	dxgiFactory_.Reset();
+	useAdapter_.Reset();
+	debugController_.Reset();
 }
 
 //------------------------------------------------------------------------------------------------------
@@ -68,7 +69,11 @@ void DirectXCommon::Begin() {
 	commandList->ResourceBarrier(1, &barrier_);
 
 	// ---------------------------------------------------------------
-	commandList->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, nullptr);
+	// dsv
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
+	commandList->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, &dsvHandle);
+	// 指定した深度で画面をクリア
+	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
 	commandList->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor, 0, nullptr);
@@ -222,6 +227,8 @@ void DirectXCommon::Setting(ID3D12Device* device, DirectXCommands* dxCommands, D
 	CreateRTV();
 	// fence
 	CrateFence();
+	// DSV
+	CreateDSV();
 	// viewportとscissor
 	SetViewport();
 }
@@ -304,4 +311,15 @@ void DirectXCommon::SetViewport() {
 	scissorRect_.right = static_cast<LONG>(kClientWidth_);
 	scissorRect_.top = 0;
 	scissorRect_.bottom = static_cast<LONG>(kClientHeight_);
+}
+
+void DirectXCommon::CreateDSV() {
+	depthStencilResource_ = CreateDepthStencilTextureResource(device_, kClientWidth_, kClientHeight_);
+
+	// heap上にDSCを構築
+	D3D12_DEPTH_STENCIL_VIEW_DESC desc{};
+	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+
+	device_->CreateDepthStencilView(depthStencilResource_.Get(), &desc, descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart());
 }

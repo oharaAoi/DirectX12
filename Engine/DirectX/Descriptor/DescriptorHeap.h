@@ -29,15 +29,18 @@ public:
 
 public:
 
-	ID3D12DescriptorHeap* GetRTVHeap() { return rtvHeap.Get(); }
+	ID3D12DescriptorHeap* GetRTVHeap() { return rtvHeap_.Get(); }
 
-	ID3D12DescriptorHeap* GetSRVHeap() { return srvHeap.Get(); }
+	ID3D12DescriptorHeap* GetSRVHeap() { return srvHeap_.Get(); }
+
+	ID3D12DescriptorHeap* GetDSVHeap() { return dsvHeap_.Get(); }
 
 private:
 
 	ID3D12Device* device_ = nullptr;
 
-	Comptr<ID3D12DescriptorHeap> rtvHeap = nullptr;
-	Comptr<ID3D12DescriptorHeap> srvHeap = nullptr;
+	Comptr<ID3D12DescriptorHeap> rtvHeap_ = nullptr;
+	Comptr<ID3D12DescriptorHeap> srvHeap_ = nullptr;
+	Comptr<ID3D12DescriptorHeap> dsvHeap_ = nullptr;
 
 };

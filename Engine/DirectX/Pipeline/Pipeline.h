@@ -50,6 +50,12 @@ public:
 	D3D12_RASTERIZER_DESC SetRasterizerState();
 
 	/// <summary>
+	/// DepthStencilStateの設定
+	/// </summary>
+	/// <returns></returns>
+	D3D12_DEPTH_STENCIL_DESC SetDepthStencilState();
+
+	/// <summary>
 	/// PSOの生成
 	/// </summary>
 	void CreatePSO();

@@ -94,6 +94,11 @@ public:
 	/// </summary>
 	void SetViewport();
 
+	/// <summary>
+	/// DSVの設定をする
+	/// </summary>
+	void CreateDSV();
+
 ////////////////////////////////////////////////////////////////////////////////////
 // accseser
 ////////////////////////////////////////////////////////////////////////////////////
@@ -147,5 +152,8 @@ private:
 
 	D3D12_VIEWPORT viewport_;
 	D3D12_RECT scissorRect_;
+
+	// dsv
+	Comptr<ID3D12Resource> depthStencilResource_ = nullptr;
 };
 
