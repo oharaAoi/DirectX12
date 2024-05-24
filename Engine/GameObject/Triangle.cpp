@@ -35,12 +35,12 @@ void Triangle::Init(ID3D12Device* device, const Mesh::Vertices& vertex) {
 
 	// indexの設定
 	uint32_t* indexData = mesh_->GetIndexData();
-	for (size_t index = 0; index < 3; index++) {
+	for (uint32_t index = 0; index < 3; index++) {
 		indexData[index] = index;
 	}
 
 	// materialの設定
-	Material::ResMaterial* materialData = material_->GetMaterialData();
+	Material::BaseMaterial* materialData = material_->GetMaterialData();
 	materialData->enableLighting = false;
 }
 

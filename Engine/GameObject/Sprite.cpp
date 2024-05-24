@@ -44,7 +44,7 @@ void Sprite::Init(ID3D12Device* device, const Mesh::RectVetices& Rect) {
 	indexData[5] = 2;
 
 	// materialの設定
-	Material::ResMaterial* materialData = material_->GetMaterialData();
+	Material::BaseMaterial* materialData = material_->GetMaterialData();
 	materialData->enableLighting = false;
 
 	uvTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };

@@ -95,6 +95,12 @@ std::unique_ptr<Sphere> Engine::CreateSphere(const uint32_t& devision) {
 	return sphere;
 }
 
+std::unique_ptr<Model> Engine::CreateModel(const std::string& filePath) {
+	std::unique_ptr<Model> model = std::make_unique<Model>();
+	model->Init(dxDevice_->GetDevice(), "Resources", filePath);
+	return model;
+}
+
 //------------------------------------------------------------------------------------------------------
 // 描画
 //------------------------------------------------------------------------------------------------------
@@ -114,6 +120,12 @@ void Engine::DrawSphere(Sphere* sphere) {
 	pipeline_->Draw(dxCommands_->GetCommandList());
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 3, lightKind_);
 	sphere->Draw(dxCommands_->GetCommandList());
+}
+
+void Engine::DrawModel(Model* model) {
+	pipeline_->Draw(dxCommands_->GetCommandList());
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 3, lightKind_);
+	model->Draw(dxCommands_->GetCommandList());
 }
 
 //------------------------------------------------------------------------------------------------------

@@ -13,11 +13,16 @@ using Comptr = Microsoft::WRL::ComPtr <T>;
 class Material {
 public:
 
-	struct ResMaterial {
+	struct BaseMaterial {
 		Vector4 color;
 		int32_t enableLighting;
 		float pad[3];
 		Matrix4x4 uvTransform;
+	};
+
+	struct MaterialData {
+		Vector3 diffuse;
+		std::string textureFilePath; // 使用するtextureのパス
 	};
 
 public:
@@ -35,11 +40,19 @@ public:
 
 public:
 
-	ResMaterial* GetMaterialData() { return materialData_; }
+	BaseMaterial* GetMaterialData() { return baseMaterial_; }
+
+	/// <summary>
+	/// materialDataをセットする
+	/// </summary>
+	/// <param name="materialData"></param>
+	void SetMaterialData(MaterialData materialData) { materialData_ = materialData; }
 
 private:
 
 	Comptr<ID3D12Resource> materialBuffer_;
-	ResMaterial* materialData_;
+	BaseMaterial* baseMaterial_;
 
+	// materialData
+	MaterialData materialData_;
 };

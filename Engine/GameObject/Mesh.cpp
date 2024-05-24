@@ -11,11 +11,19 @@ void Mesh::Finalize() {
 	vertexBuffer_.Reset();
 }
 
+void Mesh::SetVertexData(std::vector<VertexData> vertexData) {
+	for (size_t index = 0; index < vertexData.size(); index++) {
+		vertexData_[index].pos = vertexData[index].pos;
+		vertexData_[index].texcoord = vertexData[index].texcoord;
+		vertexData_[index].normal = vertexData[index].normal;
+	}
+}
+
 void Mesh::Init(ID3D12Device* device, const uint32_t& vBSize, const uint32_t& iBSize) {
 	// ---------------------------------------------------------------
 	// ↓Vetrtexの設定
 	// ---------------------------------------------------------------
-	// VertexBufferViewを作成する 
+	// VertexBufferViewを作成する
 	vertexBuffer_ = CreateBufferResource(device, vBSize);
 	// リソースの先頭のアドレスから使う
 	vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();
@@ -28,6 +36,8 @@ void Mesh::Init(ID3D12Device* device, const uint32_t& vBSize, const uint32_t& iB
 	// アドレスを取得
 	vertexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
 
+	vertexBufferSize_ = vBSize;
+
 	// ---------------------------------------------------------------
 	// ↓indexの設定
 	// ---------------------------------------------------------------
@@ -38,13 +48,12 @@ void Mesh::Init(ID3D12Device* device, const uint32_t& vBSize, const uint32_t& iB
 
 	indexData_ = nullptr;
 	indexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
-	/*for (uint32_t oi = 0; oi < iBSize; oi++) {
+	for (uint32_t oi = 0; oi < iBSize; oi++) {
 		indexData_[oi] = oi;
-	}*/
+	}
 }
 
 void Mesh::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	commandList->IASetIndexBuffer(&indexBufferView_);
-	//commandList->IASetIndexBuffer(&indexBufferView_);
 }

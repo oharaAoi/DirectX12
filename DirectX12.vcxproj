@@ -99,6 +99,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GameObject\Camera.cpp" />
     <ClCompile Include="Engine\GameObject\Material.cpp" />
     <ClCompile Include="Engine\GameObject\Mesh.cpp" />
+    <ClCompile Include="Engine\GameObject\Model.cpp" />
     <ClCompile Include="Engine\GameObject\Sphere.cpp" />
     <ClCompile Include="Engine\GameObject\Sprite.cpp" />
     <ClCompile Include="Engine\GameObject\TransformationMatrix.cpp" />
@@ -135,6 +136,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GameObject\Camera.h" />
     <ClInclude Include="Engine\GameObject\Material.h" />
     <ClInclude Include="Engine\GameObject\Mesh.h" />
+    <ClInclude Include="Engine\GameObject\Model.h" />
     <ClInclude Include="Engine\GameObject\Sphere.h" />
     <ClInclude Include="Engine\GameObject\Sprite.h" />
     <ClInclude Include="Engine\GameObject\TransformationMatrix.h" />

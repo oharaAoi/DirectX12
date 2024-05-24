@@ -16,6 +16,8 @@ void GameScene::Init() {
 
 	sphere_ = Engine::CreateSphere(16);
 
+	model_ = Engine::CreateModel("teapot.obj");
+
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 }
 
@@ -29,6 +31,8 @@ void GameScene::Update() {
 	sprite_->Update(triangleWorld, camera_->GetViewMatrix2D(), camera_->GetProjectionMatrix2D());
 
 	sphere_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
+	model_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// ImGui
@@ -44,5 +48,7 @@ void GameScene::Draw() {
 
 	Engine::DrawSprite(sprite_.get());
 
-	Engine::DrawSphere(sphere_.get());
+	//Engine::DrawSphere(sphere_.get());
+
+	Engine::DrawModel(model_.get());
 }

@@ -57,17 +57,37 @@ public:
 	/// <returns></returns>
 	VertexData* GetVertexData() { return vertexData_; }
 
+	void SetVertexData(std::vector<VertexData> vertexData);
+
+	UINT GetVertexSize() { return vertexBufferSize_; }
+
+	/// <summary>
+	/// indexBufferを取得
+	/// </summary>
+	/// <returns></returns>
 	ID3D12Resource* GetIndexBuffer() { return indexBuffer_.Get(); }
 
+	/// <summary>
+	/// indexDataを取得
+	/// </summary>
+	/// <returns></returns>
 	uint32_t* GetIndexData() { return indexData_; }
 
-private:
+	void SetUseMaterial(const std::string& usemtl) { useMaterial_ = usemtl; }
+	std::string GetUseMaterial() const { return useMaterial_; }
 
+private:
+	// VertexBuffer
 	Comptr<ID3D12Resource> vertexBuffer_;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 	VertexData* vertexData_ = nullptr;
-	
+	// IndexBuffer
 	Comptr<ID3D12Resource> indexBuffer_;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
 	uint32_t* indexData_ = nullptr;
+
+	// 使用するマテリアル
+	std::string useMaterial_;
+
+	uint32_t vertexBufferSize_;
 };

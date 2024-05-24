@@ -12,6 +12,7 @@
 #include "Triangle.h"
 #include "Sprite.h"
 #include "Sphere.h"
+#include "Model.h"
 // light
 #include "LightGroup.h"
 
@@ -54,6 +55,8 @@ public:
 
 	static std::unique_ptr<Sphere> CreateSphere(const uint32_t& devision);
 
+	static std::unique_ptr<Model> CreateModel(const std::string& filePath);
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 描画系
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +65,8 @@ public:
 	static void DrawSprite(Sprite* sprite);
 
 	static void DrawSphere(Sphere* sphere);
+
+	static void DrawModel(Model* model);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 設定系
