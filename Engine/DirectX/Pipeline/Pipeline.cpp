@@ -129,6 +129,13 @@ void Pipeline::CreatePSO() {
 	elementDesc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 	elementDescs.push_back(elementDesc);
 
+	// 法線
+	elementDesc.SemanticName = "NORMAL";
+	elementDesc.SemanticIndex = 0;
+	elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	elementDesc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	elementDescs.push_back(elementDesc);
+
 	// PSOの生成
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc{};
 	desc.pRootSignature = rootSignature_->GetRootSignature();

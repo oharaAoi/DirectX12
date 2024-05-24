@@ -41,6 +41,7 @@ void Sphere::Init(ID3D12Device* device, const uint32_t& division) {
 			vertexData[start].pos.w = 1.0f;
 			vertexData[start].texcoord.x = float(lonIndex) / float(division);
 			vertexData[start].texcoord.y = 1.0f - float(latIndex) / float(division);
+			vertexData[start].normal = { vertexData[start].pos.x, vertexData[start].pos.y, vertexData[start].pos.z };
 
 			// b 左上
 			vertexData[start + 1].pos.x = std::cos(lat + kLatEvery) * std::cos(lon);
@@ -49,6 +50,7 @@ void Sphere::Init(ID3D12Device* device, const uint32_t& division) {
 			vertexData[start + 1].pos.w = 1.0f;
 			vertexData[start + 1].texcoord.x = float(lonIndex) / float(division);
 			vertexData[start + 1].texcoord.y = 1.0f - float(latIndex + 1) / float(division);
+			vertexData[start + 1].normal = { vertexData[start + 1].pos.x, vertexData[start + 1].pos.y, vertexData[start + 1].pos.z };
 
 			// c 右下
 			vertexData[start + 2].pos.x = std::cos(lat) * std::cos(lon + kLonEvery);
@@ -57,6 +59,7 @@ void Sphere::Init(ID3D12Device* device, const uint32_t& division) {
 			vertexData[start + 2].pos.w = 1.0f;
 			vertexData[start + 2].texcoord.x = float(lonIndex + 1) / float(division);
 			vertexData[start + 2].texcoord.y = 1.0f - float(latIndex) / float(division);
+			vertexData[start + 2].normal = { vertexData[start + 2].pos.x, vertexData[start + 2].pos.y, vertexData[start + 2].pos.z };
 
 			// d 右上
 			vertexData[start + 3].pos.x = std::cos(lat + kLatEvery) * std::cos(lon + kLonEvery);
@@ -65,6 +68,7 @@ void Sphere::Init(ID3D12Device* device, const uint32_t& division) {
 			vertexData[start + 3].pos.w = 1.0f;
 			vertexData[start + 3].texcoord.x = float(lonIndex + 1) / float(division);
 			vertexData[start + 3].texcoord.y = 1.0f - float(latIndex + 1) / float(division);
+			vertexData[start + 3].normal = { vertexData[start + 3].pos.x, vertexData[start + 3].pos.y, vertexData[start + 3].pos.z };
 
 			//
 			startIndex = (latIndex * division + lonIndex) * 6;
@@ -77,6 +81,10 @@ void Sphere::Init(ID3D12Device* device, const uint32_t& division) {
 			indexData[startIndex + 4] = start + 3;
 			indexData[startIndex + 5] = start + 2;
 		}
+
+		// materialの設定
+		Material::ResMaterial* materialData = material_->GetMaterialData();
+		materialData->enableLighting = true;
 	}
 }
 

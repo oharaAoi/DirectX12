@@ -12,6 +12,8 @@
 #include "Triangle.h"
 #include "Sprite.h"
 #include "Sphere.h"
+// light
+#include "LightGroup.h"
 
 class Engine {
 public:
@@ -61,6 +63,11 @@ public:
 
 	static void DrawSphere(Sphere* sphere);
 
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	// 設定系
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	static void SetLightKind(const LightGroup::LightKind& kind);
+
 private:
 
 };
@@ -71,6 +78,8 @@ private:
 namespace {
 	int32_t kClientWidth_;
 	int32_t kClientHeight_;
+
+	LightGroup::LightKind lightKind_;
 
 	WinApp* winApp_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
@@ -83,5 +92,7 @@ namespace {
 	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
 
 	std::unique_ptr<Pipeline> pipeline_ = nullptr;
+
+	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 }
 

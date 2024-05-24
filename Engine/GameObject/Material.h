@@ -15,6 +15,9 @@ public:
 
 	struct ResMaterial {
 		Vector4 color;
+		int32_t enableLighting;
+		float pad[3];
+		Matrix4x4 uvTransform;
 	};
 
 public:
@@ -24,9 +27,15 @@ public:
 
 	void Init(ID3D12Device* device);
 
+	void Update(const Matrix4x4& uvTransform);
+
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
 	void Finalize();
+
+public:
+
+	ResMaterial* GetMaterialData() { return materialData_; }
 
 private:
 

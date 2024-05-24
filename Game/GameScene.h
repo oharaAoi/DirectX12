@@ -48,5 +48,4 @@ private:
 	};
 
 	kTransform transform_;
-
 };

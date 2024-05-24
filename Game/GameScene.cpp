@@ -30,16 +30,19 @@ void GameScene::Update() {
 
 	sphere_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	// ImGui
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 	ImGui::Begin("Setting");
-
+	
 	ImGui::End();
 }
 
 void GameScene::Draw() {
-	Engine::DrawTriangle(triangle_.get());
-	Engine::DrawTriangle(triangle2_.get());
+	/*Engine::DrawTriangle(triangle_.get());
+	Engine::DrawTriangle(triangle2_.get());*/
 
-	//Engine::DrawSprite(sprite_.get());
+	Engine::DrawSprite(sprite_.get());
 
 	Engine::DrawSphere(sphere_.get());
 }

@@ -23,18 +23,25 @@ void Triangle::Init(ID3D12Device* device, const Mesh::Vertices& vertex) {
 	// 左下
 	vertexData[0].pos = vertex.vertex1;
 	vertexData[0].texcoord = { 0.0f, 1.0f };
+	vertexData[0].normal = { 0.0f, 0.0f, -1.0f };
 	// 上
 	vertexData[1].pos = vertex.vertex2;
 	vertexData[1].texcoord = { 0.5f, 0.0f };
+	vertexData[1].normal = { 0.0f, 0.0f, -1.0f };
 	// 右下
 	vertexData[2].pos = vertex.vertex3;
 	vertexData[2].texcoord = { 1.0f, 1.0f };
+	vertexData[2].normal = { 0.0f, 0.0f, -1.0f };
 
 	// indexの設定
 	uint32_t* indexData = mesh_->GetIndexData();
 	for (size_t index = 0; index < 3; index++) {
 		indexData[index] = index;
 	}
+
+	// materialの設定
+	Material::ResMaterial* materialData = material_->GetMaterialData();
+	materialData->enableLighting = false;
 }
 
 void Triangle::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection) {

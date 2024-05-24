@@ -3,6 +3,7 @@
 #include "Material.h"
 #include "TransformationMatrix.h"
 #include "TextureManager.h"
+#include "ImGuiManager.h"
 
 class Sprite {
 public:
@@ -25,5 +26,7 @@ private:
 	std::unique_ptr<Mesh> mesh_;
 	std::unique_ptr<Material> material_;
 	std::unique_ptr<TransformationMatrix> transformation_;
+
+	kTransform uvTransform_;
 
 };

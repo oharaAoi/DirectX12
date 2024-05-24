@@ -11,6 +11,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	kClientWidth_ = backBufferWidth;
 	kClientHeight_ = backBufferHeight;
 
+	lightKind_ = LightGroup::Directional;
+
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	// ↓インスタンスの生成
@@ -36,11 +38,15 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	textureManager_->Initialize(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV());
 	// pipeline
 	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice());
+	// light
+	lightGroup_ = std::make_unique<LightGroup>();
+	lightGroup_->Init(dxDevice_->GetDevice());
 
 	Log("Clear!\n");
 }
 
 void Engine::Finalize() {
+	lightGroup_->Finalize();
 	pipeline_->Finalize();
 	descriptorHeap_->Finalize();
 	dxCommands_->Finalize();
@@ -94,15 +100,25 @@ std::unique_ptr<Sphere> Engine::CreateSphere(const uint32_t& devision) {
 //------------------------------------------------------------------------------------------------------
 void Engine::DrawTriangle(Triangle* triangle) {
 	pipeline_->Draw(dxCommands_->GetCommandList());
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 3, lightKind_);
 	triangle->Draw(dxCommands_->GetCommandList());
 }
 
 void Engine::DrawSprite(Sprite* sprite) {
 	pipeline_->Draw(dxCommands_->GetCommandList());
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 3, lightKind_);
 	sprite->Draw(dxCommands_->GetCommandList());
 }
 
 void Engine::DrawSphere(Sphere* sphere) {
 	pipeline_->Draw(dxCommands_->GetCommandList());
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 3, lightKind_);
 	sphere->Draw(dxCommands_->GetCommandList());
+}
+
+//------------------------------------------------------------------------------------------------------
+// ライトの設定
+//------------------------------------------------------------------------------------------------------
+void Engine::SetLightKind(const LightGroup::LightKind& kind) {
+	lightKind_ = kind;
 }

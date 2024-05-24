@@ -17,6 +17,7 @@ public: // 構造体
 	struct VertexData {
 		Vector4 pos;
 		Vector2 texcoord;
+		Vector3 normal;
 	};
 
 	struct Vertices {
