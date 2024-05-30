@@ -15,14 +15,15 @@ void TextureManager::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList*
 
 	srvData_.clear();
 
-	CreateShaderResource("Resources/uvChecker.png", commandList);
-	CreateShaderResource("Resources/monsterBall.png", commandList);
+	CreateShaderResource("uvChecker.png", commandList);
+	CreateShaderResource("monsterBall.png", commandList);
+	CreateShaderResource("checkerBoard.png", commandList);
 }
 
 void TextureManager::Finalize() {
-	for (size_t index = 0; index < srvData_.size(); index++) {
-		srvData_[index].textureResource_.Reset();
-		srvData_[index].intermediateResource_.Reset();
+	for (auto& data : srvData_) {
+		data.second.textureResource_.Reset();
+		data.second.intermediateResource_.Reset();
 	}
 }
 
@@ -32,7 +33,7 @@ void TextureManager::Finalize() {
 void TextureManager::CreateShaderResource(const std::string& filePath, ID3D12GraphicsCommandList* commandList) {
 	SRVData data{};
 
-	DirectX::ScratchImage mipImage = LoadTexture(filePath);
+	DirectX::ScratchImage mipImage = LoadTexture("Resources/" + filePath);
 	const DirectX::TexMetadata& metadata = mipImage.GetMetadata();
 	data.textureResource_ = CreateTextureResource(device_, metadata);
 	data.intermediateResource_ = UploadTextureData(data.textureResource_, mipImage, device_, commandList);
@@ -54,7 +55,7 @@ void TextureManager::CreateShaderResource(const std::string& filePath, ID3D12Gra
 	data.srvHandleGPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 	// 配列に入れる
-	srvData_.push_back(data);
+	srvData_["Resources/" + filePath] = data;
 
 	//// objファイルから読み取ったtextureを使うための処理(変更したい)
 	//fileNameToNumber_[filePath] = fileNumber_;
@@ -135,6 +136,6 @@ Comptr<ID3D12Resource> TextureManager::UploadTextureData(Comptr<ID3D12Resource> 
 	return intermediateResource;
 }
 
-void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const uint32_t& textureNum) {
-	commandList->SetGraphicsRootDescriptorTable(2, srvData_[textureNum].srvHandleGPU_);
+void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath) {
+	commandList->SetGraphicsRootDescriptorTable(3, srvData_[filePath].srvHandleGPU_);
 }

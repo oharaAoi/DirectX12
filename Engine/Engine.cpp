@@ -37,7 +37,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	// texture
 	textureManager_->Initialize(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV());
 	// pipeline
-	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice());
+	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), NormalPipeline);
+	texturelessPipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), TextureLessPipeline);
 	// light
 	lightGroup_ = std::make_unique<LightGroup>();
 	lightGroup_->Init(dxDevice_->GetDevice());
@@ -48,6 +49,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 void Engine::Finalize() {
 	lightGroup_->Finalize();
 	pipeline_->Finalize();
+	texturelessPipeline_->Finalize();
 	descriptorHeap_->Finalize();
 	dxCommands_->Finalize();
 	dxCommon_->Finalize();
@@ -106,25 +108,30 @@ std::unique_ptr<Model> Engine::CreateModel(const std::string& filePath) {
 //------------------------------------------------------------------------------------------------------
 void Engine::DrawTriangle(Triangle* triangle) {
 	pipeline_->Draw(dxCommands_->GetCommandList());
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 3, lightKind_);
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
 	triangle->Draw(dxCommands_->GetCommandList());
 }
 
 void Engine::DrawSprite(Sprite* sprite) {
 	pipeline_->Draw(dxCommands_->GetCommandList());
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 3, lightKind_);
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
 	sprite->Draw(dxCommands_->GetCommandList());
 }
 
 void Engine::DrawSphere(Sphere* sphere) {
 	pipeline_->Draw(dxCommands_->GetCommandList());
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 3, lightKind_);
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
 	sphere->Draw(dxCommands_->GetCommandList());
 }
 
 void Engine::DrawModel(Model* model) {
-	pipeline_->Draw(dxCommands_->GetCommandList());
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 3, lightKind_);
+	if (model->GetHasTexture()) {
+		pipeline_->Draw(dxCommands_->GetCommandList());
+	} else {
+		texturelessPipeline_->Draw(dxCommands_->GetCommandList());
+	}
+	
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
 	model->Draw(dxCommands_->GetCommandList());
 }
 

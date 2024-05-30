@@ -40,7 +40,9 @@ public:
 
 public:
 
-	BaseMaterial* GetMaterialData() { return baseMaterial_; }
+	BaseMaterial* GetBaseMaterial() { return baseMaterial_; }
+
+	MaterialData GetMateriaData() { return materialData_; }
 
 	/// <summary>
 	/// materialDataをセットする

@@ -1,20 +1,28 @@
 #include "Pipeline.h"
 
-Pipeline::Pipeline(ID3D12Device* device) {
-	Initialize(device);
+Pipeline::Pipeline(ID3D12Device* device, const PipelineType& type) {
+	Initialize(device, type);
 }
 
 Pipeline::~Pipeline() {
 }
 
-void Pipeline::Initialize(ID3D12Device* device) {
+void Pipeline::Initialize(ID3D12Device* device, const PipelineType& type) {
 	device_ = device;
 
 	InitializeDXC();
 
-	rootSignature_ = std::make_unique<RootSignature>(device_);
+	switch (type) {
+	case NormalPipeline:
+		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Normal);
+		ShaderCompile("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Object3d.PS.hlsl");
+		break;
 
-	ShaderCompile("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Object3d.PS.hlsl");
+	case TextureLessPipeline:
+		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::TextureLess);
+		ShaderCompile("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Textureless.PS.hlsl");
+		break;
+	}
 
 	CreatePSO();
 }

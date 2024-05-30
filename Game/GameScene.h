@@ -21,11 +21,6 @@ private:
 
 	std::unique_ptr<Camera> camera_ = nullptr;
 
-	std::unique_ptr<Triangle> triangle_ = nullptr;
-	std::unique_ptr<Triangle> triangle2_ = nullptr;
-
-	std::unique_ptr<Sprite> sprite_ = nullptr;
-
 	std::unique_ptr<Sphere> sphere_ = nullptr;
 
 	std::unique_ptr<Model> model_ = nullptr;

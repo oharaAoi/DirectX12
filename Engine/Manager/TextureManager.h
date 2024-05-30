@@ -77,7 +77,7 @@ public:
 	/// </summary>
 	/// <param name="commandList"></param>
 	/// <param name="textureNum"></param>
-	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const uint32_t& textureNum);
+	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath);
 
 private:
 
@@ -89,7 +89,8 @@ private:
 		D3D12_GPU_DESCRIPTOR_HANDLE srvHandleGPU_;
 	};
 
-	std::vector<SRVData> srvData_;
+	//std::vector<SRVData> srvData_;
+	std::map<std::string, SRVData> srvData_;
 
 	// 生成で使う変数
 	ID3D12Device* device_ = nullptr;

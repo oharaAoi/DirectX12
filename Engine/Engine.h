@@ -97,6 +97,7 @@ namespace {
 	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
 
 	std::unique_ptr<Pipeline> pipeline_ = nullptr;
+	std::unique_ptr<Pipeline> texturelessPipeline_ = nullptr;
 
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 }

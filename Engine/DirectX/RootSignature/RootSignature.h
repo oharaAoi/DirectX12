@@ -12,17 +12,25 @@
 template<typename T>
 using Comptr = Microsoft::WRL::ComPtr <T>;
 
+enum class RootSignatureType {
+	Normal,
+	TextureLess,
+	Primitive
+};
+
 class RootSignature {
 public:
 
-	RootSignature(ID3D12Device* device);
+	RootSignature(ID3D12Device* device, const RootSignatureType& type);
 	~RootSignature();
 
-	void Initialize(ID3D12Device* device);
+	void Initialize(ID3D12Device* device, const RootSignatureType& type);
 
 	void Finalize();
 
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateRootSignature();
+
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateTexturelessRootSignature();
 
 public:
 

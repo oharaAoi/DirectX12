@@ -42,6 +42,10 @@ public:
 	/// <returns></returns>
 	std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device);
 
+public:
+
+	bool GetHasTexture() const { return hasTexture_; }
+
 private:
 
 	// 頂点バッファやインデックスバッファを持つ
@@ -53,5 +57,8 @@ private:
 
 	std::vector<Mesh::VertexData> vertices_;
 	Material::BaseMaterial materialData_;
+
+	// モデルにtextureがあるか
+	bool hasTexture_;
 
 };

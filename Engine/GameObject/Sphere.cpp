@@ -83,7 +83,7 @@ void Sphere::Init(ID3D12Device* device, const uint32_t& division) {
 		}
 
 		// materialの設定
-		Material::BaseMaterial* materialData = material_->GetMaterialData();
+		Material::BaseMaterial* materialData = material_->GetBaseMaterial();
 		materialData->enableLighting = true;
 	}
 }
@@ -97,7 +97,7 @@ void Sphere::Draw(ID3D12GraphicsCommandList* commandList) {
 	mesh_->Draw(commandList);
 	material_->Draw(commandList);
 	transformation_->Draw(commandList);
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, 1);
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/uvChecker.png");
 	//commandList->DrawInstanced(3, 1, 0, 0);
 	commandList->DrawIndexedInstanced(vertexCount_, 1, 0, 0, 0);
 }

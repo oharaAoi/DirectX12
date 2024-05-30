@@ -44,7 +44,7 @@ void Sprite::Init(ID3D12Device* device, const Mesh::RectVetices& Rect) {
 	indexData[5] = 2;
 
 	// materialの設定
-	Material::BaseMaterial* materialData = material_->GetMaterialData();
+	Material::BaseMaterial* materialData = material_->GetBaseMaterial();
 	materialData->enableLighting = false;
 
 	uvTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
@@ -68,6 +68,6 @@ void Sprite::Draw(ID3D12GraphicsCommandList* commandList) {
 	mesh_->Draw(commandList);
 	material_->Draw(commandList);
 	transformation_->Draw(commandList);
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, 0);
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/uvChecker.png");
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }

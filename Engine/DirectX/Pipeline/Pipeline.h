@@ -8,13 +8,19 @@
 // PSO
 #include "RootSignature.h"
 
+enum PipelineType {
+	NormalPipeline,
+	TextureLessPipeline,
+	PrimitivePipeline
+};
+
 class Pipeline {
 public:
 
-	Pipeline(ID3D12Device* device);
+	Pipeline(ID3D12Device* device, const PipelineType& type);
 	~Pipeline();
 
-	void Initialize(ID3D12Device* device);
+	void Initialize(ID3D12Device* device, const PipelineType& type);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 

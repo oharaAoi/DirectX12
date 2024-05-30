@@ -35,8 +35,11 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList) {
 		meshArray_[oi]->Draw(commandList);
 		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
 		transformation_->Draw(commandList);
-
-		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, 0);
+		
+		if (hasTexture_) {
+			std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetMateriaData().textureFilePath;
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName);
+		}
 
 		UINT size = meshArray_[oi]->GetVertexSize() / sizeof(Mesh::VertexData);
 
@@ -108,11 +111,11 @@ std::vector<std::unique_ptr<Mesh>> Model::LoadVertexData(const std::string& file
 		} else if (identifier == "f") {
 			Mesh::VertexData triangle[3];
 
-			/*if (texcoords.empty()) {
-				hasTextured_ = false;
+			if (texcoords.empty()) {
+				hasTexture_ = false;
 			} else {
-				hasTextured_ = true;
-			}*/
+				hasTexture_ = true;
+			}
 
 			// 面は三角形固定。その他は未対応
 			for (int32_t faceVertex = 0; faceVertex < 3; ++faceVertex) {
@@ -137,11 +140,17 @@ std::vector<std::unique_ptr<Mesh>> Model::LoadVertexData(const std::string& file
 				Vector3 normal{};
 				Mesh::VertexData vertex{};
 
-
-				position = positions[elementIndices[0] - 1];
-				texcoord = texcoords[elementIndices[1] - 1];
-				normal = normals[elementIndices[2] - 1];
-				vertex = { position, texcoord, normal };
+				if (hasTexture_) {
+					position = positions[elementIndices[0] - 1];
+					texcoord = texcoords[elementIndices[1] - 1];
+					normal = normals[elementIndices[2] - 1];
+					vertex = { position, texcoord, normal };
+				} else {
+					position = positions[elementIndices[0] - 1];
+					texcoord = { 0,0 };
+					normal = normals[elementIndices[2] - 1];
+					vertex = { position, texcoord, normal };
+				}
 				
 				triangle[faceVertex] = { position, texcoord, normal };
 			}

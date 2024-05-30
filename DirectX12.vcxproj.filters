@@ -70,6 +70,9 @@
     <Filter Include="Engine\Light">
       <UniqueIdentifier>{0af4f66f-04cd-4ca9-8359-f9c2dfc42e9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Camera">
+      <UniqueIdentifier>{b0de3319-ce40-406c-bca8-6eb882771983}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -132,9 +135,6 @@
     <ClCompile Include="Engine\GameObject\TransformationMatrix.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObject\Camera.cpp">
-      <Filter>Engine\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Externals\ImGui\imgui.cpp">
       <Filter>Engine\ImGui</Filter>
     </ClCompile>
@@ -176,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="Engine\GameObject\Model.cpp">
       <Filter>Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\Camera.cpp">
+      <Filter>Game\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,9 +260,6 @@
     <ClInclude Include="Engine\Lib\Transform.h">
       <Filter>Engine\Lib</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject\Camera.h">
-      <Filter>Engine\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Externals\ImGui\imconfig.h">
       <Filter>Engine\ImGui</Filter>
     </ClInclude>
@@ -308,12 +308,18 @@
     <ClInclude Include="Engine\GameObject\Model.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Camera\Camera.h">
+      <Filter>Game\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\Object3d.VS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Textureless.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
   </ItemGroup>
