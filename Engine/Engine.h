@@ -8,6 +8,7 @@
 #include "Pipeline.h"
 #include "ImGuiManager.h"
 #include "TextureManager.h"
+#include "Input.h"
 // GameObject
 #include "Triangle.h"
 #include "Sprite.h"
@@ -89,6 +90,7 @@ namespace {
 	WinApp* winApp_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
 	ImGuiManager* imguiManager_ = nullptr;
+	Input* input_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
 	std::unique_ptr<DirectXDevice> dxDevice_ = nullptr;
 

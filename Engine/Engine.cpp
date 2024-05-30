@@ -20,6 +20,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	dxCommon_ = DirectXCommon::GetInstacne();
 	imguiManager_ = ImGuiManager::GetInstacne();
 	textureManager_ = TextureManager::GetInstance();
+	input_ = Input::GetInstance();
 
 	// ↓各初期化
 	winApp_->CreateGameWindow();
@@ -42,6 +43,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	// light
 	lightGroup_ = std::make_unique<LightGroup>();
 	lightGroup_->Init(dxDevice_->GetDevice());
+
+	input_->Initialize(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 
 	Log("Clear!\n");
 }
@@ -68,6 +71,8 @@ bool Engine::ProcessMessage() {
 void Engine::BeginFrame() {
 	imguiManager_->Begin();
 	dxCommon_->Begin();
+
+	input_->Update();
 }
 
 void Engine::EndFrame() {
