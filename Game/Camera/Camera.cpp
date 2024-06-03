@@ -38,7 +38,6 @@ void Camera::Update() {
 	}
 
 	scaleMat_ = MakeScaleMatrix(transform_.scale);
-	//rotateMat_ = MakeRotateXYZMatrix(rotate_);
 	translateMat_ = MakeTranslateMatrix(transform_.translate);
 
 	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);

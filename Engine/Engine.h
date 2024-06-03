@@ -5,7 +5,9 @@
 #include "DirectXDevice.h"
 #include "DirectXCommands.h"
 #include "DescriptorHeap.h"
+#include "DirectXCompiler.h"
 #include "Pipeline.h"
+#include "PrimitivePipeline.h"
 #include "ImGuiManager.h"
 #include "TextureManager.h"
 #include "Input.h"
@@ -14,6 +16,8 @@
 #include "Sprite.h"
 #include "Sphere.h"
 #include "Model.h"
+// 2d
+#include "PrimitiveDrawer.h"
 // light
 #include "LightGroup.h"
 
@@ -69,6 +73,8 @@ public:
 
 	static void DrawModel(Model* model);
 
+	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& wvpMat);
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 設定系
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,15 +98,21 @@ namespace {
 	ImGuiManager* imguiManager_ = nullptr;
 	Input* input_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
+	// dxDevice
 	std::unique_ptr<DirectXDevice> dxDevice_ = nullptr;
-
+	// descriptorHeap
 	std::unique_ptr<DescriptorHeap> descriptorHeap_ = nullptr;
-
+	// dxCommand
 	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
-
+	// dxCompiler
+	std::unique_ptr<DirectXCompiler> dxCompiler_ = nullptr;
+	// pipeline
 	std::unique_ptr<Pipeline> pipeline_ = nullptr;
 	std::unique_ptr<Pipeline> texturelessPipeline_ = nullptr;
-
+	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
+	// light
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
+
+	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
 }
 

@@ -28,9 +28,23 @@ public:
 
 	void Finalize();
 
+	/// <summary>
+	/// RootSignatureの作成
+	/// </summary>
+	/// <returns></returns>
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateRootSignature();
 
+	/// <summary>
+	/// textureのないRootSignatureの作成
+	/// </summary>
+	/// <returns></returns>
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateTexturelessRootSignature();
+
+	/// <summary>
+	/// primitiveRootSignatureの作成
+	/// </summary>
+	/// <returns></returns>
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreatePrimitiveRootSignature();
 
 public:
 

@@ -76,6 +76,12 @@
     <Filter Include="Engine\Input">
       <UniqueIdentifier>{bb8344f6-75f3-4823-8f69-a5f4d42b9b5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\2d">
+      <UniqueIdentifier>{5614e2d3-0d58-46f6-ac9d-a55cf590de70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DirectX\DirectXCompiler">
+      <UniqueIdentifier>{b6c9163e-8c5b-44c7-b261-640f887dab9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -185,6 +191,21 @@
     </ClCompile>
     <ClCompile Include="Engine\Input\Input.cpp">
       <Filter>Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp">
+      <Filter>Engine\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawUtils.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\PrimitivePipeline.cpp">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.cpp">
+      <Filter>Engine\DirectX\DirectXCompiler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,6 +341,21 @@
     <ClInclude Include="Engine\Input\Input.h">
       <Filter>Engine\Input</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\PrimitiveDrawer.h">
+      <Filter>Engine\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawUtils.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\PrimitivePipeline.h">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.h">
+      <Filter>Engine\DirectX\DirectXCompiler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
@@ -331,6 +367,12 @@
     <FxCompile Include="Engine\HLSL\Textureless.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\HLSL\Primitive.PS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Primitive.VS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">
@@ -339,6 +381,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\HLSL\Object3d.hlsli">
+      <Filter>Engine\HLSL</Filter>
+    </None>
+    <None Include="Engine\HLSL\Primitive.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
   </ItemGroup>

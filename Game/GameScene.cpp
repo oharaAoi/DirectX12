@@ -37,5 +37,7 @@ void GameScene::Update() {
 void GameScene::Draw() {
 	//Engine::DrawSphere(sphere_.get());
 
+	DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
 	Engine::DrawModel(model_.get());
 }

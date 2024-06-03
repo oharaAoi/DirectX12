@@ -1,45 +1,29 @@
-#include "Pipeline.h"
+#include "PrimitivePipeline.h"
 
-Pipeline::Pipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const PipelineType& type) {
-	Initialize(device, dxCompiler, type);
+PrimitivePipeline::PrimitivePipeline(ID3D12Device* device, DirectXCompiler* dxCompiler) {
+	Initialize(device, dxCompiler);
 }
 
-Pipeline::~Pipeline() {
+PrimitivePipeline::~PrimitivePipeline() {
 }
 
-void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const PipelineType& type) {
+void PrimitivePipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler) {
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
-	switch (type) {
-	case NormalPipeline:
-		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Normal);
-		elementDescs = inputLayout_.CreateInputLayout();
-		ShaderCompile("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Object3d.PS.hlsl");
-		break;
-
-	case TextureLessPipeline:
-		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::TextureLess);
-		elementDescs = inputLayout_.CreateInputLayout();
-		ShaderCompile("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Textureless.PS.hlsl");
-		break;
-
-	/*case PrimitivePipeline:
-		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Primitive);
-		elementDescs = inputLayout_.CreatePrimitiveInputLayout();
-		ShaderCompile("Engine/HLSL/Primitive.VS.hlsl", "Engine/HLSL/Primitive.PS.hlsl");
-		break;*/
-	}
+	rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Primitive);
+	elementDescs = inputLayout_.CreatePrimitiveInputLayout();
+	ShaderCompile("Engine/HLSL/Primitive.VS.hlsl", "Engine/HLSL/Primitive.PS.hlsl");
 
 	CreatePSO();
 }
 
-void Pipeline::Draw(ID3D12GraphicsCommandList* commandList) {
+void PrimitivePipeline::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetGraphicsRootSignature(rootSignature_->GetRootSignature());
 	commandList->SetPipelineState(graphicsPipelineState_.Get());
 }
 
-void Pipeline::Finalize() {
+void PrimitivePipeline::Finalize() {
 	rootSignature_->Finalize();
 	vertexShaderBlob_.Reset();
 	pixelShaderBlob_.Reset();
@@ -49,7 +33,7 @@ void Pipeline::Finalize() {
 //------------------------------------------------------------------------------------------------------
 // ↓Iputlayoutの生成
 //------------------------------------------------------------------------------------------------------
-D3D12_INPUT_LAYOUT_DESC Pipeline::CreateInputLayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& elementDesc) {
+D3D12_INPUT_LAYOUT_DESC PrimitivePipeline::CreateInputLayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& elementDesc) {
 	D3D12_INPUT_LAYOUT_DESC result{};
 	result.pInputElementDescs = elementDesc.data();
 	result.NumElements = static_cast<UINT>(elementDesc.size());
@@ -59,7 +43,7 @@ D3D12_INPUT_LAYOUT_DESC Pipeline::CreateInputLayout(const std::vector<D3D12_INPU
 //------------------------------------------------------------------------------------------------------
 // ↓shaderを読む
 //------------------------------------------------------------------------------------------------------
-void Pipeline::ShaderCompile(const std::string& vertexShader, const std::string& pixelShader) {
+void PrimitivePipeline::ShaderCompile(const std::string& vertexShader, const std::string& pixelShader) {
 	vertexShaderBlob_ = dxCompiler_->VsShaderCompile(vertexShader);
 	assert(vertexShaderBlob_ != nullptr);
 
@@ -70,7 +54,7 @@ void Pipeline::ShaderCompile(const std::string& vertexShader, const std::string&
 //------------------------------------------------------------------------------------------------------
 // ↓ブレンドの設定
 //------------------------------------------------------------------------------------------------------
-D3D12_BLEND_DESC Pipeline::SetBlendState() {
+D3D12_BLEND_DESC PrimitivePipeline::SetBlendState() {
 	D3D12_BLEND_DESC blendDesc{};
 	// すべての色要素を書き込む
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
@@ -81,7 +65,7 @@ D3D12_BLEND_DESC Pipeline::SetBlendState() {
 //------------------------------------------------------------------------------------------------------
 // ↓ラスタライズの設定
 //------------------------------------------------------------------------------------------------------
-D3D12_RASTERIZER_DESC Pipeline::SetRasterizerState() {
+D3D12_RASTERIZER_DESC PrimitivePipeline::SetRasterizerState() {
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 	// 裏面を表示しない
 	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
@@ -91,11 +75,10 @@ D3D12_RASTERIZER_DESC Pipeline::SetRasterizerState() {
 	return rasterizerDesc;
 }
 
-/// <summary>
-/// DepthStencilStateの設定
-/// </summary>
-/// <returns></returns>
-D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState() {
+//------------------------------------------------------------------------------------------------------
+// ↓depthの設定
+//------------------------------------------------------------------------------------------------------
+D3D12_DEPTH_STENCIL_DESC PrimitivePipeline::SetDepthStencilState() {
 	D3D12_DEPTH_STENCIL_DESC desc{};
 	// Depthの機能を有効化する
 	desc.DepthEnable = true;
@@ -108,9 +91,9 @@ D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState() {
 }
 
 //------------------------------------------------------------------------------------------------------
-// ↓PSOの追加
+// ↓PSOの設定
 //------------------------------------------------------------------------------------------------------
-void Pipeline::CreatePSO() {
+void PrimitivePipeline::CreatePSO() {
 	// PSOの生成
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc{};
 	desc.pRootSignature = rootSignature_->GetRootSignature();
@@ -125,7 +108,7 @@ void Pipeline::CreatePSO() {
 	desc.NumRenderTargets = 1;
 	desc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	// 利用するトポロジ(形状)のタイプ
-	desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
 	// どのように画面に色を打ち込むかの設定
 	desc.SampleDesc.Count = 1;
 	desc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;

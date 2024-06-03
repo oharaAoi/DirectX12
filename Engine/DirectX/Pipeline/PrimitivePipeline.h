@@ -10,18 +10,13 @@
 #include "InputLayout.h"
 #include "DirectXCompiler.h"
 
-enum PipelineType {
-	NormalPipeline,
-	TextureLessPipeline,
-};
-
-class Pipeline {
+class PrimitivePipeline {
 public:
 
-	Pipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const PipelineType& type);
-	~Pipeline();
+	PrimitivePipeline(ID3D12Device* device, DirectXCompiler* dxCompiler);
+	~PrimitivePipeline();
 
-	void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const PipelineType& type);
+	void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 

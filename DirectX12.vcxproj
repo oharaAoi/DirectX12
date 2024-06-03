@@ -53,7 +53,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Game\Camera;$(ProjectDir)\Game;$(ProjectDir)\Engine\Light;$(ProjectDir)\Engine\Lib;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\GameObject;$(ProjectDir)\Engine\DirectX\Pipeline;$(ProjectDir)\Engine\DirectX\RootSignature;$(ProjectDir)\Engine\DirectX\RTV;$(ProjectDir)\Engine\DirectX\Descriptor;$(ProjectDir)\Engine\DirectX\DirectXCommands;$(ProjectDir)\Engine\DirectX\DirectXDevice;$(ProjectDir)\Engine\DirectX\DirectXCommon;$(ProjectDir)\Engine\DirectX;$(ProjectDir)\Engine\Input;$(ProjectDir)\Engine\Manager;$(ProjectDir)\Engine\WinApp;$(ProjectDir)\Engine\Utilities;$(ProjectDir)\Externals;$(ProjectDir)\Engine;$(ProjectDir)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Game\Camera;$(ProjectDir)\Game;$(ProjectDir)\Engine\Light;$(ProjectDir)\Engine\Lib;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\GameObject;$(ProjectDir)\Engine\DirectX\Pipeline;$(ProjectDir)\Engine\DirectX\RootSignature;$(ProjectDir)\Engine\DirectX\RTV;$(ProjectDir)\Engine\DirectX\Descriptor;$(ProjectDir)\Engine\DirectX\DirectXCompiler;$(ProjectDir)\Engine\DirectX\DirectXCommands;$(ProjectDir)\Engine\DirectX\DirectXDevice;$(ProjectDir)\Engine\DirectX\DirectXCommon;$(ProjectDir)\Engine\DirectX;$(ProjectDir)\Engine\2d;$(ProjectDir)\Engine\Input;$(ProjectDir)\Engine\Manager;$(ProjectDir)\Engine\WinApp;$(ProjectDir)\Engine\Utilities;$(ProjectDir)\Externals;$(ProjectDir)\Engine;$(ProjectDir)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -87,12 +87,17 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DrawUtils.cpp" />
+    <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCommands\DirectXCommands.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCommon\DirectXCommon.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PrimitivePipeline.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTargetView.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
@@ -125,12 +130,17 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DrawUtils.h" />
+    <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h" />
     <ClInclude Include="Engine\DirectX\DirectXCommands\DirectXCommands.h" />
     <ClInclude Include="Engine\DirectX\DirectXCommon\DirectXCommon.h" />
+    <ClInclude Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.h" />
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PrimitivePipeline.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTargetView.h" />
     <ClInclude Include="Engine\Engine.h" />
@@ -177,6 +187,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <FxCompile Include="Engine\HLSL\Object3d.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="Engine\HLSL\Primitive.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Primitive.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Engine\HLSL\Textureless.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
@@ -191,6 +207,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\HLSL\Object3d.hlsli" />
+    <None Include="Engine\HLSL\Primitive.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

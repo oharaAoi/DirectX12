@@ -31,28 +31,44 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	dxCommands_ = std::make_unique<DirectXCommands>(dxDevice_->GetDevice());
 	descriptorHeap_ = std::make_unique<DescriptorHeap>(dxDevice_->GetDevice());
+
 	// dxcommon
 	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get());
+
 	// ImGui
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_->GetDevice(), dxCommon_->GetSwapChainBfCount(), descriptorHeap_->GetSRVHeap());
+
 	// texture
 	textureManager_->Initialize(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV());
+
+	// dxCompiler
+	dxCompiler_ = std::make_unique<DirectXCompiler>();
+
 	// pipeline
-	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), NormalPipeline);
-	texturelessPipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), TextureLessPipeline);
+	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(), NormalPipeline);
+	texturelessPipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(), TextureLessPipeline);
+	primitivePipeline_ = std::make_unique<PrimitivePipeline>(dxDevice_->GetDevice(), dxCompiler_.get());
+
 	// light
 	lightGroup_ = std::make_unique<LightGroup>();
 	lightGroup_->Init(dxDevice_->GetDevice());
 
 	input_->Initialize(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 
+	// primitive
+	primitiveDrawer_ = std::make_unique<PrimitiveDrawer>();
+	primitiveDrawer_->Initialize(dxDevice_->GetDevice());
+
 	Log("Clear!\n");
 }
 
 void Engine::Finalize() {
+	primitiveDrawer_->Finalize();
 	lightGroup_->Finalize();
+	primitivePipeline_->Finalize();
 	pipeline_->Finalize();
 	texturelessPipeline_->Finalize();
+	dxCompiler_->Finalize();
 	descriptorHeap_->Finalize();
 	dxCommands_->Finalize();
 	dxCommon_->Finalize();
@@ -73,6 +89,8 @@ void Engine::BeginFrame() {
 	dxCommon_->Begin();
 
 	input_->Update();
+
+	primitiveDrawer_->SetUseIndex(0);
 }
 
 void Engine::EndFrame() {
@@ -138,6 +156,11 @@ void Engine::DrawModel(Model* model) {
 	
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
 	model->Draw(dxCommands_->GetCommandList());
+}
+
+void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& wvpMat) {
+	primitivePipeline_->Draw(dxCommands_->GetCommandList());
+	primitiveDrawer_->Draw(dxCommands_->GetCommandList(), p1, p2, color, wvpMat);
 }
 
 //------------------------------------------------------------------------------------------------------
