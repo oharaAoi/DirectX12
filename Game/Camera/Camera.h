@@ -4,6 +4,11 @@
 #include "Transform.h"
 #include "Input.h"
 
+#ifdef _DEBUG
+#include "ImGuiManager.h"
+#endif // DEBUG
+
+
 class Camera {
 public:
 

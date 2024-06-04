@@ -46,6 +46,13 @@ void Camera::Update() {
 
 	projectionMatrix2D_ = MakeOrthograhicMatrix(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f);
 	viewMatrix2D_ = MakeIdentity4x4();
+
+	ImGui::Begin("Camera");
+	if (ImGui::Button("Reset")) {
+		transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, -6.0f} };
+		rotateMat_ = MakeRotateXYZMatrix(transform_.rotate);
+	}
+	ImGui::End();
 }
 
 void Camera::Draw() {
