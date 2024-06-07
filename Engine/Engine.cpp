@@ -44,15 +44,30 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	// dxCompiler
 	dxCompiler_ = std::make_unique<DirectXCompiler>();
 
+	// shader
+	shaders_.Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Object3d.PS.hlsl", Shader::Normal);
+	shaders_.Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Textureless.PS.hlsl", Shader::TextureLess);
+	shaders_.Load("Engine/HLSL/Primitive.VS.hlsl", "Engine/HLSL/Primitive.PS.hlsl", Shader::Primitive);
+	shaders_.Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Phong.Lighting.hlsl", Shader::Phong);
+
 	// pipeline
-	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(), NormalPipeline);
-	texturelessPipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(), TextureLessPipeline);
-	primitivePipeline_ = std::make_unique<PrimitivePipeline>(dxDevice_->GetDevice(), dxCompiler_.get());
+	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(),dxCompiler_.get(),
+				shaders_.GetShaderData(Shader::Normal), NormalPipeline);
+
+	texturelessPipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(),dxCompiler_.get(),
+						shaders_.GetShaderData(Shader::TextureLess), TextureLessPipeline);
+
+	phongPipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
+					shaders_.GetShaderData(Shader::Phong), NormalPipeline);
+
+	primitivePipeline_ = std::make_unique<PrimitivePipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
+						shaders_.GetShaderData(Shader::Primitive));
 
 	// light
 	lightGroup_ = std::make_unique<LightGroup>();
 	lightGroup_->Init(dxDevice_->GetDevice());
 
+	// input
 	input_->Initialize(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 
 	// primitive
@@ -60,19 +75,25 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	primitiveDrawer_->Initialize(dxDevice_->GetDevice());
 
 	Log("Clear!\n");
+
+	lightKind_ = LightGroup::Directional;
 }
 
 void Engine::Finalize() {
 	primitiveDrawer_->Finalize();
 	lightGroup_->Finalize();
+
 	primitivePipeline_->Finalize();
+	phongPipeline_->Finalize();
 	pipeline_->Finalize();
 	texturelessPipeline_->Finalize();
+
 	dxCompiler_->Finalize();
 	descriptorHeap_->Finalize();
 	dxCommands_->Finalize();
 	dxCommon_->Finalize();
 	dxDevice_->Finalize();
+
 	imguiManager_->Finalize();
 	textureManager_->Finalize();
 	winApp_->Finalize();
@@ -142,7 +163,11 @@ void Engine::DrawSprite(Sprite* sprite) {
 }
 
 void Engine::DrawSphere(Sphere* sphere) {
-	pipeline_->Draw(dxCommands_->GetCommandList());
+	if (lightKind_ == LightGroup::Directional) {
+		pipeline_->Draw(dxCommands_->GetCommandList());
+	} else {
+		phongPipeline_->Draw(dxCommands_->GetCommandList());
+	}
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
 	sphere->Draw(dxCommands_->GetCommandList());
 }
@@ -168,4 +193,8 @@ void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color
 //------------------------------------------------------------------------------------------------------
 void Engine::SetLightKind(const LightGroup::LightKind& kind) {
 	lightKind_ = kind;
+}
+
+void Engine::SetEyePos(const Vector3& eyePos) {
+	lightGroup_->SetEyePos(eyePos);
 }

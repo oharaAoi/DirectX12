@@ -21,7 +21,12 @@ public:
 	};
 
 	struct MaterialData {
-		Vector3 diffuse;
+		float specularExponent; // ハイライトのシャープさ
+		Vector3 diffuse;		// 拡散光の色
+		Vector3 specularColor;	// 鏡面反射の色
+		Vector3 emissiveColor;	// 自己発光の色
+		float refraction;		// 屈折率
+		float opacity;			// 不透明度
 		std::string textureFilePath; // 使用するtextureのパス
 	};
 

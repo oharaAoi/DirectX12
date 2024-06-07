@@ -1,19 +1,19 @@
 #include "PrimitivePipeline.h"
 
-PrimitivePipeline::PrimitivePipeline(ID3D12Device* device, DirectXCompiler* dxCompiler) {
-	Initialize(device, dxCompiler);
+PrimitivePipeline::PrimitivePipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader) {
+	Initialize(device, dxCompiler, shader);
 }
 
 PrimitivePipeline::~PrimitivePipeline() {
 }
 
-void PrimitivePipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler) {
+void PrimitivePipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader) {
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
 	rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Primitive);
 	elementDescs = inputLayout_.CreatePrimitiveInputLayout();
-	ShaderCompile("Engine/HLSL/Primitive.VS.hlsl", "Engine/HLSL/Primitive.PS.hlsl");
+	ShaderCompile(shader.vsShader, shader.psShader);
 
 	CreatePSO();
 }

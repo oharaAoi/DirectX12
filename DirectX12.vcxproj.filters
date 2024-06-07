@@ -207,6 +207,12 @@
     <ClCompile Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.cpp">
       <Filter>Engine\DirectX\DirectXCompiler</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Light\Phong.cpp">
+      <Filter>Engine\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -356,6 +362,12 @@
     <ClInclude Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.h">
       <Filter>Engine\DirectX\DirectXCompiler</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Light\Phong.h">
+      <Filter>Engine\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
@@ -371,6 +383,9 @@
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\Primitive.VS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Phong.Lighting.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
   </ItemGroup>

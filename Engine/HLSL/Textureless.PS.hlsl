@@ -21,15 +21,13 @@ ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
 PixelShaderOutput main(VertexShaderOutput input){
 	PixelShaderOutput output;
     
-	if (gMaterial.enableLighting != 0)
-	{
+	if (gMaterial.enableLighting != 0){
 		float NdotL = dot(normalize(input.normal), -gDirectionalLight.direction);
-    //float cos = saturate(dot(normalize(input.normal), -gDirectionalLight.direction));
-		float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
+		//float cos = saturate(dot(normalize(input.normal), -gDirectionalLight.direction));
+		float cos = pow(NdotL * 0.5f + 0.5f, 2.0f) / 3.1415f;
 		output.color = gMaterial.color * gDirectionalLight.color * cos * gDirectionalLight.intensity;
 	}
-	else
-	{
+	else{
 		output.color = gMaterial.color;
 	}
         

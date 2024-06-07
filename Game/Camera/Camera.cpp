@@ -32,7 +32,7 @@ void Camera::Init() {
 void Camera::Update() {
 	// デバックカメラモードの時
 	if (debugCameraMode_) {
-		//ScrollMove();
+		ScrollMove();
 		TransitionMove();
 		RotateMove();
 	}
@@ -125,4 +125,27 @@ void Camera::RotateMove() {
 // 
 /////////////////////////////////////////////////////////////////
 void Camera::ScrollMove() {
+	if (Input::GetWheel() > 0) {
+		Vector3 direction = { 0,0,1 };
+
+		direction = TransformNormal(direction, rotateMat_);
+		Normalize(direction);
+
+		direction *= 0.1f;
+
+		transform_.translate += direction;
+		lookPosition_ += direction;
+
+
+	} else if (Input::GetWheel() < 0) {
+		Vector3 direction = { 0,0,-1 };
+
+		direction = TransformNormal(direction, rotateMat_);
+		Normalize(direction);
+
+		direction *= 0.1f;
+
+		transform_.translate += direction;
+		lookPosition_ += direction;
+	}
 }

@@ -111,12 +111,6 @@ std::vector<std::unique_ptr<Mesh>> Model::LoadVertexData(const std::string& file
 		} else if (identifier == "f") {
 			Mesh::VertexData triangle[3];
 
-			if (texcoords.empty()) {
-				hasTexture_ = false;
-			} else {
-				hasTexture_ = true;
-			}
-
 			// 面は三角形固定。その他は未対応
 			for (int32_t faceVertex = 0; faceVertex < 3; ++faceVertex) {
 				std::string vertexDefinition;
@@ -172,6 +166,7 @@ std::vector<std::unique_ptr<Mesh>> Model::LoadVertexData(const std::string& file
 		mesh->Init(device, static_cast<uint32_t>(meshVertices[oi].size()) * sizeof(Mesh::VertexData), static_cast<uint32_t>(meshVertices[oi].size()));
 		// 入れるMeshを初期化する
 		mesh->SetUseMaterial(useMaterial[oi]);
+		
 		mesh->SetVertexData(meshVertices[oi]);
 		// Meshを配列に格納
 		result.push_back(std::move(mesh));
@@ -217,6 +212,8 @@ std::unordered_map<std::string, std::unique_ptr<Material>> Model::LoadMaterialDa
 	std::ifstream file2(directoryPath + "/" + mtlFile);
 	assert(file2.is_open());
 
+	hasTexture_ = false;
+
 	// ファイルを読む
 	while (std::getline(file2, line)) {
 		std::string materialIdentifier;
@@ -233,6 +230,8 @@ std::unordered_map<std::string, std::unique_ptr<Material>> Model::LoadMaterialDa
 			std::string textureFilename;
 			s >> textureFilename;
 			materialDatas[materialName].textureFilePath = directoryPath + "/" + textureFilename;
+
+			hasTexture_ = true;
 
 		} else if (materialIdentifier == "Ka") {
 			// ディフューズ色を読み取る

@@ -1,13 +1,13 @@
 #include "Pipeline.h"
 
-Pipeline::Pipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const PipelineType& type) {
-	Initialize(device, dxCompiler, type);
+Pipeline::Pipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader, const PipelineType& type) {
+	Initialize(device, dxCompiler, shader, type);
 }
 
 Pipeline::~Pipeline() {
 }
 
-void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const PipelineType& type) {
+void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader, const PipelineType& type) {
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
@@ -15,20 +15,14 @@ void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, con
 	case NormalPipeline:
 		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Normal);
 		elementDescs = inputLayout_.CreateInputLayout();
-		ShaderCompile("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Object3d.PS.hlsl");
+		ShaderCompile(shader.vsShader, shader.psShader);
 		break;
 
 	case TextureLessPipeline:
 		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::TextureLess);
 		elementDescs = inputLayout_.CreateInputLayout();
-		ShaderCompile("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Textureless.PS.hlsl");
+		ShaderCompile(shader.vsShader, shader.psShader);
 		break;
-
-	/*case PrimitivePipeline:
-		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Primitive);
-		elementDescs = inputLayout_.CreatePrimitiveInputLayout();
-		ShaderCompile("Engine/HLSL/Primitive.VS.hlsl", "Engine/HLSL/Primitive.PS.hlsl");
-		break;*/
 	}
 
 	CreatePSO();

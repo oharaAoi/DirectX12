@@ -20,6 +20,8 @@
 #include "PrimitiveDrawer.h"
 // light
 #include "LightGroup.h"
+// data
+#include "Shader.h"
 
 class Engine {
 public:
@@ -80,6 +82,8 @@ public:
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	static void SetLightKind(const LightGroup::LightKind& kind);
 
+	static void SetEyePos(const Vector3& eyePos);
+
 private:
 
 };
@@ -109,10 +113,13 @@ namespace {
 	// pipeline
 	std::unique_ptr<Pipeline> pipeline_ = nullptr;
 	std::unique_ptr<Pipeline> texturelessPipeline_ = nullptr;
+	std::unique_ptr<Pipeline> phongPipeline_ = nullptr;
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
 	// light
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 
 	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
+
+	Shader shaders_;
 }
 

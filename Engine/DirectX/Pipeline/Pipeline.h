@@ -9,6 +9,7 @@
 #include "RootSignature.h"
 #include "InputLayout.h"
 #include "DirectXCompiler.h"
+#include "Shader.h"
 
 enum PipelineType {
 	NormalPipeline,
@@ -18,10 +19,10 @@ enum PipelineType {
 class Pipeline {
 public:
 
-	Pipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const PipelineType& type);
+	Pipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader, const PipelineType& type);
 	~Pipeline();
 
-	void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const PipelineType& type);
+	void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader, const PipelineType& type);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 

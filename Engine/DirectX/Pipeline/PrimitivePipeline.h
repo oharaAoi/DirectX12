@@ -9,14 +9,15 @@
 #include "RootSignature.h"
 #include "InputLayout.h"
 #include "DirectXCompiler.h"
+#include "Shader.h"
 
 class PrimitivePipeline {
 public:
 
-	PrimitivePipeline(ID3D12Device* device, DirectXCompiler* dxCompiler);
+	PrimitivePipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader);
 	~PrimitivePipeline();
 
-	void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler);
+	void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 

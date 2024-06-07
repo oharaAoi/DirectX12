@@ -44,6 +44,8 @@ public:
 	Matrix4x4 GetViewMatrix2D() const { return viewMatrix2D_; }
 	Matrix4x4 GetProjectionMatrix2D() const { return projectionMatrix2D_; }
 
+	Vector3 GetTranslate() const { return transform_.translate; }
+
 private:
 
 	kTransform transform_;
