@@ -13,6 +13,7 @@ public:
 		TextureLess,
 		Primitive,
 		Phong,
+		PBR,
 	};
 
 	// 構造体

@@ -114,6 +114,8 @@ namespace {
 	std::unique_ptr<Pipeline> pipeline_ = nullptr;
 	std::unique_ptr<Pipeline> texturelessPipeline_ = nullptr;
 	std::unique_ptr<Pipeline> phongPipeline_ = nullptr;
+	std::unique_ptr<Pipeline> pbrPipeline_ = nullptr;
+
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
 	// light
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;

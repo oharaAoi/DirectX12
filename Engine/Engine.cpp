@@ -49,6 +49,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	shaders_.Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Textureless.PS.hlsl", Shader::TextureLess);
 	shaders_.Load("Engine/HLSL/Primitive.VS.hlsl", "Engine/HLSL/Primitive.PS.hlsl", Shader::Primitive);
 	shaders_.Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Phong.Lighting.hlsl", Shader::Phong);
+	shaders_.Load("Engine/HLSL/PBR.VS.hlsl", "Engine/HLSL/PBR.PS.hlsl", Shader::PBR);
 
 	// pipeline
 	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(),dxCompiler_.get(),
@@ -62,6 +63,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	primitivePipeline_ = std::make_unique<PrimitivePipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
 						shaders_.GetShaderData(Shader::Primitive));
+
+	pbrPipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
+						shaders_.GetShaderData(Shader::PBR), NormalPipeline);
 
 	// light
 	lightGroup_ = std::make_unique<LightGroup>();
@@ -83,6 +87,7 @@ void Engine::Finalize() {
 	primitiveDrawer_->Finalize();
 	lightGroup_->Finalize();
 
+	pbrPipeline_->Finalize();
 	primitivePipeline_->Finalize();
 	phongPipeline_->Finalize();
 	pipeline_->Finalize();
@@ -182,7 +187,7 @@ void Engine::DrawModel(Model* model) {
 	}*/
 
 	if (lightKind_ == LightGroup::Directional) {
-		pipeline_->Draw(dxCommands_->GetCommandList());
+		pbrPipeline_->Draw(dxCommands_->GetCommandList());
 	} else {
 		phongPipeline_->Draw(dxCommands_->GetCommandList());
 	}
