@@ -23,6 +23,8 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
+	void ImGuiDraw();
+
 public:
 
 	/// <summary>

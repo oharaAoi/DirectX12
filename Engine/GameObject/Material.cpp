@@ -21,6 +21,8 @@ void Material::Init(ID3D12Device* device) {
 	baseMaterial_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	baseMaterial_->enableLighting = true;
 	baseMaterial_->uvTransform = MakeIdentity4x4();
+	baseMaterial_->aldedo = 1.0f;
+	baseMaterial_->refractiveIndex = 1.5f;
 }
 
 void Material::Update(const Matrix4x4& uvTransform) {
@@ -29,4 +31,9 @@ void Material::Update(const Matrix4x4& uvTransform) {
 
 void Material::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
+}
+
+void Material::ImGuiDraw() {
+	ImGui::DragFloat("Albedo", &baseMaterial_->aldedo, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("refractiveIndex", &baseMaterial_->refractiveIndex, 0.01f, 1.0f, 2.0f);
 }

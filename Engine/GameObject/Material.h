@@ -7,6 +7,10 @@
 // math
 #include "MyMath.h"
 
+#ifdef _DEBUG
+#include "ImGuiManager.h"
+#endif
+
 template<typename T>
 using Comptr = Microsoft::WRL::ComPtr <T>;
 
@@ -18,6 +22,11 @@ public:
 		int32_t enableLighting;
 		float pad[3];
 		Matrix4x4 uvTransform;
+		// 拡散反射率
+		float aldedo;
+		// 屈折率
+		float refractiveIndex;
+		float padding[2];
 	};
 
 	struct MaterialData {
@@ -42,6 +51,8 @@ public:
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
 	void Finalize();
+
+	void ImGuiDraw();
 
 public:
 

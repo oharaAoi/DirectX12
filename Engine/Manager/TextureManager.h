@@ -47,7 +47,7 @@ public:
 	/// <returns></returns>
 	DirectX::ScratchImage LoadTexture(const std::string& filePath);
 
-	//void LoadWhite1x1Texture(const std::string& filePath);
+	void LoadWhite1x1Texture(const std::string& filePath, ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// TextureResourceを作る

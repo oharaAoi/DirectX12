@@ -19,6 +19,7 @@ void TextureManager::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList*
 	CreateShaderResource("monsterBall.png", commandList);
 	CreateShaderResource("checkerBoard.png", commandList);
 	CreateShaderResource("sphere.png", commandList);
+	LoadWhite1x1Texture("white1x1.png", commandList);
 }
 
 void TextureManager::Finalize() {
@@ -58,10 +59,6 @@ void TextureManager::CreateShaderResource(const std::string& filePath, ID3D12Gra
 	// 配列に入れる
 	srvData_["Resources/" + filePath] = data;
 
-	//// objファイルから読み取ったtextureを使うための処理(変更したい)
-	//fileNameToNumber_[filePath] = fileNumber_;
-	//fileNumber_++;
-
 	// 生成
 	device_->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.srvHandleCPU_);
 }
@@ -81,6 +78,40 @@ DirectX::ScratchImage TextureManager::LoadTexture(const std::string& filePath) {
 	assert(SUCCEEDED(hr));
 
 	return mipImages;
+}
+
+void TextureManager::LoadWhite1x1Texture(const std::string& filePath, ID3D12GraphicsCommandList* commandList) {
+	SRVData data{};
+
+	DirectX::ScratchImage image{};
+	std::wstring filePathW = ConvertWString("Resources/" + filePath);
+	HRESULT hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
+	assert(SUCCEEDED(hr));
+
+	const DirectX::TexMetadata& metadata = image.GetMetadata();
+	data.textureResource_ = CreateTextureResource(device_, metadata);
+	data.intermediateResource_ = UploadTextureData(data.textureResource_, image, device_, commandList);
+
+	// ------------------------------------------------------------
+	// metadataを元にSRVの設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = metadata.format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
+
+	// ------------------------------------------------------------
+	// SRVを作成するDescriptorHeapの場所を求める
+	data.srvHandleCPU_ = GetCPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
+	data.srvHandleGPU_ = GetGPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
+	// 先頭はImGuiが使っている溜めその次を使う
+	data.srvHandleCPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	data.srvHandleGPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	srvData_["Resources/" + filePath] = data;
+
+	// 生成
+	device_->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.srvHandleCPU_);
 }
 
 Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::CreateTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const DirectX::TexMetadata& metadata) {

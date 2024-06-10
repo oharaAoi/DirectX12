@@ -47,6 +47,14 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList) {
 	}
 }
 
+void Model::ImGuiDraw() {
+	ImGui::Begin("model");
+	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
+		materialArray_[meshArray_[oi]->GetUseMaterial()]->ImGuiDraw();
+	}
+	ImGui::End();
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // Meshを読み込む関数
 //////////////////////////////////////////////////////////////////////////////////////////////////

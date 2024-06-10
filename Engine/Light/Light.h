@@ -8,6 +8,10 @@
 // math
 #include "MyMath.h"
 
+#ifdef _DEBUG
+#include "ImGuiManager.h"
+#endif
+
 template<typename T>
 using Comptr = Microsoft::WRL::ComPtr <T>;
 
@@ -17,6 +21,8 @@ public: // メンバ構造体
 	struct DirectionalLight {
 		Vector4 color; // ライトの色
 		Vector3 direction; // 方向
+		float pad;
+		Vector3 eyePos;
 		float intensity; // 輝度
 	};
 
@@ -32,6 +38,10 @@ public:
 	void Update();
 
 	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
+
+	void ImGuiDraw();
+
+	void SetEyePos(const Vector3& pos) { DirectionalLightData_->eyePos = pos; }
 
 private:
 

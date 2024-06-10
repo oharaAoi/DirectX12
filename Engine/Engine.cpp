@@ -111,6 +111,8 @@ void Engine::BeginFrame() {
 
 	input_->Update();
 
+	lightGroup_->Update();
+
 	primitiveDrawer_->SetUseIndex(0);
 }
 
@@ -173,10 +175,16 @@ void Engine::DrawSphere(Sphere* sphere) {
 }
 
 void Engine::DrawModel(Model* model) {
-	if (model->GetHasTexture()) {
+	/*if (model->GetHasTexture()) {
 		pipeline_->Draw(dxCommands_->GetCommandList());
 	} else {
 		texturelessPipeline_->Draw(dxCommands_->GetCommandList());
+	}*/
+
+	if (lightKind_ == LightGroup::Directional) {
+		pipeline_->Draw(dxCommands_->GetCommandList());
+	} else {
+		phongPipeline_->Draw(dxCommands_->GetCommandList());
 	}
 	
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);

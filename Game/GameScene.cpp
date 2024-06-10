@@ -11,13 +11,13 @@ void GameScene::Init() {
 
 	//sphere_ = Engine::CreateSphere(16);
 
-	model_ = Engine::CreateModel("teapot.obj");
+	model_ = Engine::CreateModel("plane.obj");
 
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 }
 
 void GameScene::Update() {
-	transform_.rotate.y += 0.01f;
+	//transform_.rotate.y += 0.01f;
 	Matrix4x4 triangleWorld = MakeAffineMatrix(transform_);
 
 	//sphere_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
@@ -35,6 +35,8 @@ void GameScene::Update() {
 	ImGui::DragFloat3("Translate", &transform_.translate.x, 0.1f);
 	ImGui::DragFloat3("rotate", &transform_.rotate.x, 0.1f);
 	ImGui::End();
+
+	model_->ImGuiDraw();
 }
 
 void GameScene::Draw() {

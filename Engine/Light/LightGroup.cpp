@@ -21,6 +21,9 @@ void LightGroup::Finalize() {
 
 void LightGroup::Update() {
 	phong_->SetEyePos(eyePos_);
+	light_->SetEyePos(eyePos_);
+
+	light_->ImGuiDraw();
 }
 
 void LightGroup::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex, const LightKind& kind) {
