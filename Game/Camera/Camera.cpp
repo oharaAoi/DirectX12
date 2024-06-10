@@ -8,7 +8,7 @@ Camera::~Camera() {
 }
 
 void Camera::Init() {
-	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, -6.0f} };
+	transform_ = { {1.0f, 1.0f, 1.0f}, {0.3f, 0.0f, 0.0f}, {0.0f, 2.0f, -6.0f} };
 
 	// 行列の生成
 	scaleMat_ = MakeScaleMatrix(transform_.scale);
@@ -69,7 +69,7 @@ void Camera::TransitionMove() {
 		diff.x = static_cast<float>(pos.x - mousePosition_.x);
 		diff.y = static_cast<float>(pos.y - mousePosition_.y);
 
-		const float speed = 0.02f;
+		const float speed = 0.01f;
 		Vector3 move{};
 		// カメラの向きを求める
 		move = TransformNormal(Normalize({ diff.x, diff.y, 0 }) * speed, cameraMatrix_);
@@ -88,7 +88,7 @@ void Camera::TransitionMove() {
 void Camera::RotateMove() {
 	if (Input::IsPressMouse(1)) {
 		Vector3 normalizeDiff{};
-		Vector3 offset = { 0.0f, 1.542f, -5.798f };
+		Vector3 offset = { 0.0f, 2.0f, -6.0f };
 		const float speed = 0.015f;
 		// マウスの位置を得る
 		Vector2 mousePos = Input::GetMousePosition();
@@ -131,7 +131,7 @@ void Camera::ScrollMove() {
 		direction = TransformNormal(direction, rotateMat_);
 		Normalize(direction);
 
-		direction *= 0.1f;
+		direction *= kCameraMoveSpeed_;
 
 		transform_.translate += direction;
 		lookPosition_ += direction;
@@ -143,7 +143,7 @@ void Camera::ScrollMove() {
 		direction = TransformNormal(direction, rotateMat_);
 		Normalize(direction);
 
-		direction *= 0.1f;
+		direction *= kCameraMoveSpeed_;
 
 		transform_.translate += direction;
 		lookPosition_ += direction;

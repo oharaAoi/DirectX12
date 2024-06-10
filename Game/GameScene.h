@@ -26,6 +26,8 @@ private:
 
 	std::unique_ptr<Model> model_ = nullptr;
 
+	std::unique_ptr<Model> sphereModel_ = nullptr;
+
 	Mesh::Vertices vertex_ = {
 		{-0.5f, -0.5f, 0.0f, 1.0f},
 		{ 0.0f, 0.5f, 0.0f, 1.0f },
@@ -46,4 +48,6 @@ private:
 	};
 
 	kTransform transform_;
+
+	kTransform sphereTransform_;
 };

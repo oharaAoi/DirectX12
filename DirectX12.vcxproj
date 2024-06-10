@@ -53,7 +53,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Game\Camera;$(ProjectDir)\Game;$(ProjectDir)\Engine\Light;$(ProjectDir)\Engine\Lib;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\GameObject;$(ProjectDir)\Engine\DirectX\Pipeline;$(ProjectDir)\Engine\DirectX\RootSignature;$(ProjectDir)\Engine\DirectX\RTV;$(ProjectDir)\Engine\DirectX\Descriptor;$(ProjectDir)\Engine\DirectX\DirectXCompiler;$(ProjectDir)\Engine\DirectX\DirectXCommands;$(ProjectDir)\Engine\DirectX\DirectXDevice;$(ProjectDir)\Engine\DirectX\DirectXCommon;$(ProjectDir)\Engine\DirectX;$(ProjectDir)\Engine\2d;$(ProjectDir)\Engine\Input;$(ProjectDir)\Engine\Manager;$(ProjectDir)\Engine\WinApp;$(ProjectDir)\Engine\Utilities;$(ProjectDir)\Externals;$(ProjectDir)\Engine;$(ProjectDir)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Game\Camera;$(ProjectDir)\Game;$(ProjectDir)\Engine\Light;$(ProjectDir)\Engine\Lib;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\GameObject;$(ProjectDir)\Engine\DirectX\Pipeline;$(ProjectDir)\Engine\DirectX\RootSignature;$(ProjectDir)\Engine\DirectX\RTV;$(ProjectDir)\Engine\DirectX\Descriptor;$(ProjectDir)\Engine\DirectX\DirectXCompiler;$(ProjectDir)\Engine\DirectX\DirectXCommands;$(ProjectDir)\Engine\DirectX\DirectXDevice;$(ProjectDir)\Engine\DirectX\DirectXCommon;$(ProjectDir)\Engine\DirectX;$(ProjectDir)\Engine\Assets;$(ProjectDir)\Engine\2d;$(ProjectDir)\Engine\Input;$(ProjectDir)\Engine\Manager;$(ProjectDir)\Engine\WinApp;$(ProjectDir)\Engine\Utilities;$(ProjectDir)\Externals;$(ProjectDir)\Engine;$(ProjectDir)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -89,6 +89,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="DrawUtils.cpp" />
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
+    <ClCompile Include="Engine\Assets\Material.cpp" />
+    <ClCompile Include="Engine\Assets\Mesh.cpp" />
+    <ClCompile Include="Engine\Assets\TransformationMatrix.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCommands\DirectXCommands.cpp" />
@@ -101,12 +104,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTargetView.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
-    <ClCompile Include="Engine\GameObject\Material.cpp" />
-    <ClCompile Include="Engine\GameObject\Mesh.cpp" />
+    <ClCompile Include="Engine\GameObject\BaseGameObject.cpp" />
     <ClCompile Include="Engine\GameObject\Model.cpp" />
     <ClCompile Include="Engine\GameObject\Sphere.cpp" />
     <ClCompile Include="Engine\GameObject\Sprite.cpp" />
-    <ClCompile Include="Engine\GameObject\TransformationMatrix.cpp" />
     <ClCompile Include="Engine\GameObject\Triangle.cpp" />
     <ClCompile Include="Engine\Input\Input.cpp" />
     <ClCompile Include="Engine\Light\Light.cpp" />
@@ -134,6 +135,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClInclude Include="DrawUtils.h" />
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
+    <ClInclude Include="Engine\Assets\Material.h" />
+    <ClInclude Include="Engine\Assets\Mesh.h" />
+    <ClInclude Include="Engine\Assets\TransformationMatrix.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h" />
     <ClInclude Include="Engine\DirectX\DirectXCommands\DirectXCommands.h" />
@@ -146,12 +150,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTargetView.h" />
     <ClInclude Include="Engine\Engine.h" />
-    <ClInclude Include="Engine\GameObject\Material.h" />
-    <ClInclude Include="Engine\GameObject\Mesh.h" />
+    <ClInclude Include="Engine\GameObject\BaseGameObject.h" />
     <ClInclude Include="Engine\GameObject\Model.h" />
     <ClInclude Include="Engine\GameObject\Sphere.h" />
     <ClInclude Include="Engine\GameObject\Sprite.h" />
-    <ClInclude Include="Engine\GameObject\TransformationMatrix.h" />
     <ClInclude Include="Engine\GameObject\Triangle.h" />
     <ClInclude Include="Engine\Input\Input.h" />
     <ClInclude Include="Engine\Lib\Transform.h" />

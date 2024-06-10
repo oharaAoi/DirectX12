@@ -8,6 +8,7 @@
 #include "ImGuiManager.h"
 #endif // DEBUG
 
+const float kCameraMoveSpeed_ = 0.05f;
 
 class Camera {
 public:

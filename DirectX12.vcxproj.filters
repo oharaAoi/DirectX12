@@ -82,6 +82,9 @@
     <Filter Include="Engine\DirectX\DirectXCompiler">
       <UniqueIdentifier>{b6c9163e-8c5b-44c7-b261-640f887dab9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Assets">
+      <UniqueIdentifier>{52a4ba17-1cfe-4af5-a67f-925bb30857ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -123,9 +126,6 @@
     <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObject\Mesh.cpp">
-      <Filter>Engine\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Math\MyMath.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
@@ -137,12 +137,6 @@
     </ClCompile>
     <ClCompile Include="Game\GameScene.cpp">
       <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GameObject\Material.cpp">
-      <Filter>Engine\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GameObject\TransformationMatrix.cpp">
-      <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Externals\ImGui\imgui.cpp">
       <Filter>Engine\ImGui</Filter>
@@ -183,9 +177,6 @@
     <ClCompile Include="Engine\Light\LightGroup.cpp">
       <Filter>Engine\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObject\Model.cpp">
-      <Filter>Engine\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Camera\Camera.cpp">
       <Filter>Game\Camera</Filter>
     </ClCompile>
@@ -212,6 +203,21 @@
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\Material.cpp">
+      <Filter>Engine\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\Mesh.cpp">
+      <Filter>Engine\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\BaseGameObject.cpp">
+      <Filter>Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\TransformationMatrix.cpp">
+      <Filter>Engine\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObject\Model.cpp">
+      <Filter>Engine\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,9 +260,6 @@
     <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject\Mesh.h">
-      <Filter>Engine\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Math\Matrix3x3.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
@@ -283,12 +286,6 @@
     </ClInclude>
     <ClInclude Include="Game\GameScene.h">
       <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameObject\Material.h">
-      <Filter>Engine\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameObject\TransformationMatrix.h">
-      <Filter>Engine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Lib\Transform.h">
       <Filter>Engine\Lib</Filter>
@@ -338,9 +335,6 @@
     <ClInclude Include="Engine\Light\LightGroup.h">
       <Filter>Engine\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject\Model.h">
-      <Filter>Engine\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Camera\Camera.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
@@ -367,6 +361,21 @@
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Material.h">
+      <Filter>Engine\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Mesh.h">
+      <Filter>Engine\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\BaseGameObject.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\TransformationMatrix.h">
+      <Filter>Engine\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\Model.h">
+      <Filter>Engine\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -12,17 +12,21 @@ void GameScene::Init() {
 	//sphere_ = Engine::CreateSphere(16);
 
 	model_ = Engine::CreateModel("plane.obj");
+	sphereModel_ = Engine::CreateModel("sphere.obj");
 
-	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
+	transform_ = { {1.0f, 1.0f, 1.0f}, {1.5f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
+	sphereTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.5f, 0.0f} };
 }
 
 void GameScene::Update() {
 	//transform_.rotate.y += 0.01f;
 	Matrix4x4 triangleWorld = MakeAffineMatrix(transform_);
+	Matrix4x4 sphereWorld = MakeAffineMatrix(sphereTransform_);
 
 	//sphere_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	model_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	sphereModel_->Update(sphereWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	camera_->Update();
 
@@ -45,4 +49,5 @@ void GameScene::Draw() {
 	DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	Engine::DrawModel(model_.get());
+	Engine::DrawModel(sphereModel_.get());
 }
