@@ -188,6 +188,7 @@ void Engine::DrawModel(Model* model) {
 
 	if (lightKind_ == LightGroup::Directional) {
 		pbrPipeline_->Draw(dxCommands_->GetCommandList());
+		//pipeline_->Draw(dxCommands_->GetCommandList());
 	} else {
 		phongPipeline_->Draw(dxCommands_->GetCommandList());
 	}

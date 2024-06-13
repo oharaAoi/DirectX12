@@ -397,10 +397,10 @@
     <FxCompile Include="Engine\HLSL\Phong.Lighting.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="PBR.VS.hlsl">
+    <FxCompile Include="Engine\HLSL\PBR.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="PBR.PS.hlsl">
+    <FxCompile Include="Engine\HLSL\PBR.VS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
   </ItemGroup>
@@ -416,7 +416,7 @@
     <None Include="Engine\HLSL\Primitive.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
-    <None Include="PBR.hlsli">
+    <None Include="Engine\HLSL\PBR.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
   </ItemGroup>

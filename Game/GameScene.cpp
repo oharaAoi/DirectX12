@@ -15,6 +15,7 @@ void GameScene::Init() {
 	sphereModel_ = Engine::CreateModel("sphere.obj");
 
 	transform_ = { {1.0f, 1.0f, 1.0f}, {1.5f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
+	//transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 	sphereTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.5f, 0.0f} };
 }
 
@@ -30,7 +31,8 @@ void GameScene::Update() {
 
 	camera_->Update();
 
-	Engine::SetEyePos(camera_->GetTranslate());
+	Engine::SetEyePos(camera_->GetWorldTranslate());
+	//Engine::SetEyePos(camera_->GetTranslate());
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// ImGui
@@ -38,9 +40,15 @@ void GameScene::Update() {
 	ImGui::Begin("Setting");
 	ImGui::DragFloat3("Translate", &transform_.translate.x, 0.1f);
 	ImGui::DragFloat3("rotate", &transform_.rotate.x, 0.1f);
+	ImGui::Spacing();
+
+	ImGui::DragFloat3("sTranslate", &sphereTransform_.translate.x, 0.1f);
+	ImGui::DragFloat3("sRotate", &sphereTransform_.rotate.x, 0.1f);
+	ImGui::DragFloat3("sScale", &sphereTransform_.scale.x, 0.1f);
 	ImGui::End();
 
 	model_->ImGuiDraw();
+	sphereModel_->ImGuiDraw();
 }
 
 void GameScene::Draw() {

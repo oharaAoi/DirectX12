@@ -246,6 +246,7 @@ std::unordered_map<std::string, std::unique_ptr<Material>> Model::LoadMaterialDa
 			Vector3 color;
 			s >> color.x >> color.y >> color.z;
 			materialDatas[materialName].diffuse = color;
+			//materialDatas[materialName].diffuse = { 1.0f, 1.0f, 1.0f};
 		}
 	}
 

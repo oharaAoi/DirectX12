@@ -26,7 +26,9 @@ public:
 		float aldedo;
 		// 屈折率
 		float refractiveIndex;
-		float padding[2];
+		// 反射率
+		float refraction;
+		float padding2;
 	};
 
 	struct MaterialData {
