@@ -47,18 +47,20 @@ void GameScene::Update() {
 	// ImGui
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	ImGui::Begin("Setting");
-	ImGui::DragFloat3("Translate", &transform_.translate.x, 0.1f);
-	ImGui::DragFloat3("rotate", &transform_.rotate.x, 0.1f);
-	ImGui::Spacing();
+	if (ImGui::CollapsingHeader("transformations")) {
+		ImGui::DragFloat3("Translate", &transform_.translate.x, 0.1f);
+		ImGui::DragFloat3("rotate", &transform_.rotate.x, 0.1f);
+		ImGui::Spacing();
 
-	ImGui::DragFloat3("sTranslate", &sphereTransform_.translate.x, 0.1f);
-	ImGui::DragFloat3("sRotate", &sphereTransform_.rotate.x, 0.1f);
-	ImGui::DragFloat3("sScale", &sphereTransform_.scale.x, 0.1f);
-	ImGui::Spacing();
+		ImGui::DragFloat3("sTranslate", &sphereTransform_.translate.x, 0.1f);
+		ImGui::DragFloat3("sRotate", &sphereTransform_.rotate.x, 0.1f);
+		ImGui::DragFloat3("sScale", &sphereTransform_.scale.x, 0.1f);
+		ImGui::Spacing();
 
-	ImGui::DragFloat3("tTranslate", &teapotTransform_.translate.x, 0.1f);
-	ImGui::DragFloat3("tRotate", &teapotTransform_.rotate.x, 0.1f);
-	ImGui::DragFloat3("tScale", &teapotTransform_.scale.x, 0.1f);
+		ImGui::DragFloat3("tTranslate", &teapotTransform_.translate.x, 0.1f);
+		ImGui::DragFloat3("tRotate", &teapotTransform_.rotate.x, 0.1f);
+		ImGui::DragFloat3("tScale", &teapotTransform_.scale.x, 0.1f);
+	}
 
 	if (ImGui::CollapsingHeader("materials")) {
 		sphere_->SetMaterials(roughness_, metallic_);
@@ -78,7 +80,7 @@ void GameScene::Update() {
 }
 
 void GameScene::Draw() {
-	//Engine::DrawModel(model_.get());
+	Engine::DrawModel(model_.get());
 	
 	Engine::DrawSphere(sphere_.get());
 	Engine::DrawModel(sphereModel_.get());

@@ -188,9 +188,9 @@ PixelShaderOutput main(VertexShaderOutput input){
 	float4 brdf = BRDF(NdotH, NDotV, NDotL,VDotH, ks);
 	
 	//=======================================================
-	// 最終
-	//=======================================================
-	float4 finalColor = brdf;
+	// 最終.
+	float4 finalColor = brdf + 0.1f;
+	finalColor = finalColor * NDotL * gDirectionalLight.color;
 	
 	output.color = finalColor * textureColor * gMaterial.color * gDirectionalLight.intensity;
 	//output.color = (finalColor) * gMaterial.color * gDirectionalLight.intensity;
