@@ -8,7 +8,7 @@ Camera::~Camera() {
 }
 
 void Camera::Init() {
-	transform_ = { {1.0f, 1.0f, 1.0f}, {0.3f, 0.0f, 0.0f}, {0.0f, 2.0f, -6.0f} };
+	transform_ = { {1.0f, 1.0f, 1.0f}, {0.5f, 0.0f, 0.0f}, {0.0f, 5.0f, -9.0f} };
 
 	// 行列の生成
 	scaleMat_ = MakeScaleMatrix(transform_.scale);
@@ -30,11 +30,18 @@ void Camera::Init() {
 }
 
 void Camera::Update() {
+	if (Input::IsTriggerKey(DIK_C)) {
+		debugCameraMode_ = !debugCameraMode_;
+	}
+
 	// デバックカメラモードの時
 	if (debugCameraMode_) {
 		ScrollMove();
 		TransitionMove();
 		RotateMove();
+	} else {
+		transform_ = { {1.0f, 1.0f, 1.0f}, {0.5f, 0.0f, 0.0f}, {0.0f, 5.0f, -9.0f} };
+		rotateMat_ = MakeRotateXYZMatrix(transform_.rotate);
 	}
 
 	scaleMat_ = MakeScaleMatrix(transform_.scale);
@@ -49,9 +56,14 @@ void Camera::Update() {
 
 	ImGui::Begin("Camera");
 	if (ImGui::Button("Reset")) {
-		transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, -6.0f} };
+		transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, -9.0f} };
+		transform_.rotate = { 0.0f, 0.0f, 0.0f };
 		rotateMat_ = MakeRotateXYZMatrix(transform_.rotate);
 	}
+
+	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
+	ImGui::DragFloat3("rotate", &transform_.rotate.x, 0.1f);
+
 	ImGui::End();
 }
 
@@ -88,7 +100,7 @@ void Camera::TransitionMove() {
 void Camera::RotateMove() {
 	if (Input::IsPressMouse(1)) {
 		Vector3 normalizeDiff{};
-		Vector3 offset = { 0.0f, 2.0f, -6.0f };
+		Vector3 offset = { 0.0f, 5.0f, -10.0f };
 		const float speed = 0.015f;
 		// マウスの位置を得る
 		Vector2 mousePos = Input::GetMousePosition();
@@ -109,7 +121,7 @@ void Camera::RotateMove() {
 
 		/// -------------------------------------------------------------------------
 		// 旋回させる
-		offset = TransformNormal(Vector3(0, 0, -5.798f), rotateMat_);
+		offset = TransformNormal(Vector3(0, 0, -10.0f), rotateMat_);
 		// 位置を動かす
 		transform_.translate = lookPosition_ + offset;
 

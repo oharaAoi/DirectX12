@@ -16,6 +16,10 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
+	void ImGuiDraw(const std::string& name);
+
+	void SetMaterials(const float& roughness, const float& metallic);
+
 private:
 
 	std::unique_ptr<Mesh> mesh_;

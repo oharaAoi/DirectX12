@@ -23,7 +23,9 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
-	void ImGuiDraw();
+	void ImGuiDraw(const std::string& name);
+
+	void SetMaterials(const float& roughness, const float& metallic);
 
 public:
 

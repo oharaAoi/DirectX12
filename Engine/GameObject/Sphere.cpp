@@ -101,3 +101,17 @@ void Sphere::Draw(ID3D12GraphicsCommandList* commandList) {
 	//commandList->DrawInstanced(3, 1, 0, 0);
 	commandList->DrawIndexedInstanced(vertexCount_, 1, 0, 0, 0);
 }
+
+void Sphere::ImGuiDraw(const std::string& name) {
+	const char* charTag = name.c_str();
+	ImGui::Begin("Object");
+	if (ImGui::TreeNode(charTag)) {
+		material_->ImGuiDraw();
+		ImGui::TreePop();
+	}
+	ImGui::End();
+}
+
+void Sphere::SetMaterials(const float& roughness, const float& metallic) {
+	material_->SetMaterialParameter(roughness, metallic);
+}

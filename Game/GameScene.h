@@ -25,8 +25,9 @@ private:
 	std::unique_ptr<Sphere> sphere_ = nullptr;
 
 	std::unique_ptr<Model> model_ = nullptr;
-
 	std::unique_ptr<Model> sphereModel_ = nullptr;
+	std::unique_ptr<Model> teapotModel_ = nullptr;
+
 
 	Mesh::Vertices vertex_ = {
 		{-0.5f, -0.5f, 0.0f, 1.0f},
@@ -48,6 +49,10 @@ private:
 	};
 
 	kTransform transform_;
-
 	kTransform sphereTransform_;
+	kTransform sphereModelTransform_;
+	kTransform teapotTransform_;
+
+	float roughness_;
+	float metallic_;
 };

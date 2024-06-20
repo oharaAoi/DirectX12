@@ -171,7 +171,8 @@ void Engine::DrawSprite(Sprite* sprite) {
 
 void Engine::DrawSphere(Sphere* sphere) {
 	if (lightKind_ == LightGroup::Directional) {
-		pipeline_->Draw(dxCommands_->GetCommandList());
+		//pipeline_->Draw(dxCommands_->GetCommandList());
+		pbrPipeline_->Draw(dxCommands_->GetCommandList());
 	} else {
 		phongPipeline_->Draw(dxCommands_->GetCommandList());
 	}

@@ -47,12 +47,23 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList) {
 	}
 }
 
-void Model::ImGuiDraw() {
-	ImGui::Begin("model");
-	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
-		materialArray_[meshArray_[oi]->GetUseMaterial()]->ImGuiDraw();
+void Model::ImGuiDraw(const std::string& name) {
+	const char* charTag = name.c_str();
+	ImGui::Begin("Object");
+	if(ImGui::TreeNode(charTag)) {
+		for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
+			materialArray_[meshArray_[oi]->GetUseMaterial()]->ImGuiDraw();
+		}
+
+		ImGui::TreePop();
 	}
 	ImGui::End();
+}
+
+void Model::SetMaterials(const float& roughness, const float& metallic) {
+	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
+		materialArray_[meshArray_[oi]->GetUseMaterial()]->SetMaterialParameter(roughness, metallic);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -242,11 +253,35 @@ std::unordered_map<std::string, std::unique_ptr<Material>> Model::LoadMaterialDa
 			hasTexture_ = true;
 
 		} else if (materialIdentifier == "Ka") {
-			// ディフューズ色を読み取る
-			Vector3 color;
+			// アルベド色を読み取る(環境反射率)
+			Vector4 color;
 			s >> color.x >> color.y >> color.z;
-			materialDatas[materialName].diffuse = color;
-			//materialDatas[materialName].diffuse = { 1.0f, 1.0f, 1.0f};
+			materialDatas[materialName].albedo = Vector4(color.x, color.y, color.z, 1.0f);
+		} else if (materialIdentifier == "Kd") {
+			// ディフューズ色を読み取る(拡散反射率)
+			Vector4 color;
+			s >> color.x >> color.y >> color.z;
+			materialDatas[materialName].diffuse = Vector4(color.x, color.y, color.z, 1.0f);
+		} else if (materialIdentifier == "Ks") {
+			// スペキュラ色(鏡面反射率)
+			Vector4 color;
+			s >> color.x >> color.y >> color.z;
+			materialDatas[materialName].specular = Vector4(color.x, color.y, color.z, 1.0f);
+
+		} else if (materialIdentifier == "Ke") {
+			// 自己発光
+			Vector4 color;
+			s >> color.x >> color.y >> color.z;
+			materialDatas[materialName].emissive = Vector4(color.x, color.y, color.z, 1.0f);
+
+		} else if (materialIdentifier == "Ni") {
+			// 屈折率
+			float refraction;
+			s >> refraction;
+			materialDatas[materialName].refraction = refraction;
+
+		} else if (materialIdentifier == "Ns") {
+			// shininess(鏡面反射の鋭さ)
 		}
 	}
 

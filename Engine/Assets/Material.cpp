@@ -21,9 +21,13 @@ void Material::Init(ID3D12Device* device) {
 	baseMaterial_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	baseMaterial_->enableLighting = true;
 	baseMaterial_->uvTransform = MakeIdentity4x4();
-	baseMaterial_->aldedo = 1.0f;
-	baseMaterial_->refractiveIndex = 1.5f;
-	baseMaterial_->refraction = 0.5f;
+
+	baseMaterial_->diffuseColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	baseMaterial_->specularColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	baseMaterial_->roughness = 0.5f;
+	baseMaterial_->metallic = 0.5f;
+	baseMaterial_->shininess = 50;
 }
 
 void Material::Update(const Matrix4x4& uvTransform) {
@@ -35,7 +39,32 @@ void Material::Draw(ID3D12GraphicsCommandList* commandList) {
 }
 
 void Material::ImGuiDraw() {
-	ImGui::DragFloat("Albedo", &baseMaterial_->aldedo, 0.01f, 0.0f, 1.0f);
-	ImGui::DragFloat("refractiveIndex", &baseMaterial_->refractiveIndex, 0.01f, 1.0f, 2.0f);
-	ImGui::DragFloat("refraction", &baseMaterial_->refraction, 0.01f, 0.0f, 1.0f);
+	//ImGui::DragFloat("Albedo", &baseMaterial_->color, 0.01f, 0.0f, 1.0f);
+	ImGui::ColorEdit3("baseColor", &baseMaterial_->color.x);
+	ImGui::ColorEdit3("diffuse", &baseMaterial_->diffuseColor.x);
+	ImGui::ColorEdit3("specular", &baseMaterial_->specularColor.x);
+	ImGui::DragFloat("roughness", &baseMaterial_->roughness, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("metallic", &baseMaterial_->metallic, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("shininess", &baseMaterial_->shininess, 01.0f, 1.0f, 100.0f);
+}
+
+void Material::SetMaterialData(MaterialData materialData) {
+	materialData_ = materialData;
+
+	baseMaterial_->color = materialData_.albedo;
+	baseMaterial_->enableLighting = true;
+	baseMaterial_->uvTransform = MakeIdentity4x4();
+	// 反射用素
+	baseMaterial_->diffuseColor = materialData_.diffuse;
+	baseMaterial_->diffuseColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	baseMaterial_->specularColor = materialData_.specular;
+
+	baseMaterial_->roughness = 0.5f;
+	baseMaterial_->metallic = 0.5f;
+	baseMaterial_->shininess = 50;
+}
+
+void Material::SetMaterialParameter(const float& roughness, const float& metallic) {
+	baseMaterial_->roughness = roughness;
+	baseMaterial_->metallic = metallic;
 }

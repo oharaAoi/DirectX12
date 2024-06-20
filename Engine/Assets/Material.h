@@ -18,24 +18,24 @@ class Material {
 public:
 
 	struct BaseMaterial {
-		Vector4 color;
+		Vector4 color;				// albedo
 		int32_t enableLighting;
 		float pad[3];
 		Matrix4x4 uvTransform;
-		// 拡散反射率
-		float aldedo;
-		// 屈折率
-		float refractiveIndex;
-		// 反射率
-		float refraction;
-		float padding2;
+
+		Vector4 diffuseColor;		// 拡散反射率
+		Vector4 specularColor;		// 鏡面反射の色
+		float roughness;			// 粗さ
+		float metallic;				// 金属度
+		float shininess;			// 鋭さ
 	};
 
 	struct MaterialData {
 		float specularExponent; // ハイライトのシャープさ
-		Vector3 diffuse;		// 拡散光の色
-		Vector3 specularColor;	// 鏡面反射の色
-		Vector3 emissiveColor;	// 自己発光の色
+		Vector4 albedo;			// 環境光の色
+		Vector4 diffuse;		// 拡散光の色
+		Vector4 specular;	// 鏡面反射の色
+		Vector4 emissive;	// 自己発光の色
 		float refraction;		// 屈折率
 		float opacity;			// 不透明度
 		std::string textureFilePath; // 使用するtextureのパス
@@ -66,7 +66,9 @@ public:
 	/// materialDataをセットする
 	/// </summary>
 	/// <param name="materialData"></param>
-	void SetMaterialData(MaterialData materialData) { materialData_ = materialData; }
+	void SetMaterialData(MaterialData materialData);
+
+	void SetMaterialParameter(const float& roughness, const float& metallic);
 
 private:
 
