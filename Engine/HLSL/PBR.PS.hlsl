@@ -157,7 +157,7 @@ PixelShaderOutput main(VertexShaderOutput input){
 	//=======================================================
 	// 色を求める
 	//=======================================================
-	float4 kd = gMaterial.color * (1.0 - gMaterial.metallic);
+	float4 kd = gMaterial.color * (1.0 - gMaterial.metallic) * textureColor;
 	float4 ks = gMaterial.color * gMaterial.metallic;
 	float4 diffuse = kd * (1.0f / PI);
 	
@@ -189,7 +189,7 @@ PixelShaderOutput main(VertexShaderOutput input){
 	
 	//=======================================================
 	// 最終.
-	float4 finalColor = brdf + 0.1f;
+	float4 finalColor = brdf + 0.3f;
 	finalColor = finalColor * NDotL * gDirectionalLight.color;
 	
 	output.color = finalColor * textureColor * gMaterial.color * gDirectionalLight.intensity;
