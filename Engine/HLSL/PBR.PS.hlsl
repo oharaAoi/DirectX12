@@ -157,8 +157,9 @@ PixelShaderOutput main(VertexShaderOutput input){
 	float3 normalMap = gNormapMap.Sample(gSampler, transformedUV.xy).xyz * 2.0 - 1.0;
 	
 	float3 normal = normalize(input.normal);
-	float3 normal2 = normalize(normalMap);
 	float3 lightDir = normalize(-gDirectionalLight.direction);
+	
+	float3 normal2 = mul(normalMap, input.tangentMat);
 	
 	//=======================================================
 	// 色を求める
@@ -172,9 +173,9 @@ PixelShaderOutput main(VertexShaderOutput input){
 	//=======================================================
 	float3 viewDir = normalize(gDirectionalLight.eyePos - input.worldPos.xyz);
 	float3 halfVec = normalize(viewDir + (lightDir));
-	float NdotH = saturate(dot(normal, halfVec));
-	float NDotV = saturate(dot(normal, viewDir));
-	float NDotL = saturate(dot(normal, lightDir));
+	float NdotH = saturate(dot(normal2, halfVec));
+	float NDotV = saturate(dot(normal2, viewDir));
+	float NDotL = saturate(dot(normal2, lightDir));
 	float VDotH = saturate(dot(viewDir, halfVec));
 	
 	//=======================================================
@@ -199,7 +200,7 @@ PixelShaderOutput main(VertexShaderOutput input){
 	finalColor = finalColor * NDotL * gDirectionalLight.color;
 	
 	output.color = finalColor * textureColor * gMaterial.color * gDirectionalLight.intensity;
-	//output.color = (finalColor) * gMaterial.color * gDirectionalLight.intensity;
+	output.color = (finalColor) * gMaterial.color * gDirectionalLight.intensity;
 	
 	return output;
 }

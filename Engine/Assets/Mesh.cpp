@@ -11,6 +11,34 @@ void Mesh::Finalize() {
 	vertexBuffer_.Reset();
 }
 
+void Mesh::CalculateTangent(VertexData* data) {
+	VertexData vertex1 = data[0];
+	VertexData vertex2 = data[1];
+	VertexData vertex3 = data[2];
+
+	// エッジベクトルを計算する
+	Vector4 edge1 = vertex2.pos - vertex1.pos;
+	Vector4 edge2 = vertex3.pos - vertex1.pos;
+
+	// UVの差分ベクトルを計算する
+	Vector2 deltaUV1 = vertex2.texcoord - vertex1.texcoord;
+	Vector2 deltaUV2 = vertex3.texcoord - vertex1.texcoord;
+
+	float factor = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+
+	Vector3 tangent;
+	tangent.x = factor * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+	tangent.y = factor * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+	tangent.z = factor * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
+
+	tangent = Normalize(tangent);
+
+	data[0].tangent = tangent;
+	data[1].tangent = tangent;
+	data[2].tangent = tangent;
+}
+
+
 void Mesh::SetVertexData(std::vector<VertexData> vertexData) {
 	for (size_t index = 0; index < vertexData.size(); index++) {
 		vertexData_[index].pos = vertexData[index].pos;

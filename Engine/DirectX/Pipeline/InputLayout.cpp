@@ -33,7 +33,15 @@ std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateInputLayout() {
 	elementDesc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 	elementDescs.push_back(elementDesc);
 
+	// 頂点のワールド座標
 	elementDesc.SemanticName = "WORLDPOS";
+	elementDesc.SemanticIndex = 0;
+	elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	elementDesc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	elementDescs.push_back(elementDesc);
+
+	// 法線の接線ベクトル
+	elementDesc.SemanticName = "TANGENT";
 	elementDesc.SemanticIndex = 0;
 	elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
 	elementDesc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;

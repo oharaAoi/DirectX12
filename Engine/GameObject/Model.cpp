@@ -171,6 +171,8 @@ std::vector<std::unique_ptr<Mesh>> Model::LoadVertexData(const std::string& file
 			currentVertices.push_back(triangle[2]);
 			currentVertices.push_back(triangle[1]);
 			currentVertices.push_back(triangle[0]);
+
+			Mesh::CalculateTangent(triangle);
 		}
 	}
 

@@ -18,6 +18,7 @@ public: // 構造体
 		Vector4 pos;
 		Vector2 texcoord;
 		Vector3 normal;
+		Vector3 tangent;
 	};
 
 	struct Vertices {
@@ -32,6 +33,10 @@ public: // 構造体
 		Vector4 leftBottom;
 		Vector4 rightBottom;
 	};
+
+public:
+
+	static void CalculateTangent(VertexData* data);
 
 public:
 
