@@ -16,10 +16,14 @@ void TextureManager::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList*
 	srvData_.clear();
 
 	CreateShaderResource("uvChecker.png", commandList);
+	CreateShaderResource("Materials/brick/Brick_Cracked_001_1K_Normal.jpg", commandList); // 法線マップ
 	CreateShaderResource("monsterBall.png", commandList);
+	CreateShaderResource("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Normal.jpg", commandList); // 法線マップ
 	CreateShaderResource("checkerBoard.png", commandList);
+	CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_Normal.jpg", commandList); // 法線マップ
 	CreateShaderResource("sphere.png", commandList);
 	LoadWhite1x1Texture("white1x1.png", commandList);
+
 }
 
 void TextureManager::Finalize() {
@@ -105,8 +109,8 @@ void TextureManager::LoadWhite1x1Texture(const std::string& filePath, ID3D12Grap
 	data.srvHandleCPU_ = GetCPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
 	data.srvHandleGPU_ = GetGPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
 	// 先頭はImGuiが使っている溜めその次を使う
-	data.srvHandleCPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	data.srvHandleGPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	/*data.srvHandleCPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	data.srvHandleGPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);*/
 
 	srvData_["Resources/" + filePath] = data;
 

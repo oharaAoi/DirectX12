@@ -40,7 +40,7 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateRootSignature()
 	// 複数のtextureを読むための
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1]{};
 	descriptorRange[0].BaseShaderRegister = 0;
-	descriptorRange[0].NumDescriptors = 1;
+	descriptorRange[0].NumDescriptors = 2;	// 範囲内のdiscriptorの数
 	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
@@ -78,6 +78,15 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateRootSignature()
 	staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX;
 	staticSamplers[0].ShaderRegister = 0;
 	staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+
+	//staticSamplers[1].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+	//staticSamplers[1].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	//staticSamplers[1].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	//staticSamplers[1].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	//staticSamplers[1].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	//staticSamplers[1].MaxLOD = D3D12_FLOAT32_MAX;
+	//staticSamplers[1].ShaderRegister = 1;
+	//staticSamplers[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
 	desc.pStaticSamplers = staticSamplers;
 	desc.NumStaticSamplers = _countof(staticSamplers);

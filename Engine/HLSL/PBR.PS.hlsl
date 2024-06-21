@@ -25,8 +25,10 @@ struct DirectionalLight{
 ConstantBuffer<Material> gMaterial : register(b0);
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
 Texture2D<float4> gTexture : register(t0);
+Texture2D<float4> gNormapMap : register(t1);
 
 SamplerState gSampler : register(s0);
+//SamplerState gSampler2 : register(s1);
 struct PixelShaderOutput{
 	float4 color : SV_TARGET0;
 };
@@ -150,8 +152,12 @@ float4 BRDF(float NdotH, float NDotV, float NDotL, float VDotH, float4 ks){
 PixelShaderOutput main(VertexShaderOutput input){
 	PixelShaderOutput output;
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
+	
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
+	float3 normalMap = gNormapMap.Sample(gSampler, transformedUV.xy).xyz * 2.0 - 1.0;
+	
 	float3 normal = normalize(input.normal);
+	float3 normal2 = normalize(normalMap);
 	float3 lightDir = normalize(-gDirectionalLight.direction);
 	
 	//=======================================================

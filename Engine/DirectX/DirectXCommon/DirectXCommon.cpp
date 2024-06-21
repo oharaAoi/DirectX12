@@ -79,7 +79,7 @@ void DirectXCommon::Begin() {
 	commandList->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor, 0, nullptr);
 	// srv
 	ID3D12DescriptorHeap* descriptorHeaps[] = { descriptorHeaps_->GetSRVHeap() };
-	commandList->SetDescriptorHeaps(1, descriptorHeaps);
+	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
 	// ---------------------------------------------------------------
 	commandList->RSSetViewports(1, &viewport_);
