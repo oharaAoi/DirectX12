@@ -20,7 +20,7 @@ void TextureManager::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList*
 	CreateShaderResource("monsterBall.png", commandList);
 	CreateShaderResource("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Normal.jpg", commandList); // 法線マップ
 	CreateShaderResource("checkerBoard.png", commandList);
-	CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_Normal.jpg", commandList); // 法線マップ
+	CreateShaderResource("Materials/ground/aerial_rocks_02_nor_gl_4k.jpg", commandList); // 法線マップ
 	CreateShaderResource("sphere.png", commandList);
 	LoadWhite1x1Texture("white1x1.png", commandList);
 

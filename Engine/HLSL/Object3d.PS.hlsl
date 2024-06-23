@@ -27,6 +27,29 @@ struct PixelShaderOutput{
 	float4 color : SV_TARGET0;
 };
 
+//==========================================
+// Lambert
+//==========================================
+float4 Lambert(float NdotL, float4 textureColor)
+{
+	//float4 diffuse = gMaterial.diffuseColor + (1.0f / PI);
+	float4 resultColor = gDirectionalLight.color * NdotL;
+	return resultColor;
+}
+
+//==========================================
+// HalfLambert
+//==========================================
+float4 HalfLambert(float NdotL)
+{
+	//float4 diffuseColor = gMaterial.diffuseColor + (1.0f / PI);
+	float cos = (pow(NdotL * 0.5f + 0.5f, 2.0f));
+	float4 diffuse = gDirectionalLight.color * cos;
+	
+	return diffuse;
+}
+
+
 PixelShaderOutput main(VertexShaderOutput input){
 	PixelShaderOutput output;
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);

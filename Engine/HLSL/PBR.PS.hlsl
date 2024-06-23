@@ -37,26 +37,6 @@ struct PixelShaderOutput{
 // 関数
 //////////////////////////////////////////////////////////////
 //==========================================
-// Lambert
-//==========================================
-float4 Lambert(float NdotL, float4 textureColor){
-	float4 diffuse = gMaterial.diffuseColor + (1.0f / PI);
-	float4 resultColor = gDirectionalLight.color * diffuse * NdotL;
-	return resultColor;
-}
-
-//==========================================
-// HalfLambert
-//==========================================
-float4 HalfLambert(float NdotL){
-	//float4 diffuseColor = gMaterial.diffuseColor + (1.0f / PI);
-	float cos = (pow(NdotL * 0.5f + 0.5f, 2.0f)) / PI;
-	float4 diffuse = gDirectionalLight.color * cos;
-	
-	return diffuse;
-}
-
-//==========================================
 // Phong
 //==========================================
 float4 Phong(VertexShaderOutput input){
@@ -102,8 +82,8 @@ float4 NormalizePhong(VertexShaderOutput input){
 // Fresnel(Schlick)		F
 //==========================================
 float4 SchlickFresnel(float VDotH, float4 ks){
-	float4 fresnel = ks + (1.0f - ks) * pow((1.0f - VDotH), 5.0f);
-	//fresnel = gMaterial.specularColor + (1.0f - gMaterial.specularColor) * pow((1.0f - VDotH), 5.0f);
+	float4 fresnel = (ks + (1.0f - ks) * pow((1.0f - VDotH), 5.0f));
+	// textureColorfresnel = gMaterial.specularColor + (1.0f - gMaterial.specularColor) * pow((1.0f - VDotH), 5.0f);
 	return fresnel;
 }
 
@@ -112,7 +92,7 @@ float4 SchlickFresnel(float VDotH, float4 ks){
 //==========================================
 float GGX(float NDotH){
 	// 粗さ
-	float roughness = gMaterial.roughness * gMaterial.roughness;
+	float roughness = gMaterial.roughness * gMaterial.roughness + EPSILON;
 	float denominator = (NDotH * NDotH) * (roughness - 1.0f) + 1.0f;
 	
 	return roughness / (PI * denominator * denominator);
@@ -122,7 +102,7 @@ float GGX(float NDotH){
 // Height Correlated Smith		G
 //==========================================
 float HCSmith(float NdotV, float NdotL){
-	float roughness = gMaterial.roughness * gMaterial.roughness;
+	float roughness = gMaterial.roughness * gMaterial.roughness + EPSILON;
 	float NdotV2 = NdotV * NdotV;
 	float NdotL2 = NdotL * NdotL;
 	
@@ -139,7 +119,7 @@ float4 BRDF(float NdotH, float NDotV, float NDotL, float VDotH, float4 ks){
 	float G = HCSmith(NDotV, NDotL);
 	float4 F = SchlickFresnel(VDotH, ks);
 	
-	float4 brdf = (D * G * F) / (4 * NDotV * NDotL);
+	float4 brdf = (D*G*F) / (4 * NDotV * NDotL);
 	
 	brdf = saturate(brdf);
 	
@@ -164,30 +144,19 @@ PixelShaderOutput main(VertexShaderOutput input){
 	//=======================================================
 	// 色を求める
 	//=======================================================
-	float4 kd = gMaterial.color * (1.0 - gMaterial.metallic) * textureColor;
+	float4 kd = gMaterial.color * (1.0 - gMaterial.metallic);
 	float4 ks = gMaterial.color * gMaterial.metallic;
-	float4 diffuse = kd * (1.0f / PI);
+	float4 diffuse = kd / PI;
 	
 	//=======================================================
 	// 内積などを求める
 	//=======================================================
 	float3 viewDir = normalize(gDirectionalLight.eyePos - input.worldPos.xyz);
 	float3 halfVec = normalize(viewDir + (lightDir));
-	float NdotH = saturate(dot(normal2, halfVec));
-	float NDotV = saturate(dot(normal2, viewDir));
-	float NDotL = saturate(dot(normal2, lightDir));
+	float NdotH = saturate(dot(normal, halfVec));
+	float NDotV = saturate(dot(normal, viewDir));
+	float NDotL = saturate(dot(normal, lightDir));
 	float VDotH = saturate(dot(viewDir, halfVec));
-	
-	//=======================================================
-	// Lambert反射
-	//=======================================================
-	float4 lambertColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
-	if (gMaterial.enableLighting != 0){
-		lambertColor = HalfLambert(NDotL) * kd;
-	} else{
-		output.color = gMaterial.color * textureColor;
-		return output;
-	}
 	
 	//=======================================================
 	// BRDF(双方向反射率分布関数)
@@ -195,35 +164,18 @@ PixelShaderOutput main(VertexShaderOutput input){
 	float4 brdf = BRDF(NdotH, NDotV, NDotL,VDotH, ks);
 	
 	//=======================================================
-	// 最終.
-	float4 finalColor = brdf + 0.3f;
-	finalColor = finalColor * NDotL * gDirectionalLight.color;
+	 // 反射と拡散のバランスを取る
+	float4 finalColor = brdf + diffuse;
 	
-	output.color = finalColor * textureColor * gMaterial.color * gDirectionalLight.intensity;
-	output.color = (finalColor) * gMaterial.color * gDirectionalLight.intensity;
+	// レンダリング方程式の適用
+	finalColor = finalColor * gDirectionalLight.intensity * NDotL;
+	
+	// テクスチャの色やライトの色を適応
+	output.color = finalColor * textureColor * gDirectionalLight.color;
+	
+	output.color = finalColor * gDirectionalLight.color;
+	
+	//output.color = float4(normal2 * 0.5 + 0.5, 1.0f);
 	
 	return output;
 }
-
-//=======================================================
-	// Phong反射
-	//=======================================================
-	//float4 specularColor = Phong(input);	
-	//specularColor = NormalizePhong(input);
-
-
-//==========================================
-// Smith				G
-//==========================================
-//float G1(float3 vec, float3 normal)
-//{
-//	float NDotVec = dot(normal, vec);
-//	float k = pow((gMaterial.roughness + 1), 2) / 8.0f;
-//	return NDotVec / (NDotVec * (1 - k) + k);
-
-//}
-
-//float Smith(float3 normal, float3 lightDire, float3 viewDire)
-//{
-//	return G1(lightDire, normal) * G1(viewDire, normal);
-//}

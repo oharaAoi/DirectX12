@@ -52,6 +52,7 @@ void Material::SetMaterialData(MaterialData materialData) {
 	materialData_ = materialData;
 
 	baseMaterial_->color = materialData_.albedo;
+	baseMaterial_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	baseMaterial_->enableLighting = true;
 	baseMaterial_->uvTransform = MakeIdentity4x4();
 	// 反射用素

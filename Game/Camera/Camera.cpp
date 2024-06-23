@@ -9,6 +9,7 @@ Camera::~Camera() {
 
 void Camera::Init() {
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.5f, 0.0f, 0.0f}, {0.0f, 5.0f, -9.0f} };
+	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {-1.0f, -0.5f, -15.0f} };
 
 	// 行列の生成
 	scaleMat_ = MakeScaleMatrix(transform_.scale);
@@ -24,7 +25,7 @@ void Camera::Init() {
 	projectionMatrix2D_ = MakeOrthograhicMatrix(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f);
 	viewMatrix2D_ = MakeIdentity4x4();
 
-	debugCameraMode_ = true;
+	debugCameraMode_ = false;
 	lookPosition_ = { 0,0,0 };
 	mousePosition_ = { 0,0 };
 }
@@ -40,7 +41,8 @@ void Camera::Update() {
 		TransitionMove();
 		RotateMove();
 	} else {
-		transform_ = { {1.0f, 1.0f, 1.0f}, {0.5f, 0.0f, 0.0f}, {0.0f, 5.0f, -9.0f} };
+		/*transform_ = { {1.0f, 1.0f, 1.0f}, {0.5f, 0.0f, 0.0f}, {0.0f, 5.0f, -9.0f} };
+		transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, -12.0f} };*/
 		rotateMat_ = MakeRotateXYZMatrix(transform_.rotate);
 	}
 
@@ -81,7 +83,7 @@ void Camera::TransitionMove() {
 		diff.x = static_cast<float>(pos.x - mousePosition_.x);
 		diff.y = static_cast<float>(pos.y - mousePosition_.y);
 
-		const float speed = 0.01f;
+		const float speed = 0.04f;
 		Vector3 move{};
 		// カメラの向きを求める
 		move = TransformNormal(Normalize({ diff.x, diff.y, 0 }) * speed, cameraMatrix_);

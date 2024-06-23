@@ -12,7 +12,6 @@ void GameScene::Init() {
 	sphere_ = Engine::CreateSphere(16);
 
 	model_ = Engine::CreateModel("floor.obj");
-	sphereModel_ = Engine::CreateModel("teapot.obj");
 	sphereModel_ = Engine::CreateModel("sphere.obj");
 	teapotModel_ = Engine::CreateModel("teapot.obj");
 
@@ -68,8 +67,8 @@ void GameScene::Update() {
 		sphereModel_->SetMaterials(roughness_, metallic_);
 		teapotModel_->SetMaterials(roughness_, metallic_);
 
-		ImGui::SliderFloat("metallic", &metallic_, 0.0f, 1.0f);
-		ImGui::SliderFloat("roughness", &roughness_, 0.0f, 1.0f);
+		ImGui::DragFloat("metallic", &metallic_,0.01f, 0.0f, 1.0f);
+		ImGui::DragFloat("roughness", &roughness_, 0.01f, 0.0f, 1.0f);
 	}
 	ImGui::End();
 
