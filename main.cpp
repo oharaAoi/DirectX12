@@ -2,13 +2,15 @@
 #include "Engine.h"
 #include "GameScene.h"
 #include "Comparison.h"
+#include "Metallic.h"
 
 static const int kWindowWidth = 1280;
 static const int kWindowHeight = 720;
 
 enum Scene {
 	kGame,
-	kComparison
+	kComparison,
+	kMetallic
 };
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -24,9 +26,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	game->Init();
 
 	std::unique_ptr<Comparison> comparison = std::make_unique<Comparison>();
+	std::unique_ptr<Metallic> metallic = std::make_unique<Metallic>();
 
 	Scene scene = kComparison;
-	int sceneNumber = 1;
+	int sceneNumber = 0;
 
 	// mainループ
 	while (Engine::ProcessMessage()) {
@@ -46,10 +49,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			comparison->Update();
 			comparison->Draw();
 			break;
+		case kMetallic:
+			metallic->Update();
+			metallic->Draw();
+			break;
 		}
 
 		ImGui::Begin("Scene");
-		ImGui::Combo("sceneKind", &sceneNumber, "Game\0Comparison");
+		ImGui::Combo("sceneKind", &sceneNumber, "Game\0Comparison\0Metallic");
 		ImGui::End();
 
 

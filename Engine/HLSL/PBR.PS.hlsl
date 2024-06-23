@@ -37,6 +37,25 @@ struct PixelShaderOutput{
 // 関数
 //////////////////////////////////////////////////////////////
 //==========================================
+// Lambert
+//==========================================
+float4 Lambert(float NdotL, float4 textureColor){
+	float4 diffuse = gMaterial.diffuseColor * (1.0f / PI);
+	float4 resultColor = diffuse * NdotL;
+	return resultColor;
+}
+
+//==========================================
+// HalfLambert
+//==========================================
+float4 HalfLambert(float NdotL){
+	//float4 diffuseColor = gMaterial.diffuseColor + (1.0f / PI);
+	float cos = (pow(NdotL * 0.5f + 0.5f, 2.0f));
+	float4 diffuse = gDirectionalLight.color * cos;
+	
+	return diffuse;
+}
+//==========================================
 // Phong
 //==========================================
 float4 Phong(VertexShaderOutput input){
@@ -153,10 +172,12 @@ PixelShaderOutput main(VertexShaderOutput input){
 	//=======================================================
 	float3 viewDir = normalize(gDirectionalLight.eyePos - input.worldPos.xyz);
 	float3 halfVec = normalize(viewDir + (lightDir));
-	float NdotH = saturate(dot(normal, halfVec));
-	float NDotV = saturate(dot(normal, viewDir));
-	float NDotL = saturate(dot(normal, lightDir));
+	float NdotH = saturate(dot(normal2, halfVec));
+	float NDotV = saturate(dot(normal2, viewDir));
+	float NDotL = saturate(dot(normal2, lightDir));
 	float VDotH = saturate(dot(viewDir, halfVec));
+	
+	diffuse = Lambert(NDotL, textureColor);
 	
 	//=======================================================
 	// BRDF(双方向反射率分布関数)
@@ -173,7 +194,7 @@ PixelShaderOutput main(VertexShaderOutput input){
 	// テクスチャの色やライトの色を適応
 	output.color = finalColor * textureColor * gDirectionalLight.color;
 	
-	output.color = finalColor * gDirectionalLight.color;
+	//output.color = finalColor * gDirectionalLight.color;
 	
 	//output.color = float4(normal2 * 0.5 + 0.5, 1.0f);
 	
