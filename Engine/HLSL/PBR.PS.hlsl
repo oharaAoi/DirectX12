@@ -194,7 +194,7 @@ PixelShaderOutput main(VertexShaderOutput input){
 	
 	//=======================================================
 	 // 反射と拡散のバランスを取る
-	float4 finalColor = brdf + diffuse;
+	float4 finalColor = brdf + diffuse + 0.3f;
 	
 	// レンダリング方程式の適用
 	finalColor = finalColor * NDotL * gDirectionalLight.intensity;
