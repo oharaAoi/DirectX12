@@ -170,10 +170,14 @@ PixelShaderOutput main(VertexShaderOutput input){
 	//=======================================================
 	// 色を求める
 	//=======================================================
-	float4 F0 = lerp(float4(0.04, 0.04, 0.04, 1.0), gMaterial.color, metallic);
-	float4 ks = F0; // 鏡面反射率はFresnel反射の基本値
-	float4 kd = (1.0 - ks) * (1.0 - metallic); // 拡散反射率は非金属の部分のみ
-	float4 diffuse = kd / PI; // Lambertian拡散反射
+	//float4 F0 = lerp(float4(0.04, 0.04, 0.04, 1.0), gMaterial.color, metallic);
+	//float4 ks = F0; // 鏡面反射率はFresnel反射の基本値
+	//float4 kd = (1.0 - ks) * (1.0 - metallic); // 拡散反射率は非金属の部分のみ
+	//float4 diffuse = kd / PI; // Lambertian拡散反射
+	
+	float4 kd = gMaterial.color * (1.0 - metallic);
+	float4 ks = gMaterial.color * metallic;
+	float4 diffuse = kd / PI;
 	
 	//=======================================================
 	// 内積などを求める
@@ -194,7 +198,7 @@ PixelShaderOutput main(VertexShaderOutput input){
 	
 	//=======================================================
 	 // 反射と拡散のバランスを取る
-	float4 finalColor = brdf;
+	float4 finalColor = brdf + diffuse;
 	
 	// レンダリング方程式の適用
 	finalColor = finalColor * NDotL * gDirectionalLight.intensity;
