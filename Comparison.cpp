@@ -17,8 +17,8 @@ void Comparison::Init() {
 			Vector3 translate = { col - 3, row - 3, 0.0f };
 			transforms_.push_back({ scale, {0.0f, 0.0f, 0.0f}, translate });
 
-			roughness_.push_back(0.1f * (float)col);
-			metallic_.push_back(0.1f * (float)row);
+			roughness_.push_back(0.2f * (float)col);
+			metallic_.push_back(0.2f * (float)row);
 		}
 	}
 }
