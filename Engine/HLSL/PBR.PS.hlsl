@@ -26,8 +26,8 @@ ConstantBuffer<Material> gMaterial : register(b0);
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
 Texture2D<float4> gTexture : register(t0);
 Texture2D<float3> gNormapMap : register(t1);
-//Texture2D<float> gMetallicMap : register(t2);
-//Texture2D<float> gRoughnessMap : register(t3);
+Texture2D<float> gMetallicMap : register(t2);
+Texture2D<float> gRoughnessMap : register(t3);
 
 SamplerState gSampler : register(s0);
 struct PixelShaderOutput{
@@ -153,19 +153,19 @@ PixelShaderOutput main(VertexShaderOutput input){
 	
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	float3 normalMap = gNormapMap.Sample(gSampler, transformedUV.xy).xyz * 2.0 - 1.0;
-	//float metallicMap = gMetallicMap.Sample(gSampler, transformedUV.xy).r;
-	//float roughnessMap = gRoughnessMap.Sample(gSampler, transformedUV.xy).r;
+	float metallicMap = gMetallicMap.Sample(gSampler, transformedUV.xy).r;
+	float roughnessMap = gRoughnessMap.Sample(gSampler, transformedUV.xy).r;
 	
 	float3 normal = normalize(input.normal);
 	float3 lightDir = normalize(-gDirectionalLight.direction);
 	
 	float3 mapNormal = mul(normalMap, input.tangentMat);
 	
-	//float roughness = roughnessMap * roughnessMap + EPSILON;
-	//float metallic = metallicMap;
+	float roughness = roughnessMap * roughnessMap + EPSILON;
+	float metallic = metallicMap;
 	
-	float roughness = gMaterial.roughness * gMaterial.roughness + EPSILON;
-	float metallic = gMaterial.metallic;
+	//float roughness = gMaterial.roughness * gMaterial.roughness + EPSILON;
+	//float metallic = gMaterial.metallic;
 	
 	//=======================================================
 	// 色を求める
@@ -180,9 +180,9 @@ PixelShaderOutput main(VertexShaderOutput input){
 	//=======================================================
 	float3 viewDir = normalize(gDirectionalLight.eyePos - input.worldPos.xyz);
 	float3 halfVec = normalize(viewDir + lightDir);
-	float NdotH = saturate(dot(normal, halfVec));
-	float NDotV = saturate(dot(normal, viewDir));
-	float NDotL = saturate(dot(normal, lightDir));
+	float NdotH = saturate(dot(mapNormal, halfVec));
+	float NDotV = saturate(dot(mapNormal, viewDir));
+	float NDotL = saturate(dot(mapNormal, lightDir));
 	float VDotH = saturate(dot(viewDir, halfVec));
 	
 	diffuse = Lambert(NDotL, gMaterial.color);
@@ -194,7 +194,7 @@ PixelShaderOutput main(VertexShaderOutput input){
 	
 	//=======================================================
 	 // 反射と拡散のバランスを取る
-	float4 finalColor = brdf;
+	float4 finalColor = brdf + diffuse;
 	
 	// レンダリング方程式の適用
 	finalColor = finalColor * NDotL * gDirectionalLight.intensity;
