@@ -35,6 +35,14 @@ void Camera::Update() {
 		debugCameraMode_ = !debugCameraMode_;
 	}
 
+	if (Input::IsTriggerKey(DIK_D)) {
+		isMove = true;
+	}
+
+	if (isMove) {
+		transform_.translate.x += 0.02f;
+	}
+
 	// デバックカメラモードの時
 	if (debugCameraMode_) {
 		ScrollMove();

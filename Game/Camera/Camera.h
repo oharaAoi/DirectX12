@@ -73,4 +73,6 @@ private:
 	Vector3 lookPosition_;
 	Vector2 mousePosition_;
 	Vector2 rotateMousePosition_;
+
+	bool isMove = false;
 };

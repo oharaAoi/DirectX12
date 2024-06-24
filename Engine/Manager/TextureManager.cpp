@@ -16,13 +16,39 @@ void TextureManager::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList*
 	srvData_.clear();
 
 	CreateShaderResource("uvChecker.png", commandList);
-	CreateShaderResource("Materials/brick/Brick_Cracked_001_1K_Normal.jpg", commandList); // 法線マップ
 	CreateShaderResource("monsterBall.png", commandList);
-	CreateShaderResource("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Normal.jpg", commandList); // 法線マップ
 	CreateShaderResource("checkerBoard.png", commandList);
-	CreateShaderResource("Materials/ground/aerial_rocks_02_nor_gl_4k.jpg", commandList); // 法線マップ
-	CreateShaderResource("sphere.png", commandList);
-	LoadWhite1x1Texture("white1x1.png", commandList);
+	
+	//
+	CreateShaderResource("Materials/brick/Brick_Cracked_001_1K_BaseColor.jpg", commandList);
+	CreateShaderResource("Materials/brick/Brick_Cracked_001_1K_Normal.jpg", commandList);
+	CreateShaderResource("Materials/brick/Brick_Cracked_001_1K_Metallic.jpg", commandList);
+	CreateShaderResource("Materials/brick/Brick_Cracked_001_1K_Roughness.jpg", commandList);
+
+	//
+	CreateShaderResource("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_BaseColor.jpg", commandList);
+	CreateShaderResource("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Normal.jpg", commandList);
+	CreateShaderResource("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Metallic.jpg", commandList);
+	CreateShaderResource("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Roughness.jpg", commandList);
+
+	//
+	CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_BaseColor.jpg", commandList);
+	CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_Normal.jpg", commandList);
+	CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_Metallic.jpg", commandList);
+	CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_Roughness.jpg", commandList);
+
+	//
+	CreateShaderResource("Materials/metal/METAL_PANEL_014_1K_BaseColor.jpg", commandList);
+	CreateShaderResource("Materials/metal/METAL_PANEL_014_1K_Normal.jpg", commandList);
+	CreateShaderResource("Materials/metal/METAL_PANEL_014_1K_Metallic.jpg", commandList);
+	CreateShaderResource("Materials/metal/METAL_PANEL_014_1K_Roughness.jpg", commandList);
+
+	CreateShaderResource("Materials/cloth/FABRIC_GREEN_001_1K_BaseColor.jpg", commandList);
+	CreateShaderResource("Materials/cloth/FABRIC_GREEN_001_1K_Normal.jpg", commandList);
+	CreateShaderResource("Materials/cloth/FABRIC_GREEN_001_1K_Metallic.jpg", commandList);
+	CreateShaderResource("Materials/cloth/FABRIC_GREEN_001_1K_Roughness.jpg", commandList);
+
+	//LoadWhite1x1Texture("white1x1.png", commandList);
 
 }
 
@@ -112,7 +138,8 @@ void TextureManager::LoadWhite1x1Texture(const std::string& filePath, ID3D12Grap
 	/*data.srvHandleCPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	data.srvHandleGPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);*/
 
-	srvData_["Resources/" + filePath] = data;
+	// mapに値を代入
+	srvData_.emplace("Resources/" + filePath, data);
 
 	// 生成
 	device_->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.srvHandleCPU_);

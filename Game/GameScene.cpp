@@ -11,12 +11,12 @@ void GameScene::Init() {
 
 	sphere_ = Engine::CreateSphere(16);
 
-	model_ = Engine::CreateModel("floor.obj");
+	model_ = Engine::CreateModel("floor2.obj");
 	sphereModel_ = Engine::CreateModel("sphere.obj");
-	teapotModel_ = Engine::CreateModel("teapot.obj");
+	teapotModel_ = Engine::CreateModel("sphere2.obj");
 
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
-	sphereTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.5f, 0.0f} };
+	sphereTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, -1.5f, 0.0f}, {0.0f, 0.5f, 0.0f} };
 	sphereModelTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {1.5f, 0.5f, 0.0f} };
 	teapotTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, 0.0f, 0.0f}, {-1.5f, 0.5f, 0.0f} };
 
