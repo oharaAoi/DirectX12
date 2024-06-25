@@ -18,7 +18,7 @@ void Comparison::Init() {
 			transforms_.push_back({ scale, {0.0f, 0.0f, 0.0f}, translate });
 
 			roughness_.push_back(0.2f * (float)col);
-			metallic_.push_back(0.2f * (float)row);
+			metallic_.push_back(1.0f - (0.2f * (float)row));
 		}
 	}
 }

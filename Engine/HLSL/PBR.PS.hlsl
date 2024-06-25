@@ -41,8 +41,9 @@ struct PixelShaderOutput{
 // Lambert
 //==========================================
 float4 Lambert(float NdotL, float4 textureColor){
-	float4 diffuse = textureColor / PI;
+	float4 diffuse = textureColor;
 	float4 resultColor = diffuse * NdotL;
+	resultColor /= PI;
 	return resultColor;
 }
 
@@ -164,8 +165,10 @@ PixelShaderOutput main(VertexShaderOutput input){
 	//float roughness = roughnessMap * roughnessMap + EPSILON;
 	//float metallic = metallicMap;
 	
-	float roughness = gMaterial.roughness * gMaterial.roughness + EPSILON;
+	float roughness = gMaterial.roughness * gMaterial.roughness  + EPSILON;
 	float metallic = gMaterial.metallic;
+	
+	
 	
 	//=======================================================
 	// 色を求める
@@ -175,9 +178,9 @@ PixelShaderOutput main(VertexShaderOutput input){
 	//float4 kd = (1.0 - ks) * (1.0 - metallic); // 拡散反射率は非金属の部分のみ
 	//float4 diffuse = kd / PI; // Lambertian拡散反射
 	
-	float4 kd = gMaterial.color * (1.0 - metallic);
+	float4 kd = gMaterial.diffuseColor * (1.0 - metallic);
 	float4 ks = gMaterial.color * metallic;
-	float4 diffuse = kd / PI;
+	
 	
 	//=======================================================
 	// 内積などを求める
@@ -189,7 +192,8 @@ PixelShaderOutput main(VertexShaderOutput input){
 	float NDotL = saturate(dot(normal, lightDir));
 	float VDotH = saturate(dot(viewDir, halfVec));
 	
-	diffuse = Lambert(NDotL, gMaterial.color);
+	float4 diffuse = kd * NDotL / PI;
+	//diffuse = Lambert(NDotL, gMaterial.color);
 	
 	//=======================================================
 	// BRDF(双方向反射率分布関数)
@@ -198,7 +202,7 @@ PixelShaderOutput main(VertexShaderOutput input){
 	
 	//=======================================================
 	 // 反射と拡散のバランスを取る
-	float4 finalColor = brdf + diffuse;
+	float4 finalColor = brdf + diffuse + 0.2f;
 	
 	// レンダリング方程式の適用
 	finalColor = finalColor * NDotL * gDirectionalLight.intensity;
