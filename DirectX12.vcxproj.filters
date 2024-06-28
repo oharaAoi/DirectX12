@@ -85,6 +85,9 @@
     <Filter Include="Engine\Assets">
       <UniqueIdentifier>{52a4ba17-1cfe-4af5-a67f-925bb30857ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Scene">
+      <UniqueIdentifier>{1bb765dc-6f50-4820-a08f-5a542383ed44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -134,9 +137,6 @@
     </ClCompile>
     <ClCompile Include="Engine\GameObject\Triangle.cpp">
       <Filter>Engine\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameScene.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Externals\ImGui\imgui.cpp">
       <Filter>Engine\ImGui</Filter>
@@ -189,9 +189,6 @@
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
-    <ClCompile Include="DrawUtils.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\DirectX\Pipeline\PrimitivePipeline.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
@@ -200,9 +197,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Light\Phong.cpp">
       <Filter>Engine\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Assets\Material.cpp">
       <Filter>Engine\Assets</Filter>
@@ -219,11 +213,20 @@
     <ClCompile Include="Engine\GameObject\Model.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Comparison.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Game\Scene\Comparison.cpp">
+      <Filter>Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Metallic.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Game\Scene\Metallic.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utilities\DrawUtils.cpp">
+      <Filter>Engine\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utilities\Shader.cpp">
+      <Filter>Engine\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\GameScene.cpp">
+      <Filter>Game\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -290,9 +293,6 @@
     <ClInclude Include="Engine\GameObject\Triangle.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameScene.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Lib\Transform.h">
       <Filter>Engine\Lib</Filter>
     </ClInclude>
@@ -353,9 +353,6 @@
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
-    <ClInclude Include="DrawUtils.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DirectX\Pipeline\PrimitivePipeline.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
@@ -364,9 +361,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Light\Phong.h">
       <Filter>Engine\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Assets\Material.h">
       <Filter>Engine\Assets</Filter>
@@ -383,11 +377,20 @@
     <ClInclude Include="Engine\GameObject\Model.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Comparison.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Game\Scene\Comparison.h">
+      <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Metallic.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Game\Scene\Metallic.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utilities\DrawUtils.h">
+      <Filter>Engine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utilities\Shader.h">
+      <Filter>Engine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\GameScene.h">
+      <Filter>Game\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -9,7 +9,7 @@ Camera::~Camera() {
 
 void Camera::Init() {
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.5f, 0.0f, 0.0f}, {0.0f, 5.0f, -9.0f} };
-	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {-1.0f, -0.5f, -15.0f} };
+	//transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {-1.0f, -0.5f, -15.0f} };
 
 	// 行列の生成
 	scaleMat_ = MakeScaleMatrix(transform_.scale);
@@ -49,8 +49,7 @@ void Camera::Update() {
 		TransitionMove();
 		RotateMove();
 	} else {
-		/*transform_ = { {1.0f, 1.0f, 1.0f}, {0.5f, 0.0f, 0.0f}, {0.0f, 5.0f, -9.0f} };
-		transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, -12.0f} };*/
+		transform_ = { {1.0f, 1.0f, 1.0f}, {0.5f, 0.0f, 0.0f}, {0.0f, 5.0f, -9.0f} };
 		rotateMat_ = MakeRotateXYZMatrix(transform_.rotate);
 	}
 
