@@ -19,6 +19,9 @@ D3D12_BLEND_DESC Blend::SetBlend(const BlendMode& mode) {
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 
 	switch (mode) {
+	case BlendMode::kBlendModeNone:
+
+		break;
 	case BlendMode::kBlendModeNormal:
 		SetNormalBlend(blendDesc);
 		break;

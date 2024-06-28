@@ -87,7 +87,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Blend.cpp" />
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Assets\Material.cpp" />
     <ClCompile Include="Engine\Assets\Mesh.cpp" />
@@ -98,6 +97,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\DirectX\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PrimitivePipeline.cpp" />
@@ -136,7 +136,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Blend.h" />
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Assets\Material.h" />
     <ClInclude Include="Engine\Assets\Mesh.h" />
@@ -147,6 +146,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.h" />
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\Blend.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PrimitivePipeline.h" />
