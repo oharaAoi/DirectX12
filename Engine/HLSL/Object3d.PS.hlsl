@@ -66,41 +66,8 @@ PixelShaderOutput main(VertexShaderOutput input){
 		output.color = gMaterial.color * textureColor;
 	}
 	
-	// -------------------------------------------------
-	// フレネル反射
-	// 入射角度を求める
-	// カメラ方向を取得
-	float3 viewDir = normalize(gDirectionalLight.eyePos - (float3)input.worldPos);
-	float incidence = dot(normalize(input.normal), viewDir);
-	
-	// 屈折角度を求める
-	float sinIncidence = sqrt(1.0 - (incidence * incidence));
-	float sinRefractionAngle = sinIncidence / gMaterial.refractiveIndex;
-	float refractionAngle = asin(sinRefractionAngle * sinRefractionAngle);
-	
-	// フレネル反射の方程式で反射係数を算出
-	float cosIncidence = cos(incidence);
-	float cosRefractionAngle = cos(refractionAngle);
-	
-	// 平行偏光
-	float rParallel = (gMaterial.refractiveIndex * cosIncidence - gMaterial.refractiveIndex * cosRefractionAngle) /
-					(gMaterial.refractiveIndex * cosIncidence + gMaterial.refractiveIndex * cosRefractionAngle);
-
-	// 垂直偏光
-	float rPerpendicular = (cosIncidence - gMaterial.refractiveIndex * cosRefractionAngle) /
-					(cosIncidence + gMaterial.refractiveIndex * cosRefractionAngle);
-
-	float fresnelReflection = 0.5f * (rParallel * rParallel + rPerpendicular * rPerpendicular);
-	
-	// フレネル反射の方程式を使って反射光を算出する
-	//float fresnelRefraction = normalize(pow(
-	//(1.0f * cos(incidence))- (gMaterial.refractiveIndex * cos(refractionAngle) 
-	/// 1.0f * cos(incidence)) + (gMaterial.refractiveIndex * cos(refractionAngle)), 2.0f));
-	
-	// カラーを足す
-	float4 fresnelColor = gDirectionalLight.color * fresnelReflection;
-	output.color = (fresnelColor) * textureColor * gMaterial.color * gDirectionalLight.intensity;
-	// lambertColor
+	output.color.rgb = lambertColor.rgb * textureColor.rgb * gDirectionalLight.color.rgb;
+	output.color.a = gMaterial.color.a * textureColor.a;
 	
 	return output;
 }

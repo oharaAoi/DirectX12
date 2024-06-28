@@ -10,6 +10,7 @@
 #include "InputLayout.h"
 #include "DirectXCompiler.h"
 #include "Shader.h"
+#include "Blend.h"
 
 enum PipelineType {
 	NormalPipeline,
@@ -41,11 +42,6 @@ public:
 	/// Shaderをcompileする
 	/// </summary>
 	void ShaderCompile(const std::string& vertexShader, const std::string& pixelShader);
-
-	/// <summary>
-	/// BlendStateの設定
-	/// </summary>
-	D3D12_BLEND_DESC SetBlendState();
 
 	/// <summary>
 	/// RasterizerStateの設定
@@ -84,4 +80,7 @@ private:
 
 	// device
 	ID3D12Device* device_ = nullptr;
+
+	// Blend
+	Blend blend_;
 };

@@ -11,7 +11,7 @@ void GameScene::Init() {
 
 	sphere_ = Engine::CreateSphere(16);
 
-	model_ = Engine::CreateModel("floor.obj");
+	model_ = Engine::CreateModel("fence.obj");
 	sphereModel_ = Engine::CreateModel("sphere.obj");
 	teapotModel_ = Engine::CreateModel("teapot.obj");
 

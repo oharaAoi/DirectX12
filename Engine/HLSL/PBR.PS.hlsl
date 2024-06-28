@@ -148,18 +148,14 @@ PixelShaderOutput main(VertexShaderOutput input){
 	PixelShaderOutput output;
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
-	//float3 normalMap = gNormapMap.Sample(gSampler, transformedUV.xy).xyz * 2.0 - 1.0;
-	//float metallicMap = gMetallicMap.Sample(gSampler, transformedUV.xy).r;
-	//float roughnessMap = gRoughnessMap.Sample(gSampler, transformedUV.xy).r;
+	
+	if (textureColor.a <= 0.5f){
+		discard;
+	}
 	
 	float3 normal = normalize(input.normal);
 	float3 lightDir = normalize(-gDirectionalLight.direction);
-	
-	//float3 mapNormal = mul(normalMap, input.tangentMat);
-	
-	//float roughness = roughnessMap * roughnessMap + EPSILON;
-	//float metallic = metallicMap;
-	
+
 	float roughness = gMaterial.roughness * gMaterial.roughness + EPSILON;
 	float metallic = gMaterial.metallic;
 	
@@ -199,6 +195,10 @@ PixelShaderOutput main(VertexShaderOutput input){
 	//output.color = finalColor * textureColor * gDirectionalLight.color;
 	output.color.rgb = finalColor.rgb * textureColor.rgb * gDirectionalLight.color.rgb;
 	output.color.a = gMaterial.color.a * textureColor.a;
+	
+	if (output.color.a <= 0.0f){
+		discard;
+	}
 
 	return output;
 }
