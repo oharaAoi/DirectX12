@@ -196,7 +196,9 @@ PixelShaderOutput main(VertexShaderOutput input){
 	finalColor = finalColor * NDotL * gDirectionalLight.intensity;
 	
 	// テクスチャの色やライトの色を適応
-	output.color = finalColor * textureColor * gDirectionalLight.color;
+	//output.color = finalColor * textureColor * gDirectionalLight.color;
+	output.color.rgb = finalColor.rgb * textureColor.rgb * gDirectionalLight.color.rgb;
+	output.color.a = gMaterial.color.a * textureColor.a;
 
 	return output;
 }

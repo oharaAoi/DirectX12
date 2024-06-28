@@ -40,7 +40,7 @@ void Material::Draw(ID3D12GraphicsCommandList* commandList) {
 
 void Material::ImGuiDraw() {
 	//ImGui::DragFloat("Albedo", &baseMaterial_->color, 0.01f, 0.0f, 1.0f);
-	ImGui::ColorEdit3("baseColor", &baseMaterial_->color.x);
+	ImGui::ColorEdit4("baseColor", &baseMaterial_->color.x);
 	ImGui::ColorEdit3("diffuse", &baseMaterial_->diffuseColor.x);
 	ImGui::ColorEdit3("specular", &baseMaterial_->specularColor.x);
 	ImGui::DragFloat("roughness", &baseMaterial_->roughness, 0.01f, 0.0f, 1.0f);
