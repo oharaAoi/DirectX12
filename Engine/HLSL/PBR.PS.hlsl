@@ -168,8 +168,6 @@ PixelShaderOutput main(VertexShaderOutput input){
 	float roughness = gMaterial.roughness * gMaterial.roughness  + EPSILON;
 	float metallic = gMaterial.metallic;
 	
-	
-	
 	//=======================================================
 	// 色を求める
 	//=======================================================
