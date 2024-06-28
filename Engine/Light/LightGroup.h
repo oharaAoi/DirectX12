@@ -9,7 +9,7 @@ public:
 
 	enum LightKind {
 		Directional,
-		PhongLight
+		PBR,
 	};
 
 public:

@@ -55,19 +55,26 @@ PixelShaderOutput main(VertexShaderOutput input){
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	
-	// lambert
-	float4 lambertColor;
+	if (textureColor.a <= 0.5f){
+		discard;
+	}
 	
+	// lambert
+	float3 lambertColor;
 	if (gMaterial.enableLighting != 0){
 		float NdotL = dot(normalize(input.normal), normalize(-gDirectionalLight.direction));
 		float cos = (pow(NdotL * 0.5f + 0.5f, 2.0f) * gMaterial.aldedo) / 3.1415f;
-		lambertColor = gDirectionalLight.color * cos;
+		lambertColor = gDirectionalLight.color.rgb * cos * gMaterial.color.rgb;
 	}else{
 		output.color = gMaterial.color * textureColor;
 	}
 	
 	output.color.rgb = lambertColor.rgb * textureColor.rgb * gDirectionalLight.color.rgb;
 	output.color.a = gMaterial.color.a * textureColor.a;
+	
+	if (output.color.a <= 0.0f){
+		discard;
+	}
 	
 	return output;
 }

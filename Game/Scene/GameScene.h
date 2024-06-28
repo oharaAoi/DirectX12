@@ -55,4 +55,6 @@ private:
 
 	float roughness_;
 	float metallic_;
+
+	int lightKind_;
 };

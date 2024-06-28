@@ -31,8 +31,8 @@ void LightGroup::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& ro
 	case LightKind::Directional:
 		light_->Draw(commandList, rootParameterIndex);
 		break;
-	case LightKind::PhongLight:
-		phong_->Draw(commandList, rootParameterIndex);
+	case LightKind::PBR:
+		light_->Draw(commandList, rootParameterIndex);
 		break;
 	}
 }

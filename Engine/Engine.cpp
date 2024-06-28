@@ -172,26 +172,19 @@ void Engine::DrawSprite(Sprite* sprite) {
 void Engine::DrawSphere(Sphere* sphere) {
 	if (lightKind_ == LightGroup::Directional) {
 		//pipeline_->Draw(dxCommands_->GetCommandList());
+		pipeline_->Draw(dxCommands_->GetCommandList());
+	} else if(LightGroup::PBR) {
 		pbrPipeline_->Draw(dxCommands_->GetCommandList());
-	} else {
-		phongPipeline_->Draw(dxCommands_->GetCommandList());
 	}
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
 	sphere->Draw(dxCommands_->GetCommandList());
 }
 
 void Engine::DrawModel(Model* model) {
-	/*if (model->GetHasTexture()) {
-		pipeline_->Draw(dxCommands_->GetCommandList());
-	} else {
-		texturelessPipeline_->Draw(dxCommands_->GetCommandList());
-	}*/
-
 	if (lightKind_ == LightGroup::Directional) {
+		pipeline_->Draw(dxCommands_->GetCommandList());
+	} else if (LightGroup::PBR) {
 		pbrPipeline_->Draw(dxCommands_->GetCommandList());
-		//pipeline_->Draw(dxCommands_->GetCommandList());
-	} else {
-		phongPipeline_->Draw(dxCommands_->GetCommandList());
 	}
 	
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);

@@ -22,6 +22,8 @@ void GameScene::Init() {
 
 	roughness_ = 0.5f;
 	metallic_ = 0.5f;
+
+	lightKind_ = 0;
 }
 
 void GameScene::Update() {
@@ -70,6 +72,14 @@ void GameScene::Update() {
 		ImGui::DragFloat("metallic", &metallic_,0.01f, 0.0f, 1.0f);
 		ImGui::DragFloat("roughness", &roughness_, 0.01f, 0.0f, 1.0f);
 	}
+
+	if (ImGui::CollapsingHeader("LightingKind")) {
+		ImGui::Combo("lightKind", &lightKind_, "directional\0PBR");
+
+		LightGroup::LightKind kind = static_cast<LightGroup::LightKind>(lightKind_);
+		Engine::SetLightKind(kind);
+	}
+
 	ImGui::End();
 
 	model_->ImGuiDraw("floor");
