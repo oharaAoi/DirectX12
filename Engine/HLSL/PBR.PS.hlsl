@@ -95,9 +95,6 @@ float4 NormalizePhong(VertexShaderOutput input){
 	return result;
 }
 
-//float NdotL = (dot(normalize(input.normal), lightDire));
-//float3 reflection = normalize(2.0f * normalize(input.normal) * NdotL - lightDire);
-
 //==========================================
 // Fresnel(Schlick)		F
 //==========================================
@@ -161,11 +158,11 @@ PixelShaderOutput main(VertexShaderOutput input){
 	
 	float3 mapNormal = mul(normalMap, input.tangentMat);
 	
-	float roughness = roughnessMap * roughnessMap + EPSILON;
-	float metallic = metallicMap;
+	//float roughness = roughnessMap * roughnessMap + EPSILON;
+	//float metallic = metallicMap;
 	
-	//float roughness = gMaterial.roughness * gMaterial.roughness + EPSILON;
-	//float metallic = gMaterial.metallic;
+	float roughness = gMaterial.roughness * gMaterial.roughness + EPSILON;
+	float metallic = gMaterial.metallic;
 	
 	//=======================================================
 	// 色を求める
@@ -201,9 +198,6 @@ PixelShaderOutput main(VertexShaderOutput input){
 	
 	// テクスチャの色やライトの色を適応
 	output.color = finalColor * textureColor * gDirectionalLight.color;
-	
-	//output.color = finalColor * gDirectionalLight.color;
-	//output.color = float4(normal2 * 0.5 + 0.5, 1.0f);
-	
+
 	return output;
 }
