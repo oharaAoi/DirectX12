@@ -13,7 +13,7 @@ void GameScene::Init() {
 
 	model_ = Engine::CreateModel("floor.obj");
 	sphereModel_ = Engine::CreateModel("sphere.obj");
-	teapotModel_ = Engine::CreateModel("sphere2.obj");
+	teapotModel_ = Engine::CreateModel("teapot.obj");
 
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 	sphereTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, -1.5f, 0.0f}, {0.0f, 0.5f, 0.0f} };
@@ -72,7 +72,7 @@ void GameScene::Update() {
 	}
 	ImGui::End();
 
-	model_->ImGuiDraw("plane");
+	model_->ImGuiDraw("floor");
 	sphere_->ImGuiDraw("Sphere");
 	sphereModel_->ImGuiDraw("sphereModel");
 	teapotModel_->ImGuiDraw("teapot");

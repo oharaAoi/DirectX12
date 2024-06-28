@@ -97,9 +97,7 @@ void Sphere::Draw(ID3D12GraphicsCommandList* commandList) {
 	mesh_->Draw(commandList);
 	material_->Draw(commandList);
 	transformation_->Draw(commandList);
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/Materials/block/TERRAZZO_CRACKED_004_1K_BaseColor.jpg");
-	//TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/monsterBall.png");
-	//commandList->DrawInstanced(3, 1, 0, 0);
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/monsterBall.png");
 	commandList->DrawIndexedInstanced(vertexCount_, 1, 0, 0, 0);
 }
 

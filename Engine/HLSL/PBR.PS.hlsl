@@ -25,9 +25,9 @@ struct DirectionalLight{
 ConstantBuffer<Material> gMaterial : register(b0);
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
 Texture2D<float4> gTexture : register(t0);
-Texture2D<float3> gNormapMap : register(t1);
-Texture2D<float> gMetallicMap : register(t2);
-Texture2D<float> gRoughnessMap : register(t3);
+//Texture2D<float3> gNormapMap : register(t1);
+//Texture2D<float> gMetallicMap : register(t2);
+//Texture2D<float> gRoughnessMap : register(t3);
 
 SamplerState gSampler : register(s0);
 struct PixelShaderOutput{
@@ -147,16 +147,15 @@ float4 BRDF(float NdotH, float NDotV, float NDotL, float VDotH, float4 ks, float
 PixelShaderOutput main(VertexShaderOutput input){
 	PixelShaderOutput output;
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
-	
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
-	float3 normalMap = gNormapMap.Sample(gSampler, transformedUV.xy).xyz * 2.0 - 1.0;
-	float metallicMap = gMetallicMap.Sample(gSampler, transformedUV.xy).r;
-	float roughnessMap = gRoughnessMap.Sample(gSampler, transformedUV.xy).r;
+	//float3 normalMap = gNormapMap.Sample(gSampler, transformedUV.xy).xyz * 2.0 - 1.0;
+	//float metallicMap = gMetallicMap.Sample(gSampler, transformedUV.xy).r;
+	//float roughnessMap = gRoughnessMap.Sample(gSampler, transformedUV.xy).r;
 	
 	float3 normal = normalize(input.normal);
 	float3 lightDir = normalize(-gDirectionalLight.direction);
 	
-	float3 mapNormal = mul(normalMap, input.tangentMat);
+	//float3 mapNormal = mul(normalMap, input.tangentMat);
 	
 	//float roughness = roughnessMap * roughnessMap + EPSILON;
 	//float metallic = metallicMap;
@@ -177,9 +176,9 @@ PixelShaderOutput main(VertexShaderOutput input){
 	//=======================================================
 	float3 viewDir = normalize(gDirectionalLight.eyePos - input.worldPos.xyz);
 	float3 halfVec = normalize(viewDir + lightDir);
-	float NdotH = saturate(dot(mapNormal, halfVec));
-	float NDotV = saturate(dot(mapNormal, viewDir));
-	float NDotL = saturate(dot(mapNormal, lightDir));
+	float NdotH = saturate(dot(normal, halfVec));
+	float NDotV = saturate(dot(normal, viewDir));
+	float NDotL = saturate(dot(normal, lightDir));
 	float VDotH = saturate(dot(viewDir, halfVec));
 	
 	diffuse = Lambert(NDotL, gMaterial.color);

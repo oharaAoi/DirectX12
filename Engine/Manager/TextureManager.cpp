@@ -32,19 +32,19 @@ void TextureManager::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList*
 	CreateShaderResource("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Roughness.jpg", commandList);
 
 	// 
-	CreateShaderResource("Materials/leather2/LEATHER_BROWN_SCRATCH_1K_BaseColor.jpg", commandList);
-	CreateShaderResource("Materials/leather2/LEATHER_BROWN_SCRATCH_1K_Normal.jpg", commandList);
-	CreateShaderResource("Materials/leather2/LEATHER_BROWN_SCRATCH_1K_Metallic.jpg", commandList);
-	CreateShaderResource("Materials/leather2/LEATHER_BROWN_SCRATCH_1K_Roughness.jpg", commandList);
+	//CreateShaderResource("Materials/leather2/LEATHER_BROWN_SCRATCH_1K_BaseColor.jpg", commandList);
+	//CreateShaderResource("Materials/leather2/LEATHER_BROWN_SCRATCH_1K_Normal.jpg", commandList);
+	//CreateShaderResource("Materials/leather2/LEATHER_BROWN_SCRATCH_1K_Metallic.jpg", commandList);
+	//CreateShaderResource("Materials/leather2/LEATHER_BROWN_SCRATCH_1K_Roughness.jpg", commandList);
+
+	////
+	//CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_BaseColor.jpg", commandList);
+	//CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_Normal.jpg", commandList);
+	//CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_Metallic.jpg", commandList);
+	//CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_Roughness.jpg", commandList);
 
 	//
-	CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_BaseColor.jpg", commandList);
-	CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_Normal.jpg", commandList);
-	CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_Metallic.jpg", commandList);
-	CreateShaderResource("Materials/wallBrick/WALL_BRICK_TILES_001_1K_Roughness.jpg", commandList);
-
-	//
-	CreateShaderResource("Materials/metal/METAL_PANEL_014_1K_BaseColor.jpg", commandList);
+	/*CreateShaderResource("Materials/metal/METAL_PANEL_014_1K_BaseColor.jpg", commandList);
 	CreateShaderResource("Materials/metal/METAL_PANEL_014_1K_Normal.jpg", commandList);
 	CreateShaderResource("Materials/metal/METAL_PANEL_014_1K_Metallic.jpg", commandList);
 	CreateShaderResource("Materials/metal/METAL_PANEL_014_1K_Roughness.jpg", commandList);
@@ -57,7 +57,7 @@ void TextureManager::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList*
 	CreateShaderResource("Materials/block/TERRAZZO_CRACKED_004_1K_BaseColor.jpg", commandList);
 	CreateShaderResource("Materials/block/TERRAZZO_CRACKED_004_1K_Normal.jpg", commandList);
 	CreateShaderResource("Materials/block/TERRAZZO_CRACKED_004_1K_Metallic.jpg", commandList);
-	CreateShaderResource("Materials/block/TERRAZZO_CRACKED_004_1K_Roughness.jpg", commandList);
+	CreateShaderResource("Materials/block/TERRAZZO_CRACKED_004_1K_Roughness.jpg", commandList);*/
 
 	//LoadWhite1x1Texture("white1x1.png", commandList);
 
