@@ -35,6 +35,10 @@ public:
 
 	ID3D12DescriptorHeap* GetDSVHeap() { return dsvHeap_.Get(); }
 
+	void SetUseSrvIndex(const uint32_t& index) { useSrvIndex_ = index; }
+
+	uint32_t GetUseSrvIndex() { return useSrvIndex_; }
+
 private:
 
 	ID3D12Device* device_ = nullptr;
@@ -43,4 +47,5 @@ private:
 	Comptr<ID3D12DescriptorHeap> srvHeap_ = nullptr;
 	Comptr<ID3D12DescriptorHeap> dsvHeap_ = nullptr;
 
+	uint32_t useSrvIndex_;
 };

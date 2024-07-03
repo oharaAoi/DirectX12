@@ -79,6 +79,8 @@ public:
 	/// <param name="textureNum"></param>
 	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath);
 
+	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(srvData_.size()); }
+
 private:
 
 	struct SRVData {
@@ -91,6 +93,9 @@ private:
 
 	//std::vector<SRVData> srvData_;
 	std::map<std::string, SRVData> srvData_;
+
+	D3D12_CPU_DESCRIPTOR_HANDLE lastSrvHandleCPU_;
+	D3D12_GPU_DESCRIPTOR_HANDLE lastSrvHandleGPU_;
 
 	// 生成で使う変数
 	ID3D12Device* device_ = nullptr;

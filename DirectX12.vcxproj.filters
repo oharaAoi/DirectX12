@@ -231,6 +231,15 @@
     <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="BaseParticle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -398,6 +407,15 @@
     <ClInclude Include="Engine\DirectX\Pipeline\Blend.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="BaseParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
@@ -418,10 +436,16 @@
     <FxCompile Include="Engine\HLSL\Phong.Lighting.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\HLSL\PBR.VS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Particle.PS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
     <FxCompile Include="Engine\HLSL\PBR.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\PBR.VS.hlsl">
+    <FxCompile Include="Engine\HLSL\Particle.VS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
   </ItemGroup>
@@ -435,6 +459,9 @@
       <Filter>Engine\HLSL</Filter>
     </None>
     <None Include="Engine\HLSL\Primitive.hlsli">
+      <Filter>Engine\HLSL</Filter>
+    </None>
+    <None Include="Engine\HLSL\Particle.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
     <None Include="Engine\HLSL\PBR.hlsli">

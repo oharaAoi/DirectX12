@@ -59,9 +59,6 @@ private:
 	// 
 	std::unique_ptr<TransformationMatrix> transformation_;
 
-	std::vector<Mesh::VertexData> vertices_;
-	Material::BaseMaterial materialData_;
-
 	// モデルにtextureがあるか
 	bool hasTexture_;
 

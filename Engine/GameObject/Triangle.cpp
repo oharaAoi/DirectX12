@@ -16,7 +16,7 @@ void Triangle::Init(ID3D12Device* device, const Mesh::Vertices& vertex) {
 
 	mesh_->Init(device, sizeof(Mesh::VertexData) * 3, 3);
 	material_->Init(device);
-	transformation_->Init(device);
+	transformation_->Init(device, 1);
 
 	// vertexの設定
 	Mesh::VertexData* vertexData = mesh_->GetVertexData();

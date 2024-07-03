@@ -15,6 +15,11 @@ void GameScene::Init() {
 	sphereModel_ = Engine::CreateModel("sphere.obj");
 	teapotModel_ = Engine::CreateModel("teapot.obj");
 
+	particleModel_ = Engine::CreateModel("plane.obj");
+
+	particle_ = std::make_unique<Particle>();
+	particle_->Init("plane.obj");
+
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 	sphereTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, -1.5f, 0.0f}, {0.0f, 0.5f, 0.0f} };
 	sphereModelTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {1.5f, 0.5f, 0.0f} };
@@ -40,6 +45,8 @@ void GameScene::Update() {
 	teapotModel_->Update(teapotWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	camera_->Update();
+
+	particle_->Update(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	Engine::SetEyePos(camera_->GetWorldTranslate());
 	//Engine::SetEyePos(camera_->GetTranslate());
@@ -89,9 +96,10 @@ void GameScene::Update() {
 }
 
 void GameScene::Draw() {
-	Engine::DrawModel(model_.get());
-	
-	Engine::DrawSphere(sphere_.get());
+	/*Engine::DrawModel(model_.get());
 	Engine::DrawModel(sphereModel_.get());
 	Engine::DrawModel(teapotModel_.get());
+	Engine::DrawSphere(sphere_.get());*/
+
+	particle_->Draw();
 }

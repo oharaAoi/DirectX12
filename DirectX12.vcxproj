@@ -87,6 +87,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseParticle.cpp" />
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Assets\Material.cpp" />
     <ClCompile Include="Engine\Assets\Mesh.cpp" />
@@ -133,9 +134,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Scene\Comparison.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\Metallic.cpp" />
+    <ClCompile Include="Loader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Particle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseParticle.h" />
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Assets\Material.h" />
     <ClInclude Include="Engine\Assets\Mesh.h" />
@@ -191,12 +195,20 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Scene\Comparison.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\Metallic.h" />
+    <ClInclude Include="Loader.h" />
+    <ClInclude Include="Particle.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\Object3d.VS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Particle.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Particle.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\PBR.PS.hlsl">
@@ -228,6 +240,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\HLSL\Object3d.hlsli" />
+    <None Include="Engine\HLSL\Particle.hlsli" />
     <None Include="Engine\HLSL\PBR.hlsli" />
     <None Include="Engine\HLSL\Primitive.hlsli" />
   </ItemGroup>

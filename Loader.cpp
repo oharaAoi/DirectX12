@@ -1,75 +1,6 @@
-#include "Model.h"
+#include "Loader.h"
 
-Model::Model() {
-}
-
-Model::~Model() {
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// 初期化関数
-//////////////////////////////////////////////////////////////////////////////////////////////////
-void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
-	transformation_ = std::make_unique<TransformationMatrix>();
-	std::string path = directorPath + "/" + fileName;
-
-	materialArray_ = LoadMaterialData(directorPath, fileName, device);
-	meshArray_ = LoadVertexData(path, device);
-	
-	transformation_->Init(device, 1);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// 更新関数
-//////////////////////////////////////////////////////////////////////////////////////////////////
-void Model::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection) {
-	transformation_->Update(world, view, projection);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// 描画関数
-//////////////////////////////////////////////////////////////////////////////////////////////////
-void Model::Draw(ID3D12GraphicsCommandList* commandList) {
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
-		meshArray_[oi]->Draw(commandList);
-		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
-		transformation_->Draw(commandList);
-		
-		if (hasTexture_) {
-			std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetMateriaData().textureFilePath;
-			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName);
-		}
-
-		UINT size = meshArray_[oi]->GetVertexSize() / sizeof(Mesh::VertexData);
-
-		commandList->DrawIndexedInstanced(size, 10, 0, 0, 0);
-	}
-}
-
-void Model::ImGuiDraw(const std::string& name) {
-	const char* charTag = name.c_str();
-	ImGui::Begin("Object");
-	if(ImGui::TreeNode(charTag)) {
-		for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
-			materialArray_[meshArray_[oi]->GetUseMaterial()]->ImGuiDraw();
-		}
-
-		ImGui::TreePop();
-	}
-	ImGui::End();
-}
-
-void Model::SetMaterials(const float& roughness, const float& metallic) {
-	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
-		materialArray_[meshArray_[oi]->GetUseMaterial()]->SetMaterialParameter(roughness, metallic);
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// Meshを読み込む関数
-//////////////////////////////////////////////////////////////////////////////////////////////////
-std::vector<std::unique_ptr<Mesh>> Model::LoadVertexData(const std::string& filePath, ID3D12Device* device) {
+std::vector<std::unique_ptr<Mesh>> LoadVertexData(const std::string& filePath, ID3D12Device* device) {
 	// Meshを作成
 	std::vector<std::unique_ptr<Mesh>> result;
 	std::vector<Mesh::VertexData> currentVertices;
@@ -153,18 +84,11 @@ std::vector<std::unique_ptr<Mesh>> Model::LoadVertexData(const std::string& file
 				Vector3 normal{};
 				Mesh::VertexData vertex{};
 
-				if (hasTexture_) {
-					position = positions[elementIndices[0] - 1];
-					texcoord = texcoords[elementIndices[1] - 1];
-					normal = normals[elementIndices[2] - 1];
-					vertex = { position, texcoord, normal };
-				} else {
-					position = positions[elementIndices[0] - 1];
-					texcoord = { 0,0 };
-					normal = normals[elementIndices[2] - 1];
-					vertex = { position, texcoord, normal };
-				}
-				
+				position = positions[elementIndices[0] - 1];
+				texcoord = texcoords[elementIndices[1] - 1];
+				normal = normals[elementIndices[2] - 1];
+				vertex = { position, texcoord, normal };
+
 				triangle[faceVertex] = { position, texcoord, normal };
 			}
 
@@ -187,7 +111,7 @@ std::vector<std::unique_ptr<Mesh>> Model::LoadVertexData(const std::string& file
 		mesh->Init(device, static_cast<uint32_t>(meshVertices[oi].size()) * sizeof(Mesh::VertexData), static_cast<uint32_t>(meshVertices[oi].size()));
 		// 入れるMeshを初期化する
 		mesh->SetUseMaterial(useMaterial[oi]);
-		
+
 		mesh->SetVertexData(meshVertices[oi]);
 		// Meshを配列に格納
 		result.push_back(std::move(mesh));
@@ -196,10 +120,7 @@ std::vector<std::unique_ptr<Mesh>> Model::LoadVertexData(const std::string& file
 	return result;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// Materialを読み込む関数
-//////////////////////////////////////////////////////////////////////////////////////////////////
-std::unordered_map<std::string, std::unique_ptr<Material>> Model::LoadMaterialData(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device) {
+std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device) {
 	std::unordered_map<std::string, std::unique_ptr<Material>> result;// 結果
 	std::unordered_map<std::string, Material::MaterialData> materialDatas;// 後で一気に結果の変数に代入するための物
 
@@ -233,8 +154,6 @@ std::unordered_map<std::string, std::unique_ptr<Material>> Model::LoadMaterialDa
 	std::ifstream file2(directoryPath + "/" + mtlFile);
 	assert(file2.is_open());
 
-	hasTexture_ = false;
-
 	// ファイルを読む
 	while (std::getline(file2, line)) {
 		std::string materialIdentifier;
@@ -251,8 +170,6 @@ std::unordered_map<std::string, std::unique_ptr<Material>> Model::LoadMaterialDa
 			std::string textureFilename;
 			s >> textureFilename;
 			materialDatas[materialName].textureFilePath = directoryPath + "/" + textureFilename;
-
-			hasTexture_ = true;
 
 		} else if (materialIdentifier == "Ka") {
 			// アルベド色を読み取る(環境反射率)

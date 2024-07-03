@@ -15,7 +15,7 @@ void Sphere::Init(ID3D12Device* device, const uint32_t& division) {
 
 	mesh_->Init(device, sizeof(Mesh::VertexData) * vertexCount_, vertexCount_);
 	material_->Init(device);
-	transformation_->Init(device);
+	transformation_->Init(device, 1);
 
 	const float kLonEvery = float(M_PI) * 2.0f / float(division);// fai
 	const float kLatEvery = float(M_PI) / float(division); // theta

@@ -15,7 +15,8 @@ using Comptr = Microsoft::WRL::ComPtr <T>;
 enum class RootSignatureType {
 	Normal,
 	TextureLess,
-	Primitive
+	Primitive,
+	Particle
 };
 
 class RootSignature {
@@ -45,6 +46,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreatePrimitiveRootSignature();
+
+	/// <summary>
+	/// particle用のrootSignatureの作成
+	/// </summary>
+	/// <returns></returns>
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateParticleRootSignature();
 
 public:
 

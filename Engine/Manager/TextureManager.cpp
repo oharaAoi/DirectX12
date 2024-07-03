@@ -95,8 +95,8 @@ void TextureManager::CreateShaderResource(const std::string& filePath, ID3D12Gra
 	data.srvHandleCPU_ = GetCPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
 	data.srvHandleGPU_ = GetGPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
 	// 先頭はImGuiが使っている溜めその次を使う
-	data.srvHandleCPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	data.srvHandleGPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	/*data.srvHandleCPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	data.srvHandleGPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);*/
 
 	// 配列に入れる
 	srvData_["Resources/" + filePath] = data;
@@ -149,6 +149,9 @@ void TextureManager::LoadWhite1x1Texture(const std::string& filePath, ID3D12Grap
 	// 先頭はImGuiが使っている溜めその次を使う
 	/*data.srvHandleCPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	data.srvHandleGPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);*/
+
+	lastSrvHandleCPU_ = data.srvHandleCPU_;
+	lastSrvHandleGPU_ = data.srvHandleGPU_;
 
 	// mapに値を代入
 	srvData_.emplace("Resources/" + filePath, data);

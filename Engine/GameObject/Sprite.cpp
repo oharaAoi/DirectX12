@@ -16,7 +16,7 @@ void Sprite::Init(ID3D12Device* device, const Mesh::RectVetices& Rect) {
 
 	mesh_->Init(device, sizeof(Mesh::VertexData) * 6, 6);
 	material_->Init(device);
-	transformation_->Init(device);
+	transformation_->Init(device, 1);
 
 	// vertexの設定
 	Mesh::VertexData* vertexData = mesh_->GetVertexData();

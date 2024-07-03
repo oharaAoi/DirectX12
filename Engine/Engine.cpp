@@ -40,6 +40,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	// texture
 	textureManager_->Initialize(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV());
+	descriptorHeap_->SetUseSrvIndex(textureManager_->GetSRVDataIndex() + 1);
 
 	// dxCompiler
 	dxCompiler_ = std::make_unique<DirectXCompiler>();
@@ -50,6 +51,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	shaders_.Load("Engine/HLSL/Primitive.VS.hlsl", "Engine/HLSL/Primitive.PS.hlsl", Shader::Primitive);
 	shaders_.Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Phong.Lighting.hlsl", Shader::Phong);
 	shaders_.Load("Engine/HLSL/PBR.VS.hlsl", "Engine/HLSL/PBR.PS.hlsl", Shader::PBR);
+	shaders_.Load("Engine/HLSL/Particle.VS.hlsl", "Engine/HLSL/Particle.PS.hlsl", Shader::Particle);
 
 	// pipeline
 	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(),dxCompiler_.get(),
@@ -66,6 +68,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	pbrPipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
 						shaders_.GetShaderData(Shader::PBR), NormalPipeline);
+
+	particlePipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
+						shaders_.GetShaderData(Shader::Particle), ParticlePipeline);
 
 	// light
 	lightGroup_ = std::make_unique<LightGroup>();
@@ -92,6 +97,7 @@ void Engine::Finalize() {
 	phongPipeline_->Finalize();
 	pipeline_->Finalize();
 	texturelessPipeline_->Finalize();
+	particlePipeline_->Finalize();
 
 	dxCompiler_->Finalize();
 	descriptorHeap_->Finalize();
@@ -154,6 +160,13 @@ std::unique_ptr<Model> Engine::CreateModel(const std::string& filePath) {
 	return model;
 }
 
+std::unique_ptr<BaseParticle> Engine::CreateBaseParticle(const std::string& fileName) {
+	std::unique_ptr<BaseParticle> particle = std::make_unique<BaseParticle>();
+	particle->Init(dxDevice_->GetDevice(), "Resources", fileName);
+	particle->CreateSRV(dxDevice_->GetDevice(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV(), descriptorHeap_->GetUseSrvIndex());
+	return particle;
+}
+
 //------------------------------------------------------------------------------------------------------
 // 描画
 //------------------------------------------------------------------------------------------------------
@@ -194,6 +207,12 @@ void Engine::DrawModel(Model* model) {
 void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& wvpMat) {
 	primitivePipeline_->Draw(dxCommands_->GetCommandList());
 	primitiveDrawer_->Draw(dxCommands_->GetCommandList(), p1, p2, color, wvpMat);
+}
+
+void Engine::DrawParticle(BaseParticle* baseParticle) {
+	particlePipeline_->Draw(dxCommands_->GetCommandList());
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
+	baseParticle->Draw(dxCommands_->GetCommandList());
 }
 
 //------------------------------------------------------------------------------------------------------

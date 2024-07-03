@@ -16,6 +16,7 @@
 #include "Sprite.h"
 #include "Sphere.h"
 #include "Model.h"
+#include "BaseParticle.h"
 // 2d
 #include "PrimitiveDrawer.h"
 // light
@@ -64,6 +65,8 @@ public:
 
 	static std::unique_ptr<Model> CreateModel(const std::string& filePath);
 
+	static std::unique_ptr<BaseParticle> CreateBaseParticle(const std::string& fileName);
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 描画系
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,6 +79,8 @@ public:
 	static void DrawModel(Model* model);
 
 	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& wvpMat);
+
+	static void DrawParticle(BaseParticle* baseParticle);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 設定系
@@ -115,6 +120,7 @@ namespace {
 	std::unique_ptr<Pipeline> texturelessPipeline_ = nullptr;
 	std::unique_ptr<Pipeline> phongPipeline_ = nullptr;
 	std::unique_ptr<Pipeline> pbrPipeline_ = nullptr;
+	std::unique_ptr<Pipeline> particlePipeline_ = nullptr;
 
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
 	// light
