@@ -136,7 +136,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Scene\Metallic.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyRandom.cpp" />
     <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleForGPU.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseParticle.h" />
@@ -196,7 +198,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\Metallic.h" />
     <ClInclude Include="Loader.h" />
+    <ClInclude Include="MyRandom.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleForGPU.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">

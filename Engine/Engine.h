@@ -65,7 +65,7 @@ public:
 
 	static std::unique_ptr<Model> CreateModel(const std::string& filePath);
 
-	static std::unique_ptr<BaseParticle> CreateBaseParticle(const std::string& fileName);
+	static std::unique_ptr<BaseParticle> CreateBaseParticle(const std::string& fileName, const uint32_t& instanceNum);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 描画系
@@ -80,7 +80,7 @@ public:
 
 	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& wvpMat);
 
-	static void DrawParticle(BaseParticle* baseParticle);
+	static void DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 設定系

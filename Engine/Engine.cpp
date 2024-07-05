@@ -160,9 +160,9 @@ std::unique_ptr<Model> Engine::CreateModel(const std::string& filePath) {
 	return model;
 }
 
-std::unique_ptr<BaseParticle> Engine::CreateBaseParticle(const std::string& fileName) {
+std::unique_ptr<BaseParticle> Engine::CreateBaseParticle(const std::string& fileName, const uint32_t& instanceNum) {
 	std::unique_ptr<BaseParticle> particle = std::make_unique<BaseParticle>();
-	particle->Init(dxDevice_->GetDevice(), "Resources", fileName);
+	particle->Init(dxDevice_->GetDevice(), "Resources", fileName, instanceNum);
 	particle->CreateSRV(dxDevice_->GetDevice(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV(), descriptorHeap_->GetUseSrvIndex());
 	return particle;
 }
@@ -209,10 +209,10 @@ void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color
 	primitiveDrawer_->Draw(dxCommands_->GetCommandList(), p1, p2, color, wvpMat);
 }
 
-void Engine::DrawParticle(BaseParticle* baseParticle) {
+void Engine::DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance) {
 	particlePipeline_->Draw(dxCommands_->GetCommandList());
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
-	baseParticle->Draw(dxCommands_->GetCommandList());
+	baseParticle->Draw(dxCommands_->GetCommandList(), numInstance);
 }
 
 //------------------------------------------------------------------------------------------------------

@@ -15,10 +15,10 @@ void GameScene::Init() {
 	sphereModel_ = Engine::CreateModel("sphere.obj");
 	teapotModel_ = Engine::CreateModel("teapot.obj");
 
-	particleModel_ = Engine::CreateModel("plane.obj");
+	particleModel_ = Engine::CreateModel("particle.obj");
 
 	particle_ = std::make_unique<Particle>();
-	particle_->Init("plane.obj");
+	particle_->Init("particle.obj", 10);
 
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 	sphereTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, -1.5f, 0.0f}, {0.0f, 0.5f, 0.0f} };

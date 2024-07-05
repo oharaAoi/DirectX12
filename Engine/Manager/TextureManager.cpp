@@ -19,6 +19,7 @@ void TextureManager::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList*
 	CreateShaderResource("monsterBall.png", commandList);
 	CreateShaderResource("checkerBoard.png", commandList);
 	CreateShaderResource("fence.png", commandList);
+	CreateShaderResource("circle.png", commandList);
 	
 	//
 	CreateShaderResource("Materials/brick/Brick_Cracked_001_1K_BaseColor.jpg", commandList);

@@ -26,7 +26,7 @@ void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, con
 
 	case ParticlePipeline:
 		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Particle);
-		elementDescs = inputLayout_.CreateInputLayout();
+		elementDescs = inputLayout_.CreateParticleInputLayout();
 		ShaderCompile(shader.vsShader, shader.psShader);
 		break;
 	}
@@ -89,7 +89,7 @@ D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState() {
 	// Depthの機能を有効化する
 	desc.DepthEnable = true;
 	// 書き込み
-	desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	// 地下駆ければ描画
 	desc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
@@ -106,7 +106,7 @@ void Pipeline::CreatePSO() {
 	desc.InputLayout = CreateInputLayout(elementDescs);
 	desc.VS = { vertexShaderBlob_->GetBufferPointer(), vertexShaderBlob_->GetBufferSize() };
 	desc.PS = { pixelShaderBlob_->GetBufferPointer(), pixelShaderBlob_->GetBufferSize() };
-	desc.BlendState = blend_.SetBlend(Blend::kBlendModeNormal);
+	desc.BlendState = blend_.SetBlend(Blend::kBlendModeAdd);
 	desc.RasterizerState = SetRasterizerState();
 	desc.DepthStencilState = SetDepthStencilState();
 	desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
