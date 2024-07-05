@@ -25,7 +25,7 @@ void Camera::Init() {
 	projectionMatrix2D_ = MakeOrthograhicMatrix(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f);
 	viewMatrix2D_ = MakeIdentity4x4();
 
-	debugCameraMode_ = false;
+	debugCameraMode_ = true;
 	lookPosition_ = { 0,0,0 };
 	mousePosition_ = { 0,0 };
 }

@@ -18,7 +18,12 @@ void GameScene::Init() {
 	particleModel_ = Engine::CreateModel("particle.obj");
 
 	particle_ = std::make_unique<Particle>();
-	particle_->Init("particle.obj", 10);
+	particle_->Init("particle.obj", 100);
+
+	emitter_ = std::make_unique<Emitter>();
+	emitter_->Init();
+
+	emitter_->SetParticle(particle_.get());
 
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 	sphereTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, -1.5f, 0.0f}, {0.0f, 0.5f, 0.0f} };
@@ -46,7 +51,10 @@ void GameScene::Update() {
 
 	camera_->Update();
 
+	particle_->SetCameraMatrix(camera_->GetCameraMatrix());
 	particle_->Update(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
+	emitter_->Update();
 
 	Engine::SetEyePos(camera_->GetWorldTranslate());
 	//Engine::SetEyePos(camera_->GetTranslate());
@@ -93,6 +101,8 @@ void GameScene::Update() {
 	sphere_->ImGuiDraw("Sphere");
 	sphereModel_->ImGuiDraw("sphereModel");
 	teapotModel_->ImGuiDraw("teapot");
+
+	particle_->ImGuiDraw();
 }
 
 void GameScene::Draw() {
@@ -102,4 +112,6 @@ void GameScene::Draw() {
 	Engine::DrawSphere(sphere_.get());*/
 
 	particle_->Draw();
+
+	emitter_->Draw(camera_->GetViewMatrix() * camera_->GetProjectionMatrix());
 }

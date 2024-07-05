@@ -78,7 +78,7 @@ public:
 
 	static void DrawModel(Model* model);
 
-	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& wvpMat);
+	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat);
 
 	static void DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance);
 
@@ -88,6 +88,8 @@ public:
 	static void SetLightKind(const LightGroup::LightKind& kind);
 
 	static void SetEyePos(const Vector3& eyePos);
+
+
 
 private:
 
@@ -121,7 +123,6 @@ namespace {
 	std::unique_ptr<Pipeline> phongPipeline_ = nullptr;
 	std::unique_ptr<Pipeline> pbrPipeline_ = nullptr;
 	std::unique_ptr<Pipeline> particlePipeline_ = nullptr;
-
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
 	// light
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;

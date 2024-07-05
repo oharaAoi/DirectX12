@@ -88,6 +88,9 @@
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{1bb765dc-6f50-4820-a08f-5a542383ed44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ParticleSystem">
+      <UniqueIdentifier>{208f3b0c-7949-4d78-8f4d-0701d7c6194d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -231,19 +234,22 @@
     <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="BaseParticle.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\ParticleSystem\Particle.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Loader.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\ParticleSystem\ParticleForGPU.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="MyRandom.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\Utilities\Loader.cpp">
+      <Filter>Engine\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleForGPU.cpp">
+    <ClCompile Include="Engine\Math\MyRandom.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Emitter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -413,19 +419,22 @@
     <ClInclude Include="Engine\DirectX\Pipeline\Blend.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="BaseParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\ParticleSystem\BaseParticle.h">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\ParticleSystem\Particle.h">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Loader.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\ParticleSystem\ParticleForGPU.h">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="MyRandom.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\Utilities\Loader.h">
+      <Filter>Engine\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleForGPU.h">
+    <ClInclude Include="Engine\Math\MyRandom.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Emitter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -62,7 +62,7 @@ void PrimitiveDrawer::Finalize() {
 	wvpBuffer_.Reset();
 }
 
-void PrimitiveDrawer::Draw(ID3D12GraphicsCommandList* commandList, const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& wvpMat) {
+void PrimitiveDrawer::Draw(ID3D12GraphicsCommandList* commandList, const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat) {
 	// 使用する頂点のインデックスの更新
 	size_t indexVertex = useIndex_;
 	size_t materialIndex = (useIndex_) - 1;
@@ -79,7 +79,7 @@ void PrimitiveDrawer::Draw(ID3D12GraphicsCommandList* commandList, const Vector3
 	primitiveData_[useIndex_].color = color;
 	primitiveData_[useIndex_ + 1].color = color;
 
-	*wvpData_ = wvpMat;
+	*wvpData_ = vpMat;
 
 	// コマンドリストの設定
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
