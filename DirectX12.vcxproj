@@ -53,7 +53,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Game\Scene;$(ProjectDir)\Game\Camera;$(ProjectDir)\Game;$(ProjectDir)\Engine\Light;$(ProjectDir)\Engine\Lib;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\ParticleSystem;$(ProjectDir)\Engine\GameObject;$(ProjectDir)\Engine\DirectX\Pipeline;$(ProjectDir)\Engine\DirectX\RootSignature;$(ProjectDir)\Engine\DirectX\RTV;$(ProjectDir)\Engine\DirectX\Descriptor;$(ProjectDir)\Engine\DirectX\DirectXCompiler;$(ProjectDir)\Engine\DirectX\DirectXCommands;$(ProjectDir)\Engine\DirectX\DirectXDevice;$(ProjectDir)\Engine\DirectX\DirectXCommon;$(ProjectDir)\Engine\DirectX;$(ProjectDir)\Engine\Assets;$(ProjectDir)\Engine\2d;$(ProjectDir)\Engine\Input;$(ProjectDir)\Engine\Manager;$(ProjectDir)\Engine\WinApp;$(ProjectDir)\Engine\Utilities;$(ProjectDir)\Externals;$(ProjectDir)\Engine;$(ProjectDir)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Game\Scene;$(ProjectDir)\Game\Camera;$(ProjectDir)\Game;$(ProjectDir)\Engine\Light;$(ProjectDir)\Engine\Lib;$(ProjectDir)\Engine\Math;$(ProjectDir)\Engine\ParticleSystem;$(ProjectDir)\Engine\GameObject;$(ProjectDir)\Engine\DirectX\Pipeline;$(ProjectDir)\Engine\DirectX\RootSignature;$(ProjectDir)\Engine\DirectX\RTV;$(ProjectDir)\Engine\DirectX\Descriptor;$(ProjectDir)\Engine\DirectX\DirectXCompiler;$(ProjectDir)\Engine\DirectX\DirectXCommands;$(ProjectDir)\Engine\DirectX\DirectXDevice;$(ProjectDir)\Engine\DirectX\DirectXCommon;$(ProjectDir)\Engine\DirectX;$(ProjectDir)\Engine\Assets;$(ProjectDir)\Engine\2d;$(ProjectDir)\Engine\Input;$(ProjectDir)\Engine\Collider;$(ProjectDir)\Engine\Manager;$(ProjectDir)\Engine\WinApp;$(ProjectDir)\Engine\Utilities;$(ProjectDir)\Externals;$(ProjectDir)\Engine;$(ProjectDir)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -87,12 +87,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BoxCollider.cpp" />
-    <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Assets\Material.cpp" />
     <ClCompile Include="Engine\Assets\Mesh.cpp" />
     <ClCompile Include="Engine\Assets\TransformationMatrix.cpp" />
+    <ClCompile Include="Engine\Collider\BoxCollider.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCommands\DirectXCommands.cpp" />
@@ -117,11 +116,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Light\Phong.cpp" />
     <ClCompile Include="Engine\Manager\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Manager\TextureManager.cpp" />
+    <ClCompile Include="Engine\Math\MathStructures.cpp" />
     <ClCompile Include="Engine\Math\MyMath.cpp" />
     <ClCompile Include="Engine\Math\MyMatrix.cpp" />
     <ClCompile Include="Engine\Math\MyRandom.cpp" />
     <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp" />
+    <ClCompile Include="Engine\ParticleSystem\Emitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Particle.cpp" />
+    <ClCompile Include="Engine\ParticleSystem\ParticleField.cpp" />
     <ClCompile Include="Engine\ParticleSystem\ParticleForGPU.cpp" />
     <ClCompile Include="Engine\Utilities\Convert.cpp" />
     <ClCompile Include="Engine\Utilities\DirectXUtils.cpp" />
@@ -141,16 +143,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\Metallic.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MathStructures.cpp" />
-    <ClCompile Include="ParticleField.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BoxCollider.h" />
-    <ClInclude Include="Emitter.h" />
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Assets\Material.h" />
     <ClInclude Include="Engine\Assets\Mesh.h" />
     <ClInclude Include="Engine\Assets\TransformationMatrix.h" />
+    <ClInclude Include="Engine\Collider\BoxCollider.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h" />
     <ClInclude Include="Engine\DirectX\DirectXCommands\DirectXCommands.h" />
@@ -177,6 +176,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Light\Phong.h" />
     <ClInclude Include="Engine\Manager\ImGuiManager.h" />
     <ClInclude Include="Engine\Manager\TextureManager.h" />
+    <ClInclude Include="Engine\Math\MathStructures.h" />
     <ClInclude Include="Engine\Math\Matrix3x3.h" />
     <ClInclude Include="Engine\Math\Matrix4x4.h" />
     <ClInclude Include="Engine\Math\MyMath.h" />
@@ -186,7 +186,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\ParticleSystem\BaseParticle.h" />
+    <ClInclude Include="Engine\ParticleSystem\Emitter.h" />
     <ClInclude Include="Engine\ParticleSystem\Particle.h" />
+    <ClInclude Include="Engine\ParticleSystem\ParticleField.h" />
     <ClInclude Include="Engine\ParticleSystem\ParticleForGPU.h" />
     <ClInclude Include="Engine\Utilities\Convert.h" />
     <ClInclude Include="Engine\Utilities\Debug.h" />
@@ -207,8 +209,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Scene\Comparison.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\Metallic.h" />
-    <ClInclude Include="MathStructures.h" />
-    <ClInclude Include="ParticleField.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">

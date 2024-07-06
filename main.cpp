@@ -25,10 +25,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::unique_ptr<GameScene> game = std::make_unique<GameScene>();
 	game->Init();
 
-	std::unique_ptr<Comparison> comparison = std::make_unique<Comparison>();
-	std::unique_ptr<Metallic> metallic = std::make_unique<Metallic>();
-
-	Scene scene = kComparison;
 	int sceneNumber = 0;
 
 	// mainループ
@@ -46,12 +42,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 
 		case kComparison:
-			comparison->Update();
-			comparison->Draw();
+			
 			break;
 		case kMetallic:
-			metallic->Update();
-			metallic->Draw();
+			
 			break;
 		}
 

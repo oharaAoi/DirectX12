@@ -91,6 +91,9 @@
     <Filter Include="Engine\ParticleSystem">
       <UniqueIdentifier>{208f3b0c-7949-4d78-8f4d-0701d7c6194d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Collider">
+      <UniqueIdentifier>{4bd1c15d-f7e5-455b-bc39-e90a53c2d350}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -249,17 +252,17 @@
     <ClCompile Include="Engine\Math\MyRandom.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Emitter.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\ParticleSystem\ParticleField.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="MathStructures.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\ParticleSystem\Emitter.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleField.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\Math\MathStructures.cpp">
+      <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\Collider\BoxCollider.cpp">
+      <Filter>Engine\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -443,17 +446,17 @@
     <ClInclude Include="Engine\Math\MyRandom.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Emitter.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\ParticleSystem\ParticleField.h">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="MathStructures.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\ParticleSystem\Emitter.h">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleField.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\Math\MathStructures.h">
+      <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\Collider\BoxCollider.h">
+      <Filter>Engine\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -47,19 +47,26 @@ void GameScene::Update() {
 	Matrix4x4 sphereModelWorld = MakeAffineMatrix(sphereModelTransform_);
 	Matrix4x4 teapotWorld = MakeAffineMatrix(teapotTransform_);
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	// カメラの更新
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	camera_->Update();
+
 	sphere_->Update(sphereWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	model_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 	sphereModel_->Update(sphereModelWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 	teapotModel_->Update(teapotWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
-	camera_->Update();
-
 	emitter_->Update();
-	particleField_->Update();
 
 	particle_->SetCameraMatrix(camera_->GetCameraMatrix());
 	particle_->Update(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	// 当たり判定
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	particleField_->Update();
 
 	Engine::SetEyePos(camera_->GetWorldTranslate());
 	//Engine::SetEyePos(camera_->GetTranslate());
