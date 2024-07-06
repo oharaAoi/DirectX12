@@ -87,6 +87,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Assets\Material.cpp" />
@@ -140,8 +141,11 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\Metallic.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MathStructures.cpp" />
+    <ClCompile Include="ParticleField.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Emitter.h" />
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Assets\Material.h" />
@@ -203,6 +207,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Scene\Comparison.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\Metallic.h" />
+    <ClInclude Include="MathStructures.h" />
+    <ClInclude Include="ParticleField.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">

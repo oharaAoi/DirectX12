@@ -31,3 +31,23 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 		}
 	}
 }
+
+void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color) {
+	std::array<Vector3, 8> point = {
+		Vector3{aabb.min.x,aabb.max.y, aabb.min.z }, // front_LT
+		Vector3{aabb.max.x,aabb.max.y, aabb.min.z }, // front_RT
+		Vector3{aabb.max.x,aabb.min.y, aabb.min.z }, // front_RB
+		Vector3{aabb.min.x,aabb.min.y, aabb.min.z }, // front_LB
+		Vector3{aabb.min.x,aabb.max.y, aabb.max.z }, // back_LT
+		Vector3{aabb.max.x,aabb.max.y, aabb.max.z }, // back_RT
+		Vector3{aabb.max.x,aabb.min.y, aabb.max.z }, // back_RB
+		Vector3{aabb.min.x,aabb.min.y, aabb.max.z }, // back_LB
+	};
+
+	for (uint32_t oi = 0; oi < 4; oi++) {
+		Engine::DrawLine(point[oi], point[(oi + 1) % 4], color, vpMatrix);
+		uint32_t j = oi + 4;
+		Engine::DrawLine(point[j], point[(j + 1) % 4 + 4], color, vpMatrix);
+		Engine::DrawLine(point[oi], point[j], color, vpMatrix);
+	}
+}

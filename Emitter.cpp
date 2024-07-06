@@ -13,11 +13,11 @@ void Emitter::Init() {
 	emitterData_.count = 3;
 	emitterData_.frequency = 0.5f;
 	emitterData_.frequencyTime = 0.0f;
-	emitterData_.size = { 0.5f, 0.5f, 0.5f };
+	emitterData_.size = { 0.1f, 0.1f, 0.1f };
 	emitterData_.firstVelocity = { RandomFloat(-1.0f, 1.0f), RandomFloat(-1.0f, 1.0f), RandomFloat(-1.0f, 1.0f) };
 	emitterData_.lifeTime = RandomFloat(1.0f, 5.0f);
 
-	isRangeDraw_ = false;
+	isRangeDraw_ = true;
 }
 
 /// <summary>

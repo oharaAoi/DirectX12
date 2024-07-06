@@ -23,7 +23,11 @@ void GameScene::Init() {
 	emitter_ = std::make_unique<Emitter>();
 	emitter_->Init();
 
+	particleField_ = std::make_unique<ParticleField>();
+	particleField_->Init();
+
 	emitter_->SetParticle(particle_.get());
+	particleField_->SetParticle(particle_.get());
 
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 	sphereTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, -1.5f, 0.0f}, {0.0f, 0.5f, 0.0f} };
@@ -51,10 +55,11 @@ void GameScene::Update() {
 
 	camera_->Update();
 
+	emitter_->Update();
+	particleField_->Update();
+
 	particle_->SetCameraMatrix(camera_->GetCameraMatrix());
 	particle_->Update(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-
-	emitter_->Update();
 
 	Engine::SetEyePos(camera_->GetWorldTranslate());
 	//Engine::SetEyePos(camera_->GetTranslate());
@@ -114,4 +119,6 @@ void GameScene::Draw() {
 	particle_->Draw();
 
 	emitter_->Draw(camera_->GetViewMatrix() * camera_->GetProjectionMatrix());
+
+	particleField_->Draw(camera_->GetViewMatrix() * camera_->GetProjectionMatrix());
 }

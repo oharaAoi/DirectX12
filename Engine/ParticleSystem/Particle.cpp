@@ -3,11 +3,6 @@
 void Particle::Init(const std::string& fileName, const uint32_t& particleNum) {
 	kNumInstance_ = particleNum;
 	particles_ = Engine::CreateBaseParticle(fileName, particleNum);
-	
-	for (uint32_t oi = 0; oi < particleNum; oi++) {
-		particlesData_.push_back(MakeParticle({0,0,0}));
-	}
-
 	useBillboard_ = false;
 
 	rotate_ = { 0.0f, 0.0f, 0.0f };
@@ -57,6 +52,7 @@ void Particle::Draw() {
 
 void Particle::ImGuiDraw() {
 	ImGui::Begin("particle");
+	ImGui::Text("liveCount: %d", liveNumInstance_);
 	ImGui::Checkbox("useBillboard", &useBillboard_);
 	ImGui::DragFloat("rotate.x", &rotate_.z, 0.1f);
 	ImGui::End();
@@ -71,9 +67,9 @@ Particle::ParticleData Particle::MakeParticle(const Emitter::EmitterData& emitte
 	Vector3 randomTranslate = { RandomFloat(-emitter.size.x, emitter.size.x), RandomFloat(-emitter.size.y, emitter.size.y), RandomFloat(-emitter.size.z, emitter.size.z) };
 	data.transform.translate = emitter.transform.translate + randomTranslate;
 	// velocityの設定
-	data.velocity = emitter.firstVelocity;
+	data.velocity = { RandomFloat(-1.0f, 1.0f), RandomFloat(-1.0f, 1.0f), RandomFloat(-1.0f, 1.0f) };
 	// colorの設定
-	data.color = { RandomFloat(0.0f, 1.0f), RandomFloat(0.0f, 1.0f), RandomFloat(0.0f, 1.0f) ,RandomFloat(0.0f, 1.0f) };
+	data.color = { RandomFloat(0.0f, 1.0f), RandomFloat(0.0f, 1.0f), RandomFloat(0.0f, 1.0f) ,1.0f};
 	// lifeTimeの設定
 	data.lifeTime = emitter.lifeTime;
 	data.currentTime = 0;
@@ -96,7 +92,7 @@ void Particle::SetCameraMatrix(const Matrix4x4& cameraMat) {
 std::list<Particle::ParticleData> Particle::Emit(const Emitter::EmitterData& emitter) {
 	std::list<Particle::ParticleData> list;
 	for (uint32_t count = 0; count < emitter.count; ++count) {
-		particlesData_.push_back(MakeParticle(emitter));
+		list.push_back(MakeParticle(emitter));
 	}
 	return list;
 }

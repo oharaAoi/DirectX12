@@ -22,7 +22,7 @@ public:
 
 	virtual void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& numInstance);
 
-	void CreateSRV(ID3D12Device* device, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize, const uint32_t& index);
+	void CreateSRV(ID3D12Device* device, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize, const uint32_t& index, const uint32_t& instanceNum);
 
 protected:
 

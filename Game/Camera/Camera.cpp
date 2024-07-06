@@ -8,7 +8,11 @@ Camera::~Camera() {
 }
 
 void Camera::Init() {
-	transform_ = { {1.0f, 1.0f, 1.0f}, {0.5f, 0.0f, 0.0f}, {0.0f, 5.0f, -9.0f} };
+	transform_ = {
+		{1.0f, 1.0f, 1.0f},
+		{0 , 0, 0.0f},
+		{0.0f, 0.0f, -10.0f}
+	};
 	//transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {-1.0f, -0.5f, -15.0f} };
 
 	// 行列の生成
@@ -109,7 +113,7 @@ void Camera::TransitionMove() {
 void Camera::RotateMove() {
 	if (Input::IsPressMouse(1)) {
 		Vector3 normalizeDiff{};
-		Vector3 offset = { 0.0f, 5.0f, -10.0f };
+		Vector3 offset = { 0.0f, 0.0f, -10.0f };
 		const float speed = 0.015f;
 		// マウスの位置を得る
 		Vector2 mousePos = Input::GetMousePosition();

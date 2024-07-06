@@ -41,14 +41,14 @@ void ParticleForGPU::DrawSRV(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetGraphicsRootDescriptorTable(1, instancingSrvHandleGPU_);
 }
 
-void ParticleForGPU::CreateSrv(ID3D12Device* device, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize, const uint32_t& index) {
+void ParticleForGPU::CreateSrv(ID3D12Device* device, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize, const uint32_t& index, const uint32_t& instanceNum) {
 	D3D12_SHADER_RESOURCE_VIEW_DESC desc{};
 	desc.Format = DXGI_FORMAT_UNKNOWN;
 	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	desc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	desc.Buffer.FirstElement = 0;
 	desc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	desc.Buffer.NumElements = 10;
+	desc.Buffer.NumElements = instanceNum;
 	desc.Buffer.StructureByteStride = sizeof(ParticleForGPUData);
 
 	instancingSrvHandleCPU_ = GetCPUDescriptorHandle(srvHeap, srvDescriptorSize, index + 1);

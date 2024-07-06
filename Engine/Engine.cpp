@@ -163,7 +163,7 @@ std::unique_ptr<Model> Engine::CreateModel(const std::string& filePath) {
 std::unique_ptr<BaseParticle> Engine::CreateBaseParticle(const std::string& fileName, const uint32_t& instanceNum) {
 	std::unique_ptr<BaseParticle> particle = std::make_unique<BaseParticle>();
 	particle->Init(dxDevice_->GetDevice(), "Resources", fileName, instanceNum);
-	particle->CreateSRV(dxDevice_->GetDevice(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV(), descriptorHeap_->GetUseSrvIndex());
+	particle->CreateSRV(dxDevice_->GetDevice(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV(), descriptorHeap_->GetUseSrvIndex(), instanceNum);
 	return particle;
 }
 

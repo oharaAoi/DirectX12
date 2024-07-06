@@ -32,6 +32,6 @@ void BaseParticle::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& 
 	}
 }
 
-void BaseParticle::CreateSRV(ID3D12Device* device, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize, const uint32_t& index) {
-	particleForGPU_->CreateSrv(device, srvHeap, srvDescriptorSize, index);
+void BaseParticle::CreateSRV(ID3D12Device* device, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize, const uint32_t& index, const uint32_t& instanceNum) {
+	particleForGPU_->CreateSrv(device, srvHeap, srvDescriptorSize, index, instanceNum);
 }

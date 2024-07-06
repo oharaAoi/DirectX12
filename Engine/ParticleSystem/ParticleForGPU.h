@@ -55,7 +55,7 @@ public:
 
 	void DrawSRV(ID3D12GraphicsCommandList* commandList);
 
-	void CreateSrv(ID3D12Device* device, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize, const uint32_t& idnex);
+	void CreateSrv(ID3D12Device* device, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize, const uint32_t& idnex, const uint32_t& instanceNum);
 
 public:
 

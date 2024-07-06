@@ -51,6 +51,10 @@ public:
 	/// <param name="emitter"></param>
 	void AddParticleList(const Emitter::EmitterData& emitter);
 
+public:
+
+	std::list<ParticleData>& GetParticleList() { return particlesData_; }
+
 private:
 
 	// インスタンス数
