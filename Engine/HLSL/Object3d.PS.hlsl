@@ -4,12 +4,7 @@ struct Material{
 	float4 color;
 	int enableLighting;
 	float4x4 uvTransform;
-	
-	// 反射の要素
-	float aldedo;
-	
-	// 屈折率
-	float refractiveIndex;
+	float shininess;		// 光沢度
 };
 
 struct DirectionalLight{
@@ -49,6 +44,26 @@ float4 HalfLambert(float NdotL)
 	return diffuse;
 }
 
+//==========================================
+//　phong
+//==========================================
+float3 Phong(float RDotE){
+	// 反射強度
+	float specularPow = pow(saturate(RDotE), gMaterial.shininess);
+	// 鏡面反射
+	float3 specular = gDirectionalLight.color.rbg * gDirectionalLight.intensity * specularPow * float3(1.0f, 1.0f, 1.0f);
+
+	return specular;
+}
+
+float3 BlinnPhong(float NDotH){
+	// 反射強度
+	float specularPow = pow(saturate(NDotH), gMaterial.shininess);
+	// 鏡面反射
+	float3 specular = gDirectionalLight.color.rbg * gDirectionalLight.intensity * specularPow * float3(1.0f, 1.0f, 1.0f);
+
+	return specular;
+}
 
 PixelShaderOutput main(VertexShaderOutput input){
 	PixelShaderOutput output;
@@ -63,13 +78,21 @@ PixelShaderOutput main(VertexShaderOutput input){
 	float3 lambertColor;
 	if (gMaterial.enableLighting != 0){
 		float NdotL = dot(normalize(input.normal), normalize(-gDirectionalLight.direction));
-		float cos = (pow(NdotL * 0.5f + 0.5f, 2.0f) * gMaterial.aldedo) / 3.1415f;
-		lambertColor = gDirectionalLight.color.rgb * cos * gMaterial.color.rgb;
+		float cos = (pow(NdotL * 0.5f + 0.5f, 2.0f)) / 3.1415f;
+		lambertColor = gDirectionalLight.color.rgb * cos * gMaterial.color.rgb * textureColor.rgb;
 	}else{
 		output.color = gMaterial.color * textureColor;
 	}
 	
-	output.color.rgb = lambertColor.rgb * textureColor.rgb * gDirectionalLight.color.rgb;
+	// phong
+	float3 toEye = normalize(gDirectionalLight.eyePos - input.worldPos.xyz);
+	float3 reflectLight = reflect(gDirectionalLight.direction, normalize(input.normal));
+	float3 halfVector = normalize(-gDirectionalLight.direction + toEye);
+	float RDotE = dot(reflectLight, toEye);
+	float NDotH = dot(normalize(input.normal), halfVector);
+	float3 speculer = BlinnPhong(NDotH);
+	
+	output.color.rgb = lambertColor + speculer;
 	output.color.a = gMaterial.color.a * textureColor.a;
 	
 	if (output.color.a <= 0.0f){

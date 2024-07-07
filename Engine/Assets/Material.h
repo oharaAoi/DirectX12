@@ -22,20 +22,28 @@ public:
 		int32_t enableLighting;
 		float pad[3];
 		Matrix4x4 uvTransform;
+		float shininess;
+	};
 
+	struct PBRMaterial {
+		Vector4 color;				// albedo
+		int32_t enableLighting;
+		float pad[3];
+		Matrix4x4 uvTransform;
+		float shininess;			// 鋭さ
+		
 		Vector4 diffuseColor;		// 拡散反射率
 		Vector4 specularColor;		// 鏡面反射の色
 		float roughness;			// 粗さ
 		float metallic;				// 金属度
-		float shininess;			// 鋭さ
 	};
 
-	struct MaterialData {
+	struct ModelMaterialData {
 		float specularExponent; // ハイライトのシャープさ
 		Vector4 albedo;			// 環境光の色
 		Vector4 diffuse;		// 拡散光の色
-		Vector4 specular;	// 鏡面反射の色
-		Vector4 emissive;	// 自己発光の色
+		Vector4 specular;		// 鏡面反射の色
+		Vector4 emissive;		// 自己発光の色
 		float refraction;		// 屈折率
 		float opacity;			// 不透明度
 		std::string textureFilePath; // 使用するtextureのパス
@@ -58,23 +66,23 @@ public:
 
 public:
 
-	BaseMaterial* GetBaseMaterial() { return baseMaterial_; }
+	PBRMaterial* GetBaseMaterial() { return pbrMaterial_; }
 
-	MaterialData GetMateriaData() { return materialData_; }
+	ModelMaterialData GetMateriaData() { return materialData_; }
 
 	/// <summary>
 	/// materialDataをセットする
 	/// </summary>
 	/// <param name="materialData"></param>
-	void SetMaterialData(MaterialData materialData);
+	void SetMaterialData(ModelMaterialData materialData);
 
 	void SetMaterialParameter(const float& roughness, const float& metallic);
 
 private:
 
 	Comptr<ID3D12Resource> materialBuffer_;
-	BaseMaterial* baseMaterial_;
+	PBRMaterial* pbrMaterial_;
 
 	// materialData
-	MaterialData materialData_;
+	ModelMaterialData materialData_;
 };

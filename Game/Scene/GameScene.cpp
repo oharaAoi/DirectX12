@@ -120,10 +120,35 @@ void GameScene::Update() {
 void GameScene::Draw() {
 	/*Engine::DrawModel(model_.get());
 	Engine::DrawModel(sphereModel_.get());
-	Engine::DrawModel(teapotModel_.get());
-	Engine::DrawSphere(sphere_.get());*/
+	Engine::DrawModel(teapotModel_.get());*/
+	//Engine::DrawSphere(sphere_.get());
+#pragma region NormalPipeline
 
-	particle_->Draw();
+	Engine::SetPipeline(PipelineKind::kNormalPipeline);
+	Engine::DrawSphere(sphere_.get());
+	
+#pragma endregion
+
+#pragma region Textureless
+
+	Engine::SetPipeline(PipelineKind::kTexturelessPipeline);
+
+#pragma endregion
+
+#pragma region PBR
+
+	Engine::SetPipeline(PipelineKind::kPBRPipeline);
+	//Engine::DrawModel(sphereModel_.get());
+
+
+#pragma endregion
+
+#pragma region Particle
+
+	Engine::SetPipeline(PipelineKind::kParticlePipeline);
+	//particle_->Draw();
+
+#pragma endregion
 
 	emitter_->Draw(camera_->GetViewMatrix() * camera_->GetProjectionMatrix());
 

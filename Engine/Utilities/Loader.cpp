@@ -122,7 +122,7 @@ std::vector<std::unique_ptr<Mesh>> LoadVertexData(const std::string& filePath, I
 
 std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device) {
 	std::unordered_map<std::string, std::unique_ptr<Material>> result;// 結果
-	std::unordered_map<std::string, Material::MaterialData> materialDatas;// 後で一気に結果の変数に代入するための物
+	std::unordered_map<std::string, Material::ModelMaterialData> materialDatas;// 後で一気に結果の変数に代入するための物
 
 	std::string line;// ファイルから読み込んだ1行を格納する物
 	std::string materialName; // newmtlの名前
@@ -163,7 +163,7 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(cons
 		if (materialIdentifier == "newmtl") {
 			s >> materialName;
 			materials.push_back(materialName);
-			materialDatas[materialName] = Material::MaterialData();
+			materialDatas[materialName] = Material::ModelMaterialData();
 
 		} else if (materialIdentifier == "map_Kd") {
 			// テクスチャマップを読み取る

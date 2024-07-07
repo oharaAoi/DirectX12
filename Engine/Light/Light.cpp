@@ -22,6 +22,7 @@ void Light::Update() {
 }
 
 void Light::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
+	DirectionalLightData_->direction = Normalize(DirectionalLightData_->direction);
 	commandList->SetGraphicsRootConstantBufferView(rootParameterIndex, lightBuffer_->GetGPUVirtualAddress());
 }
 
@@ -29,5 +30,6 @@ void Light::ImGuiDraw() {
 	ImGui::Begin("Light");
 	ImGui::DragFloat3("Direction", &DirectionalLightData_->direction.x, 0.1f, -1.0f, 1.0f);
 	ImGui::DragFloat("intensity", &DirectionalLightData_->intensity, 0.1f, 0.0f, 1.0f);
+	
 	ImGui::End();
 }

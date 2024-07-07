@@ -171,35 +171,21 @@ std::unique_ptr<BaseParticle> Engine::CreateBaseParticle(const std::string& file
 // 描画
 //------------------------------------------------------------------------------------------------------
 void Engine::DrawTriangle(Triangle* triangle) {
-	pipeline_->Draw(dxCommands_->GetCommandList());
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
 	triangle->Draw(dxCommands_->GetCommandList());
 }
 
 void Engine::DrawSprite(Sprite* sprite) {
-	pipeline_->Draw(dxCommands_->GetCommandList());
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
 	sprite->Draw(dxCommands_->GetCommandList());
 }
 
 void Engine::DrawSphere(Sphere* sphere) {
-	if (lightKind_ == LightGroup::Directional) {
-		//pipeline_->Draw(dxCommands_->GetCommandList());
-		pipeline_->Draw(dxCommands_->GetCommandList());
-	} else if(LightGroup::PBR) {
-		pbrPipeline_->Draw(dxCommands_->GetCommandList());
-	}
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
 	sphere->Draw(dxCommands_->GetCommandList());
 }
 
 void Engine::DrawModel(Model* model) {
-	if (lightKind_ == LightGroup::Directional) {
-		pipeline_->Draw(dxCommands_->GetCommandList());
-	} else if (LightGroup::PBR) {
-		pbrPipeline_->Draw(dxCommands_->GetCommandList());
-	}
-	
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
 	model->Draw(dxCommands_->GetCommandList());
 }
@@ -210,7 +196,6 @@ void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color
 }
 
 void Engine::DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance) {
-	particlePipeline_->Draw(dxCommands_->GetCommandList());
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
 	baseParticle->Draw(dxCommands_->GetCommandList(), numInstance);
 }
@@ -224,4 +209,24 @@ void Engine::SetLightKind(const LightGroup::LightKind& kind) {
 
 void Engine::SetEyePos(const Vector3& eyePos) {
 	lightGroup_->SetEyePos(eyePos);
+}
+
+//------------------------------------------------------------------------------------------------------
+// パイプラインの設定
+//------------------------------------------------------------------------------------------------------
+void Engine::SetPipeline(const PipelineKind& kind) {
+	switch (kind) {
+	case PipelineKind::kNormalPipeline:
+		pipeline_->Draw(dxCommands_->GetCommandList());
+		break;
+	case PipelineKind::kTexturelessPipeline:
+		texturelessPipeline_->Draw(dxCommands_->GetCommandList());
+		break;
+	case PipelineKind::kPBRPipeline:
+		pbrPipeline_->Draw(dxCommands_->GetCommandList());
+		break;
+	case PipelineKind::kParticlePipeline:
+		particlePipeline_->Draw(dxCommands_->GetCommandList());
+		break;
+	}
 }

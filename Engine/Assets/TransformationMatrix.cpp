@@ -25,6 +25,7 @@ void TransformationMatrix::Update(const Matrix4x4& world, const Matrix4x4& view,
 		TransformationData_[oi].world = world;
 		TransformationData_[oi].view = view;
 		TransformationData_[oi].projection = projection;
+		TransformationData_[oi].worldInverseTranspose = Transpose(Inverse(world));
 	}
 }
 
@@ -32,6 +33,7 @@ void TransformationMatrix::Update(const Matrix4x4& world, const Matrix4x4& view,
 	TransformationData_[index].world = world;
 	TransformationData_[index].view = view;
 	TransformationData_[index].projection = projection;
+	TransformationData_[index].worldInverseTranspose = Transpose(Inverse(world));
 }
 
 void TransformationMatrix::Draw(ID3D12GraphicsCommandList* commandList) {

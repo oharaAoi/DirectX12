@@ -200,7 +200,5 @@ PixelShaderOutput main(VertexShaderOutput input){
 		discard;
 	}
 
-	output.color = float4(1, 1, 1, 1);
-	
 	return output;
 }

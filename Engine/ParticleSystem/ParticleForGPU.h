@@ -19,6 +19,7 @@ public:
 		Matrix4x4 world;
 		Matrix4x4 view;
 		Matrix4x4 projection;
+		Matrix4x4 worldInverseTranspose;
 		Vector4 color;
 	};
 

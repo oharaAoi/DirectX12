@@ -24,6 +24,13 @@
 // data
 #include "Shader.h"
 
+enum class PipelineKind {
+	kNormalPipeline,
+	kTexturelessPipeline,
+	kPBRPipeline,
+	kParticlePipeline
+};
+
 class Engine {
 public:
 
@@ -89,7 +96,7 @@ public:
 
 	static void SetEyePos(const Vector3& eyePos);
 
-
+	static void SetPipeline(const PipelineKind& kind);
 
 private:
 
