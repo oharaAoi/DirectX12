@@ -1,7 +1,8 @@
 #pragma once
 #include <memory>
 // light
-#include "Light.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
 #include "Phong.h"
 
 class LightGroup {
@@ -23,7 +24,7 @@ public:
 
 	void Update();
 
-	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex, const LightKind& kind);
+	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
 
 public:
 
@@ -31,7 +32,8 @@ public:
 
 private:
 
-	std::unique_ptr<Light> light_ = nullptr; 
+	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
+	std::unique_ptr<PointLight> pointLight_ = nullptr;
 	std::unique_ptr<Phong> phong_ = nullptr;
 
 	Vector3 eyePos_;

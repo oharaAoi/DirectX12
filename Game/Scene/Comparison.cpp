@@ -14,7 +14,7 @@ void Comparison::Init() {
 		for (int32_t col = 0; col < 6; col++) {
 			spheres_.push_back(Engine::CreateSphere(16));
 			Vector3 scale = { 0.4f, 0.4f, 0.4f };
-			Vector3 translate = { col - 3, row - 3, 0.0f };
+			Vector3 translate = { col - 3.0f, row - 3.0f, 0.0f };
 			transforms_.push_back({ scale, {0.0f, 0.0f, 0.0f}, translate });
 
 			roughness_.push_back(0.2f * (float)col);

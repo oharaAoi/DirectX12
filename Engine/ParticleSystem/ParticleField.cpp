@@ -26,7 +26,6 @@ void ParticleField::Update() {
 	std::list<Particle::ParticleData>& particleList = particle_->GetParticleList();
 	for (std::list<Particle::ParticleData>::iterator particleIter = particleList.begin(); particleIter != particleList.end();) {
 		if (IsCollision(accelerationField_.area, (*particleIter).transform.translate)) {
-			const float kDeltaTime = 1.0f / 60.0f;
 			(*particleIter).velocity += accelerationField_.acceleration * kDeltaTime;
 		}
 		++particleIter;

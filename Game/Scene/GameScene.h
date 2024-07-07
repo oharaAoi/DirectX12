@@ -35,6 +35,8 @@ private:
 	std::unique_ptr<Model> sphereModel_ = nullptr;
 	std::unique_ptr<Model> teapotModel_ = nullptr;
 
+	std::unique_ptr<Model> terrainModel_ = nullptr;
+
 	std::unique_ptr<Model> particleModel_ = nullptr;
 
 	// ---------- vertex ---------- //

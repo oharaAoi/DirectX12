@@ -7,32 +7,31 @@ LightGroup::~LightGroup() {
 }
 
 void LightGroup::Init(ID3D12Device* device) {
-	light_ = std::make_unique<Light>();
+	directionalLight_ = std::make_unique<DirectionalLight>();
+	pointLight_ = std::make_unique<PointLight>();
 	phong_ = std::make_unique<Phong>();
 
-	light_->Init(device);
+	directionalLight_->Init(device, sizeof(DirectionalLight::DirectionalLightData));
+	pointLight_->Init(device, sizeof(PointLight::PointLightData));
 	phong_->Init(device);
 }
 
 void LightGroup::Finalize() {
-	light_->Finalize();
+	directionalLight_->Finalize();
+	pointLight_->Finalize();
 	phong_->Finalize();
 }
 
 void LightGroup::Update() {
 	phong_->SetEyePos(eyePos_);
-	light_->SetEyePos(eyePos_);
+	directionalLight_->SetEyePos(eyePos_);
+	pointLight_->SetEyePos(eyePos_);
 
-	light_->ImGuiDraw();
+	directionalLight_->ImGuiDraw();
+	pointLight_->ImGuiDraw();
 }
 
-void LightGroup::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex, const LightKind& kind) {
-	switch (kind) {
-	case LightKind::Directional:
-		light_->Draw(commandList, rootParameterIndex);
-		break;
-	case LightKind::PBR:
-		light_->Draw(commandList, rootParameterIndex);
-		break;
-	}
+void LightGroup::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
+	directionalLight_->Draw(commandList, rootParameterIndex);
+	pointLight_->Draw(commandList, 4);
 }

@@ -171,22 +171,22 @@ std::unique_ptr<BaseParticle> Engine::CreateBaseParticle(const std::string& file
 // 描画
 //------------------------------------------------------------------------------------------------------
 void Engine::DrawTriangle(Triangle* triangle) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
 	triangle->Draw(dxCommands_->GetCommandList());
 }
 
 void Engine::DrawSprite(Sprite* sprite) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
 	sprite->Draw(dxCommands_->GetCommandList());
 }
 
 void Engine::DrawSphere(Sphere* sphere) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
 	sphere->Draw(dxCommands_->GetCommandList());
 }
 
 void Engine::DrawModel(Model* model) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
 	model->Draw(dxCommands_->GetCommandList());
 }
 
@@ -196,7 +196,7 @@ void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color
 }
 
 void Engine::DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 2, lightKind_);
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
 	baseParticle->Draw(dxCommands_->GetCommandList(), numInstance);
 }
 

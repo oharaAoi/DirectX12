@@ -15,6 +15,8 @@ void GameScene::Init() {
 	sphereModel_ = Engine::CreateModel("sphere.obj");
 	teapotModel_ = Engine::CreateModel("teapot.obj");
 
+	terrainModel_ = Engine::CreateModel("terrain.obj");
+
 	particleModel_ = Engine::CreateModel("particle.obj");
 
 	particle_ = std::make_unique<Particle>();
@@ -30,7 +32,7 @@ void GameScene::Init() {
 	particleField_->SetParticle(particle_.get());
 
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
-	sphereTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, -1.5f, 0.0f}, {0.0f, 0.5f, 0.0f} };
+	sphereTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, -1.5f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 	sphereModelTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {1.5f, 0.5f, 0.0f} };
 	teapotTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, 0.0f, 0.0f}, {-1.5f, 0.5f, 0.0f} };
 
@@ -57,6 +59,8 @@ void GameScene::Update() {
 	model_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 	sphereModel_->Update(sphereModelWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 	teapotModel_->Update(teapotWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
+	terrainModel_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	emitter_->Update();
 
@@ -120,12 +124,14 @@ void GameScene::Update() {
 void GameScene::Draw() {
 	/*Engine::DrawModel(model_.get());
 	Engine::DrawModel(sphereModel_.get());
+	Engine::DrawModel(terrainModel_.get());
 	Engine::DrawModel(teapotModel_.get());*/
 	//Engine::DrawSphere(sphere_.get());
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
 	Engine::DrawSphere(sphere_.get());
+	Engine::DrawModel(terrainModel_.get());
 	
 #pragma endregion
 

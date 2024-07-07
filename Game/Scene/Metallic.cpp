@@ -17,7 +17,7 @@ void Metallic::Init() {
 		spheres_.push_back(Engine::CreateSphere(16));
 		Vector3 scale = { 0.5f, 0.5f, 0.5f };
 
-		Vector3 translate = { oi - 5, 0.0f, 0.0f };
+		Vector3 translate = { oi - 5.0f, 0.0f, 0.0f };
 		transforms_.push_back({ scale, {0.0f, 0.0f, 0.0f}, translate });
 
 		roughness_.push_back(0.5f);

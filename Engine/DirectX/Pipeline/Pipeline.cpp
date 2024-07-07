@@ -89,7 +89,7 @@ D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState() {
 	// Depthの機能を有効化する
 	desc.DepthEnable = true;
 	// 書き込み
-	desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
 	// 地下駆ければ描画
 	desc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
