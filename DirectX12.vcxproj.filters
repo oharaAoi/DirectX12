@@ -264,11 +264,11 @@
     <ClCompile Include="Engine\Collider\BoxCollider.cpp">
       <Filter>Engine\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="BaseLight.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\Light\PointLight.cpp">
+      <Filter>Engine\Light</Filter>
     </ClCompile>
-    <ClCompile Include="PointLight.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\Light\BaseLight.cpp">
+      <Filter>Engine\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -464,11 +464,11 @@
     <ClInclude Include="Engine\Collider\BoxCollider.h">
       <Filter>Engine\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="BaseLight.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\Light\PointLight.h">
+      <Filter>Engine\Light</Filter>
     </ClInclude>
-    <ClInclude Include="PointLight.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\Light\BaseLight.h">
+      <Filter>Engine\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
