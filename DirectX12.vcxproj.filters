@@ -270,6 +270,9 @@
     <ClCompile Include="Engine\Light\BaseLight.cpp">
       <Filter>Engine\Light</Filter>
     </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -469,6 +472,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Light\BaseLight.h">
       <Filter>Engine\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

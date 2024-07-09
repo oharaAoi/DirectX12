@@ -3,6 +3,7 @@
 // light
 #include "DirectionalLight.h"
 #include "PointLight.h"
+#include "SpotLight.h"
 #include "Phong.h"
 
 class LightGroup {
@@ -34,6 +35,7 @@ private:
 
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
+	std::unique_ptr<SpotLight> spotLight_ = nullptr;
 	std::unique_ptr<Phong> phong_ = nullptr;
 
 	Vector3 eyePos_;

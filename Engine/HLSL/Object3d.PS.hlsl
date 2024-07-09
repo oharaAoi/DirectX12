@@ -17,16 +17,28 @@ struct DirectionalLight{
 struct PointLight{
 	float4 color; // ライトの色
 	float3 position; // ライトの位置
-	float pad;
 	float3 eyePos;
 	float intensity; // 輝度
 	float radius;	// 最大距離
 	float decay;	// 減衰率
 };
 
+struct SpotLight{
+	float4 color;		// ライトの色
+	float3 position;	// ライトの位置
+	float3 eyePos;		// 視点の位置
+	float intensity;	// 輝度
+	float3 direction;	// 方向
+	float distance;		// ライトの届く最大距離
+	float decay;		// 減衰率
+	float cosAngle;		// スポットライトの余弦
+	float cosFalloffStart;
+};
+
 ConstantBuffer<Material> gMaterial : register(b0);
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
 ConstantBuffer<PointLight> gPointLight : register(b2);
+ConstantBuffer<SpotLight> gSpotLight : register(b3);
 Texture2D<float4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
 struct PixelShaderOutput{
@@ -126,8 +138,33 @@ PixelShaderOutput main(VertexShaderOutput input){
 	float pNdotH = dot(normalize(input.normal), phalfVector);
 	float3 pointSpeculer = BlinnPhong(pNdotH, gPointLight.color * factor) * gPointLight.intensity;
 	
+	// --------------------- spot --------------------- //
+	// 入射光
+	float3 spotLightDirectionOnSurface = normalize(input.worldPos.xyz - gSpotLight.position);
+	// Falloff
+	float cosAngle = dot(spotLightDirectionOnSurface, gSpotLight.direction);
+	float falloffFactor = saturate((cosAngle - gSpotLight.cosAngle) / (gSpotLight.cosFalloffStart - gSpotLight.cosAngle));
+	// 距離による減衰
+	float distanceSpot = length(gSpotLight.position - input.worldPos.xyz);
+	float attenuationFactor = pow(saturate(-distanceSpot / gSpotLight.distance + 1.0f), gSpotLight.decay);
+	// スポットライトのカラー
+	float4 spotColor = gSpotLight.color * gSpotLight.intensity * attenuationFactor * falloffFactor;
+	
+	// lambert
+	float3 spotDiffuse;
+	if (gMaterial.enableLighting != 0){
+		float NdotL = dot(normalize(input.normal), normalize(-gSpotLight.direction));
+		spotDiffuse = HalfLambert(NdotL, spotColor).rbg * gMaterial.color.rgb * textureColor.rgb;
+		
+	}else{
+		output.color = gMaterial.color * textureColor;
+	}
+	
+	// phong
+	float3 spotSpeculer = BlinnPhong(NdotH, spotColor);
+	
 	// --------------------- final --------------------- //
-	output.color.rgb = directionalDiffuse + directionalSpeculer + pointDiffuse + pointSpeculer;
+	output.color.rgb = directionalDiffuse + directionalSpeculer + pointDiffuse + pointSpeculer + spotDiffuse + spotSpeculer;
 	output.color.a = gMaterial.color.a * textureColor.a;
 	
 	if (output.color.a <= 0.0f){
