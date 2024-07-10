@@ -18,6 +18,7 @@ public: // 構造体
 		Vector4 pos;
 		Vector2 texcoord;
 		Vector3 normal;
+		Vector4 worldPos;
 		Vector3 tangent;
 	};
 

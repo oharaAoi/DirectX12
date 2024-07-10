@@ -21,6 +21,8 @@
 #include "PrimitiveDrawer.h"
 // light
 #include "LightGroup.h"
+// audio
+#include "Audio.h"
 // data
 #include "Shader.h"
 
@@ -98,6 +100,27 @@ public:
 
 	static void SetPipeline(const PipelineKind& kind);
 
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	// sound系
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	static SoundData LoadAudio(const std::string& fileName);
+
+	static BgmData LoadBGM(const std::string& fileName);
+
+	static SeData LoadSE(const std::string& fileName);
+
+	static void PlayAudio(const SoundData& soundData);
+
+	static void PlayBGM(const BgmData& soundData, const bool& isLoop);
+
+	static void PlaySE(const SeData& soundData, const bool& isLoop);
+
+	static void PauseBGM(const BgmData& soundData);
+
+	static void ReStartBGM(const BgmData& soundData);
+
+	static void StopBGM(const BgmData& soundData);
+
 private:
 
 };
@@ -133,7 +156,9 @@ namespace {
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
 	// light
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
-
+	// audio
+	std::unique_ptr<Audio> audio_ = nullptr;
+	// primitive
 	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
 
 	Shader shaders_;

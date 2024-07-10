@@ -53,7 +53,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)Game\Scene;$(ProjectDir)Game\Camera;$(ProjectDir)Game;$(ProjectDir)Engine\WinApp;$(ProjectDir)Engine\Utilities;$(ProjectDir)Engine\ParticleSystem;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Manager;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Lib;$(ProjectDir)Engine\ImGui;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\HLSL;$(ProjectDir)Engine\GameObject;$(ProjectDir)Engine\Collider;$(ProjectDir)Engine\Assets;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\DirectX\RTV;$(ProjectDir)Engine\DirectX\RootSignature;$(ProjectDir)Engine\DirectX\Pipeline;$(ProjectDir)Engine\DirectX\DirectXDevice;$(ProjectDir)Engine\DirectX\DirectXCompiler;$(ProjectDir)Engine\DirectX\DirectXCommon;$(ProjectDir)Engine\DirectX\DirectXCommands;$(ProjectDir)Engine\DirectX\Descriptor;$(ProjectDir)Engine\DirectX\;$(ProjectDir)Engine;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals;$(ProjectDir)Externals\assimp\include;$(ProjectDir)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Game\Scene;$(ProjectDir)Game\Camera;$(ProjectDir)Game;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\WinApp;$(ProjectDir)Engine\Utilities;$(ProjectDir)Engine\ParticleSystem;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Manager;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Lib;$(ProjectDir)Engine\ImGui;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\HLSL;$(ProjectDir)Engine\GameObject;$(ProjectDir)Engine\Collider;$(ProjectDir)Engine\Assets;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\DirectX\RTV;$(ProjectDir)Engine\DirectX\RootSignature;$(ProjectDir)Engine\DirectX\Pipeline;$(ProjectDir)Engine\DirectX\DirectXDevice;$(ProjectDir)Engine\DirectX\DirectXCompiler;$(ProjectDir)Engine\DirectX\DirectXCommon;$(ProjectDir)Engine\DirectX\DirectXCommands;$(ProjectDir)Engine\DirectX\Descriptor;$(ProjectDir)Engine\DirectX\;$(ProjectDir)Engine;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals;$(ProjectDir)Externals\assimp\include;$(ProjectDir)\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -96,6 +96,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Assets\Material.cpp" />
     <ClCompile Include="Engine\Assets\Mesh.cpp" />
     <ClCompile Include="Engine\Assets\TransformationMatrix.cpp" />
+    <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\Collider\BoxCollider.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp" />
@@ -157,6 +158,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Assets\Material.h" />
     <ClInclude Include="Engine\Assets\Mesh.h" />
     <ClInclude Include="Engine\Assets\TransformationMatrix.h" />
+    <ClInclude Include="Engine\Audio\Audio.h" />
     <ClInclude Include="Engine\Collider\BoxCollider.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h" />

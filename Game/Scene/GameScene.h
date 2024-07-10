@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine.h"
+#include "Input.h"
 // lib
 #include "Transform.h"
 #include "DrawUtils.h"
@@ -70,4 +71,8 @@ private:
 	float metallic_;
 
 	int lightKind_;
+
+	// ---------- sound ---------- //
+	SeData soundData_;
+	BgmData bgmData_;
 };

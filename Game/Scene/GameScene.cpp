@@ -11,13 +11,13 @@ void GameScene::Init() {
 
 	sphere_ = Engine::CreateSphere(16);
 
-	model_ = Engine::CreateModel("floor.obj");
+	/*model_ = Engine::CreateModel("floor.obj");*/
 	sphereModel_ = Engine::CreateModel("sphere.obj");
-	teapotModel_ = Engine::CreateModel("teapot.obj");
+	teapotModel_ = Engine::CreateModel("plane.obj");
 
-	terrainModel_ = Engine::CreateModel("terrain.obj");
+	//terrainModel_ = Engine::CreateModel("terrain.obj");
 
-	particleModel_ = Engine::CreateModel("particle.obj");
+	//particleModel_ = Engine::CreateModel("particle.obj");
 
 	particle_ = std::make_unique<Particle>();
 	particle_->Init("particle.obj", 100);
@@ -34,12 +34,15 @@ void GameScene::Init() {
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 	sphereTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, -1.5f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 	sphereModelTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {1.5f, 0.5f, 0.0f} };
-	teapotTransform_ = { {0.5f, 0.5f, 0.5f}, {0.0f, 0.0f, 0.0f}, {-1.5f, 0.5f, 0.0f} };
+	teapotTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {-1.5f, 0.5f, 0.0f} };
 
 	roughness_ = 0.5f;
 	metallic_ = 0.5f;
 
 	lightKind_ = 0;
+
+	soundData_ = Engine::LoadSE("Resources/fanfare.wav");
+	bgmData_ = Engine::LoadBGM("Resources/fanfare.wav");
 }
 
 void GameScene::Update() {
@@ -56,16 +59,16 @@ void GameScene::Update() {
 
 	sphere_->Update(sphereWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
-	model_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	/*model_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());*/
 	sphereModel_->Update(sphereModelWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 	teapotModel_->Update(teapotWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
-	terrainModel_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	//terrainModel_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	emitter_->Update();
 
 	particle_->SetCameraMatrix(camera_->GetCameraMatrix());
-	particle_->Update(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	/*particle_->Update(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());*/
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// 当たり判定
@@ -74,6 +77,26 @@ void GameScene::Update() {
 
 	Engine::SetEyePos(camera_->GetWorldTranslate());
 	//Engine::SetEyePos(camera_->GetTranslate());
+
+	if (Input::IsTriggerKey(DIK_P)) {
+		Engine::PlaySE(soundData_, false);
+	}
+
+	if (Input::IsTriggerKey(DIK_O)) {
+		Engine::PlayBGM(bgmData_, true);
+	}
+
+	if (Input::IsTriggerKey(DIK_S)) {
+		Engine::StopBGM(bgmData_);
+	}
+
+	if (Input::IsTriggerKey(DIK_Q)) {
+		Engine::PauseBGM(bgmData_);
+	}
+
+	if (Input::IsTriggerKey(DIK_W)) {
+		Engine::ReStartBGM(bgmData_);
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// ImGui
@@ -92,6 +115,11 @@ void GameScene::Update() {
 		ImGui::DragFloat3("tTranslate", &teapotTransform_.translate.x, 0.1f);
 		ImGui::DragFloat3("tRotate", &teapotTransform_.rotate.x, 0.1f);
 		ImGui::DragFloat3("tScale", &teapotTransform_.scale.x, 0.1f);
+		ImGui::Spacing();
+
+		ImGui::DragFloat3("smTranslate", &sphereModelTransform_.translate.x, 0.1f);
+		ImGui::DragFloat3("smRotate", &sphereModelTransform_.rotate.x, 0.1f);
+		ImGui::DragFloat3("smScale", &sphereModelTransform_.scale.x, 0.1f);
 	}
 
 	if (ImGui::CollapsingHeader("materials")) {
@@ -113,12 +141,14 @@ void GameScene::Update() {
 
 	ImGui::End();
 
-	model_->ImGuiDraw("floor");
+	/*model_->ImGuiDraw("floor");
 	sphere_->ImGuiDraw("Sphere");
 	sphereModel_->ImGuiDraw("sphereModel");
 	teapotModel_->ImGuiDraw("teapot");
 
-	particle_->ImGuiDraw();
+	particle_->ImGuiDraw();*/
+
+	sphereModel_->ImGuiDraw("sphereModel");
 }
 
 void GameScene::Draw() {
@@ -131,7 +161,9 @@ void GameScene::Draw() {
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
 	Engine::DrawSphere(sphere_.get());
-	Engine::DrawModel(terrainModel_.get());
+	//Engine::DrawModel(terrainModel_.get());
+	Engine::DrawModel(teapotModel_.get());
+	Engine::DrawModel(sphereModel_.get());
 	
 #pragma endregion
 

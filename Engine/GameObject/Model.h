@@ -6,12 +6,24 @@
 #include <cassert>
 #include <unordered_map>
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #include "Mesh.h"
 #include "Material.h"
 #include "TransformationMatrix.h"
 #include "TextureManager.h"
 
 class Model {
+public:
+
+	struct Node {
+		Matrix4x4 localMatrix;		// NodeのLocalMatrix
+		std::string name;			// Nodeの名前
+		std::vector<Node> children;	// 子供のNode
+	};
+
 public:
 
 	Model();
@@ -26,6 +38,13 @@ public:
 	void ImGuiDraw(const std::string& name);
 
 	void SetMaterials(const float& roughness, const float& metallic);
+
+	/// <summary>
+	/// assimpでのNode解析
+	/// </summary>
+	/// <param name="node"></param>
+	/// <returns></returns>
+	Node ReadNode(aiNode* node);
 
 public:
 
@@ -45,6 +64,8 @@ public:
 	/// <param name="device"></param>
 	/// <returns></returns>
 	std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device);
+
+	void LoadObj(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device);
 
 public:
 

@@ -62,6 +62,17 @@ void Material::SetMaterialData(ModelMaterialData materialData) {
 	pbrMaterial_->roughness = 0.5f;
 	pbrMaterial_->metallic = 0.5f;
 	pbrMaterial_->shininess = 50;
+
+	pbrMaterial_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	pbrMaterial_->enableLighting = true;
+	pbrMaterial_->uvTransform = MakeIdentity4x4();
+	pbrMaterial_->shininess = 50;
+
+	pbrMaterial_->diffuseColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	pbrMaterial_->specularColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	pbrMaterial_->roughness = 0.5f;
+	pbrMaterial_->metallic = 0.5f;
 }
 
 void Material::SetMaterialParameter(const float& roughness, const float& metallic) {

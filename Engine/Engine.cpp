@@ -79,6 +79,10 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	// input
 	input_->Initialize(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 
+	// audio
+	audio_ = std::make_unique<Audio>();
+	audio_->Initialize();
+
 	// primitive
 	primitiveDrawer_ = std::make_unique<PrimitiveDrawer>();
 	primitiveDrawer_->Initialize(dxDevice_->GetDevice());
@@ -229,4 +233,43 @@ void Engine::SetPipeline(const PipelineKind& kind) {
 		particlePipeline_->Draw(dxCommands_->GetCommandList());
 		break;
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// sound系
+/////////////////////////////////////////////////////////////////////////////////////////////
+SoundData Engine::LoadAudio(const std::string& fileName) {
+	return audio_->SoundLoadWave(fileName.c_str());
+}
+
+BgmData Engine::LoadBGM(const std::string& fileName) {
+	return audio_->LoadBGM(fileName.c_str());
+}
+
+SeData Engine::LoadSE(const std::string& fileName) {
+	return audio_->LoadSE(fileName.c_str());
+}
+
+void Engine::PlayAudio(const SoundData& soundData) {
+	audio_->SoundPlayWave(soundData);
+}
+
+void Engine::PlayBGM(const BgmData& soundData, const bool& isLoop) {
+	audio_->PlayBGM(soundData, isLoop);
+}
+
+void Engine::PlaySE(const SeData& soundData, const bool& isLoop) {
+	audio_->PlaySE(soundData, isLoop);
+}
+
+void Engine::PauseBGM(const BgmData& soundData) {
+	audio_->PauseAudio(soundData.pSourceVoice);
+}
+
+void Engine::ReStartBGM(const BgmData& soundData) {
+	audio_->ReStartAudio(soundData.pSourceVoice);
+}
+
+void Engine::StopBGM(const BgmData& soundData) {
+	audio_->StopAudio(soundData.pSourceVoice);
 }
