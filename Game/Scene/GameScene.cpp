@@ -78,6 +78,9 @@ void GameScene::Update() {
 	Engine::SetEyePos(camera_->GetWorldTranslate());
 	//Engine::SetEyePos(camera_->GetTranslate());
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	// sound
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 	if (Input::IsTriggerKey(DIK_P)) {
 		Engine::PlaySE(soundData_, false);
 	}
@@ -97,6 +100,21 @@ void GameScene::Update() {
 	if (Input::IsTriggerKey(DIK_W)) {
 		Engine::ReStartBGM(bgmData_);
 	}
+
+	Vector2 joyStickLeft = Input::GetLeftJoyStick();
+	Vector2 joyStickRight = Input::GetRightJoyStick();
+	ImGui::Begin("Input");
+	ImGui::Text("LX : %f  LY : %f", joyStickLeft.x, joyStickLeft.y);
+	ImGui::Text("RX : %f  RY : %f", joyStickRight.x, joyStickRight.y);
+	if (Input::IsTriggerKey(DIK_SPACE)) {
+		ImGui::Text("TriggerSpace");
+	}
+
+	if (Input::IsPressKey(DIK_SPACE)) {
+		ImGui::Text("PressSpace");
+	}
+
+	ImGui::End();
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// ImGui

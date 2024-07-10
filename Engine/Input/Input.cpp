@@ -8,6 +8,9 @@ DIMOUSESTATE Input::preMouse_;
 
 POINT Input::mousePoint_;
 
+XINPUT_STATE Input::gamepadState_;
+XINPUT_STATE Input::preGamepadState_;
+
 Input* Input::GetInstance() {
 	static Input instance;
 	return &instance;
@@ -55,6 +58,8 @@ void Input::Update() {
 
 	GetCursorPos(&mousePoint_);
 	ScreenToClient(FindWindowA("CG2", nullptr), &mousePoint_);
+
+	GamePadInitialize();
 }
 
 //=================================================================================================================
@@ -94,6 +99,15 @@ void Input::MouseInitialize() {
 		FindWindow(L"CG2", nullptr),
 		DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 	assert(SUCCEEDED(result));
+}
+
+//=================================================================================================================
+//	↓　ゲームパッドの初期化
+//=================================================================================================================
+void Input::GamePadInitialize() {
+	preGamepadState_ = gamepadState_;
+	ZeroMemory(&gamepadState_, sizeof(XINPUT_STATE));
+	XInputGetState(0, &gamepadState_);
 }
 
 //=================================================================================================================
@@ -193,4 +207,37 @@ bool Input::IsUnPressMouse(uint8_t keyNum) {
 int Input::GetWheel() {
 	int wheel = currentMouse_.lZ;
 	return wheel;
+}
+
+// ---------------------------------------------------------------
+// ↓　ゲームパッドのボタンの取得
+// ---------------------------------------------------------------
+bool Input::GetIsPadTrigger(int triggerNum) {
+	if ((gamepadState_.Gamepad.wButtons & triggerNum) &&
+		!(preGamepadState_.Gamepad.wButtons & triggerNum)) {
+
+		return true;
+	}
+
+	return false;
+}
+
+Vector2 Input::GetLeftJoyStick() {
+	float LX = gamepadState_.Gamepad.sThumbLX;
+	float LY = gamepadState_.Gamepad.sThumbLY;
+
+	if (std::abs(LX) < DEADZONE) LX = 0;
+	if (std::abs(LY) < DEADZONE) LY = 0;
+
+	return Vector2(LX, LY);
+}
+
+Vector2 Input::GetRightJoyStick() {
+	float RX = gamepadState_.Gamepad.sThumbRX;
+	float RY = gamepadState_.Gamepad.sThumbRY;
+
+	if (std::abs(RX) < DEADZONE) RX = 0;
+	if (std::abs(RY) < DEADZONE) RY = 0;
+
+	return Vector2(RX, RY);
 }

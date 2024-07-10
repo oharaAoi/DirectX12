@@ -4,11 +4,16 @@
 #include <wrl.h>
 #include <memory>
 #include <cassert>
+#include <Xinput.h>
 
 #include "Vector2.h"
 
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
+#pragma comment(lib, "Xinput.lib")
+
+// デッドゾーン
+const float DEADZONE = 8000;
 
 class Input {
 public:
@@ -53,6 +58,11 @@ public:
 	/// <param name="hwnd"></param>
 	void MouseInitialize();
 
+	/// <summary>
+	/// ゲームパッドの初期化
+	/// </summary>
+	void GamePadInitialize();
+
 public: // 入力
 
 	// ---------------------------------------------------------------
@@ -95,6 +105,16 @@ public: // 入力
 		return Vector2((static_cast<float>(currentMouse_.lX), static_cast<float>(currentMouse_.lY)));
 	}
 
+	// ---------------------------------------------------------------
+	// ↓　ゲームパッド
+	// ---------------------------------------------------------------
+	// ゲームパッドのボタンを取得
+	static bool GetIsPadTrigger(int triggerNum);
+	// 左ジョイスティックの値の取得
+	static Vector2 GetLeftJoyStick();
+	// 右ジョイスティックの値の取得
+	static Vector2 GetRightJoyStick();
+
 private:
 	// DirectInputオブジェクトの生成
 	Microsoft::WRL::ComPtr<IDirectInput8> directInput_ = nullptr;
@@ -102,6 +122,8 @@ private:
 	Microsoft::WRL::ComPtr<IDirectInputDevice8> keyboard_ = nullptr;
 	// mouseデバイスの生成
 	Microsoft::WRL::ComPtr<IDirectInputDevice8> mouse_ = nullptr;
+	// padデバイスの生成
+	Microsoft::WRL::ComPtr<IDirectInputDevice8> gamepad = nullptr;
 
 	// keyboard
 	static BYTE key_[256];
@@ -111,5 +133,9 @@ private:
 	static DIMOUSESTATE currentMouse_;
 	static DIMOUSESTATE preMouse_;
 	static POINT mousePoint_;
+
+	// pad
+	static XINPUT_STATE gamepadState_;
+	static XINPUT_STATE preGamepadState_;
 
 };
