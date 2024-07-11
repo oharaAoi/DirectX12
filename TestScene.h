@@ -5,12 +5,16 @@
 #include "Transform.h"
 #include "DrawUtils.h"
 // gameObject
+#include "BaseGameObject.h"
 #include "Camera.h"
 #include "Particle.h"
 #include "Emitter.h"
 #include "ParticleField.h"
 
 class TestScene {
+public:
+
+
 public:
 
 	TestScene();
@@ -22,6 +26,8 @@ public:
 
 	void Draw();
 
+	void AddGameObject();
+
 private:
 
 	// カメラ ----------------------------------------------
@@ -31,6 +37,9 @@ private:
 	std::unique_ptr<Model> skinModel_ = nullptr;
 
 	// トランスフォーム --------------------------------------
-	kTransform skinTransform_;
+	WorldTransform skinTransform_;
+
+	// ゲームオブジェクト ------------------------------------
+	int objectKind_;
 };
 

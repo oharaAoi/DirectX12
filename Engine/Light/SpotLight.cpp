@@ -11,7 +11,7 @@ void SpotLight::Init(ID3D12Device* device, const size_t& size) {
 	lightBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData_));
 	spotLightData_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	spotLightData_->position = { 2.0f, 1.25f, 0.0f };
-	spotLightData_->intensity = 4.0f;
+	spotLightData_->intensity = 0.0f;
 	spotLightData_->direction = Normalize({ -1.0f, -1.0f, 0.0f });
 	spotLightData_->distance = 7.0f;
 	spotLightData_->decay = 2.0f;

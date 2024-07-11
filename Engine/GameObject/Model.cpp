@@ -10,35 +10,31 @@ Model::~Model() {
 // 初期化関数
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
-	transformation_ = std::make_unique<TransformationMatrix>();
 	std::string path = directorPath + "/" + fileName;
 
 	/*materialArray_ = LoadMaterialData(directorPath, fileName, device);
 	meshArray_ = LoadVertexData(path, device);*/
 
 	LoadObj(directorPath, fileName, device);
-	
-	transformation_->Init(device, 1);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 更新関数
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void Model::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection) {
-	transformation_->Update(world, view, projection);
-
-	transformation_->Update(world * rootNode_.localMatrix, view, projection);
+void Model::Update() {
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 描画関数
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void Model::Draw(ID3D12GraphicsCommandList* commandList) {
+void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 		meshArray_[oi]->Draw(commandList);
 		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
-		transformation_->Draw(commandList);
+		worldTransform.Draw(commandList);
+		viewProjection->Draw(commandList);
 		
 		if (hasTexture_) {
 			std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetMateriaData().textureFilePath;

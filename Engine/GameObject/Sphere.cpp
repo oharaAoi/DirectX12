@@ -9,13 +9,11 @@ Sphere::~Sphere() {
 void Sphere::Init(ID3D12Device* device, const uint32_t& division) {
 	mesh_ = std::make_unique<Mesh>();
 	material_ = std::make_unique<Material>();
-	transformation_ = std::make_unique<TransformationMatrix>();
-
+	
 	vertexCount_ = division * division * 6;
 
 	mesh_->Init(device, sizeof(Mesh::VertexData) * vertexCount_, vertexCount_);
 	material_->Init(device);
-	transformation_->Init(device, 1);
 
 	const float kLonEvery = float(M_PI) * 2.0f / float(division);// fai
 	const float kLatEvery = float(M_PI) / float(division); // theta
@@ -88,15 +86,18 @@ void Sphere::Init(ID3D12Device* device, const uint32_t& division) {
 	}
 }
 
-void Sphere::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection) {
-	transformation_->Update(world, view, projection);
+void Sphere::Update() {
+	
 }
 
-void Sphere::Draw(ID3D12GraphicsCommandList* commandList) {
+void Sphere::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	mesh_->Draw(commandList);
 	material_->Draw(commandList);
-	transformation_->Draw(commandList);
+
+	worldTransform.Draw(commandList);
+	viewProjection->Draw(commandList);
+
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/monsterBall.png");
 	commandList->DrawIndexedInstanced(vertexCount_, 1, 0, 0, 0);
 }

@@ -163,8 +163,18 @@ PixelShaderOutput main(VertexShaderOutput input){
 	// phong
 	float3 spotSpeculer = BlinnPhong(NdotH, spotColor);
 	
+	// --------------------- limLight --------------------- //
+	// サーフェイスの法線と光の入射方向によるリムの強さを計算
+	float powerLimSurface = 1.0f - max(0.0f, dot(gDirectionalLight.direction, input.normal));
+	// 視線によるリムの強さの計算
+	float powwerLimView = 1.0f - max(0.0f, dot(toEye, input.normal));
+	// 最終的なリムの強さを求める
+	float limPower = powerLimSurface * powwerLimView;
+	// リムライトのカラーを計算する
+	float3 limColor = limPower * gDirectionalLight.color.rgb * gDirectionalLight.intensity;
+	
 	// --------------------- final --------------------- //
-	output.color.rgb = directionalDiffuse + directionalSpeculer + pointDiffuse + pointSpeculer + spotDiffuse + spotSpeculer;
+	output.color.rgb = directionalDiffuse + directionalSpeculer + pointDiffuse + pointSpeculer + spotDiffuse + spotSpeculer + limPower;
 	output.color.a = gMaterial.color.a * textureColor.a;
 	
 	if (output.color.a <= 0.0f){

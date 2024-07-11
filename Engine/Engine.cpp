@@ -87,12 +87,17 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	primitiveDrawer_ = std::make_unique<PrimitiveDrawer>();
 	primitiveDrawer_->Initialize(dxDevice_->GetDevice());
 
+	viewProjection_ = std::make_unique<ViewProjection>();
+	viewProjection_->Init(dxDevice_->GetDevice());
+
 	Log("Clear!\n");
 
 	lightKind_ = LightGroup::Directional;
 }
 
 void Engine::Finalize() {
+	viewProjection_->Finalize();
+
 	primitiveDrawer_->Finalize();
 	lightGroup_->Finalize();
 
@@ -171,27 +176,33 @@ std::unique_ptr<BaseParticle> Engine::CreateBaseParticle(const std::string& file
 	return particle;
 }
 
+WorldTransform Engine::CreateWorldTransform() {
+	WorldTransform result;
+	result.Init(dxDevice_->GetDevice());
+	return result;
+}
+
 //------------------------------------------------------------------------------------------------------
 // 描画
 //------------------------------------------------------------------------------------------------------
-void Engine::DrawTriangle(Triangle* triangle) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
-	triangle->Draw(dxCommands_->GetCommandList());
+void Engine::DrawTriangle(Triangle* triangle, const WorldTransform& worldTransform) {
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
+	triangle->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
 }
 
 void Engine::DrawSprite(Sprite* sprite) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
 	sprite->Draw(dxCommands_->GetCommandList());
 }
 
-void Engine::DrawSphere(Sphere* sphere) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
-	sphere->Draw(dxCommands_->GetCommandList());
+void Engine::DrawSphere(Sphere* sphere, const WorldTransform& worldTransform) {
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
+	sphere->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
 }
 
-void Engine::DrawModel(Model* model) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
-	model->Draw(dxCommands_->GetCommandList());
+void Engine::DrawModel(Model* model, const WorldTransform& worldTransform) {
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
+	model->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
 }
 
 void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat) {
@@ -200,9 +211,23 @@ void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color
 }
 
 void Engine::DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
 	baseParticle->Draw(dxCommands_->GetCommandList(), numInstance);
 }
+//
+//void Engine::DrawGameObject(BaseGameObject* gameObject, const GameObjectKind& kind) {
+//	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
+//
+//	switch (kind) {
+//	case GameObjectKind::kModel:
+//		
+//		break;
+//
+//	case GameObjectKind::kSphere:
+//
+//		break;
+//	}
+//}
 
 //------------------------------------------------------------------------------------------------------
 // ライトの設定
@@ -233,6 +258,10 @@ void Engine::SetPipeline(const PipelineKind& kind) {
 		particlePipeline_->Draw(dxCommands_->GetCommandList());
 		break;
 	}
+}
+
+void Engine::SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection) {
+	viewProjection_->SetViewProjection(view, projection);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

@@ -11,7 +11,7 @@ void PointLight::Init(ID3D12Device* device, const size_t& size) {
 	lightBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData_));
 	pointLightData_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	pointLightData_->position = { 0.0f, 2.0f, 0.0f };
-	pointLightData_->intensity = 1.0f;
+	pointLightData_->intensity = 0.0f;
 	pointLightData_->radius = 5.0f;
 	pointLightData_->decay = 1.0f;
 }

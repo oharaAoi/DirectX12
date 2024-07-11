@@ -10,9 +10,11 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "BaseGameObject.h"
 #include "Mesh.h"
 #include "Material.h"
-#include "TransformationMatrix.h"
+#include "WorldTransform.h"
+#include "ViewProjection.h"
 #include "TextureManager.h"
 
 class Model {
@@ -31,9 +33,9 @@ public:
 
 	void Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName);
 
-	void Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection);
+	void Update();
 
-	void Draw(ID3D12GraphicsCommandList* commandList);
+	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewprojection);
 
 	void ImGuiDraw(const std::string& name);
 
@@ -77,8 +79,6 @@ private:
 	std::vector<std::unique_ptr<Mesh>> meshArray_;
 	// テクスチャの情報を持っている
 	std::unordered_map<std::string, std::unique_ptr<Material>> materialArray_;
-	// 
-	std::unique_ptr<TransformationMatrix> transformation_;
 
 	Node rootNode_;
 

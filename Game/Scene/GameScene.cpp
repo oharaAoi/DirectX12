@@ -57,11 +57,11 @@ void GameScene::Update() {
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	camera_->Update();
 
-	sphere_->Update(sphereWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	//sphere_->Update(sphereWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
-	/*model_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());*/
-	sphereModel_->Update(sphereModelWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-	teapotModel_->Update(teapotWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	///*model_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());*/
+	//sphereModel_->Update(sphereModelWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	//teapotModel_->Update(teapotWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	//terrainModel_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
@@ -178,10 +178,10 @@ void GameScene::Draw() {
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
-	Engine::DrawSphere(sphere_.get());
-	//Engine::DrawModel(terrainModel_.get());
-	Engine::DrawModel(teapotModel_.get());
-	Engine::DrawModel(sphereModel_.get());
+	//Engine::DrawSphere(sphere_.get());
+	////Engine::DrawModel(terrainModel_.get());
+	//Engine::DrawModel(teapotModel_.get());
+	//Engine::DrawModel(sphereModel_.get());
 	
 #pragma endregion
 

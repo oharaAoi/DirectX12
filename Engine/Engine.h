@@ -25,12 +25,21 @@
 #include "Audio.h"
 // data
 #include "Shader.h"
+// 
+#include "WorldTransform.h"
+#include "ViewProjection.h"
 
 enum class PipelineKind {
 	kNormalPipeline,
 	kTexturelessPipeline,
 	kPBRPipeline,
 	kParticlePipeline
+};
+
+
+enum class GameObjectKind {
+	kModel,
+	kSphere
 };
 
 class Engine {
@@ -76,20 +85,24 @@ public:
 
 	static std::unique_ptr<BaseParticle> CreateBaseParticle(const std::string& fileName, const uint32_t& instanceNum);
 
+	static WorldTransform CreateWorldTransform();
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 描画系
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	static void DrawTriangle(Triangle* triangle);
+	static void DrawTriangle(Triangle* triangle, const WorldTransform& worldTransform);
 
 	static void DrawSprite(Sprite* sprite);
 
-	static void DrawSphere(Sphere* sphere);
+	static void DrawSphere(Sphere* sphere, const WorldTransform& worldTransform);
 
-	static void DrawModel(Model* model);
+	static void DrawModel(Model* model, const WorldTransform& worldTransform);
 
 	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat);
 
 	static void DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance);
+
+	//static void DrawGameObject(BaseGameObject* gameObject, const GameObjectKind& kind);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 設定系
@@ -99,6 +112,8 @@ public:
 	static void SetEyePos(const Vector3& eyePos);
 
 	static void SetPipeline(const PipelineKind& kind);
+
+	static void SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// sound系
@@ -162,5 +177,8 @@ namespace {
 	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
 
 	Shader shaders_;
+
+	// viewProjection
+	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
 }
 

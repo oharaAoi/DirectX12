@@ -6,18 +6,15 @@ Triangle::Triangle() {
 Triangle::~Triangle() {
 	mesh_->Finalize();
 	material_->Finalize();
-	transformation_->Finalize();
 }
 
 void Triangle::Init(ID3D12Device* device, const Mesh::Vertices& vertex) {
 	mesh_ = std::make_unique<Mesh>();
 	material_ = std::make_unique<Material>();
-	transformation_ = std::make_unique<TransformationMatrix>();
 
 	mesh_->Init(device, sizeof(Mesh::VertexData) * 3, 3);
 	material_->Init(device);
-	transformation_->Init(device, 1);
-
+	
 	// vertexの設定
 	Mesh::VertexData* vertexData = mesh_->GetVertexData();
 	// 左下
@@ -44,15 +41,16 @@ void Triangle::Init(ID3D12Device* device, const Mesh::Vertices& vertex) {
 	materialData->enableLighting = false;
 }
 
-void Triangle::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection) {
-	transformation_->Update(world, view, projection);
+void Triangle::Update() {
+	
 }
 
-void Triangle::Draw(ID3D12GraphicsCommandList* commandList) {
+void Triangle::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	mesh_->Draw(commandList);
 	material_->Draw(commandList);
-	transformation_->Draw(commandList);
+	worldTransform.Draw(commandList);
+	viewProjection->Draw(commandList);
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/uvChecker.png");
 	//commandList->DrawInstanced(3, 1, 0, 0);
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);

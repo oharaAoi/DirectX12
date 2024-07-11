@@ -4,6 +4,7 @@ TestScene::TestScene() {
 }
 
 TestScene::~TestScene() {
+	
 }
 
 void TestScene::Init() {
@@ -11,9 +12,10 @@ void TestScene::Init() {
 	camera_ = std::make_unique<Camera>();
 
 	// transform --------------------------------------------------------------
-	skinTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
+	skinTransform_ = Engine::CreateWorldTransform();
 
 	// モデル --------------------------------------------------------------
+	objectKind_ = 0;
 	skinModel_ = Engine::CreateModel("skin.obj");
 }
 
@@ -25,22 +27,24 @@ void TestScene::Update() {
 	camera_->Update();
 	Engine::SetEyePos(camera_->GetWorldTranslate());
 
+	Engine::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
 	// transform --------------------------------------------------------------
-	skinTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
+	skinTransform_.Update();
 
 	// 行列の作成 --------------------------------------------------------------
-	Matrix4x4 skinWorld = MakeAffineMatrix(skinTransform_);
-
+	
 	// gameObjectの更新 --------------------------------------------------------------
-	skinModel_->Update(skinWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	skinModel_->Update();
+
+	AddGameObject();
 }
 
 void TestScene::Draw() {
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
-
-	Engine::DrawModel(skinModel_.get());
+	Engine::DrawModel(skinModel_.get(), skinTransform_);
 
 #pragma endregion
 
@@ -62,4 +66,11 @@ void TestScene::Draw() {
 	
 #pragma endregion
 
+}
+
+void TestScene::AddGameObject() {
+	ImGui::Begin("GameObjects");
+	ImGui::Combo("object", &objectKind_, "monkey\0sphereModel\0plane\0sphere");
+	
+	ImGui::End();
 }
