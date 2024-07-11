@@ -26,6 +26,8 @@ void Model::Init(ID3D12Device* device, const std::string& directorPath, const st
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void Model::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection) {
 	transformation_->Update(world, view, projection);
+
+	transformation_->Update(world * rootNode_.localMatrix, view, projection);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +76,22 @@ void Model::SetMaterials(const float& roughness, const float& metallic) {
 /// <param name="node"></param>
 /// <returns></returns>
 Model::Node Model::ReadNode(aiNode* node) {
-	return Node();
+	Node result;
+	aiMatrix4x4 aiLocalMat = node->mTransformation; // nodeのlocalMatrixを取得
+	aiLocalMat.Transpose(); // 列ベクトル形式を行ベクトル形式に転置
+	for (uint8_t row = 0; row < 4; row++) {
+		for (uint8_t col = 0; col < 4; col++) {
+			result.localMatrix.m[row][col] = aiLocalMat[row][col];
+		}
+	}
+	result.name = node->mName.C_Str(); // Nodeの名前を格納
+	result.children.resize(node->mNumChildren); // 子供の数だけ確保
+	for (uint32_t childIndex = 0; childIndex < node->mNumChildren; ++childIndex) {
+		// 再帰的に読んで階層構造を作っていく
+		result.children[childIndex] = ReadNode(node->mChildren[childIndex]);
+	}
+
+	return result;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -339,7 +356,7 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
 				
 				Mesh::VertexData vertex;
-				vertex.pos = { -position.x, position.y, position.z, 1.0f };
+				vertex.pos = {-position.x, position.y, position.z, 1.0f };
 				vertex.normal = { -normal.x, normal.y, normal.z };
 				vertex.texcoord = { texcoord.x, texcoord.y };
 
@@ -366,6 +383,9 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 				hasTexture_ = true;
 			}
 		}
+
+		// nodeの解析
+		rootNode_ = ReadNode(scene->mRootNode);
 	}
 
 	meshVertices.push_back(triangle);

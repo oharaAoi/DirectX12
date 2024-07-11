@@ -1,16 +1,14 @@
 #include <Windows.h>
 #include "Engine.h"
 #include "GameScene.h"
-#include "Comparison.h"
-#include "Metallic.h"
+#include "TestScene.h"
 
 static const int kWindowWidth = 1280;
 static const int kWindowHeight = 720;
 
 enum Scene {
 	kGame,
-	kComparison,
-	kMetallic
+	kTest
 };
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -23,7 +21,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Engine::Initialize(kWindowWidth, kWindowHeight);
 
 	std::unique_ptr<GameScene> game = std::make_unique<GameScene>();
+	std::unique_ptr<TestScene> test = std::make_unique<TestScene>();
+
 	game->Init();
+	test->Init();
 
 	int sceneNumber = 0;
 
@@ -41,16 +42,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			game->Draw();
 			break;
 
-		case kComparison:
-			
-			break;
-		case kMetallic:
-			
+		case kTest:
+			test->Update();
+			test->Draw();
 			break;
 		}
 
 		ImGui::Begin("Scene");
-		ImGui::Combo("sceneKind", &sceneNumber, "Game\0Comparison\0Metallic");
+		ImGui::Combo("sceneKind", &sceneNumber, "Game\0Test");
 		ImGui::End();
 
 

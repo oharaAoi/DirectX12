@@ -80,6 +80,8 @@ private:
 	// 
 	std::unique_ptr<TransformationMatrix> transformation_;
 
+	Node rootNode_;
+
 	// モデルにtextureがあるか
 	bool hasTexture_;
 

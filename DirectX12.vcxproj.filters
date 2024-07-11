@@ -222,12 +222,6 @@
     <ClCompile Include="Engine\GameObject\Model.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\Comparison.cpp">
-      <Filter>Game\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Scene\Metallic.cpp">
-      <Filter>Game\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Utilities\DrawUtils.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
@@ -278,6 +272,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Audio\Audio.cpp">
       <Filter>Engine\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -428,12 +425,6 @@
     <ClInclude Include="Engine\GameObject\Model.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\Comparison.h">
-      <Filter>Game\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\Metallic.h">
-      <Filter>Game\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Utilities\DrawUtils.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
@@ -484,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Audio\Audio.h">
       <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
