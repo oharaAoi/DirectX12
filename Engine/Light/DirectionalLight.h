@@ -11,6 +11,7 @@ public: // メンバ構造体
 		float pad;
 		Vector3 eyePos;
 		float intensity; // 輝度
+		float limPower; // リムライトの強さ
 	};
 
 public:

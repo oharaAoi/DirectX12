@@ -12,6 +12,7 @@ struct DirectionalLight{
 	float3 direction;
 	float3 eyePos; // 視点の位置
 	float intensity;
+	float limPower;
 };
 
 struct PointLight{
@@ -101,6 +102,9 @@ PixelShaderOutput main(VertexShaderOutput input){
 	float3 reflectLight = reflect(gDirectionalLight.direction, normalize(input.normal));
 	float3 halfVector = normalize(-gDirectionalLight.direction + toEye);
 	
+	float3 normal = normalize(input.normal);
+	float3 lightDire = normalize(gDirectionalLight.direction);
+	
 	float RdotE = dot(reflectLight, toEye);
 	float NdotH = dot(normalize(input.normal), halfVector);
 	
@@ -164,17 +168,17 @@ PixelShaderOutput main(VertexShaderOutput input){
 	float3 spotSpeculer = BlinnPhong(NdotH, spotColor);
 	
 	// --------------------- limLight --------------------- //
-	// サーフェイスの法線と光の入射方向によるリムの強さを計算
-	float powerLimSurface = 1.0f - max(0.0f, dot(gDirectionalLight.direction, input.normal));
-	// 視線によるリムの強さの計算
-	float powwerLimView = 1.0f - max(0.0f, dot(toEye, input.normal));
-	// 最終的なリムの強さを求める
-	float limPower = powerLimSurface * powwerLimView;
-	// リムライトのカラーを計算する
-	float3 limColor = limPower * gDirectionalLight.color.rgb * gDirectionalLight.intensity;
+	float lim = 1.0f - saturate(dot(normal, toEye));
+	// リムライトの光の調整
+	lim *= saturate(1.0f - saturate(dot(normal, lightDire)) + dot(toEye, lightDire));
+	float3 limCol = pow(lim,  gDirectionalLight.limPower) * gDirectionalLight.color.rgb * gDirectionalLight.intensity;
 	
 	// --------------------- final --------------------- //
-	output.color.rgb = directionalDiffuse + directionalSpeculer + pointDiffuse + pointSpeculer + spotDiffuse + spotSpeculer + limPower;
+	output.color.rgb = directionalDiffuse + directionalSpeculer;
+	output.color.rgb += pointDiffuse + pointSpeculer;
+	output.color.rgb += spotDiffuse + spotSpeculer;
+	output.color.rgb += limCol;
+	
 	output.color.a = gMaterial.color.a * textureColor.a;
 	
 	if (output.color.a <= 0.0f){

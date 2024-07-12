@@ -35,9 +35,11 @@ private:
 
 	// モデル ----------------------------------------------
 	std::unique_ptr<Model> skinModel_ = nullptr;
+	std::unique_ptr<Model> sphereModel_ = nullptr;
 
 	// トランスフォーム --------------------------------------
 	WorldTransform skinTransform_;
+	WorldTransform sphereTransform_;
 
 	// ゲームオブジェクト ------------------------------------
 	int objectKind_;

@@ -13,10 +13,12 @@ void TestScene::Init() {
 
 	// transform --------------------------------------------------------------
 	skinTransform_ = Engine::CreateWorldTransform();
+	sphereTransform_ = Engine::CreateWorldTransform();
 
 	// モデル --------------------------------------------------------------
 	objectKind_ = 0;
 	skinModel_ = Engine::CreateModel("skin.obj");
+	sphereModel_ = Engine::CreateModel("sphere.obj");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,12 +32,17 @@ void TestScene::Update() {
 	Engine::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	// transform --------------------------------------------------------------
+	skinTransform_.translation_ = { 1.0f, 0.0f, 0.0f };
+	sphereTransform_.translation_ = { -1.0f, 0.0f, 0.0f };
+
 	skinTransform_.Update();
+	sphereTransform_.Update();
 
 	// 行列の作成 --------------------------------------------------------------
 	
 	// gameObjectの更新 --------------------------------------------------------------
 	skinModel_->Update();
+	sphereModel_->Update();
 
 	AddGameObject();
 }
@@ -45,6 +52,7 @@ void TestScene::Draw() {
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
 	Engine::DrawModel(skinModel_.get(), skinTransform_);
+	Engine::DrawModel(sphereModel_.get(), sphereTransform_);
 
 #pragma endregion
 

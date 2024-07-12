@@ -12,6 +12,7 @@ void DirectionalLight::Init(ID3D12Device* device, const size_t& size) {
 	directionalLightData_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	directionalLightData_->direction = { 0.0f, 0.0f, -1.0f };
 	directionalLightData_->intensity = 1.0f;
+	directionalLightData_->limPower = 5.0f;
 }
 
 void DirectionalLight::Finalize() {
@@ -29,8 +30,10 @@ void DirectionalLight::Draw(ID3D12GraphicsCommandList* commandList, const uint32
 
 void DirectionalLight::ImGuiDraw() {
 	ImGui::Begin("Light");
+	ImGui::ColorEdit4("Color", &directionalLightData_->color.x);
 	ImGui::DragFloat3("Direction", &directionalLightData_->direction.x, 0.1f, -1.0f, 1.0f);
 	ImGui::DragFloat("intensity", &directionalLightData_->intensity, 0.1f, 0.0f, 1.0f);
+	ImGui::DragFloat("limPower", &directionalLightData_->limPower, 0.1f, 1.0f, 10.0f);
 	
 	ImGui::End();
 }
