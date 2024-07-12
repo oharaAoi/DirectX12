@@ -109,7 +109,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PrimitivePipeline.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
-    <ClCompile Include="Engine\DirectX\RTV\RenderTargetView.cpp" />
+    <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\GameObject\BaseGameObject.cpp" />
     <ClCompile Include="Engine\GameObject\Model.cpp" />
@@ -172,7 +172,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PrimitivePipeline.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
-    <ClInclude Include="Engine\DirectX\RTV\RenderTargetView.h" />
+    <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\GameObject\BaseGameObject.h" />
     <ClInclude Include="Engine\GameObject\Model.h" />

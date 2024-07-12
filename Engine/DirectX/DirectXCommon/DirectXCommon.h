@@ -12,6 +12,8 @@
 #include "DirectXCommands.h"
 // DXC
 #include <dxcapi.h>
+// RT
+#include "RenderTarget.h"
 // utilities
 #include "Convert.h"
 #include "DirectXUtils.h"
@@ -42,7 +44,7 @@ public:
 	/// <summary>
 	/// 色々な設定をする
 	/// </summary>
-	void Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps);
+	void Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps, RenderTarget* renderTarget);
 
 	/// <summary>
 	/// 終了関数
@@ -80,11 +82,6 @@ public:
 	void CreateSwapChain();
 
 	/// <summary>
-	/// RTVを生成
-	/// </summary>
-	void CreateRTV();
-
-	/// <summary>
 	/// Fenceの生成
 	/// </summary>
 	void CrateFence();
@@ -111,6 +108,8 @@ public:
 
 	DescriptorSize* GetDescriptorSize() { return descriptorSize_.get(); }
 
+	Comptr<IDXGISwapChain4> GetSwapChain() { return swapChain_.Get(); }
+
 private:
 
 	int32_t kClientWidth_;
@@ -122,6 +121,8 @@ private:
 	DescriptorHeap* descriptorHeaps_ = nullptr;
 	DirectXCommands* dxCommands_ = nullptr;
 	ID3D12Device* device_ = nullptr;
+
+	RenderTarget* renderTarget_ = nullptr;
 
 	std::unique_ptr<DescriptorSize> descriptorSize_;
 
@@ -137,11 +138,7 @@ private:
 	// 生成する変数 =======================================================================================
 	// swapChaim
 	Comptr<IDXGISwapChain4> swapChain_ = nullptr;
-	Comptr<ID3D12Resource> swapChainResource_[2];
-
-	// RTV
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2];
-
+	
 	// Fence & Event
 	Comptr<ID3D12Fence> fence_ = nullptr;
 	uint64_t fenceValue_;

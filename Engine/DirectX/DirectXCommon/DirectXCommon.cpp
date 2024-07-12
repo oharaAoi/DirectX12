@@ -39,8 +39,6 @@ void DirectXCommon::Finalize() {
 	CloseHandle(fenceEvent_);
 	fence_.Reset();
 	swapChain_.Reset();
-	swapChainResource_[0].Reset();
-	swapChainResource_[1].Reset();
 	dxgiFactory_.Reset();
 	useAdapter_.Reset();
 	debugController_.Reset();
@@ -60,7 +58,7 @@ void DirectXCommon::Begin() {
 	barrier_.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	barrier_.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 	// barrierを張る対象のリソース
-	barrier_.Transition.pResource = swapChainResource_[backBufferIndex].Get();
+	barrier_.Transition.pResource = renderTarget_->GetSwapChainRenderResource(backBufferIndex);
 	// 遷移前のリソース
 	barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
 	// 遷移後のResourceState
@@ -71,12 +69,13 @@ void DirectXCommon::Begin() {
 	// ---------------------------------------------------------------
 	// dsv
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
-	commandList->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, &dsvHandle);
+	commandList->OMSetRenderTargets(1, &renderTarget_->GetRtvHandles(backBufferIndex), false, &dsvHandle);
+	
 	// 指定した深度で画面をクリア
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
-	commandList->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor, 0, nullptr);
+	commandList->ClearRenderTargetView(renderTarget_->GetRtvHandles(backBufferIndex), clearColor, 0, nullptr);
 	// srv
 	ID3D12DescriptorHeap* descriptorHeaps[] = { descriptorHeaps_->GetSRVHeap() };
 	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
@@ -198,14 +197,16 @@ void DirectXCommon::SetError() {
 //------------------------------------------------------------------------------------------------------
 // 設定
 //------------------------------------------------------------------------------------------------------
-void DirectXCommon::Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps) {
+void DirectXCommon::Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps, RenderTarget* renderTarget) {
 	assert(device);
 	assert(descriptorHeaps);
 	assert(dxCommands);
+	assert(renderTarget);
 
 	device_ = device;
 	descriptorHeaps_ = descriptorHeaps;
 	dxCommands_ = dxCommands;
+	renderTarget_ = renderTarget;
 
 	// ----------------------------------------------------------------------------------------
 	// descriptorSizeを初期化しておく
@@ -223,8 +224,6 @@ void DirectXCommon::Setting(ID3D12Device* device, DirectXCommands* dxCommands, D
 	// ----------------------------------------------------------------------------------------
 	// swapchain
 	CreateSwapChain();
-	// RTV
-	CreateRTV();
 	// fence
 	CrateFence();
 	// DSV
@@ -253,29 +252,6 @@ void DirectXCommon::CreateSwapChain() {
 	// コマンドキュー、ウィンドウハンドルを設定して生成する
 	hr = dxgiFactory_->CreateSwapChainForHwnd(dxCommands_->GetCommandQueue(), winApp_->GetHwnd(), &desc, nullptr, nullptr, reinterpret_cast<IDXGISwapChain1**>(swapChain_.GetAddressOf()));
 	assert(SUCCEEDED(hr));
-
-	// resourceも一緒に作る
-	hr = swapChain_->GetBuffer(0, IID_PPV_ARGS(&swapChainResource_[0]));
-	assert(SUCCEEDED(hr));
-	hr = swapChain_->GetBuffer(1, IID_PPV_ARGS(&swapChainResource_[1]));
-	assert(SUCCEEDED(hr));
-}
-
-//------------------------------------------------------------------------------------------------------
-// RTVの生成
-//------------------------------------------------------------------------------------------------------
-void DirectXCommon::CreateRTV() {
-	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
-	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
-	// 先頭を取得
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvStartHandle = GetCPUDescriptorHandle(descriptorHeaps_->GetRTVHeap(), descriptorSize_->GetRTV(), 0);
-	// 一つ目のDescriptorの生成
-	rtvHandles_[0] = rtvStartHandle;
-	device_->CreateRenderTargetView(swapChainResource_[0].Get(), &rtvDesc, rtvHandles_[0]);
-	// 二つ目の生成
-	rtvHandles_[1].ptr = rtvHandles_[0].ptr + device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	device_->CreateRenderTargetView(swapChainResource_[1].Get(), &rtvDesc, rtvHandles_[1]);
 }
 
 //------------------------------------------------------------------------------------------------------

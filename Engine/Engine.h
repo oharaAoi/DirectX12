@@ -5,6 +5,7 @@
 #include "DirectXDevice.h"
 #include "DirectXCommands.h"
 #include "DescriptorHeap.h"
+#include "RenderTarget.h"
 #include "DirectXCompiler.h"
 #include "Pipeline.h"
 #include "PrimitivePipeline.h"
@@ -160,6 +161,8 @@ namespace {
 	std::unique_ptr<DescriptorHeap> descriptorHeap_ = nullptr;
 	// dxCommand
 	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
+	// renderTarget
+	std::unique_ptr<RenderTarget> renderTarget_ = nullptr;
 	// dxCompiler
 	std::unique_ptr<DirectXCompiler> dxCompiler_ = nullptr;
 	// pipeline

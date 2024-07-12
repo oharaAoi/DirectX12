@@ -129,7 +129,7 @@
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp">
       <Filter>Engine\DirectX\Descriptor</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\RTV\RenderTargetView.cpp">
+    <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp">
       <Filter>Engine\DirectX\RTV</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp">
@@ -308,7 +308,7 @@
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h">
       <Filter>Engine\DirectX\Descriptor</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\RTV\RenderTargetView.h">
+    <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h">
       <Filter>Engine\DirectX\RTV</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Engine.h">

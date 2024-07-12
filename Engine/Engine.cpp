@@ -31,9 +31,10 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	dxCommands_ = std::make_unique<DirectXCommands>(dxDevice_->GetDevice());
 	descriptorHeap_ = std::make_unique<DescriptorHeap>(dxDevice_->GetDevice());
+	renderTarget_ = std::make_unique<RenderTarget>();
 
 	// dxcommon
-	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get());
+	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get(), renderTarget_.get());
 
 	// ImGui
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_->GetDevice(), dxCommon_->GetSwapChainBfCount(), descriptorHeap_->GetSRVHeap());
@@ -44,6 +45,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	// dxCompiler
 	dxCompiler_ = std::make_unique<DirectXCompiler>();
+
+	// renderTarget
+	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetDescriptorSize(), dxCommon_->GetSwapChain().Get());
 
 	// shader
 	shaders_.Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Object3d.PS.hlsl", Shader::Normal);
@@ -108,6 +112,7 @@ void Engine::Finalize() {
 	texturelessPipeline_->Finalize();
 	particlePipeline_->Finalize();
 
+	renderTarget_->Finalize();
 	dxCompiler_->Finalize();
 	descriptorHeap_->Finalize();
 	dxCommands_->Finalize();
