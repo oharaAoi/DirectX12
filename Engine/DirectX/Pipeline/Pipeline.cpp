@@ -29,6 +29,12 @@ void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, con
 		elementDescs = inputLayout_.CreateParticleInputLayout();
 		ShaderCompile(shader.vsShader, shader.psShader);
 		break;
+
+	case SpritePipeline:
+		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Sprite);
+		elementDescs = inputLayout_.CreateSpriteInputLayout();
+		ShaderCompile(shader.vsShader, shader.psShader);
+		break;
 	}
 
 	CreatePSO();

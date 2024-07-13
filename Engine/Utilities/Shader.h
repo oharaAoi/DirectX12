@@ -14,7 +14,8 @@ public:
 		Primitive,
 		Phong,
 		PBR,
-		Particle
+		Particle,
+		Sprite
 	};
 
 	// 構造体

@@ -69,7 +69,8 @@ void DirectXCommon::Begin() {
 	// ---------------------------------------------------------------
 	// dsv
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
-	commandList->OMSetRenderTargets(1, &renderTarget_->GetRtvHandles(backBufferIndex), false, &dsvHandle);
+	//commandList->OMSetRenderTargets(1, &renderTarget_->GetRtvHandles(backBufferIndex), false, &dsvHandle);
+	commandList->OMSetRenderTargets(1, &renderTarget_->GetOffScreenHandle(), false, &dsvHandle);
 	
 	// 指定した深度で画面をクリア
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
@@ -83,6 +84,23 @@ void DirectXCommon::Begin() {
 	// ---------------------------------------------------------------
 	commandList->RSSetViewports(1, &viewport_);
 	commandList->RSSetScissorRects(1, &scissorRect_);
+}
+
+/// <summary>
+/// オフスクリーン用のリソースをRenderTargetからShaderResourceにする
+/// </summary>
+void DirectXCommon::ChangeOffScreenResource() {
+	renderTarget_->ChangeOffScreenResource(dxCommands_->GetCommandList());
+}
+
+/// <summary>
+/// RenderTargetをバックバッファに変更
+/// </summary>
+void DirectXCommon::SetSwapChain() {
+	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
+	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
+	commandList->OMSetRenderTargets(1, &renderTarget_->GetRtvHandles(backBufferIndex), false, &dsvHandle);
 }
 
 void DirectXCommon::End() {
@@ -123,6 +141,13 @@ void DirectXCommon::End() {
 	assert(SUCCEEDED(hr));
 	hr = dxCommands_->GetCommandList()->Reset(dxCommands_->GetCommandAllocator(), nullptr);
 	assert(SUCCEEDED(hr));
+
+
+	// offScreenの設定を直す
+	renderTarget_->ResetOffScreenResource(dxCommands_->GetCommandList());
+
+	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
+	dxCommands_->GetCommandList()->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(), clearColor, 0, nullptr);
 }
 
 void DirectXCommon::CreateDXGI() {

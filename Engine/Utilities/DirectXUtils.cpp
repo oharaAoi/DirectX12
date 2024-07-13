@@ -157,6 +157,22 @@ Microsoft::WRL::ComPtr<IDxcBlob> CompilerShader(
 	return shaderBlob;
 }
 
+void TransitionResourceState(ID3D12GraphicsCommandList* commandList, ID3D12Resource* resource, D3D12_RESOURCE_STATES beforState, D3D12_RESOURCE_STATES afterState) {
+	D3D12_RESOURCE_BARRIER barrier;
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+
+	barrier.Transition.pResource = resource;
+	// 遷移前のリソース
+	barrier.Transition.StateBefore = beforState;
+	// 遷移後のResourceState
+	barrier.Transition.StateAfter = afterState;
+	// サブリソースのインデックス
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	// 張る
+	commandList->ResourceBarrier(1, &barrier);
+}
+
 D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index){
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	handleCPU.ptr += (descriptorSize * index);

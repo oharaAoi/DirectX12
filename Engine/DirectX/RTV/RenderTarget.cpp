@@ -32,7 +32,6 @@ void RenderTarget::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, De
 
 	// viewの作成
 	CreateRenderTargetView();
-
 	CreateOffScreenView();
 }
 
@@ -106,4 +105,12 @@ void RenderTarget::CreateOffScreenView() {
 	
 	offScreenHandle_.ptr = rtvHandles_[1].ptr + device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	device_->CreateRenderTargetView(offScreenRenderResource_.Get(), &rtvDesc, offScreenHandle_);
+}
+
+void RenderTarget::ChangeOffScreenResource(ID3D12GraphicsCommandList* commandList) {
+	TransitionResourceState(commandList, offScreenRenderResource_.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+}
+
+void RenderTarget::ResetOffScreenResource(ID3D12GraphicsCommandList* commandList) {
+	TransitionResourceState(commandList, offScreenRenderResource_.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }

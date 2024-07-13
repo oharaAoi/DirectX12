@@ -29,6 +29,7 @@
 // 
 #include "WorldTransform.h"
 #include "ViewProjection.h"
+#include "RenderTexture.h"
 
 enum class PipelineKind {
 	kNormalPipeline,
@@ -71,28 +72,36 @@ public:
 	/// </summary>
 	static void EndFrame();
 
+	/// <summary>
+	/// offScreenRenderingの処理を行う
+	/// </summary>
+	static void EndRenderTexture();
+
 public:
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 生成系
 	/////////////////////////////////////////////////////////////////////////////////////////////
+	// 三角形のポインタを作成
 	static std::unique_ptr<Triangle> CreateTriangle(const Mesh::Vertices& vertex);
-
+	// スプライトのポインタを作成
 	static std::unique_ptr<Sprite> CreateSprite(const Mesh::RectVetices& rect);
-
+	// 球のポインタを作成
 	static std::unique_ptr<Sphere> CreateSphere(const uint32_t& devision);
-
+	// モデルのポインタを作成
 	static std::unique_ptr<Model> CreateModel(const std::string& filePath);
-
+	// パーティクルのポインタを作成
 	static std::unique_ptr<BaseParticle> CreateBaseParticle(const std::string& fileName, const uint32_t& instanceNum);
-
+	// ワールドトランスフォームを作成
 	static WorldTransform CreateWorldTransform();
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 描画系
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	static void DrawTriangle(Triangle* triangle, const WorldTransform& worldTransform);
 
+	// 三角形の描画
+	static void DrawTriangle(Triangle* triangle, const WorldTransform& worldTransform);
+	// スプライトの描画
 	static void DrawSprite(Sprite* sprite);
 
 	static void DrawSphere(Sphere* sphere, const WorldTransform& worldTransform);
@@ -171,6 +180,7 @@ namespace {
 	std::unique_ptr<Pipeline> phongPipeline_ = nullptr;
 	std::unique_ptr<Pipeline> pbrPipeline_ = nullptr;
 	std::unique_ptr<Pipeline> particlePipeline_ = nullptr;
+	std::unique_ptr<Pipeline> spritePipeline_ = nullptr;
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
 	// light
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
@@ -183,5 +193,7 @@ namespace {
 
 	// viewProjection
 	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
+
+	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;
 }
 

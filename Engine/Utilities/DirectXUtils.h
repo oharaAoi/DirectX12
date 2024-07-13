@@ -56,6 +56,17 @@ Microsoft::WRL::ComPtr<IDxcBlob> CompilerShader(
 	Microsoft::WRL::ComPtr<IDxcIncludeHandler> includeHandler
 );
 
+/// <summary>
+/// リソースのstateを変更する関数
+/// </summary>
+/// <param name="commandList">コマンドリスト</param>
+/// <param name="resource">リソース</param>
+/// <param name="beforState">遷移前状態</param>
+/// <param name="afterState">遷移後状態</param>
+void TransitionResourceState(ID3D12GraphicsCommandList* commandList, ID3D12Resource* resource, D3D12_RESOURCE_STATES beforState, D3D12_RESOURCE_STATES afterState);
+
+
+
 D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index);
 
 D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index);

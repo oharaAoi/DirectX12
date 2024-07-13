@@ -1,11 +1,8 @@
 #include "Engine.h"
 
-Engine::Engine() {
-}
+Engine::Engine() {}
 
-Engine::~Engine() {
-	
-}
+Engine::~Engine() {}
 
 void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	kClientWidth_ = backBufferWidth;
@@ -56,6 +53,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	shaders_.Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Phong.Lighting.hlsl", Shader::Phong);
 	shaders_.Load("Engine/HLSL/PBR.VS.hlsl", "Engine/HLSL/PBR.PS.hlsl", Shader::PBR);
 	shaders_.Load("Engine/HLSL/Particle.VS.hlsl", "Engine/HLSL/Particle.PS.hlsl", Shader::Particle);
+	shaders_.Load("Engine/HLSL/Sprite.VS.hlsl", "Engine/HLSL/Sprite.PS.hlsl", Shader::Sprite);
 
 	// pipeline
 	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(),dxCompiler_.get(),
@@ -76,6 +74,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	particlePipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
 						shaders_.GetShaderData(Shader::Particle), ParticlePipeline);
 
+	spritePipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
+						shaders_.GetShaderData(Shader::Sprite), SpritePipeline);
+
 	// light
 	lightGroup_ = std::make_unique<LightGroup>();
 	lightGroup_->Init(dxDevice_->GetDevice());
@@ -94,17 +95,23 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	viewProjection_ = std::make_unique<ViewProjection>();
 	viewProjection_->Init(dxDevice_->GetDevice());
 
+	renderTexture_ = std::make_unique<RenderTexture>();
+	renderTexture_->Init(dxDevice_->GetDevice());
+
 	Log("Clear!\n");
 
 	lightKind_ = LightGroup::Directional;
 }
 
 void Engine::Finalize() {
+	renderTexture_->Finalize();
+
 	viewProjection_->Finalize();
 
 	primitiveDrawer_->Finalize();
 	lightGroup_->Finalize();
 
+	spritePipeline_->Finalize();
 	pbrPipeline_->Finalize();
 	primitivePipeline_->Finalize();
 	phongPipeline_->Finalize();
@@ -147,9 +154,22 @@ void Engine::EndFrame() {
 	dxCommon_->End();
 }
 
-//------------------------------------------------------------------------------------------------------
+void Engine::EndRenderTexture() {
+	// offScreenRenderingのResourceの状態を変更する
+	dxCommon_->ChangeOffScreenResource();
+	// offScreenRenderingのResourceのViewを作成する
+	textureManager_->CreateShaderResourceView(renderTarget_->GetOffScreenRenderResource(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+	// これから書き込む画面をバックバッファに変更する
+	dxCommon_->SetSwapChain();
+	// スプライト用のパイプラインの設定
+	spritePipeline_->Draw(dxCommands_->GetCommandList());
+	// offScreenRenderingで書き込んだTextureを描画する
+	renderTexture_->Draw(dxCommands_->GetCommandList());
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // 生成
-//------------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////////
 std::unique_ptr<Triangle> Engine::CreateTriangle(const Mesh::Vertices& vertex) {
 	std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>();
 	triangle->Init(dxDevice_->GetDevice(), vertex);
@@ -187,9 +207,9 @@ WorldTransform Engine::CreateWorldTransform() {
 	return result;
 }
 
-//------------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////////
 // 描画
-//------------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////////
 void Engine::DrawTriangle(Triangle* triangle, const WorldTransform& worldTransform) {
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
 	triangle->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
@@ -219,24 +239,10 @@ void Engine::DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstanc
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
 	baseParticle->Draw(dxCommands_->GetCommandList(), numInstance);
 }
-//
-//void Engine::DrawGameObject(BaseGameObject* gameObject, const GameObjectKind& kind) {
-//	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
-//
-//	switch (kind) {
-//	case GameObjectKind::kModel:
-//		
-//		break;
-//
-//	case GameObjectKind::kSphere:
-//
-//		break;
-//	}
-//}
 
-//------------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////////
 // ライトの設定
-//------------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////////
 void Engine::SetLightKind(const LightGroup::LightKind& kind) {
 	lightKind_ = kind;
 }
@@ -245,9 +251,9 @@ void Engine::SetEyePos(const Vector3& eyePos) {
 	lightGroup_->SetEyePos(eyePos);
 }
 
-//------------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////////
 // パイプラインの設定
-//------------------------------------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////////////////////////
 void Engine::SetPipeline(const PipelineKind& kind) {
 	switch (kind) {
 	case PipelineKind::kNormalPipeline:

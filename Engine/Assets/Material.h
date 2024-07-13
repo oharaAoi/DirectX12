@@ -49,6 +49,11 @@ public:
 		std::string textureFilePath; // 使用するtextureのパス
 	};
 
+	struct SpriteData {
+		Matrix4x4 uvTransform;
+		Vector4 color;
+	};
+
 public:
 
 	Material();

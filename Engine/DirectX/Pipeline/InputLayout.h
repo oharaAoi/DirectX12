@@ -21,4 +21,6 @@ public:
 	std::vector<D3D12_INPUT_ELEMENT_DESC> CreatePrimitiveInputLayout();
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateParticleInputLayout();
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateSpriteInputLayout();
 };

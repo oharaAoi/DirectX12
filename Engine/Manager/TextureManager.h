@@ -79,7 +79,16 @@ public:
 	/// <param name="textureNum"></param>
 	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath);
 
+	/// <summary>
+	/// srvの作成
+	/// </summary>
+	/// <param name="resource"></param>
+	/// <param name="format"></param>
+	void CreateShaderResourceView(ID3D12Resource* resource, const DXGI_FORMAT& format);
+
 	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(srvData_.size()); }
+
+	void SetRenderTexture(ID3D12GraphicsCommandList* commandList);
 
 private:
 

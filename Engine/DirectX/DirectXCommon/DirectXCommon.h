@@ -61,6 +61,13 @@ public:
 	/// </summary>
 	void End();
 
+	/// <summary>
+	/// オフスクリーン用のリソースをRenderTargetからShaderResourceにする
+	/// </summary>
+	void ChangeOffScreenResource();
+
+	void SetSwapChain();
+
 public:
 
 	/// <summary>

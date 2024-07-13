@@ -57,7 +57,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 描画処理
 		// ---------------- //
 		
-
+		// offScreenのスプライトを描画する
+		Engine::EndRenderTexture();
 
 		Engine::EndFrame();
 	}

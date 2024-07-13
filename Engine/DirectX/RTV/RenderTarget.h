@@ -44,6 +44,16 @@ public:
 	/// </summary>
 	void CreateOffScreenView();
 
+	/// <summary>
+	/// オフスクリーン用のリソースをレンダーターゲットからシェーダーリソースにする
+	/// </summary>
+	void ChangeOffScreenResource(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// オフスクリーン用のリソースをレンダーターゲットからシェーダーリソースにする
+	/// </summary>
+	void ResetOffScreenResource(ID3D12GraphicsCommandList* commandList);
+
 public:
 
 	ID3D12Resource* GetSwapChainRenderResource(const UINT& indexNum) { return swapChainRenderResource_[indexNum].Get(); }
@@ -51,6 +61,8 @@ public:
 	ID3D12Resource* GetOffScreenRenderResource() { return offScreenRenderResource_.Get(); }
 
 	D3D12_CPU_DESCRIPTOR_HANDLE& GetRtvHandles(const UINT& indexNum) { return rtvHandles_[indexNum]; }
+
+	D3D12_CPU_DESCRIPTOR_HANDLE& GetOffScreenHandle() { return offScreenHandle_; }
 
 private:
 

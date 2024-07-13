@@ -15,7 +15,8 @@
 enum PipelineType {
 	NormalPipeline,
 	TextureLessPipeline,
-	ParticlePipeline
+	ParticlePipeline,
+	SpritePipeline
 };
 
 class Pipeline {
