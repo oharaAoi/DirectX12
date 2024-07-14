@@ -121,29 +121,80 @@ public:
 
 	static void SetEyePos(const Vector3& eyePos);
 
+	/// <summary>
+	/// パイプラインの設定
+	/// </summary>
+	/// <param name="kind">設定するパイプライン</param>
 	static void SetPipeline(const PipelineKind& kind);
 
+	/// <summary>
+	/// 画面に移す範囲をここで設定する
+	/// </summary>
+	/// <param name="view"></param>
+	/// <param name="projection"></param>
 	static void SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// sound系
 	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	/// <summary>
+	/// Audioファイルを読み込む関数
+	/// </summary>
+	/// <param name="fileName">音声データのファイルパス</param>
+	/// <returns></returns>
 	static SoundData LoadAudio(const std::string& fileName);
 
+	/// <summary>
+	/// BGMを読み込む関数
+	/// </summary>
+	/// <param name="fileName">音声データのファイルパス</param>
+	/// <returns></returns>
 	static BgmData LoadBGM(const std::string& fileName);
 
+	/// <summary>
+	/// SEを読み込む関数
+	/// </summary>
+	/// <param name="fileName">音声データのファイルパス</param>
+	/// <returns></returns>
 	static SeData LoadSE(const std::string& fileName);
 
+	/// <summary>
+	/// 音を鳴らす関数
+	/// </summary>
+	/// <param name="soundData">音声データをまとめた構造体</param>
 	static void PlayAudio(const SoundData& soundData);
 
+	/// <summary>
+	/// BGMを鳴らす関数
+	/// </summary>
+	/// <param name="soundData">音声データをまとめた構造体</param>
+	/// <param name="isLoop">BGMをループさせるか</param>
 	static void PlayBGM(const BgmData& soundData, const bool& isLoop);
 
+	/// <summary>
+	/// SEを鳴らす関数
+	/// </summary>
+	/// <param name="soundData">音声データをまとめた構造体</param>
+	/// <param name="isLoop">SEをループさせるか</param>
 	static void PlaySE(const SeData& soundData, const bool& isLoop);
 
+	/// <summary>
+	/// BGMを一時停止させる関数
+	/// </summary>
+	/// <param name="soundData">音声データをまとめた構造体</param>
 	static void PauseBGM(const BgmData& soundData);
 
+	/// <summary>
+	/// BGMを再生する関数
+	/// </summary>
+	/// <param name="soundData">音声データをまとめた構造体</param>
 	static void ReStartBGM(const BgmData& soundData);
 
+	/// <summary>
+	/// 音の再生を止める関数
+	/// </summary>
+	/// <param name="soundData">音声データをまとめた構造体</param>
 	static void StopBGM(const BgmData& soundData);
 
 private:
@@ -188,12 +239,12 @@ namespace {
 	std::unique_ptr<Audio> audio_ = nullptr;
 	// primitive
 	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
-
+	// shaderファイルのパスをまとめたクラス
 	Shader shaders_;
 
 	// viewProjection
 	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
-
+	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;
 }
 
