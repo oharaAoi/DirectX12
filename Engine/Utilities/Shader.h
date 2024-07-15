@@ -29,9 +29,16 @@ public:
 	Shader();
 	~Shader();
 
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
+	void Init();
+
 	void Load(const std::string& vsPath, const std::string& psPath, const ShaderName& type);
 
-	ShaderData GetShaderData(const ShaderName& name) { return shaderData_[name]; }
+	const ShaderData GetShaderData(const ShaderName& name){
+		return shaderData_[name];
+	}
 
 private:
 

@@ -7,6 +7,10 @@ ComputeShader::~ComputeShader() {
 }
 
 void ComputeShader::Finalize() {
+	rootSignature_->Finalize();
+	csPipelineState_.Reset();
+	uavBuffer_.Reset();
+	computeShaderBlob_.Reset();
 }
 
 void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,

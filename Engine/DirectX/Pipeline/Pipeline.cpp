@@ -1,41 +1,18 @@
 #include "Pipeline.h"
 
-Pipeline::Pipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader, const PipelineType& type) {
-	Initialize(device, dxCompiler, shader, type);
-}
+Pipeline::Pipeline() {}
 
-Pipeline::~Pipeline() {
-}
+Pipeline::~Pipeline() {}
 
-void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader, const PipelineType& type) {
+void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler,
+						  const Shader::ShaderData& shaderData, const RootSignatureType& rootSignatureType,
+						  const std::vector<D3D12_INPUT_ELEMENT_DESC>& desc) {
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
-	switch (type) {
-	case NormalPipeline:
-		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Normal);
-		elementDescs = inputLayout_.CreateInputLayout();
-		ShaderCompile(shader.vsShader, shader.psShader);
-		break;
-
-	case TextureLessPipeline:
-		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::TextureLess);
-		elementDescs = inputLayout_.CreateInputLayout();
-		ShaderCompile(shader.vsShader, shader.psShader);
-		break;
-
-	case ParticlePipeline:
-		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Particle);
-		elementDescs = inputLayout_.CreateParticleInputLayout();
-		ShaderCompile(shader.vsShader, shader.psShader);
-		break;
-
-	case SpritePipeline:
-		rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Sprite);
-		elementDescs = inputLayout_.CreateSpriteInputLayout();
-		ShaderCompile(shader.vsShader, shader.psShader);
-		break;
-	}
+	SetRootSignature(rootSignatureType);
+	elementDescs = desc;
+	ShaderCompile(shaderData);
 
 	CreatePSO();
 }
@@ -65,11 +42,11 @@ D3D12_INPUT_LAYOUT_DESC Pipeline::CreateInputLayout(const std::vector<D3D12_INPU
 //------------------------------------------------------------------------------------------------------
 // ↓shaderを読む
 //------------------------------------------------------------------------------------------------------
-void Pipeline::ShaderCompile(const std::string& vertexShader, const std::string& pixelShader) {
-	vertexShaderBlob_ = dxCompiler_->VsShaderCompile(vertexShader);
+void Pipeline::ShaderCompile(const Shader::ShaderData& shaderData) {
+	vertexShaderBlob_ = dxCompiler_->VsShaderCompile(shaderData.vsShader);
 	assert(vertexShaderBlob_ != nullptr);
 
-	pixelShaderBlob_ = dxCompiler_->PsShaderCompile(pixelShader);
+	pixelShaderBlob_ = dxCompiler_->PsShaderCompile(shaderData.psShader);
 	assert(pixelShaderBlob_ != nullptr);
 }
 
@@ -100,6 +77,10 @@ D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState() {
 	desc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
 	return desc;
+}
+
+void Pipeline::SetRootSignature(const RootSignatureType& type) {
+	rootSignature_ = std::make_unique<RootSignature>(device_, type);
 }
 
 //------------------------------------------------------------------------------------------------------

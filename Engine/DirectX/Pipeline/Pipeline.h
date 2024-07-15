@@ -12,20 +12,16 @@
 #include "Shader.h"
 #include "Blend.h"
 
-enum PipelineType {
-	NormalPipeline,
-	TextureLessPipeline,
-	ParticlePipeline,
-	SpritePipeline
-};
-
 class Pipeline {
 public:
 
-	Pipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader, const PipelineType& type);
+	Pipeline();
 	~Pipeline();
 
-	void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader, const PipelineType& type);
+	void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, 
+					const Shader::ShaderData& shaderData, const RootSignatureType& rootSignatureType,
+					const std::vector<D3D12_INPUT_ELEMENT_DESC>& desc
+	);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
@@ -43,7 +39,7 @@ public:
 	/// <summary>
 	/// Shaderをcompileする
 	/// </summary>
-	void ShaderCompile(const std::string& vertexShader, const std::string& pixelShader);
+	void ShaderCompile(const Shader::ShaderData& shaderData);
 
 	/// <summary>
 	/// RasterizerStateの設定
@@ -55,6 +51,8 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	D3D12_DEPTH_STENCIL_DESC SetDepthStencilState();
+
+	void SetRootSignature(const RootSignatureType& type);
 
 	/// <summary>
 	/// PSOの生成

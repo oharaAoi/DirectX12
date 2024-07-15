@@ -8,7 +8,7 @@
 #include "DescriptorHeap.h"
 #include "RenderTarget.h"
 #include "DirectXCompiler.h"
-#include "Pipeline.h"
+#include "GraphicsPipelines.h"
 #include "ComputeShader.h"
 #include "PrimitivePipeline.h"
 #include "ImGuiManager.h"
@@ -37,7 +37,8 @@ enum class PipelineKind {
 	kNormalPipeline,
 	kTexturelessPipeline,
 	kPBRPipeline,
-	kParticlePipeline
+	kParticlePipeline,
+	kSpritePipeline
 };
 
 
@@ -228,12 +229,7 @@ namespace {
 	// dxCompiler
 	std::unique_ptr<DirectXCompiler> dxCompiler_ = nullptr;
 	// pipeline
-	std::unique_ptr<Pipeline> pipeline_ = nullptr;
-	std::unique_ptr<Pipeline> texturelessPipeline_ = nullptr;
-	std::unique_ptr<Pipeline> phongPipeline_ = nullptr;
-	std::unique_ptr<Pipeline> pbrPipeline_ = nullptr;
-	std::unique_ptr<Pipeline> particlePipeline_ = nullptr;
-	std::unique_ptr<Pipeline> spritePipeline_ = nullptr;
+	std::unique_ptr<GraphicsPipelines> graphicesPipelines_ = nullptr;
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
 
 	// CS
@@ -246,7 +242,7 @@ namespace {
 	// primitive
 	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
 	// shaderファイルのパスをまとめたクラス
-	Shader shaders_;
+	std::unique_ptr<Shader> shaders_;
 
 	// viewProjection
 	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
