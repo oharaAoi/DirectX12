@@ -5,7 +5,7 @@ TextureManager* TextureManager::GetInstance() {
 	return &instance;
 }
 
-void TextureManager::Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize) {
+void TextureManager::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize) {
 	assert(device);
 	assert(srvHeap);
 
@@ -95,17 +95,14 @@ void TextureManager::CreateShaderResource(const std::string& filePath, ID3D12Gra
 
 	// ------------------------------------------------------------
 	// SRVを作成するDescriptorHeapの場所を求める
-	data.srvHandleCPU_ = GetCPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
-	data.srvHandleGPU_ = GetGPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
-	// 先頭はImGuiが使っている溜めその次を使う
-	/*data.srvHandleCPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	data.srvHandleGPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);*/
-
+	data.address_.handleCPU = GetCPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
+	data.address_.handleGPU = GetGPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
+	
 	// 配列に入れる
 	srvData_["Resources/" + filePath] = data;
 
 	// 生成
-	device_->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.srvHandleCPU_);
+	device_->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,20 +144,17 @@ void TextureManager::LoadWhite1x1Texture(const std::string& filePath, ID3D12Grap
 
 	// ------------------------------------------------------------
 	// SRVを作成するDescriptorHeapの場所を求める
-	data.srvHandleCPU_ = GetCPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
-	data.srvHandleGPU_ = GetGPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
-	// 先頭はImGuiが使っている溜めその次を使う
-	/*data.srvHandleCPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	data.srvHandleGPU_.ptr += device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);*/
-
-	lastSrvHandleCPU_ = data.srvHandleCPU_;
-	lastSrvHandleGPU_ = data.srvHandleGPU_;
+	data.address_.handleCPU = GetCPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
+	data.address_.handleGPU = GetGPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
+	
+	lastSrvHandleCPU_ =data.address_.handleCPU;
+	lastSrvHandleGPU_ =data.address_.handleGPU;
 
 	// mapに値を代入
 	srvData_.emplace("Resources/" + filePath, data);
 
 	// 生成
-	device_->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.srvHandleCPU_);
+	device_->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);
 }
 
 Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::CreateTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const DirectX::TexMetadata& metadata) {
@@ -193,10 +187,10 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::CreateTextureResource(Mic
 }
 
 [[nodiscard]]
-Comptr<ID3D12Resource> TextureManager::UploadTextureData(Comptr<ID3D12Resource> texture,
+ComPtr<ID3D12Resource> TextureManager::UploadTextureData(ComPtr<ID3D12Resource> texture,
 														const DirectX::ScratchImage& mipImage,
-														 Comptr<ID3D12Device> device,
-														 Comptr<ID3D12GraphicsCommandList> commandList) {
+														 ComPtr<ID3D12Device> device,
+														 ComPtr<ID3D12GraphicsCommandList> commandList) {
 	std::vector<D3D12_SUBRESOURCE_DATA> subresources;
 	DirectX::PrepareUpload(device.Get(), mipImage.GetImages(), mipImage.GetImageCount(), mipImage.GetMetadata(), subresources); // subresourceの生成
 	uint64_t intermediateSize = GetRequiredIntermediateSize(texture.Get(), 0, UINT(subresources.size()));						// 必要なサイズを求める
@@ -218,7 +212,7 @@ Comptr<ID3D12Resource> TextureManager::UploadTextureData(Comptr<ID3D12Resource> 
 }
 
 void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath) {
-	commandList->SetGraphicsRootDescriptorTable(3, srvData_[filePath].srvHandleGPU_);
+	commandList->SetGraphicsRootDescriptorTable(3, srvData_[filePath].address_.handleGPU);
 }
 
 /// <summary>
@@ -239,16 +233,20 @@ void TextureManager::CreateShaderResourceView(ID3D12Resource* resource, const DX
 	
 	// ------------------------------------------------------------
 	// SRVを作成するDescriptorHeapの場所を求める
-	data.srvHandleCPU_ = GetCPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
-	data.srvHandleGPU_ = GetGPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
+	data.address_.handleCPU = GetCPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
+	data.address_.handleGPU = GetGPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
 
 	// mapに値を代入
-	srvData_.emplace("offScreenTexture", std::move(data));
+	srvData_.emplace("offScreenTexture",data);
 
 	// 生成
-	device_->CreateShaderResourceView(resource, &srvDesc, data.srvHandleCPU_);
+	device_->CreateShaderResourceView(resource, &srvDesc, data.address_.handleCPU);
 }
 
 void TextureManager::SetRenderTexture(ID3D12GraphicsCommandList* commandList, const uint32_t& index) {
-	commandList->SetGraphicsRootDescriptorTable(index, srvData_["offScreenTexture"].srvHandleGPU_);
+	commandList->SetGraphicsRootDescriptorTable(index, srvData_["offScreenTexture"].address_.handleGPU);
+}
+
+void TextureManager::SetCsRenderTexture(ID3D12GraphicsCommandList* commandList, const uint32_t& index) {
+	commandList->SetComputeRootDescriptorTable(index, srvData_["offScreenTexture"].address_.handleGPU);
 }

@@ -75,8 +75,9 @@ void DirectXCommon::Begin() {
 	// 指定した深度で画面をクリア
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
-	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
-	commandList->ClearRenderTargetView(renderTarget_->GetRtvHandles(backBufferIndex), clearColor, 0, nullptr);
+	float clearColor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(), clearColor, 0, nullptr);
+
 	// srv
 	ID3D12DescriptorHeap* descriptorHeaps[] = { descriptorHeaps_->GetSRVHeap() };
 	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
@@ -90,7 +91,7 @@ void DirectXCommon::Begin() {
 /// オフスクリーン用のリソースをRenderTargetからShaderResourceにする
 /// </summary>
 void DirectXCommon::ChangeOffScreenResource() {
-	renderTarget_->ChangeOffScreenResource(dxCommands_->GetCommandList());
+	renderTarget_->ChangeOffScreenResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
 
 /// <summary>
@@ -132,9 +133,8 @@ void DirectXCommon::End() {
 	hr = dxCommands_->GetCommandList()->Reset(dxCommands_->GetCommandAllocator(), nullptr);
 	assert(SUCCEEDED(hr));
 
-
 	// offScreenの設定を直す
-	renderTarget_->ResetOffScreenResource(dxCommands_->GetCommandList());
+	renderTarget_->ChangeOffScreenResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
 void DirectXCommon::CreateDXGI() {
@@ -177,7 +177,7 @@ void DirectXCommon::SetUseGPU() {
 void DirectXCommon::SetError() {
 #ifdef _DEBUG
 
-	Comptr<ID3D12InfoQueue> infoQueue = nullptr;
+	ComPtr<ID3D12InfoQueue> infoQueue = nullptr;
 	if (SUCCEEDED(device_->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
 		// ヤバいエラージに止まる
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);

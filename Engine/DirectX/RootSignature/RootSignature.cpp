@@ -112,8 +112,8 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateRootSignature()
 	desc.NumStaticSamplers = _countof(staticSamplers);
 
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
-	Comptr<ID3DBlob> signatureBlob = nullptr;
-	Comptr<ID3DBlob> errorBlob = nullptr;
+	ComPtr<ID3DBlob> signatureBlob = nullptr;
+	ComPtr<ID3DBlob> errorBlob = nullptr;
 	// シリアライズしてバイナリにする
 	hr = D3D12SerializeRootSignature(&desc,
 									 D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
@@ -163,8 +163,8 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateTexturelessRoot
 	desc.NumParameters = _countof(rootParameters);
 
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
-	Comptr<ID3DBlob> signatureBlob = nullptr;
-	Comptr<ID3DBlob> errorBlob = nullptr;
+	ComPtr<ID3DBlob> signatureBlob = nullptr;
+	ComPtr<ID3DBlob> errorBlob = nullptr;
 	// シリアライズしてバイナリにする
 	hr = D3D12SerializeRootSignature(&desc,
 									 D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
@@ -202,8 +202,8 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreatePrimitiveRootSi
 	desc.NumParameters = _countof(rootParameters);
 
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
-	Comptr<ID3DBlob> signatureBlob = nullptr;
-	Comptr<ID3DBlob> errorBlob = nullptr;
+	ComPtr<ID3DBlob> signatureBlob = nullptr;
+	ComPtr<ID3DBlob> errorBlob = nullptr;
 	// シリアライズしてバイナリにする
 	hr = D3D12SerializeRootSignature(&desc,
 									 D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
@@ -282,8 +282,8 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateParticleRootSig
 	desc.NumStaticSamplers = _countof(staticSamplers);
 
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
-	Comptr<ID3DBlob> signatureBlob = nullptr;
-	Comptr<ID3DBlob> errorBlob = nullptr;
+	ComPtr<ID3DBlob> signatureBlob = nullptr;
+	ComPtr<ID3DBlob> errorBlob = nullptr;
 	// シリアライズしてバイナリにする
 	hr = D3D12SerializeRootSignature(&desc,
 									 D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
@@ -344,8 +344,8 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateSpriteRootSigna
 	desc.NumStaticSamplers = _countof(staticSamplers);
 
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
-	Comptr<ID3DBlob> signatureBlob = nullptr;
-	Comptr<ID3DBlob> errorBlob = nullptr;
+	ComPtr<ID3DBlob> signatureBlob = nullptr;
+	ComPtr<ID3DBlob> errorBlob = nullptr;
 	// シリアライズしてバイナリにする
 	hr = D3D12SerializeRootSignature(&desc,
 									 D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
@@ -384,7 +384,7 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateComputeShaderRo
 	// textureの設定
 	D3D12_ROOT_PARAMETER rootParameters[2] = {};
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;		// DescriptorTableを使う
-	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;					// PixelShaderで使う
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;					// 
 	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRange;				// Tableの中身の配列を指定
 	rootParameters[0].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);	// Tableで利用する数
 
@@ -411,8 +411,8 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateComputeShaderRo
 	desc.NumStaticSamplers = _countof(staticSamplers);
 
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
-	Comptr<ID3DBlob> signatureBlob = nullptr;
-	Comptr<ID3DBlob> errorBlob = nullptr;
+	ComPtr<ID3DBlob> signatureBlob = nullptr;
+	ComPtr<ID3DBlob> errorBlob = nullptr;
 	// シリアライズしてバイナリにする
 	hr = D3D12SerializeRootSignature(&desc,
 									 D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);

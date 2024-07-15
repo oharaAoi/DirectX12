@@ -8,9 +8,10 @@
 
 #include "Convert.h"
 #include "DirectXUtils.h"
+#include "DescriptorHeap.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class TextureManager {
 public: // メンバ関数
@@ -32,7 +33,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="device"></param>
-	void Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize);
+	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize);
 
 	void Finalize();
 
@@ -55,7 +56,7 @@ public:
 	/// <param name="device"></param>
 	/// <param name="metadata"></param>
 	/// <returns></returns>
-	Comptr<ID3D12Resource> CreateTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const DirectX::TexMetadata& metadata);
+	ComPtr<ID3D12Resource> CreateTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const DirectX::TexMetadata& metadata);
 
 	/// <summary>
 	/// TextureResourceにデータを転送する
@@ -66,7 +67,7 @@ public:
 	/// <param name="commandList"></param>
 	/// <returns></returns>
 	[[nodiscard]]
-	Comptr<ID3D12Resource> UploadTextureData(
+	ComPtr<ID3D12Resource> UploadTextureData(
 		Microsoft::WRL::ComPtr<ID3D12Resource> texture,
 		const DirectX::ScratchImage& mipImage,
 		Microsoft::WRL::ComPtr<ID3D12Device> device,
@@ -90,14 +91,15 @@ public:
 
 	void SetRenderTexture(ID3D12GraphicsCommandList* commandList, const uint32_t& index);
 
+	void SetCsRenderTexture(ID3D12GraphicsCommandList* commandList, const uint32_t& index);
+
 private:
 
 	struct SRVData {
-		Comptr<ID3D12Resource> textureResource_ = nullptr;
-		Comptr<ID3D12Resource> intermediateResource_ = nullptr;
+		ComPtr<ID3D12Resource> textureResource_ = nullptr;
+		ComPtr<ID3D12Resource> intermediateResource_ = nullptr;
 
-		D3D12_CPU_DESCRIPTOR_HANDLE srvHandleCPU_;
-		D3D12_GPU_DESCRIPTOR_HANDLE srvHandleGPU_;
+		DescriptorHeap::DescriptorHandles address_;
 	};
 
 	//std::vector<SRVData> srvData_;

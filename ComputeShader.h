@@ -30,23 +30,27 @@ public:
 
 	void SetPipelineState(ID3D12GraphicsCommandList* commandList);
 
+	void SetUAVResource(ID3D12GraphicsCommandList* commandList);
+
 	void CreateUAV();
+
+	void Draw(ID3D12GraphicsCommandList* commandList);
 
 private:
 	// rootSignature
 	std::unique_ptr<RootSignature> rootSignature_ = nullptr;
 	// Shader
-	Comptr<IDxcBlob> computeShaderBlob_ = nullptr;
+	ComPtr<IDxcBlob> computeShaderBlob_ = nullptr;
 	// PSO
-	Comptr<ID3D12PipelineState> csPipelineState_ = nullptr;
+	ComPtr<ID3D12PipelineState> csPipelineState_ = nullptr;
 	// 
-	Comptr<ID3D12Resource> uavBuffer_ = nullptr;
+	ComPtr<ID3D12Resource> uavBuffer_ = nullptr;
 	
 	// DXCで使う
 	DirectXCompiler* dxCompiler_ = nullptr;
-
+	// dxHeap
 	DescriptorHeap* dxHeap_ = nullptr;
-
+	// 
 	DescriptorSize* dxSize_ = nullptr;
 
 	// device
@@ -54,6 +58,9 @@ private:
 
 	D3D12_CPU_DESCRIPTOR_HANDLE uavHandleCPU_;
 	D3D12_GPU_DESCRIPTOR_HANDLE uavHandleGPU_;
+
+	D3D12_CPU_DESCRIPTOR_HANDLE srvHandleCPU_;
+	D3D12_GPU_DESCRIPTOR_HANDLE srvHandleGPU_;
 
 	ID3D12Resource* textureResource_;
 

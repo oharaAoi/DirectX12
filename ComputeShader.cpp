@@ -34,17 +34,33 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 }
 
 void ComputeShader::SetPipelineState(ID3D12GraphicsCommandList* commandList) {
+
+	// ------------------------------------------------------------------------------
 	commandList->SetComputeRootSignature(rootSignature_->GetRootSignature());
 	commandList->SetPipelineState(csPipelineState_.Get());
 
-	TextureManager::GetInstance()->SetRenderTexture(commandList, 0);
+	ID3D12DescriptorHeap* descriptorHeaps[] = { dxHeap_->GetSRVHeap() };
+	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+
+	TextureManager::GetInstance()->SetCsRenderTexture(commandList, 0);
 	commandList->SetComputeRootDescriptorTable(1, uavHandleGPU_);
+
+	UINT groupCountX = (1280 + 16 - 1) / 16;
+	UINT groupCountY = (720 + 16 - 1) / 16;
+
+	commandList->Dispatch(groupCountX, groupCountY, 1);
+
+	TransitionResourceState(commandList, uavBuffer_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+}
+
+void ComputeShader::SetUAVResource(ID3D12GraphicsCommandList* commandList) {
+	TransitionResourceState(commandList, uavBuffer_.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 }
 
 void ComputeShader::CreateUAV() {
 	D3D12_RESOURCE_DESC desc{};
-	desc.Width = 1280;			// 画面の横幅
-	desc.Height = 720;			// 画面の縦幅
+	desc.Width = kWindowWidth_;			// 画面の横幅
+	desc.Height = kWindowHeight_;			// 画面の縦幅
 	desc.MipLevels = 1;			// 
 	desc.DepthOrArraySize = 1;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -70,13 +86,37 @@ void ComputeShader::CreateUAV() {
 	assert(SUCCEEDED(hr));
 
 	/// 
-	
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
-	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;;
+	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
 	uavDesc.Format = uavBuffer_->GetDesc().Format;
 
 	uavHandleCPU_ = GetCPUDescriptorHandle(dxHeap_->GetSRVHeap(), dxSize_->GetSRV(), dxHeap_->GetUseSrvIndex() + 1);
 	uavHandleGPU_ = GetGPUDescriptorHandle(dxHeap_->GetSRVHeap(), dxSize_->GetSRV(), dxHeap_->GetUseSrvIndex() + 1);
 
+	dxHeap_->SetUseSrvIndex(dxHeap_->GetUseSrvIndex() + 1);
+
 	device_->CreateUnorderedAccessView(uavBuffer_.Get(), nullptr, &uavDesc, uavHandleCPU_);
+
+	// ------------------------------------------------------------
+	// metadataを元にSRVの設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+
+	// ------------------------------------------------------------
+	// SRVを作成するDescriptorHeapの場所を求める
+	srvHandleCPU_ = GetCPUDescriptorHandle(dxHeap_->GetSRVHeap(), dxSize_->GetSRV(), dxHeap_->GetUseSrvIndex() + 1);
+	srvHandleGPU_ = GetGPUDescriptorHandle(dxHeap_->GetSRVHeap(), dxSize_->GetSRV(), dxHeap_->GetUseSrvIndex() + 1);
+
+
+	dxHeap_->SetUseSrvIndex(dxHeap_->GetUseSrvIndex() + 1);
+
+	// 生成
+	device_->CreateShaderResourceView(uavBuffer_.Get(), &srvDesc, srvHandleCPU_);
+}
+
+void ComputeShader::Draw(ID3D12GraphicsCommandList* commandList) {
+	commandList->SetGraphicsRootDescriptorTable(2, srvHandleGPU_);
 }

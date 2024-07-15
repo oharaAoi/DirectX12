@@ -34,7 +34,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(ID3D12Device* device);
+	void Init(ID3D12Device* device);
 
 	void Finalize();
 

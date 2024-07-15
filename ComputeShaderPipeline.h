@@ -30,10 +30,10 @@ private:
 	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
 
 	// Shader
-	Comptr<IDxcBlob> computeShaderBlob_ = nullptr;
+	ComPtr<IDxcBlob> computeShaderBlob_ = nullptr;
 
 	// PSO
-	Comptr<ID3D12PipelineState> csPipelineState_ = nullptr;
+	ComPtr<ID3D12PipelineState> csPipelineState_ = nullptr;
 
 	// DXCで使う
 	DirectXCompiler* dxCompiler_ = nullptr;

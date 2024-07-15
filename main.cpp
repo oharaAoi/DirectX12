@@ -3,9 +3,6 @@
 #include "GameScene.h"
 #include "TestScene.h"
 
-static const int kWindowWidth = 1280;
-static const int kWindowHeight = 720;
-
 enum Scene {
 	kGame,
 	kTest
@@ -18,7 +15,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	D3DResourceLeakChecker debugChecker;
 
 	// 初期化
-	Engine::Initialize(kWindowWidth, kWindowHeight);
+	Engine::Initialize(kWindowWidth_, kWindowHeight_);
 
 	std::unique_ptr<GameScene> game = std::make_unique<GameScene>();
 	std::unique_ptr<TestScene> test = std::make_unique<TestScene>();

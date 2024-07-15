@@ -69,8 +69,8 @@ void RenderTarget::CreateRenderTargetView() {
 /// </summary>
 void RenderTarget::CreateOffScreenResource() {
 	D3D12_RESOURCE_DESC desc{};
-	desc.Width = 1280;			// 画面の横幅
-	desc.Height = 720;			// 画面の縦幅
+	desc.Width = kWindowWidth_;			// 画面の横幅
+	desc.Height = kWindowHeight_;			// 画面の縦幅
 	desc.MipLevels = 1;			// 
 	desc.DepthOrArraySize = 1;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -108,10 +108,9 @@ void RenderTarget::CreateOffScreenView() {
 	device_->CreateRenderTargetView(offScreenRenderResource_.Get(), &rtvDesc, offScreenHandle_);
 }
 
-void RenderTarget::ChangeOffScreenResource(ID3D12GraphicsCommandList* commandList) {
-	TransitionResourceState(commandList, offScreenRenderResource_.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-}
-
-void RenderTarget::ResetOffScreenResource(ID3D12GraphicsCommandList* commandList) {
-	TransitionResourceState(commandList, offScreenRenderResource_.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+/// <summary>
+/// オフスクリーン用のリソースのステートを変更する
+/// </summary>
+void RenderTarget::ChangeOffScreenResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
+	TransitionResourceState(commandList, offScreenRenderResource_.Get(), beforState, afterState);
 }

@@ -26,7 +26,7 @@ public:
 	/// <summary>
 	/// 初期化関数
 	/// </summary>
-	void Initialize(WNDCLASS wCalss, HWND hwnd);
+	void Init(WNDCLASS wCalss, HWND hwnd);
 
 	/// <summary>
 	/// 更新処理

@@ -6,7 +6,7 @@
 #include "ImGuiManager.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class RenderTexture {
 public:
@@ -42,10 +42,10 @@ public:
 
 private:
 
-	Comptr<ID3D12Resource> vertexBuffer_;
-	Comptr<ID3D12Resource> indexBuffer_;
-	Comptr<ID3D12Resource> materialBuffer_;
-	Comptr<ID3D12Resource> transformBuffer_;
+	ComPtr<ID3D12Resource> vertexBuffer_;
+	ComPtr<ID3D12Resource> indexBuffer_;
+	ComPtr<ID3D12Resource> materialBuffer_;
+	ComPtr<ID3D12Resource> transformBuffer_;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};

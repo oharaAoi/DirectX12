@@ -10,7 +10,7 @@
 #include "MyMath.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class ParticleForGPU {
 public:
@@ -66,7 +66,7 @@ private:
 
 	uint32_t instanceSize_;
 
-	Comptr<ID3D12Resource> cBuffer_;
+	ComPtr<ID3D12Resource> cBuffer_;
 	ParticleForGPUData* particleData_;
 
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;

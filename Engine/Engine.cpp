@@ -36,18 +36,17 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	// ImGui
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_->GetDevice(), dxCommon_->GetSwapChainBfCount(), descriptorHeap_->GetSRVHeap());
 
+	// renderTarget
+	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetDescriptorSize(), dxCommon_->GetSwapChain().Get());
+
 	// texture
-	textureManager_->Initialize(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV());
+	textureManager_->Init(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV());
 	// offScreenRenderingのResourceのViewを作成する
 	textureManager_->CreateShaderResourceView(renderTarget_->GetOffScreenRenderResource(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
-
 	descriptorHeap_->SetUseSrvIndex(textureManager_->GetSRVDataIndex() + 1);
 
 	// dxCompiler
 	dxCompiler_ = std::make_unique<DirectXCompiler>();
-
-	// renderTarget
-	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetDescriptorSize(), dxCommon_->GetSwapChain().Get());
 
 	// shader
 	shaders_.Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Object3d.PS.hlsl", Shader::Normal);
@@ -91,15 +90,15 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	lightGroup_->Init(dxDevice_->GetDevice());
 
 	// input
-	input_->Initialize(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
+	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 
 	// audio
 	audio_ = std::make_unique<Audio>();
-	audio_->Initialize();
+	audio_->Init();
 
 	// primitive
 	primitiveDrawer_ = std::make_unique<PrimitiveDrawer>();
-	primitiveDrawer_->Initialize(dxDevice_->GetDevice());
+	primitiveDrawer_->Init(dxDevice_->GetDevice());
 
 	viewProjection_ = std::make_unique<ViewProjection>();
 	viewProjection_->Init(dxDevice_->GetDevice());
@@ -172,13 +171,18 @@ void Engine::EndRenderTexture() {
 	// これから書き込む画面をバックバッファに変更する
 	dxCommon_->SetSwapChain();
 
-	// resource
-
+	grayScaleCS_->SetPipelineState(dxCommands_->GetCommandList());
 
 	// スプライト用のパイプラインの設定
 	spritePipeline_->Draw(dxCommands_->GetCommandList());
 	// offScreenRenderingで書き込んだTextureを描画する
 	renderTexture_->Draw(dxCommands_->GetCommandList());
+
+	grayScaleCS_->Draw(dxCommands_->GetCommandList());
+
+	dxCommands_->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
+
+	grayScaleCS_->SetUAVResource(dxCommands_->GetCommandList());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

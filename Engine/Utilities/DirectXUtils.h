@@ -4,6 +4,7 @@
 #include <dxgi1_6.h>
 #include <cassert>
 #include <dxgidebug.h>
+#include <wrl.h>
 
 // dxc
 #include <dxcapi.h>
@@ -11,7 +12,7 @@
 
 #include "Utilities/Convert.h"
 
-#include <wrl.h>
+#include "Enviroment.h"
 
 /// <summary>
 /// DiscriptorHeapの作成

@@ -7,7 +7,7 @@
 #include "DirectXUtils.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class DirectXCompiler {
 public:
@@ -19,14 +19,14 @@ public:
 
 	void Finalize();
 
-	Comptr<IDxcBlob> VsShaderCompile(const std::string& shader);
-	Comptr<IDxcBlob> PsShaderCompile(const std::string& shader);
-	Comptr<IDxcBlob> CsShaderCompile(const std::string& shader);
+	ComPtr<IDxcBlob> VsShaderCompile(const std::string& shader);
+	ComPtr<IDxcBlob> PsShaderCompile(const std::string& shader);
+	ComPtr<IDxcBlob> CsShaderCompile(const std::string& shader);
 
 private:
 
-	Comptr<IDxcUtils> dxcUtils_ = nullptr;
-	Comptr<IDxcCompiler3> dxcCompiler_ = nullptr;
-	Comptr<IDxcIncludeHandler> includeHandler_ = nullptr;
+	ComPtr<IDxcUtils> dxcUtils_ = nullptr;
+	ComPtr<IDxcCompiler3> dxcCompiler_ = nullptr;
+	ComPtr<IDxcIncludeHandler> includeHandler_ = nullptr;
 	
 };

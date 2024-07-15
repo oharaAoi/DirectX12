@@ -1,6 +1,6 @@
 #include "PrimitiveDrawer.h"
 
-void PrimitiveDrawer::Initialize(ID3D12Device* device) {
+void PrimitiveDrawer::Init(ID3D12Device* device) {
 	// ---------------------------------------------------------------
 	// ↓Vertexの設定
 	// ---------------------------------------------------------------

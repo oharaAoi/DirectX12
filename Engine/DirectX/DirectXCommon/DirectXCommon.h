@@ -20,7 +20,7 @@
 #include "Debug.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class DirectXCommon {
 public:
@@ -115,7 +115,7 @@ public:
 
 	DescriptorSize* GetDescriptorSize() { return descriptorSize_.get(); }
 
-	Comptr<IDXGISwapChain4> GetSwapChain() { return swapChain_.Get(); }
+	ComPtr<IDXGISwapChain4> GetSwapChain() { return swapChain_.Get(); }
 
 private:
 
@@ -136,18 +136,18 @@ private:
 private:
 
 	// デバック =======================================================================================
-	Comptr<ID3D12Debug1> debugController_ = nullptr;
+	ComPtr<ID3D12Debug1> debugController_ = nullptr;
 
 	// 初期化系 =======================================================================================
-	Comptr<IDXGIFactory7> dxgiFactory_ = nullptr;
-	Comptr<IDXGIAdapter4> useAdapter_ = nullptr;
+	ComPtr<IDXGIFactory7> dxgiFactory_ = nullptr;
+	ComPtr<IDXGIAdapter4> useAdapter_ = nullptr;
 
 	// 生成する変数 =======================================================================================
 	// swapChaim
-	Comptr<IDXGISwapChain4> swapChain_ = nullptr;
+	ComPtr<IDXGISwapChain4> swapChain_ = nullptr;
 	
 	// Fence & Event
-	Comptr<ID3D12Fence> fence_ = nullptr;
+	ComPtr<ID3D12Fence> fence_ = nullptr;
 	uint64_t fenceValue_;
 	HANDLE fenceEvent_;
 
@@ -158,6 +158,6 @@ private:
 	D3D12_RECT scissorRect_;
 
 	// dsv
-	Comptr<ID3D12Resource> depthStencilResource_ = nullptr;
+	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
 };
 

@@ -52,8 +52,8 @@ void WinApp::CreateGameWindow(){
 
 	//windowSize ---------------------------------------------
 	// クライアント領域のサイズ
-	const int32_t kClientWidth = 1280;
-	const int32_t kClientHeight = 720;
+	const int32_t kClientWidth = kWindowWidth_;
+	const int32_t kClientHeight = kWindowHeight_;
 
 	// ウィンドウサイズをあらわs構造体にクライアント領域を入れる
 	RECT wrc = { 0,0, kClientWidth, kClientHeight };

@@ -7,7 +7,7 @@ Audio::~Audio() {
 /// <summary>
 /// 初期化
 /// </summary>
-void Audio::Initialize() {
+void Audio::Init() {
 	HRESULT result = S_FALSE;
 
 	// XAudioエンジンのインスタンス

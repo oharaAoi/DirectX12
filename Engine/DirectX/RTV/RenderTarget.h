@@ -12,7 +12,7 @@
 
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class RenderTarget {
 public:
@@ -45,14 +45,9 @@ public:
 	void CreateOffScreenView();
 
 	/// <summary>
-	/// オフスクリーン用のリソースをレンダーターゲットからシェーダーリソースにする
+	/// オフスクリーン用のリソースのステートを変更する
 	/// </summary>
-	void ChangeOffScreenResource(ID3D12GraphicsCommandList* commandList);
-
-	/// <summary>
-	/// オフスクリーン用のリソースをレンダーターゲットからシェーダーリソースにする
-	/// </summary>
-	void ResetOffScreenResource(ID3D12GraphicsCommandList* commandList);
+	void ChangeOffScreenResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
 public:
 
@@ -68,9 +63,9 @@ private:
 
 	// resource
 	// フロントバッファとバックバッファ
-	Comptr<ID3D12Resource> swapChainRenderResource_[2];
+	ComPtr<ID3D12Resource> swapChainRenderResource_[2];
 	// 画像として書き込むバッファ
-	Comptr<ID3D12Resource> offScreenRenderResource_;
+	ComPtr<ID3D12Resource> offScreenRenderResource_;
 
 	// rtv
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2];

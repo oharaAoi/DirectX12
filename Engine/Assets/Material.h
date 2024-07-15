@@ -12,7 +12,7 @@
 #endif
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class Material {
 public:
@@ -85,7 +85,7 @@ public:
 
 private:
 
-	Comptr<ID3D12Resource> materialBuffer_;
+	ComPtr<ID3D12Resource> materialBuffer_;
 	PBRMaterial* pbrMaterial_;
 
 	// materialData

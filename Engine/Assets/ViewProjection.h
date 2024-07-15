@@ -9,7 +9,7 @@
 #include "MyMath.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 struct ViewProjectionData {
 	Matrix4x4 view;
@@ -40,7 +40,7 @@ public:
 
 private:
 
-	Comptr<ID3D12Resource> cBuffer_;
+	ComPtr<ID3D12Resource> cBuffer_;
 	ViewProjectionData* data_;
 };
 

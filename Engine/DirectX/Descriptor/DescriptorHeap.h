@@ -8,12 +8,18 @@
 #include "DirectXUtils.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
-// -----------------------------------------------------------
-// 使わないか
-// -----------------------------------------------------------
 class DescriptorHeap {
+public:
+	/// <summary>
+	/// GPUやCPUのアドレスをまとめた関数
+	/// </summary>
+	struct DescriptorHandles {
+		D3D12_CPU_DESCRIPTOR_HANDLE handleCPU;
+		D3D12_GPU_DESCRIPTOR_HANDLE handleGPU;
+	};
+
 public:
 
 	DescriptorHeap(ID3D12Device* device);
@@ -25,17 +31,36 @@ public:
 	/// <param name="device"></param>
 	void Initialize(ID3D12Device* device);
 
+	/// <summary>
+	/// 終了関数
+	/// </summary>
 	void Finalize();
 
-public:
+	/// <summary>
+	/// SRVをセットする
+	/// </summary>
+	/// <param name="commandList"></param>
+	void SetSRVHeap(ID3D12GraphicsCommandList* commandList);
 
+
+public:
+	/// <summary>
+	/// RTVのHeapを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	ID3D12DescriptorHeap* GetRTVHeap() { return rtvHeap_.Get(); }
 
+	/// <summary>
+	///　SRVのHeapを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	ID3D12DescriptorHeap* GetSRVHeap() { return srvHeap_.Get(); }
 
+	/// <summary>
+	/// DSVのHeapを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	ID3D12DescriptorHeap* GetDSVHeap() { return dsvHeap_.Get(); }
-
-	ID3D12DescriptorHeap* GetUAVHeap() { return dsvHeap_.Get(); }
 
 	void SetUseSrvIndex(const uint32_t& index) { useSrvIndex_ = index; }
 
@@ -45,10 +70,9 @@ private:
 
 	ID3D12Device* device_ = nullptr;
 
-	Comptr<ID3D12DescriptorHeap> rtvHeap_ = nullptr;
-	Comptr<ID3D12DescriptorHeap> srvHeap_ = nullptr;
-	Comptr<ID3D12DescriptorHeap> dsvHeap_ = nullptr;
-	Comptr<ID3D12DescriptorHeap> uavHeap_ = nullptr;
-
+	ComPtr<ID3D12DescriptorHeap> rtvHeap_ = nullptr;
+	ComPtr<ID3D12DescriptorHeap> srvHeap_ = nullptr;
+	ComPtr<ID3D12DescriptorHeap> dsvHeap_ = nullptr;
+	
 	uint32_t useSrvIndex_;
 };

@@ -10,7 +10,7 @@
 #include "Debug.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 enum class RootSignatureType {
 	Normal,
@@ -74,7 +74,7 @@ public:
 private:
 
 	// rootSignature
-	Comptr<ID3D12RootSignature> rootSignature_ = nullptr;
+	ComPtr<ID3D12RootSignature> rootSignature_ = nullptr;
 
 	ID3D12Device* device_ = nullptr;
 };

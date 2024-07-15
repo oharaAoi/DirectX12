@@ -70,11 +70,11 @@ private:
 	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
 
 	// Shader
-	Comptr<IDxcBlob> vertexShaderBlob_ = nullptr;
-	Comptr<IDxcBlob> pixelShaderBlob_ = nullptr;
+	ComPtr<IDxcBlob> vertexShaderBlob_ = nullptr;
+	ComPtr<IDxcBlob> pixelShaderBlob_ = nullptr;
 
 	// PSO
-	Comptr<ID3D12PipelineState> graphicsPipelineState_ = nullptr;
+	ComPtr<ID3D12PipelineState> graphicsPipelineState_ = nullptr;
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc_;
 
 	// DXCで使う

@@ -22,3 +22,8 @@ void DescriptorHeap::Finalize() {
 	srvHeap_.Reset();
 	dsvHeap_.Reset();
 }
+
+void DescriptorHeap::SetSRVHeap(ID3D12GraphicsCommandList* commandList) {
+	ID3D12DescriptorHeap* descriptorHeaps[] = { srvHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+}

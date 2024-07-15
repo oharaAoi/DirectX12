@@ -219,6 +219,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Utilities\Loader.h" />
     <ClInclude Include="Engine\Utilities\Shader.h" />
     <ClInclude Include="Engine\WinApp\WinApp.h" />
+    <ClInclude Include="Enviroment.h" />
     <ClInclude Include="Externals\ImGui\imconfig.h" />
     <ClInclude Include="Externals\ImGui\imgui.h" />
     <ClInclude Include="Externals\ImGui\imgui_impl_dx12.h" />
