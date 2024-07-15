@@ -17,7 +17,8 @@ enum class RootSignatureType {
 	TextureLess,
 	Primitive,
 	Particle,
-	Sprite
+	Sprite,
+	ComputeShader
 };
 
 class RootSignature {
@@ -59,6 +60,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateSpriteRootSignature();
+
+	/// <summary>
+	/// コンピュートシェーダ用のRootSignatureの作成
+	/// </summary>
+	/// <returns></returns>
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateComputeShaderRootSignature();
 
 public:
 

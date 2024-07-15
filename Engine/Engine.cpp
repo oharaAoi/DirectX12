@@ -38,6 +38,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	// texture
 	textureManager_->Initialize(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV());
+	// offScreenRenderingのResourceのViewを作成する
+	textureManager_->CreateShaderResourceView(renderTarget_->GetOffScreenRenderResource(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+
 	descriptorHeap_->SetUseSrvIndex(textureManager_->GetSRVDataIndex() + 1);
 
 	// dxCompiler
@@ -76,6 +79,12 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	spritePipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
 						shaders_.GetShaderData(Shader::Sprite), SpritePipeline);
+
+	// CS
+	grayScaleCS_ = std::make_unique<ComputeShader>();
+	grayScaleCS_->Init(dxDevice_->GetDevice(), dxCompiler_.get(),
+					   descriptorHeap_.get(), dxCommon_->GetDescriptorSize(),
+					   renderTarget_->GetOffScreenRenderResource(), "Engine/HLSL/GrayScale.CS.hlsl");
 
 	// light
 	lightGroup_ = std::make_unique<LightGroup>();
@@ -160,10 +169,12 @@ void Engine::EndFrame() {
 void Engine::EndRenderTexture() {
 	// offScreenRenderingのResourceの状態を変更する
 	dxCommon_->ChangeOffScreenResource();
-	// offScreenRenderingのResourceのViewを作成する
-	textureManager_->CreateShaderResourceView(renderTarget_->GetOffScreenRenderResource(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 	// これから書き込む画面をバックバッファに変更する
 	dxCommon_->SetSwapChain();
+
+	// resource
+
+
 	// スプライト用のパイプラインの設定
 	spritePipeline_->Draw(dxCommands_->GetCommandList());
 	// offScreenRenderingで書き込んだTextureを描画する

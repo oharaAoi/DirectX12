@@ -285,6 +285,12 @@
     <ClCompile Include="Engine\Assets\RenderTexture.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
+    <ClCompile Include="ComputeShader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputeShaderPipeline.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -497,6 +503,12 @@
     <ClInclude Include="Engine\Assets\RenderTexture.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
+    <ClInclude Include="ComputeShader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputeShaderPipeline.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
@@ -533,6 +545,9 @@
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\Sprite.VS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\GrayScale.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
   </ItemGroup>

@@ -88,7 +88,7 @@ public:
 
 	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(srvData_.size()); }
 
-	void SetRenderTexture(ID3D12GraphicsCommandList* commandList);
+	void SetRenderTexture(ID3D12GraphicsCommandList* commandList, const uint32_t& index);
 
 private:
 

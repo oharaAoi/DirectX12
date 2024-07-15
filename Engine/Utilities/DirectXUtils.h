@@ -50,6 +50,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(Microso
 /// <param name=""></param>
 Microsoft::WRL::ComPtr<IDxcBlob> CompilerShader(
 	const std::wstring& filePath,
+	const wchar_t* entryPoint,
 	const wchar_t* profile,
 	Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils,
 	Microsoft::WRL::ComPtr<IDxcCompiler3> dxcCompiler,

@@ -92,6 +92,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ComputeShader.cpp" />
+    <ClCompile Include="ComputeShaderPipeline.cpp" />
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Assets\Material.cpp" />
     <ClCompile Include="Engine\Assets\Mesh.cpp" />
@@ -156,6 +158,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ComputeShader.h" />
+    <ClInclude Include="ComputeShaderPipeline.h" />
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Assets\Material.h" />
     <ClInclude Include="Engine\Assets\Mesh.h" />
@@ -228,6 +232,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Scene\TestScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Engine\HLSL\GrayScale.CS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>

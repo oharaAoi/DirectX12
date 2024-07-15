@@ -236,19 +236,19 @@ void TextureManager::CreateShaderResourceView(ID3D12Resource* resource, const DX
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
-
+	
 	// ------------------------------------------------------------
 	// SRVを作成するDescriptorHeapの場所を求める
 	data.srvHandleCPU_ = GetCPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
 	data.srvHandleGPU_ = GetGPUDescriptorHandle(srvHeap_, srvDescriptorSize_, (int(srvData_.size()) + 1));
 
 	// mapに値を代入
-	srvData_.emplace("offScreenTexture", data);
+	srvData_.emplace("offScreenTexture", std::move(data));
 
 	// 生成
 	device_->CreateShaderResourceView(resource, &srvDesc, data.srvHandleCPU_);
 }
 
-void TextureManager::SetRenderTexture(ID3D12GraphicsCommandList* commandList) {
-	commandList->SetGraphicsRootDescriptorTable(2, srvData_["offScreenTexture"].srvHandleGPU_);
+void TextureManager::SetRenderTexture(ID3D12GraphicsCommandList* commandList, const uint32_t& index) {
+	commandList->SetGraphicsRootDescriptorTable(index, srvData_["offScreenTexture"].srvHandleGPU_);
 }

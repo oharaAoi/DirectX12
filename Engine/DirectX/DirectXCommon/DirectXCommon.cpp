@@ -123,19 +123,9 @@ void DirectXCommon::End() {
 	swapChain_->Present(1, 0);
 
 	// ---------------------------------------------------------------
-	// fenceの値を更新
-	fenceValue_++;
-	// GPUがここまでたどり着いた時に,fenceの値を指定した値に第謬するようにsignelを送る
-	dxCommands_->GetCommandQueue()->Signal(fence_.Get(), fenceValue_);
+	// CPUとGPUの同期をとる
+	dxCommands_->SyncGPUAndCPU();
 
-	// Fenceの値が指定したSignal値にたどりついているか確認する
-	// GetCompletedValueの初期値はFence作成時に渡した初期値
-	if (fence_->GetCompletedValue() < fenceValue_) {
-		// 指定下Signalにたどりついていないので、たどりつくまで松ようにイベントを設定する
-		fence_->SetEventOnCompletion(fenceValue_, fenceEvent_);
-
-		WaitForSingleObject(fenceEvent_, INFINITE);
-	}
 	// ---------------------------------------------------------------
 	hr = dxCommands_->GetCommandAllocator()->Reset();
 	assert(SUCCEEDED(hr));
@@ -145,9 +135,6 @@ void DirectXCommon::End() {
 
 	// offScreenの設定を直す
 	renderTarget_->ResetOffScreenResource(dxCommands_->GetCommandList());
-
-	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
-	dxCommands_->GetCommandList()->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(), clearColor, 0, nullptr);
 }
 
 void DirectXCommon::CreateDXGI() {

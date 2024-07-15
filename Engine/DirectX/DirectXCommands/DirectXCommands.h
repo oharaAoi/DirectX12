@@ -22,7 +22,25 @@ public:
 
 	void Finalize();
 
+	/// <summary>
+	/// DirectX12のコマンドを生成する
+	/// </summary>
 	void CreateCommand();
+
+	/// <summary>
+	/// Fenceを作成する
+	/// </summary>
+	void CreateFence();
+
+	/// <summary>
+	/// CPUとGPUの同期をはかる
+	/// </summary>
+	void SyncGPUAndCPU();
+
+	/// <summary>
+	/// コンピュートシェーダーを行った後にGPUとCPU
+	/// </summary>
+	void ComputeShaderSyncGPUAndCPU();
 
 public:
 	/// <summary>
@@ -37,10 +55,25 @@ public:
 
 private:
 
+	ID3D12Device* device_ = nullptr;
+	
+	// graphics用のコマンド系 ---------------------------------------------
 	Comptr<ID3D12CommandQueue> commandQueue_ = nullptr;
 	Comptr<ID3D12CommandAllocator> commandAllocator_ = nullptr;
 	Comptr<ID3D12GraphicsCommandList> commandList_ = nullptr;
 
-	ID3D12Device* device_ = nullptr;
+	// Fence & Event
+	Comptr<ID3D12Fence> fence_ = nullptr;
+	uint64_t fenceValue_;
+	HANDLE fenceEvent_;
 
+	// computeShader用のコマンド系 ---------------------------------------------
+	Comptr<ID3D12CommandQueue> computeCommandQueue_ = nullptr;
+	Comptr<ID3D12CommandAllocator> computeCommandAllocator_ = nullptr;
+	Comptr<ID3D12GraphicsCommandList> computeCommandList_ = nullptr;
+
+	// Fence & Event
+	Comptr<ID3D12Fence> computeFence_ = nullptr;
+	uint64_t computeFenceValue_;
+	HANDLE computeFenceEvent_;
 };

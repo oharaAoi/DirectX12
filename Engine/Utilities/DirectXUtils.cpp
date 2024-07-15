@@ -95,6 +95,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(Microso
 /// <param name=""></param>
 Microsoft::WRL::ComPtr<IDxcBlob> CompilerShader(
 	const std::wstring& filePath,
+	const wchar_t* entryPoint,
 	const wchar_t* profile,
 	Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils,
 	Microsoft::WRL::ComPtr<IDxcCompiler3> dxcCompiler,
@@ -116,7 +117,7 @@ Microsoft::WRL::ComPtr<IDxcBlob> CompilerShader(
 	// 2.-----------------------------------------------------------------------------------------
 	LPCWSTR arguments[] = {
 		filePath.c_str(),			// コンパイル対象のhlslファイル
-		L"-E", L"main",				// エントリーポイントの指定。基本的にmian以外にしない
+		L"-E", entryPoint,				// エントリーポイントの指定。基本的にmian以外にしない
 		L"-T", profile,				// shaderProfileの設定
 		L"-Zi", L"-Qembed_debug",	// デバック用に情報を埋め込む
 		L"-Od",						// 最適化を外して置く

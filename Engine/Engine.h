@@ -8,6 +8,7 @@
 #include "RenderTarget.h"
 #include "DirectXCompiler.h"
 #include "Pipeline.h"
+#include "ComputeShader.h"
 #include "PrimitivePipeline.h"
 #include "ImGuiManager.h"
 #include "TextureManager.h"
@@ -233,6 +234,10 @@ namespace {
 	std::unique_ptr<Pipeline> particlePipeline_ = nullptr;
 	std::unique_ptr<Pipeline> spritePipeline_ = nullptr;
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
+
+	// CS
+	std::unique_ptr<ComputeShader> grayScaleCS_ = nullptr;
+
 	// light
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 	// audio

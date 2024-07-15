@@ -74,6 +74,6 @@ void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetIndexBuffer(&indexBufferView_);
 	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
 	commandList->SetGraphicsRootConstantBufferView(1, transformBuffer_->GetGPUVirtualAddress());
-	TextureManager::GetInstance()->SetRenderTexture(commandList);
+	TextureManager::GetInstance()->SetRenderTexture(commandList, 2);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
