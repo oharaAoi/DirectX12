@@ -53,7 +53,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)Game\Scene;$(ProjectDir)Game\Camera;$(ProjectDir)Game;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\WinApp;$(ProjectDir)Engine\Utilities;$(ProjectDir)Engine\ParticleSystem;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Manager;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Lib;$(ProjectDir)Engine\ImGui;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\HLSL;$(ProjectDir)Engine\GameObject;$(ProjectDir)Engine\Collider;$(ProjectDir)Engine\Assets;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\DirectX\RTV;$(ProjectDir)Engine\DirectX\RootSignature;$(ProjectDir)Engine\DirectX\Pipeline;$(ProjectDir)Engine\DirectX\DirectXDevice;$(ProjectDir)Engine\DirectX\DirectXCompiler;$(ProjectDir)Engine\DirectX\DirectXCommon;$(ProjectDir)Engine\DirectX\DirectXCommands;$(ProjectDir)Engine\DirectX\Descriptor;$(ProjectDir)Engine\DirectX\;$(ProjectDir)Engine;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals;$(ProjectDir)Externals\assimp\include;$(ProjectDir)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Game\Scene;$(ProjectDir)Game\Camera;$(ProjectDir)Game;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\WinApp;$(ProjectDir)Engine\Utilities;$(ProjectDir)Engine\ParticleSystem;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Manager;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Lib;$(ProjectDir)Engine\ImGui;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\ComputeShader;$(ProjectDir)Engine\HLSL;$(ProjectDir)Engine\GameObject;$(ProjectDir)Engine\Collider;$(ProjectDir)Engine\Assets;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\DirectX\RTV;$(ProjectDir)Engine\DirectX\RootSignature;$(ProjectDir)Engine\DirectX\Pipeline;$(ProjectDir)Engine\DirectX\DirectXDevice;$(ProjectDir)Engine\DirectX\DirectXCompiler;$(ProjectDir)Engine\DirectX\DirectXCommon;$(ProjectDir)Engine\DirectX\DirectXCommands;$(ProjectDir)Engine\DirectX\Descriptor;$(ProjectDir)Engine\DirectX\;$(ProjectDir)Engine;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals;$(ProjectDir)Externals\assimp\include;$(ProjectDir)\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -92,9 +92,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ComputeShader.cpp" />
-    <ClCompile Include="ComputeShaderPipeline.cpp" />
-    <ClCompile Include="CSPipeline.cpp" />
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Assets\Material.cpp" />
     <ClCompile Include="Engine\Assets\Mesh.cpp" />
@@ -104,6 +101,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Assets\WorldTransform.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\Collider\BoxCollider.cpp" />
+    <ClCompile Include="Engine\ComputeShader\ComputeShader.cpp" />
+    <ClCompile Include="Engine\ComputeShader\ComputeShaderPipeline.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCommands\DirectXCommands.cpp" />
@@ -111,6 +110,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\GraphicsPipelines.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PrimitivePipeline.cpp" />
@@ -156,13 +156,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
-    <ClCompile Include="GraphicsPipelines.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ComputeShader.h" />
-    <ClInclude Include="ComputeShaderPipeline.h" />
-    <ClInclude Include="CSPipeline.h" />
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Assets\Material.h" />
     <ClInclude Include="Engine\Assets\Mesh.h" />
@@ -172,6 +168,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Assets\WorldTransform.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
     <ClInclude Include="Engine\Collider\BoxCollider.h" />
+    <ClInclude Include="Engine\ComputeShader\ComputeShader.h" />
+    <ClInclude Include="Engine\ComputeShader\ComputeShaderPipeline.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h" />
     <ClInclude Include="Engine\DirectX\DirectXCommands\DirectXCommands.h" />
@@ -179,6 +177,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.h" />
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\Blend.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\GraphicsPipelines.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PrimitivePipeline.h" />
@@ -234,7 +233,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
-    <ClInclude Include="GraphicsPipelines.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\GrayScale.CS.hlsl">

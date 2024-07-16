@@ -97,6 +97,9 @@
     <Filter Include="Engine\Audio">
       <UniqueIdentifier>{c83f431b-35d8-4e95-8767-c254a7dc6960}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ComputeShader">
+      <UniqueIdentifier>{e36a48b7-226a-4643-84c0-30429e83d8a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -285,17 +288,14 @@
     <ClCompile Include="Engine\Assets\RenderTexture.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="ComputeShader.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\DirectX\Pipeline\GraphicsPipelines.cpp">
+      <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="ComputeShaderPipeline.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\ComputeShader\ComputeShader.cpp">
+      <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicsPipelines.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CSPipeline.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\ComputeShader\ComputeShaderPipeline.cpp">
+      <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -509,20 +509,17 @@
     <ClInclude Include="Engine\Assets\RenderTexture.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="ComputeShader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ComputeShaderPipeline.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Enviroment.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsPipelines.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\DirectX\Pipeline\GraphicsPipelines.h">
+      <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="CSPipeline.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\ComputeShader\ComputeShader.h">
+      <Filter>Engine\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ComputeShader\ComputeShaderPipeline.h">
+      <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

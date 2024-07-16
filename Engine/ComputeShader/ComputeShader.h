@@ -6,7 +6,7 @@
 #include <memory>
 #include <vector>
 // PSO
-#include "CSPipeline.h"
+#include "ComputeShaderPipeline.h"
 //
 #include "MyMath.h"
 //
@@ -56,7 +56,7 @@ public:
 
 private:
 	// computeShader用のパイプライン
-	std::unique_ptr<CSPipeline> computeShaderPipeline_ = nullptr;
+	std::unique_ptr<ComputeShaderPipeline> computeShaderPipeline_ = nullptr;
 	// uavResource
 	ComPtr<ID3D12Resource> uavBuffer_ = nullptr;
 	

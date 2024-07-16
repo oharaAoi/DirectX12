@@ -12,14 +12,11 @@
 #include "DescriptorSize.h"
 #include "Shader.h"
 
-/// <summary>
-/// ComputeShaderPipeline
-/// </summary>
-class CSPipeline {
+class ComputeShaderPipeline {
 public:
 
-	CSPipeline();
-	~CSPipeline();
+	ComputeShaderPipeline();
+	~ComputeShaderPipeline();
 
 	void Finalize();
 
@@ -54,6 +51,5 @@ private:
 	DescriptorHeap* dxHeap_ = nullptr;
 	// device
 	ID3D12Device* device_ = nullptr;
-
 };
 

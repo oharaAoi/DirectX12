@@ -1,25 +1,12 @@
-#include "CSPipeline.h"
+#include "ComputeShaderPipeline.h"
 
-CSPipeline::CSPipeline() {
+ComputeShaderPipeline::ComputeShaderPipeline() {}
+ComputeShaderPipeline::~ComputeShaderPipeline() {}
+
+void ComputeShaderPipeline::Finalize() {
 }
 
-CSPipeline::~CSPipeline() {
-}
-
-void CSPipeline::Finalize() {
-	rootSignature_->Finalize();
-	csPipelineState_.Reset();
-	computeShaderBlob_.Reset();
-}
-
-/// <summary>
-/// 初期化関数
-/// </summary>
-/// <param name="device">デバイス</param>
-/// <param name="dxCompiler">コンパイラー</param>
-/// <param name="dxHeap">descriptorHeap</param>
-/// <param name="computeShaderPath">シェーダーのパス</param>
-void CSPipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, DescriptorHeap* dxHeap, const std::string& computeShaderPath) {
+void ComputeShaderPipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, DescriptorHeap* dxHeap, const std::string& computeShaderPath) {
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 	dxHeap_ = dxHeap;
@@ -38,7 +25,7 @@ void CSPipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, Descrip
 	assert(SUCCEEDED(hr));
 }
 
-void CSPipeline::SetPipelineState(ID3D12GraphicsCommandList* commandList) {
+void ComputeShaderPipeline::SetPipelineState(ID3D12GraphicsCommandList* commandList) {
 	// rootSignatureとpipelineを設定する
 	commandList->SetComputeRootSignature(rootSignature_->GetRootSignature());
 	commandList->SetPipelineState(csPipelineState_.Get());

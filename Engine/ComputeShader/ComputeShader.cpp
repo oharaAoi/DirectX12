@@ -27,7 +27,7 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 	offScreenResourceAddress_ = offScreenResourceAddress;
 	
 	// PSOの作成
-	computeShaderPipeline_ = std::make_unique<CSPipeline>();
+	computeShaderPipeline_ = std::make_unique<ComputeShaderPipeline>();
 	computeShaderPipeline_->Init(device, dxCompiler, dxHeap, computeShaderPath);
 
 	// リソースの作成
