@@ -29,60 +29,48 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	dxCommands_ = std::make_unique<DirectXCommands>(dxDevice_->GetDevice());
 	descriptorHeap_ = std::make_unique<DescriptorHeap>(dxDevice_->GetDevice());
 	renderTarget_ = std::make_unique<RenderTarget>();
+	dxCompiler_ = std::make_unique<DirectXCompiler>();
+	shaders_ = std::make_unique<Shader>();
+
+	graphicsPipelines_ = std::make_unique<GraphicsPipelines>();
+	grayScaleCS_ = std::make_unique<ComputeShader>();
+	primitiveDrawer_ = std::make_unique<PrimitiveDrawer>();
+
+	lightGroup_ = std::make_unique<LightGroup>();
+
+	viewProjection_ = std::make_unique<ViewProjection>();
+
+	renderTexture_ = std::make_unique<RenderTexture>();
+
+	audio_ = std::make_unique<Audio>();
+
 
 	// dxcommon
 	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get(), renderTarget_.get());
-
 	// ImGui
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_->GetDevice(), dxCommon_->GetSwapChainBfCount(), descriptorHeap_->GetSRVHeap());
-
 	// renderTarget
-	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetDescriptorSize(), dxCommon_->GetSwapChain().Get());
-
+	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get());
 	// texture
-	textureManager_->Init(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV());
-	// offScreenRenderingのResourceのViewを作成する
-	textureManager_->CreateShaderResourceView(renderTarget_->GetOffScreenRenderResource(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
-	descriptorHeap_->SetUseSrvIndex(textureManager_->GetSRVDataIndex() + 1);
-
-	// dxCompiler
-	dxCompiler_ = std::make_unique<DirectXCompiler>();
-
+	textureManager_->Init(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_.get());
 	// shader
-	shaders_ = std::make_unique<Shader>();
 	shaders_->Init();
-
 	// pipeline
-	graphicesPipelines_ = std::make_unique<GraphicsPipelines>();
-	graphicesPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
-
+	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
 	primitivePipeline_ = std::make_unique<PrimitivePipeline>(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
-
 	// CS
-	grayScaleCS_ = std::make_unique<ComputeShader>();
-	grayScaleCS_->Init(dxDevice_->GetDevice(), dxCompiler_.get(),
-					   descriptorHeap_.get(), dxCommon_->GetDescriptorSize(),
-					   renderTarget_->GetOffScreenRenderResource(), "Engine/HLSL/GrayScale.CS.hlsl");
-
+	grayScaleCS_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(),renderTarget_->GetOffScreenSRVHandle(), "Engine/HLSL/GrayScale.CS.hlsl");
 	// light
-	lightGroup_ = std::make_unique<LightGroup>();
 	lightGroup_->Init(dxDevice_->GetDevice());
-
 	// input
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
-
 	// audio
-	audio_ = std::make_unique<Audio>();
 	audio_->Init();
-
 	// primitive
-	primitiveDrawer_ = std::make_unique<PrimitiveDrawer>();
 	primitiveDrawer_->Init(dxDevice_->GetDevice());
 
-	viewProjection_ = std::make_unique<ViewProjection>();
 	viewProjection_->Init(dxDevice_->GetDevice());
 
-	renderTexture_ = std::make_unique<RenderTexture>();
 	renderTexture_->Init(dxDevice_->GetDevice());
 
 	Log("Clear!\n");
@@ -97,7 +85,8 @@ void Engine::Finalize() {
 
 	grayScaleCS_->Finalize();
 
-	graphicesPipelines_->Finalize();
+	primitivePipeline_->Finalize();
+	graphicsPipelines_->Finalize();
 	primitiveDrawer_->Finalize();
 	lightGroup_->Finalize();
 
@@ -145,18 +134,22 @@ void Engine::EndRenderTexture() {
 	// これから書き込む画面をバックバッファに変更する
 	dxCommon_->SetSwapChain();
 
+	// csのパイプラインと描画を行う
 	grayScaleCS_->SetPipelineState(dxCommands_->GetCommandList());
 
+
 	// スプライト用のパイプラインの設定
-	graphicesPipelines_->SetPipeline(SpritePipeline, dxCommands_->GetCommandList());
-	// offScreenRenderingで書き込んだTextureを描画する
+	graphicsPipelines_->SetPipeline(SpritePipeline, dxCommands_->GetCommandList());
+
+	// offScreenRenderingで書き込んだTextureを描画する(今はMeshとMaterialのみの描画している)
 	renderTexture_->Draw(dxCommands_->GetCommandList());
-
+	// csから得られたtextureをコマンドに積む(実際に画面に描画されているのはここで呼ばれている)
 	grayScaleCS_->Draw(dxCommands_->GetCommandList());
-
+	// DrawCall
 	dxCommands_->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
-	grayScaleCS_->SetUAVResource(dxCommands_->GetCommandList());
+	// リソースの状態を変更する
+	grayScaleCS_->TransitionUAVResource(dxCommands_->GetCommandList());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -189,7 +182,7 @@ std::unique_ptr<Model> Engine::CreateModel(const std::string& filePath) {
 std::unique_ptr<BaseParticle> Engine::CreateBaseParticle(const std::string& fileName, const uint32_t& instanceNum) {
 	std::unique_ptr<BaseParticle> particle = std::make_unique<BaseParticle>();
 	particle->Init(dxDevice_->GetDevice(), "Resources", fileName, instanceNum);
-	particle->CreateSRV(dxDevice_->GetDevice(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV(), descriptorHeap_->GetUseSrvIndex(), instanceNum);
+	particle->CreateSRV(dxDevice_->GetDevice(), descriptorHeap_.get(), instanceNum);
 	return particle;
 }
 
@@ -249,19 +242,19 @@ void Engine::SetEyePos(const Vector3& eyePos) {
 void Engine::SetPipeline(const PipelineKind& kind) {
 	switch (kind) {
 	case PipelineKind::kNormalPipeline:
-		graphicesPipelines_->SetPipeline(NormalPipeline, dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(NormalPipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineKind::kTexturelessPipeline:
-		graphicesPipelines_->SetPipeline(TextureLessPipeline, dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(TextureLessPipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineKind::kPBRPipeline:
-		graphicesPipelines_->SetPipeline(PBRPipeline, dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(PBRPipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineKind::kParticlePipeline:
-		graphicesPipelines_->SetPipeline(ParticlePipeline, dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(ParticlePipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineKind::kSpritePipeline:
-		graphicesPipelines_->SetPipeline(SpritePipeline, dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(SpritePipeline, dxCommands_->GetCommandList());
 		
 		break;
 	}

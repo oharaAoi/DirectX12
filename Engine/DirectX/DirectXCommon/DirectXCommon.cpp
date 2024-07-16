@@ -70,13 +70,13 @@ void DirectXCommon::Begin() {
 	// dsv
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
 	//commandList->OMSetRenderTargets(1, &renderTarget_->GetRtvHandles(backBufferIndex), false, &dsvHandle);
-	commandList->OMSetRenderTargets(1, &renderTarget_->GetOffScreenHandle(), false, &dsvHandle);
+	commandList->OMSetRenderTargets(1, &renderTarget_->GetOffScreenHandle().handleCPU, false, &dsvHandle);
 	
 	// 指定した深度で画面をクリア
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	float clearColor[] = { 1.0f, 0.0f, 0.0f, 1.0f };
-	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(), clearColor, 0, nullptr);
+	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle().handleCPU, clearColor, 0, nullptr);
 
 	// srv
 	ID3D12DescriptorHeap* descriptorHeaps[] = { descriptorHeaps_->GetSRVHeap() };
@@ -101,7 +101,7 @@ void DirectXCommon::SetSwapChain() {
 	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
-	commandList->OMSetRenderTargets(1, &renderTarget_->GetRtvHandles(backBufferIndex), false, &dsvHandle);
+	commandList->OMSetRenderTargets(1, &renderTarget_->GetRtvHandles(backBufferIndex).handleCPU, false, &dsvHandle);
 }
 
 void DirectXCommon::End() {
@@ -219,16 +219,6 @@ void DirectXCommon::Setting(ID3D12Device* device, DirectXCommands* dxCommands, D
 	descriptorHeaps_ = descriptorHeaps;
 	dxCommands_ = dxCommands;
 	renderTarget_ = renderTarget;
-
-	// ----------------------------------------------------------------------------------------
-	// descriptorSizeを初期化しておく
-	if (!descriptorSize_) {
-		descriptorSize_ = std::make_unique<DescriptorSize>(
-			device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV),
-			device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV),
-			device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV)
-		);
-	}
 
 	// ----------------------------------------------------------------------------------------
 	SetError();

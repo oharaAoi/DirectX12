@@ -1,0 +1,59 @@
+#pragma once
+// DirectX
+#include <d3d12.h>
+#include <dxgi1_6.h>
+#include <cassert>
+#include <memory>
+#include <vector>
+// PSO
+#include "RootSignature.h"
+#include "DirectXCompiler.h"
+#include "DescriptorHeap.h"
+#include "DescriptorSize.h"
+#include "Shader.h"
+
+/// <summary>
+/// ComputeShaderPipeline
+/// </summary>
+class CSPipeline {
+public:
+
+	CSPipeline();
+	~CSPipeline();
+
+	void Finalize();
+
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
+	/// <param name="device">デバイス</param>
+	/// <param name="dxCompiler">コンパイラー</param>
+	/// <param name="dxHeap">descriptorHeap</param>
+	/// <param name="computeShaderPath">シェーダーのパス</param>
+	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
+			  DescriptorHeap* dxHeap, const std::string& computeShaderPath);
+
+	/// <summary>
+	/// パイプラインを設定する
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	void SetPipelineState(ID3D12GraphicsCommandList* commandList);
+
+private:
+
+	// rootSignature
+	std::unique_ptr<RootSignature> rootSignature_ = nullptr;
+	// Shader
+	ComPtr<IDxcBlob> computeShaderBlob_ = nullptr;
+	// PSO
+	ComPtr<ID3D12PipelineState> csPipelineState_ = nullptr;
+
+	// DXCで使う
+	DirectXCompiler* dxCompiler_ = nullptr;
+	// dxHeap
+	DescriptorHeap* dxHeap_ = nullptr;
+	// device
+	ID3D12Device* device_ = nullptr;
+
+};
+

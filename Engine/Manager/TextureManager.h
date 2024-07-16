@@ -33,13 +33,13 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="device"></param>
-	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize);
+	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, DescriptorHeap* dxHeap);
 
 	void Finalize();
 
 public:
 
-	void CreateShaderResource(const std::string& filePath, ID3D12GraphicsCommandList* commandList);
+	void LoadTextureFile(const std::string& filePath, ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// Textrueデータを読む
@@ -49,14 +49,6 @@ public:
 	DirectX::ScratchImage LoadTexture(const std::string& filePath);
 
 	void LoadWhite1x1Texture(const std::string& filePath, ID3D12GraphicsCommandList* commandList);
-
-	/// <summary>
-	/// TextureResourceを作る
-	/// </summary>
-	/// <param name="device"></param>
-	/// <param name="metadata"></param>
-	/// <returns></returns>
-	ComPtr<ID3D12Resource> CreateTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const DirectX::TexMetadata& metadata);
 
 	/// <summary>
 	/// TextureResourceにデータを転送する
@@ -81,17 +73,13 @@ public:
 	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath);
 
 	/// <summary>
-	/// srvの作成
+	/// ResourceDescを作成する
 	/// </summary>
-	/// <param name="resource"></param>
-	/// <param name="format"></param>
-	void CreateShaderResourceView(ID3D12Resource* resource, const DXGI_FORMAT& format);
+	/// <param name="metadata"></param>
+	/// <returns></returns>
+	D3D12_RESOURCE_DESC CreateResourceDesc(const DirectX::TexMetadata& metadata);
 
 	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(srvData_.size()); }
-
-	void SetRenderTexture(ID3D12GraphicsCommandList* commandList, const uint32_t& index);
-
-	void SetCsRenderTexture(ID3D12GraphicsCommandList* commandList, const uint32_t& index);
 
 private:
 
@@ -105,11 +93,8 @@ private:
 	//std::vector<SRVData> srvData_;
 	std::map<std::string, SRVData> srvData_;
 
-	D3D12_CPU_DESCRIPTOR_HANDLE lastSrvHandleCPU_;
-	D3D12_GPU_DESCRIPTOR_HANDLE lastSrvHandleGPU_;
-
 	// 生成で使う変数
 	ID3D12Device* device_ = nullptr;
-	ID3D12DescriptorHeap* srvHeap_ = nullptr;
-	uint32_t srvDescriptorSize_;
+
+	DescriptorHeap* dxHeap_ = nullptr;
 };

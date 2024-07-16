@@ -94,6 +94,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="ComputeShader.cpp" />
     <ClCompile Include="ComputeShaderPipeline.cpp" />
+    <ClCompile Include="CSPipeline.cpp" />
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Assets\Material.cpp" />
     <ClCompile Include="Engine\Assets\Mesh.cpp" />
@@ -161,6 +162,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClInclude Include="ComputeShader.h" />
     <ClInclude Include="ComputeShaderPipeline.h" />
+    <ClInclude Include="CSPipeline.h" />
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Assets\Material.h" />
     <ClInclude Include="Engine\Assets\Mesh.h" />

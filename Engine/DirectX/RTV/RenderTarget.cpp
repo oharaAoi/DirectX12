@@ -14,14 +14,12 @@ void RenderTarget::Finalize() {
 
 }
 
-void RenderTarget::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, DescriptorSize* descriptorSize, IDXGISwapChain4* swapChain) {
+void RenderTarget::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, IDXGISwapChain4* swapChain) {
 	assert(descriptorHeap);
-	assert(descriptorSize);
 	assert(swapChain);
 	assert(device);
 
-	descriptorHeap_ = descriptorHeap;
-	descriptorSize_ = descriptorSize;
+	dxHeap_ = descriptorHeap;
 	swapChain_ = swapChain;
 	device_ = device;
 
@@ -55,13 +53,20 @@ void RenderTarget::CreateRenderTargetView() {
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 	// 先頭を取得
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvStartHandle = GetCPUDescriptorHandle(descriptorHeap_->GetRTVHeap(), descriptorSize_->GetRTV(), 0);
+	//D3D12_CPU_DESCRIPTOR_HANDLE rtvStartHandle = GetCPUDescriptorHandle(dxHeap_->GetRTVHeap(), dxHeap_->GetDescriptorSize()->GetRTV(), 0);
+	//// 一つ目のDescriptorの生成
+	//rtvHandles_[0] = rtvStartHandle;
+	//device_->CreateRenderTargetView(swapChainRenderResource_[0].Get(), &rtvDesc, rtvHandles_[0]);
+	//// 二つ目の生成
+	//rtvHandles_[1].ptr = rtvHandles_[0].ptr + device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
 	// 一つ目のDescriptorの生成
-	rtvHandles_[0] = rtvStartHandle;
-	device_->CreateRenderTargetView(swapChainRenderResource_[0].Get(), &rtvDesc, rtvHandles_[0]);
+	rtvHandles_[0] = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_RTV);
+	device_->CreateRenderTargetView(swapChainRenderResource_[0].Get(), &rtvDesc, rtvHandles_[0].handleCPU);
 	// 二つ目の生成
-	rtvHandles_[1].ptr = rtvHandles_[0].ptr + device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	device_->CreateRenderTargetView(swapChainRenderResource_[1].Get(), &rtvDesc, rtvHandles_[1]);
+	rtvHandles_[1] = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_RTV);
+
+	device_->CreateRenderTargetView(swapChainRenderResource_[1].Get(), &rtvDesc, rtvHandles_[1].handleCPU);
 }
 
 /// <summary>
@@ -103,9 +108,21 @@ void RenderTarget::CreateOffScreenView() {
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+
+	offScreenHandle_ = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_RTV);
 	
-	offScreenHandle_.ptr = rtvHandles_[1].ptr + device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	device_->CreateRenderTargetView(offScreenRenderResource_.Get(), &rtvDesc, offScreenHandle_);
+	//offScreenHandle_.handleCPU.ptr = rtvHandles_[1].handleCPU.ptr + device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	device_->CreateRenderTargetView(offScreenRenderResource_.Get(), &rtvDesc, offScreenHandle_.handleCPU);
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+
+	offScreenSRVHandle_ = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
+
+	device_->CreateShaderResourceView(offScreenRenderResource_.Get(), &srvDesc, offScreenSRVHandle_.handleCPU);
 }
 
 /// <summary>

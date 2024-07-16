@@ -6,6 +6,7 @@
 #include <string>
 // DirectX
 #include "DirectXUtils.h"
+#include "DescriptorHeap.h"
 // math
 #include "MyMath.h"
 
@@ -56,7 +57,7 @@ public:
 
 	void DrawSRV(ID3D12GraphicsCommandList* commandList);
 
-	void CreateSrv(ID3D12Device* device, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize, const uint32_t& idnex, const uint32_t& instanceNum);
+	void CreateSrv(ID3D12Device* device, DescriptorHeap* dxHeap, const uint32_t& instanceNum);
 
 public:
 
@@ -69,7 +70,6 @@ private:
 	ComPtr<ID3D12Resource> cBuffer_;
 	ParticleForGPUData* particleData_;
 
-	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;
-	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
+	DescriptorHeap::DescriptorHandles instancingSrvHandle_;
 };
 

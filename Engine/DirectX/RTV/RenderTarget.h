@@ -22,7 +22,7 @@ public:
 
 	void Finalize();
 
-	void Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, DescriptorSize* descriptorSize, IDXGISwapChain4* swapChain);
+	void Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, IDXGISwapChain4* swapChain);
 
 	/// <summary>
 	/// バックバッファとフロントバッファのResource作成
@@ -55,9 +55,11 @@ public:
 
 	ID3D12Resource* GetOffScreenRenderResource() { return offScreenRenderResource_.Get(); }
 
-	D3D12_CPU_DESCRIPTOR_HANDLE& GetRtvHandles(const UINT& indexNum) { return rtvHandles_[indexNum]; }
+	DescriptorHeap::DescriptorHandles& GetRtvHandles(const UINT& indexNum) { return rtvHandles_[indexNum]; }
 
-	D3D12_CPU_DESCRIPTOR_HANDLE& GetOffScreenHandle() { return offScreenHandle_; }
+	DescriptorHeap::DescriptorHandles& GetOffScreenHandle() { return offScreenHandle_; }
+
+	DescriptorHeap::DescriptorHandles& GetOffScreenSRVHandle() { return offScreenSRVHandle_; }
 
 private:
 
@@ -68,14 +70,13 @@ private:
 	ComPtr<ID3D12Resource> offScreenRenderResource_;
 
 	// rtv
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2];
-	D3D12_CPU_DESCRIPTOR_HANDLE offScreenHandle_;
+	DescriptorHeap::DescriptorHandles rtvHandles_[2];
+	DescriptorHeap::DescriptorHandles offScreenHandle_;
+	DescriptorHeap::DescriptorHandles offScreenSRVHandle_;
 
 	ID3D12Device* device_ = nullptr;
 	// heap
-	DescriptorHeap* descriptorHeap_ = nullptr;
-	// size
-	DescriptorSize* descriptorSize_ = nullptr;
+	DescriptorHeap* dxHeap_ = nullptr;
 	// swapChain
 	IDXGISwapChain4* swapChain_ = nullptr;
 };

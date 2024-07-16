@@ -229,7 +229,7 @@ namespace {
 	// dxCompiler
 	std::unique_ptr<DirectXCompiler> dxCompiler_ = nullptr;
 	// pipeline
-	std::unique_ptr<GraphicsPipelines> graphicesPipelines_ = nullptr;
+	std::unique_ptr<GraphicsPipelines> graphicsPipelines_ = nullptr;
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
 
 	// CS

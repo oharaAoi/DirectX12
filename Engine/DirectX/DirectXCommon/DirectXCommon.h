@@ -7,7 +7,6 @@
 // winapp
 #include "WinApp.h"
 // DirectX
-#include "DescriptorSize.h"
 #include "DescriptorHeap.h"
 #include "DirectXCommands.h"
 // DXC
@@ -113,8 +112,6 @@ public:
 
 	IDXGIAdapter4* GetUseAdapter() { return useAdapter_.Get(); }
 
-	DescriptorSize* GetDescriptorSize() { return descriptorSize_.get(); }
-
 	ComPtr<IDXGISwapChain4> GetSwapChain() { return swapChain_.Get(); }
 
 private:
@@ -130,8 +127,6 @@ private:
 	ID3D12Device* device_ = nullptr;
 
 	RenderTarget* renderTarget_ = nullptr;
-
-	std::unique_ptr<DescriptorSize> descriptorSize_;
 
 private:
 
