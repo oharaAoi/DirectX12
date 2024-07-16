@@ -104,6 +104,14 @@ void Engine::Finalize() {
 	CoUninitialize();
 }
 
+void Engine::DrawImGui() {
+	ImGui::Begin("Engine");
+
+	ImGui::Checkbox("RunCS", &isRunCS_);
+
+	ImGui::End();
+}
+
 bool Engine::ProcessMessage() {
 	return  winApp_->ProcessMessage();
 }
@@ -117,6 +125,8 @@ void Engine::BeginFrame() {
 	lightGroup_->Update();
 
 	primitiveDrawer_->SetUseIndex(0);
+
+	DrawImGui();
 }
 
 void Engine::EndFrame() {
@@ -134,14 +144,27 @@ void Engine::EndRenderTexture() {
 	// これから書き込む画面をバックバッファに変更する
 	dxCommon_->SetSwapChain();
 
-	// computerShaderを実行する
-	computeShader_->RunComputeShader(dxCommands_->GetCommandList());
-	// スプライト用のパイプラインの設定
-	graphicsPipelines_->SetPipeline(SpritePipeline, dxCommands_->GetCommandList());
-	// offScreenRenderingで書き込んだTextureを描画する
-	renderTexture_->Draw(dxCommands_->GetCommandList(), computeShader_->GetShaderResourceHandleGPU());
-	// リソースの状態を変更する
-	computeShader_->TransitionUAVResource(dxCommands_->GetCommandList());
+	if (isRunCS_) {
+		//----------------------------------------------------------------
+		// computerShaderを実行する
+		computeShader_->RunComputeShader(dxCommands_->GetCommandList());
+		// リソースの状態を書き込み読み込みからShaderResourceにする(UA→SR)
+		computeShader_->TransitionUAVResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+		//----------------------------------------------------------------
+
+		// スプライト用のパイプラインの設定
+		graphicsPipelines_->SetPipeline(SpritePipeline, dxCommands_->GetCommandList());
+		// computeShaderで加工したTextureを描画する
+		renderTexture_->Draw(dxCommands_->GetCommandList(), computeShader_->GetShaderResourceHandleGPU());
+		// リソースの状態をShaderResourceから書き込める状態にする(SR→UA)
+		computeShader_->TransitionUAVResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+
+	} else {
+		// スプライト用のパイプラインの設定
+		graphicsPipelines_->SetPipeline(SpritePipeline, dxCommands_->GetCommandList());
+		// offScreenRenderingで書き込んだTextureを描画する
+		renderTexture_->Draw(dxCommands_->GetCommandList(), renderTarget_->GetOffScreenSRVHandle().handleGPU);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

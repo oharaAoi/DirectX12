@@ -57,6 +57,8 @@ public:
 
 	static void Finalize();
 
+	static void DrawImGui();
+
 public:
 
 	/// <summary>
@@ -231,10 +233,8 @@ namespace {
 	// pipeline
 	std::unique_ptr<GraphicsPipelines> graphicsPipelines_ = nullptr;
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
-
 	// CS
 	std::unique_ptr<ComputeShader> computeShader_ = nullptr;
-
 	// light
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 	// audio
@@ -248,5 +248,7 @@ namespace {
 	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;
+
+	static bool isRunCS_ = true;
 }
 

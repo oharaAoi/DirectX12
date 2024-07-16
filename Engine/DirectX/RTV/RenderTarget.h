@@ -10,7 +10,6 @@
 #include "DescriptorHeap.h"
 #include "DescriptorSize.h"
 
-
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
@@ -45,8 +44,11 @@ public:
 	void CreateOffScreenView();
 
 	/// <summary>
-	/// オフスクリーン用のリソースのステートを変更する
+	/// リソースの状態を変更する
 	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	/// <param name="beforState">変更前の状態</param>
+	/// <param name="afterState">変更後の状態</param>
 	void ChangeOffScreenResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
 public:
@@ -60,6 +62,8 @@ public:
 	DescriptorHeap::DescriptorHandles& GetOffScreenHandle() { return offScreenHandle_; }
 
 	DescriptorHeap::DescriptorHandles& GetOffScreenSRVHandle() { return offScreenSRVHandle_; }
+
+
 
 private:
 

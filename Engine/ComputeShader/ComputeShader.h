@@ -43,10 +43,12 @@ public:
 	void RunComputeShader(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// UAVの状態を読み込みから書き込み状態にする
+	/// UAVの状態を変更する
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
-	void TransitionUAVResource(ID3D12GraphicsCommandList* commandList);
+	/// <param name="beforState">変更前の状態</param>
+	/// <param name="afterState">変更後の状態</param>
+	void TransitionUAVResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
 	/// <summary>
 	/// computeShaderで加工したResourceのアドレスを取得する関数

@@ -50,9 +50,6 @@ void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
 	UINT groupCountY = (kWindowHeight_ + 16 - 1) / 16;
 
 	commandList->Dispatch(groupCountX, groupCountY, 1);
-
-	// UAVの状態を変更する
-	TransitionResourceState(commandList, uavBuffer_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
 
 void ComputeShader::CreateUAV() {
@@ -100,6 +97,6 @@ void ComputeShader::CreateUAV() {
 /// UAVの状態を読み込みから書き込み状態にする
 /// </summary>
 /// <param name="commandList">コマンドリスト</param>
-void ComputeShader::TransitionUAVResource(ID3D12GraphicsCommandList* commandList) {
-	TransitionResourceState(commandList, uavBuffer_.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+void ComputeShader::TransitionUAVResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
+	TransitionResourceState(commandList, uavBuffer_.Get(), beforState, afterState);
 }
