@@ -33,7 +33,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	shaders_ = std::make_unique<Shader>();
 
 	graphicsPipelines_ = std::make_unique<GraphicsPipelines>();
-	grayScaleCS_ = std::make_unique<ComputeShader>();
+	computeShader_ = std::make_unique<ComputeShader>();
 	primitiveDrawer_ = std::make_unique<PrimitiveDrawer>();
 
 	lightGroup_ = std::make_unique<LightGroup>();
@@ -59,7 +59,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
 	primitivePipeline_ = std::make_unique<PrimitivePipeline>(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
 	// CS
-	grayScaleCS_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(),renderTarget_->GetOffScreenSRVHandle(), "Engine/HLSL/GrayScale.CS.hlsl");
+	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(),renderTarget_->GetOffScreenSRVHandle(), "Engine/HLSL/GrayScale.CS.hlsl");
 	// light
 	lightGroup_->Init(dxDevice_->GetDevice());
 	// input
@@ -83,7 +83,7 @@ void Engine::Finalize() {
 
 	viewProjection_->Finalize();
 
-	grayScaleCS_->Finalize();
+	computeShader_->Finalize();
 
 	primitivePipeline_->Finalize();
 	graphicsPipelines_->Finalize();
@@ -134,22 +134,14 @@ void Engine::EndRenderTexture() {
 	// これから書き込む画面をバックバッファに変更する
 	dxCommon_->SetSwapChain();
 
-	// csのパイプラインと描画を行う
-	grayScaleCS_->SetPipelineState(dxCommands_->GetCommandList());
-
-
+	// computerShaderを実行する
+	computeShader_->RunComputeShader(dxCommands_->GetCommandList());
 	// スプライト用のパイプラインの設定
 	graphicsPipelines_->SetPipeline(SpritePipeline, dxCommands_->GetCommandList());
-
-	// offScreenRenderingで書き込んだTextureを描画する(今はMeshとMaterialのみの描画している)
-	renderTexture_->Draw(dxCommands_->GetCommandList());
-	// csから得られたtextureをコマンドに積む(実際に画面に描画されているのはここで呼ばれている)
-	grayScaleCS_->Draw(dxCommands_->GetCommandList());
-	// DrawCall
-	dxCommands_->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
-
+	// offScreenRenderingで書き込んだTextureを描画する
+	renderTexture_->Draw(dxCommands_->GetCommandList(), computeShader_->GetShaderResourceHandleGPU());
 	// リソースの状態を変更する
-	grayScaleCS_->TransitionUAVResource(dxCommands_->GetCommandList());
+	computeShader_->TransitionUAVResource(dxCommands_->GetCommandList());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

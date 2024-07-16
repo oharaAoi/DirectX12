@@ -233,7 +233,7 @@ namespace {
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
 
 	// CS
-	std::unique_ptr<ComputeShader> grayScaleCS_ = nullptr;
+	std::unique_ptr<ComputeShader> computeShader_ = nullptr;
 
 	// light
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;

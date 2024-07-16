@@ -38,7 +38,7 @@ public:
 	/// 描画
 	/// </summary>
 	/// <param name="commandList"></param>
-	void Draw(ID3D12GraphicsCommandList* commandList);
+	void Draw(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& srvHandleGPU);
 
 private:
 

@@ -11,6 +11,13 @@ void ComputeShader::Finalize() {
 	computeShaderPipeline_->Finalize();
 }
 
+/// <summary>
+/// 初期化関数
+/// </summary>
+/// <param name="device">デバイス</param>
+/// <param name="dxCompiler">コンパイラー</param>
+/// <param name="dxHeap">descriptorHeap</param>
+/// <param name="computeShaderPath">シェーダーのパス</param>
 void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 						 DescriptorHeap* dxHeap, DescriptorHeap::DescriptorHandles offScreenResourceAddress,
 						 const std::string& computeShaderPath) {
@@ -27,7 +34,11 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 	CreateUAV();
 }
 
-void ComputeShader::SetPipelineState(ID3D12GraphicsCommandList* commandList) {
+/// <summary>
+/// computerShaderを実行する
+/// </summary>
+/// <param name="commandList">コマンドリスト</param>
+void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
 	// pipelineStateを設定する
 	computeShaderPipeline_->SetPipelineState(commandList);
 	// 参照するtextureを設定
@@ -85,10 +96,10 @@ void ComputeShader::CreateUAV() {
 	device_->CreateShaderResourceView(uavBuffer_.Get(), &srvDesc, srvAddress_.handleCPU);
 }
 
+/// <summary>
+/// UAVの状態を読み込みから書き込み状態にする
+/// </summary>
+/// <param name="commandList">コマンドリスト</param>
 void ComputeShader::TransitionUAVResource(ID3D12GraphicsCommandList* commandList) {
 	TransitionResourceState(commandList, uavBuffer_.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-}
-
-void ComputeShader::Draw(ID3D12GraphicsCommandList* commandList) {
-	commandList->SetGraphicsRootDescriptorTable(2, srvAddress_.handleGPU);
 }

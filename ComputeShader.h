@@ -37,10 +37,10 @@ public:
 	void CreateUAV();
 
 	/// <summary>
-	/// パイプラインを設定する
+	/// computerShaderを実行する
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
-	void SetPipelineState(ID3D12GraphicsCommandList* commandList);
+	void RunComputeShader(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// UAVの状態を読み込みから書き込み状態にする
@@ -49,10 +49,10 @@ public:
 	void TransitionUAVResource(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// 読み込み状態にしたUAVリソースをリストに積む
+	/// computeShaderで加工したResourceのアドレスを取得する関数
 	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	void Draw(ID3D12GraphicsCommandList* commandList);
+	/// <returns></returns>
+	const D3D12_GPU_DESCRIPTOR_HANDLE GetShaderResourceHandleGPU() const { return srvAddress_.handleGPU; }
 
 private:
 	// computeShader用のパイプライン

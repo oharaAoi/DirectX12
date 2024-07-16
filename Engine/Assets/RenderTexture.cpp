@@ -69,9 +69,11 @@ void RenderTexture::Init(ID3D12Device* device) {
 	);
 }
 
-void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList) {
+void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& srvHandleGPU) {
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	commandList->IASetIndexBuffer(&indexBufferView_);
 	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
 	commandList->SetGraphicsRootConstantBufferView(1, transformBuffer_->GetGPUVirtualAddress());
+	commandList->SetGraphicsRootDescriptorTable(2, srvHandleGPU);
+	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
