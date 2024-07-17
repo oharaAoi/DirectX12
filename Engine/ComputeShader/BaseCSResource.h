@@ -8,6 +8,15 @@
 class BaseCSResource {
 public:
 
+	struct UavBufferData {
+		ComPtr<ID3D12Resource> uavBuffer = nullptr;
+		DescriptorHeap::DescriptorHandles uavAddress;
+		DescriptorHeap::DescriptorHandles srvAddress;
+	};
+
+
+public:
+
 	BaseCSResource() = default;
 	virtual ~BaseCSResource() = default;
 
@@ -15,11 +24,15 @@ public:
 
 	virtual void Init(ID3D12Device* device, DescriptorHeap* dxHeap);
 
-	virtual void Draw(ID3D12GraphicsCommandList* commandList);
+	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& index);
 
-	void TransitionUAVResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
+	void TransitionUAVResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState, const uint32_t& index);
 
-	const DescriptorHeap::DescriptorHandles GetSRVHandle() const { return srvAddress_; }
+	const DescriptorHeap::DescriptorHandles GetSRVHandle(const uint32_t& index) const { return uavBuffers_[index].srvAddress; }
+
+	void CreateUAVBuffer(const uint32_t& createNum);
+
+	ComPtr<ID3D12Resource> GetFinalUAVBuffer() { return uavBuffers_.back().uavBuffer; }
 
 protected:
 
@@ -29,12 +42,14 @@ protected:
 	ID3D12Device* device_ = nullptr;
 
 	// resource
-	ComPtr<ID3D12Resource> uavBuffer_ = nullptr;
+	/*ComPtr<ID3D12Resource> uavBuffer_ = nullptr;*/
 	ComPtr<ID3D12Resource> cBuffer_ = nullptr;
 
+	std::vector<UavBufferData> uavBuffers_;
+
 	// viewHandle
-	DescriptorHeap::DescriptorHandles uavAddress_;
-	DescriptorHeap::DescriptorHandles srvAddress_;
+	/*DescriptorHeap::DescriptorHandles uavAddress_;
+	DescriptorHeap::DescriptorHandles srvAddress_;*/
 	
 };
 

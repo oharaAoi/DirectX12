@@ -49,13 +49,15 @@ public:
 	/// computeShaderで加工したResourceのアドレスを取得する関数
 	/// </summary>
 	/// <returns></returns>
-	const D3D12_GPU_DESCRIPTOR_HANDLE GetShaderResourceHandleGPU() const { return grayScale_->GetSRVHandle().handleGPU; }
+	const D3D12_GPU_DESCRIPTOR_HANDLE GetShaderResourceHandleGPU() const { return srvRenderAddress_.handleGPU; }
 
 private:
 	// computeShader用のパイプライン
 	std::unique_ptr<ComputeShaderPipeline> computeShaderPipeline_ = nullptr;
 	// postEffect
 	std::unique_ptr<GrayScale> grayScale_;
+
+	ComPtr<ID3D12Resource> renderResource_;
 	
 	// ---------------------------------------
 	// DXCで使う
@@ -66,8 +68,9 @@ private:
 	ID3D12Device* device_ = nullptr;
 
 	// ---------------------------------------
-	DescriptorHeap::DescriptorHandles uavAddress_;
-	DescriptorHeap::DescriptorHandles srvAddress_;
+	DescriptorHeap::DescriptorHandles uavRenderAddress_;
+	DescriptorHeap::DescriptorHandles srvRenderAddress_;
+
 	DescriptorHeap::DescriptorHandles offScreenResourceAddress_;
 };
 

@@ -1,17 +1,17 @@
 #pragma once
 #include "BaseCSResource.h"
 
-class GrayScale :
+class GaussianBlur :
     public BaseCSResource {
 
-    struct GrayScaleData {
-        float grayScaleAmount;// grayScaleの強さ
+    struct GaussianBlurData {
+
     };
 
 public:
 
-    GrayScale();
-    ~GrayScale();
+    GaussianBlur();
+    ~GaussianBlur();
 
     void Finalize();
 
@@ -28,13 +28,13 @@ public:
     /// <param name="commandList"></param>
     void Draw(ID3D12GraphicsCommandList* commandList);
 
-    const DescriptorHeap::DescriptorHandles GetSRVHandle() const {return uavBuffers_[0].srvAddress;}
-
-    void TransitionResource(ID3D12GraphicsCommandList* commandList, D3D12_RESOURCE_STATES beforState, D3D12_RESOURCE_STATES afterState);
-
 private:
+    // 横ブラーをかけるResource。これもUAV→SRVなどの手順を踏む必要がある
+    ComPtr<ID3D12Resource> horizontalResource_;
+    DescriptorHeap::DescriptorHandles uavHorizontalAddress_;
+    DescriptorHeap::DescriptorHandles srvHorizontalAddress_;
 
-    GrayScaleData* data_ = nullptr;
+    GaussianBlurData* data_;
 
 };
 

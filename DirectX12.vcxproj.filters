@@ -303,6 +303,9 @@
     <ClCompile Include="Engine\ComputeShader\BaseCSResource.cpp">
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ComputeShader\GaussianBlur.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -533,6 +536,9 @@
     <ClInclude Include="Engine\ComputeShader\BaseCSResource.h">
       <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\ComputeShader\GaussianBlur.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
@@ -572,6 +578,9 @@
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\GrayScale.CS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\GaussianBlur.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
   </ItemGroup>

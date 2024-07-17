@@ -148,16 +148,16 @@ void Engine::EndRenderTexture() {
 		//----------------------------------------------------------------
 		// computerShaderを実行する
 		computeShader_->RunComputeShader(dxCommands_->GetCommandList());
-		// リソースの状態を書き込み読み込みからShaderResourceにする(UA→SR)
-		computeShader_->TransitionUAVResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 		//----------------------------------------------------------------
 
 		// スプライト用のパイプラインの設定
 		graphicsPipelines_->SetPipeline(SpritePipeline, dxCommands_->GetCommandList());
 		// computeShaderで加工したTextureを描画する
 		renderTexture_->Draw(dxCommands_->GetCommandList(), computeShader_->GetShaderResourceHandleGPU());
+		//----------------------------------------------------------------
+		
 		// リソースの状態をShaderResourceから書き込める状態にする(SR→UA)
-		computeShader_->TransitionUAVResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+		computeShader_->TransitionUAVResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST);
 
 	} else {
 		// スプライト用のパイプラインの設定
