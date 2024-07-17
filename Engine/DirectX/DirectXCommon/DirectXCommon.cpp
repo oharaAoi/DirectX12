@@ -75,7 +75,7 @@ void DirectXCommon::Begin() {
 	// 指定した深度で画面をクリア
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
-	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
 	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle().handleCPU, clearColor, 0, nullptr);
 
 	// srv

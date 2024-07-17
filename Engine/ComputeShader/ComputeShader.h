@@ -5,12 +5,12 @@
 #include <cassert>
 #include <memory>
 #include <vector>
+#include "MyMath.h"
 // PSO
 #include "ComputeShaderPipeline.h"
-//
-#include "MyMath.h"
-//
 #include "TextureManager.h"
+// postEffect
+#include "GrayScale.h"
 
 class ComputeShader {
 public:
@@ -32,11 +32,6 @@ public:
 			  const std::string& computeShaderPath);
 
 	/// <summary>
-	/// UAVを作成する
-	/// </summary>
-	void CreateUAV();
-
-	/// <summary>
 	/// computerShaderを実行する
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
@@ -54,13 +49,13 @@ public:
 	/// computeShaderで加工したResourceのアドレスを取得する関数
 	/// </summary>
 	/// <returns></returns>
-	const D3D12_GPU_DESCRIPTOR_HANDLE GetShaderResourceHandleGPU() const { return srvAddress_.handleGPU; }
+	const D3D12_GPU_DESCRIPTOR_HANDLE GetShaderResourceHandleGPU() const { return grayScale_->GetSRVHandle().handleGPU; }
 
 private:
 	// computeShader用のパイプライン
 	std::unique_ptr<ComputeShaderPipeline> computeShaderPipeline_ = nullptr;
-	// uavResource
-	ComPtr<ID3D12Resource> uavBuffer_ = nullptr;
+	// postEffect
+	std::unique_ptr<GrayScale> grayScale_;
 	
 	// ---------------------------------------
 	// DXCで使う

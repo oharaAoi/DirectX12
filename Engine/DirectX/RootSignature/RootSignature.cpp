@@ -382,7 +382,7 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateComputeShaderRo
 
 	// rootParameterの作成
 	// textureの設定
-	D3D12_ROOT_PARAMETER rootParameters[2] = {};
+	D3D12_ROOT_PARAMETER rootParameters[3] = {};
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;		// DescriptorTableを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;					// 
 	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRange;				// Tableの中身の配列を指定
@@ -392,6 +392,10 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateComputeShaderRo
 	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 	rootParameters[1].DescriptorTable.pDescriptorRanges = descriptorRangeUAV;
 	rootParameters[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeUAV);
+
+	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	rootParameters[2].Descriptor.ShaderRegister = 0;
 
 	desc.pParameters = rootParameters;
 	desc.NumParameters = _countof(rootParameters);

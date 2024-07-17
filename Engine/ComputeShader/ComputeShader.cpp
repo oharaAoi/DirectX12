@@ -7,7 +7,7 @@ ComputeShader::~ComputeShader() {
 }
 
 void ComputeShader::Finalize() {
-	uavBuffer_.Reset();
+	grayScale_->Finalize();
 	computeShaderPipeline_->Finalize();
 }
 
@@ -30,8 +30,9 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 	computeShaderPipeline_ = std::make_unique<ComputeShaderPipeline>();
 	computeShaderPipeline_->Init(device, dxCompiler, dxHeap, computeShaderPath);
 
-	// リソースの作成
-	CreateUAV();
+	// postEffectの作成
+	grayScale_ = std::make_unique<GrayScale>();
+	grayScale_->Init(device_, dxHeap_);
 }
 
 /// <summary>
@@ -43,8 +44,8 @@ void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
 	computeShaderPipeline_->SetPipelineState(commandList);
 	// 参照するtextureを設定
 	commandList->SetComputeRootDescriptorTable(0, offScreenResourceAddress_.handleGPU);
-	// 実際に書き込むtextureを設定
-	commandList->SetComputeRootDescriptorTable(1, uavAddress_.handleGPU);
+	// 画面に写るリソースとCSに送る定数バッファをコマンドに積む
+	grayScale_->Draw(commandList);
 
 	UINT groupCountX = (kWindowWidth_ + 16 - 1) / 16;
 	UINT groupCountY = (kWindowHeight_ + 16 - 1) / 16;
@@ -52,51 +53,11 @@ void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
 	commandList->Dispatch(groupCountX, groupCountY, 1);
 }
 
-void ComputeShader::CreateUAV() {
-	D3D12_RESOURCE_DESC desc{};
-	desc.Width = kWindowWidth_;			// 画面の横幅
-	desc.Height = kWindowHeight_;			// 画面の縦幅
-	desc.MipLevels = 1;			// 
-	desc.DepthOrArraySize = 1;
-	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	desc.SampleDesc.Count = 1;
-	desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
-
-	// HEAPの設定
-	D3D12_HEAP_PROPERTIES heapProperties{};
-	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
-
-	// Resourceの作成
-	uavBuffer_ = CerateShaderResource(device_, &desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-
-	// ------------------------------------------------------------
-	// UAVの設定
-	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
-	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
-	uavDesc.Format = uavBuffer_->GetDesc().Format;
-	// SRVを作成するDescriptorHeapの場所を求める
-	uavAddress_ = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
-	// 生成
-	device_->CreateUnorderedAccessView(uavBuffer_.Get(), nullptr, &uavDesc, uavAddress_.handleCPU);
-
-	// ------------------------------------------------------------
-	// SRVの設定
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = 1;
-	// SRVを作成するDescriptorHeapの場所を求める
-	srvAddress_ = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
-	// 生成
-	device_->CreateShaderResourceView(uavBuffer_.Get(), &srvDesc, srvAddress_.handleCPU);
-}
-
 /// <summary>
 /// UAVの状態を読み込みから書き込み状態にする
 /// </summary>
 /// <param name="commandList">コマンドリスト</param>
 void ComputeShader::TransitionUAVResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
-	TransitionResourceState(commandList, uavBuffer_.Get(), beforState, afterState);
+	//TransitionResourceState(commandList, uavBuffer_.Get(), beforState, afterState);
+	grayScale_->TransitionUAVResource(commandList, beforState, afterState);
 }
