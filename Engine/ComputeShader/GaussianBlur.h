@@ -5,7 +5,9 @@ class GaussianBlur :
     public BaseCSResource {
 
     struct GaussianBlurData {
-
+        float blurStrength; // ぼかしの強さ
+        float kernelSize;	// カーネルサイズ
+        Vector2 direction;
     };
 
 public:
@@ -23,10 +25,16 @@ public:
     void Init(ID3D12Device* device, DescriptorHeap* dxHeap) override;
 
     /// <summary>
-    /// Resourceをコマンドにセットする
+    /// 水平方向のResourceをセット
     /// </summary>
     /// <param name="commandList"></param>
-    void Draw(ID3D12GraphicsCommandList* commandList);
+    void HorizontalSetResource(ID3D12GraphicsCommandList* commandList);
+
+    /// <summary>
+    /// 垂直方向のResourceをセット
+    /// </summary>
+    /// <param name="commandList"></param>
+    void VerticalSetResource(ID3D12GraphicsCommandList* commandList);
 
 private:
     // 横ブラーをかけるResource。これもUAV→SRVなどの手順を踏む必要がある

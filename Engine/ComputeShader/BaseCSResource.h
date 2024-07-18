@@ -1,6 +1,7 @@
 #pragma once
 #include "DescriptorHeap.h"
 #include "DirectXUtils.h"
+#include "MyMath.h"
 #ifdef _DEBUG
 #include "ImGuiManager.h"
 #endif
@@ -24,7 +25,7 @@ public:
 
 	virtual void Init(ID3D12Device* device, DescriptorHeap* dxHeap);
 
-	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& index);
+	void SetResource(ID3D12GraphicsCommandList* commandList, const uint32_t& index);
 
 	void TransitionUAVResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState, const uint32_t& index);
 

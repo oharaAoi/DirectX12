@@ -26,12 +26,12 @@ void GrayScale::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	data_->grayScaleAmount = 0.0f;
 }
 
-void GrayScale::Draw(ID3D12GraphicsCommandList* commandList) {
+void GrayScale::SetResource(ID3D12GraphicsCommandList* commandList) {
 	ImGui::Begin("PostEffect");
 	ImGui::DragFloat("GrayScale", &data_->grayScaleAmount, 0.01f, 0.0f, 1.0f);
 	ImGui::End();
 
-	BaseCSResource::Draw(commandList, 0);
+	BaseCSResource::SetResource(commandList, 0);
 	commandList->SetComputeRootConstantBufferView(2, cBuffer_->GetGPUVirtualAddress());
 }
 

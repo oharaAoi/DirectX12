@@ -26,7 +26,7 @@ public:
     /// Resourceをコマンドにセットする
     /// </summary>
     /// <param name="commandList"></param>
-    void Draw(ID3D12GraphicsCommandList* commandList);
+    void SetResource(ID3D12GraphicsCommandList* commandList);
 
     const DescriptorHeap::DescriptorHandles GetSRVHandle() const {return uavBuffers_[0].srvAddress;}
 

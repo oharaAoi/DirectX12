@@ -11,6 +11,7 @@
 #include "TextureManager.h"
 // postEffect
 #include "GrayScale.h"
+#include "GaussianBlur.h"
 
 class ComputeShader {
 public:
@@ -56,6 +57,7 @@ private:
 	std::unique_ptr<ComputeShaderPipeline> computeShaderPipeline_ = nullptr;
 	// postEffect
 	std::unique_ptr<GrayScale> grayScale_;
+	std::unique_ptr<GaussianBlur> gaussianBlur_;
 
 	ComPtr<ID3D12Resource> renderResource_;
 	

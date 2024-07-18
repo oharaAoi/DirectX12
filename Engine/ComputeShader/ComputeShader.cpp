@@ -5,6 +5,7 @@ ComputeShader::~ComputeShader() {}
 
 void ComputeShader::Finalize() {
 	renderResource_.Reset();
+	gaussianBlur_->Finalize();
 	grayScale_->Finalize();
 	computeShaderPipeline_->Finalize();
 }
@@ -30,7 +31,10 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 
 	// postEffectの作成
 	grayScale_ = std::make_unique<GrayScale>();
+	gaussianBlur_ = std::make_unique<GaussianBlur>();
+
 	grayScale_->Init(device_, dxHeap_);
+	gaussianBlur_->Init(device_, dxHeap_);
 
 	// 最終的に描画させるResourceの作成
 	D3D12_RESOURCE_DESC desc{};
@@ -78,27 +82,50 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 /// </summary>
 /// <param name="commandList">コマンドリスト</param>
 void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
-	// pipelineStateを設定する
-	computeShaderPipeline_->SetPipelineState(commandList);
-	// 参照するtextureを設定
-	commandList->SetComputeRootDescriptorTable(0, offScreenResourceAddress_.handleGPU);
-	// 画面に写るリソースとCSに送る定数バッファをコマンドに積む
-	grayScale_->Draw(commandList);
-
 	UINT groupCountX = (kWindowWidth_ + 16 - 1) / 16;
 	UINT groupCountY = (kWindowHeight_ + 16 - 1) / 16;
 
+	// ----------------------------------------------------------------------
+	// ↓ グレースケール
+	// ----------------------------------------------------------------------
+	//// pipelineStateを設定する
+	//computeShaderPipeline_->SetPipelineState(commandList);
+	//// 参照するtextureを設定
+	//commandList->SetComputeRootDescriptorTable(0, offScreenResourceAddress_.handleGPU);
+	//// 画面に写るリソースとCSに送る定数バッファをコマンドに積む
+	//grayScale_->SetResource(commandList);
+
+	//commandList->Dispatch(groupCountX, groupCountY, 1);
+
+	// ----------------------------------------------------------------------
+	// ↓ ガウシアンブラー
+	// ----------------------------------------------------------------------
+	// 水平
+	computeShaderPipeline_->SetPipelineState(commandList);
+	commandList->SetComputeRootDescriptorTable(0, offScreenResourceAddress_.handleGPU);
+	gaussianBlur_->HorizontalSetResource(commandList);
 	commandList->Dispatch(groupCountX, groupCountY, 1);
 
+	gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 0);
+
+	// 垂直
+	//commandList->SetComputeRootDescriptorTable(0, offScreenResourceAddress_.handleGPU);
+	gaussianBlur_->VerticalSetResource(commandList);
+	commandList->Dispatch(groupCountX, groupCountY, 1);
+
+	gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE, 1);
+
 	// CSで加工したResourceをコピーするために状態をコピー可能(コピー元)にする
-	grayScale_->TransitionResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE);
+	//grayScale_->TransitionResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE);
 	// renderResourceに加工したResourceをコピーする
-	commandList->CopyResource(renderResource_.Get(), grayScale_->GetFinalUAVBuffer().Get());
+	commandList->CopyResource(renderResource_.Get(), gaussianBlur_->GetFinalUAVBuffer().Get());
 	// リソースの状態をコピー先からShaderResourceにする
 	TransitionResourceState(commandList, renderResource_.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	// 次のフレームで読み書きできる状態になっているようにする
-	grayScale_->TransitionResource(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+	//grayScale_->TransitionResource(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 
+	gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, 0);
+	gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, 1);
 }
 
 /// <summary>
