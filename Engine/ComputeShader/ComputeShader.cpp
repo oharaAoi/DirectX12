@@ -7,7 +7,7 @@ void ComputeShader::Finalize() {
 	renderResource_.Reset();
 	gaussianBlur_->Finalize();
 	grayScale_->Finalize();
-	computeShaderPipeline_->Finalize();
+	computeShaderPipelineMap_.clear();
 }
 
 /// <summary>
@@ -19,15 +19,20 @@ void ComputeShader::Finalize() {
 /// <param name="computeShaderPath">シェーダーのパス</param>
 void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 						 DescriptorHeap* dxHeap, DescriptorHeap::DescriptorHandles offScreenResourceAddress,
-						 const std::string& computeShaderPath) {
+						 Shader* shader) {
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 	dxHeap_ = dxHeap;
 	offScreenResourceAddress_ = offScreenResourceAddress;
 	
 	// PSOの作成
-	computeShaderPipeline_ = std::make_unique<ComputeShaderPipeline>();
-	computeShaderPipeline_->Init(device, dxCompiler, dxHeap, computeShaderPath);
+	computeShaderPipelineMap_[CsPipelineType::GrayScale_Pipeline] = std::make_unique<ComputeShaderPipeline>();
+	computeShaderPipelineMap_[CsPipelineType::GaussianBlur_Pipeline] = std::make_unique<ComputeShaderPipeline>();
+	computeShaderPipelineMap_[CsPipelineType::Blend_Pipeline] = std::make_unique<ComputeShaderPipeline>();
+
+	computeShaderPipelineMap_[CsPipelineType::GrayScale_Pipeline]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::GrayScale), CsPipelineType::GrayScale_Pipeline);
+	computeShaderPipelineMap_[CsPipelineType::GaussianBlur_Pipeline]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::GaussianBlur), CsPipelineType::GaussianBlur_Pipeline);
+	computeShaderPipelineMap_[CsPipelineType::Blend_Pipeline]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::Blend), CsPipelineType::Blend_Pipeline);
 
 	// postEffectの作成
 	grayScale_ = std::make_unique<GrayScale>();
@@ -52,7 +57,7 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
 	// Resourceの作成
-	renderResource_ = CerateShaderResource(device_, &desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_COPY_DEST);
+	renderResource_ = CerateShaderResource(device_, &desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 
 	// ------------------------------------------------------------
 	// UAVの設定
@@ -88,20 +93,22 @@ void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
 	// ----------------------------------------------------------------------
 	// ↓ グレースケール
 	// ----------------------------------------------------------------------
-	//// pipelineStateを設定する
-	//computeShaderPipeline_->SetPipelineState(commandList);
-	//// 参照するtextureを設定
-	//commandList->SetComputeRootDescriptorTable(0, offScreenResourceAddress_.handleGPU);
-	//// 画面に写るリソースとCSに送る定数バッファをコマンドに積む
-	//grayScale_->SetResource(commandList);
+	// pipelineStateを設定する
+	computeShaderPipelineMap_[CsPipelineType::GrayScale_Pipeline]->SetPipelineState(commandList);
+	// 参照するtextureを設定
+	commandList->SetComputeRootDescriptorTable(0, offScreenResourceAddress_.handleGPU);
+	// 画面に写るリソースとCSに送る定数バッファをコマンドに積む
+	grayScale_->SetResource(commandList);
 
-	//commandList->Dispatch(groupCountX, groupCountY, 1);
+	commandList->Dispatch(groupCountX, groupCountY, 1);
+
+	grayScale_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 0);
 
 	// ----------------------------------------------------------------------
 	// ↓ ガウシアンブラー
 	// ----------------------------------------------------------------------
 	// 水平
-	computeShaderPipeline_->SetPipelineState(commandList);
+	computeShaderPipelineMap_[CsPipelineType::GaussianBlur_Pipeline]->SetPipelineState(commandList);
 	commandList->SetComputeRootDescriptorTable(0, offScreenResourceAddress_.handleGPU);
 	gaussianBlur_->HorizontalSetResource(commandList);
 	commandList->Dispatch(groupCountX, groupCountY, 1);
@@ -113,19 +120,33 @@ void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
 	gaussianBlur_->VerticalSetResource(commandList);
 	commandList->Dispatch(groupCountX, groupCountY, 1);
 
-	gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE, 1);
+	//gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE, 1);
+	gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 1);
 
+	// ----------------------------------------------------------------------
+	// ↓ 最終的に描画するResourceにコピー
+	// ----------------------------------------------------------------------
+	
+	computeShaderPipelineMap_[CsPipelineType::Blend_Pipeline]->SetPipelineState(commandList);
+	grayScale_->SetResultResource(commandList);
+	gaussianBlur_->SetResultResource(commandList);
+	commandList->SetComputeRootDescriptorTable(1, uavRenderAddress_.handleGPU);
+
+	commandList->Dispatch(groupCountX, groupCountY, 1);
+
+	TransitionResourceState(commandList, renderResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	
 	// CSで加工したResourceをコピーするために状態をコピー可能(コピー元)にする
 	//grayScale_->TransitionResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE);
 	// renderResourceに加工したResourceをコピーする
-	commandList->CopyResource(renderResource_.Get(), gaussianBlur_->GetFinalUAVBuffer().Get());
-	// リソースの状態をコピー先からShaderResourceにする
-	TransitionResourceState(commandList, renderResource_.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-	// 次のフレームで読み書きできる状態になっているようにする
-	//grayScale_->TransitionResource(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+	//commandList->CopyResource(renderResource_.Get(), gaussianBlur_->GetFinalUAVBuffer().Get());
 
+	// リソースの状態をコピー先からShaderResourceにする
+	//TransitionResourceState(commandList, renderResource_.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	//// 次のフレームで読み書きできる状態になっているようにする
+	grayScale_->TransitionResource(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 	gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, 0);
-	gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, 1);
+	gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, 1);
 }
 
 /// <summary>

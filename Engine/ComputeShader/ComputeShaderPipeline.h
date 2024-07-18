@@ -12,6 +12,12 @@
 #include "DescriptorSize.h"
 #include "Shader.h"
 
+enum class CsPipelineType {
+	GrayScale_Pipeline,
+	GaussianBlur_Pipeline,
+	Blend_Pipeline
+};
+
 class ComputeShaderPipeline {
 public:
 
@@ -28,7 +34,9 @@ public:
 	/// <param name="dxHeap">descriptorHeap</param>
 	/// <param name="computeShaderPath">シェーダーのパス</param>
 	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
-			  DescriptorHeap* dxHeap, const std::string& computeShaderPath);
+			  DescriptorHeap* dxHeap, const std::string& computeShaderPath,
+			  const CsPipelineType& type
+	);
 
 	/// <summary>
 	/// パイプラインを設定する

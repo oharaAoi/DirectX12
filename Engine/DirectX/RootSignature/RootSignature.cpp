@@ -34,6 +34,10 @@ void RootSignature::Initialize(ID3D12Device* device, const RootSignatureType& ty
 	case RootSignatureType::ComputeShader:
 		rootSignature_ = CreateComputeShaderRootSignature();
 		break;
+
+	case RootSignatureType::ComputeShaderBlend:
+		rootSignature_ = CreateBlendShaderRootSignature();
+		break;
 	}
 }
 
@@ -396,6 +400,73 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateComputeShaderRo
 	rootParameters[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 	rootParameters[2].Descriptor.ShaderRegister = 0;
+
+	desc.pParameters = rootParameters;
+	desc.NumParameters = _countof(rootParameters);
+
+	// Samplerの設定(Textureで使っている) -------------------------------------------
+	D3D12_STATIC_SAMPLER_DESC staticSamplers[1] = {};
+	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	staticSamplers[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	staticSamplers[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX;
+	staticSamplers[0].ShaderRegister = 0;
+	staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+
+	desc.pStaticSamplers = staticSamplers;
+	desc.NumStaticSamplers = _countof(staticSamplers);
+
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
+	ComPtr<ID3DBlob> signatureBlob = nullptr;
+	ComPtr<ID3DBlob> errorBlob = nullptr;
+	// シリアライズしてバイナリにする
+	hr = D3D12SerializeRootSignature(&desc,
+									 D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
+	if (FAILED(hr)) {
+		Log(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
+		assert(false);
+	}
+
+	// バイナリを元に生成
+	hr = device_->CreateRootSignature(0, signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature));
+	assert(SUCCEEDED(hr));
+
+	return rootSignature.Get();
+}
+
+ComPtr<ID3D12RootSignature> RootSignature::CreateBlendShaderRootSignature() {
+	HRESULT hr = S_FALSE;
+	D3D12_ROOT_SIGNATURE_DESC desc{};
+	desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+	// 複数のtextureを読むための
+	D3D12_DESCRIPTOR_RANGE descriptorRange[1]{};
+	descriptorRange[0].BaseShaderRegister = 0;
+	descriptorRange[0].NumDescriptors =2;	// 範囲内のdiscriptorの数
+	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	// 出力のストラクチャードバッファ
+	D3D12_DESCRIPTOR_RANGE descriptorRangeUAV[1] = {};
+	descriptorRangeUAV[0].BaseShaderRegister = 0;
+	descriptorRangeUAV[0].NumDescriptors = 1;
+	descriptorRangeUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
+	descriptorRangeUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	// rootParameterの作成
+	// textureの設定
+	D3D12_ROOT_PARAMETER rootParameters[2] = {};
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;		// DescriptorTableを使う
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;					// 
+	rootParameters[0].DescriptorTable.pDescriptorRanges = descriptorRange;				// Tableの中身の配列を指定
+	rootParameters[0].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);	// Tableで利用する数
+
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	rootParameters[1].DescriptorTable.pDescriptorRanges = descriptorRangeUAV;
+	rootParameters[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeUAV);
 
 	desc.pParameters = rootParameters;
 	desc.NumParameters = _countof(rootParameters);

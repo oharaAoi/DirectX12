@@ -59,7 +59,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
 	primitivePipeline_ = std::make_unique<PrimitivePipeline>(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
 	// CS
-	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(),renderTarget_->GetOffScreenSRVHandle(), "Engine/HLSL/GaussianBlur.CS.hlsl");
+	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(),renderTarget_->GetOffScreenSRVHandle(), shaders_.get());
 	// light
 	lightGroup_->Init(dxDevice_->GetDevice());
 	// input
@@ -151,17 +151,17 @@ void Engine::EndRenderTexture() {
 		//----------------------------------------------------------------
 
 		// スプライト用のパイプラインの設定
-		graphicsPipelines_->SetPipeline(SpritePipeline, dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
 		// computeShaderで加工したTextureを描画する
 		renderTexture_->Draw(dxCommands_->GetCommandList(), computeShader_->GetShaderResourceHandleGPU());
 		//----------------------------------------------------------------
 		
 		// リソースの状態をShaderResourceから書き込める状態にする(SR→UA)
-		computeShader_->TransitionUAVResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_COPY_DEST);
+		computeShader_->TransitionUAVResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 
 	} else {
 		// スプライト用のパイプラインの設定
-		graphicsPipelines_->SetPipeline(SpritePipeline, dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
 		// offScreenRenderingで書き込んだTextureを描画する
 		renderTexture_->Draw(dxCommands_->GetCommandList(), renderTarget_->GetOffScreenSRVHandle().handleGPU);
 	}
@@ -257,19 +257,19 @@ void Engine::SetEyePos(const Vector3& eyePos) {
 void Engine::SetPipeline(const PipelineKind& kind) {
 	switch (kind) {
 	case PipelineKind::kNormalPipeline:
-		graphicsPipelines_->SetPipeline(NormalPipeline, dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(PipelineType::NormalPipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineKind::kTexturelessPipeline:
-		graphicsPipelines_->SetPipeline(TextureLessPipeline, dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(PipelineType::TextureLessPipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineKind::kPBRPipeline:
-		graphicsPipelines_->SetPipeline(PBRPipeline, dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(PipelineType::PBRPipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineKind::kParticlePipeline:
-		graphicsPipelines_->SetPipeline(ParticlePipeline, dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(PipelineType::ParticlePipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineKind::kSpritePipeline:
-		graphicsPipelines_->SetPipeline(SpritePipeline, dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
 		
 		break;
 	}

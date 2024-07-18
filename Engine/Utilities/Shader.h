@@ -18,6 +18,12 @@ public:
 		Sprite
 	};
 
+	enum CsShaderName {
+		GrayScale,
+		GaussianBlur,
+		Blend
+	};
+
 	// 構造体
 	struct ShaderData {
 		std::string vsShader;
@@ -36,14 +42,22 @@ public:
 
 	void Load(const std::string& vsPath, const std::string& psPath, const ShaderName& type);
 
+	void Load(const std::string& csPath, const CsShaderName& type);
+
 	const ShaderData GetShaderData(const ShaderName& name){
 		return shaderData_[name];
+	}
+
+	const std::string GetCsShaderData(const CsShaderName& name) {
+		return csShaderData_[name];
 	}
 
 private:
 
 	// 名前を保存
 	std::map<ShaderName, ShaderData> shaderData_;
+
+	std::map<CsShaderName, std::string> csShaderData_;
 
 };
 

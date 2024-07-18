@@ -9,6 +9,7 @@
 // PSO
 #include "ComputeShaderPipeline.h"
 #include "TextureManager.h"
+#include "Shader.h"
 // postEffect
 #include "GrayScale.h"
 #include "GaussianBlur.h"
@@ -30,7 +31,7 @@ public:
 	/// <param name="computeShaderPath">シェーダーのパス</param>
 	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 			  DescriptorHeap* dxHeap, DescriptorHeap::DescriptorHandles offScreenResourceAddress, 
-			  const std::string& computeShaderPath);
+			  Shader* shader);
 
 	/// <summary>
 	/// computerShaderを実行する
@@ -54,7 +55,8 @@ public:
 
 private:
 	// computeShader用のパイプライン
-	std::unique_ptr<ComputeShaderPipeline> computeShaderPipeline_ = nullptr;
+	std::unordered_map<CsPipelineType, std::unique_ptr<ComputeShaderPipeline>> computeShaderPipelineMap_;
+
 	// postEffect
 	std::unique_ptr<GrayScale> grayScale_;
 	std::unique_ptr<GaussianBlur> gaussianBlur_;

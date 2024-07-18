@@ -18,7 +18,8 @@ enum class RootSignatureType {
 	Primitive,
 	Particle,
 	Sprite,
-	ComputeShader
+	ComputeShader,
+	ComputeShaderBlend
 };
 
 class RootSignature {
@@ -35,37 +36,43 @@ public:
 	/// RootSignatureの作成
 	/// </summary>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateRootSignature();
+	ComPtr<ID3D12RootSignature> CreateRootSignature();
 
 	/// <summary>
 	/// textureのないRootSignatureの作成
 	/// </summary>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateTexturelessRootSignature();
+	ComPtr<ID3D12RootSignature> CreateTexturelessRootSignature();
 
 	/// <summary>
 	/// primitiveRootSignatureの作成
 	/// </summary>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreatePrimitiveRootSignature();
+	ComPtr<ID3D12RootSignature> CreatePrimitiveRootSignature();
 
 	/// <summary>
 	/// particle用のrootSignatureの作成
 	/// </summary>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateParticleRootSignature();
+	ComPtr<ID3D12RootSignature> CreateParticleRootSignature();
 
 	/// <summary>
 	/// sprite用のrootSignatureの作成
 	/// </summary>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateSpriteRootSignature();
+	ComPtr<ID3D12RootSignature> CreateSpriteRootSignature();
 
 	/// <summary>
 	/// コンピュートシェーダ用のRootSignatureの作成
 	/// </summary>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateComputeShaderRootSignature();
+	ComPtr<ID3D12RootSignature> CreateComputeShaderRootSignature();
+
+	/// <summary>
+	/// コンピュートシェーダ用
+	/// </summary>
+	/// <returns></returns>
+	ComPtr<ID3D12RootSignature> CreateBlendShaderRootSignature();
 
 public:
 

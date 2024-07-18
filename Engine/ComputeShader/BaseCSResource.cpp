@@ -10,9 +10,9 @@ void BaseCSResource::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	dxHeap_ = dxHeap;
 }
 
-void BaseCSResource::SetResource(ID3D12GraphicsCommandList* commandList, const uint32_t& index) {
+void BaseCSResource::SetResource(ID3D12GraphicsCommandList* commandList, const uint32_t& index, const uint32_t& rootParameter) {
 	// 実際に書き込むtextureを設定
-	commandList->SetComputeRootDescriptorTable(1, uavBuffers_[index].uavAddress.handleGPU);
+	commandList->SetComputeRootDescriptorTable(rootParameter, uavBuffers_[index].uavAddress.handleGPU);
 }
 
 void BaseCSResource::TransitionUAVResource(ID3D12GraphicsCommandList* commandList, 

@@ -39,13 +39,16 @@ void GaussianBlur::HorizontalSetResource(ID3D12GraphicsCommandList* commandList)
 	ImGui::DragFloat2("direction", &data_->direction.x, 0.01f, 0.0f, 10.0f);
 	ImGui::End();
 
-	BaseCSResource::SetResource(commandList, 0);
+	BaseCSResource::SetResource(commandList, 0, 1);
 	commandList->SetComputeRootConstantBufferView(2, cBuffer_->GetGPUVirtualAddress());
 }
 
 void GaussianBlur::VerticalSetResource(ID3D12GraphicsCommandList* commandList) {
-	//data_->direction = 1;
-	BaseCSResource::SetResource(commandList, 0);
-	BaseCSResource::SetResource(commandList, 1);
+	BaseCSResource::SetResource(commandList, 0, 0);
+	BaseCSResource::SetResource(commandList, 1, 1);
 	commandList->SetComputeRootConstantBufferView(2, cBuffer_->GetGPUVirtualAddress());
+}
+
+void GaussianBlur::SetResultResource(ID3D12GraphicsCommandList* commandList) {
+	BaseCSResource::SetResource(commandList, 1, 0);
 }

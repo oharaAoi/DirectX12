@@ -25,7 +25,7 @@ public:
 
 	virtual void Init(ID3D12Device* device, DescriptorHeap* dxHeap);
 
-	void SetResource(ID3D12GraphicsCommandList* commandList, const uint32_t& index);
+	void SetResource(ID3D12GraphicsCommandList* commandList, const uint32_t& index, const uint32_t& rootParameter);
 
 	void TransitionUAVResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState, const uint32_t& index);
 

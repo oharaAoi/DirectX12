@@ -3,7 +3,7 @@
 #include <string>
 #include "Pipeline.h"
 
-enum PipelineType {
+enum class PipelineType {
 	NormalPipeline,
 	TextureLessPipeline,
 	ParticlePipeline,

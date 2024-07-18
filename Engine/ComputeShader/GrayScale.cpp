@@ -31,8 +31,12 @@ void GrayScale::SetResource(ID3D12GraphicsCommandList* commandList) {
 	ImGui::DragFloat("GrayScale", &data_->grayScaleAmount, 0.01f, 0.0f, 1.0f);
 	ImGui::End();
 
-	BaseCSResource::SetResource(commandList, 0);
+	BaseCSResource::SetResource(commandList, 0, 1);
 	commandList->SetComputeRootConstantBufferView(2, cBuffer_->GetGPUVirtualAddress());
+}
+
+void GrayScale::SetResultResource(ID3D12GraphicsCommandList* commandList) {
+	BaseCSResource::SetResource(commandList, 0, 0);
 }
 
 void GrayScale::TransitionResource(ID3D12GraphicsCommandList* commandList, D3D12_RESOURCE_STATES beforState, D3D12_RESOURCE_STATES afterState) {
