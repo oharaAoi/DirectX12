@@ -1,4 +1,5 @@
 #pragma once
+#include "BaseGameObject.h"
 #include "Mesh.h"
 #include "Material.h"
 #include "WorldTransform.h"
@@ -6,7 +7,8 @@
 #include "TransformationMatrix.h"
 #include "TextureManager.h"
 
-class Triangle {
+class Triangle
+	: public BaseGameObject {
 public:
 
 	Triangle();
@@ -20,7 +22,13 @@ public:
 	/// 描画
 	/// </summary>
 	/// <param name="commandList"></param>
-	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection);
+	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection) override;
+
+	/// <summary>
+	/// ImGuiを編集する
+	/// </summary>
+	/// <param name="name">: 動かす対象の名前</param>
+	void ImGuiDraw(const std::string& name) override;
 
 private:
 

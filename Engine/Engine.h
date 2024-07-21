@@ -41,12 +41,6 @@ enum class PipelineKind {
 	kSpritePipeline
 };
 
-
-enum class GameObjectKind {
-	kModel,
-	kSphere
-};
-
 class Engine {
 public:
 
@@ -117,6 +111,8 @@ public:
 
 	static void DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance);
 
+	static void DrawBaseGameObject(BaseGameObject* gameObject, const WorldTransform& worldTransform);
+
 	//static void DrawGameObject(BaseGameObject* gameObject, const GameObjectKind& kind);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,6 +134,13 @@ public:
 	/// <param name="view"></param>
 	/// <param name="projection"></param>
 	static void SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="view"></param>
+	/// <param name="projection"></param>
+	static void SetViewProjection2D(const Matrix4x4& view, const Matrix4x4& projection);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// sound系
@@ -246,9 +249,11 @@ namespace {
 
 	// viewProjection
 	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
+	std::unique_ptr<ViewProjection> viewProjection2D_ = nullptr;
+
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;
 
-	static bool isRunCS_ = true;
+	static bool isRunCS_ = false;
 }
 

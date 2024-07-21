@@ -6,18 +6,15 @@ Sprite::Sprite() {
 Sprite::~Sprite() {
 	mesh_->Finalize();
 	material_->Finalize();
-	transformation_->Finalize();
 }
 
 void Sprite::Init(ID3D12Device* device, const Mesh::RectVetices& Rect) {
 	mesh_ = std::make_unique<Mesh>();
 	material_ = std::make_unique<Material>();
-	transformation_ = std::make_unique<TransformationMatrix>();
 
 	mesh_->Init(device, sizeof(Mesh::VertexData) * 6, 6);
 	material_->Init(device);
-	transformation_->Init(device, 1);
-
+	
 	// vertexの設定
 	Mesh::VertexData* vertexData = mesh_->GetVertexData();
 	vertexData[0].pos = Rect.leftBottom;
@@ -49,25 +46,40 @@ void Sprite::Init(ID3D12Device* device, const Mesh::RectVetices& Rect) {
 
 	uvTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
 
-	//TransformationMatrix::ResTransformationMatrix* data = transformation_->GetTransformationData();
+	// ----------------------------------------------------
+	transformBuffer_ = CreateBufferResource(device, sizeof(TextureTransformData));
+	transformBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&transformData_));
+
+	transform_ = { {1.0f,1.0f,1.0f} , {0.0f, 0.0f, 0.0f}, {0, 0, 0} };
+
+	transformData_->wvp = Matrix4x4(
+		MakeAffineMatrix(transform_)
+		* MakeIdentity4x4()
+		* MakeOrthograhicMatrix(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f)
+	);
 }
 
-void Sprite::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection) {
-	material_->Update(MakeAffineMatrix(uvTransform_));
-	transformation_->Update(world, view, projection);
+void Sprite::Update() {
+	ImGui::DragFloat2("translation", &transform_.translate.x, 2.0f);
+	ImGui::DragFloat2("scale", &transform_.scale.x, 0.01f, -10.0f, 10.0f);
+	ImGui::SliderAngle("rotation", &transform_.rotate.z);
+	if (ImGui::TreeNode("material")) {
+		material_->ImGuiDraw();
+		ImGui::TreePop();
+	}
 
-	ImGui::Begin("Setting");
-	ImGui::DragFloat2("uvTranslate", &uvTransform_.translate.x, 0.01f, -10.0f, 10.0f);
-	ImGui::DragFloat2("uvScale", &uvTransform_.scale.x, 0.01f, -10.0f, 10.0f);
-	ImGui::SliderAngle("UvRotate", &uvTransform_.rotate.z);
-	ImGui::End();
+	transformData_->wvp = Matrix4x4(
+		MakeAffineMatrix(transform_)
+		* MakeIdentity4x4()
+		* MakeOrthograhicMatrix(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f)
+	);
 }
 
 void Sprite::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	mesh_->Draw(commandList);
 	material_->Draw(commandList);
-	transformation_->Draw(commandList);
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/uvChecker.png");
+	commandList->SetGraphicsRootConstantBufferView(1, transformBuffer_->GetGPUVirtualAddress());
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/uvChecker.png", 2);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }

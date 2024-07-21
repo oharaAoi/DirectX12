@@ -26,11 +26,11 @@ public:
     /// Resourceをコマンドにセットする
     /// </summary>
     /// <param name="commandList"></param>
-    void SetResource(ID3D12GraphicsCommandList* commandList);
+    void SetResource(ID3D12GraphicsCommandList* commandList) override;
 
     void SetResultResource(ID3D12GraphicsCommandList* commandList);
 
-    const DescriptorHeap::DescriptorHandles GetSRVHandle() const {return uavBuffers_[0].srvAddress;}
+    const DescriptorHeap::DescriptorHandles GetSRVHandle() const {return uavBuffers_[0].uavAddress;}
 
     void TransitionResource(ID3D12GraphicsCommandList* commandList, D3D12_RESOURCE_STATES beforState, D3D12_RESOURCE_STATES afterState);
 

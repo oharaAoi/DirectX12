@@ -217,7 +217,8 @@ D3D12_RESOURCE_DESC TextureManager::CreateResourceDesc(const DirectX::TexMetadat
 	return desc;
 }
 
-void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath) {
-	commandList->SetGraphicsRootDescriptorTable(3, srvData_[filePath].address_.handleGPU);
+void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath, const uint32_t& rootParameterIndex) {
+	//commandList->SetGraphicsRootDescriptorTable(3, srvData_[filePath].address_.handleGPU);
+	commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, srvData_[filePath].address_.handleGPU);
 }
 

@@ -19,7 +19,7 @@ void Material::Init(ID3D12Device* device) {
 	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&pbrMaterial_));
 	// 色を決める
 	pbrMaterial_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	pbrMaterial_->enableLighting = true;
+	pbrMaterial_->enableLighting = false;
 	pbrMaterial_->uvTransform = MakeIdentity4x4();
 	pbrMaterial_->shininess = 50;
 
@@ -28,6 +28,10 @@ void Material::Init(ID3D12Device* device) {
 
 	pbrMaterial_->roughness = 0.5f;
 	pbrMaterial_->metallic = 0.5f;
+
+	uvTranslation_ = { 0,0,0 };
+	uvScale_ = { 1,1,1 };
+	uvRotation_ = { 0,0,0 };
 }
 
 void Material::Update(const Matrix4x4& uvTransform) {
@@ -39,13 +43,13 @@ void Material::Draw(ID3D12GraphicsCommandList* commandList) {
 }
 
 void Material::ImGuiDraw() {
-	//ImGui::DragFloat("Albedo", &pbrMaterial_->color, 0.01f, 0.0f, 1.0f);
-	ImGui::ColorEdit4("baseColor", &pbrMaterial_->color.x);
-	ImGui::ColorEdit3("diffuse", &pbrMaterial_->diffuseColor.x);
-	ImGui::ColorEdit3("specular", &pbrMaterial_->specularColor.x);
-	ImGui::DragFloat("roughness", &pbrMaterial_->roughness, 0.01f, 0.0f, 1.0f);
-	ImGui::DragFloat("metallic", &pbrMaterial_->metallic, 0.01f, 0.0f, 1.0f);
-	ImGui::DragFloat("shininess", &pbrMaterial_->shininess, 01.0f, 1.0f, 100.0f);
+	ImGui::DragFloat2("uvTranslate", &uvTranslation_.x, 0.01f, -10.0f, 10.0f);
+	ImGui::DragFloat2("uvScale", &uvScale_.x, 0.01f, -10.0f, 10.0f);
+	ImGui::SliderAngle("UvRotate", &uvRotation_.z);
+	ImGui::ColorEdit3("color", &pbrMaterial_->color.x);
+	ImGui::Combo("Lighting", &pbrMaterial_->enableLighting, "None\0Lambert\0HalfLambert");
+
+	pbrMaterial_->uvTransform = MakeAffineMatrix(kTransform(uvScale_, uvRotation_, uvTranslation_));
 }
 
 void Material::SetMaterialData(ModelMaterialData materialData) {

@@ -25,10 +25,16 @@ public:
     void Init(ID3D12Device* device, DescriptorHeap* dxHeap) override;
 
     /// <summary>
+    /// Resourceをコマンドにセットする
+    /// </summary>
+    /// <param name="commandList"></param>
+    void SetResource(ID3D12GraphicsCommandList* commandList) override;
+
+    /// <summary>
     /// 水平方向のResourceをセット
     /// </summary>
     /// <param name="commandList"></param>
-    void HorizontalSetResource(ID3D12GraphicsCommandList* commandList);
+    void HorizontalSetResource(ID3D12GraphicsCommandList* commandList) ;
 
     /// <summary>
     /// 垂直方向のResourceをセット

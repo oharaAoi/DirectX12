@@ -141,9 +141,9 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateTexturelessRoot
 	D3D12_ROOT_SIGNATURE_DESC desc{};
 	desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
-	// rootParameterの作成
-	D3D12_ROOT_PARAMETER rootParameters[4] = {};
-	//　material
+	// rootparameter
+	D3D12_ROOT_PARAMETER rootParameters[6] = {};
+	// Material用
 	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	// CBVを使う
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	// PixelShaderで使う
 	rootParameters[0].Descriptor.ShaderRegister = 0;					// レジスタ番号とバインド
@@ -158,10 +158,26 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateTexturelessRoot
 	rootParameters[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;// VertexShaderで使う
 	rootParameters[2].Descriptor.ShaderRegister = 1;					// レジスタ番号とバインド
 
-	// Light
-	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	rootParameters[3].Descriptor.ShaderRegister = 1;
+	//// DescriptorTable(textureに使う)
+	//rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;		// DescriptorTableを使う
+	//rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;					// PixelShaderで使う
+	//rootParameters[3].DescriptorTable.pDescriptorRanges = descriptorRange;				// Tableの中身の配列を指定
+	//rootParameters[3].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);	// Tableで利用する数
+
+	// DirectionalLight用
+	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	// CBVを使う
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
+	rootParameters[3].Descriptor.ShaderRegister = 1;					// レジスタ番号とバインド
+
+	// PointLight用
+	rootParameters[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	// CBVを使う
+	rootParameters[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
+	rootParameters[4].Descriptor.ShaderRegister = 2;					// レジスタ番号とバインド
+
+	// SpotLight用
+	rootParameters[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	// CBVを使う
+	rootParameters[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
+	rootParameters[5].Descriptor.ShaderRegister = 3;					// レジスタ番号とバインド
 
 	desc.pParameters = rootParameters;
 	desc.NumParameters = _countof(rootParameters);

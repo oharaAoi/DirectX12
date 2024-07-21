@@ -13,7 +13,8 @@ void CSmain(uint3 id : SV_DispatchThreadID){
 	gTexture1.GetDimensions(width, height);
 	float2 uv = float2(pixcelCoordinate) / float2(width, height);
 	
-	float4 finalColor = gTexture1.Sample(gSampler, uv) + gTexture2.Sample(gSampler, uv);
+	//float4 finalColor = gTexture1.Sample(gSampler, uv) + gTexture2.Sample(gSampler, uv);
+	float4 finalColor = normalize(gTexture1.Sample(gSampler, uv) + gTexture2.Sample(gSampler, uv));
 
 	outputBuffer[pixcelCoordinate] = finalColor;
 }

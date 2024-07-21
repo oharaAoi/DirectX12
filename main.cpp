@@ -2,10 +2,12 @@
 #include "Engine.h"
 #include "GameScene.h"
 #include "TestScene.h"
+#include "TaskScene.h"
 
 enum Scene {
 	kGame,
-	kTest
+	kTest,
+	kTask
 };
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -19,11 +21,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	std::unique_ptr<GameScene> game = std::make_unique<GameScene>();
 	std::unique_ptr<TestScene> test = std::make_unique<TestScene>();
+	std::unique_ptr<TaskScene> task = std::make_unique<TaskScene>();
 
 	game->Init();
 	test->Init();
+	task->Init();
 
-	int sceneNumber = 1;
+	int sceneNumber = 2;
 
 	// mainループ
 	while (Engine::ProcessMessage()) {
@@ -43,10 +47,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			test->Update();
 			test->Draw();
 			break;
+
+		case kTask:
+			task->Update();
+			task->Draw();
+			break;
 		}
 
 		ImGui::Begin("Scene");
-		ImGui::Combo("sceneKind", &sceneNumber, "Game\0Test");
+		ImGui::Combo("sceneKind", &sceneNumber, "Game\0Test\0Task");
 		ImGui::End();
 
 

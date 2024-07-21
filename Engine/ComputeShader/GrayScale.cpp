@@ -14,9 +14,9 @@ void GrayScale::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	dxHeap_ = dxHeap;
 	device_ = device;
 
+	CreateResourceBuffer(1);
 	// UAVのResource作成とViewの作成
 	BaseCSResource::Init(device, dxHeap);
-	CreateUAVBuffer(1);
 
 	// cBufferの作成
 	cBuffer_ = CreateBufferResource(device_, sizeof(GrayScaleData));
@@ -24,6 +24,8 @@ void GrayScale::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	data_ = nullptr;
 	cBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&data_));
 	data_->grayScaleAmount = 0.0f;
+
+	usePipelineType_ = CsPipelineType::GrayScale_Pipeline;
 }
 
 void GrayScale::SetResource(ID3D12GraphicsCommandList* commandList) {
@@ -31,12 +33,11 @@ void GrayScale::SetResource(ID3D12GraphicsCommandList* commandList) {
 	ImGui::DragFloat("GrayScale", &data_->grayScaleAmount, 0.01f, 0.0f, 1.0f);
 	ImGui::End();
 
-	BaseCSResource::SetResource(commandList, 0, 1);
-	commandList->SetComputeRootConstantBufferView(2, cBuffer_->GetGPUVirtualAddress());
+	BaseCSResource::SetResource(commandList);
 }
 
 void GrayScale::SetResultResource(ID3D12GraphicsCommandList* commandList) {
-	BaseCSResource::SetResource(commandList, 0, 0);
+	commandList->SetComputeRootDescriptorTable(1, uavBuffers_[0].uavAddress.handleGPU);
 }
 
 void GrayScale::TransitionResource(ID3D12GraphicsCommandList* commandList, D3D12_RESOURCE_STATES beforState, D3D12_RESOURCE_STATES afterState) {

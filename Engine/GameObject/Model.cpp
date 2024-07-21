@@ -12,10 +12,12 @@ Model::~Model() {
 void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
 	std::string path = directorPath + "/" + fileName;
 
-	/*materialArray_ = LoadMaterialData(directorPath, fileName, device);
-	meshArray_ = LoadVertexData(path, device);*/
+	materialArray_ = LoadMaterialData(directorPath, fileName, device);
+	meshArray_ = LoadVertexData(path, device);
 
-	LoadObj(directorPath, fileName, device);
+	Log("Load: " + fileName + "\n");
+
+	//LoadObj(directorPath, fileName, device);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +40,7 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& w
 		
 		if (hasTexture_) {
 			std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetMateriaData().textureFilePath;
-			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName);
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 3);
 		}
 
 		UINT size = meshArray_[oi]->GetVertexSize() / sizeof(Mesh::VertexData);
@@ -48,16 +50,12 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& w
 }
 
 void Model::ImGuiDraw(const std::string& name) {
-	const char* charTag = name.c_str();
-	ImGui::Begin("Object");
-	if(ImGui::TreeNode(charTag)) {
+	if (ImGui::TreeNode(name.c_str())) {
 		for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 			materialArray_[meshArray_[oi]->GetUseMaterial()]->ImGuiDraw();
 		}
-
 		ImGui::TreePop();
 	}
-	ImGui::End();
 }
 
 void Model::SetMaterials(const float& roughness, const float& metallic) {

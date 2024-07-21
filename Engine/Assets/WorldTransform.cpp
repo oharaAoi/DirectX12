@@ -28,6 +28,12 @@ void WorldTransform::Draw(ID3D12GraphicsCommandList* commandList) const {
 	commandList->SetGraphicsRootConstantBufferView(1, cBuffer_->GetGPUVirtualAddress());
 }
 
+void WorldTransform::ImGuiDraw() {
+	ImGui::DragFloat3("scale", &scale_.x, 0.1f);
+	ImGui::DragFloat3("rotation", &rotation_.x, 0.1f);
+	ImGui::DragFloat3("translation", &translation_.x, 0.1f);
+}
+
 void WorldTransform::Finalize() {
 	cBuffer_.Reset();
 }

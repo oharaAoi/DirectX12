@@ -62,6 +62,8 @@ private:
 	std::unique_ptr<GaussianBlur> gaussianBlur_;
 
 	ComPtr<ID3D12Resource> renderResource_;
+
+	std::list<BaseCSResource*> executeCsList_;
 	
 	// ---------------------------------------
 	// DXCで使う

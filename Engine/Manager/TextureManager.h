@@ -70,7 +70,7 @@ public:
 	/// </summary>
 	/// <param name="commandList"></param>
 	/// <param name="textureNum"></param>
-	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath);
+	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath, const uint32_t& rootParameterIndex);
 
 	/// <summary>
 	/// ResourceDescを作成する

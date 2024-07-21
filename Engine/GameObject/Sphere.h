@@ -7,7 +7,8 @@
 #include "TransformationMatrix.h"
 #include "TextureManager.h"
 
-class Sphere {
+class Sphere 
+	: public BaseGameObject {
 public:
 
 	Sphere();
@@ -17,9 +18,13 @@ public:
 
 	void Update();
 
-	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection);
+	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection) override;
 
-	void ImGuiDraw(const std::string& name);
+	/// <summary>
+	/// ImGuiを編集する
+	/// </summary>
+	/// <param name="name">: 動かす対象の名前</param>
+	void ImGuiDraw(const std::string& name) override;
 
 	void SetMaterials(const float& roughness, const float& metallic);
 

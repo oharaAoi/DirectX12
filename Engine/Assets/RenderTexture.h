@@ -19,6 +19,7 @@ public:
 
 	struct TextureMaterial {
 		Vector4 color;
+		Matrix4x4 uvTransform;
 	};
 
 	struct TextureTransformData {

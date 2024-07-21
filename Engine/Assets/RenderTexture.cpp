@@ -55,6 +55,7 @@ void RenderTexture::Init(ID3D12Device* device) {
 	materialBuffer_ = CreateBufferResource(device, sizeof(TextureMaterial));
 	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 	materialData_->color = { 0.4f, 0.4f, 0.4f, 1.0f };
+	materialData_->uvTransform = MakeIdentity4x4();
 
 	// ----------------------------------------------------------------------------------
 	transformBuffer_ = CreateBufferResource(device, sizeof(TextureTransformData));
@@ -70,6 +71,7 @@ void RenderTexture::Init(ID3D12Device* device) {
 }
 
 void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& srvHandleGPU) {
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	commandList->IASetIndexBuffer(&indexBufferView_);
 	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());

@@ -17,7 +17,8 @@
 #include "ViewProjection.h"
 #include "TextureManager.h"
 
-class Model {
+class Model
+	: public BaseGameObject {
 public:
 
 	struct Node {
@@ -35,9 +36,13 @@ public:
 
 	void Update();
 
-	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewprojection);
+	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewprojection) override;
 
-	void ImGuiDraw(const std::string& name);
+	/// <summary>
+	/// ImGuiを編集する
+	/// </summary>
+	/// <param name="name">: 動かす対象の名前</param>
+	void ImGuiDraw(const std::string& name) override;
 
 	void SetMaterials(const float& roughness, const float& metallic);
 

@@ -13,8 +13,8 @@
 #include "Shader.h"
 
 enum class CsPipelineType {
-	GrayScale_Pipeline,
 	GaussianBlur_Pipeline,
+	GrayScale_Pipeline,
 	Blend_Pipeline
 };
 

@@ -1,11 +1,18 @@
 #pragma once
 #include "Mesh.h"
 #include "Material.h"
-#include "TransformationMatrix.h"
 #include "TextureManager.h"
 #include "ImGuiManager.h"
+#include "WorldTransform.h"
+#include "ViewProjection.h"
 
 class Sprite {
+public:
+
+	struct TextureTransformData {
+		Matrix4x4 wvp;
+	};
+
 public:
 
 	Sprite();
@@ -13,7 +20,7 @@ public:
 
 	void Init(ID3D12Device* device, const Mesh::RectVetices& vertex);
 
-	void Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection);
+	void Update();
 
 	/// <summary>
 	/// 描画
@@ -25,8 +32,10 @@ private:
 
 	std::unique_ptr<Mesh> mesh_;
 	std::unique_ptr<Material> material_;
-	std::unique_ptr<TransformationMatrix> transformation_;
+	ComPtr<ID3D12Resource> transformBuffer_;
 
+	kTransform transform_;
 	kTransform uvTransform_;
+	TextureTransformData* transformData_;
 
 };

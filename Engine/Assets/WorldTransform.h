@@ -8,6 +8,10 @@
 // math
 #include "MyMath.h"
 
+#ifdef _DEBUG
+#include "ImGuiManager.h"
+#endif
+
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
@@ -33,6 +37,8 @@ public:
 	void Update();
 
 	void Draw(ID3D12GraphicsCommandList* commandList) const;
+
+	void ImGuiDraw();
 
 	void Finalize();
 

@@ -8,11 +8,14 @@ void BaseCSResource::Finalize() {
 void BaseCSResource::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	device_ = device;
 	dxHeap_ = dxHeap;
+
+	writeResourceHandles_ = uavBuffers_[0].uavAddress;
 }
 
-void BaseCSResource::SetResource(ID3D12GraphicsCommandList* commandList, const uint32_t& index, const uint32_t& rootParameter) {
-	// 実際に書き込むtextureを設定
-	commandList->SetComputeRootDescriptorTable(rootParameter, uavBuffers_[index].uavAddress.handleGPU);
+void BaseCSResource::SetResource(ID3D12GraphicsCommandList* commandList) {
+	commandList->SetComputeRootDescriptorTable(0, referenceResourceHandles_.handleGPU);
+	commandList->SetComputeRootDescriptorTable(1, writeResourceHandles_.handleGPU);
+	commandList->SetComputeRootConstantBufferView(2, cBuffer_->GetGPUVirtualAddress());
 }
 
 void BaseCSResource::TransitionUAVResource(ID3D12GraphicsCommandList* commandList, 
@@ -23,7 +26,7 @@ void BaseCSResource::TransitionUAVResource(ID3D12GraphicsCommandList* commandLis
 	TransitionResourceState(commandList, uavBuffers_[index].uavBuffer.Get(), beforState, afterState);
 }
 
-void BaseCSResource::CreateUAVBuffer(const uint32_t& createNum) {
+void BaseCSResource::CreateResourceBuffer(const uint32_t& createNum) {
 	for (uint32_t oi = 0; oi < createNum; oi++) {
 		UavBufferData bufferData;
 
@@ -54,17 +57,17 @@ void BaseCSResource::CreateUAVBuffer(const uint32_t& createNum) {
 		// 生成
 		device_->CreateUnorderedAccessView(bufferData.uavBuffer.Get(), nullptr, &uavDesc, bufferData.uavAddress.handleCPU);
 
-		// ------------------------------------------------------------
-		// SRVの設定
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		srvDesc.Texture2D.MipLevels = 1;
-		// SRVを作成するDescriptorHeapの場所を求める
-		bufferData.srvAddress = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
-		// 生成
-		device_->CreateShaderResourceView(bufferData.uavBuffer.Get(), &srvDesc, bufferData.srvAddress.handleCPU);
+		//// ------------------------------------------------------------
+		//// SRVの設定
+		//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+		//srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		//srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		//srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		//srvDesc.Texture2D.MipLevels = 1;
+		//// SRVを作成するDescriptorHeapの場所を求める
+		//bufferData.srvAddress = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
+		//// 生成
+		//device_->CreateShaderResourceView(bufferData.uavBuffer.Get(), &srvDesc, bufferData.srvAddress.handleCPU);
 
 		uavBuffers_.push_back(std::move(bufferData));
 	}

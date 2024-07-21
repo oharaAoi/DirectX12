@@ -90,4 +90,10 @@ private:
 
 	// materialData
 	ModelMaterialData materialData_;
+
+	Vector3 uvTranslation_;
+	Vector3 uvScale_;
+	Vector3 uvRotation_;
+
+
 };

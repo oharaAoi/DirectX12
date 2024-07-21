@@ -39,6 +39,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	lightGroup_ = std::make_unique<LightGroup>();
 
 	viewProjection_ = std::make_unique<ViewProjection>();
+	viewProjection2D_ = std::make_unique<ViewProjection>();
 
 	renderTexture_ = std::make_unique<RenderTexture>();
 
@@ -70,6 +71,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	primitiveDrawer_->Init(dxDevice_->GetDevice());
 
 	viewProjection_->Init(dxDevice_->GetDevice());
+	viewProjection2D_->Init(dxDevice_->GetDevice());
 
 	renderTexture_->Init(dxDevice_->GetDevice());
 
@@ -81,6 +83,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 void Engine::Finalize() {
 	renderTexture_->Finalize();
 
+	viewProjection2D_->Finalize();
 	viewProjection_->Finalize();
 
 	computeShader_->Finalize();
@@ -216,7 +219,6 @@ void Engine::DrawTriangle(Triangle* triangle, const WorldTransform& worldTransfo
 }
 
 void Engine::DrawSprite(Sprite* sprite) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
 	sprite->Draw(dxCommands_->GetCommandList());
 }
 
@@ -226,7 +228,11 @@ void Engine::DrawSphere(Sphere* sphere, const WorldTransform& worldTransform) {
 }
 
 void Engine::DrawModel(Model* model, const WorldTransform& worldTransform) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
+	if (model->GetHasTexture()) {
+		lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
+	} else {
+		lightGroup_->Draw(dxCommands_->GetCommandList(), 3);
+	}
 	model->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
 }
 
@@ -238,6 +244,11 @@ void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color
 void Engine::DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance) {
 	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
 	baseParticle->Draw(dxCommands_->GetCommandList(), numInstance);
+}
+
+void Engine::DrawBaseGameObject(BaseGameObject* gameObject, const WorldTransform& worldTransform) {
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
+	gameObject->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -277,6 +288,10 @@ void Engine::SetPipeline(const PipelineKind& kind) {
 
 void Engine::SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection) {
 	viewProjection_->SetViewProjection(view, projection);
+}
+
+void Engine::SetViewProjection2D(const Matrix4x4& view, const Matrix4x4& projection) {
+	viewProjection2D_->SetViewProjection(view, projection);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

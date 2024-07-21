@@ -98,18 +98,15 @@ void Sphere::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& 
 	worldTransform.Draw(commandList);
 	viewProjection->Draw(commandList);
 
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/monsterBall.png");
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/monsterBall.png", 3);
 	commandList->DrawIndexedInstanced(vertexCount_, 1, 0, 0, 0);
 }
 
 void Sphere::ImGuiDraw(const std::string& name) {
-	const char* charTag = name.c_str();
-	ImGui::Begin("Object");
-	if (ImGui::TreeNode(charTag)) {
+	if (ImGui::TreeNode(name.c_str())) {
 		material_->ImGuiDraw();
 		ImGui::TreePop();
 	}
-	ImGui::End();
 }
 
 void Sphere::SetMaterials(const float& roughness, const float& metallic) {
