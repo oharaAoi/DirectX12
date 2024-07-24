@@ -36,10 +36,6 @@ void GrayScale::SetResource(ID3D12GraphicsCommandList* commandList) {
 	BaseCSResource::SetResource(commandList);
 }
 
-void GrayScale::SetResultResource(ID3D12GraphicsCommandList* commandList) {
-	commandList->SetComputeRootDescriptorTable(1, uavBuffers_[0].uavAddress.handleGPU);
-}
-
 void GrayScale::TransitionResource(ID3D12GraphicsCommandList* commandList, D3D12_RESOURCE_STATES beforState, D3D12_RESOURCE_STATES afterState) {
 	TransitionResourceState(commandList, uavBuffers_[0].uavBuffer.Get(), beforState, afterState);
 }

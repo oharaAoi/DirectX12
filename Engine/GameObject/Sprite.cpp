@@ -1,56 +1,64 @@
 #include "Sprite.h"
 
-Sprite::Sprite() {
-}
+Sprite::Sprite() {}
 
 Sprite::~Sprite() {
-	mesh_->Finalize();
-	material_->Finalize();
+	vertexBuffer_.Reset();
+	indexBuffer_.Reset();
+	materialBuffer_.Reset();
+	transformBuffer_.Reset();
 }
 
-void Sprite::Init(ID3D12Device* device, const Mesh::RectVetices& Rect) {
-	mesh_ = std::make_unique<Mesh>();
-	material_ = std::make_unique<Material>();
+void Sprite::Init(ID3D12Device* device, const Mesh::RectVetices& rect) {
+	// ----------------------------------------------------------------------------------
+	vertexBuffer_ = CreateBufferResource(device, sizeof(TextureMesh) * 4);
+	// リソースの先頭のアドレスから使う
+	vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();
+	// 使用するリソースのサイズは頂点3つ分のサイズ
+	vertexBufferView_.SizeInBytes = sizeof(TextureMesh) * 4;
+	// 1頂点当たりのサイズ
+	vertexBufferView_.StrideInBytes = sizeof(TextureMesh);
+	// Resourceにデータを書き込む 
+	vertexData_ = nullptr;
+	// アドレスを取得
+	vertexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
 
-	mesh_->Init(device, sizeof(Mesh::VertexData) * 6, 6);
-	material_->Init(device);
-	
-	// vertexの設定
-	Mesh::VertexData* vertexData = mesh_->GetVertexData();
-	vertexData[0].pos = Rect.leftBottom;
-	vertexData[0].texcoord = { 0.0f, 1.0f };
-	vertexData[0].normal = { 0.0f, 0.0f, -1.0f };
-	vertexData[1].pos = Rect.leftTop;
-	vertexData[1].texcoord = { 0.0f, 0.0f };
-	vertexData[1].normal = { 0.0f, 0.0f, -1.0f };
-	vertexData[2].pos = Rect.rightBottom;
-	vertexData[2].texcoord = { 1.0f, 1.0f };
-	vertexData[2].normal = { 0.0f, 0.0f, -1.0f };
-	vertexData[3].pos = Rect.rightTop;		// 右上
-	vertexData[3].texcoord = { 1.0f, 0.0f };
-	vertexData[3].normal = { 0.0f, 0.0f, -1.0f };
-	
-	// indexの設定
-	uint32_t* indexData = mesh_->GetIndexData();
-	indexData[0] = 0;
-	indexData[1] = 1;
-	indexData[2] = 2;
+	vertexData_[0].pos = rect.leftBottom;
+	vertexData_[0].texcoord = { 0.0f, 1.0f }; // 左下
+	vertexData_[1].pos = rect.leftTop;
+	vertexData_[1].texcoord = { 0.0f, 0.0f }; // 左上
+	vertexData_[2].pos = rect.rightBottom; // 右下
+	vertexData_[2].texcoord = { 1.0f, 1.0f };
+	vertexData_[3].pos = rect.rightTop;		// 右上
+	vertexData_[3].texcoord = { 1.0f, 0.0f };
 
-	indexData[3] = 1;
-	indexData[4] = 3;
-	indexData[5] = 2;
+	// ----------------------------------------------------------------------------------
+	indexBuffer_ = CreateBufferResource(device, sizeof(uint32_t) * 6);
+	indexBufferView_.BufferLocation = indexBuffer_->GetGPUVirtualAddress();
+	indexBufferView_.SizeInBytes = UINT(sizeof(uint32_t) * 6);
+	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
+	indexData_ = nullptr;
+	indexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 
-	// materialの設定
-	Material::PBRMaterial* materialData = material_->GetBaseMaterial();
-	materialData->enableLighting = false;
+	indexData_[0] = 0;
+	indexData_[1] = 1;
+	indexData_[2] = 2;
 
-	uvTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f} };
+	indexData_[3] = 1;
+	indexData_[4] = 3;
+	indexData_[5] = 2;
+	// ----------------------------------------------------------------------------------
+	materialBuffer_ = CreateBufferResource(device, sizeof(TextureMaterial));
+	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
+	materialData_->color = { 0.4f, 0.4f, 0.4f, 1.0f };
+	materialData_->uvTransform = MakeIdentity4x4();
 
-	// ----------------------------------------------------
+	// ----------------------------------------------------------------------------------
 	transformBuffer_ = CreateBufferResource(device, sizeof(TextureTransformData));
 	transformBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&transformData_));
 
 	transform_ = { {1.0f,1.0f,1.0f} , {0.0f, 0.0f, 0.0f}, {0, 0, 0} };
+	uvTransform_ = { {1.0f,1.0f,1.0f} , {0.0f, 0.0f, 0.0f}, {0, 0, 0} };
 
 	transformData_->wvp = Matrix4x4(
 		MakeAffineMatrix(transform_)
@@ -64,7 +72,11 @@ void Sprite::Update() {
 	ImGui::DragFloat2("scale", &transform_.scale.x, 0.01f, -10.0f, 10.0f);
 	ImGui::SliderAngle("rotation", &transform_.rotate.z);
 	if (ImGui::TreeNode("material")) {
-		material_->ImGuiDraw();
+		ImGui::DragFloat2("uvTranslation", &uvTransform_.translate.x, 0.1f);
+		ImGui::DragFloat2("uvScale", &uvTransform_.scale.x, 0.01f, -10.0f, 10.0f);
+		ImGui::SliderAngle("uvRotation", &uvTransform_.rotate.z);
+
+		materialData_->uvTransform = MakeAffineMatrix(uvTransform_);
 		ImGui::TreePop();
 	}
 
@@ -77,8 +89,9 @@ void Sprite::Update() {
 
 void Sprite::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	mesh_->Draw(commandList);
-	material_->Draw(commandList);
+	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
+	commandList->IASetIndexBuffer(&indexBufferView_);
+	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
 	commandList->SetGraphicsRootConstantBufferView(1, transformBuffer_->GetGPUVirtualAddress());
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/uvChecker.png", 2);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);

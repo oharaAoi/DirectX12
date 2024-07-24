@@ -42,6 +42,12 @@ public:
 
 	void Finalize();
 
+	/// <summary>
+	/// gltfファイルで読み込んだモデルのLoacalMatを適応させる
+	/// </summary>
+	/// <param name="mat"></param>
+	void AdaptToGLTF(const Matrix4x4& mat) const;
+
 private:
 
 	ComPtr<ID3D12Resource> cBuffer_;

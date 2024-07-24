@@ -460,7 +460,7 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateBlendShaderRootSignature() {
 	// 複数のtextureを読むための
 	D3D12_DESCRIPTOR_RANGE descriptorRange[1]{};
 	descriptorRange[0].BaseShaderRegister = 0;
-	descriptorRange[0].NumDescriptors =2;	// 範囲内のdiscriptorの数
+	descriptorRange[0].NumDescriptors = 2;	// 範囲内のdiscriptorの数
 	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 

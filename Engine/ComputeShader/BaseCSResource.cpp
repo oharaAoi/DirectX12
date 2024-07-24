@@ -18,6 +18,14 @@ void BaseCSResource::SetResource(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetComputeRootConstantBufferView(2, cBuffer_->GetGPUVirtualAddress());
 }
 
+void BaseCSResource::SetReferenceResource(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& handleGPU) {
+	commandList->SetComputeRootDescriptorTable(0, handleGPU);
+}
+
+void BaseCSResource::SetResultResource(ID3D12GraphicsCommandList* commandList) {
+	commandList->SetComputeRootDescriptorTable(0, uavBuffers_[0].srvAddress.handleGPU);
+}
+
 void BaseCSResource::TransitionUAVResource(ID3D12GraphicsCommandList* commandList, 
 										   const D3D12_RESOURCE_STATES& beforState,
 										   const D3D12_RESOURCE_STATES& afterState,
@@ -57,18 +65,22 @@ void BaseCSResource::CreateResourceBuffer(const uint32_t& createNum) {
 		// 生成
 		device_->CreateUnorderedAccessView(bufferData.uavBuffer.Get(), nullptr, &uavDesc, bufferData.uavAddress.handleCPU);
 
-		//// ------------------------------------------------------------
-		//// SRVの設定
-		//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-		//srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		//srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		//srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		//srvDesc.Texture2D.MipLevels = 1;
-		//// SRVを作成するDescriptorHeapの場所を求める
-		//bufferData.srvAddress = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
-		//// 生成
-		//device_->CreateShaderResourceView(bufferData.uavBuffer.Get(), &srvDesc, bufferData.srvAddress.handleCPU);
-
 		uavBuffers_.push_back(std::move(bufferData));
+	}
+}
+
+void BaseCSResource::CreateSRV() {
+	// SRVの設定をする
+	for (uint32_t oi = 0; oi < uavBuffers_.size(); oi++) {
+		// SRVの設定
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = 1;
+		// SRVを作成するDescriptorHeapの場所を求める
+		uavBuffers_[oi].srvAddress = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
+		// 生成
+		device_->CreateShaderResourceView(uavBuffers_[oi].uavBuffer.Get(), &srvDesc, uavBuffers_[oi].srvAddress.handleCPU);
 	}
 }

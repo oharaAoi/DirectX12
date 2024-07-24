@@ -12,12 +12,12 @@ Model::~Model() {
 void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
 	std::string path = directorPath + "/" + fileName;
 
-	materialArray_ = LoadMaterialData(directorPath, fileName, device);
-	meshArray_ = LoadVertexData(path, device);
+	/*materialArray_ = LoadMaterialData(directorPath, fileName, device);
+	meshArray_ = LoadVertexData(path, device);*/
 
 	Log("Load: " + fileName + "\n");
 
-	//LoadObj(directorPath, fileName, device);
+	LoadObj(directorPath, fileName, device);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +35,7 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& w
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 		meshArray_[oi]->Draw(commandList);
 		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
+		worldTransform.AdaptToGLTF(rootNode_.localMatrix);
 		worldTransform.Draw(commandList);
 		viewProjection->Draw(commandList);
 		
@@ -52,7 +53,12 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& w
 void Model::ImGuiDraw(const std::string& name) {
 	if (ImGui::TreeNode(name.c_str())) {
 		for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
-			materialArray_[meshArray_[oi]->GetUseMaterial()]->ImGuiDraw();
+			std::string materialNum = std::to_string(oi);
+			std::string materialName = "material" + oi;
+			if (ImGui::TreeNode(materialName.c_str())) {
+				materialArray_[meshArray_[oi]->GetUseMaterial()]->ImGuiDraw();
+				ImGui::TreePop();
+			}
 		}
 		ImGui::TreePop();
 	}
@@ -325,13 +331,13 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 
 	std::vector<std::vector<Mesh::VertexData>> meshVertices;
 	std::vector<std::string> useMaterial;
-	std::vector<Mesh::VertexData> triangle;
 
 	std::unordered_map<std::string, Material::ModelMaterialData> materialData;
 	std::vector<std::string> materials;
 
 	// meshの解析
 	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
+		std::vector<Mesh::VertexData> triangle;
 		aiMesh* mesh = scene->mMeshes[meshIndex];
 		assert(mesh->HasNormals()); // 法線がないなら非対応
 		assert(mesh->HasTextureCoords(0)); // texcoordがないmeshは非対応
@@ -342,55 +348,78 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 
 			assert(face.mNumIndices == 3); // 三角形のみ対応
 
+			std::vector<Mesh::VertexData> vertices;
 			// vertexの解析を行う
 			for (uint32_t element = 0; element < face.mNumIndices; ++element) {
 				uint32_t vertexIndex = face.mIndices[element];
 				aiVector3D& position = mesh->mVertices[vertexIndex];
 				aiVector3D& normal = mesh->mNormals[vertexIndex];
 				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
-				
+
 				Mesh::VertexData vertex;
-				vertex.pos = {-position.x, position.y, position.z, 1.0f };
-				vertex.normal = { -normal.x, normal.y, normal.z };
+				vertex.pos = { position.x, position.y, -position.z, 1.0f };
+				vertex.normal = { normal.x, normal.y, -normal.z };
 				vertex.texcoord = { texcoord.x, texcoord.y };
 
 				triangle.push_back(vertex);
 			}
+
+			//std::reverse(vertices.begin(), vertices.end());
+			//triangle.insert(triangle.end(), vertices.begin(), vertices.end());
 		}
 
-		// materialの解析
-		for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
+		// メッシュのマテリアルインデックスを取得
+		uint32_t materialIndex = mesh->mMaterialIndex;
+		if (materialIndex < scene->mNumMaterials) {
 			aiMaterial* material = scene->mMaterials[materialIndex];
-
 			aiString materialName;
 			if (AI_SUCCESS == material->Get(AI_MATKEY_NAME, materialName)) {
-				useMaterial.push_back(materialName.C_Str());
-			}
-
-			if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
-				aiString textureFilePath;
-				material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
-				materials.push_back(materialName.C_Str());
-				materialData[materialName.C_Str()] = Material::ModelMaterialData();
-				materialData[materialName.C_Str()].textureFilePath = directoryPath + "/" + textureFilePath.C_Str();
-
-				hasTexture_ = true;
+				std::string nameStr = materialName.C_Str();
+				if (nameStr == "DefaultMaterial") {
+					continue;
+				}
+				useMaterial.push_back(nameStr);
 			}
 		}
 
 		// nodeの解析
 		rootNode_ = ReadNode(scene->mRootNode);
+
+		meshVertices.push_back(triangle);
 	}
 
-	meshVertices.push_back(triangle);
+	// materialの解析
+	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
+		aiMaterial* material = scene->mMaterials[materialIndex];
+
+		aiString materialName;
+		if (AI_SUCCESS == material->Get(AI_MATKEY_NAME, materialName)) {
+			std::string nameStr = materialName.C_Str();
+			if (nameStr == "DefaultMaterial") {
+				continue;
+			}
+		}
+
+		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
+			aiString textureFilePath;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
+			materials.push_back(materialName.C_Str());
+			materialData[materialName.C_Str()] = Material::ModelMaterialData();
+			materialData[materialName.C_Str()].textureFilePath = directoryPath + "/" + textureFilePath.C_Str();
+
+			hasTexture_ = true;
+		}
+	}
+
+	//std::reverse(meshVertices.begin(), meshVertices.end());
 
 	std::vector<std::unique_ptr<Mesh>> result;
 	for (uint32_t oi = 0; oi < meshVertices.size(); oi++) {
 		// Meshクラスの宣言
 		std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>();
 		mesh->Init(device, static_cast<uint32_t>(meshVertices[oi].size()) * sizeof(Mesh::VertexData), static_cast<uint32_t>(meshVertices[oi].size()));
-		// 入れるMeshを初期化する
-		mesh->SetUseMaterial(useMaterial[oi + 1]);
+		// 入れるMeshを初期化する(直すところ)
+		mesh->SetUseMaterial(useMaterial[oi]);
 		mesh->SetVertexData(meshVertices[oi]);
 		// Meshを配列に格納
 		result.push_back(std::move(mesh));

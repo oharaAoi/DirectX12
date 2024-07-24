@@ -60,7 +60,6 @@ void Material::SetMaterialData(ModelMaterialData materialData) {
 	pbrMaterial_->uvTransform = MakeIdentity4x4();
 	// 反射用素
 	pbrMaterial_->diffuseColor = materialData_.diffuse;
-	pbrMaterial_->diffuseColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	pbrMaterial_->specularColor = materialData_.specular;
 
 	pbrMaterial_->roughness = 0.5f;

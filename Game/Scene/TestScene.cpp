@@ -15,10 +15,13 @@ void TestScene::Init() {
 	skinTransform_ = Engine::CreateWorldTransform();
 	sphereTransform_ = Engine::CreateWorldTransform();
 
+	skinTransform_.translation_ = { 1.0f, 0.0f, 0.0f };
+	sphereTransform_.translation_ = { -1.0f, 0.0f, 0.0f };
+
 	// モデル --------------------------------------------------------------
 	objectKind_ = 0;
-	skinModel_ = Engine::CreateModel("multiMaterial.obj");
-	sphereModel_ = Engine::CreateModel("sphere.obj");
+	skinModel_ = Engine::CreateModel("skin.obj");
+	sphereModel_ = Engine::CreateModel("plane.gltf");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,18 +31,12 @@ void TestScene::Update() {
 	// カメラの更新 -------------------------------------------------------------------
 	camera_->Update();
 	Engine::SetEyePos(camera_->GetWorldTranslate());
-
 	Engine::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
-	// transform --------------------------------------------------------------
-	skinTransform_.translation_ = { 1.0f, 0.0f, 0.0f };
-	sphereTransform_.translation_ = { -1.0f, 0.0f, 0.0f };
-
+	// 行列の作成 --------------------------------------------------------------
 	skinTransform_.Update();
 	sphereTransform_.Update();
 
-	// 行列の作成 --------------------------------------------------------------
-	
 	// gameObjectの更新 --------------------------------------------------------------
 	skinModel_->Update();
 	sphereModel_->Update();
@@ -78,7 +75,15 @@ void TestScene::Draw() {
 
 void TestScene::AddGameObject() {
 	ImGui::Begin("GameObjects");
-	ImGui::Combo("object", &objectKind_, "monkey\0sphereModel\0plane\0sphere");
+	if (ImGui::TreeNode("skin")) {
+		skinTransform_.ImGuiDraw();
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("sphere")) {
+		sphereTransform_.ImGuiDraw();
+		ImGui::TreePop();
+	}
 	
 	ImGui::End();
 }

@@ -27,12 +27,15 @@ void TaskScene::Init() {
 
 	modelMap_.emplace("plane", Engine::CreateModel("plane.obj"));
 	modelMap_.emplace("teapot", Engine::CreateModel("teapot.obj"));
-	modelMap_.emplace("bunny", Engine::CreateModel("bunny.obj"));
+	//modelMap_.emplace("bunny", Engine::CreateModel("bunny.obj"));
 	modelMap_.emplace("multiMesh", Engine::CreateModel("multiMesh.obj"));
 	modelMap_.emplace("multiMaterial", Engine::CreateModel("multiMaterial.obj"));
-	modelMap_.emplace("suzanne", Engine::CreateModel("suzanne.obj"));
+	//modelMap_.emplace("suzanne", Engine::CreateModel("suzanne.obj"));
 
 	objectKind_ = 0;
+
+	soundData_ = Engine::LoadSE("Resources/fanfare.wav");
+	bgmData_ = Engine::LoadBGM("Resources/fanfare.wav");
 }
 
 void TaskScene::Update() {
@@ -44,6 +47,7 @@ void TaskScene::Update() {
 
 	AddObject();
 
+	// モデルの更新 ----------------------------------------------------------------------
 	for (std::list<ObjectData>::iterator iter = gameObjectList_.begin(); iter != gameObjectList_.end();) {
 		// ワールド座標の更新	
 		iter->worldTransform.Update();
@@ -51,11 +55,19 @@ void TaskScene::Update() {
 		ImGui::Begin("Setting");
 		if (ImGui::TreeNode(iter->objectName.c_str())) {
 			iter->worldTransform.ImGuiDraw();
-			iter->gameObject->ImGuiDraw("Material");
+			if (iter->gameObject == nullptr) {
+				iter->modelObject->ImGuiDraw("Material");
+			} else {
+				iter->gameObject->ImGuiDraw("Material");
+			}
 
 			// 削除
 			if (ImGui::Button("Delete")) {
-				iter = gameObjectList_.erase(iter);
+				if (iter->gameObject == nullptr) {
+					iter = gameObjectList_.erase(iter);
+				} else {
+					iter = gameObjectList_.erase(iter);
+				}
 				ImGui::TreePop();
 				ImGui::End();
 				continue;
@@ -67,17 +79,26 @@ void TaskScene::Update() {
 		iter++;
 	}
 
+	// textureのないモデルの更新 ----------------------------------------------------------------------
 	for (std::list<ObjectData>::iterator iter = textureLessList_.begin(); iter != textureLessList_.end();) {
 		iter->worldTransform.Update();
 		// ImGuiの描画
 		ImGui::Begin("Setting");
 		if (ImGui::TreeNode(iter->objectName.c_str())) {
 			iter->worldTransform.ImGuiDraw();
-			iter->gameObject->ImGuiDraw("Material");
+			if (iter->gameObject == nullptr) {
+				iter->modelObject->ImGuiDraw("Material");
+			} else {
+				iter->gameObject->ImGuiDraw("Material");
+			}
 
 			// 削除
 			if (ImGui::Button("Delete")) {
-				iter = gameObjectList_.erase(iter);
+				if (iter->gameObject == nullptr) {
+					iter = textureLessList_.erase(iter);
+				} else {
+					iter = textureLessList_.erase(iter);
+				}
 				ImGui::TreePop();
 				ImGui::End();
 				continue;
@@ -89,10 +110,12 @@ void TaskScene::Update() {
 		iter++;
 	}
 
+	// spriteの更新 ----------------------------------------------------------------------
 	uint32_t spriteNum = 0;
 	for (std::list<std::unique_ptr<Sprite>> ::iterator iter = spriteList_.begin(); iter != spriteList_.end();) {
 		ImGui::Begin("Setting");
-		std::string name = "sprite" + spriteNum;
+		std::string numString = std::to_string(spriteNum);
+		std::string name = "sprite" + numString;
 		if (ImGui::TreeNode(name.c_str())) {
 			iter->get()->Update();
 
@@ -108,6 +131,39 @@ void TaskScene::Update() {
 		ImGui::End();
 		spriteNum++;
 		iter++;
+	}
+
+	ImGui::Begin("Setting");
+	ImGui::Separator();
+	ImGui::Text("playSE: key_P\n");
+	ImGui::Text("playBGM: key_O\n");
+	ImGui::Text("stopBGM: key_I\n");
+	ImGui::Text("pauseBGM: key_U\n");
+	ImGui::Text("reStartBGN: key_Y\n");
+	Vector2 joyStickLeft = Input::GetLeftJoyStick();
+	Vector2 joyStickRight = Input::GetRightJoyStick();
+	ImGui::Text("LX : %f  LY : %f", joyStickLeft.x, joyStickLeft.y);
+	ImGui::Text("RX : %f  RY : %f", joyStickRight.x, joyStickRight.y);
+	ImGui::End();
+
+	if (Input::IsTriggerKey(DIK_P)) {
+		Engine::PlaySE(soundData_, false);
+	}
+
+	if (Input::IsTriggerKey(DIK_O)) {
+		Engine::PlayBGM(bgmData_, true);
+	}
+
+	if (Input::IsTriggerKey(DIK_I)) {
+		Engine::StopBGM(bgmData_);
+	}
+
+	if (Input::IsTriggerKey(DIK_U)) {
+		Engine::PauseBGM(bgmData_);
+	}
+
+	if (Input::IsTriggerKey(DIK_Y)) {
+		Engine::ReStartBGM(bgmData_);
 	}
 }
 

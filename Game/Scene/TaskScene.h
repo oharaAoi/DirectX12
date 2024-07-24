@@ -60,6 +60,10 @@ private:
 	Mesh::Vertices vertices_;
 	Mesh::RectVetices rect_;
 
+	// ---------- sound ---------- //
+	SeData soundData_;
+	BgmData bgmData_;
+
 	int objectKind_ = 0; 
 };
 

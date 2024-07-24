@@ -63,7 +63,7 @@ private:
 
 	ComPtr<ID3D12Resource> renderResource_;
 
-	std::list<BaseCSResource*> executeCsList_;
+	std::vector<BaseCSResource*> executeCsArray_;
 	
 	// ---------------------------------------
 	// DXCで使う

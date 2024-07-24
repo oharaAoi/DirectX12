@@ -9,6 +9,17 @@
 class Sprite {
 public:
 
+	struct TextureMesh {
+		Vector4 pos;
+		Vector2 texcoord;
+		float padding[2];
+	};
+
+	struct TextureMaterial {
+		Vector4 color;
+		Matrix4x4 uvTransform;
+	};
+
 	struct TextureTransformData {
 		Matrix4x4 wvp;
 	};
@@ -18,7 +29,7 @@ public:
 	Sprite();
 	~Sprite();
 
-	void Init(ID3D12Device* device, const Mesh::RectVetices& vertex);
+	void Init(ID3D12Device* device, const Mesh::RectVetices& rect);
 
 	void Update();
 
@@ -30,12 +41,23 @@ public:
 
 private:
 
-	std::unique_ptr<Mesh> mesh_;
-	std::unique_ptr<Material> material_;
+	// 定数バッファ
+	ComPtr<ID3D12Resource> vertexBuffer_;
+	ComPtr<ID3D12Resource> indexBuffer_;
+	ComPtr<ID3D12Resource> materialBuffer_;
 	ComPtr<ID3D12Resource> transformBuffer_;
 
-	kTransform transform_;
-	kTransform uvTransform_;
+	// view
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
+	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
+
+	// データ
+	TextureMesh* vertexData_;
+	uint32_t* indexData_;
+	TextureMaterial* materialData_;
 	TextureTransformData* transformData_;
 
+	// Transform情報
+	kTransform transform_;
+	kTransform uvTransform_;
 };

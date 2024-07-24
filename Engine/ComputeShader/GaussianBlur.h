@@ -42,8 +42,6 @@ public:
     /// <param name="commandList"></param>
     void VerticalSetResource(ID3D12GraphicsCommandList* commandList);
 
-    void SetResultResource(ID3D12GraphicsCommandList* commandList);
-
 private:
     // 横ブラーをかけるResource。これもUAV→SRVなどの手順を踏む必要がある
     ComPtr<ID3D12Resource> horizontalResource_;

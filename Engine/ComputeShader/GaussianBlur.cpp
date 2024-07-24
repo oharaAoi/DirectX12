@@ -60,7 +60,3 @@ void GaussianBlur::VerticalSetResource(ID3D12GraphicsCommandList* commandList) {
 	BaseCSResource::SetResource(commandList, 1, 1);*/
 	commandList->SetComputeRootConstantBufferView(2, cBuffer_->GetGPUVirtualAddress());
 }
-
-void GaussianBlur::SetResultResource(ID3D12GraphicsCommandList* commandList) {
-	commandList->SetComputeRootDescriptorTable(0, uavBuffers_[0].uavAddress.handleGPU);
-}

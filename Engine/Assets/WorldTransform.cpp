@@ -37,3 +37,7 @@ void WorldTransform::ImGuiDraw() {
 void WorldTransform::Finalize() {
 	cBuffer_.Reset();
 }
+
+void WorldTransform::AdaptToGLTF(const Matrix4x4& mat) const {
+	data_->matWorld = mat * data_->matWorld;
+}

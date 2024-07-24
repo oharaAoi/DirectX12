@@ -13,7 +13,7 @@ public:
 	struct UavBufferData {
 		ComPtr<ID3D12Resource> uavBuffer = nullptr;
 		DescriptorHeap::DescriptorHandles uavAddress;
-		//DescriptorHeap::DescriptorHandles srvAddress;
+		DescriptorHeap::DescriptorHandles srvAddress;
 	};
 
 
@@ -26,28 +26,65 @@ public:
 
 	virtual void Init(ID3D12Device* device, DescriptorHeap* dxHeap);
 
+	/// <summary>
+	/// ResourceをcommandListに登録する
+	/// </summary>
+	/// <param name="commandList">: コマンドリスト</param>
 	virtual void SetResource(ID3D12GraphicsCommandList* commandList);
 
-	void TransitionUAVResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState, const uint32_t& index);
+	/// <summary>
+	/// 参照するResourceをコマンドリストに積む
+	/// </summary>
+	/// <param name="commandList">コマンドリスト</param>
+	/// <param name="handleGPU">参照するResourceのアドレス</param>
+	virtual void SetReferenceResource(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& handleGPU);
 
-	const DescriptorHeap::DescriptorHandles GetSRVHandle(const uint32_t& index) const { return uavBuffers_[index].uavAddress; }
+	void SetResultResource(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// UAVのResourceの状態を変更する
+	/// </summary>
+	/// <param name="commandList">: コマンドリスト</param>
+	/// <param name="beforState">: 遷移前状態</param>
+	/// <param name="afterState">: 遷後後状態</param>
+	/// <param name="index">: Resource配列の何番目か</param>
+	void TransitionUAVResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState, const uint32_t& index);
 
 	/// <summary>
 	/// Resourceを作成する
 	/// </summary>
-	/// <param name="createNum">何個作成するか</param>
+	/// <param name="createNum">: 何個作成するか</param>
 	void CreateResourceBuffer(const uint32_t& createNum);
 
+	/// <summary>
+	/// SRVを作成する
+	/// </summary>
+	void CreateSRV();
+
+	/// <summary>
+	/// 配列の一番最後のResourceを参照する(最終的なResourceを書き込んでいるから)
+	/// </summary>
+	/// <returns>ResourceBuffer</returns>
 	ComPtr<ID3D12Resource> GetFinalUAVBuffer() { return uavBuffers_.back().uavBuffer; }
 
 	/// <summary>
 	/// 参照するResourceのHandleを設定する
 	/// </summary>
-	/// <param name="handle"></param>
+	/// <param name="handle">: 参照するHandle</param>
 	void SetReferenceResourceHandles(const DescriptorHeap::DescriptorHandles& handle) {
 		referenceResourceHandles_ = handle;
 	}
 
+	/// <summary>
+	/// uavHandleを返す
+	/// </summary>
+	/// <returns></returns>
+	DescriptorHeap::DescriptorHandles GetUAVHandles() const { return writeResourceHandles_; }
+
+	/// <summary>
+	/// 使用するパイプラインを返す
+	/// </summary>
+	/// <returns> pipelineType</returns>
 	CsPipelineType GetUsePipeline() const { return usePipelineType_; }
 
 protected:

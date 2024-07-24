@@ -41,12 +41,15 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 	gaussianBlur_->Init(device_, dxHeap_);
 	grayScale_->Init(device_, dxHeap_);
 
-	// 参照するResourceのHandleを渡す
-	gaussianBlur_->SetReferenceResourceHandles(grayScale_->GetSRVHandle());
-	grayScale_->SetReferenceResourceHandles(offScreenResourceAddress_);
+	grayScale_->CreateSRV();
+	gaussianBlur_->CreateSRV();
 
-	executeCsList_.push_back(gaussianBlur_.get());
-	executeCsList_.push_back(grayScale_.get());
+	// 参照するResourceのHandleを渡す
+	grayScale_->SetReferenceResourceHandles(offScreenResourceAddress_);
+	gaussianBlur_->SetReferenceResourceHandles(grayScale_->GetSRVHandle());
+
+	//executeCsArray_.push_back(gaussianBlur_.get());
+	executeCsArray_.push_back(grayScale_.get());
 
 	// 最終的に描画させるResourceの作成
 	D3D12_RESOURCE_DESC desc{};
@@ -97,11 +100,11 @@ void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
 	UINT groupCountX = (kWindowWidth_ + 16 - 1) / 16;
 	UINT groupCountY = (kWindowHeight_ + 16 - 1) / 16;
 
-	for (std::list<BaseCSResource*>::iterator iter = executeCsList_.begin(); iter != executeCsList_.end();) {
+	for(uint32_t oi = 0; oi < executeCsArray_.size(); oi++){
 		// ----------------------------------------------------------------------
 		// ↓ Pipelineの設定
 		// ----------------------------------------------------------------------
-		switch ((*iter)->GetUsePipeline()) {
+		switch (executeCsArray_[oi]->GetUsePipeline()) {
 		case CsPipelineType::GaussianBlur_Pipeline:
 			computeShaderPipelineMap_[CsPipelineType::GaussianBlur_Pipeline]->SetPipelineState(commandList);
 			break;
@@ -112,74 +115,24 @@ void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
 		}
 
 		// ----------------------------------------------------------------------
-		// ↓ 
+		// ↓ Resourceをコマンドリストに積む
 		// ----------------------------------------------------------------------
 
-		(*iter)->SetResource(commandList);
+		executeCsArray_[oi]->SetResource(commandList);
 		commandList->Dispatch(groupCountX, groupCountY, 1);
 
-		++iter;
+		executeCsArray_[oi]->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 0);
 	}
 
-	grayScale_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 0);
-	gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 0);
-
-	// ----------------------------------------------------------------------
-	// ↓ グレースケール
-	// ----------------------------------------------------------------------
-	// pipelineStateを設定する
-	//computeShaderPipelineMap_[CsPipelineType::GrayScale_Pipeline]->SetPipelineState(commandList);
-	//// 参照するtextureを設定
-	//commandList->SetComputeRootDescriptorTable(0, offScreenResourceAddress_.handleGPU);
-	//// 画面に写るリソースとCSに送る定数バッファをコマンドに積む
-	//grayScale_->SetResource(commandList);
-
-	//commandList->Dispatch(groupCountX, groupCountY, 1);
-
-	//grayScale_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 0);
-
-	// ----------------------------------------------------------------------
-	// ↓ ガウシアンブラー
-	// ----------------------------------------------------------------------
-	// 水平
-	/*computeShaderPipelineMap_[CsPipelineType::GaussianBlur_Pipeline]->SetPipelineState(commandList);
-	commandList->SetComputeRootDescriptorTable(0, offScreenResourceAddress_.handleGPU);
-	gaussianBlur_->HorizontalSetResource(commandList);
-	commandList->Dispatch(groupCountX, groupCountY, 1);
-
-	gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 0);*/
-
-	// 垂直
-	//commandList->SetComputeRootDescriptorTable(0, offScreenResourceAddress_.handleGPU);
-	/*gaussianBlur_->VerticalSetResource(commandList);
-	commandList->Dispatch(groupCountX, groupCountY, 1);*/
-
-	//gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE, 1);
-	//gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 1);
-
-	// ----------------------------------------------------------------------
-	// ↓ 最終的に描画するResourceにコピー
-	// ----------------------------------------------------------------------
-	
 	computeShaderPipelineMap_[CsPipelineType::Blend_Pipeline]->SetPipelineState(commandList);
-	grayScale_->SetResultResource(commandList);
-	gaussianBlur_->SetResultResource(commandList);
+	uint32_t lastIndex = static_cast<uint32_t>(executeCsArray_.size()) - 1;
+	executeCsArray_[lastIndex]->SetResultResource(commandList);
 	commandList->SetComputeRootDescriptorTable(1, uavRenderAddress_.handleGPU);
-
-	commandList->Dispatch(groupCountX, groupCountY, 1);
 
 	TransitionResourceState(commandList, renderResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	
-	// CSで加工したResourceをコピーするために状態をコピー可能(コピー元)にする
-	//grayScale_->TransitionResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE);
-	// renderResourceに加工したResourceをコピーする
-	//commandList->CopyResource(renderResource_.Get(), gaussianBlur_->GetFinalUAVBuffer().Get());
-
-	// リソースの状態をコピー先からShaderResourceにする
-	//TransitionResourceState(commandList, renderResource_.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-	//// 次のフレームで読み書きできる状態になっているようにする
 	grayScale_->TransitionResource(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-	gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, 0);
+	//gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, 0);
 	//gaussianBlur_->TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, 1);
 }
 

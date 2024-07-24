@@ -30,34 +30,34 @@ void CSmain(uint3 id : SV_DispatchThreadID)
 	gTexture.GetDimensions(width, height);
 	float2 uv = float2(pixcelCoordinate) / float2(width, height);
 	
-		
-	if (gGaussianBlur.kernelSize == 0){
+	if (gGaussianBlur.kernelSize == 0 || gGaussianBlur.blurStrength == 0){
 		// 出力バッファに結果を書き込む
 		outputBuffer[pixcelCoordinate] = gTexture.Sample(gSampler, uv);
-	}
-	else{
+
+	}else{
 	
 		float blurStrength = gGaussianBlur.blurStrength;
 		float kernelSize = gGaussianBlur.kernelSize;
-		float2 dire = float2(gGaussianBlur.direction);
+		float2 dire = normalize(gGaussianBlur.direction);
 	
-		float4 horizontalColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
+		float4 color = float4(0.0f, 0.0f, 0.0f, 0.0f);
 		float totalWeight = 0.0f;
+		float sigma = kernelSize / 6.0f; // σの計算
 	
 		for (int i = -int(kernelSize) / 2; i <= int(kernelSize) / 2; i++){
 			float2 offset = ((dire * float2(i, i)) / float2(width, height)) * blurStrength;
-			float weight = Gaussian(float(i), kernelSize / 3.0f);
-			horizontalColor += gTexture.Sample(gSampler, uv + offset);
+			float weight = Gaussian(float(i), sigma);
+			color += gTexture.Sample(gSampler, uv + offset) * weight;
 			totalWeight += weight;
 		}
 	
 		// 正規化
 		if (totalWeight > 0.0f){
-			horizontalColor /= totalWeight;
+			color /= totalWeight;
 		}
 	
 		// 出力バッファに結果を書き込む
-		outputBuffer[pixcelCoordinate] = horizontalColor;
+		outputBuffer[pixcelCoordinate] = color;
 	}
 }
 
