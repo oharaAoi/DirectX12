@@ -1,8 +1,6 @@
 #include "WorldTransform.h"
 
-WorldTransform::WorldTransform() {
-}
-
+WorldTransform::WorldTransform() {}
 WorldTransform::~WorldTransform() {
 	Finalize();
 }

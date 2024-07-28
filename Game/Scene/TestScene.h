@@ -26,7 +26,7 @@ public:
 
 	void Draw();
 
-	void AddGameObject();
+	void ImGuiDraw();
 
 private:
 
@@ -36,10 +36,12 @@ private:
 	// モデル ----------------------------------------------
 	std::unique_ptr<Model> skinModel_ = nullptr;
 	std::unique_ptr<Model> sphereModel_ = nullptr;
+	std::unique_ptr<Model> cubeModel_ = nullptr;
 
 	// トランスフォーム --------------------------------------
 	WorldTransform skinTransform_;
 	WorldTransform sphereTransform_;
+	WorldTransform cubeTransform_;
 
 	// ゲームオブジェクト ------------------------------------
 	int objectKind_;

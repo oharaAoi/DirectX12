@@ -1,0 +1,174 @@
+{
+  "folder": "Material_SpecularGlossiness",
+  "id": 12,
+  "models": [
+    {
+      "fileName": "Material_SpecularGlossiness_00.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_00.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_01.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_01.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_02.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_02.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_03.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_03.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_04.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_04.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_05.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_05.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_06.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_06.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_07.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_07.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_08.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_08.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_09.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_09.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_10.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_10.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_11.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_11.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_12.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_12.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_SpecularGlossiness_13.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_SpecularGlossiness_13.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    }
+  ]
+}

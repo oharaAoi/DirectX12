@@ -4,6 +4,7 @@ Model::Model() {
 }
 
 Model::~Model() {
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,13 +19,21 @@ void Model::Init(ID3D12Device* device, const std::string& directorPath, const st
 	Log("Load: " + fileName + "\n");
 
 	LoadObj(directorPath, fileName, device);
+	LoadAnimation(directorPath, "Animation_Node_00.gltf");
+
+	currentAnimationTime_ = 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 更新関数
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void Model::Update() {
-	
+	currentAnimationTime_ += rootNode_.animationsData.tickPerSecond * deltaTime_;
+	currentAnimationTime_ = fmod(currentAnimationTime_, rootNode_.animationsData.duration);
+
+	AnimationUpdate();
+	Matrix4x4 mat = MakeAffineMatrix(localTransform_);
+	rootNode_.localMatrix *= mat;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +47,7 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& w
 		worldTransform.AdaptToGLTF(rootNode_.localMatrix);
 		worldTransform.Draw(commandList);
 		viewProjection->Draw(commandList);
-		
+
 		if (hasTexture_) {
 			std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetMateriaData().textureFilePath;
 			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 3);
@@ -75,8 +84,11 @@ void Model::SetMaterials(const float& roughness, const float& metallic) {
 /// </summary>
 /// <param name="node"></param>
 /// <returns></returns>
-Model::Node Model::ReadNode(aiNode* node) {
+Model::Node Model::ReadNode(aiNode* node, const aiScene* scene) {
 	Node result;
+	// ----------------------------------
+	// LocalMatrixを取得する
+	// ----------------------------------
 	aiMatrix4x4 aiLocalMat = node->mTransformation; // nodeのlocalMatrixを取得
 	aiLocalMat.Transpose(); // 列ベクトル形式を行ベクトル形式に転置
 	for (uint8_t row = 0; row < 4; row++) {
@@ -85,10 +97,14 @@ Model::Node Model::ReadNode(aiNode* node) {
 		}
 	}
 	result.name = node->mName.C_Str(); // Nodeの名前を格納
+
+	// ----------------------------------
+	// Nodeを格納する
+	// ----------------------------------
 	result.children.resize(node->mNumChildren); // 子供の数だけ確保
 	for (uint32_t childIndex = 0; childIndex < node->mNumChildren; ++childIndex) {
 		// 再帰的に読んで階層構造を作っていく
-		result.children[childIndex] = ReadNode(node->mChildren[childIndex]);
+		result.children[childIndex] = ReadNode(node->mChildren[childIndex], scene);
 	}
 
 	return result;
@@ -192,7 +208,7 @@ std::vector<std::unique_ptr<Mesh>> Model::LoadVertexData(const std::string& file
 					normal = normals[elementIndices[2] - 1];
 					/*vertex = { position, texcoord, normal };*/
 				}
-				
+
 				triangle[faceVertex] = { position, texcoord, normal };
 			}
 
@@ -326,7 +342,7 @@ std::unordered_map<std::string, std::unique_ptr<Material>> Model::LoadMaterialDa
 void Model::LoadObj(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device) {
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + "/" + fileName;
-	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_CalcTangentSpace);
 	assert(scene->HasMeshes()); // meshがないのは対応しない
 
 	std::vector<std::vector<Mesh::VertexData>> meshVertices;
@@ -383,7 +399,7 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 		}
 
 		// nodeの解析
-		rootNode_ = ReadNode(scene->mRootNode);
+		rootNode_ = ReadNode(scene->mRootNode, scene);
 
 		meshVertices.push_back(triangle);
 	}
@@ -434,4 +450,38 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 
 	meshArray_ = std::move(result);
 	materialArray_ = std::move(materialResult);
+}
+
+void Model::LoadAnimation(const std::string& directoryPath, const std::string& fileName) {
+	Assimp::Importer importer;
+	std::string filePath = directoryPath + "/" + fileName;
+	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
+
+	for (uint32_t animIndex = 0; animIndex < scene->mNumAnimations; ++animIndex) {
+		// ----------------------------------
+		// Animationを取得する
+		// ----------------------------------
+		aiAnimation* anime = scene->mAnimations[animIndex];
+		for (uint32_t channelIndex = 0; channelIndex < anime->mNumChannels; ++channelIndex) {
+			aiNodeAnim* nodeAnim = anime->mChannels[channelIndex];
+			if (nodeAnim->mNodeName == scene->mRootNode->mName) {
+				NodeAnimationData data;
+				data.animations.push_back(NodeAnimation(nodeAnim));
+				data.tickPerSecond = static_cast<float>(anime->mTicksPerSecond);
+				data.duration = static_cast<float>(anime->mDuration);
+				// データを入れる
+				rootNode_.animationsData = data;
+			}
+		}
+	}
+}
+
+void Model::AnimationUpdate() {
+	for (auto& anim : rootNode_.animationsData.animations) {
+		aiVector3D vectorPos = InterpolationPosition(anim, currentAnimationTime_);
+		aiVector3D vectorRotation = InterpolationRotation(anim, currentAnimationTime_);
+
+		localTransform_.translate = { vectorPos.x,  vectorPos.y,  vectorPos.z };
+		localTransform_.rotate = { vectorRotation.x,  vectorRotation.y, vectorRotation.z };
+	}
 }

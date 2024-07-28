@@ -5,11 +5,13 @@
 #include <sstream>
 #include <cassert>
 #include <unordered_map>
+#include <Lib/tiny_gltf.h> // Assimpの場合使わない
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "Enviroment.h"
 #include "BaseGameObject.h"
 #include "Mesh.h"
 #include "Material.h"
@@ -17,14 +19,25 @@
 #include "ViewProjection.h"
 #include "TextureManager.h"
 
+#include <cmath>
+#include "AnimationUtils.h"
+
 class Model
 	: public BaseGameObject {
 public:
 
+	struct NodeAnimationData {
+		std::vector<NodeAnimation> animations;
+		float tickPerSecond;	// 一秒間に何回の処理が行われるか
+		float duration;			// tickPerSecondの持続時間
+		float animationTime;	// animationをする時間
+	};
+
 	struct Node {
-		Matrix4x4 localMatrix;		// NodeのLocalMatrix
-		std::string name;			// Nodeの名前
-		std::vector<Node> children;	// 子供のNode
+		Matrix4x4 localMatrix;				 // NodeのLocalMatrix
+		std::string name;					 // Nodeの名前
+		std::vector<Node> children;			 // 子供のNode
+		NodeAnimationData animationsData; // ノードに関するアニメーション
 	};
 
 public:
@@ -51,7 +64,7 @@ public:
 	/// </summary>
 	/// <param name="node"></param>
 	/// <returns></returns>
-	Node ReadNode(aiNode* node);
+	Node ReadNode(aiNode* node, const aiScene* scene);
 
 public:
 
@@ -72,7 +85,21 @@ public:
 	/// <returns></returns>
 	std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device);
 
+	/// <summary>
+	/// assimpを使用してモデルファイルをを読む
+	/// </summary>
+	/// <param name="directoryPath"></param>
+	/// <param name="fileName"></param>
+	/// <param name="device"></param>
 	void LoadObj(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device);
+
+	void LoadAnimation(const std::string& directoryPath, const std::string& fileName);
+
+	/// <summary>
+	/// アニメーションの更新を行う
+	/// </summary>
+	/// <returns></returns>
+	void AnimationUpdate();
 
 public:
 
@@ -84,10 +111,16 @@ private:
 	std::vector<std::unique_ptr<Mesh>> meshArray_;
 	// テクスチャの情報を持っている
 	std::unordered_map<std::string, std::unique_ptr<Material>> materialArray_;
-
+	// ノード
 	Node rootNode_;
 
 	// モデルにtextureがあるか
 	bool hasTexture_;
 
+	//////////////////////////////////////////////////////////
+
+	// アニメーションの時間
+	float currentAnimationTime_ = 0;
+	bool isBack = false;
+	kTransform localTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f },{0.0f, 0.0f, 0.0f} };
 };

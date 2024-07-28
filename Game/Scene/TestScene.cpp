@@ -14,14 +14,17 @@ void TestScene::Init() {
 	// transform --------------------------------------------------------------
 	skinTransform_ = Engine::CreateWorldTransform();
 	sphereTransform_ = Engine::CreateWorldTransform();
+	cubeTransform_ = Engine::CreateWorldTransform();
 
 	skinTransform_.translation_ = { 1.0f, 0.0f, 0.0f };
 	sphereTransform_.translation_ = { -1.0f, 0.0f, 0.0f };
+	cubeTransform_.translation_ = { 0.0f, 0.0f, 0.0f };
 
 	// モデル --------------------------------------------------------------
 	objectKind_ = 0;
 	skinModel_ = Engine::CreateModel("skin.obj");
 	sphereModel_ = Engine::CreateModel("plane.gltf");
+	cubeModel_ = Engine::CreateModel("cube.gltf");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,20 +39,24 @@ void TestScene::Update() {
 	// 行列の作成 --------------------------------------------------------------
 	skinTransform_.Update();
 	sphereTransform_.Update();
+	cubeTransform_.Update();
 
-	// gameObjectの更新 --------------------------------------------------------------
-	skinModel_->Update();
+	// gameObjectの更新 ---------------------------------------------------------
+	/*skinModel_->Update();
 	sphereModel_->Update();
+	cubeModel_->Update();*/
 
-	AddGameObject();
+	// ImGuiの更新 --------------------------------------------------------
+	ImGuiDraw();
 }
 
 void TestScene::Draw() {
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
-	Engine::DrawModel(skinModel_.get(), skinTransform_);
-	Engine::DrawModel(sphereModel_.get(), sphereTransform_);
+	/*Engine::DrawModel(skinModel_.get(), skinTransform_);
+	Engine::DrawModel(sphereModel_.get(), sphereTransform_);*/
+	Engine::DrawModel(cubeModel_.get(), cubeTransform_);
 
 #pragma endregion
 
@@ -73,7 +80,7 @@ void TestScene::Draw() {
 
 }
 
-void TestScene::AddGameObject() {
+void TestScene::ImGuiDraw() {
 	ImGui::Begin("GameObjects");
 	if (ImGui::TreeNode("skin")) {
 		skinTransform_.ImGuiDraw();
@@ -82,6 +89,11 @@ void TestScene::AddGameObject() {
 
 	if (ImGui::TreeNode("sphere")) {
 		sphereTransform_.ImGuiDraw();
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("cube")) {
+		cubeTransform_.ImGuiDraw();
 		ImGui::TreePop();
 	}
 	

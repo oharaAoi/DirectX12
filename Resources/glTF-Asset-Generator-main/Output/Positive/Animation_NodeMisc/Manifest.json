@@ -1,0 +1,114 @@
+{
+  "folder": "Animation_NodeMisc",
+  "id": 1,
+  "models": [
+    {
+      "fileName": "Animation_NodeMisc_00.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_NodeMisc_00.gif",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Animation_NodeMisc_01.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_NodeMisc_01.gif",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Animation_NodeMisc_02.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_NodeMisc_02.gif",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Animation_NodeMisc_03.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_NodeMisc_03.gif",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Animation_NodeMisc_04.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_NodeMisc_04.gif",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Animation_NodeMisc_05.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_NodeMisc_05.gif",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Animation_NodeMisc_06.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_NodeMisc_06.gif",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Animation_NodeMisc_07.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_NodeMisc_07.gif",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Animation_NodeMisc_08.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_NodeMisc_08.gif",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    }
+  ]
+}
