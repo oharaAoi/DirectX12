@@ -10,7 +10,7 @@
 class BaseCSResource {
 public:
 
-	struct UavBufferData {
+	struct BufferHandleData {
 		ComPtr<ID3D12Resource> uavBuffer = nullptr;
 		DescriptorHeap::DescriptorHandles uavAddress;
 		DescriptorHeap::DescriptorHandles srvAddress;
@@ -39,7 +39,7 @@ public:
 	/// <param name="handleGPU">参照するResourceのアドレス</param>
 	virtual void SetReferenceResource(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& handleGPU);
 
-	void SetResultResource(ID3D12GraphicsCommandList* commandList);
+	void SetResultSRVResource(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// UAVのResourceの状態を変更する
@@ -49,6 +49,12 @@ public:
 	/// <param name="afterState">: 遷後後状態</param>
 	/// <param name="index">: Resource配列の何番目か</param>
 	void TransitionUAVResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState, const uint32_t& index);
+
+	/// <summary>
+	/// 配列に入っているすべてのResourceの状態を変更する
+	/// </summary>
+	/// <param name="commandList"></param>
+	void TransitionAllResourceHandles(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// Resourceを作成する
@@ -65,7 +71,7 @@ public:
 	/// 配列の一番最後のResourceを参照する(最終的なResourceを書き込んでいるから)
 	/// </summary>
 	/// <returns>ResourceBuffer</returns>
-	ComPtr<ID3D12Resource> GetFinalUAVBuffer() { return uavBuffers_.back().uavBuffer; }
+	ComPtr<ID3D12Resource> GetFinalUAVBuffer() { return bufferHandles_.back().uavBuffer; }
 
 	/// <summary>
 	/// 参照するResourceのHandleを設定する
@@ -79,7 +85,9 @@ public:
 	/// uavHandleを返す
 	/// </summary>
 	/// <returns></returns>
-	DescriptorHeap::DescriptorHandles GetUAVHandles() const { return writeResourceHandles_; }
+	DescriptorHeap::DescriptorHandles GetWriteResourceHandles() const { return writeResourceHandles_; }
+
+	const DescriptorHeap::DescriptorHandles GetLastIndexSRVHandle() const;
 
 	/// <summary>
 	/// 使用するパイプラインを返す
@@ -96,7 +104,7 @@ protected:
 
 	// resource
 	ComPtr<ID3D12Resource> cBuffer_ = nullptr;
-	std::vector<UavBufferData> uavBuffers_;
+	std::vector<BufferHandleData> bufferHandles_;
 
 	// Handle
 	DescriptorHeap::DescriptorHandles referenceResourceHandles_;

@@ -20,7 +20,8 @@ public:
 
 	enum CsShaderName {
 		GrayScale,
-		GaussianBlur,
+		HorizontalBlur,
+		VerticalBlur,
 		Blend
 	};
 

@@ -18,7 +18,8 @@ void Shader::Init() {
 
 	// CS
 	Load("Engine/HLSL/GrayScale.CS.hlsl", CsShaderName::GrayScale);
-	Load("Engine/HLSL/GaussianBlur.CS.hlsl", CsShaderName::GaussianBlur);
+	Load("Engine/HLSL/HorizontalBlur.CS.hlsl", CsShaderName::HorizontalBlur);
+	Load("Engine/HLSL/VerticalBlur.CS.hlsl", CsShaderName::VerticalBlur);
 	Load("Engine/HLSL/Blend.CS.hlsl", CsShaderName::Blend);
 }
 

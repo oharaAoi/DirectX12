@@ -1,7 +1,7 @@
 #include "BaseCSResource.h"
 
 void BaseCSResource::Finalize() {
-	uavBuffers_.clear();
+	bufferHandles_.clear();
 	cBuffer_.Reset();
 }
 
@@ -9,7 +9,7 @@ void BaseCSResource::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	device_ = device;
 	dxHeap_ = dxHeap;
 
-	writeResourceHandles_ = uavBuffers_[0].uavAddress;
+	writeResourceHandles_ = bufferHandles_[0].uavAddress;
 }
 
 void BaseCSResource::SetResource(ID3D12GraphicsCommandList* commandList) {
@@ -22,8 +22,9 @@ void BaseCSResource::SetReferenceResource(ID3D12GraphicsCommandList* commandList
 	commandList->SetComputeRootDescriptorTable(0, handleGPU);
 }
 
-void BaseCSResource::SetResultResource(ID3D12GraphicsCommandList* commandList) {
-	commandList->SetComputeRootDescriptorTable(0, uavBuffers_[0].srvAddress.handleGPU);
+void BaseCSResource::SetResultSRVResource(ID3D12GraphicsCommandList* commandList) {
+	uint32_t index = static_cast<uint32_t>(bufferHandles_.size()) - 1;
+	commandList->SetComputeRootDescriptorTable(0, bufferHandles_[index].srvAddress.handleGPU);
 }
 
 void BaseCSResource::TransitionUAVResource(ID3D12GraphicsCommandList* commandList, 
@@ -31,12 +32,18 @@ void BaseCSResource::TransitionUAVResource(ID3D12GraphicsCommandList* commandLis
 										   const D3D12_RESOURCE_STATES& afterState,
 										   const uint32_t& index) {
 
-	TransitionResourceState(commandList, uavBuffers_[index].uavBuffer.Get(), beforState, afterState);
+	TransitionResourceState(commandList, bufferHandles_[index].uavBuffer.Get(), beforState, afterState);
+}
+
+void BaseCSResource::TransitionAllResourceHandles(ID3D12GraphicsCommandList* commandList) {
+	for (uint32_t oi = 0; oi < bufferHandles_.size(); oi++) {
+		TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, oi);
+	}
 }
 
 void BaseCSResource::CreateResourceBuffer(const uint32_t& createNum) {
 	for (uint32_t oi = 0; oi < createNum; oi++) {
-		UavBufferData bufferData;
+		BufferHandleData bufferData;
 
 		D3D12_RESOURCE_DESC desc{};
 		desc.Width = kWindowWidth_;			// 画面の横幅
@@ -65,13 +72,13 @@ void BaseCSResource::CreateResourceBuffer(const uint32_t& createNum) {
 		// 生成
 		device_->CreateUnorderedAccessView(bufferData.uavBuffer.Get(), nullptr, &uavDesc, bufferData.uavAddress.handleCPU);
 
-		uavBuffers_.push_back(std::move(bufferData));
+		bufferHandles_.push_back(std::move(bufferData));
 	}
 }
 
 void BaseCSResource::CreateSRV() {
 	// SRVの設定をする
-	for (uint32_t oi = 0; oi < uavBuffers_.size(); oi++) {
+	for (uint32_t oi = 0; oi < bufferHandles_.size(); oi++) {
 		// SRVの設定
 		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -79,8 +86,13 @@ void BaseCSResource::CreateSRV() {
 		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 		srvDesc.Texture2D.MipLevels = 1;
 		// SRVを作成するDescriptorHeapの場所を求める
-		uavBuffers_[oi].srvAddress = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
+		bufferHandles_[oi].srvAddress = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
 		// 生成
-		device_->CreateShaderResourceView(uavBuffers_[oi].uavBuffer.Get(), &srvDesc, uavBuffers_[oi].srvAddress.handleCPU);
+		device_->CreateShaderResourceView(bufferHandles_[oi].uavBuffer.Get(), &srvDesc, bufferHandles_[oi].srvAddress.handleCPU);
 	}
+}
+
+const DescriptorHeap::DescriptorHandles BaseCSResource::GetLastIndexSRVHandle() const {
+	size_t lastIndex = bufferHandles_.size() - 1;
+	return bufferHandles_[lastIndex].srvAddress;
 }

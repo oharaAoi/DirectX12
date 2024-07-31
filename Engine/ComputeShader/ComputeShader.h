@@ -34,6 +34,11 @@ public:
 			  Shader* shader);
 
 	/// <summary>
+	/// 最終的に描画するResourceを作成する
+	/// </summary>
+	void CreateRenderResource();
+
+	/// <summary>
 	/// computerShaderを実行する
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>

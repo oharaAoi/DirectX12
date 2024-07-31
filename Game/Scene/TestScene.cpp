@@ -16,9 +16,10 @@ void TestScene::Init() {
 	sphereTransform_ = Engine::CreateWorldTransform();
 	cubeTransform_ = Engine::CreateWorldTransform();
 
-	skinTransform_.translation_ = { 1.0f, 0.0f, 0.0f };
-	sphereTransform_.translation_ = { -1.0f, 0.0f, 0.0f };
+	skinTransform_.translation_ = { 2.0f, 0.0f, 0.0f };
+	sphereTransform_.translation_ = { -2.0f, 0.0f, 0.0f };
 	cubeTransform_.translation_ = { 0.0f, 0.0f, 0.0f };
+	cubeTransform_.scale_ = { 0.6f, 0.6f, 0.6f };
 
 	// モデル --------------------------------------------------------------
 	objectKind_ = 0;
@@ -54,8 +55,8 @@ void TestScene::Draw() {
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
-	/*Engine::DrawModel(skinModel_.get(), skinTransform_);
-	Engine::DrawModel(sphereModel_.get(), sphereTransform_);*/
+	Engine::DrawModel(skinModel_.get(), skinTransform_);
+	Engine::DrawModel(sphereModel_.get(), sphereTransform_);
 	Engine::DrawModel(cubeModel_.get(), cubeTransform_);
 
 #pragma endregion

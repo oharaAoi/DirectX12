@@ -598,6 +598,12 @@
     <FxCompile Include="Engine\HLSL\Blend.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\HLSL\VerticalBlur.CS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\HorizontalBlur.CS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">

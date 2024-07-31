@@ -2,53 +2,56 @@
 #include "BaseCSResource.h"
 
 class GaussianBlur :
-    public BaseCSResource {
+	public BaseCSResource {
 
-    struct GaussianBlurData {
-        float blurStrength; // ぼかしの強さ
-        float kernelSize;	// カーネルサイズ
-        Vector2 direction;
-    };
+	struct GaussianBlurData {
+		float blurStrength; // ぼかしの強さ
+		float kernelSize;	// カーネルサイズ
+		Vector2 direction;
+	};
 
 public:
 
-    GaussianBlur();
-    ~GaussianBlur();
+	GaussianBlur(const UINT& gpuGroupCountX, const UINT& gpuGroupCountY,
+				 ComputeShaderPipeline* vertical, ComputeShaderPipeline* horizontal);
+	~GaussianBlur();
 
-    void Finalize();
+	void Finalize();
 
-    /// <summary>
-    /// 初期化関数
-    /// </summary>
-    /// <param name="device"></param>
-    /// <param name="dxHeap"></param>
-    void Init(ID3D12Device* device, DescriptorHeap* dxHeap) override;
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
+	/// <param name="device"></param>
+	/// <param name="dxHeap"></param>
+	void Init(ID3D12Device* device, DescriptorHeap* dxHeap) override;
 
-    /// <summary>
-    /// Resourceをコマンドにセットする
-    /// </summary>
-    /// <param name="commandList"></param>
-    void SetResource(ID3D12GraphicsCommandList* commandList) override;
+	/// <summary>
+	/// Resourceをコマンドにセットする
+	/// </summary>
+	/// <param name="commandList"></param>
+	void SetResource(ID3D12GraphicsCommandList* commandList) override;
 
-    /// <summary>
-    /// 水平方向のResourceをセット
-    /// </summary>
-    /// <param name="commandList"></param>
-    void HorizontalSetResource(ID3D12GraphicsCommandList* commandList) ;
+	const DescriptorHeap::DescriptorHandles GetSRVHandles() const { return bufferHandles_[0].srvAddress; }
 
-    /// <summary>
-    /// 垂直方向のResourceをセット
-    /// </summary>
-    /// <param name="commandList"></param>
-    void VerticalSetResource(ID3D12GraphicsCommandList* commandList);
+	/// <summary>
+	/// 全体にブラーを掛けたResourceのアドレスを返す
+	/// </summary>
+	/// <returns>: srvHandle</returns>
+	const DescriptorHeap::DescriptorHandles GetResultSRVHandle() const { return bufferHandles_[1].srvAddress; }
 
 private:
-    // 横ブラーをかけるResource。これもUAV→SRVなどの手順を踏む必要がある
-    ComPtr<ID3D12Resource> horizontalResource_;
-    DescriptorHeap::DescriptorHandles uavHorizontalAddress_;
-    DescriptorHeap::DescriptorHandles srvHorizontalAddress_;
+	// 横ブラーをかけるResource。これもUAV→SRVなどの手順を踏む必要がある
+	ComPtr<ID3D12Resource> horizontalResource_;
+	DescriptorHeap::DescriptorHandles uavHorizontalAddress_;
+	DescriptorHeap::DescriptorHandles srvHorizontalAddress_;
 
-    GaussianBlurData* data_;
+	GaussianBlurData* data_;
 
+	// 使用するGPUのグループ
+	UINT groupCountX_;
+	UINT groupCountY_;
+
+	ComputeShaderPipeline* verticalPipeline_;
+	ComputeShaderPipeline* horizontalPipeline_;
 };
 

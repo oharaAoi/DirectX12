@@ -1,6 +1,11 @@
 #include "GrayScale.h"
 
-GrayScale::GrayScale() {}
+GrayScale::GrayScale(const UINT& gpuGroupCountX, const UINT& gpuGroupCountY, ComputeShaderPipeline* pipeline) {
+	groupCountX_ = gpuGroupCountX;
+	groupCountY_ = gpuGroupCountY;
+	pipeline_ = pipeline;
+}
+
 GrayScale::~GrayScale() {}
 
 void GrayScale::Finalize() {
@@ -33,9 +38,12 @@ void GrayScale::SetResource(ID3D12GraphicsCommandList* commandList) {
 	ImGui::DragFloat("GrayScale", &data_->grayScaleAmount, 0.01f, 0.0f, 1.0f);
 	ImGui::End();
 
+	pipeline_->SetPipelineState(commandList);
 	BaseCSResource::SetResource(commandList);
+	commandList->Dispatch(groupCountX_, groupCountY_, 1);
+	TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 0);
 }
 
 void GrayScale::TransitionResource(ID3D12GraphicsCommandList* commandList, D3D12_RESOURCE_STATES beforState, D3D12_RESOURCE_STATES afterState) {
-	TransitionResourceState(commandList, uavBuffers_[0].uavBuffer.Get(), beforState, afterState);
+	TransitionResourceState(commandList, bufferHandles_[0].uavBuffer.Get(), beforState, afterState);
 }

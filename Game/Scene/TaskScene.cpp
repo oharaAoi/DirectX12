@@ -27,15 +27,23 @@ void TaskScene::Init() {
 
 	modelMap_.emplace("plane", Engine::CreateModel("plane.obj"));
 	modelMap_.emplace("teapot", Engine::CreateModel("teapot.obj"));
-	//modelMap_.emplace("bunny", Engine::CreateModel("bunny.obj"));
 	modelMap_.emplace("multiMesh", Engine::CreateModel("multiMesh.obj"));
 	modelMap_.emplace("multiMaterial", Engine::CreateModel("multiMaterial.obj"));
+	//modelMap_.emplace("bunny", Engine::CreateModel("bunny.obj"));
 	//modelMap_.emplace("suzanne", Engine::CreateModel("suzanne.obj"));
 
 	objectKind_ = 0;
 
 	soundData_ = Engine::LoadSE("Resources/fanfare.wav");
-	bgmData_ = Engine::LoadBGM("Resources/fanfare.wav");
+	bgmData_ = Engine::LoadBGM("Resources/kinmokusei.wav");
+
+
+	ObjectData data{};
+	std::string objectNum = std::to_string(gameObjectList_.size() + textureLessList_.size() + spriteList_.size());
+	data.modelObject = modelMap_["teapot"].get();
+	data.worldTransform = Engine::CreateWorldTransform();
+	data.objectName = "teapot" + objectNum;
+	gameObjectList_.push_back(std::move(data));
 }
 
 void TaskScene::Update() {
@@ -222,7 +230,7 @@ void TaskScene::AddObject() {
 	ImGui::Combo("object",&objectKind_, "triangle\0sphere\0plane\0teapot\0bunny\0multiMesh\0multiMaterial\0suzanne\0sprite");
 	if (ImGui::Button("Create")) {
 		ObjectData data{};
-		std::string objectNum = std::to_string(gameObjectList_.size());
+		std::string objectNum = std::to_string(gameObjectList_.size() + textureLessList_.size() + spriteList_.size());
 
 		switch (objectKind_) {
 		case kTriangle:
