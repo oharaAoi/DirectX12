@@ -7,10 +7,7 @@
 #include "DirectXUtils.h"
 // math
 #include "MyMath.h"
-
-#ifdef _DEBUG
 #include "ImGuiManager.h"
-#endif
 
 class BaseLight {
 public:

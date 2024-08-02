@@ -27,7 +27,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	test->Init();
 	task->Init();
 
-	int sceneNumber = 0;
+	int sceneNumber = 2;
 
 	// mainループ
 	while (Engine::ProcessMessage()) {

@@ -3,10 +3,7 @@
 #include "MyMath.h"
 #include "Transform.h"
 #include "Input.h"
-
-#ifdef _DEBUG
 #include "ImGuiManager.h"
-#endif // DEBUG
 
 const float kCameraMoveSpeed_ = 0.05f;
 

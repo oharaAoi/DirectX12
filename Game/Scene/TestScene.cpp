@@ -24,8 +24,8 @@ void TestScene::Init() {
 	// モデル --------------------------------------------------------------
 	objectKind_ = 0;
 	skinModel_ = Engine::CreateModel("skin.obj");
-	sphereModel_ = Engine::CreateModel("plane.gltf");
-	cubeModel_ = Engine::CreateModel("cube.gltf");
+	sphereModel_ = Engine::CreateModel("plane.obj");
+	//cubeModel_ = Engine::CreateModel("cube.obj");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ void TestScene::Update() {
 	// 行列の作成 --------------------------------------------------------------
 	skinTransform_.Update();
 	sphereTransform_.Update();
-	cubeTransform_.Update();
+//	cubeTransform_.Update();
 
 	// gameObjectの更新 ---------------------------------------------------------
 	/*skinModel_->Update();
@@ -57,7 +57,7 @@ void TestScene::Draw() {
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
 	Engine::DrawModel(skinModel_.get(), skinTransform_);
 	Engine::DrawModel(sphereModel_.get(), sphereTransform_);
-	Engine::DrawModel(cubeModel_.get(), cubeTransform_);
+	//Engine::DrawModel(cubeModel_.get(), cubeTransform_);
 
 #pragma endregion
 

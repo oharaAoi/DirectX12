@@ -14,12 +14,12 @@ Model::~Model() {
 void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
 	std::string path = directorPath + "/" + fileName;
 
-	/*materialArray_ = LoadMaterialData(directorPath, fileName, device);
-	meshArray_ = LoadVertexData(path, device);*/
+	materialArray_ = LoadMaterialData(directorPath, fileName, device);
+	meshArray_ = LoadVertexData(path, device);
 
 	Log("Load: " + fileName + "\n");
 
-	LoadObj(directorPath, fileName, device);
+	//LoadObj(directorPath, fileName, device);
 	LoadAnimation(directorPath, "Animation_Node_00.gltf");
 
 	currentAnimationTime_ = 0;
@@ -45,7 +45,7 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& w
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 		meshArray_[oi]->Draw(commandList);
 		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
-		worldTransform.AdaptToGLTF(rootNode_.localMatrix);
+		//worldTransform.AdaptToGLTF(rootNode_.localMatrix);
 		worldTransform.Draw(commandList);
 		viewProjection->Draw(commandList);
 
@@ -64,7 +64,7 @@ void Model::ImGuiDraw(const std::string& name) {
 	if (ImGui::TreeNode(name.c_str())) {
 		for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 			std::string materialNum = std::to_string(oi);
-			std::string materialName = "material" + oi;
+			std::string materialName = "material" + materialNum;
 			if (ImGui::TreeNode(materialName.c_str())) {
 				materialArray_[meshArray_[oi]->GetUseMaterial()]->ImGuiDraw();
 				ImGui::TreePop();

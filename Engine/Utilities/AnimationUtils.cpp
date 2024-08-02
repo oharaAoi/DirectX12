@@ -33,7 +33,7 @@ aiVector3D InterpolationPosition(const NodeAnimation& nodeAnim, float time) {
 	if (duration <= 0.0f) {
 		return startKey.mValue; // 始点と終点が同じ時間の場合
 	}
-	float factor = (time - startKey.mTime) / duration;
+	float factor = (time - float(startKey.mTime)) / duration;
 
 	// 補完を行う
 	return LinearInterpolation(startKey.mValue, endKey.mValue, factor);
@@ -69,7 +69,7 @@ aiVector3D InterpolationRotation(const NodeAnimation& nodeAnim, float time) {
 	if (duration <= 0.0f) {
 		return startKey.mValue; // 始点と終点が同じ時間の場合
 	}
-	float factor = (time - startKey.mTime) / duration;
+	float factor = (time - float(startKey.mTime)) / duration;
 
 	// 補完を行う
 	return LinearInterpolation(startKey.mValue, endKey.mValue, factor);

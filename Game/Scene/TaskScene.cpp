@@ -30,7 +30,7 @@ void TaskScene::Init() {
 	modelMap_.emplace("multiMesh", Engine::CreateModel("multiMesh.obj"));
 	modelMap_.emplace("multiMaterial", Engine::CreateModel("multiMaterial.obj"));
 	//modelMap_.emplace("bunny", Engine::CreateModel("bunny.obj"));
-	//modelMap_.emplace("suzanne", Engine::CreateModel("suzanne.obj"));
+	modelMap_.emplace("suzanne", Engine::CreateModel("suzanne.obj"));
 
 	objectKind_ = 0;
 

@@ -9,9 +9,8 @@
 
 #include "MyMath.h"
 
-#ifdef _DEBUG
+
 #include "ImGuiManager.h"
-#endif // _DEBUG
 
 class PrimitiveDrawer {
 public : // データ構造体

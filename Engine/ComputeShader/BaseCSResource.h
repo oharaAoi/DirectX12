@@ -3,9 +3,7 @@
 #include "DirectXUtils.h"
 #include "MyMath.h"
 #include "ComputeShaderPipeline.h"
-#ifdef _DEBUG
 #include "ImGuiManager.h"
-#endif
 
 class BaseCSResource {
 public:

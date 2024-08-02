@@ -90,15 +90,15 @@ void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
 		}
 	}
 
-	depthOfField_->ConfigureResource(commandList);
+	//depthOfField_->ConfigureResource(commandList);
 
 	// ----------------------------------------------------------------------
 	// ↓ 最終的に描画するResourceに加工したTextureを移す
 	// ----------------------------------------------------------------------
 	computeShaderPipelineMap_[CsPipelineType::Blend_Pipeline]->SetPipelineState(commandList);
-	/*uint32_t lastIndex = static_cast<uint32_t>(executeCsArray_.size()) - 1;
-	executeCsArray_[lastIndex]->ConfigureResultSRVResource(commandList);*/
-	depthOfField_->ConfigureResultSRVResource(commandList);
+	uint32_t lastIndex = static_cast<uint32_t>(executeCsArray_.size()) - 1;
+	executeCsArray_[lastIndex]->ConfigureResultSRVResource(commandList);
+	//depthOfField_->ConfigureResultSRVResource(commandList);
 	commandList->SetComputeRootDescriptorTable(1, uavRenderAddress_.handleGPU);
 	commandList->Dispatch(groupCountX, groupCountY, 1);
 

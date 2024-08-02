@@ -7,9 +7,8 @@
 // math
 #include "MyMath.h"
 
-#ifdef _DEBUG
 #include "ImGuiManager.h"
-#endif
+
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

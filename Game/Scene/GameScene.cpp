@@ -145,10 +145,6 @@ void GameScene::Draw() {
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
-	/*Engine::DrawSphere(sphere_.get(), sphereTransform_);
-	Engine::DrawModel(terrainModel_.get(), sphereTransform_);
-	Engine::DrawModel(teapotModel_.get(), sphereTransform_);
-	Engine::DrawModel(sphereModel_.get(), sphereModelTransform_);*/
 
 #pragma endregion
 
@@ -169,7 +165,7 @@ void GameScene::Draw() {
 #pragma region Particle
 
 	Engine::SetPipeline(PipelineKind::kParticlePipeline);
-	particle_->Draw();
+	//particle_->Draw();
 
 #pragma endregion
 

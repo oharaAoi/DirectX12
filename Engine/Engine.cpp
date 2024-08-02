@@ -273,7 +273,7 @@ void Engine::DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstanc
 }
 
 void Engine::DrawBaseGameObject(BaseGameObject* gameObject, const WorldTransform& worldTransform) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 5);
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
 	gameObject->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
 }
 
