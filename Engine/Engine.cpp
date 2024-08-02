@@ -211,23 +211,9 @@ void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color
 }
 
 void Engine::DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
+	lightGroup_->DrawPar(dxCommands_->GetCommandList(), 2);
 	baseParticle->Draw(dxCommands_->GetCommandList(), numInstance);
 }
-//
-//void Engine::DrawGameObject(BaseGameObject* gameObject, const GameObjectKind& kind) {
-//	lightGroup_->Draw(dxCommands_->GetCommandList(), 2);
-//
-//	switch (kind) {
-//	case GameObjectKind::kModel:
-//		
-//		break;
-//
-//	case GameObjectKind::kSphere:
-//
-//		break;
-//	}
-//}
 
 //------------------------------------------------------------------------------------------------------
 // ライトの設定

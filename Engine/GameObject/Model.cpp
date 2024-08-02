@@ -12,10 +12,10 @@ Model::~Model() {
 void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
 	std::string path = directorPath + "/" + fileName;
 
-	/*materialArray_ = LoadMaterialData(directorPath, fileName, device);
-	meshArray_ = LoadVertexData(path, device);*/
+	materialArray_ = LoadMaterialData(directorPath, fileName, device);
+	meshArray_ = LoadVertexData(path, device);
 
-	LoadObj(directorPath, fileName, device);
+	//LoadObj(directorPath, fileName, device);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

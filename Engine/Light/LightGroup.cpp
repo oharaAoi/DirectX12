@@ -41,3 +41,7 @@ void LightGroup::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& ro
 	pointLight_->Draw(commandList, 5);
 	spotLight_->Draw(commandList, 6);
 }
+
+void LightGroup::DrawPar(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
+	directionalLight_->Draw(commandList, rootParameterIndex);
+}

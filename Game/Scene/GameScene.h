@@ -61,10 +61,7 @@ private:
 	};
 
 	// ---------- transform ---------- //
-	kTransform transform_;
-	kTransform sphereTransform_;
-	kTransform sphereModelTransform_;
-	kTransform teapotTransform_;
+	WorldTransform terrainWorld_;
 
 	// ---------- parameter ---------- //
 	float roughness_;

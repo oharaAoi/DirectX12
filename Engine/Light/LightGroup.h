@@ -26,6 +26,7 @@ public:
 	void Update();
 
 	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
+	void DrawPar(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
 
 public:
 
