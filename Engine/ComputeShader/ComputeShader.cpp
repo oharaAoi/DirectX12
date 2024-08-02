@@ -5,6 +5,7 @@ ComputeShader::~ComputeShader() {}
 
 void ComputeShader::Finalize() {
 	renderResource_.Reset();
+	depthOfField_->Finalize();
 	gaussianBlur_->Finalize();
 	grayScale_->Finalize();
 	computeShaderPipelineMap_.clear();
@@ -30,11 +31,13 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 	computeShaderPipelineMap_[CsPipelineType::GrayScale_Pipeline] = std::make_unique<ComputeShaderPipeline>();
 	computeShaderPipelineMap_[CsPipelineType::HorizontalBlur_Pipeline] = std::make_unique<ComputeShaderPipeline>();
 	computeShaderPipelineMap_[CsPipelineType::VerticalBlur_Pipeline] = std::make_unique<ComputeShaderPipeline>();
+	computeShaderPipelineMap_[CsPipelineType::DepthOfField_Pipeline] = std::make_unique<ComputeShaderPipeline>();
 	computeShaderPipelineMap_[CsPipelineType::Blend_Pipeline] = std::make_unique<ComputeShaderPipeline>();
 
 	computeShaderPipelineMap_[CsPipelineType::GrayScale_Pipeline]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::GrayScale), CsPipelineType::GrayScale_Pipeline);
 	computeShaderPipelineMap_[CsPipelineType::HorizontalBlur_Pipeline]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::HorizontalBlur), CsPipelineType::HorizontalBlur_Pipeline);
 	computeShaderPipelineMap_[CsPipelineType::VerticalBlur_Pipeline]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::VerticalBlur), CsPipelineType::VerticalBlur_Pipeline);
+	computeShaderPipelineMap_[CsPipelineType::DepthOfField_Pipeline]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::DepthOfField), CsPipelineType::DepthOfField_Pipeline);
 	computeShaderPipelineMap_[CsPipelineType::Blend_Pipeline]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::Blend), CsPipelineType::Blend_Pipeline);
 
 	// postEffectの作成
@@ -43,12 +46,15 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 												   computeShaderPipelineMap_[CsPipelineType::HorizontalBlur_Pipeline].get(),
 												   computeShaderPipelineMap_[CsPipelineType::VerticalBlur_Pipeline].get()
 	);
+	depthOfField_ = std::make_unique<DepthOfField>(groupCountX, groupCountY, computeShaderPipelineMap_[CsPipelineType::DepthOfField_Pipeline].get());
 
 	gaussianBlur_->Init(device_, dxHeap_);
 	grayScale_->Init(device_, dxHeap_);
+	depthOfField_->Init(device_, dxHeap_);
 
 	grayScale_->CreateSRV();
 	gaussianBlur_->CreateSRV();
+	depthOfField_->CreateSRV();
 
 	executeCsArray_.push_back(grayScale_.get());
 	executeCsArray_.push_back(gaussianBlur_.get());
@@ -74,7 +80,7 @@ void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
 		// ----------------------------------------------------------------------
 		// ↓ 各クラスでDispatchを行う
 		// ----------------------------------------------------------------------
-		executeCsArray_[oi]->SetResource(commandList);
+		executeCsArray_[oi]->ConfigureResource(commandList);
 
 		// ----------------------------------------------------------------------
 		// ↓ 次に行うエフェクトがあればその参照するResourceを今行った物に変更する
@@ -84,12 +90,15 @@ void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
 		}
 	}
 
+	depthOfField_->ConfigureResource(commandList);
+
 	// ----------------------------------------------------------------------
 	// ↓ 最終的に描画するResourceに加工したTextureを移す
 	// ----------------------------------------------------------------------
 	computeShaderPipelineMap_[CsPipelineType::Blend_Pipeline]->SetPipelineState(commandList);
-	uint32_t lastIndex = static_cast<uint32_t>(executeCsArray_.size()) - 1;
-	executeCsArray_[lastIndex]->SetResultSRVResource(commandList);
+	/*uint32_t lastIndex = static_cast<uint32_t>(executeCsArray_.size()) - 1;
+	executeCsArray_[lastIndex]->ConfigureResultSRVResource(commandList);*/
+	depthOfField_->ConfigureResultSRVResource(commandList);
 	commandList->SetComputeRootDescriptorTable(1, uavRenderAddress_.handleGPU);
 	commandList->Dispatch(groupCountX, groupCountY, 1);
 
@@ -101,6 +110,8 @@ void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
 	for (uint32_t oi = 0; oi < executeCsArray_.size(); oi++) {
 		executeCsArray_[oi]->TransitionAllResourceHandles(commandList);
 	}
+
+	//depthOfField_->TransitionAllResourceHandles(commandList);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

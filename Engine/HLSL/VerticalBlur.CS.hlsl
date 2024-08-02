@@ -1,8 +1,7 @@
 
 static const float PI = 3.141592653589f;
 
-struct GaussianBlurData
-{
+struct GaussianBlurData {
 	float blurStrength; // ぼかしの強さ
 	float kernelSize; // カーネルサイズ
 	float2 direction;
@@ -16,14 +15,12 @@ RWTexture2D<float4> outputBuffer : register(u0);
 ConstantBuffer<GaussianBlurData> gGaussianBlur : register(b0);
 
 /// サンプルの重みづけ
-float Gaussian(float x, float sigma)
-{
+float Gaussian(float x, float sigma) {
 	return exp(-(x * x) / (2.0 * sigma * sigma)) / (sqrt(2.0 * PI) * sigma);
 }
 
 [numthreads(16, 16, 1)]
-void CSmain(uint3 id : SV_DispatchThreadID)
-{
+void CSmain(uint3 id : SV_DispatchThreadID) {
 	uint2 pixelCoordinate = id.xy;
 	
 	// -------------------------------------------------
@@ -49,7 +46,7 @@ void CSmain(uint3 id : SV_DispatchThreadID)
 	// -------------------------------------------------
 	// ↓ 垂直方向のブラーを実行する
 	// -------------------------------------------------
-	for (int oi = -gGaussianBlur.kernelSize; oi < gGaussianBlur.kernelSize; ++oi){
+	for (int oi = -gGaussianBlur.kernelSize; oi < gGaussianBlur.kernelSize; ++oi) {
 		float offset = oi * texelSize.y;
 		float weight = Gaussian(offset, gGaussianBlur.blurStrength);
         

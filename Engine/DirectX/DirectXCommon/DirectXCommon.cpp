@@ -70,13 +70,15 @@ void DirectXCommon::Begin() {
 	// dsv
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
 	//commandList->OMSetRenderTargets(1, &renderTarget_->GetRtvHandles(backBufferIndex), false, &dsvHandle);
-	commandList->OMSetRenderTargets(1, &renderTarget_->GetOffScreenHandle().handleCPU, false, &dsvHandle);
+	//commandList->OMSetRenderTargets(2, &renderTarget_->GetRTVHandles(), false, &dsvHandle);
 	
+	renderTarget_->OMSetRenderTarget(commandList, dsvHandle);
+
 	// 指定した深度で画面をクリア
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
-	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle().handleCPU, clearColor, 0, nullptr);
+	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(RenderTargetType::OffScreen_RenderTarget).handleCPU, clearColor, 0, nullptr);
 
 	// srv
 	ID3D12DescriptorHeap* descriptorHeaps[] = { descriptorHeaps_->GetSRVHeap() };

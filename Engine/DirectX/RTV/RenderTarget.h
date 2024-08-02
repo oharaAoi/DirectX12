@@ -13,6 +13,13 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
+static const uint32_t renderTargetNum_ = 1;
+
+enum RenderTargetType {
+	OffScreen_RenderTarget,
+	DepthOfField_RenderTarget
+};
+
 class RenderTarget {
 public:
 
@@ -51,19 +58,30 @@ public:
 	/// <param name="afterState">変更後の状態</param>
 	void ChangeOffScreenResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
+	/// <summary>
+	/// レンダーターゲットを設定する関数
+	/// </summary>
+	/// <param name="commandList"></param>
+	/// <param name="dsvHandle"></param>
+	void OMSetRenderTarget(ID3D12GraphicsCommandList* commandList, const D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle);
+
 public:
 
 	ID3D12Resource* GetSwapChainRenderResource(const UINT& indexNum) { return swapChainRenderResource_[indexNum].Get(); }
 
-	ID3D12Resource* GetOffScreenRenderResource() { return offScreenRenderResource_.Get(); }
+	ID3D12Resource* GetOffScreenRenderResource(const RenderTargetType& type) const {
+		return renderTargetResource_[type].Get();
+	}
 
-	DescriptorHeap::DescriptorHandles& GetRtvHandles(const UINT& indexNum) { return rtvHandles_[indexNum]; }
+	DescriptorHeap::DescriptorHandles& GetRtvHandles(const UINT& indexNum) { return swapChainRTVHandles_[indexNum]; }
 
-	DescriptorHeap::DescriptorHandles& GetOffScreenHandle() { return offScreenHandle_; }
+	const DescriptorHeap::DescriptorHandles& GetOffScreenHandle(const RenderTargetType& type) const {
+		return RTVHandle_[type];
+	}
 
-	DescriptorHeap::DescriptorHandles& GetOffScreenSRVHandle() { return offScreenSRVHandle_; }
-
-
+	const DescriptorHeap::DescriptorHandles& GetOffScreenSRVHandle(const RenderTargetType& type) const {
+		return SRVHandle_[type];
+	}
 
 private:
 
@@ -71,12 +89,14 @@ private:
 	// フロントバッファとバックバッファ
 	ComPtr<ID3D12Resource> swapChainRenderResource_[2];
 	// 画像として書き込むバッファ
-	ComPtr<ID3D12Resource> offScreenRenderResource_;
+	ComPtr<ID3D12Resource> renderTargetResource_[renderTargetNum_];
 
 	// rtv
-	DescriptorHeap::DescriptorHandles rtvHandles_[2];
-	DescriptorHeap::DescriptorHandles offScreenHandle_;
-	DescriptorHeap::DescriptorHandles offScreenSRVHandle_;
+	DescriptorHeap::DescriptorHandles swapChainRTVHandles_[2];
+
+	DescriptorHeap::DescriptorHandles RTVHandle_[renderTargetNum_];
+	// srv
+	DescriptorHeap::DescriptorHandles SRVHandle_[renderTargetNum_];
 
 	ID3D12Device* device_ = nullptr;
 	// heap

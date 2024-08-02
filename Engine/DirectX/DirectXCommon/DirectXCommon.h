@@ -114,6 +114,8 @@ public:
 
 	ComPtr<IDXGISwapChain4> GetSwapChain() { return swapChain_.Get(); }
 
+	ID3D12Resource* GetDepthStencilResource() { return depthStencilResource_.Get(); }
+
 private:
 
 	int32_t kClientWidth_;

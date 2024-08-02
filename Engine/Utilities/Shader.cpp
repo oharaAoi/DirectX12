@@ -20,6 +20,7 @@ void Shader::Init() {
 	Load("Engine/HLSL/GrayScale.CS.hlsl", CsShaderName::GrayScale);
 	Load("Engine/HLSL/HorizontalBlur.CS.hlsl", CsShaderName::HorizontalBlur);
 	Load("Engine/HLSL/VerticalBlur.CS.hlsl", CsShaderName::VerticalBlur);
+	Load("Engine/HLSL/DepthOfField.CS.hlsl", CsShaderName::DepthOfField);
 	Load("Engine/HLSL/Blend.CS.hlsl", CsShaderName::Blend);
 }
 

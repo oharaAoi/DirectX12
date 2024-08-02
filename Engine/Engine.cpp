@@ -64,7 +64,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
 	primitivePipeline_ = std::make_unique<PrimitivePipeline>(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
 	// CS
-	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(),renderTarget_->GetOffScreenSRVHandle(), shaders_.get());
+	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(),renderTarget_->GetOffScreenSRVHandle(RenderTargetType::OffScreen_RenderTarget), shaders_.get());
 	// light
 	lightGroup_->Init(dxDevice_->GetDevice());
 	// input
@@ -190,7 +190,7 @@ void Engine::EndRenderTexture() {
 		// スプライト用のパイプラインの設定
 		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
 		// offScreenRenderingで書き込んだTextureを描画する
-		renderTexture_->Draw(dxCommands_->GetCommandList(), renderTarget_->GetOffScreenSRVHandle().handleGPU);
+		renderTexture_->Draw(dxCommands_->GetCommandList(), renderTarget_->GetOffScreenSRVHandle(RenderTargetType::OffScreen_RenderTarget).handleGPU);
 	}
 }
 

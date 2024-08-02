@@ -9,6 +9,7 @@
 #include "RootSignature.h"
 #include "InputLayout.h"
 #include "DirectXCompiler.h"
+#include "RenderTarget.h"
 #include "Shader.h"
 #include "Blend.h"
 

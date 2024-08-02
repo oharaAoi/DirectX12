@@ -29,7 +29,7 @@ public:
 	/// Resourceをコマンドにセットする
 	/// </summary>
 	/// <param name="commandList"></param>
-	void SetResource(ID3D12GraphicsCommandList* commandList) override;
+	void ConfigureResource(ID3D12GraphicsCommandList* commandList) override;
 
 	const DescriptorHeap::DescriptorHandles GetSRVHandles() const { return bufferHandles_[0].srvAddress; }
 

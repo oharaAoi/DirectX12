@@ -8,10 +8,12 @@ RenderTarget::~RenderTarget() {
 }
 
 void RenderTarget::Finalize() {
-	offScreenRenderResource_.Reset();
+	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
+		renderTargetResource_[oi].Reset();
+	}
+	
 	swapChainRenderResource_[0].Reset();
 	swapChainRenderResource_[1].Reset();
-
 }
 
 void RenderTarget::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, IDXGISwapChain4* swapChain) {
@@ -52,21 +54,14 @@ void RenderTarget::CreateRenderTargetView() {
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
-	// 先頭を取得
-	//D3D12_CPU_DESCRIPTOR_HANDLE rtvStartHandle = GetCPUDescriptorHandle(dxHeap_->GetRTVHeap(), dxHeap_->GetDescriptorSize()->GetRTV(), 0);
-	//// 一つ目のDescriptorの生成
-	//rtvHandles_[0] = rtvStartHandle;
-	//device_->CreateRenderTargetView(swapChainRenderResource_[0].Get(), &rtvDesc, rtvHandles_[0]);
-	//// 二つ目の生成
-	//rtvHandles_[1].ptr = rtvHandles_[0].ptr + device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
 	// 一つ目のDescriptorの生成
-	rtvHandles_[0] = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_RTV);
-	device_->CreateRenderTargetView(swapChainRenderResource_[0].Get(), &rtvDesc, rtvHandles_[0].handleCPU);
+	swapChainRTVHandles_[0] = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_RTV);
+	device_->CreateRenderTargetView(swapChainRenderResource_[0].Get(), &rtvDesc, swapChainRTVHandles_[0].handleCPU);
 	// 二つ目の生成
-	rtvHandles_[1] = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_RTV);
+	swapChainRTVHandles_[1] = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_RTV);
 
-	device_->CreateRenderTargetView(swapChainRenderResource_[1].Get(), &rtvDesc, rtvHandles_[1].handleCPU);
+	device_->CreateRenderTargetView(swapChainRenderResource_[1].Get(), &rtvDesc, swapChainRTVHandles_[1].handleCPU);
 }
 
 /// <summary>
@@ -81,7 +76,6 @@ void RenderTarget::CreateOffScreenResource() {
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	desc.SampleDesc.Count = 1;
 	desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-
 	desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
 
 	// HEAPの設定
@@ -89,45 +83,67 @@ void RenderTarget::CreateOffScreenResource() {
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
 	// リソースの作成
-	HRESULT hr = device_->CreateCommittedResource(
-		&heapProperties,
-		D3D12_HEAP_FLAG_ALLOW_DISPLAY,
-		&desc,
-		D3D12_RESOURCE_STATE_RENDER_TARGET,
-		nullptr,
-		IID_PPV_ARGS(&offScreenRenderResource_)
-	);
-
-	assert(SUCCEEDED(hr));
+	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
+		HRESULT hr = device_->CreateCommittedResource(
+			&heapProperties,
+			D3D12_HEAP_FLAG_ALLOW_DISPLAY,
+			&desc,
+			D3D12_RESOURCE_STATE_RENDER_TARGET,
+			nullptr,
+			IID_PPV_ARGS(&renderTargetResource_[oi])
+		);
+		assert(SUCCEEDED(hr));
+	}
 }
 
 /// <summary>
 /// オフスクリーン用のViewの作成
 /// </summary>
 void RenderTarget::CreateOffScreenView() {
+	// -------------------------------------------------
+	// ↓ RTVを作成する
+	// -------------------------------------------------
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-	offScreenHandle_ = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_RTV);
-	
-	//offScreenHandle_.handleCPU.ptr = rtvHandles_[1].handleCPU.ptr + device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	device_->CreateRenderTargetView(offScreenRenderResource_.Get(), &rtvDesc, offScreenHandle_.handleCPU);
+	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
+		RTVHandle_[oi] = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_RTV);
+		device_->CreateRenderTargetView(renderTargetResource_[oi].Get(), &rtvDesc, RTVHandle_[oi].handleCPU);
+	}
 
+	// -------------------------------------------------
+	// ↓ SRVを作成する
+	// -------------------------------------------------
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	offScreenSRVHandle_ = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
-
-	device_->CreateShaderResourceView(offScreenRenderResource_.Get(), &srvDesc, offScreenSRVHandle_.handleCPU);
+	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
+		SRVHandle_[oi] = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
+		device_->CreateShaderResourceView(renderTargetResource_[oi].Get(), &srvDesc, SRVHandle_[oi].handleCPU);
+	}
 }
 
 /// <summary>
 /// オフスクリーン用のリソースのステートを変更する
 /// </summary>
 void RenderTarget::ChangeOffScreenResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
-	TransitionResourceState(commandList, offScreenRenderResource_.Get(), beforState, afterState);
+	TransitionResourceState(commandList, renderTargetResource_[0].Get(), beforState, afterState);
+}
+
+/// <summary>
+/// レンダーターゲットを設定する関数
+/// </summary>
+/// <param name="commandList"></param>
+/// <param name="dsvHandle"></param>
+void RenderTarget::OMSetRenderTarget(ID3D12GraphicsCommandList* commandList, const D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle) {
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles[renderTargetNum_];
+	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
+		rtvHandles[oi] = RTVHandle_[oi].handleCPU;
+	}
+	
+	commandList->OMSetRenderTargets(renderTargetNum_, rtvHandles, false, &dsvHandle);
 }

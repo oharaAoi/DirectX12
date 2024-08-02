@@ -39,7 +39,7 @@ void GaussianBlur::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	usePipelineType_ = CsPipelineType::HorizontalBlur_Pipeline;
 }
 
-void GaussianBlur::SetResource(ID3D12GraphicsCommandList* commandList) {
+void GaussianBlur::ConfigureResource(ID3D12GraphicsCommandList* commandList) {
 	ImGui::Begin("PostEffect");
 	ImGui::DragFloat("blurStrength", &data_->blurStrength, 0.01f, 0.0f, 10.0f);
 	ImGui::DragFloat("kernelSize", &data_->kernelSize, 0.01f, 1.0f, 10.0f);
@@ -50,7 +50,7 @@ void GaussianBlur::SetResource(ID3D12GraphicsCommandList* commandList) {
 	// ↓ 水平方向のブラーを掛ける
 	// -------------------------------------------------
 	horizontalPipeline_->SetPipelineState(commandList);
-	BaseCSResource::SetResource(commandList);
+	BaseCSResource::ConfigureResource(commandList);
 	commandList->Dispatch(groupCountX_, groupCountY_, 1);
 
 	// -------------------------------------------------
@@ -64,7 +64,7 @@ void GaussianBlur::SetResource(ID3D12GraphicsCommandList* commandList) {
 	// ↓ 垂直方向のブラーを掛ける
 	// -------------------------------------------------
 	verticalPipeline_->SetPipelineState(commandList);
-	BaseCSResource::SetResource(commandList);
+	BaseCSResource::ConfigureResource(commandList);
 	commandList->Dispatch(groupCountX_, groupCountY_, 1);
 
 	writeResourceHandles_ = bufferHandles_[0].uavAddress;

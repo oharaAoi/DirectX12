@@ -22,6 +22,7 @@ public:
 		GrayScale,
 		HorizontalBlur,
 		VerticalBlur,
+		DepthOfField,
 		Blend
 	};
 

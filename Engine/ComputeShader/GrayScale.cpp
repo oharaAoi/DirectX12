@@ -33,13 +33,13 @@ void GrayScale::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	usePipelineType_ = CsPipelineType::GrayScale_Pipeline;
 }
 
-void GrayScale::SetResource(ID3D12GraphicsCommandList* commandList) {
+void GrayScale::ConfigureResource(ID3D12GraphicsCommandList* commandList) {
 	ImGui::Begin("PostEffect");
 	ImGui::DragFloat("GrayScale", &data_->grayScaleAmount, 0.01f, 0.0f, 1.0f);
 	ImGui::End();
 
 	pipeline_->SetPipelineState(commandList);
-	BaseCSResource::SetResource(commandList);
+	BaseCSResource::ConfigureResource(commandList);
 	commandList->Dispatch(groupCountX_, groupCountY_, 1);
 	TransitionUAVResource(commandList, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 0);
 }

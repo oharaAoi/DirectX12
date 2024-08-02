@@ -13,6 +13,7 @@
 // postEffect
 #include "GrayScale.h"
 #include "GaussianBlur.h"
+#include "DepthOfField.h"
 
 class ComputeShader {
 public:
@@ -65,6 +66,7 @@ private:
 	// postEffect
 	std::unique_ptr<GrayScale> grayScale_;
 	std::unique_ptr<GaussianBlur> gaussianBlur_;
+	std::unique_ptr<DepthOfField> depthOfField_;
 
 	ComPtr<ID3D12Resource> renderResource_;
 

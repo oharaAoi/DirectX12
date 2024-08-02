@@ -30,16 +30,16 @@ public:
 	/// ResourceをcommandListに登録する
 	/// </summary>
 	/// <param name="commandList">: コマンドリスト</param>
-	virtual void SetResource(ID3D12GraphicsCommandList* commandList);
+	virtual void ConfigureResource(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// 参照するResourceをコマンドリストに積む
 	/// </summary>
 	/// <param name="commandList">コマンドリスト</param>
 	/// <param name="handleGPU">参照するResourceのアドレス</param>
-	virtual void SetReferenceResource(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& handleGPU);
+	virtual void ConfigureReferenceResource(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& handleGPU);
 
-	void SetResultSRVResource(ID3D12GraphicsCommandList* commandList);
+	void ConfigureResultSRVResource(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// UAVのResourceの状態を変更する
@@ -68,12 +68,6 @@ public:
 	void CreateSRV();
 
 	/// <summary>
-	/// 配列の一番最後のResourceを参照する(最終的なResourceを書き込んでいるから)
-	/// </summary>
-	/// <returns>ResourceBuffer</returns>
-	ComPtr<ID3D12Resource> GetFinalUAVBuffer() { return bufferHandles_.back().uavBuffer; }
-
-	/// <summary>
 	/// 参照するResourceのHandleを設定する
 	/// </summary>
 	/// <param name="handle">: 参照するHandle</param>
@@ -82,11 +76,9 @@ public:
 	}
 
 	/// <summary>
-	/// uavHandleを返す
+	/// Resource配列の最後の要素のSRVを返す
 	/// </summary>
 	/// <returns></returns>
-	DescriptorHeap::DescriptorHandles GetWriteResourceHandles() const { return writeResourceHandles_; }
-
 	const DescriptorHeap::DescriptorHandles GetLastIndexSRVHandle() const;
 
 	/// <summary>

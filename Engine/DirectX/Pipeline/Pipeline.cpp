@@ -98,8 +98,10 @@ void Pipeline::CreatePSO() {
 	desc.DepthStencilState = SetDepthStencilState();
 	desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	// 書き込むRTVの情報
-	desc.NumRenderTargets = 1;
-	desc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	desc.NumRenderTargets = renderTargetNum_;
+	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
+		desc.RTVFormats[oi] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	}
 	// 利用するトポロジ(形状)のタイプ
 	desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	// どのように画面に色を打ち込むかの設定

@@ -312,6 +312,9 @@
     <ClCompile Include="Engine\ComputeShader\GaussianBlur.cpp">
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ComputeShader\DepthOfField.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -551,6 +554,9 @@
     <ClInclude Include="Engine\ComputeShader\GaussianBlur.h">
       <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\ComputeShader\DepthOfField.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
@@ -592,9 +598,6 @@
     <FxCompile Include="Engine\HLSL\GrayScale.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\GaussianBlur.CS.hlsl">
-      <Filter>Engine\HLSL</Filter>
-    </FxCompile>
     <FxCompile Include="Engine\HLSL\Blend.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
@@ -602,6 +605,9 @@
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\HorizontalBlur.CS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\DepthOfField.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
   </ItemGroup>
