@@ -69,6 +69,8 @@ private:
 
 	int lightKind_;
 
+	bool isDraw_;
+
 	// ---------- sound ---------- //
 	SeData soundData_;
 	BgmData bgmData_;

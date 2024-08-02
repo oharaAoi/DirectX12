@@ -122,16 +122,11 @@ void GameScene::Update() {
 		Engine::SetLightKind(kind);
 	}
 
+	ImGui::Checkbox("Draw", &isDraw_);
+	
+		
 	ImGui::End();
-
-	/*model_->ImGuiDraw("floor");
-	sphere_->ImGuiDraw("Sphere");
-	sphereModel_->ImGuiDraw("sphereModel");
-	teapotModel_->ImGuiDraw("teapot");*/
-
 	particle_->ImGuiDraw();
-
-	sphereModel_->ImGuiDraw("sphereModel");
 }
 
 void GameScene::Draw() {
@@ -144,7 +139,9 @@ void GameScene::Draw() {
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
 	//Engine::DrawSphere(sphere_.get());
-	Engine::DrawModel(terrainModel_.get(), terrainWorld_);
+	if (isDraw_) {
+		Engine::DrawModel(terrainModel_.get(), terrainWorld_);
+	}
 	//Engine::DrawModel(teapotModel_.get());
 	//Engine::DrawModel(sphereModel_.get());
 	

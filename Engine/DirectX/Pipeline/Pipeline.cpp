@@ -73,7 +73,7 @@ void Pipeline::ShaderCompile(const std::string& vertexShader, const std::string&
 D3D12_RASTERIZER_DESC Pipeline::SetRasterizerState() {
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 	// 裏面を表示しない
-	rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
+	rasterizerDesc.CullMode = D3D12_CULL_MODE_NONE;
 	// 三角形の中を塗りつぶす
 	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
 
@@ -89,6 +89,7 @@ D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState() {
 	// Depthの機能を有効化する
 	desc.DepthEnable = true;
 	// 書き込み
+	//desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
 	// 地下駆ければ描画
 	desc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
@@ -106,7 +107,8 @@ void Pipeline::CreatePSO() {
 	desc.InputLayout = CreateInputLayout(elementDescs);
 	desc.VS = { vertexShaderBlob_->GetBufferPointer(), vertexShaderBlob_->GetBufferSize() };
 	desc.PS = { pixelShaderBlob_->GetBufferPointer(), pixelShaderBlob_->GetBufferSize() };
-	desc.BlendState = blend_.SetBlend(Blend::kBlendModeNormal);
+	desc.BlendState = blend_.SetBlend(Blend::kBlendModeAdd);
+	//desc.BlendState = blend_.SetBlend(Blend::kBlendModeNormal);
 	desc.RasterizerState = SetRasterizerState();
 	desc.DepthStencilState = SetDepthStencilState();
 	desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
