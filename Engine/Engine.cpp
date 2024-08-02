@@ -268,12 +268,12 @@ void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color
 }
 
 void Engine::DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
+	lightGroup_->DrawLi(dxCommands_->GetCommandList(), 3);
 	baseParticle->Draw(dxCommands_->GetCommandList(), numInstance);
 }
 
 void Engine::DrawBaseGameObject(BaseGameObject* gameObject, const WorldTransform& worldTransform) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
+	lightGroup_->Draw(dxCommands_->GetCommandList(), 5);
 	gameObject->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
 }
 

@@ -47,6 +47,7 @@ public:
 	void Init(ID3D12Device* device, const uint32_t& vBSize, const uint32_t& iBSize);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
+	void DrawPar(ID3D12GraphicsCommandList* commandList);
 
 	void Finalize();
 

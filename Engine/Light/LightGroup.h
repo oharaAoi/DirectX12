@@ -27,6 +27,8 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
 
+	void DrawLi(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
+
 public:
 
 	void SetEyePos(const Vector3& pos) { eyePos_ = pos; }

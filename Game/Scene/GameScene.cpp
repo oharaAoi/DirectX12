@@ -51,23 +51,16 @@ void GameScene::Update() {
 	// カメラの更新
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	camera_->Update();
+	Engine::SetEyePos(camera_->GetWorldTranslate());
+	Engine::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
-	sphereTransform_.Update();
 	sphereTransform_.Update();
 	sphereModelTransform_.Update();
-
-	//sphere_->Update(sphereWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-
-	/*model_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());*/
-	//sphereModel_->Update(sphereModelWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-	//teapotModel_->Update(teapotWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-
-	//terrainModel_->Update(triangleWorld, camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	emitter_->Update();
 
 	particle_->SetCameraMatrix(camera_->GetCameraMatrix());
-	/*particle_->Update(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());*/
+	particle_->Update(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// 当たり判定
@@ -75,8 +68,7 @@ void GameScene::Update() {
 	particleField_->Update();
 
 	Engine::SetEyePos(camera_->GetWorldTranslate());
-	//Engine::SetEyePos(camera_->GetTranslate());
-
+	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// sound
 	//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,26 +134,21 @@ void GameScene::Update() {
 	/*model_->ImGuiDraw("floor");
 	sphere_->ImGuiDraw("Sphere");
 	sphereModel_->ImGuiDraw("sphereModel");
-	teapotModel_->ImGuiDraw("teapot");
+	teapotModel_->ImGuiDraw("teapot");*/
 
-	particle_->ImGuiDraw();*/
+	particle_->ImGuiDraw();
 
 	sphereModel_->ImGuiDraw("sphereModel");
 }
 
 void GameScene::Draw() {
-	/*Engine::DrawModel(model_.get());
-	Engine::DrawModel(sphereModel_.get());
-	Engine::DrawModel(terrainModel_.get());
-	Engine::DrawModel(teapotModel_.get());
-	Engine::DrawSphere(sphere_.get());*/
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
-	Engine::DrawSphere(sphere_.get(), sphereTransform_);
+	/*Engine::DrawSphere(sphere_.get(), sphereTransform_);
 	Engine::DrawModel(terrainModel_.get(), sphereTransform_);
 	Engine::DrawModel(teapotModel_.get(), sphereTransform_);
-	Engine::DrawModel(sphereModel_.get(), sphereModelTransform_);
+	Engine::DrawModel(sphereModel_.get(), sphereModelTransform_);*/
 
 #pragma endregion
 
@@ -182,11 +169,10 @@ void GameScene::Draw() {
 #pragma region Particle
 
 	Engine::SetPipeline(PipelineKind::kParticlePipeline);
-	//particle_->Draw();
+	particle_->Draw();
 
 #pragma endregion
 
 	emitter_->Draw(camera_->GetViewMatrix() * camera_->GetProjectionMatrix());
-
 	particleField_->Draw(camera_->GetViewMatrix() * camera_->GetProjectionMatrix());
 }

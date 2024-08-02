@@ -254,6 +254,6 @@ namespace {
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;
 
-	static bool isRunCS_ = true;
+	static bool isRunCS_ = false;
 }
 
