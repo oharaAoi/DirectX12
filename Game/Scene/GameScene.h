@@ -60,11 +60,9 @@ private:
 		{640.0f, 360.0f, 0.0f, 1.0f}
 	};
 
-	// ---------- transform ---------- //
-	kTransform transform_;
-	kTransform sphereTransform_;
-	kTransform sphereModelTransform_;
-	kTransform teapotTransform_;
+	// トランスフォーム --------------------------------------
+	WorldTransform sphereTransform_;
+	WorldTransform sphereModelTransform_;
 
 	// ---------- parameter ---------- //
 	float roughness_;
