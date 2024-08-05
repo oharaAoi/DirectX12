@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include "Engine.h"
+#include "EffectSystem.h"
 #include "GameScene.h"
 #include "TestScene.h"
 #include "TaskScene.h"
@@ -19,6 +20,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 初期化
 	Engine::Initialize(kWindowWidth_, kWindowHeight_);
 
+	// effectSystem
+	EffectSystem* effectSystem = EffectSystem::GetInstacne();
+	effectSystem->Init();
+
 	std::unique_ptr<GameScene> game = std::make_unique<GameScene>();
 	std::unique_ptr<TestScene> test = std::make_unique<TestScene>();
 	std::unique_ptr<TaskScene> task = std::make_unique<TaskScene>();
@@ -27,15 +32,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	test->Init();
 	task->Init();
 
-	int sceneNumber = 2;
+	int sceneNumber = 1;
 
 	// mainループ
 	while (Engine::ProcessMessage()) {
 		Engine::BeginFrame();
 
-		// ---------------- //
+		// ------------------------------------ //
 		// 更新処理
-		// ---------------- //
+		// ------------------------------------ //
 
 		switch (sceneNumber) {
 		case kGame:
@@ -58,10 +63,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::Combo("sceneKind", &sceneNumber, "Game\0Test\0Task");
 		ImGui::End();
 
+		// ------------------------------------ //
+		// EffectSystemの更新
+		// ------------------------------------ //
+		effectSystem->Update();
 
-		// ---------------- //
+		// ------------------------------------ //
 		// 描画処理
-		// ---------------- //
+		// ------------------------------------ //
+
+		Engine::SetPipeline(PipelineKind::kParticlePipeline);
+		effectSystem->Draw();
+
+		Render::Update();
 		
 		// offScreenのスプライトを描画する
 		Engine::EndRenderTexture();
@@ -69,6 +83,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Engine::EndFrame();
 	}
 
+	effectSystem->Finalize();
 	Engine::Finalize();
 
 	return 0;

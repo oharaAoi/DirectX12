@@ -49,9 +49,9 @@ void TaskScene::Init() {
 void TaskScene::Update() {
 	// カメラの更新 -------------------------------------------------------------------
 	camera_->Update();
-	Engine::SetEyePos(camera_->GetWorldTranslate());
-	Engine::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-	Engine::SetViewProjection2D(camera_->GetViewMatrix2D(), camera_->GetProjectionMatrix2D());
+	Render::SetEyePos(camera_->GetWorldTranslate());
+	Render::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	Render::SetViewProjection2D(camera_->GetViewMatrix2D(), camera_->GetProjectionMatrix2D());
 
 	AddObject();
 
@@ -182,9 +182,9 @@ void TaskScene::Draw() {
 
 	for (std::list<ObjectData>::iterator iter = gameObjectList_.begin(); iter != gameObjectList_.end();) {
 		if (iter->modelObject == nullptr) {
-			Engine::DrawBaseGameObject(iter->gameObject.get(), iter->worldTransform);
+			Render::DrawBaseGameObject(iter->gameObject.get(), iter->worldTransform);
 		} else {
-			Engine::DrawBaseGameObject(iter->modelObject, iter->worldTransform);
+			Render::DrawBaseGameObject(iter->modelObject, iter->worldTransform);
 		}
 		iter++;
 	}
@@ -195,7 +195,7 @@ void TaskScene::Draw() {
 
 	Engine::SetPipeline(PipelineKind::kTexturelessPipeline);
 	for (std::list<ObjectData>::iterator iter = textureLessList_.begin(); iter != textureLessList_.end();) {
-		Engine::DrawModel(modelMap_["suzanne"].get(), iter->worldTransform);
+		Render::DrawModel(modelMap_["suzanne"].get(), iter->worldTransform);
 		iter++;
 	}
 
@@ -217,7 +217,7 @@ void TaskScene::Draw() {
 
 	Engine::SetPipeline(PipelineKind::kSpritePipeline);
 	for (std::list<std::unique_ptr<Sprite>> ::iterator iter = spriteList_.begin(); iter != spriteList_.end();) {
-		Engine::DrawSprite(iter->get());
+		Render::DrawSprite(iter->get());
 		iter++;
 	}
 

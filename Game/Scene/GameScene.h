@@ -6,9 +6,6 @@
 #include "DrawUtils.h"
 // gameObject
 #include "Camera.h"
-#include "Particle.h"
-#include "Emitter.h"
-#include "ParticleField.h"
 
 class GameScene {
 public:
@@ -26,10 +23,7 @@ private:
 
 	std::unique_ptr<Camera> camera_ = nullptr;
 	std::unique_ptr<Sphere> sphere_ = nullptr;
-	std::unique_ptr<Particle> particle_ = nullptr;
-
-	std::unique_ptr<Emitter> emitter_ = nullptr;
-	std::unique_ptr<ParticleField> particleField_ = nullptr;
+	
 
 	// ---------- model ---------- //
 	std::unique_ptr<Model> model_ = nullptr;

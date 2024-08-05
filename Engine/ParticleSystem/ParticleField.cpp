@@ -23,10 +23,10 @@ void ParticleField::Update() {
 	if (!onField_) {
 		return;
 	}
-	std::list<Particle::ParticleData>& particleList = particle_->GetParticleList();
-	for (std::list<Particle::ParticleData>::iterator particleIter = particleList.begin(); particleIter != particleList.end();) {
+	std::list<BaseEffect::ParticleData>& particleList = particle_->GetParticleList();
+	for (std::list<BaseEffect::ParticleData>::iterator particleIter = particleList.begin(); particleIter != particleList.end();) {
 		if (IsCollision(accelerationField_.area, (*particleIter).transform.translate)) {
-			(*particleIter).velocity += accelerationField_.acceleration * kDeltaTime;
+			(*particleIter).velocity += accelerationField_.acceleration * kDeltaTime_;
 		}
 		++particleIter;
 	}

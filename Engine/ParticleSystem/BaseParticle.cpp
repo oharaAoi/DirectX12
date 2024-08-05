@@ -1,5 +1,11 @@
 #include "BaseParticle.h"
 
+void BaseParticle::Finalize() {
+	materialArray_.clear();
+	meshArray_.clear();
+	particleForGPU_->Finalize();
+}
+
 void BaseParticle::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName, const uint32_t& instanceNum) {
 	std::string path = directorPath + "/" + fileName;
 	materialArray_ = LoadMaterialData(directorPath, fileName, device);

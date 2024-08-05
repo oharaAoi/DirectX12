@@ -1,6 +1,8 @@
 #include "Engine.h"
+// system
+#include "EffectSystem.h"
 
-Engine::Engine() {}
+Engine::Engine(){}
 
 Engine::~Engine() {}
 
@@ -12,8 +14,6 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	kClientWidth_ = backBufferWidth;
 	kClientHeight_ = backBufferHeight;
 
-	lightKind_ = LightGroup::Directional;
-
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	// ↓インスタンスの生成
@@ -22,6 +22,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	imguiManager_ = ImGuiManager::GetInstacne();
 	textureManager_ = TextureManager::GetInstance();
 	input_ = Input::GetInstance();
+	render_ = Render::GetInstacne();
 
 	// ↓各初期化
 	winApp_->CreateGameWindow();
@@ -37,18 +38,17 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	shaders_ = std::make_unique<Shader>();
 
 	graphicsPipelines_ = std::make_unique<GraphicsPipelines>();
+	primitivePipeline_ = std::make_unique<PrimitivePipeline>();
 	computeShader_ = std::make_unique<ComputeShader>();
-	primitiveDrawer_ = std::make_unique<PrimitiveDrawer>();
-
-	lightGroup_ = std::make_unique<LightGroup>();
-
-	viewProjection_ = std::make_unique<ViewProjection>();
-	viewProjection2D_ = std::make_unique<ViewProjection>();
 
 	renderTexture_ = std::make_unique<RenderTexture>();
 
+	//effectSystem_ = std::make_unique<EffectSystem>();
+
 	audio_ = std::make_unique<Audio>();
 
+	// shader
+	shaders_->Init();
 
 	// dxcommon
 	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get(), renderTarget_.get());
@@ -58,30 +58,21 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get());
 	// texture
 	textureManager_->Init(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_.get());
-	// shader
-	shaders_->Init();
 	// pipeline
 	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
-	primitivePipeline_ = std::make_unique<PrimitivePipeline>(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
+	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
 	// CS
 	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(),renderTarget_->GetOffScreenSRVHandle(RenderTargetType::OffScreen_RenderTarget), shaders_.get());
-	// light
-	lightGroup_->Init(dxDevice_->GetDevice());
 	// input
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 	// audio
 	audio_->Init();
-	// primitive
-	primitiveDrawer_->Init(dxDevice_->GetDevice());
 
-	viewProjection_->Init(dxDevice_->GetDevice());
-	viewProjection2D_->Init(dxDevice_->GetDevice());
+	render_->Init(dxCommands_->GetCommandList(), dxDevice_->GetDevice(), primitivePipeline_.get());
 
 	renderTexture_->Init(dxDevice_->GetDevice());
 
 	Log("Clear!\n");
-
-	lightKind_ = LightGroup::Directional;
 }
 
 
@@ -92,15 +83,11 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 void Engine::Finalize() {
 	renderTexture_->Finalize();
 
-	viewProjection2D_->Finalize();
-	viewProjection_->Finalize();
-
 	computeShader_->Finalize();
-
 	primitivePipeline_->Finalize();
 	graphicsPipelines_->Finalize();
-	primitiveDrawer_->Finalize();
-	lightGroup_->Finalize();
+
+	render_->Finalize();
 
 	renderTarget_->Finalize();
 	dxCompiler_->Finalize();
@@ -143,10 +130,6 @@ void Engine::BeginFrame() {
 	dxCommon_->Begin();
 
 	input_->Update();
-
-	lightGroup_->Update();
-
-	primitiveDrawer_->SetUseIndex(0);
 
 	DrawImGui();
 }
@@ -236,60 +219,6 @@ WorldTransform Engine::CreateWorldTransform() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　描画する関数群
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Engine::DrawTriangle(Triangle* triangle, const WorldTransform& worldTransform) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
-	triangle->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
-}
-
-void Engine::DrawSprite(Sprite* sprite) {
-	sprite->Draw(dxCommands_->GetCommandList());
-}
-
-void Engine::DrawSphere(Sphere* sphere, const WorldTransform& worldTransform) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
-	sphere->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
-}
-
-void Engine::DrawModel(Model* model, const WorldTransform& worldTransform) {
-	if (model->GetHasTexture()) {
-		lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
-	} else {
-		lightGroup_->Draw(dxCommands_->GetCommandList(), 3);
-	}
-	model->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
-}
-
-void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat) {
-	primitivePipeline_->Draw(dxCommands_->GetCommandList());
-	primitiveDrawer_->Draw(dxCommands_->GetCommandList(), p1, p2, color, vpMat);
-}
-
-void Engine::DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance) {
-	lightGroup_->DrawLi(dxCommands_->GetCommandList(), 3);
-	baseParticle->Draw(dxCommands_->GetCommandList(), numInstance);
-}
-
-void Engine::DrawBaseGameObject(BaseGameObject* gameObject, const WorldTransform& worldTransform) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
-	gameObject->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　ライトの設定
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Engine::SetLightKind(const LightGroup::LightKind& kind) {
-	lightKind_ = kind;
-}
-
-void Engine::SetEyePos(const Vector3& eyePos) {
-	lightGroup_->SetEyePos(eyePos);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　パイプラインの設定
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -312,18 +241,6 @@ void Engine::SetPipeline(const PipelineKind& kind) {
 		
 		break;
 	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ Viewの設定
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Engine::SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection) {
-	viewProjection_->SetViewProjection(view, projection);
-}
-
-void Engine::SetViewProjection2D(const Matrix4x4& view, const Matrix4x4& projection) {
-	viewProjection2D_->SetViewProjection(view, projection);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

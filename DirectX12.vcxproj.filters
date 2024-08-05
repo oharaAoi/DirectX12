@@ -240,9 +240,6 @@
     <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ParticleSystem\Particle.cpp">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ParticleSystem\ParticleForGPU.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
@@ -313,6 +310,18 @@
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ComputeShader\DepthOfField.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="EmissionEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -479,9 +488,6 @@
     <ClInclude Include="Engine\ParticleSystem\BaseParticle.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ParticleSystem\Particle.h">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\ParticleForGPU.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
@@ -555,6 +561,18 @@
       <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ComputeShader\DepthOfField.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\EffectSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="EmissionEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

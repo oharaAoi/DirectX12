@@ -14,24 +14,16 @@
 #include "ImGuiManager.h"
 #include "TextureManager.h"
 #include "Input.h"
-// GameObject
-#include "Triangle.h"
-#include "Sprite.h"
-#include "Sphere.h"
-#include "Model.h"
-#include "BaseParticle.h"
-// 2d
-#include "PrimitiveDrawer.h"
-// light
-#include "LightGroup.h"
 // audio
 #include "Audio.h"
 // data
 #include "Shader.h"
 // 
 #include "WorldTransform.h"
-#include "ViewProjection.h"
+// texture
 #include "RenderTexture.h"
+//
+#include "Render.h"
 
 enum class PipelineKind {
 	kNormalPipeline,
@@ -40,6 +32,8 @@ enum class PipelineKind {
 	kParticlePipeline,
 	kSpritePipeline
 };
+
+class EffectSystem;
 
 class Engine {
 public:
@@ -98,49 +92,17 @@ public:
 	// 描画系
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	// 三角形の描画
-	static void DrawTriangle(Triangle* triangle, const WorldTransform& worldTransform);
-	// スプライトの描画
-	static void DrawSprite(Sprite* sprite);
-
-	static void DrawSphere(Sphere* sphere, const WorldTransform& worldTransform);
-
-	static void DrawModel(Model* model, const WorldTransform& worldTransform);
-
-	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat);
-
-	static void DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance);
-
-	static void DrawBaseGameObject(BaseGameObject* gameObject, const WorldTransform& worldTransform);
-
 	//static void DrawGameObject(BaseGameObject* gameObject, const GameObjectKind& kind);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 設定系
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	static void SetLightKind(const LightGroup::LightKind& kind);
-
-	static void SetEyePos(const Vector3& eyePos);
 
 	/// <summary>
 	/// パイプラインの設定
 	/// </summary>
 	/// <param name="kind">設定するパイプライン</param>
 	static void SetPipeline(const PipelineKind& kind);
-
-	/// <summary>
-	/// 画面に移す範囲をここで設定する
-	/// </summary>
-	/// <param name="view"></param>
-	/// <param name="projection"></param>
-	static void SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection);
-
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="view"></param>
-	/// <param name="projection"></param>
-	static void SetViewProjection2D(const Matrix4x4& view, const Matrix4x4& projection);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// sound系
@@ -213,10 +175,11 @@ private:
 // 無名名前空間で内部リンゲージする
 // ======================================================== //
 namespace {
+
 	int32_t kClientWidth_;
 	int32_t kClientHeight_;
 
-	LightGroup::LightKind lightKind_;
+	Render* render_ = nullptr;
 
 	WinApp* winApp_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
@@ -238,18 +201,10 @@ namespace {
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
 	// CS
 	std::unique_ptr<ComputeShader> computeShader_ = nullptr;
-	// light
-	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 	// audio
 	std::unique_ptr<Audio> audio_ = nullptr;
-	// primitive
-	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
 	// shaderファイルのパスをまとめたクラス
 	std::unique_ptr<Shader> shaders_;
-
-	// viewProjection
-	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
-	std::unique_ptr<ViewProjection> viewProjection2D_ = nullptr;
 
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;

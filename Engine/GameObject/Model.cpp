@@ -29,7 +29,7 @@ void Model::Init(ID3D12Device* device, const std::string& directorPath, const st
 // 更新関数
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void Model::Update() {
-	currentAnimationTime_ += rootNode_.animationsData.tickPerSecond * deltaTime_;
+	currentAnimationTime_ += rootNode_.animationsData.tickPerSecond * kDeltaTime_;
 	currentAnimationTime_ = fmod(currentAnimationTime_, rootNode_.animationsData.duration);
 
 	AnimationUpdate();

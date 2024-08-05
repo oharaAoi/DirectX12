@@ -16,6 +16,8 @@ public:
 	BaseParticle() = default;
 	~BaseParticle() = default;
 
+	virtual void Finalize();
+
 	virtual void Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName, const uint32_t& instanceNum);
 
 	virtual void Update(const Matrix4x4& world, const Matrix4x4& viewMat, const Matrix4x4& projection,const Vector4& color, const uint32_t& index);

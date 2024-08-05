@@ -23,18 +23,6 @@ void GameScene::Init() {
 	sphereTransform_ = Engine::CreateWorldTransform();
 	sphereModelTransform_ = Engine::CreateWorldTransform();
 
-	particle_ = std::make_unique<Particle>();
-	particle_->Init("particle.obj", 100);
-
-	emitter_ = std::make_unique<Emitter>();
-	emitter_->Init();
-
-	particleField_ = std::make_unique<ParticleField>();
-	particleField_->Init();
-
-	emitter_->SetParticle(particle_.get());
-	particleField_->SetParticle(particle_.get());
-
 	roughness_ = 0.5f;
 	metallic_ = 0.5f;
 
@@ -51,23 +39,11 @@ void GameScene::Update() {
 	// カメラの更新
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	camera_->Update();
-	Engine::SetEyePos(camera_->GetWorldTranslate());
-	Engine::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	Render::SetEyePos(camera_->GetWorldTranslate());
+	Render::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 	sphereTransform_.Update();
 	sphereModelTransform_.Update();
-
-	emitter_->Update();
-
-	particle_->SetCameraMatrix(camera_->GetCameraMatrix());
-	particle_->Update(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	// 当たり判定
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	particleField_->Update();
-
-	Engine::SetEyePos(camera_->GetWorldTranslate());
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// sound
@@ -122,21 +98,12 @@ void GameScene::Update() {
 		ImGui::DragFloat("roughness", &roughness_, 0.01f, 0.0f, 1.0f);
 	}
 
-	if (ImGui::CollapsingHeader("LightingKind")) {
-		ImGui::Combo("lightKind", &lightKind_, "directional\0PBR");
-
-		LightGroup::LightKind kind = static_cast<LightGroup::LightKind>(lightKind_);
-		Engine::SetLightKind(kind);
-	}
-
 	ImGui::End();
 
 	/*model_->ImGuiDraw("floor");
 	sphere_->ImGuiDraw("Sphere");
 	sphereModel_->ImGuiDraw("sphereModel");
 	teapotModel_->ImGuiDraw("teapot");*/
-
-	particle_->ImGuiDraw();
 
 	sphereModel_->ImGuiDraw("sphereModel");
 }
@@ -169,6 +136,5 @@ void GameScene::Draw() {
 
 #pragma endregion
 
-	emitter_->Draw(camera_->GetViewMatrix() * camera_->GetProjectionMatrix());
-	particleField_->Draw(camera_->GetViewMatrix() * camera_->GetProjectionMatrix());
+	
 }

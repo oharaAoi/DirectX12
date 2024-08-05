@@ -7,9 +7,10 @@
 // gameObject
 #include "BaseGameObject.h"
 #include "Camera.h"
-#include "Particle.h"
 #include "Emitter.h"
 #include "ParticleField.h"
+// effectSystem
+#include "EffectSystem.h"
 
 class TestScene {
 public:

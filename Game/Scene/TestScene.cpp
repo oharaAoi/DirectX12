@@ -32,22 +32,30 @@ void TestScene::Init() {
 // 更新
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Update() {
-	// カメラの更新 -------------------------------------------------------------------
+	// -------------------------------------------------
+	// ↓ カメラの更新
+	// -------------------------------------------------
 	camera_->Update();
-	Engine::SetEyePos(camera_->GetWorldTranslate());
-	Engine::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	Render::SetEyePos(camera_->GetWorldTranslate());
+	Render::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	Render::SetViewProjection2D(camera_->GetViewMatrix2D(), camera_->GetProjectionMatrix2D());
 
-	// 行列の作成 --------------------------------------------------------------
+	// -------------------------------------------------
+	// ↓ ParticleのViewを設定する
+	// -------------------------------------------------
+	EffectSystem::GetInstacne()->SetCameraMatrix(camera_->GetCameraMatrix());
+	EffectSystem::GetInstacne()->SetViewProjectionMatrix(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
+	// -------------------------------------------------
+	// ↓ 行列の更新
+	// -------------------------------------------------
 	skinTransform_.Update();
 	sphereTransform_.Update();
-//	cubeTransform_.Update();
+	cubeTransform_.Update();
 
-	// gameObjectの更新 ---------------------------------------------------------
-	/*skinModel_->Update();
-	sphereModel_->Update();
-	cubeModel_->Update();*/
-
-	// ImGuiの更新 --------------------------------------------------------
+	// -------------------------------------------------
+	// ↓ の更新
+	// -------------------------------------------------
 	ImGuiDraw();
 }
 
@@ -55,8 +63,8 @@ void TestScene::Draw() {
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
-	Engine::DrawModel(skinModel_.get(), skinTransform_);
-	Engine::DrawModel(sphereModel_.get(), sphereTransform_);
+	Render::DrawModel(skinModel_.get(), skinTransform_);
+	Render::DrawModel(sphereModel_.get(), sphereTransform_);
 	//Engine::DrawModel(cubeModel_.get(), cubeTransform_);
 
 #pragma endregion

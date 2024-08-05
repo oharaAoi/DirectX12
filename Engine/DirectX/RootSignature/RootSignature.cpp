@@ -276,7 +276,7 @@ Microsoft::WRL::ComPtr<ID3D12RootSignature> RootSignature::CreateParticleRootSig
 
 	// light用
 	rootParameters[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	// CBVを使う
-	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;// VertexShaderで使う
+	rootParameters[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL; // PixelShaderで使う
 	rootParameters[3].Descriptor.ShaderRegister = 1;					// レジスタ番号とバインド
 
 	desc.pParameters = rootParameters;

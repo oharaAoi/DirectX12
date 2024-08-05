@@ -1,13 +1,11 @@
 #include "PrimitivePipeline.h"
 
-PrimitivePipeline::PrimitivePipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader) {
-	Initialize(device, dxCompiler, shader);
+PrimitivePipeline::PrimitivePipeline() {
 }
 
 PrimitivePipeline::~PrimitivePipeline() {
 }
-
-void PrimitivePipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader) {
+void PrimitivePipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader) {
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 

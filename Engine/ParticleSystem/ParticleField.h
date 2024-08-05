@@ -1,6 +1,6 @@
 #pragma once
-#include "Engine.h"
-#include "Particle.h"
+#include "BaseEffect.h"
+#include "Render.h"
 #include "MathStructures.h"
 #include "BoxCollider.h"
 #include "DrawUtils.h"
@@ -33,7 +33,7 @@ public:
 	/// 当たり判定を取るParticleをセットする
 	/// </summary>
 	/// <param name="particle"></param>
-	void SetParticle(Particle* particle) {
+	void SetParticle(BaseEffect* particle) {
 		particle_ = particle;
 	}
 
@@ -41,7 +41,7 @@ private:
 
 	AccelerationField accelerationField_;
 
-	Particle* particle_ = nullptr;
+	BaseEffect* particle_ = nullptr;
 
 	bool onField_;
 
