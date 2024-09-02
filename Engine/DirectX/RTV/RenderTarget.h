@@ -13,7 +13,7 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
-static const uint32_t renderTargetNum_ = 1;
+static const uint32_t renderTargetNum_ = 2;
 
 enum RenderTargetType {
 	OffScreen_RenderTarget,

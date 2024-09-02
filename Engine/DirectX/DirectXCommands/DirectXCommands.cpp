@@ -16,14 +16,14 @@ void DirectXCommands::Initialize(ID3D12Device* device) {
 }
 
 void DirectXCommands::Finalize() {
-	CloseHandle(computeFenceEvent_);
-	computeFence_.Reset();
+	CloseHandle(effectFenceEvent_);
+	effectFence_.Reset();
 	CloseHandle(fenceEvent_);
 	fence_.Reset();
 
-	computeCommandQueue_.Reset();
-	computeCommandAllocator_.Reset();
-	computeCommandList_.Reset();
+	effectCommandQueue_.Reset();
+	effectCommandAllocator_.Reset();
+	effectCommandList_.Reset();
 
 	commandQueue_.Reset();
 	commandAllocator_.Reset();
@@ -51,20 +51,20 @@ void DirectXCommands::CreateCommand() {
 	hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_.Get(), nullptr, IID_PPV_ARGS(&commandList_));
 	assert(SUCCEEDED(hr));
 
-	// computeShader用のコマンド系の初期化 ======================================================================
+	// effectShader用のコマンド系の初期化 ======================================================================
 	// コマンドキューを生成する
-	D3D12_COMMAND_QUEUE_DESC computeQueueDesc = {};
-	computeQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_COMPUTE;
-	computeQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-	hr = device_->CreateCommandQueue(&computeQueueDesc, IID_PPV_ARGS(&computeCommandQueue_));
+	D3D12_COMMAND_QUEUE_DESC effectQueueDesc = {};
+	effectQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_COMPUTE;
+	effectQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+	hr = device_->CreateCommandQueue(&effectQueueDesc, IID_PPV_ARGS(&effectCommandQueue_));
 	assert(SUCCEEDED(hr));
 
 	// コマンドアロケータを生成する
-	hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COMPUTE, IID_PPV_ARGS(&computeCommandAllocator_));
+	hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COMPUTE, IID_PPV_ARGS(&effectCommandAllocator_));
 	assert(SUCCEEDED(hr));
 
 	// コマンドリストを生成する ----------------------------
-	hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_COMPUTE, computeCommandAllocator_.Get(), nullptr, IID_PPV_ARGS(&computeCommandList_));
+	hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_COMPUTE, effectCommandAllocator_.Get(), nullptr, IID_PPV_ARGS(&effectCommandList_));
 	assert(SUCCEEDED(hr));
 }
 
@@ -82,14 +82,14 @@ void DirectXCommands::CreateFence() {
 	fenceEvent_ = CreateEvent(NULL, false, false, NULL);
 	assert(fenceEvent_ != nullptr);
 
-	// computeShader用のフェンスの初期化 ======================================================================
-	computeFenceValue_ = 0;
-	hr = device_->CreateFence(computeFenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&computeFence_));
+	// effectShader用のフェンスの初期化 ======================================================================
+	effectFenceValue_ = 0;
+	hr = device_->CreateFence(effectFenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&effectFence_));
 	assert(SUCCEEDED(hr));
 
 	// Fenceのsignalを待つためのイベントを作成する
-	computeFenceEvent_ = CreateEvent(NULL, false, false, NULL);
-	assert(computeFenceEvent_ != nullptr);
+	effectFenceEvent_ = CreateEvent(NULL, false, false, NULL);
+	assert(effectFenceEvent_ != nullptr);
 
 }
 
@@ -115,18 +115,18 @@ void DirectXCommands::SyncGPUAndCPU() {
 /// <summary>
 /// コンピュートシェーダーを行った後にGPUとCPU
 /// </summary>
-void DirectXCommands::ComputeShaderSyncGPUAndCPU() {
+void DirectXCommands::EffectShaderSyncGPUAndCPU() {
 	// fenceの値を更新
-	computeFenceValue_++;
+	effectFenceValue_++;
 	// GPUがここまでたどり着いた時に,fenceの値を指定した値に第謬するようにsignelを送る
-	computeCommandQueue_->Signal(fence_.Get(), computeFenceValue_);
+	effectCommandQueue_->Signal(fence_.Get(), effectFenceValue_);
 
 	// Fenceの値が指定したSignal値にたどりついているか確認する
 	// GetCompletedValueの初期値はFence作成時に渡した初期値
-	if (fence_->GetCompletedValue() < computeFenceValue_) {
+	if (fence_->GetCompletedValue() < effectFenceValue_) {
 		// 指定下Signalにたどりついていないので、たどりつくまで松ようにイベントを設定する
-		fence_->SetEventOnCompletion(computeFenceValue_, computeFenceEvent_);
+		fence_->SetEventOnCompletion(effectFenceValue_, effectFenceEvent_);
 
-		WaitForSingleObject(computeFenceEvent_, INFINITE);
+		WaitForSingleObject(effectFenceEvent_, INFINITE);
 	}
 }

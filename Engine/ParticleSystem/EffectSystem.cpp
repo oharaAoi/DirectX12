@@ -7,13 +7,26 @@ EffectSystem* EffectSystem::GetInstacne() {
 	return &instance;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void EffectSystem::Init() {
 	particleField_ = std::make_unique<ParticleField>();
 	particleField_->Init();
 	/*particleField_->SetParticle(particle_.get());*/
 
 	CreateEffect();
+
+	// -------------------------------------------------
+	// ↓ Systemの初期化
+	// -------------------------------------------------
+	dxCommon_ = DirectXCommon::GetInstacne();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystem::Finalize() {
 	for (std::list<EffectData>::iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
@@ -26,6 +39,10 @@ void EffectSystem::Finalize() {
 		++effectDataListIter;
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystem::Update() {
 	for (std::list<EffectData>::iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
@@ -52,13 +69,17 @@ void EffectSystem::Update() {
 	// -------------------------------------------------
 	// ↓ 当たり判定の実装
 	// -------------------------------------------------
-	//particleField_->Update();
+	particleField_->Update();
 
 	// -------------------------------------------------
 	// ↓ ImGuiの描画
 	// -------------------------------------------------
 	//particle_->ImGuiDraw();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystem::Draw() {
 	for (std::list<EffectData>::iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
@@ -84,6 +105,10 @@ void EffectSystem::Draw() {
 	particleField_->Draw(viewMat_ * projectionMat_);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　メンバ関数
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void EffectSystem::CreateEffect() {
 	EffectData effectData;
 	std::unique_ptr<BaseEffect> effect = std::make_unique<BaseEffect>();
@@ -101,3 +126,11 @@ void EffectSystem::SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matri
 	projectionMat_ = projection;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Syetemのための関数群
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EffectSystem::Begin() {
+
+}

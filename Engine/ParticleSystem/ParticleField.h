@@ -5,6 +5,7 @@
 #include "BoxCollider.h"
 #include "DrawUtils.h"
 
+
 class ParticleField {
 public: // データ構造体
 
@@ -26,6 +27,11 @@ public:
 	void Update();
 
 	void Draw(const Matrix4x4& vpMatrix);
+
+	/// <summary>
+	/// ImGuiを編集する
+	/// </summary>
+	void EditImGui();
 
 public:
 

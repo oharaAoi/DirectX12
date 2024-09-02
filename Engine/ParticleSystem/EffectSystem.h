@@ -1,5 +1,9 @@
 #pragma once
+// DirectX
+#include "DirectXCommon.h"
+// Emmiter
 #include "Emitter.h"
+// Field
 #include "ParticleField.h"
 // Effect
 #include "BaseEffect.h"
@@ -54,6 +58,14 @@ public:
 	/// </summary>
 	void CreateEffect();
 
+public:	// ImGui上でEffectだけを描画するための処理をする関数
+
+	/// <summary>
+	/// 描画前の処理
+	/// </summary>
+	void Begin();
+
+
 public: // accessor
 
 	void SetCameraMatrix(const Matrix4x4& cameraMat) { cameraMat_ = cameraMat; }
@@ -68,5 +80,13 @@ private:
 	Matrix4x4 viewMat_;
 	Matrix4x4 projectionMat_;
 
+	// ------------------- ImGui上でEffectを作成するために必要な変数 ------------------- //
+	D3D12_RESOURCE_BARRIER barrier_;
+	// swapChain
+	ComPtr<ID3D12Resource> swapChainRenderResource_[2];
+
+	DirectXCommon* dxCommon_ = nullptr; 
+	DescriptorHeap* descriptorHeaps_ = nullptr;
+	DirectXCommands* dxCommands_ = nullptr;
 };
 

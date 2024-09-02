@@ -18,6 +18,7 @@ void ParticleField::Update() {
 
 	ImGui::Begin("Field");
 	ImGui::Checkbox("onField", &onField_);
+	EditImGui();
 	ImGui::End();
 
 	if (!onField_) {
@@ -33,6 +34,21 @@ void ParticleField::Update() {
 }
 
 void ParticleField::Draw(const Matrix4x4& vpMatrix) {
-	DrawAABB(accelerationField_.area, vpMatrix, {1,0,0,1});
+	if (onField_) {
+		DrawAABB(accelerationField_.area, vpMatrix, { 1,0,0,1 });
+	}
+}
+
+void ParticleField::EditImGui() {
+#ifdef _DEBUG
+	ImGui::Begin("ParticleFile");
+	if (ImGui::BeginMenu("accelerationField")) {
+		ImGui::DragFloat3("acceleration", &accelerationField_.acceleration.x, 0.01f);
+		ImGui::DragFloat3("area.min", &accelerationField_.area.min.x, 0.01f);
+		ImGui::DragFloat3("area.max", &accelerationField_.area.max.x, 0.01f);
+		ImGui::EndMenu();
+	}
+	ImGui::End();
+#endif
 }
 

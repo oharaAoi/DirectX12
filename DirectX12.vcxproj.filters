@@ -309,20 +309,20 @@
     <ClCompile Include="Engine\ComputeShader\GaussianBlur.cpp">
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ComputeShader\DepthOfField.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Render.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="BaseEffect.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\ParticleSystem\EmissionEffect.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="EmissionEffect.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ComputeShader\DepthOfField.cpp">
+      <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -560,20 +560,20 @@
     <ClInclude Include="Engine\ComputeShader\GaussianBlur.h">
       <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ComputeShader\DepthOfField.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ParticleSystem\EffectSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Render.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="BaseEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\ParticleSystem\EmissionEffect.h">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="EmissionEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\ParticleSystem\EffectSystem.h">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\BaseEffect.h">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ComputeShader\DepthOfField.h">
+      <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

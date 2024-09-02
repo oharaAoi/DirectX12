@@ -92,8 +92,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseEffect.cpp" />
-    <ClCompile Include="EmissionEffect.cpp" />
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Assets\Material.cpp" />
     <ClCompile Include="Engine\Assets\Mesh.cpp" />
@@ -141,8 +139,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Math\MyMath.cpp" />
     <ClCompile Include="Engine\Math\MyMatrix.cpp" />
     <ClCompile Include="Engine\Math\MyRandom.cpp" />
+    <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp" />
     <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp" />
     <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp" />
+    <ClCompile Include="Engine\ParticleSystem\EmissionEffect.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Emitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\ParticleField.cpp" />
     <ClCompile Include="Engine\ParticleSystem\ParticleForGPU.cpp" />
@@ -168,8 +168,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Render.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseEffect.h" />
-    <ClInclude Include="EmissionEffect.h" />
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Assets\Material.h" />
     <ClInclude Include="Engine\Assets\Mesh.h" />
@@ -224,8 +222,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
+    <ClInclude Include="Engine\ParticleSystem\BaseEffect.h" />
     <ClInclude Include="Engine\ParticleSystem\BaseParticle.h" />
     <ClInclude Include="Engine\ParticleSystem\EffectSystem.h" />
+    <ClInclude Include="Engine\ParticleSystem\EmissionEffect.h" />
     <ClInclude Include="Engine\ParticleSystem\Emitter.h" />
     <ClInclude Include="Engine\ParticleSystem\ParticleField.h" />
     <ClInclude Include="Engine\ParticleSystem\ParticleForGPU.h" />

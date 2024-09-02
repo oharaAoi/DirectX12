@@ -40,7 +40,7 @@ public:
 	/// <summary>
 	/// コンピュートシェーダーを行った後にGPUとCPU
 	/// </summary>
-	void ComputeShaderSyncGPUAndCPU();
+	void EffectShaderSyncGPUAndCPU();
 
 public:
 	/// <summary>
@@ -68,12 +68,12 @@ private:
 	HANDLE fenceEvent_;
 
 	// computeShader用のコマンド系 ---------------------------------------------
-	ComPtr<ID3D12CommandQueue> computeCommandQueue_ = nullptr;
-	ComPtr<ID3D12CommandAllocator> computeCommandAllocator_ = nullptr;
-	ComPtr<ID3D12GraphicsCommandList> computeCommandList_ = nullptr;
+	ComPtr<ID3D12CommandQueue> effectCommandQueue_ = nullptr;
+	ComPtr<ID3D12CommandAllocator> effectCommandAllocator_ = nullptr;
+	ComPtr<ID3D12GraphicsCommandList> effectCommandList_ = nullptr;
 
 	// Fence & Event
-	ComPtr<ID3D12Fence> computeFence_ = nullptr;
-	uint64_t computeFenceValue_;
-	HANDLE computeFenceEvent_;
+	ComPtr<ID3D12Fence> effectFence_ = nullptr;
+	uint64_t effectFenceValue_;
+	HANDLE effectFenceEvent_;
 };
