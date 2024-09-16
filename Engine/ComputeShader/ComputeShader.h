@@ -5,11 +5,11 @@
 #include <cassert>
 #include <memory>
 #include <vector>
-#include "MyMath.h"
+#include "Engine/Math/MyMath.h"
 // PSO
 #include "ComputeShaderPipeline.h"
-#include "TextureManager.h"
-#include "Shader.h"
+#include "Engine/Manager/TextureManager.h"
+#include "Engine/Utilities/Shader.h"
 // postEffect
 #include "GrayScale.h"
 #include "GaussianBlur.h"

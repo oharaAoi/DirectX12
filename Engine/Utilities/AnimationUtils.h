@@ -7,7 +7,7 @@
 
 #include <math.h>
 #include <cmath>
-#include "Vector3.h"
+#include "Engine/Math/Vector3.h"
 
 struct KeysData {
 	std::vector<aiVectorKey> vectorKeys;

@@ -12,15 +12,14 @@
 #include <assimp/postprocess.h>
 
 #include "Enviroment.h"
-#include "BaseGameObject.h"
-#include "Mesh.h"
-#include "Material.h"
-#include "WorldTransform.h"
-#include "ViewProjection.h"
-#include "TextureManager.h"
-
+#include "Engine/GameObject/BaseGameObject.h"
+#include "Engine/Assets/Mesh.h"
+#include "Engine/Assets/Material.h"
+#include "Engine/Assets/WorldTransform.h"
+#include "Engine/Assets/ViewProjection.h"
+#include "Engine/Manager/TextureManager.h"
 #include <cmath>
-#include "AnimationUtils.h"
+#include "Engine/Utilities/AnimationUtils.h"
 
 class Model
 	: public BaseGameObject {

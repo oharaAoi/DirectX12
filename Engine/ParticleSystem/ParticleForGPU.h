@@ -5,10 +5,10 @@
 #include <wrl.h>
 #include <string>
 // DirectX
-#include "DirectXUtils.h"
-#include "DescriptorHeap.h"
+#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 // math
-#include "MyMath.h"
+#include "Engine/Math/MyMath.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

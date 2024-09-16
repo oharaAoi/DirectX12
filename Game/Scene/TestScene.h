@@ -1,16 +1,16 @@
 #pragma once
 #include "Engine.h"
-#include "Input.h"
+#include "Engine/Input/Input.h"
 // lib
-#include "Transform.h"
-#include "DrawUtils.h"
+#include "Engine/Lib/Transform.h"
+#include "Engine/Utilities/DrawUtils.h"
 // gameObject
-#include "BaseGameObject.h"
-#include "Camera.h"
-#include "Emitter.h"
-#include "ParticleField.h"
+#include "Engine/GameObject/BaseGameObject.h"
+#include "Game/Camera/Camera.h"
+#include "Engine/ParticleSystem/Emitter.h"
+#include "Engine/ParticleSystem/ParticleField.h"
 // effectSystem
-#include "EffectSystem.h"
+#include "Engine/ParticleSystem/EffectSystem.h"
 
 class TestScene {
 public:

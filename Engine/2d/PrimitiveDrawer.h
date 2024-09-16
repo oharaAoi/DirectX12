@@ -4,13 +4,10 @@
 #include "dxgidebug.h"
 #include <cassert>
 #include <memory>
-#include "Mesh.h"
-#include "MyMatrix.h"
-
-#include "MyMath.h"
-
-
-#include "ImGuiManager.h"
+#include "Engine/Assets/Mesh.h"
+#include "Engine/Math/MyMatrix.h"
+#include "Engine/Math/MyMath.h"
+#include "Engine/Manager/ImGuiManager.h"
 
 class PrimitiveDrawer {
 public : // データ構造体

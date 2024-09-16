@@ -1,15 +1,15 @@
 #pragma once
 // GameObject
-#include "Triangle.h"
-#include "Sprite.h"
-#include "Sphere.h"
-#include "Model.h"
-#include "BaseParticle.h"
+#include "Engine/GameObject/Triangle.h"
+#include "Engine/GameObject/Sprite.h"
+#include "Engine/GameObject/Sphere.h"
+#include "Engine/GameObject/Model.h"
+#include "Engine/ParticleSystem/BaseParticle.h"
 // 2d
-#include "PrimitiveDrawer.h"
-#include "PrimitivePipeline.h"
+#include "Engine/DirectX/Pipeline/PrimitivePipeline.h"
+#include "Engine/2d/PrimitiveDrawer.h"
 // light
-#include "LightGroup.h"
+#include "Engine/Light/LightGroup.h"
 
 /// <summary>
 /// GameObjectの描画を行う

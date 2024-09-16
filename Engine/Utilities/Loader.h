@@ -6,8 +6,8 @@
 #include <cassert>
 #include <unordered_map>
 
-#include "Mesh.h"
-#include "Material.h"
+#include "Engine/Assets/Mesh.h"
+#include "Engine/Assets/Material.h"
 
 /// <summary>
 /// meshの情報を読み込む

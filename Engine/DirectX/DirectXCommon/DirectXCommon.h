@@ -5,18 +5,18 @@
 #include <wrl.h>
 #include <memory>
 // winapp
-#include "WinApp.h"
+#include "Engine/WinApp/WinApp.h"
 // DirectX
-#include "DescriptorHeap.h"
-#include "DirectXCommands.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
 // DXC
 #include <dxcapi.h>
 // RT
-#include "RenderTarget.h"
+#include "Engine/DirectX/RTV/RenderTarget.h"
 // utilities
-#include "Convert.h"
-#include "DirectXUtils.h"
-#include "Debug.h"
+#include "Engine/Utilities/Convert.h"
+#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/Utilities/Debug.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

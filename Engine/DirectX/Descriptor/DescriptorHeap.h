@@ -5,9 +5,9 @@
 #include <cassert>
 #include <wrl.h>
 // utilities
-#include "DirectXUtils.h"
+#include "Engine/Utilities/DirectXUtils.h"
 
-#include "DescriptorSize.h"
+#include "Engine/DirectX/Descriptor/DescriptorSize.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseCSResource.h"
-#include "DirectXCommon.h"
+#include "Engine/DirectX/DirectXCommon/DirectXCommon.h"
 
 class DepthOfField : 
 	public BaseCSResource {

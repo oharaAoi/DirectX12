@@ -1,9 +1,9 @@
 #include <Windows.h>
 #include "Engine.h"
-#include "EffectSystem.h"
-#include "GameScene.h"
-#include "TestScene.h"
-#include "TaskScene.h"
+#include "Engine/ParticleSystem/EffectSystem.h"
+#include "Game/Scene/GameScene.h"
+#include "Game/Scene/TestScene.h"
+#include "Game/Scene/TaskScene.h"
 
 enum Scene {
 	kGame,

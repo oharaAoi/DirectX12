@@ -6,12 +6,12 @@
 #include <cassert>
 #include <unordered_map>
 
-#include "Mesh.h"
-#include "Material.h"
-#include "TransformationMatrix.h"
-#include "WorldTransform.h"
-#include "ViewProjection.h"
-#include "TextureManager.h"
+#include "Engine/Assets/Mesh.h"
+#include "Engine/Assets/Material.h"
+#include "Engine/Assets/TransformationMatrix.h"
+#include "Engine/Assets/WorldTransform.h"
+#include "Engine/Assets/ViewProjection.h"
+#include "Engine/Manager/TextureManager.h"
 
 enum class GameObjectType {
 	Model_Type,

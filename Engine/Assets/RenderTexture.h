@@ -1,9 +1,8 @@
 #pragma once
 #include "Mesh.h"
 #include "Material.h"
-#include "TransformationMatrix.h"
-#include "TextureManager.h"
-#include "ImGuiManager.h"
+#include "Engine/Manager/TextureManager.h"
+#include "Engine/Manager/ImGuiManager.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

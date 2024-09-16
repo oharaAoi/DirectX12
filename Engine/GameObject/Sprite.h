@@ -1,10 +1,10 @@
 #pragma once
-#include "Mesh.h"
-#include "Material.h"
-#include "TextureManager.h"
-#include "ImGuiManager.h"
-#include "WorldTransform.h"
-#include "ViewProjection.h"
+#include "Engine/Assets/Mesh.h"
+#include "Engine/Assets/Material.h"
+#include "Engine/Manager/TextureManager.h"
+#include "Engine/Manager/ImGuiManager.h"
+#include "Engine/Assets/WorldTransform.h"
+#include "Engine/Assets/ViewProjection.h"
 
 class Sprite {
 public:

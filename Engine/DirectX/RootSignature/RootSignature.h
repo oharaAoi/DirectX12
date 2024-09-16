@@ -5,9 +5,9 @@
 #include <cassert>
 #include <wrl.h>
 // utilities
-#include "Convert.h"
-#include "DirectXUtils.h"
-#include "Debug.h"
+#include "Engine/Utilities/Convert.h"
+#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/Utilities/Debug.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

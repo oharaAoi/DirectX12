@@ -4,10 +4,10 @@
 #include <cassert>
 #include <wrl.h>
 // utilities
-#include "Convert.h"
-#include "DirectXUtils.h"
+#include "Engine/Utilities/Convert.h"
+#include "Engine/Utilities/DirectXUtils.h"
 // DirectX系
-#include "DirectXDevice.h"
+#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

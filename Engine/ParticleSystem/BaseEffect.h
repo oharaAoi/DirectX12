@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine.h"
-#include "MyRandom.h"
+#include "Engine/Math/MyRandom.h"
 #include "Emitter.h"
 
 /// <summary>

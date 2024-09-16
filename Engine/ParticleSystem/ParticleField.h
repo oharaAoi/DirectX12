@@ -1,9 +1,9 @@
 #pragma once
 #include "BaseEffect.h"
 #include "Render.h"
-#include "MathStructures.h"
-#include "BoxCollider.h"
-#include "DrawUtils.h"
+#include "Engine/Math/MathStructures.h"
+#include "Engine/Collider/BoxCollider.h"
+#include "Engine/Utilities/DrawUtils.h"
 
 
 class ParticleField {

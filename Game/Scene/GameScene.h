@@ -1,11 +1,10 @@
 #pragma once
 #include "Engine.h"
-#include "Input.h"
 // lib
-#include "Transform.h"
-#include "DrawUtils.h"
+#include "Engine/Lib/Transform.h"
+#include "Engine/Utilities/DrawUtils.h"
 // gameObject
-#include "Camera.h"
+#include "Game/Camera/Camera.h"
 
 class GameScene {
 public:

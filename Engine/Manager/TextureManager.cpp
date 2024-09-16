@@ -15,6 +15,7 @@ void TextureManager::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comma
 	srvData_.clear();
 
 	LoadTextureFile("uvChecker.png", commandList);
+	LoadTextureFile("tori.png", commandList);
 	LoadTextureFile("monsterBall.png", commandList);
 	LoadTextureFile("checkerBoard.png", commandList);
 	LoadTextureFile("fence.png", commandList);

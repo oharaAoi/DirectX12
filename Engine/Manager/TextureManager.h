@@ -6,9 +6,9 @@
 #include <Externals/DirectXTex/DirectXTex.h>
 #include <Externals/DirectXTex/d3dx12.h>
 
-#include "Convert.h"
-#include "DirectXUtils.h"
-#include "DescriptorHeap.h"
+#include "Engine/Utilities/Convert.h"
+#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

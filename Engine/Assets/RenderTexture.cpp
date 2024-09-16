@@ -79,8 +79,8 @@ void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList, const D3D12_GPU
 	commandList->SetGraphicsRootDescriptorTable(2, srvHandleGPU);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
-	ImGui::Begin("Render Target View");
-	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(srvHandleGPU.ptr));
-	ImGui::Image((void*)textureID, ImVec2(640, 360)); // サイズは適宜調整
-	ImGui::End();
+	//ImGui::Begin("Render Target View");
+	//ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(srvHandleGPU.ptr));
+	//ImGui::Image((void*)textureID, ImVec2(640, 360)); // サイズは適宜調整
+	//ImGui::End();
 }

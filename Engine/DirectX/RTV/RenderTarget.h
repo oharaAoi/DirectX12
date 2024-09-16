@@ -4,11 +4,11 @@
 #include <cassert>
 #include <wrl.h>
 // utilities
-#include "Convert.h"
-#include "DirectXUtils.h"
+#include "Engine/Utilities/Convert.h"
+#include "Engine/Utilities/DirectXUtils.h"
 // heap
-#include "DescriptorHeap.h"
-#include "DescriptorSize.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/DirectX/Descriptor/DescriptorSize.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

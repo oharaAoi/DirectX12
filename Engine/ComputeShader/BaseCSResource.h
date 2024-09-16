@@ -1,9 +1,9 @@
 #pragma once
-#include "DescriptorHeap.h"
-#include "DirectXUtils.h"
-#include "MyMath.h"
-#include "ComputeShaderPipeline.h"
-#include "ImGuiManager.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/Math/MyMath.h"
+#include "Engine/ComputeShader/ComputeShaderPipeline.h"
+#include "Engine/Manager/ImGuiManager.h"
 
 class BaseCSResource {
 public:

@@ -6,7 +6,7 @@
 #include <cassert>
 #include <Xinput.h>
 
-#include "Vector2.h"
+#include "Engine/Math/Vector2.h"
 
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")

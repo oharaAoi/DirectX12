@@ -1,12 +1,18 @@
 #pragma once
+#include <map>
 #include "Engine.h"
-#include "Input.h"
+#include "Engine/Input/Input.h"
 // lib
-#include "Transform.h"
-#include "DrawUtils.h"
+#include "Engine/Lib/Transform.h"
+#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/Assets/WorldTransform.h"
+#include "Engine/Assets/Mesh.h"
 // gameObject
-#include "BaseGameObject.h"
-#include "Camera.h"
+#include "Engine/GameObject/BaseGameObject.h"
+#include "Game/Camera/Camera.h"
+#include "Engine/GameObject/Sprite.h"
+#include "Engine/GameObject/Model.h"
+#include "Engine/Audio/Audio.h"
 
 enum CreateObjectKind {
 	kTriangle,

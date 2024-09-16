@@ -3,11 +3,11 @@
 #include <cstdint>
 #include <d3d12.h>
 #include <wrl.h>
-#include "DirectXUtils.h"
+#include "Engine/Utilities/DirectXUtils.h"
 // math
-#include "MyMath.h"
+#include "Engine/Math/MyMath.h"
 
-#include "ImGuiManager.h"
+#include "Engine/Manager/ImGuiManager.h"
 
 
 template<typename T>

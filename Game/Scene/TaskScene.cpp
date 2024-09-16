@@ -34,7 +34,7 @@ void TaskScene::Init() {
 
 	objectKind_ = 0;
 
-	soundData_ = Engine::LoadSE("Resources/fanfare.wav");
+	soundData_ = Engine::LoadSE("Resources/SE_meteoEachOther.wav");
 	bgmData_ = Engine::LoadBGM("Resources/kinmokusei.wav");
 
 

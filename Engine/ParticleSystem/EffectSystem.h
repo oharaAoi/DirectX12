@@ -1,13 +1,11 @@
 #pragma once
 // DirectX
-#include "DirectXCommon.h"
+#include "Engine/DirectX/DirectXCommon/DirectXCommon.h"
 // Emmiter
-#include "Emitter.h"
-// Field
-#include "ParticleField.h"
-// Effect
-#include "BaseEffect.h"
-#include "EmissionEffect.h"
+#include "Engine/ParticleSystem/Emitter.h"
+#include "Engine/ParticleSystem/ParticleField.h"
+#include "Engine/ParticleSystem/BaseEffect.h"
+#include "Engine/ParticleSystem/EmissionEffect.h"
 
 class EffectSystem {
 public:

@@ -5,8 +5,8 @@
 #include <cassert>
 #include <dxgidebug.h>
 // utilities
-#include "Convert.h"
-#include "DirectXUtils.h"
+#include "Engine/Utilities/Convert.h"
+#include "Engine/Utilities/DirectXUtils.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

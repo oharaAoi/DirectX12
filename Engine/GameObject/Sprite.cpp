@@ -93,6 +93,6 @@ void Sprite::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetIndexBuffer(&indexBufferView_);
 	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
 	commandList->SetGraphicsRootConstantBufferView(1, transformBuffer_->GetGPUVirtualAddress());
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/uvChecker.png", 2);
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/tori.png", 2);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }

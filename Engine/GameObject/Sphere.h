@@ -1,11 +1,11 @@
 #pragma once
 #include "BaseGameObject.h"
-#include "Mesh.h"
-#include "Material.h"
-#include "WorldTransform.h"
-#include "ViewProjection.h"
-#include "TransformationMatrix.h"
-#include "TextureManager.h"
+#include "Engine/Assets/Mesh.h"
+#include "Engine/Assets/Material.h"
+#include "Engine/Assets/WorldTransform.h"
+#include "Engine/Assets/ViewProjection.h"
+#include "Engine/Assets/TransformationMatrix.h"
+#include "Engine/Manager/TextureManager.h"
 
 class Sphere 
 	: public BaseGameObject {
