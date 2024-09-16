@@ -64,7 +64,6 @@ void TestScene::Draw() {
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
 	Render::DrawModel(skinModel_.get(), skinTransform_);
-	Render::DrawModel(sphereModel_.get(), sphereTransform_);
 	//Engine::DrawModel(cubeModel_.get(), cubeTransform_);
 
 #pragma endregion
@@ -78,6 +77,7 @@ void TestScene::Draw() {
 #pragma region PBR
 
 	Engine::SetPipeline(PipelineKind::kPBRPipeline);
+	Render::DrawModel(sphereModel_.get(), sphereTransform_);
 
 #pragma endregion
 

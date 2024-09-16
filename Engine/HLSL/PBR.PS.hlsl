@@ -22,12 +22,35 @@ struct DirectionalLight{
 	float intensity;
 };
 
+struct PointLight {
+	float4 color; // ライトの色
+	float3 position; // ライトの位置
+	float3 eyePos;
+	float intensity; // 輝度
+	float radius; // 最大距離
+	float decay; // 減衰率
+};
+
+struct SpotLight {
+	float4 color; // ライトの色
+	float3 position; // ライトの位置
+	float3 eyePos; // 視点の位置
+	float intensity; // 輝度
+	float3 direction; // 方向
+	float distance; // ライトの届く最大距離
+	float decay; // 減衰率
+	float cosAngle; // スポットライトの余弦
+	float cosFalloffStart;
+};
+
 ConstantBuffer<Material> gMaterial : register(b0);
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
+ConstantBuffer<PointLight> gPointLight : register(b2);
+ConstantBuffer<SpotLight> gSpotLight : register(b3);
 Texture2D<float4> gTexture : register(t0);
-//Texture2D<float3> gNormapMap : register(t1);
-//Texture2D<float> gMetallicMap : register(t2);
-//Texture2D<float> gRoughnessMap : register(t3);
+Texture2D<float3> gNormapMap : register(t1);
+Texture2D<float> gMetallicMap : register(t2);
+Texture2D<float> gRoughnessMap : register(t3);
 
 SamplerState gSampler : register(s0);
 struct PixelShaderOutput{
@@ -148,6 +171,9 @@ PixelShaderOutput main(VertexShaderOutput input){
 	PixelShaderOutput output;
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
+	float3 normalMap = gNormapMap.Sample(gSampler, transformedUV.xy).xyz * 2.0 - 1.0;
+	float metallicMap = gMetallicMap.Sample(gSampler, transformedUV.xy).r;
+	float roughnessMap = gRoughnessMap.Sample(gSampler, transformedUV.xy).r;
 	
 	if (textureColor.a <= 0.5f){
 		discard;
@@ -156,8 +182,8 @@ PixelShaderOutput main(VertexShaderOutput input){
 	float3 normal = normalize(input.normal);
 	float3 lightDir = normalize(-gDirectionalLight.direction);
 
-	float roughness = gMaterial.roughness * gMaterial.roughness + EPSILON;
-	float metallic = gMaterial.metallic;
+	float roughness = roughnessMap * roughnessMap + EPSILON;
+	float metallic = metallicMap;
 	
 	//=======================================================
 	// 色を求める

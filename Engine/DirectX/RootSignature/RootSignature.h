@@ -18,6 +18,7 @@ enum class RootSignatureType {
 	Primitive,
 	Particle,
 	Sprite,
+	PBR,
 	ComputeShader,
 	ComputeShaderBlend
 };
@@ -61,6 +62,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	ComPtr<ID3D12RootSignature> CreateSpriteRootSignature();
+
+	/// <summary>
+	/// RootSignatureの作成
+	/// </summary>
+	/// <returns></returns>
+	ComPtr<ID3D12RootSignature> CreatePBRRootSignature();
 
 	/// <summary>
 	/// コンピュートシェーダ用のRootSignatureの作成
