@@ -24,7 +24,7 @@ void TestScene::Init() {
 	// モデル --------------------------------------------------------------
 	objectKind_ = 0;
 	skinModel_ = Engine::CreateModel("skin.obj");
-	sphereModel_ = Engine::CreateModel("plane.obj");
+	sphereModel_ = Engine::CreateModel("sphere_Block.obj");
 	//cubeModel_ = Engine::CreateModel("cube.obj");
 }
 
