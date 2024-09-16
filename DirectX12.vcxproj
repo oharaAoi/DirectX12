@@ -162,7 +162,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
-    <ClCompile Include="Game\Scene\TaskScene.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Render.cpp" />
@@ -248,7 +247,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
-    <ClInclude Include="Game\Scene\TaskScene.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Render.h" />
   </ItemGroup>

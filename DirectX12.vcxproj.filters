@@ -300,9 +300,6 @@
     <ClCompile Include="Engine\ComputeShader\BaseCSResource.cpp">
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\TaskScene.cpp">
-      <Filter>Game\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Utilities\AnimationUtils.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
@@ -550,9 +547,6 @@
     </ClInclude>
     <ClInclude Include="Engine\ComputeShader\BaseCSResource.h">
       <Filter>Engine\ComputeShader</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\TaskScene.h">
-      <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utilities\AnimationUtils.h">
       <Filter>Engine\Utilities</Filter>

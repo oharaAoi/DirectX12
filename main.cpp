@@ -3,12 +3,10 @@
 #include "Engine/ParticleSystem/EffectSystem.h"
 #include "Game/Scene/GameScene.h"
 #include "Game/Scene/TestScene.h"
-#include "Game/Scene/TaskScene.h"
 
 enum Scene {
 	kGame,
 	kTest,
-	kTask
 };
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -26,12 +24,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	std::unique_ptr<GameScene> game = std::make_unique<GameScene>();
 	std::unique_ptr<TestScene> test = std::make_unique<TestScene>();
-	std::unique_ptr<TaskScene> task = std::make_unique<TaskScene>();
-
+	
 	game->Init();
 	test->Init();
-	task->Init();
-
+	
 	int sceneNumber = 1;
 
 	// mainループ
@@ -51,11 +47,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		case kTest:
 			test->Update();
 			test->Draw();
-			break;
-
-		case kTask:
-			task->Update();
-			task->Draw();
 			break;
 		}
 
