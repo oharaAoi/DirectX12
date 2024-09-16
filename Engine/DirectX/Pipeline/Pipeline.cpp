@@ -94,7 +94,7 @@ void Pipeline::CreatePSO() {
 	desc.InputLayout = CreateInputLayout(elementDescs);
 	desc.VS = { vertexShaderBlob_->GetBufferPointer(), vertexShaderBlob_->GetBufferSize() };
 	desc.PS = { pixelShaderBlob_->GetBufferPointer(), pixelShaderBlob_->GetBufferSize() };
-	desc.BlendState = blend_.SetBlend(Blend::kBlendModeAdd);
+	desc.BlendState = blend_.SetBlend(Blend::kBlendModeNormal);
 	//desc.BlendState = blend_.SetBlend(Blend::kBlendModeNormal);
 	desc.RasterizerState = SetRasterizerState();
 	desc.DepthStencilState = SetDepthStencilState();

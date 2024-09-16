@@ -132,7 +132,7 @@ void GameScene::Draw() {
 #pragma region Particle
 
 	Engine::SetPipeline(PipelineKind::kParticlePipeline);
-	particle_->Draw();
+	
 
 #pragma endregion
 
