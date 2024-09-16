@@ -6,18 +6,18 @@
 #include <memory>
 #include <vector>
 // PSO
-#include "RootSignature.h"
+#include "Engine/DirectX/RootSignature/RootSignature.h"
 #include "InputLayout.h"
-#include "DirectXCompiler.h"
-#include "Shader.h"
+#include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
+#include "Engine/Utilities/Shader.h"
 
 class PrimitivePipeline {
 public:
 
-	PrimitivePipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader);
+	PrimitivePipeline();
 	~PrimitivePipeline();
 
-	void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader);
+	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
@@ -67,11 +67,11 @@ private:
 	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
 
 	// Shader
-	Comptr<IDxcBlob> vertexShaderBlob_ = nullptr;
-	Comptr<IDxcBlob> pixelShaderBlob_ = nullptr;
+	ComPtr<IDxcBlob> vertexShaderBlob_ = nullptr;
+	ComPtr<IDxcBlob> pixelShaderBlob_ = nullptr;
 
 	// PSO
-	Comptr<ID3D12PipelineState> graphicsPipelineState_ = nullptr;
+	ComPtr<ID3D12PipelineState> graphicsPipelineState_ = nullptr;
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc_;
 
 	// DXCで使う

@@ -5,12 +5,13 @@
 #include <wrl.h>
 #include <string>
 // DirectX
-#include "DirectXUtils.h"
+#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 // math
-#include "MyMath.h"
+#include "Engine/Math/MyMath.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class ParticleForGPU {
 public:
@@ -56,7 +57,7 @@ public:
 
 	void DrawSRV(ID3D12GraphicsCommandList* commandList);
 
-	void CreateSrv(ID3D12Device* device, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize, const uint32_t& idnex, const uint32_t& instanceNum);
+	void CreateSrv(ID3D12Device* device, DescriptorHeap* dxHeap, const uint32_t& instanceNum);
 
 public:
 
@@ -66,10 +67,9 @@ private:
 
 	uint32_t instanceSize_;
 
-	Comptr<ID3D12Resource> cBuffer_;
+	ComPtr<ID3D12Resource> cBuffer_;
 	ParticleForGPUData* particleData_;
 
-	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;
-	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
+	DescriptorHeap::DescriptorHandles instancingSrvHandle_;
 };
 

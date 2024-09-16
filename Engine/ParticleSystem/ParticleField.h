@@ -1,9 +1,10 @@
 #pragma once
-#include "Engine.h"
-#include "Particle.h"
-#include "MathStructures.h"
-#include "BoxCollider.h"
-#include "DrawUtils.h"
+#include "BaseEffect.h"
+#include "Render.h"
+#include "Engine/Math/MathStructures.h"
+#include "Engine/Collider/BoxCollider.h"
+#include "Engine/Utilities/DrawUtils.h"
+
 
 class ParticleField {
 public: // データ構造体
@@ -27,13 +28,18 @@ public:
 
 	void Draw(const Matrix4x4& vpMatrix);
 
+	/// <summary>
+	/// ImGuiを編集する
+	/// </summary>
+	void EditImGui();
+
 public:
 
 	/// <summary>
 	/// 当たり判定を取るParticleをセットする
 	/// </summary>
 	/// <param name="particle"></param>
-	void SetParticle(Particle* particle) {
+	void SetParticle(BaseEffect* particle) {
 		particle_ = particle;
 	}
 
@@ -41,7 +47,7 @@ private:
 
 	AccelerationField accelerationField_;
 
-	Particle* particle_ = nullptr;
+	BaseEffect* particle_ = nullptr;
 
 	bool onField_;
 

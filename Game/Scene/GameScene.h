@@ -1,14 +1,10 @@
 #pragma once
 #include "Engine.h"
-#include "Input.h"
 // lib
-#include "Transform.h"
-#include "DrawUtils.h"
+#include "Engine/Lib/Transform.h"
+#include "Engine/Utilities/DrawUtils.h"
 // gameObject
-#include "Camera.h"
-#include "Particle.h"
-#include "Emitter.h"
-#include "ParticleField.h"
+#include "Game/Camera/Camera.h"
 
 class GameScene {
 public:
@@ -26,10 +22,7 @@ private:
 
 	std::unique_ptr<Camera> camera_ = nullptr;
 	std::unique_ptr<Sphere> sphere_ = nullptr;
-	std::unique_ptr<Particle> particle_ = nullptr;
-
-	std::unique_ptr<Emitter> emitter_ = nullptr;
-	std::unique_ptr<ParticleField> particleField_ = nullptr;
+	
 
 	// ---------- model ---------- //
 	std::unique_ptr<Model> model_ = nullptr;
@@ -60,8 +53,9 @@ private:
 		{640.0f, 360.0f, 0.0f, 1.0f}
 	};
 
-	// ---------- transform ---------- //
-	WorldTransform terrainWorld_;
+	// トランスフォーム --------------------------------------
+	WorldTransform sphereTransform_;
+	WorldTransform sphereModelTransform_;
 
 	// ---------- parameter ---------- //
 	float roughness_;

@@ -12,9 +12,9 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 		Vector3 endPos = { 2 , 0, float((xIndex)-half) * kGridEvery_ / (float(kGridHalfwidth_)) };
 		
 		if (xIndex == 5) {
-			Engine::DrawLine(stPos, endPos, { 0.0f, 0.0f, 0.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+			Render::DrawLine(stPos, endPos, { 0.0f, 0.0f, 0.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
 		} else {
-			Engine::DrawLine(stPos, endPos, { 1.0f, 1.0f, 1.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+			Render::DrawLine(stPos, endPos, { 1.0f, 1.0f, 1.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
 		}
 	}
 
@@ -25,9 +25,9 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 		Vector3 endPos = { float((zIndex)-half) * kGridEvery_ / (float(kGridHalfwidth_)) , 0, -2 };
 
 		if (zIndex == 5) {
-			Engine::DrawLine(stPos, endPos, { 0.0f, 0.0f, 0.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+			Render::DrawLine(stPos, endPos, { 0.0f, 0.0f, 0.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
 		} else {
-			Engine::DrawLine(stPos, endPos, { 1.0f, 1.0f, 1.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+			Render::DrawLine(stPos, endPos, { 1.0f, 1.0f, 1.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
 		}
 	}
 }
@@ -45,9 +45,9 @@ void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color)
 	};
 
 	for (uint32_t oi = 0; oi < 4; oi++) {
-		Engine::DrawLine(point[oi], point[(oi + 1) % 4], color, vpMatrix);
+		Render::DrawLine(point[oi], point[(oi + 1) % 4], color, vpMatrix);
 		uint32_t j = oi + 4;
-		Engine::DrawLine(point[j], point[(j + 1) % 4 + 4], color, vpMatrix);
-		Engine::DrawLine(point[oi], point[j], color, vpMatrix);
+		Render::DrawLine(point[j], point[(j + 1) % 4 + 4], color, vpMatrix);
+		Render::DrawLine(point[oi], point[j], color, vpMatrix);
 	}
 }

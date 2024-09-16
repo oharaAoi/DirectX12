@@ -5,12 +5,12 @@
 #include <wrl.h>
 #include <string>
 // DirectX
-#include "DirectXUtils.h"
+#include "Engine/Utilities/DirectXUtils.h"
 // math
-#include "MyMath.h"
+#include "Engine/Math/MyMath.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class TransformationMatrix {
 public:
@@ -43,6 +43,6 @@ private:
 
 	uint32_t instanceSize_;
 
-	Comptr<ID3D12Resource> cBuffer_;
+	ComPtr<ID3D12Resource> cBuffer_;
 	TransformationData* TransformationData_;
 };

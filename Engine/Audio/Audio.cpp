@@ -7,7 +7,7 @@ Audio::~Audio() {
 /// <summary>
 /// 初期化
 /// </summary>
-void Audio::Initialize() {
+void Audio::Init() {
 	HRESULT result = S_FALSE;
 
 	// XAudioエンジンのインスタンス
@@ -48,10 +48,44 @@ LoadData Audio::LoadWave(const char* filename) {
 		assert(0);
 	}
 
-	// Formatチャンクの読み込み
+	// -------------------------------------------------
+	// ↓ Formatチャンクの読み込み
+	// -------------------------------------------------
 	FormatChunk format = {};
 	// チャンクヘッダーの確認
 	file.read((char*)&format, sizeof(ChunkHeader));
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// 変更したところ
+
+	// JUNKチャンクを検出した場合
+	//if (strncmp(format.chunk.id, "JUNK", 4) == 0) {
+	//	// JUNKチャンクのサイズ（ヘッダーサイズを含む）
+	//	std::streampos junkChunkSize = format.chunk.size;
+
+	//	// 読み取り位置をJUNKチャンクの終わりまで進める
+	//	file.seekg(junkChunkSize, std::ios_base::cur);
+
+	//	// 次のチャンクヘッダーの読み込み
+	//	file.read((char*)&format, sizeof(ChunkHeader));
+	//	// ここでformat.chunk.idが次のチャンクのIDとして読み込まれる
+	//}
+
+	while (strncmp(format.chunk.id, "fmt ", 4) != 0) {
+		// チャンクサイズ分だけ読み飛ばす
+		file.seekg(format.chunk.size, std::ios_base::cur);
+
+		// 次のチャンクヘッダーを読み込む
+		file.read((char*)&format.chunk, sizeof(ChunkHeader));
+
+		// ファイルの終端に到達したらエラー
+		if (file.eof()) {
+			assert(0);
+		}
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	if (strncmp(format.chunk.id, "fmt ", 4) != 0) {
 		assert(0);
 	}
@@ -60,16 +94,37 @@ LoadData Audio::LoadWave(const char* filename) {
 	assert(format.chunk.size <= sizeof(format.fmt));
 	file.read((char*)&format.fmt, format.chunk.size);
 
-	// Dataチャンクの読み込み
+	// -------------------------------------------------
+	// ↓ Dataチャンクの読み込み
+	// -------------------------------------------------
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// 変更したところ
+	
 	ChunkHeader data;
 	file.read((char*)&data, sizeof(data));
-	// JUNKチャンクを検出した場合
-	if (strncmp(data.id, "JUNK", 4) == 0) {
-		// 読み取り位置をJUNKチャンクの終わりまで進める
+	//// JUNKチャンクを検出した場合
+	//if (strncmp(data.id, "JUNK", 4) == 0) {
+	//	// 読み取り位置をJUNKチャンクの終わりまで進める
+	//	file.seekg(data.size, std::ios_base::cur);
+	//	// 再読み込み
+	//	file.read((char*)&data, sizeof(data));
+	//}
+
+	// この部分を変更
+	while (strncmp(data.id, "data", 4) != 0) {
+		// チャンクサイズ分だけ読み飛ばす
 		file.seekg(data.size, std::ios_base::cur);
-		// 再読み込み
+
+		// 次のチャンクヘッダーを読み込む
 		file.read((char*)&data, sizeof(data));
+
+		// ファイルの終端に到達したらエラー
+		if (file.eof()) {
+			assert(0);
+		}
 	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// 本物のデータチャンク
 	if (strncmp(data.id, "data", 4) != 0) {

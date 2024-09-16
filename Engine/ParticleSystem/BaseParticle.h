@@ -6,9 +6,9 @@
 #include <cassert>
 #include <unordered_map>
 
-#include "Loader.h"
-#include "ParticleForGPU.h"
-#include "TextureManager.h"
+#include "Engine/Utilities/Loader.h"
+#include "Engine/ParticleSystem/ParticleForGPU.h"
+#include "Engine/Manager/TextureManager.h"
 
 class BaseParticle {
 public:
@@ -16,13 +16,15 @@ public:
 	BaseParticle() = default;
 	~BaseParticle() = default;
 
+	virtual void Finalize();
+
 	virtual void Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName, const uint32_t& instanceNum);
 
 	virtual void Update(const Matrix4x4& world, const Matrix4x4& viewMat, const Matrix4x4& projection,const Vector4& color, const uint32_t& index);
 
 	virtual void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& numInstance);
 
-	void CreateSRV(ID3D12Device* device, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize, const uint32_t& index, const uint32_t& instanceNum);
+	void CreateSRV(ID3D12Device* device, DescriptorHeap* dxHeap, const uint32_t& instanceNum);
 
 protected:
 

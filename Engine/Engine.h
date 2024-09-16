@@ -1,46 +1,46 @@
 #pragma once
 #include <memory>
-#include "WinApp.h"
-#include "DirectXCommon.h"
-#include "DirectXDevice.h"
-#include "DirectXCommands.h"
-#include "DescriptorHeap.h"
-#include "DirectXCompiler.h"
-#include "Pipeline.h"
-#include "PrimitivePipeline.h"
-#include "ImGuiManager.h"
-#include "TextureManager.h"
-#include "Input.h"
+#include "Enviroment.h"
+#include "Engine/WinApp/WinApp.h"
+#include "Engine/DirectX/DirectXCommon/DirectXCommon.h"
+#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
+#include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/DirectX/RTV/RenderTarget.h"
+#include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
+#include "Engine/DirectX/Pipeline/GraphicsPipelines.h"
+#include "Engine/ComputeShader/ComputeShader.h"
+#include "Engine/DirectX/Pipeline/PrimitivePipeline.h"
+#include "Engine/Manager/ImGuiManager.h"
+#include "Engine/Manager/TextureManager.h"
+#include "Engine/Input/Input.h"
 // GameObject
-#include "Triangle.h"
-#include "Sprite.h"
-#include "Sphere.h"
-#include "Model.h"
-#include "BaseParticle.h"
-// 2d
-#include "PrimitiveDrawer.h"
-// light
-#include "LightGroup.h"
+#include "Engine/GameObject/BaseGameObject.h"
+#include "Engine/GameObject/Model.h"
+#include "Engine/GameObject/Sphere.h"
+#include "Engine/GameObject/Sprite.h"
+#include "Engine/GameObject/Triangle.h"
+#include "Engine/ParticleSystem/BaseParticle.h"
 // audio
-#include "Audio.h"
+#include "Engine/Audio/Audio.h"
 // data
-#include "Shader.h"
+#include "Engine/Utilities/Shader.h"
 // 
-#include "WorldTransform.h"
-#include "ViewProjection.h"
+#include "Engine/Assets/WorldTransform.h"
+// texture
+#include "Engine/Assets/RenderTexture.h"
+//
+#include "Render.h"
 
 enum class PipelineKind {
 	kNormalPipeline,
 	kTexturelessPipeline,
 	kPBRPipeline,
-	kParticlePipeline
+	kParticlePipeline,
+	kSpritePipeline
 };
 
-
-enum class GameObjectKind {
-	kModel,
-	kSphere
-};
+class EffectSystem;
 
 class Engine {
 public:
@@ -51,6 +51,8 @@ public:
 	static void Initialize(uint32_t backBufferWidth, int32_t backBufferHeight);
 
 	static void Finalize();
+
+	static void DrawImGui();
 
 public:
 
@@ -70,70 +72,106 @@ public:
 	/// </summary>
 	static void EndFrame();
 
+	/// <summary>
+	/// offScreenRenderingの処理を行う
+	/// </summary>
+	static void EndRenderTexture();
+
 public:
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 生成系
 	/////////////////////////////////////////////////////////////////////////////////////////////
+	// 三角形のポインタを作成
 	static std::unique_ptr<Triangle> CreateTriangle(const Mesh::Vertices& vertex);
-
+	// スプライトのポインタを作成
 	static std::unique_ptr<Sprite> CreateSprite(const Mesh::RectVetices& rect);
-
+	// 球のポインタを作成
 	static std::unique_ptr<Sphere> CreateSphere(const uint32_t& devision);
-
+	// モデルのポインタを作成
 	static std::unique_ptr<Model> CreateModel(const std::string& filePath);
-
+	// パーティクルのポインタを作成
 	static std::unique_ptr<BaseParticle> CreateBaseParticle(const std::string& fileName, const uint32_t& instanceNum);
-
+	// ワールドトランスフォームを作成
 	static WorldTransform CreateWorldTransform();
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 描画系
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	static void DrawTriangle(Triangle* triangle, const WorldTransform& worldTransform);
-
-	static void DrawSprite(Sprite* sprite);
-
-	static void DrawSphere(Sphere* sphere, const WorldTransform& worldTransform);
-
-	static void DrawModel(Model* model, const WorldTransform& worldTransform);
-
-	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat);
-
-	static void DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance);
 
 	//static void DrawGameObject(BaseGameObject* gameObject, const GameObjectKind& kind);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 設定系
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	static void SetLightKind(const LightGroup::LightKind& kind);
 
-	static void SetEyePos(const Vector3& eyePos);
-
+	/// <summary>
+	/// パイプラインの設定
+	/// </summary>
+	/// <param name="kind">設定するパイプライン</param>
 	static void SetPipeline(const PipelineKind& kind);
-
-	static void SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// sound系
 	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	/// <summary>
+	/// Audioファイルを読み込む関数
+	/// </summary>
+	/// <param name="fileName">音声データのファイルパス</param>
+	/// <returns></returns>
 	static SoundData LoadAudio(const std::string& fileName);
 
+	/// <summary>
+	/// BGMを読み込む関数
+	/// </summary>
+	/// <param name="fileName">音声データのファイルパス</param>
+	/// <returns></returns>
 	static BgmData LoadBGM(const std::string& fileName);
 
+	/// <summary>
+	/// SEを読み込む関数
+	/// </summary>
+	/// <param name="fileName">音声データのファイルパス</param>
+	/// <returns></returns>
 	static SeData LoadSE(const std::string& fileName);
 
+	/// <summary>
+	/// 音を鳴らす関数
+	/// </summary>
+	/// <param name="soundData">音声データをまとめた構造体</param>
 	static void PlayAudio(const SoundData& soundData);
 
+	/// <summary>
+	/// BGMを鳴らす関数
+	/// </summary>
+	/// <param name="soundData">音声データをまとめた構造体</param>
+	/// <param name="isLoop">BGMをループさせるか</param>
 	static void PlayBGM(const BgmData& soundData, const bool& isLoop);
 
+	/// <summary>
+	/// SEを鳴らす関数
+	/// </summary>
+	/// <param name="soundData">音声データをまとめた構造体</param>
+	/// <param name="isLoop">SEをループさせるか</param>
 	static void PlaySE(const SeData& soundData, const bool& isLoop);
 
+	/// <summary>
+	/// BGMを一時停止させる関数
+	/// </summary>
+	/// <param name="soundData">音声データをまとめた構造体</param>
 	static void PauseBGM(const BgmData& soundData);
 
+	/// <summary>
+	/// BGMを再生する関数
+	/// </summary>
+	/// <param name="soundData">音声データをまとめた構造体</param>
 	static void ReStartBGM(const BgmData& soundData);
 
+	/// <summary>
+	/// 音の再生を止める関数
+	/// </summary>
+	/// <param name="soundData">音声データをまとめた構造体</param>
 	static void StopBGM(const BgmData& soundData);
 
 private:
@@ -144,10 +182,11 @@ private:
 // 無名名前空間で内部リンゲージする
 // ======================================================== //
 namespace {
+
 	int32_t kClientWidth_;
 	int32_t kClientHeight_;
 
-	LightGroup::LightKind lightKind_;
+	Render* render_ = nullptr;
 
 	WinApp* winApp_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
@@ -160,25 +199,23 @@ namespace {
 	std::unique_ptr<DescriptorHeap> descriptorHeap_ = nullptr;
 	// dxCommand
 	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
+	// renderTarget
+	std::unique_ptr<RenderTarget> renderTarget_ = nullptr;
 	// dxCompiler
 	std::unique_ptr<DirectXCompiler> dxCompiler_ = nullptr;
 	// pipeline
-	std::unique_ptr<Pipeline> pipeline_ = nullptr;
-	std::unique_ptr<Pipeline> texturelessPipeline_ = nullptr;
-	std::unique_ptr<Pipeline> phongPipeline_ = nullptr;
-	std::unique_ptr<Pipeline> pbrPipeline_ = nullptr;
-	std::unique_ptr<Pipeline> particlePipeline_ = nullptr;
+	std::unique_ptr<GraphicsPipelines> graphicsPipelines_ = nullptr;
 	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
-	// light
-	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
+	// CS
+	std::unique_ptr<ComputeShader> computeShader_ = nullptr;
 	// audio
 	std::unique_ptr<Audio> audio_ = nullptr;
-	// primitive
-	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
+	// shaderファイルのパスをまとめたクラス
+	std::unique_ptr<Shader> shaders_;
 
-	Shader shaders_;
+	// オフスクリーンレンダリングで生成したTextureを描画するクラス
+	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;
 
-	// viewProjection
-	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
+	static bool isRunCS_ = false;
 }
 

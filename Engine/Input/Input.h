@@ -6,7 +6,7 @@
 #include <cassert>
 #include <Xinput.h>
 
-#include "Vector2.h"
+#include "Engine/Math/Vector2.h"
 
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
@@ -26,7 +26,7 @@ public:
 	/// <summary>
 	/// 初期化関数
 	/// </summary>
-	void Initialize(WNDCLASS wCalss, HWND hwnd);
+	void Init(WNDCLASS wCalss, HWND hwnd);
 
 	/// <summary>
 	/// 更新処理

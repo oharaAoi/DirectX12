@@ -97,6 +97,9 @@
     <Filter Include="Engine\Audio">
       <UniqueIdentifier>{c83f431b-35d8-4e95-8767-c254a7dc6960}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ComputeShader">
+      <UniqueIdentifier>{e36a48b7-226a-4643-84c0-30429e83d8a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -129,7 +132,7 @@
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp">
       <Filter>Engine\DirectX\Descriptor</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\RTV\RenderTargetView.cpp">
+    <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp">
       <Filter>Engine\DirectX\RTV</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp">
@@ -237,9 +240,6 @@
     <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ParticleSystem\Particle.cpp">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ParticleSystem\ParticleForGPU.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
@@ -273,14 +273,56 @@
     <ClCompile Include="Engine\Audio\Audio.cpp">
       <Filter>Engine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="TestScene.cpp">
+    <ClCompile Include="Game\Scene\TestScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\ViewProjection.cpp">
+      <Filter>Engine\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\WorldTransform.cpp">
+      <Filter>Engine\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\RenderTexture.cpp">
+      <Filter>Engine\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\GraphicsPipelines.cpp">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ComputeShader\ComputeShader.cpp">
+      <Filter>Engine\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ComputeShader\ComputeShaderPipeline.cpp">
+      <Filter>Engine\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ComputeShader\GrayScale.cpp">
+      <Filter>Engine\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ComputeShader\BaseCSResource.cpp">
+      <Filter>Engine\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\TaskScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utilities\AnimationUtils.cpp">
+      <Filter>Engine\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ComputeShader\GaussianBlur.cpp">
+      <Filter>Engine\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="WorldTransform.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\ParticleSystem\EmissionEffect.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="ViewProjection.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ComputeShader\DepthOfField.cpp">
+      <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -308,7 +350,7 @@
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h">
       <Filter>Engine\DirectX\Descriptor</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\RTV\RenderTargetView.h">
+    <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h">
       <Filter>Engine\DirectX\RTV</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Engine.h">
@@ -446,9 +488,6 @@
     <ClInclude Include="Engine\ParticleSystem\BaseParticle.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ParticleSystem\Particle.h">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\ParticleForGPU.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
@@ -482,14 +521,59 @@
     <ClInclude Include="Engine\Audio\Audio.h">
       <Filter>Engine\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="TestScene.h">
+    <ClInclude Include="Game\Scene\TestScene.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\ViewProjection.h">
+      <Filter>Engine\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\WorldTransform.h">
+      <Filter>Engine\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\RenderTexture.h">
+      <Filter>Engine\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Enviroment.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="WorldTransform.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\GraphicsPipelines.h">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ComputeShader\ComputeShader.h">
+      <Filter>Engine\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ComputeShader\ComputeShaderPipeline.h">
+      <Filter>Engine\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ComputeShader\GrayScale.h">
+      <Filter>Engine\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ComputeShader\BaseCSResource.h">
+      <Filter>Engine\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\TaskScene.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utilities\AnimationUtils.h">
+      <Filter>Engine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ComputeShader\GaussianBlur.h">
+      <Filter>Engine\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ViewProjection.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\ParticleSystem\EmissionEffect.h">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\EffectSystem.h">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\BaseEffect.h">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ComputeShader\DepthOfField.h">
+      <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -523,6 +607,27 @@
     <FxCompile Include="Engine\HLSL\Particle.VS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="Engine\HLSL\Sprite.PS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Sprite.VS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\GrayScale.CS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Blend.CS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\VerticalBlur.CS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\HorizontalBlur.CS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\DepthOfField.CS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">
@@ -540,6 +645,9 @@
       <Filter>Engine\HLSL</Filter>
     </None>
     <None Include="Engine\HLSL\PBR.hlsli">
+      <Filter>Engine\HLSL</Filter>
+    </None>
+    <None Include="Engine\HLSL\Sprite.2d.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
   </ItemGroup>

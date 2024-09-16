@@ -4,13 +4,10 @@
 #include <d3d12.h>
 #include <wrl.h>
 // DirectX
-#include "DirectXUtils.h"
+#include "Engine/Utilities/DirectXUtils.h"
 // math
-#include "MyMath.h"
-
-#ifdef _DEBUG
-#include "ImGuiManager.h"
-#endif
+#include "Engine/Math/MyMath.h"
+#include "Engine/Manager/ImGuiManager.h"
 
 class BaseLight {
 public:

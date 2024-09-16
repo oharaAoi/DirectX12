@@ -3,16 +3,15 @@
 #include <cstdint>
 #include <d3d12.h>
 #include <wrl.h>
-#include "DirectXUtils.h"
+#include "Engine/Utilities/DirectXUtils.h"
 // math
-#include "MyMath.h"
+#include "Engine/Math/MyMath.h"
 
-#ifdef _DEBUG
-#include "ImGuiManager.h"
-#endif
+#include "Engine/Manager/ImGuiManager.h"
+
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class Material {
 public:
@@ -49,6 +48,11 @@ public:
 		std::string textureFilePath; // 使用するtextureのパス
 	};
 
+	struct SpriteData {
+		Matrix4x4 uvTransform;
+		Vector4 color;
+	};
+
 public:
 
 	Material();
@@ -80,9 +84,15 @@ public:
 
 private:
 
-	Comptr<ID3D12Resource> materialBuffer_;
+	ComPtr<ID3D12Resource> materialBuffer_;
 	PBRMaterial* pbrMaterial_;
 
 	// materialData
 	ModelMaterialData materialData_;
+
+	Vector3 uvTranslation_;
+	Vector3 uvScale_;
+	Vector3 uvRotation_;
+
+
 };

@@ -1,6 +1,6 @@
 #pragma once
-#include "MyMath.h"
-#include "MathStructures.h"
+#include "Engine/Math/MyMath.h"
+#include "Engine/Math/MathStructures.h"
 
 /// <summary>
 /// 点との当たり判定

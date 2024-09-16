@@ -4,13 +4,13 @@
 #include <cassert>
 #include <wrl.h>
 // utilities
-#include "Convert.h"
-#include "DirectXUtils.h"
+#include "Engine/Utilities/Convert.h"
+#include "Engine/Utilities/DirectXUtils.h"
 // DirectX系
-#include "DirectXDevice.h"
+#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class DirectXCommands {
 public:
@@ -22,7 +22,25 @@ public:
 
 	void Finalize();
 
+	/// <summary>
+	/// DirectX12のコマンドを生成する
+	/// </summary>
 	void CreateCommand();
+
+	/// <summary>
+	/// Fenceを作成する
+	/// </summary>
+	void CreateFence();
+
+	/// <summary>
+	/// CPUとGPUの同期をはかる
+	/// </summary>
+	void SyncGPUAndCPU();
+
+	/// <summary>
+	/// コンピュートシェーダーを行った後にGPUとCPU
+	/// </summary>
+	void EffectShaderSyncGPUAndCPU();
 
 public:
 	/// <summary>
@@ -37,10 +55,25 @@ public:
 
 private:
 
-	Comptr<ID3D12CommandQueue> commandQueue_ = nullptr;
-	Comptr<ID3D12CommandAllocator> commandAllocator_ = nullptr;
-	Comptr<ID3D12GraphicsCommandList> commandList_ = nullptr;
-
 	ID3D12Device* device_ = nullptr;
+	
+	// graphics用のコマンド系 ---------------------------------------------
+	ComPtr<ID3D12CommandQueue> commandQueue_ = nullptr;
+	ComPtr<ID3D12CommandAllocator> commandAllocator_ = nullptr;
+	ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
 
+	// Fence & Event
+	ComPtr<ID3D12Fence> fence_ = nullptr;
+	uint64_t fenceValue_;
+	HANDLE fenceEvent_;
+
+	// computeShader用のコマンド系 ---------------------------------------------
+	ComPtr<ID3D12CommandQueue> effectCommandQueue_ = nullptr;
+	ComPtr<ID3D12CommandAllocator> effectCommandAllocator_ = nullptr;
+	ComPtr<ID3D12GraphicsCommandList> effectCommandList_ = nullptr;
+
+	// Fence & Event
+	ComPtr<ID3D12Fence> effectFence_ = nullptr;
+	uint64_t effectFenceValue_;
+	HANDLE effectFenceEvent_;
 };

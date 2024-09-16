@@ -6,11 +6,12 @@
 #include <Externals/DirectXTex/DirectXTex.h>
 #include <Externals/DirectXTex/d3dx12.h>
 
-#include "Convert.h"
-#include "DirectXUtils.h"
+#include "Engine/Utilities/Convert.h"
+#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class TextureManager {
 public: // メンバ関数
@@ -32,13 +33,13 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="device"></param>
-	void Initialize(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize);
+	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, DescriptorHeap* dxHeap);
 
 	void Finalize();
 
 public:
 
-	void CreateShaderResource(const std::string& filePath, ID3D12GraphicsCommandList* commandList);
+	void LoadTextureFile(const std::string& filePath, ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// Textrueデータを読む
@@ -50,14 +51,6 @@ public:
 	void LoadWhite1x1Texture(const std::string& filePath, ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// TextureResourceを作る
-	/// </summary>
-	/// <param name="device"></param>
-	/// <param name="metadata"></param>
-	/// <returns></returns>
-	Comptr<ID3D12Resource> CreateTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const DirectX::TexMetadata& metadata);
-
-	/// <summary>
 	/// TextureResourceにデータを転送する
 	/// </summary>
 	/// <param name="texture"></param>
@@ -66,7 +59,7 @@ public:
 	/// <param name="commandList"></param>
 	/// <returns></returns>
 	[[nodiscard]]
-	Comptr<ID3D12Resource> UploadTextureData(
+	ComPtr<ID3D12Resource> UploadTextureData(
 		Microsoft::WRL::ComPtr<ID3D12Resource> texture,
 		const DirectX::ScratchImage& mipImage,
 		Microsoft::WRL::ComPtr<ID3D12Device> device,
@@ -77,28 +70,31 @@ public:
 	/// </summary>
 	/// <param name="commandList"></param>
 	/// <param name="textureNum"></param>
-	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath);
+	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath, const uint32_t& rootParameterIndex);
+
+	/// <summary>
+	/// ResourceDescを作成する
+	/// </summary>
+	/// <param name="metadata"></param>
+	/// <returns></returns>
+	D3D12_RESOURCE_DESC CreateResourceDesc(const DirectX::TexMetadata& metadata);
 
 	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(srvData_.size()); }
 
 private:
 
 	struct SRVData {
-		Comptr<ID3D12Resource> textureResource_ = nullptr;
-		Comptr<ID3D12Resource> intermediateResource_ = nullptr;
+		ComPtr<ID3D12Resource> textureResource_ = nullptr;
+		ComPtr<ID3D12Resource> intermediateResource_ = nullptr;
 
-		D3D12_CPU_DESCRIPTOR_HANDLE srvHandleCPU_;
-		D3D12_GPU_DESCRIPTOR_HANDLE srvHandleGPU_;
+		DescriptorHeap::DescriptorHandles address_;
 	};
 
 	//std::vector<SRVData> srvData_;
 	std::map<std::string, SRVData> srvData_;
 
-	D3D12_CPU_DESCRIPTOR_HANDLE lastSrvHandleCPU_;
-	D3D12_GPU_DESCRIPTOR_HANDLE lastSrvHandleGPU_;
-
 	// 生成で使う変数
 	ID3D12Device* device_ = nullptr;
-	ID3D12DescriptorHeap* srvHeap_ = nullptr;
-	uint32_t srvDescriptorSize_;
+
+	DescriptorHeap* dxHeap_ = nullptr;
 };

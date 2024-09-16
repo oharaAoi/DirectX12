@@ -1,0 +1,54 @@
+{
+  "folder": "Animation_SkinType",
+  "id": 3,
+  "models": [
+    {
+      "fileName": "Animation_SkinType_00.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_SkinType_00.gif",
+      "camera": {
+        "translation": [
+          0.5,
+          0,
+          0.6
+        ]
+      }
+    },
+    {
+      "fileName": "Animation_SkinType_01.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_SkinType_01.gif",
+      "camera": {
+        "translation": [
+          0.5,
+          0,
+          0.6
+        ]
+      }
+    },
+    {
+      "fileName": "Animation_SkinType_02.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_SkinType_02.gif",
+      "camera": {
+        "translation": [
+          0.5,
+          0,
+          0.6
+        ]
+      }
+    },
+    {
+      "fileName": "Animation_SkinType_03.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Animation_SkinType_03.gif",
+      "camera": {
+        "translation": [
+          0.5,
+          0,
+          0.6
+        ]
+      }
+    }
+  ]
+}

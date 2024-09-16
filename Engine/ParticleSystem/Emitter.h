@@ -1,26 +1,14 @@
 #pragma once
 #include <array>
-#include "Engine.h"
-#include "Vector3.h"
+#include "Render.h"
+#include "Engine/Math/Vector3.h"
 
-class Particle;
+class BaseEffect;
 
 class Emitter {
-public: // データ構造体
-
-	struct EmitterData {
-		kTransform transform;	// 場所
-		uint32_t count;			// 発生個数
-		float frequency;		// 発生頻度
-		float frequencyTime;	// 頻度用の時刻
-		Vector3 size;			// エミッターのサイズ
-		Vector3 firstVelocity;	// 初速度
-		float lifeTime;			// 生存期間
-	};
-
 public:
 
-	Emitter();
+	Emitter(BaseEffect* effect);
 	~Emitter();
 
 	/// <summary>
@@ -48,21 +36,19 @@ public:
 	// パーティクルの生成
 	void CreateParticle();
 
-	/// <summary>
-	/// パーティクルの設定
-	/// </summary>
-	/// <param name="particle"></param>
-	void SetParticle(Particle* particle) {
-		particle_ = particle;
-	}
-
 private:
-
-	EmitterData emitterData_;
 
 	bool isRangeDraw_;
 
-	// 
-	Particle* particle_ = nullptr;
+	kTransform transform_;	// 場所
+	uint32_t count_;			// 発生個数
+	float frequency_;		// 発生頻度
+	float frequencyTime_;	// 頻度用の時刻
+	Vector3 size_;			// エミッターのサイズ
+	Vector3 firstVelocity_;	// 初速度
+	float lifeTime_;			// 生存期間
+
+	// effectのポインタ
+	BaseEffect* effect_;
 };
 

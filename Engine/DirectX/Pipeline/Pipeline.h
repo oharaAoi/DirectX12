@@ -6,25 +6,23 @@
 #include <memory>
 #include <vector>
 // PSO
-#include "RootSignature.h"
+#include "Engine/DirectX/RootSignature/RootSignature.h"
 #include "InputLayout.h"
-#include "DirectXCompiler.h"
-#include "Shader.h"
+#include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
+#include "Engine/DirectX/RTV/RenderTarget.h"
+#include "Engine/Utilities/Shader.h"
 #include "Blend.h"
-
-enum PipelineType {
-	NormalPipeline,
-	TextureLessPipeline,
-	ParticlePipeline
-};
 
 class Pipeline {
 public:
 
-	Pipeline(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader, const PipelineType& type);
+	Pipeline();
 	~Pipeline();
 
-	void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader, const PipelineType& type);
+	void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, 
+					const Shader::ShaderData& shaderData, const RootSignatureType& rootSignatureType,
+					const std::vector<D3D12_INPUT_ELEMENT_DESC>& desc
+	);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
@@ -42,7 +40,7 @@ public:
 	/// <summary>
 	/// Shaderをcompileする
 	/// </summary>
-	void ShaderCompile(const std::string& vertexShader, const std::string& pixelShader);
+	void ShaderCompile(const Shader::ShaderData& shaderData);
 
 	/// <summary>
 	/// RasterizerStateの設定
@@ -54,6 +52,8 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	D3D12_DEPTH_STENCIL_DESC SetDepthStencilState();
+
+	void SetRootSignature(const RootSignatureType& type);
 
 	/// <summary>
 	/// PSOの生成
@@ -69,11 +69,11 @@ private:
 	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
 
 	// Shader
-	Comptr<IDxcBlob> vertexShaderBlob_ = nullptr;
-	Comptr<IDxcBlob> pixelShaderBlob_ = nullptr;
+	ComPtr<IDxcBlob> vertexShaderBlob_ = nullptr;
+	ComPtr<IDxcBlob> pixelShaderBlob_ = nullptr;
 
 	// PSO
-	Comptr<ID3D12PipelineState> graphicsPipelineState_ = nullptr;
+	ComPtr<ID3D12PipelineState> graphicsPipelineState_ = nullptr;
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc_;
 
 	// DXCで使う

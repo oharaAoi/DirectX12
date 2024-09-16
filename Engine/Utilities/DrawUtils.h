@@ -1,9 +1,9 @@
 #pragma once
 #include <array>
 #include "Engine.h"
-#include "Vector3.h"
-#include "MyMatrix.h"
-#include "MathStructures.h"
+#include "Engine/Math/Vector3.h"
+#include "Engine/Math/MyMatrix.h"
+#include "Engine/Math/MathStructures.h"
 
 /// <summary>
 /// グリット線を描画する

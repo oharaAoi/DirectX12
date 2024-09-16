@@ -1,0 +1,66 @@
+{
+  "folder": "Material_DoubleSided",
+  "id": 9,
+  "models": [
+    {
+      "fileName": "Material_DoubleSided_00.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_DoubleSided_00.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_DoubleSided_01.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_DoubleSided_01.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_DoubleSided_02.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_DoubleSided_02.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_DoubleSided_03.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_DoubleSided_03.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Material_DoubleSided_04.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Material_DoubleSided_04.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    }
+  ]
+}

@@ -5,15 +5,29 @@
 #include <cassert>
 #include <wrl.h>
 // utilities
-#include "DirectXUtils.h"
+#include "Engine/Utilities/DirectXUtils.h"
+
+#include "Engine/DirectX/Descriptor/DescriptorSize.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
-// -----------------------------------------------------------
-// 使わないか
-// -----------------------------------------------------------
+enum DescriptorHeapType {
+	TYPE_RTV,
+	TYPE_SRV,
+	TYPE_DSV
+};
+
 class DescriptorHeap {
+public:
+	/// <summary>
+	/// GPUやCPUのアドレスをまとめた関数
+	/// </summary>
+	struct DescriptorHandles {
+		D3D12_CPU_DESCRIPTOR_HANDLE handleCPU;
+		D3D12_GPU_DESCRIPTOR_HANDLE handleGPU;
+	};
+
 public:
 
 	DescriptorHeap(ID3D12Device* device);
@@ -25,27 +39,62 @@ public:
 	/// <param name="device"></param>
 	void Initialize(ID3D12Device* device);
 
+	/// <summary>
+	/// 終了関数
+	/// </summary>
 	void Finalize();
+
+	/// <summary>
+	/// SRVをセットする
+	/// </summary>
+	/// <param name="commandList"></param>
+	void SetSRVHeap(ID3D12GraphicsCommandList* commandList);
+
+	/// <summary>
+	/// Viewを作成する際のアドレスを取得するための関数
+	/// </summary>
+	/// <param name="type">descriptorの種類</param>
+	/// <param name="descriptorSize">サイズ</param>
+	/// <returns></returns>
+	DescriptorHandles GetDescriptorHandle(const DescriptorHeapType& type);
 
 public:
 
+	/// <summary>
+	/// descriptorSizeを得る
+	/// </summary>
+	/// <returns></returns>
+	DescriptorSize* GetDescriptorSize() { return descriptorSize_.get(); }
+
+	/// <summary>
+	/// RTVのHeapを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	ID3D12DescriptorHeap* GetRTVHeap() { return rtvHeap_.Get(); }
 
+	/// <summary>
+	///　SRVのHeapを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	ID3D12DescriptorHeap* GetSRVHeap() { return srvHeap_.Get(); }
 
+	/// <summary>
+	/// DSVのHeapを取得する関数
+	/// </summary>
+	/// <returns></returns>
 	ID3D12DescriptorHeap* GetDSVHeap() { return dsvHeap_.Get(); }
-
-	void SetUseSrvIndex(const uint32_t& index) { useSrvIndex_ = index; }
-
-	uint32_t GetUseSrvIndex() { return useSrvIndex_; }
 
 private:
 
 	ID3D12Device* device_ = nullptr;
 
-	Comptr<ID3D12DescriptorHeap> rtvHeap_ = nullptr;
-	Comptr<ID3D12DescriptorHeap> srvHeap_ = nullptr;
-	Comptr<ID3D12DescriptorHeap> dsvHeap_ = nullptr;
+	std::unique_ptr<DescriptorSize> descriptorSize_;
 
-	uint32_t useSrvIndex_;
+	ComPtr<ID3D12DescriptorHeap> rtvHeap_ = nullptr;
+	ComPtr<ID3D12DescriptorHeap> srvHeap_ = nullptr;
+	ComPtr<ID3D12DescriptorHeap> dsvHeap_ = nullptr;
+	
+	int32_t useSrvIndex_;
+	int32_t useDsvIndex_;
+	int32_t useRtvIndex_;
 };

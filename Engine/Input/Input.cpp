@@ -28,7 +28,7 @@ Input::~Input() {
 //=================================================================================================================
 //	↓　初期化
 //=================================================================================================================
-void Input::Initialize(WNDCLASS wCalss, HWND hwnd) {
+void Input::Init(WNDCLASS wCalss, HWND hwnd) {
 	HRESULT result;
 	// -------------------------- DirectInputの初期化 -------------------------- //
 	result = DirectInput8Create(wCalss.hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput_, nullptr);

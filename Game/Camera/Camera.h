@@ -1,12 +1,9 @@
 #pragma once
-#include "MyMatrix.h"
-#include "MyMath.h"
-#include "Transform.h"
-#include "Input.h"
-
-#ifdef _DEBUG
-#include "ImGuiManager.h"
-#endif // DEBUG
+#include "Engine/Math/MyMatrix.h"
+#include "Engine/Math/MyMath.h"
+#include "Engine/Lib/Transform.h"
+#include "Engine/Input/Input.h"
+#include "Engine/Manager/ImGuiManager.h"
 
 const float kCameraMoveSpeed_ = 0.05f;
 

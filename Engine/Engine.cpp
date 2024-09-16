@@ -1,17 +1,18 @@
 #include "Engine.h"
+// system
+#include "Engine/ParticleSystem/EffectSystem.h"
 
-Engine::Engine() {
-}
+Engine::Engine(){}
 
-Engine::~Engine() {
-	
-}
+Engine::~Engine() {}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　初期化処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	kClientWidth_ = backBufferWidth;
 	kClientHeight_ = backBufferHeight;
-
-	lightKind_ = LightGroup::Directional;
 
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
@@ -21,6 +22,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	imguiManager_ = ImGuiManager::GetInstacne();
 	textureManager_ = TextureManager::GetInstance();
 	input_ = Input::GetInstance();
+	render_ = Render::GetInstacne();
 
 	// ↓各初期化
 	winApp_->CreateGameWindow();
@@ -31,83 +33,63 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	dxCommands_ = std::make_unique<DirectXCommands>(dxDevice_->GetDevice());
 	descriptorHeap_ = std::make_unique<DescriptorHeap>(dxDevice_->GetDevice());
-
-	// dxcommon
-	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get());
-
-	// ImGui
-	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_->GetDevice(), dxCommon_->GetSwapChainBfCount(), descriptorHeap_->GetSRVHeap());
-
-	// texture
-	textureManager_->Initialize(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV());
-	descriptorHeap_->SetUseSrvIndex(textureManager_->GetSRVDataIndex() + 1);
-
-	// dxCompiler
+	renderTarget_ = std::make_unique<RenderTarget>();
 	dxCompiler_ = std::make_unique<DirectXCompiler>();
+	shaders_ = std::make_unique<Shader>();
+
+	graphicsPipelines_ = std::make_unique<GraphicsPipelines>();
+	primitivePipeline_ = std::make_unique<PrimitivePipeline>();
+	computeShader_ = std::make_unique<ComputeShader>();
+
+	renderTexture_ = std::make_unique<RenderTexture>();
+
+	//effectSystem_ = std::make_unique<EffectSystem>();
+
+	audio_ = std::make_unique<Audio>();
 
 	// shader
-	shaders_.Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Object3d.PS.hlsl", Shader::Normal);
-	shaders_.Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Textureless.PS.hlsl", Shader::TextureLess);
-	shaders_.Load("Engine/HLSL/Primitive.VS.hlsl", "Engine/HLSL/Primitive.PS.hlsl", Shader::Primitive);
-	shaders_.Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Phong.Lighting.hlsl", Shader::Phong);
-	shaders_.Load("Engine/HLSL/PBR.VS.hlsl", "Engine/HLSL/PBR.PS.hlsl", Shader::PBR);
-	shaders_.Load("Engine/HLSL/Particle.VS.hlsl", "Engine/HLSL/Particle.PS.hlsl", Shader::Particle);
+	shaders_->Init();
 
+	// dxcommon
+	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get(), renderTarget_.get());
+	// ImGui
+	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_->GetDevice(), dxCommon_->GetSwapChainBfCount(), descriptorHeap_->GetSRVHeap());
+	// renderTarget
+	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get());
+	// texture
+	textureManager_->Init(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_.get());
 	// pipeline
-	pipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(),dxCompiler_.get(),
-				shaders_.GetShaderData(Shader::Normal), NormalPipeline);
-
-	texturelessPipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(),dxCompiler_.get(),
-						shaders_.GetShaderData(Shader::TextureLess), TextureLessPipeline);
-
-	phongPipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
-					shaders_.GetShaderData(Shader::Phong), NormalPipeline);
-
-	primitivePipeline_ = std::make_unique<PrimitivePipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
-						shaders_.GetShaderData(Shader::Primitive));
-
-	pbrPipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
-						shaders_.GetShaderData(Shader::PBR), NormalPipeline);
-
-	particlePipeline_ = std::make_unique<Pipeline>(dxDevice_->GetDevice(), dxCompiler_.get(),
-						shaders_.GetShaderData(Shader::Particle), ParticlePipeline);
-
-	// light
-	lightGroup_ = std::make_unique<LightGroup>();
-	lightGroup_->Init(dxDevice_->GetDevice());
-
+	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
+	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
+	// CS
+	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(),renderTarget_->GetOffScreenSRVHandle(RenderTargetType::OffScreen_RenderTarget), shaders_.get());
 	// input
-	input_->Initialize(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
-
+	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 	// audio
-	audio_ = std::make_unique<Audio>();
-	audio_->Initialize();
+	audio_->Init();
 
-	// primitive
-	primitiveDrawer_ = std::make_unique<PrimitiveDrawer>();
-	primitiveDrawer_->Initialize(dxDevice_->GetDevice());
+	render_->Init(dxCommands_->GetCommandList(), dxDevice_->GetDevice(), primitivePipeline_.get());
 
-	viewProjection_ = std::make_unique<ViewProjection>();
-	viewProjection_->Init(dxDevice_->GetDevice());
+	renderTexture_->Init(dxDevice_->GetDevice());
 
 	Log("Clear!\n");
-
-	lightKind_ = LightGroup::Directional;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　終了処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Engine::Finalize() {
-	viewProjection_->Finalize();
+	renderTexture_->Finalize();
 
-	primitiveDrawer_->Finalize();
-	lightGroup_->Finalize();
-
-	pbrPipeline_->Finalize();
+	computeShader_->Finalize();
 	primitivePipeline_->Finalize();
-	phongPipeline_->Finalize();
-	pipeline_->Finalize();
-	texturelessPipeline_->Finalize();
-	particlePipeline_->Finalize();
+	graphicsPipelines_->Finalize();
 
+	render_->Finalize();
+
+	renderTarget_->Finalize();
 	dxCompiler_->Finalize();
 	descriptorHeap_->Finalize();
 	dxCommands_->Finalize();
@@ -121,9 +103,27 @@ void Engine::Finalize() {
 	CoUninitialize();
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　ImGuiを描画する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Engine::DrawImGui() {
+	ImGui::Begin("Engine");
+
+	ImGui::Checkbox("RunCS", &isRunCS_);
+
+	ImGui::End();
+}
+
 bool Engine::ProcessMessage() {
 	return  winApp_->ProcessMessage();
 }
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　フレーム開始時の処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::BeginFrame() {
 	imguiManager_->Begin();
@@ -131,10 +131,12 @@ void Engine::BeginFrame() {
 
 	input_->Update();
 
-	lightGroup_->Update();
-
-	primitiveDrawer_->SetUseIndex(0);
+	DrawImGui();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　フレーム終了時の処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::EndFrame() {
 	imguiManager_->End();
@@ -142,9 +144,43 @@ void Engine::EndFrame() {
 	dxCommon_->End();
 }
 
-//------------------------------------------------------------------------------------------------------
-// 生成
-//------------------------------------------------------------------------------------------------------
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　offScreenRenderingの処理をこの関数内で行う
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Engine::EndRenderTexture() {
+	// offScreenRenderingのResourceの状態を変更する
+	dxCommon_->ChangeOffScreenResource();
+	// これから書き込む画面をバックバッファに変更する
+	dxCommon_->SetSwapChain();
+
+	if (isRunCS_) {
+		//----------------------------------------------------------------
+		// computerShaderを実行する
+		computeShader_->RunComputeShader(dxCommands_->GetCommandList());
+		//----------------------------------------------------------------
+
+		// スプライト用のパイプラインの設定
+		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
+		// computeShaderで加工したTextureを描画する
+		renderTexture_->Draw(dxCommands_->GetCommandList(), computeShader_->GetShaderResourceHandleGPU());
+		//----------------------------------------------------------------
+		
+		// リソースの状態をShaderResourceから書き込める状態にする(SR→UA)
+		computeShader_->TransitionUAVResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+
+	} else {
+		// スプライト用のパイプラインの設定
+		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
+		// offScreenRenderingで書き込んだTextureを描画する
+		renderTexture_->Draw(dxCommands_->GetCommandList(), renderTarget_->GetOffScreenSRVHandle(RenderTargetType::OffScreen_RenderTarget).handleGPU);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　生成する関数群
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 std::unique_ptr<Triangle> Engine::CreateTriangle(const Mesh::Vertices& vertex) {
 	std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>();
 	triangle->Init(dxDevice_->GetDevice(), vertex);
@@ -172,7 +208,7 @@ std::unique_ptr<Model> Engine::CreateModel(const std::string& filePath) {
 std::unique_ptr<BaseParticle> Engine::CreateBaseParticle(const std::string& fileName, const uint32_t& instanceNum) {
 	std::unique_ptr<BaseParticle> particle = std::make_unique<BaseParticle>();
 	particle->Init(dxDevice_->GetDevice(), "Resources", fileName, instanceNum);
-	particle->CreateSRV(dxDevice_->GetDevice(), descriptorHeap_->GetSRVHeap(), dxCommon_->GetDescriptorSize()->GetSRV(), descriptorHeap_->GetUseSrvIndex(), instanceNum);
+	particle->CreateSRV(dxDevice_->GetDevice(), descriptorHeap_.get(), instanceNum);
 	return particle;
 }
 
@@ -182,77 +218,35 @@ WorldTransform Engine::CreateWorldTransform() {
 	return result;
 }
 
-//------------------------------------------------------------------------------------------------------
-// 描画
-//------------------------------------------------------------------------------------------------------
-void Engine::DrawTriangle(Triangle* triangle, const WorldTransform& worldTransform) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
-	triangle->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
-}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　パイプラインの設定
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Engine::DrawSprite(Sprite* sprite) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
-	sprite->Draw(dxCommands_->GetCommandList());
-}
-
-void Engine::DrawSphere(Sphere* sphere, const WorldTransform& worldTransform) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
-	sphere->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
-}
-
-void Engine::DrawModel(Model* model, const WorldTransform& worldTransform) {
-	lightGroup_->Draw(dxCommands_->GetCommandList(), 4);
-	model->Draw(dxCommands_->GetCommandList(), worldTransform, viewProjection_.get());
-}
-
-void Engine::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat) {
-	primitivePipeline_->Draw(dxCommands_->GetCommandList());
-	primitiveDrawer_->Draw(dxCommands_->GetCommandList(), p1, p2, color, vpMat);
-}
-
-void Engine::DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance) {
-	lightGroup_->DrawPar(dxCommands_->GetCommandList(), 2);
-	baseParticle->Draw(dxCommands_->GetCommandList(), numInstance);
-}
-
-//------------------------------------------------------------------------------------------------------
-// ライトの設定
-//------------------------------------------------------------------------------------------------------
-void Engine::SetLightKind(const LightGroup::LightKind& kind) {
-	lightKind_ = kind;
-}
-
-void Engine::SetEyePos(const Vector3& eyePos) {
-	lightGroup_->SetEyePos(eyePos);
-}
-
-//------------------------------------------------------------------------------------------------------
-// パイプラインの設定
-//------------------------------------------------------------------------------------------------------
 void Engine::SetPipeline(const PipelineKind& kind) {
 	switch (kind) {
 	case PipelineKind::kNormalPipeline:
-		pipeline_->Draw(dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(PipelineType::NormalPipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineKind::kTexturelessPipeline:
-		texturelessPipeline_->Draw(dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(PipelineType::TextureLessPipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineKind::kPBRPipeline:
-		pbrPipeline_->Draw(dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(PipelineType::PBRPipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineKind::kParticlePipeline:
-		particlePipeline_->Draw(dxCommands_->GetCommandList());
+		graphicsPipelines_->SetPipeline(PipelineType::ParticlePipeline, dxCommands_->GetCommandList());
+		break;
+	case PipelineKind::kSpritePipeline:
+		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
+		
 		break;
 	}
 }
 
-void Engine::SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection) {
-	viewProjection_->SetViewProjection(view, projection);
-}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Sound系
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-// sound系
-/////////////////////////////////////////////////////////////////////////////////////////////
 SoundData Engine::LoadAudio(const std::string& fileName) {
 	return audio_->SoundLoadWave(fileName.c_str());
 }

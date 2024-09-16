@@ -5,11 +5,11 @@
 #include <cassert>
 #include <dxgidebug.h>
 // utilities
-#include "Convert.h"
-#include "DirectXUtils.h"
+#include "Engine/Utilities/Convert.h"
+#include "Engine/Utilities/DirectXUtils.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class DirectXDevice {
 public:
@@ -27,6 +27,6 @@ public:
 
 private:
 
-	Comptr<ID3D12Device> device_ = nullptr;
+	ComPtr<ID3D12Device> device_ = nullptr;
 
 };

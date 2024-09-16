@@ -17,21 +17,11 @@ void GameScene::Init() {
 
 	terrainModel_ = Engine::CreateModel("terrain.obj");
 
-	//particleModel_ = Engine::CreateModel("particle.obj");
+	particleModel_ = Engine::CreateModel("particle.obj");
 
-	particle_ = std::make_unique<Particle>();
-	particle_->Init("particle.obj", 100);
-
-	emitter_ = std::make_unique<Emitter>();
-	emitter_->Init();
-
-	particleField_ = std::make_unique<ParticleField>();
-	particleField_->Init();
-
-	emitter_->SetParticle(particle_.get());
-	particleField_->SetParticle(particle_.get());
-
-	terrainWorld_ = Engine::CreateWorldTransform();
+	sphereTransform_ = Engine::CreateWorldTransform();
+	sphereTransform_ = Engine::CreateWorldTransform();
+	sphereModelTransform_ = Engine::CreateWorldTransform();
 
 	roughness_ = 0.5f;
 	metallic_ = 0.5f;
@@ -43,25 +33,18 @@ void GameScene::Init() {
 }
 
 void GameScene::Update() {
-	terrainWorld_.Update();
+	//transform_.rotate.y += 0.01f;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// カメラの更新
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	camera_->Update();
-	emitter_->Update();
+	Render::SetEyePos(camera_->GetWorldTranslate());
+	Render::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
-	particle_->SetCameraMatrix(camera_->GetCameraMatrix());
-	particle_->Update(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	// 当たり判定
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	particleField_->Update();
-
-	Engine::SetEyePos(camera_->GetWorldTranslate());
-	Engine::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-
+	sphereTransform_.Update();
+	sphereModelTransform_.Update();
+	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// sound
 	//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,40 +94,25 @@ void GameScene::Update() {
 		sphereModel_->SetMaterials(roughness_, metallic_);
 		teapotModel_->SetMaterials(roughness_, metallic_);
 
-		ImGui::DragFloat("metallic", &metallic_,0.01f, 0.0f, 1.0f);
+		ImGui::DragFloat("metallic", &metallic_, 0.01f, 0.0f, 1.0f);
 		ImGui::DragFloat("roughness", &roughness_, 0.01f, 0.0f, 1.0f);
 	}
 
-	if (ImGui::CollapsingHeader("LightingKind")) {
-		ImGui::Combo("lightKind", &lightKind_, "directional\0PBR");
-
-		LightGroup::LightKind kind = static_cast<LightGroup::LightKind>(lightKind_);
-		Engine::SetLightKind(kind);
-	}
-
-	ImGui::Checkbox("Draw", &isDraw_);
-	
-		
 	ImGui::End();
-	particle_->ImGuiDraw();
+
+	/*model_->ImGuiDraw("floor");
+	sphere_->ImGuiDraw("Sphere");
+	sphereModel_->ImGuiDraw("sphereModel");
+	teapotModel_->ImGuiDraw("teapot");*/
+
+	sphereModel_->ImGuiDraw("sphereModel");
 }
 
 void GameScene::Draw() {
-	/*Engine::DrawModel(model_.get());
-	Engine::DrawModel(sphereModel_.get());
-	Engine::DrawModel(terrainModel_.get());
-	Engine::DrawModel(teapotModel_.get());*/
-	//Engine::DrawSphere(sphere_.get());
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
-	//Engine::DrawSphere(sphere_.get());
-	if (isDraw_) {
-		Engine::DrawModel(terrainModel_.get(), terrainWorld_);
-	}
-	//Engine::DrawModel(teapotModel_.get());
-	//Engine::DrawModel(sphereModel_.get());
-	
+
 #pragma endregion
 
 #pragma region Textureless
@@ -168,7 +136,5 @@ void GameScene::Draw() {
 
 #pragma endregion
 
-	emitter_->Draw(camera_->GetViewMatrix() * camera_->GetProjectionMatrix());
-
-	particleField_->Draw(camera_->GetViewMatrix() * camera_->GetProjectionMatrix());
+	
 }

@@ -4,12 +4,12 @@
 #include <d3d12.h>
 #include <wrl.h>
 // DirectX
-#include "DirectXUtils.h"
+#include "Engine/Utilities/DirectXUtils.h"
 // math
-#include "MyMath.h"
+#include "Engine/Math/MyMath.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class Mesh final {
 public: // 構造体
@@ -47,6 +47,7 @@ public:
 	void Init(ID3D12Device* device, const uint32_t& vBSize, const uint32_t& iBSize);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
+	void DrawPar(ID3D12GraphicsCommandList* commandList);
 
 	void Finalize();
 
@@ -84,11 +85,11 @@ public:
 
 private:
 	// VertexBuffer
-	Comptr<ID3D12Resource> vertexBuffer_;
+	ComPtr<ID3D12Resource> vertexBuffer_;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 	VertexData* vertexData_ = nullptr;
 	// IndexBuffer
-	Comptr<ID3D12Resource> indexBuffer_;
+	ComPtr<ID3D12Resource> indexBuffer_;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
 	uint32_t* indexData_ = nullptr;
 

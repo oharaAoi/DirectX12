@@ -1,11 +1,11 @@
 #pragma once
-#include <Matrix3x3.h>
-#include <Matrix4x4.h>
-#include <Vector3.h>
+#include <Engine/Math/Matrix3x3.h>
+#include <Engine/Math/Matrix4x4.h>
+#include <Engine/Math/Vector3.h>
 #include <assert.h>
 #include <cmath>
 
-#include "Transform.h"
+#include "Engine/Lib/Transform.h"
 
 /// <summary>
 /// 加算

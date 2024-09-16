@@ -1,5 +1,11 @@
 #include "BaseParticle.h"
 
+void BaseParticle::Finalize() {
+	materialArray_.clear();
+	meshArray_.clear();
+	particleForGPU_->Finalize();
+}
+
 void BaseParticle::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName, const uint32_t& instanceNum) {
 	std::string path = directorPath + "/" + fileName;
 	materialArray_ = LoadMaterialData(directorPath, fileName, device);
@@ -24,7 +30,7 @@ void BaseParticle::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& 
 		particleForGPU_->DrawSRV(commandList);
 
 		std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetMateriaData().textureFilePath;
-		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName);
+		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 2);
 
 		UINT size = meshArray_[oi]->GetVertexSize() / sizeof(Mesh::VertexData);
 
@@ -32,6 +38,6 @@ void BaseParticle::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& 
 	}
 }
 
-void BaseParticle::CreateSRV(ID3D12Device* device, ID3D12DescriptorHeap* srvHeap, const uint32_t& srvDescriptorSize, const uint32_t& index, const uint32_t& instanceNum) {
-	particleForGPU_->CreateSrv(device, srvHeap, srvDescriptorSize, index, instanceNum);
+void BaseParticle::CreateSRV(ID3D12Device* device, DescriptorHeap* dxHeap, const uint32_t& instanceNum) {
+	particleForGPU_->CreateSrv(device, dxHeap, instanceNum);
 }

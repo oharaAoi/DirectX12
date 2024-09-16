@@ -5,20 +5,21 @@
 #include <wrl.h>
 #include <memory>
 // winapp
-#include "WinApp.h"
+#include "Engine/WinApp/WinApp.h"
 // DirectX
-#include "DescriptorSize.h"
-#include "DescriptorHeap.h"
-#include "DirectXCommands.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
 // DXC
 #include <dxcapi.h>
+// RT
+#include "Engine/DirectX/RTV/RenderTarget.h"
 // utilities
-#include "Convert.h"
-#include "DirectXUtils.h"
-#include "Debug.h"
+#include "Engine/Utilities/Convert.h"
+#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/Utilities/Debug.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 class DirectXCommon {
 public:
@@ -42,7 +43,7 @@ public:
 	/// <summary>
 	/// 色々な設定をする
 	/// </summary>
-	void Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps);
+	void Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps, RenderTarget* renderTarget);
 
 	/// <summary>
 	/// 終了関数
@@ -58,6 +59,13 @@ public:
 	/// フレームを終了する
 	/// </summary>
 	void End();
+
+	/// <summary>
+	/// オフスクリーン用のリソースをRenderTargetからShaderResourceにする
+	/// </summary>
+	void ChangeOffScreenResource();
+
+	void SetSwapChain();
 
 public:
 
@@ -80,11 +88,6 @@ public:
 	void CreateSwapChain();
 
 	/// <summary>
-	/// RTVを生成
-	/// </summary>
-	void CreateRTV();
-
-	/// <summary>
 	/// Fenceの生成
 	/// </summary>
 	void CrateFence();
@@ -100,7 +103,7 @@ public:
 	void CreateDSV();
 
 ////////////////////////////////////////////////////////////////////////////////////
-// accseser
+// accessor
 ////////////////////////////////////////////////////////////////////////////////////
 
 	int32_t GetSwapChainBfCount() {return swapChainBufferCount_;}
@@ -109,7 +112,9 @@ public:
 
 	IDXGIAdapter4* GetUseAdapter() { return useAdapter_.Get(); }
 
-	DescriptorSize* GetDescriptorSize() { return descriptorSize_.get(); }
+	ComPtr<IDXGISwapChain4> GetSwapChain() { return swapChain_.Get(); }
+
+	ID3D12Resource* GetDepthStencilResource() { return depthStencilResource_.Get(); }
 
 private:
 
@@ -123,27 +128,23 @@ private:
 	DirectXCommands* dxCommands_ = nullptr;
 	ID3D12Device* device_ = nullptr;
 
-	std::unique_ptr<DescriptorSize> descriptorSize_;
+	RenderTarget* renderTarget_ = nullptr;
 
 private:
 
 	// デバック =======================================================================================
-	Comptr<ID3D12Debug1> debugController_ = nullptr;
+	ComPtr<ID3D12Debug1> debugController_ = nullptr;
 
 	// 初期化系 =======================================================================================
-	Comptr<IDXGIFactory7> dxgiFactory_ = nullptr;
-	Comptr<IDXGIAdapter4> useAdapter_ = nullptr;
+	ComPtr<IDXGIFactory7> dxgiFactory_ = nullptr;
+	ComPtr<IDXGIAdapter4> useAdapter_ = nullptr;
 
 	// 生成する変数 =======================================================================================
 	// swapChaim
-	Comptr<IDXGISwapChain4> swapChain_ = nullptr;
-	Comptr<ID3D12Resource> swapChainResource_[2];
-
-	// RTV
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[2];
-
+	ComPtr<IDXGISwapChain4> swapChain_ = nullptr;
+	
 	// Fence & Event
-	Comptr<ID3D12Fence> fence_ = nullptr;
+	ComPtr<ID3D12Fence> fence_ = nullptr;
 	uint64_t fenceValue_;
 	HANDLE fenceEvent_;
 
@@ -154,6 +155,6 @@ private:
 	D3D12_RECT scissorRect_;
 
 	// dsv
-	Comptr<ID3D12Resource> depthStencilResource_ = nullptr;
+	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
 };
 

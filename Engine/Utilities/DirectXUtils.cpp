@@ -5,7 +5,7 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dxcompiler.lib")
 
-Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap(Microsoft::WRL::ComPtr<ID3D12Device> device,
+ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap(Microsoft::WRL::ComPtr<ID3D12Device> device,
 	const D3D12_DESCRIPTOR_HEAP_TYPE& heapType,
 	const UINT& numDescriptor,
 	const bool& shaderVisible){
@@ -21,7 +21,7 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap(Microsoft::WRL
 	return descriptorHeap;
 }
 
-Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const size_t& sizeInBytes) {
+ComPtr<ID3D12Resource> CreateBufferResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const size_t& sizeInBytes) {
 	HRESULT hr = S_FALSE;
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
 	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
@@ -35,12 +35,18 @@ Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(Microsoft::WRL::ComP
 	vertexResourceDesc.DepthOrArraySize = 1;
 	vertexResourceDesc.MipLevels = 1;
 	vertexResourceDesc.SampleDesc.Count = 1;
+	vertexResourceDesc.Format = DXGI_FORMAT_UNKNOWN;
 	// バッファの場合はこれにする決まり
 	vertexResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 	// 実際に頂点リソースを作る
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertexResource = nullptr;
-	hr = device->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE,
-		&vertexResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&vertexResource));
+	hr = device->CreateCommittedResource(
+		&uploadHeapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&vertexResourceDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&vertexResource));
 	assert(SUCCEEDED(hr));
 
 	return vertexResource;
@@ -53,7 +59,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> CreateBufferResource(Microsoft::WRL::ComP
 /// <param name="width"></param>
 /// <param name="height"></param>
 /// <returns></returns>
-Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const int32_t& width, const int32_t& height){
+ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(ComPtr<ID3D12Device> device, const int32_t& width, const int32_t& height){
 	// 生成するResourceの設定
 	D3D12_RESOURCE_DESC desc{};
 	desc.Width = width;										// textureの幅
@@ -74,7 +80,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(Microso
 	value.DepthStencil.Depth = 1.0f;				// 最大値(1.0)でクリア
 	value.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;	// フォーマット。Resourceと合わせる
 
-	Microsoft::WRL::ComPtr<ID3D12Resource> resource = nullptr;
+	ComPtr<ID3D12Resource> resource = nullptr;
 	HRESULT hr = device->CreateCommittedResource(
 		&heapProperties,					// Heapの設定
 		D3D12_HEAP_FLAG_NONE,				// Heapの特殊な設定。
@@ -89,16 +95,35 @@ Microsoft::WRL::ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(Microso
 	return resource;
 }
 
+ComPtr<ID3D12Resource> CerateShaderResource(ComPtr<ID3D12Device> device, 
+						D3D12_RESOURCE_DESC* resourceDesc, D3D12_HEAP_PROPERTIES* heapProperties,
+						const D3D12_HEAP_FLAGS& heapFlags, const D3D12_RESOURCE_STATES& resourceState) {
+	
+	ComPtr<ID3D12Resource> resource = nullptr;
+	HRESULT hr = device->CreateCommittedResource(
+		heapProperties,					// Heapの設定
+		heapFlags,				// Heapの特殊の設定
+		resourceDesc,								// Resourceの設定
+		resourceState,		// 初回のResourceState Textureは木基本読むだけ
+		nullptr,							// 初回のResourceState Textureは木基本読むだけ
+		IID_PPV_ARGS(&resource)				// 作成するResourceポインタへのポインタ
+	);
+	assert(SUCCEEDED(hr));
+
+	return resource;
+}
+
 /// <summary>
 /// CompileShader
 /// </summary>
 /// <param name=""></param>
-Microsoft::WRL::ComPtr<IDxcBlob> CompilerShader(
+ComPtr<IDxcBlob> CompilerShader(
 	const std::wstring& filePath,
+	const wchar_t* entryPoint,
 	const wchar_t* profile,
-	Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils,
-	Microsoft::WRL::ComPtr<IDxcCompiler3> dxcCompiler,
-	Microsoft::WRL::ComPtr<IDxcIncludeHandler> includeHandler) {
+	ComPtr<IDxcUtils> dxcUtils,
+	ComPtr<IDxcCompiler3> dxcCompiler,
+	ComPtr<IDxcIncludeHandler> includeHandler) {
 
 	// 1.-----------------------------------------------------------------------------------------
 	// これからシェーダーをコンパイルする旨えおログに出す
@@ -116,7 +141,7 @@ Microsoft::WRL::ComPtr<IDxcBlob> CompilerShader(
 	// 2.-----------------------------------------------------------------------------------------
 	LPCWSTR arguments[] = {
 		filePath.c_str(),			// コンパイル対象のhlslファイル
-		L"-E", L"main",				// エントリーポイントの指定。基本的にmian以外にしない
+		L"-E", entryPoint,				// エントリーポイントの指定。基本的にmian以外にしない
 		L"-T", profile,				// shaderProfileの設定
 		L"-Zi", L"-Qembed_debug",	// デバック用に情報を埋め込む
 		L"-Od",						// 最適化を外して置く
@@ -155,6 +180,22 @@ Microsoft::WRL::ComPtr<IDxcBlob> CompilerShader(
 	shaderResult->Release();
 
 	return shaderBlob;
+}
+
+void TransitionResourceState(ID3D12GraphicsCommandList* commandList, ID3D12Resource* resource, D3D12_RESOURCE_STATES beforState, D3D12_RESOURCE_STATES afterState) {
+	D3D12_RESOURCE_BARRIER barrier;
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+
+	barrier.Transition.pResource = resource;
+	// 遷移前のリソース
+	barrier.Transition.StateBefore = beforState;
+	// 遷移後のResourceState
+	barrier.Transition.StateAfter = afterState;
+	// サブリソースのインデックス
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	// 張る
+	commandList->ResourceBarrier(1, &barrier);
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index){

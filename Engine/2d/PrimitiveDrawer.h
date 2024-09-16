@@ -4,14 +4,10 @@
 #include "dxgidebug.h"
 #include <cassert>
 #include <memory>
-#include "Mesh.h"
-#include "MyMatrix.h"
-
-#include "MyMath.h"
-
-#ifdef _DEBUG
-#include "ImGuiManager.h"
-#endif // _DEBUG
+#include "Engine/Assets/Mesh.h"
+#include "Engine/Math/MyMatrix.h"
+#include "Engine/Math/MyMath.h"
+#include "Engine/Manager/ImGuiManager.h"
 
 class PrimitiveDrawer {
 public : // データ構造体
@@ -34,7 +30,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(ID3D12Device* device);
+	void Init(ID3D12Device* device);
 
 	void Finalize();
 

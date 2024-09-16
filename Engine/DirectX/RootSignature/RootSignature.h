@@ -5,18 +5,21 @@
 #include <cassert>
 #include <wrl.h>
 // utilities
-#include "Convert.h"
-#include "DirectXUtils.h"
-#include "Debug.h"
+#include "Engine/Utilities/Convert.h"
+#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/Utilities/Debug.h"
 
 template<typename T>
-using Comptr = Microsoft::WRL::ComPtr <T>;
+using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 enum class RootSignatureType {
 	Normal,
 	TextureLess,
 	Primitive,
-	Particle
+	Particle,
+	Sprite,
+	ComputeShader,
+	ComputeShaderBlend
 };
 
 class RootSignature {
@@ -33,25 +36,43 @@ public:
 	/// RootSignatureの作成
 	/// </summary>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateRootSignature();
+	ComPtr<ID3D12RootSignature> CreateRootSignature();
 
 	/// <summary>
 	/// textureのないRootSignatureの作成
 	/// </summary>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateTexturelessRootSignature();
+	ComPtr<ID3D12RootSignature> CreateTexturelessRootSignature();
 
 	/// <summary>
 	/// primitiveRootSignatureの作成
 	/// </summary>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreatePrimitiveRootSignature();
+	ComPtr<ID3D12RootSignature> CreatePrimitiveRootSignature();
 
 	/// <summary>
 	/// particle用のrootSignatureの作成
 	/// </summary>
 	/// <returns></returns>
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> CreateParticleRootSignature();
+	ComPtr<ID3D12RootSignature> CreateParticleRootSignature();
+
+	/// <summary>
+	/// sprite用のrootSignatureの作成
+	/// </summary>
+	/// <returns></returns>
+	ComPtr<ID3D12RootSignature> CreateSpriteRootSignature();
+
+	/// <summary>
+	/// コンピュートシェーダ用のRootSignatureの作成
+	/// </summary>
+	/// <returns></returns>
+	ComPtr<ID3D12RootSignature> CreateComputeShaderRootSignature();
+
+	/// <summary>
+	/// コンピュートシェーダ用
+	/// </summary>
+	/// <returns></returns>
+	ComPtr<ID3D12RootSignature> CreateBlendShaderRootSignature();
 
 public:
 
@@ -60,7 +81,7 @@ public:
 private:
 
 	// rootSignature
-	Comptr<ID3D12RootSignature> rootSignature_ = nullptr;
+	ComPtr<ID3D12RootSignature> rootSignature_ = nullptr;
 
 	ID3D12Device* device_ = nullptr;
 };

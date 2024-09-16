@@ -1,19 +1,37 @@
 #pragma once
-#include "Mesh.h"
-#include "Material.h"
-#include "TransformationMatrix.h"
-#include "TextureManager.h"
-#include "ImGuiManager.h"
+#include "Engine/Assets/Mesh.h"
+#include "Engine/Assets/Material.h"
+#include "Engine/Manager/TextureManager.h"
+#include "Engine/Manager/ImGuiManager.h"
+#include "Engine/Assets/WorldTransform.h"
+#include "Engine/Assets/ViewProjection.h"
 
 class Sprite {
+public:
+
+	struct TextureMesh {
+		Vector4 pos;
+		Vector2 texcoord;
+		float padding[2];
+	};
+
+	struct TextureMaterial {
+		Vector4 color;
+		Matrix4x4 uvTransform;
+	};
+
+	struct TextureTransformData {
+		Matrix4x4 wvp;
+	};
+
 public:
 
 	Sprite();
 	~Sprite();
 
-	void Init(ID3D12Device* device, const Mesh::RectVetices& vertex);
+	void Init(ID3D12Device* device, const Mesh::RectVetices& rect);
 
-	void Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection);
+	void Update();
 
 	/// <summary>
 	/// 描画
@@ -23,10 +41,23 @@ public:
 
 private:
 
-	std::unique_ptr<Mesh> mesh_;
-	std::unique_ptr<Material> material_;
-	std::unique_ptr<TransformationMatrix> transformation_;
+	// 定数バッファ
+	ComPtr<ID3D12Resource> vertexBuffer_;
+	ComPtr<ID3D12Resource> indexBuffer_;
+	ComPtr<ID3D12Resource> materialBuffer_;
+	ComPtr<ID3D12Resource> transformBuffer_;
 
+	// view
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
+	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
+
+	// データ
+	TextureMesh* vertexData_;
+	uint32_t* indexData_;
+	TextureMaterial* materialData_;
+	TextureTransformData* transformData_;
+
+	// Transform情報
+	kTransform transform_;
 	kTransform uvTransform_;
-
 };

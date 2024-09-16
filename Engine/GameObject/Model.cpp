@@ -4,25 +4,37 @@ Model::Model() {
 }
 
 Model::~Model() {
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 初期化関数
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
 	std::string path = directorPath + "/" + fileName;
 
 	materialArray_ = LoadMaterialData(directorPath, fileName, device);
 	meshArray_ = LoadVertexData(path, device);
 
+	Log("Load: " + fileName + "\n");
+
 	//LoadObj(directorPath, fileName, device);
+	LoadAnimation(directorPath, "Animation_Node_00.gltf");
+
+	currentAnimationTime_ = 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 更新関数
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void Model::Update() {
-	
+	currentAnimationTime_ += rootNode_.animationsData.tickPerSecond * kDeltaTime_;
+	currentAnimationTime_ = fmod(currentAnimationTime_, rootNode_.animationsData.duration);
+
+	AnimationUpdate();
+	Matrix4x4 mat = MakeAffineMatrix(localTransform_);
+	rootNode_.localMatrix *= mat;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,12 +45,13 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& w
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 		meshArray_[oi]->Draw(commandList);
 		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
+		//worldTransform.AdaptToGLTF(rootNode_.localMatrix);
 		worldTransform.Draw(commandList);
 		viewProjection->Draw(commandList);
-		
+
 		if (hasTexture_) {
 			std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetMateriaData().textureFilePath;
-			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName);
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 3);
 		}
 
 		UINT size = meshArray_[oi]->GetVertexSize() / sizeof(Mesh::VertexData);
@@ -48,16 +61,17 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& w
 }
 
 void Model::ImGuiDraw(const std::string& name) {
-	const char* charTag = name.c_str();
-	ImGui::Begin("Object");
-	if(ImGui::TreeNode(charTag)) {
+	if (ImGui::TreeNode(name.c_str())) {
 		for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
-			materialArray_[meshArray_[oi]->GetUseMaterial()]->ImGuiDraw();
+			std::string materialNum = std::to_string(oi);
+			std::string materialName = "material" + materialNum;
+			if (ImGui::TreeNode(materialName.c_str())) {
+				materialArray_[meshArray_[oi]->GetUseMaterial()]->ImGuiDraw();
+				ImGui::TreePop();
+			}
 		}
-
 		ImGui::TreePop();
 	}
-	ImGui::End();
 }
 
 void Model::SetMaterials(const float& roughness, const float& metallic) {
@@ -71,8 +85,11 @@ void Model::SetMaterials(const float& roughness, const float& metallic) {
 /// </summary>
 /// <param name="node"></param>
 /// <returns></returns>
-Model::Node Model::ReadNode(aiNode* node) {
+Model::Node Model::ReadNode(aiNode* node, const aiScene* scene) {
 	Node result;
+	// ----------------------------------
+	// LocalMatrixを取得する
+	// ----------------------------------
 	aiMatrix4x4 aiLocalMat = node->mTransformation; // nodeのlocalMatrixを取得
 	aiLocalMat.Transpose(); // 列ベクトル形式を行ベクトル形式に転置
 	for (uint8_t row = 0; row < 4; row++) {
@@ -81,10 +98,14 @@ Model::Node Model::ReadNode(aiNode* node) {
 		}
 	}
 	result.name = node->mName.C_Str(); // Nodeの名前を格納
+
+	// ----------------------------------
+	// Nodeを格納する
+	// ----------------------------------
 	result.children.resize(node->mNumChildren); // 子供の数だけ確保
 	for (uint32_t childIndex = 0; childIndex < node->mNumChildren; ++childIndex) {
 		// 再帰的に読んで階層構造を作っていく
-		result.children[childIndex] = ReadNode(node->mChildren[childIndex]);
+		result.children[childIndex] = ReadNode(node->mChildren[childIndex], scene);
 	}
 
 	return result;
@@ -188,7 +209,7 @@ std::vector<std::unique_ptr<Mesh>> Model::LoadVertexData(const std::string& file
 					normal = normals[elementIndices[2] - 1];
 					/*vertex = { position, texcoord, normal };*/
 				}
-				
+
 				triangle[faceVertex] = { position, texcoord, normal };
 			}
 
@@ -322,18 +343,18 @@ std::unordered_map<std::string, std::unique_ptr<Material>> Model::LoadMaterialDa
 void Model::LoadObj(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device) {
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + "/" + fileName;
-	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_CalcTangentSpace);
 	assert(scene->HasMeshes()); // meshがないのは対応しない
 
 	std::vector<std::vector<Mesh::VertexData>> meshVertices;
 	std::vector<std::string> useMaterial;
-	std::vector<Mesh::VertexData> triangle;
 
 	std::unordered_map<std::string, Material::ModelMaterialData> materialData;
 	std::vector<std::string> materials;
 
 	// meshの解析
 	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
+		std::vector<Mesh::VertexData> triangle;
 		aiMesh* mesh = scene->mMeshes[meshIndex];
 		assert(mesh->HasNormals()); // 法線がないなら非対応
 		assert(mesh->HasTextureCoords(0)); // texcoordがないmeshは非対応
@@ -344,55 +365,78 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 
 			assert(face.mNumIndices == 3); // 三角形のみ対応
 
+			std::vector<Mesh::VertexData> vertices;
 			// vertexの解析を行う
 			for (uint32_t element = 0; element < face.mNumIndices; ++element) {
 				uint32_t vertexIndex = face.mIndices[element];
 				aiVector3D& position = mesh->mVertices[vertexIndex];
 				aiVector3D& normal = mesh->mNormals[vertexIndex];
 				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
-				
+
 				Mesh::VertexData vertex;
-				vertex.pos = {-position.x, position.y, position.z, 1.0f };
-				vertex.normal = { -normal.x, normal.y, normal.z };
+				vertex.pos = { position.x, position.y, -position.z, 1.0f };
+				vertex.normal = { normal.x, normal.y, -normal.z };
 				vertex.texcoord = { texcoord.x, texcoord.y };
 
 				triangle.push_back(vertex);
 			}
+
+			//std::reverse(vertices.begin(), vertices.end());
+			//triangle.insert(triangle.end(), vertices.begin(), vertices.end());
 		}
 
-		// materialの解析
-		for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
+		// メッシュのマテリアルインデックスを取得
+		uint32_t materialIndex = mesh->mMaterialIndex;
+		if (materialIndex < scene->mNumMaterials) {
 			aiMaterial* material = scene->mMaterials[materialIndex];
-
 			aiString materialName;
 			if (AI_SUCCESS == material->Get(AI_MATKEY_NAME, materialName)) {
-				useMaterial.push_back(materialName.C_Str());
-			}
-
-			if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
-				aiString textureFilePath;
-				material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
-				materials.push_back(materialName.C_Str());
-				materialData[materialName.C_Str()] = Material::ModelMaterialData();
-				materialData[materialName.C_Str()].textureFilePath = directoryPath + "/" + textureFilePath.C_Str();
-
-				hasTexture_ = true;
+				std::string nameStr = materialName.C_Str();
+				if (nameStr == "DefaultMaterial") {
+					continue;
+				}
+				useMaterial.push_back(nameStr);
 			}
 		}
 
 		// nodeの解析
-		rootNode_ = ReadNode(scene->mRootNode);
+		rootNode_ = ReadNode(scene->mRootNode, scene);
+
+		meshVertices.push_back(triangle);
 	}
 
-	meshVertices.push_back(triangle);
+	// materialの解析
+	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
+		aiMaterial* material = scene->mMaterials[materialIndex];
+
+		aiString materialName;
+		if (AI_SUCCESS == material->Get(AI_MATKEY_NAME, materialName)) {
+			std::string nameStr = materialName.C_Str();
+			if (nameStr == "DefaultMaterial") {
+				continue;
+			}
+		}
+
+		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
+			aiString textureFilePath;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
+			materials.push_back(materialName.C_Str());
+			materialData[materialName.C_Str()] = Material::ModelMaterialData();
+			materialData[materialName.C_Str()].textureFilePath = directoryPath + "/" + textureFilePath.C_Str();
+
+			hasTexture_ = true;
+		}
+	}
+
+	//std::reverse(meshVertices.begin(), meshVertices.end());
 
 	std::vector<std::unique_ptr<Mesh>> result;
 	for (uint32_t oi = 0; oi < meshVertices.size(); oi++) {
 		// Meshクラスの宣言
 		std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>();
 		mesh->Init(device, static_cast<uint32_t>(meshVertices[oi].size()) * sizeof(Mesh::VertexData), static_cast<uint32_t>(meshVertices[oi].size()));
-		// 入れるMeshを初期化する
-		mesh->SetUseMaterial(useMaterial[oi + 1]);
+		// 入れるMeshを初期化する(直すところ)
+		mesh->SetUseMaterial(useMaterial[oi]);
 		mesh->SetVertexData(meshVertices[oi]);
 		// Meshを配列に格納
 		result.push_back(std::move(mesh));
@@ -407,4 +451,38 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 
 	meshArray_ = std::move(result);
 	materialArray_ = std::move(materialResult);
+}
+
+void Model::LoadAnimation(const std::string& directoryPath, const std::string& fileName) {
+	Assimp::Importer importer;
+	std::string filePath = directoryPath + "/" + fileName;
+	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
+
+	for (uint32_t animIndex = 0; animIndex < scene->mNumAnimations; ++animIndex) {
+		// ----------------------------------
+		// Animationを取得する
+		// ----------------------------------
+		aiAnimation* anime = scene->mAnimations[animIndex];
+		for (uint32_t channelIndex = 0; channelIndex < anime->mNumChannels; ++channelIndex) {
+			aiNodeAnim* nodeAnim = anime->mChannels[channelIndex];
+			if (nodeAnim->mNodeName == scene->mRootNode->mName) {
+				NodeAnimationData data;
+				data.animations.push_back(NodeAnimation(nodeAnim));
+				data.tickPerSecond = static_cast<float>(anime->mTicksPerSecond);
+				data.duration = static_cast<float>(anime->mDuration);
+				// データを入れる
+				rootNode_.animationsData = data;
+			}
+		}
+	}
+}
+
+void Model::AnimationUpdate() {
+	for (auto& anim : rootNode_.animationsData.animations) {
+		aiVector3D vectorPos = InterpolationPosition(anim, currentAnimationTime_);
+		aiVector3D vectorRotation = InterpolationRotation(anim, currentAnimationTime_);
+
+		localTransform_.translate = { vectorPos.x,  vectorPos.y,  vectorPos.z };
+		localTransform_.rotate = { vectorRotation.x,  vectorRotation.y, vectorRotation.z };
+	}
 }

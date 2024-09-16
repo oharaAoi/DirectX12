@@ -1,13 +1,14 @@
 #pragma once
 #include "BaseGameObject.h"
-#include "Mesh.h"
-#include "Material.h"
-#include "WorldTransform.h"
-#include "ViewProjection.h"
-#include "TransformationMatrix.h"
-#include "TextureManager.h"
+#include "Engine/Assets/Mesh.h"
+#include "Engine/Assets/Material.h"
+#include "Engine/Assets/WorldTransform.h"
+#include "Engine/Assets/ViewProjection.h"
+#include "Engine/Assets/TransformationMatrix.h"
+#include "Engine/Manager/TextureManager.h"
 
-class Sphere {
+class Sphere 
+	: public BaseGameObject {
 public:
 
 	Sphere();
@@ -17,9 +18,13 @@ public:
 
 	void Update();
 
-	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection);
+	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection) override;
 
-	void ImGuiDraw(const std::string& name);
+	/// <summary>
+	/// ImGuiを編集する
+	/// </summary>
+	/// <param name="name">: 動かす対象の名前</param>
+	void ImGuiDraw(const std::string& name) override;
 
 	void SetMaterials(const float& roughness, const float& metallic);
 
