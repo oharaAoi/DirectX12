@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <cassert>
+#include <cmath>
 #include <unordered_map>
 #include <Lib/tiny_gltf.h> // Assimpの場合使わない
 
@@ -12,17 +13,14 @@
 #include <assimp/postprocess.h>
 
 #include "Enviroment.h"
-#include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Assets/Mesh.h"
 #include "Engine/Assets/Material.h"
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/ViewProjection.h"
 #include "Engine/Manager/TextureManager.h"
-#include <cmath>
 #include "Engine/Utilities/AnimationUtils.h"
 
-class Model
-	: public BaseGameObject {
+class Model {
 public:
 
 	struct NodeAnimationData {
@@ -48,15 +46,13 @@ public:
 
 	void Update();
 
-	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewprojection) override;
+	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewprojection);
 
 	/// <summary>
 	/// ImGuiを編集する
 	/// </summary>
 	/// <param name="name">: 動かす対象の名前</param>
-	void ImGuiDraw(const std::string& name) override;
-
-	void SetMaterials(const float& roughness, const float& metallic);
+	void ImGuiDraw(const std::string& name);
 
 	/// <summary>
 	/// assimpでのNode解析

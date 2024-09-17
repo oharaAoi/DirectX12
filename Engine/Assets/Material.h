@@ -6,7 +6,6 @@
 #include "Engine/Utilities/DirectXUtils.h"
 // math
 #include "Engine/Math/MyMath.h"
-
 #include "Engine/Manager/ImGuiManager.h"
 
 
@@ -16,8 +15,8 @@ using ComPtr = Microsoft::WRL::ComPtr <T>;
 class Material {
 public:
 
-	struct BaseMaterial {
-		Vector4 color;				// albedo
+	struct MaterialData {
+		Vector4 color;
 		int32_t enableLighting;
 		float pad[3];
 		Matrix4x4 uvTransform;
@@ -29,12 +28,11 @@ public:
 		int32_t enableLighting;
 		float pad[3];
 		Matrix4x4 uvTransform;
-		float shininess;			// 鋭さ
-		
 		Vector4 diffuseColor;		// 拡散反射率
 		Vector4 specularColor;		// 鏡面反射の色
 		float roughness;			// 粗さ
 		float metallic;				// 金属度
+		float shininess;			// 鋭さ
 	};
 
 	struct ModelMaterialData {
@@ -58,15 +56,14 @@ public:
 	Material();
 	~Material();
 
+	void Finalize();
 	void Init(ID3D12Device* device);
-
 	void Update(const Matrix4x4& uvTransform);
-
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
-	void Finalize();
-
+#ifdef _DEBUG
 	void ImGuiDraw();
+#endif
 
 public:
 
@@ -79,8 +76,6 @@ public:
 	/// </summary>
 	/// <param name="materialData"></param>
 	void SetMaterialData(ModelMaterialData materialData);
-
-	void SetMaterialParameter(const float& roughness, const float& metallic);
 
 private:
 

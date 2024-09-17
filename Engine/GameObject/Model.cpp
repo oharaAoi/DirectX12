@@ -74,12 +74,6 @@ void Model::ImGuiDraw(const std::string& name) {
 	}
 }
 
-void Model::SetMaterials(const float& roughness, const float& metallic) {
-	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
-		materialArray_[meshArray_[oi]->GetUseMaterial()]->SetMaterialParameter(roughness, metallic);
-	}
-}
-
 /// <summary>
 /// assimpでのNode解析
 /// </summary>

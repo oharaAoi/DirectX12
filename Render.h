@@ -70,12 +70,12 @@ public:
 	/// <param name="numInstance">: 何個描画するか</param>
 	static void DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance);
 
-	/// <summary>
-	/// BaseGameObjectの描画
-	/// </summary>
-	/// <param name="gameObject">: BaseGameObjectの描画</param>
-	/// <param name="worldTransform">: worldTransform</param>
-	static void DrawBaseGameObject(BaseGameObject* gameObject, const WorldTransform& worldTransform);
+	///// <summary>
+	///// BaseGameObjectの描画
+	///// </summary>
+	///// <param name="gameObject">: BaseGameObjectの描画</param>
+	///// <param name="worldTransform">: worldTransform</param>
+	//static void DrawBaseGameObject(BaseGameObject* gameObject, const WorldTransform& worldTransform);
 
 	/// <summary>
 	/// 線の描画

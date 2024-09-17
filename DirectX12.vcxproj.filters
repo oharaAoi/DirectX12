@@ -321,6 +321,18 @@
     <ClCompile Include="Engine\ComputeShader\DepthOfField.cpp">
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Manager\SceneManager.cpp">
+      <Filter>Engine\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\BaseScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Manager\ModelManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\PBRMaterial.cpp">
+      <Filter>Engine\Assets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -568,6 +580,18 @@
     </ClInclude>
     <ClInclude Include="Engine\ComputeShader\DepthOfField.h">
       <Filter>Engine\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Manager\SceneManager.h">
+      <Filter>Engine\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\BaseScene.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Manager\ModelManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\PBRMaterial.h">
+      <Filter>Engine\Assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

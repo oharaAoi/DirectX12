@@ -1,46 +1,34 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <fstream>
-#include <sstream>
-#include <cassert>
-#include <unordered_map>
-
-#include "Engine/Assets/Mesh.h"
-#include "Engine/Assets/Material.h"
-#include "Engine/Assets/TransformationMatrix.h"
+#include <memory>
+#include "Engine.h"
+#include "Engine/GameObject/Model.h"
 #include "Engine/Assets/WorldTransform.h"
-#include "Engine/Assets/ViewProjection.h"
-#include "Engine/Manager/TextureManager.h"
 
-enum class GameObjectType {
-	Model_Type,
-	Sphere_Type,
-	Triangle_Type
-};
-
+/// <summary>
+/// 
+/// </summary>
 class BaseGameObject {
 public:
 
 	BaseGameObject() = default;
 	virtual ~BaseGameObject() = default;
 
-	/// <summary>
-	/// 描画関数
-	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="worldTransform">ワールドトランスフォーム</param>
-	/// <param name="viewProjection">ビュー座標</param>
-	virtual void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection) = 0;
+	virtual void Finalize();
+	virtual void Init();
+	virtual void Update();
+	virtual void Draw() const;
 
-	/// <summary>
-	/// ImGuiを編集する
-	/// </summary>
-	/// <param name="name">動かす対象の名前</param>
-	virtual void ImGuiDraw(const std::string& name) = 0;
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif // _DEBUG
+
+	void SetObject(const std::string& objName);
 
 protected:
 
-
+	std::unique_ptr<Model> model_;
+	std::unique_ptr<WorldTransform> transform_;
 
 };

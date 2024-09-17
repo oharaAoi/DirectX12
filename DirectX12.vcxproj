@@ -95,6 +95,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Assets\Material.cpp" />
     <ClCompile Include="Engine\Assets\Mesh.cpp" />
+    <ClCompile Include="Engine\Assets\PBRMaterial.cpp" />
     <ClCompile Include="Engine\Assets\RenderTexture.cpp" />
     <ClCompile Include="Engine\Assets\TransformationMatrix.cpp" />
     <ClCompile Include="Engine\Assets\ViewProjection.cpp" />
@@ -134,6 +135,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Light\PointLight.cpp" />
     <ClCompile Include="Engine\Light\SpotLight.cpp" />
     <ClCompile Include="Engine\Manager\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\Manager\ModelManager.cpp" />
+    <ClCompile Include="Engine\Manager\SceneManager.cpp" />
     <ClCompile Include="Engine\Manager\TextureManager.cpp" />
     <ClCompile Include="Engine\Math\MathStructures.cpp" />
     <ClCompile Include="Engine\Math\MyMath.cpp" />
@@ -161,6 +164,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Externals\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
+    <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -170,6 +174,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Assets\Material.h" />
     <ClInclude Include="Engine\Assets\Mesh.h" />
+    <ClInclude Include="Engine\Assets\PBRMaterial.h" />
     <ClInclude Include="Engine\Assets\RenderTexture.h" />
     <ClInclude Include="Engine\Assets\TransformationMatrix.h" />
     <ClInclude Include="Engine\Assets\ViewProjection.h" />
@@ -211,6 +216,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Light\PointLight.h" />
     <ClInclude Include="Engine\Light\SpotLight.h" />
     <ClInclude Include="Engine\Manager\ImGuiManager.h" />
+    <ClInclude Include="Engine\Manager\ModelManager.h" />
+    <ClInclude Include="Engine\Manager\SceneManager.h" />
     <ClInclude Include="Engine\Manager\TextureManager.h" />
     <ClInclude Include="Engine\Math\MathStructures.h" />
     <ClInclude Include="Engine\Math\Matrix3x3.h" />
@@ -246,6 +253,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
+    <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Render.h" />

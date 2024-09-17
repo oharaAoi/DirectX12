@@ -108,7 +108,3 @@ void Sphere::ImGuiDraw(const std::string& name) {
 		ImGui::TreePop();
 	}
 }
-
-void Sphere::SetMaterials(const float& roughness, const float& metallic) {
-	material_->SetMaterialParameter(roughness, metallic);
-}

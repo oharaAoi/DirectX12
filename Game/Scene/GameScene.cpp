@@ -89,11 +89,6 @@ void GameScene::Update() {
 	ImGui::Begin("Setting");
 
 	if (ImGui::CollapsingHeader("materials")) {
-		sphere_->SetMaterials(roughness_, metallic_);
-		model_->SetMaterials(roughness_, metallic_);
-		sphereModel_->SetMaterials(roughness_, metallic_);
-		teapotModel_->SetMaterials(roughness_, metallic_);
-
 		ImGui::DragFloat("metallic", &metallic_, 0.01f, 0.0f, 1.0f);
 		ImGui::DragFloat("roughness", &roughness_, 0.01f, 0.0f, 1.0f);
 	}

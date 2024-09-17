@@ -10,7 +10,6 @@
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
-
 class Mesh final {
 public: // 構造体
 

@@ -77,8 +77,3 @@ void Material::SetMaterialData(ModelMaterialData materialData) {
 	pbrMaterial_->roughness = 0.5f;
 	pbrMaterial_->metallic = 0.5f;
 }
-
-void Material::SetMaterialParameter(const float& roughness, const float& metallic) {
-	pbrMaterial_->roughness = roughness;
-	pbrMaterial_->metallic = metallic;
-}
