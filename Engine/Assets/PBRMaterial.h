@@ -1,4 +1,9 @@
 #pragma once
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
+#include <map>
 #include "Engine/Utilities/DirectXUtils.h"
 #include "Engine/Math/MyMath.h"
 
@@ -27,9 +32,12 @@ public:
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* commandList) const;
 
+	void LoadMaterial(const std::string& directoryPath, const std::string& fileName);
+
 private:
 
 	ComPtr<ID3D12Resource> materialBuffer_;
+	std::map<std::string, PBRMaterialData*> materialMap_;
 	PBRMaterialData* pbrMaterial_;
 
 	Vector3 uvTranslation_;
