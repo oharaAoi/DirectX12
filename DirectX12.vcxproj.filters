@@ -333,6 +333,9 @@
     <ClCompile Include="Engine\Manager\ModelManager.cpp">
       <Filter>Engine\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Math\Quaternion.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -592,6 +595,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Manager\ModelManager.h">
       <Filter>Engine\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Quaternion.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

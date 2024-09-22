@@ -142,6 +142,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Math\MyMath.cpp" />
     <ClCompile Include="Engine\Math\MyMatrix.cpp" />
     <ClCompile Include="Engine\Math\MyRandom.cpp" />
+    <ClCompile Include="Engine\Math\Quaternion.cpp" />
     <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp" />
     <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp" />
     <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp" />
@@ -225,6 +226,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Math\MyMath.h" />
     <ClInclude Include="Engine\Math\MyMatrix.h" />
     <ClInclude Include="Engine\Math\MyRandom.h" />
+    <ClInclude Include="Engine\Math\Quaternion.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
