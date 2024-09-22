@@ -8,6 +8,7 @@
 // math
 #include "Engine/Math/MyMath.h"
 #include "Engine/Manager/ImGuiManager.h"
+#include "Engine/Math/Quaternion.h"
 
 
 template<typename T>
@@ -22,7 +23,7 @@ class WorldTransform {
 public:
 
 	Vector3 scale_;
-	Vector3 rotation_;
+	Quaternion rotation_;
 	Vector3 translation_;
 
 public:
@@ -50,5 +51,7 @@ private:
 
 	ComPtr<ID3D12Resource> cBuffer_;
 	WorldTransformData* data_;
+
+	float test_angle_ = 0;
 };
 

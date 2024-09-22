@@ -1,4 +1,5 @@
 #include "MyMatrix.h"
+#include "Engine/Math/Quaternion.h"
 
 /// <summary>
 /// 加算
@@ -269,6 +270,21 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Ve
 
     scaleMatrix = MakeScaleMatrix(scale);
     rotateMatrix = MakeRotateXYZMatrix(rotate);
+    translateMatrix = MakeTranslateMatrix(translate);
+
+    affineMatrix = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
+
+    return affineMatrix;
+}
+
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate) {
+    Matrix4x4 scaleMatrix{};
+    Matrix4x4 rotateMatrix{};
+    Matrix4x4 translateMatrix{};
+    Matrix4x4 affineMatrix{};
+
+    scaleMatrix = MakeScaleMatrix(scale);
+    rotateMatrix = rotate.MakeMatrix();
     translateMatrix = MakeTranslateMatrix(translate);
 
     affineMatrix = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);

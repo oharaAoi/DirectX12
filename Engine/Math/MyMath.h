@@ -14,7 +14,7 @@ static const float PI = std::numbers::pi_v<float>;
 static const float toRadian = std::numbers::pi_v<float> / 180.0f;
 static const float toDegree = 180.0f / std::numbers::pi_v<float>;
 
-static const float Epsilon = std::numeric_limits<float>::epsilon();
+static const float kEpsilon = std::numeric_limits<float>::epsilon();
 
 float Length(const Vector3& vec3);
 

@@ -66,7 +66,7 @@ public:
 	Quaternion operator*(const Quaternion& q2) const;
 	Vector3 operator*(const Vector3& v);
 	
-private:
+public:
 
 	float x;
 	float y;

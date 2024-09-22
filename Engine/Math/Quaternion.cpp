@@ -2,7 +2,7 @@
 
 Quaternion Quaternion::Normalize() const {
 	float num = std::sqrtf(Dot(*this, *this));
-	if (num < Epsilon) {
+	if (num < kEpsilon) {
 		return Quaternion();
 	}
 	return Quaternion(this->x / num, this->y / num, this->z / num, this->w / num);
