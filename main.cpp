@@ -16,10 +16,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	D3DResourceLeakChecker debugChecker;
 
 	// 初期化
+	EffectSystem* effectSystem = EffectSystem::GetInstacne();
 	Engine::Initialize(kWindowWidth_, kWindowHeight_);
 
 	// effectSystem
-	EffectSystem* effectSystem = EffectSystem::GetInstacne();
 	effectSystem->Init();
 
 	std::unique_ptr<GameScene> game = std::make_unique<GameScene>();
@@ -63,13 +63,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 描画処理
 		// ------------------------------------ //
 
+		Render::Update();
+
 		Engine::SetPipeline(PipelineKind::kParticlePipeline);
 		effectSystem->Draw();
 
-		Render::Update();
-		
+		effectSystem->BeginEditer();
+
 		// offScreenのスプライトを描画する
 		Engine::EndRenderTexture();
+
+		Engine::EndImGui();
+		effectSystem->EndEditer();
 
 		Engine::EndFrame();
 	}

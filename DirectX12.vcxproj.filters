@@ -333,8 +333,14 @@
     <ClCompile Include="Engine\Manager\ModelManager.cpp">
       <Filter>Engine\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="EffectSystemCamera.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\EffectSystemEditer.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Math\Quaternion.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Engine\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -596,8 +602,14 @@
     <ClInclude Include="Engine\Manager\ModelManager.h">
       <Filter>Engine\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="EffectSystemCamera.h">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\EffectSystemEditer.h">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Math\Quaternion.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Engine\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

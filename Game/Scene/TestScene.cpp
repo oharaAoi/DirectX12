@@ -1,11 +1,7 @@
 #include "TestScene.h"
 
-TestScene::TestScene() {
-}
-
-TestScene::~TestScene() {
-	
-}
+TestScene::TestScene() {}
+TestScene::~TestScene() {}
 
 void TestScene::Init() {
 	// カメラ -------------------------------------------------------------------
@@ -60,6 +56,8 @@ void TestScene::Update() {
 }
 
 void TestScene::Draw() {
+	//DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
@@ -81,11 +79,6 @@ void TestScene::Draw() {
 
 #pragma endregion
 
-#pragma region Particle
-
-	Engine::SetPipeline(PipelineKind::kParticlePipeline);
-	
-#pragma endregion
 
 }
 

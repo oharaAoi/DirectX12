@@ -26,6 +26,7 @@ public:
 
 	void SetObject(const std::string& objName);
 
+
 protected:
 
 	std::unique_ptr<Model> model_;

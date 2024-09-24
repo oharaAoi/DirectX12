@@ -13,11 +13,12 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
-static const uint32_t renderTargetNum_ = 2;
+static const uint32_t renderTargetNum_ = 3;
 
 enum RenderTargetType {
 	OffScreen_RenderTarget,
-	DepthOfField_RenderTarget
+	DepthOfField_RenderTarget,
+	EffectSystem_RenderTarget
 };
 
 class RenderTarget {
@@ -58,12 +59,14 @@ public:
 	/// <param name="afterState">変更後の状態</param>
 	void ChangeOffScreenResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
+	void ChangeRTVResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType,  const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
+
 	/// <summary>
 	/// レンダーターゲットを設定する関数
 	/// </summary>
 	/// <param name="commandList"></param>
 	/// <param name="dsvHandle"></param>
-	void OMSetRenderTarget(ID3D12GraphicsCommandList* commandList, const D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle);
+	void OMSetRenderTarget(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle);
 
 public:
 

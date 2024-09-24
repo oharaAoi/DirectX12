@@ -1,4 +1,5 @@
 #include "EffectSystem.h"
+#include "Engine/ParticleSystem/EffectSystemEditer.h"
 
 EffectSystem::~EffectSystem() {}
 
@@ -29,6 +30,8 @@ void EffectSystem::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystem::Finalize() {
+	editer_->Finalize();
+
 	for (std::list<EffectData>::iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
 		for (std::list<std::unique_ptr<BaseEffect>>::iterator effectListIter = effectDataListIter->effectList.begin();
 			 effectListIter != effectDataListIter->effectList.end();) {
@@ -81,12 +84,13 @@ void EffectSystem::Update() {
 // ↓　
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void EffectSystem::Draw() {
-	for (std::list<EffectData>::iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
+void EffectSystem::Draw() const {
+	for (std::list<EffectData>::const_iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
 		// -------------------------------------------------
 		// ↓ effectの更新
 		// -------------------------------------------------
-		for (std::list<std::unique_ptr<BaseEffect>>::iterator effectListIter = effectDataListIter->effectList.begin(); effectListIter != effectDataListIter->effectList.end();) {
+		for (std::list<std::unique_ptr<BaseEffect>>::const_iterator effectListIter = effectDataListIter->effectList.begin();
+			 effectListIter != effectDataListIter->effectList.end();) {
 			(*effectListIter)->Draw();
 			++effectListIter;
 		}
@@ -94,7 +98,8 @@ void EffectSystem::Draw() {
 		// -------------------------------------------------
 		// ↓ エミッターの更新
 		// -------------------------------------------------
-		for (std::list<std::unique_ptr<Emitter>>::iterator emitterListIter = effectDataListIter->emitterList.begin(); emitterListIter != effectDataListIter->emitterList.end();) {
+		for (std::list<std::unique_ptr<Emitter>>::const_iterator emitterListIter = effectDataListIter->emitterList.begin();
+			 emitterListIter != effectDataListIter->emitterList.end();) {
 			(*emitterListIter)->Draw(viewMat_ * projectionMat_);
 			++emitterListIter;
 		}
@@ -121,6 +126,7 @@ void EffectSystem::CreateEffect() {
 	effectList_.push_back(std::move(effectData));
 }
 
+
 void EffectSystem::SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matrix4x4& projection) {
 	viewMat_ = viewMat;
 	projectionMat_ = projection;
@@ -130,7 +136,22 @@ void EffectSystem::SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matri
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Syetemのための関数群
 //////////////////////////////////////////////////////////////////////////////////////////////////
-
-void EffectSystem::Begin() {
-
+#ifdef _DEBUG
+void EffectSystem::EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device) {
+	editer_ = std::make_unique<EffectSystemEditer>(renderTarget, descriptorHeaps, dxCommands, device);
 }
+
+void EffectSystem::BeginEditer() {
+	editer_->Begin();
+}
+
+void EffectSystem::EndEditer() {
+	editer_->End();
+}
+
+void EffectSystem::UpdateEditer() {
+	editer_->Update();
+	editer_->Draw();
+}
+
+#endif

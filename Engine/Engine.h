@@ -21,15 +21,10 @@
 #include "Engine/GameObject/Sprite.h"
 #include "Engine/GameObject/Triangle.h"
 #include "Engine/ParticleSystem/BaseParticle.h"
-// audio
 #include "Engine/Audio/Audio.h"
-// data
 #include "Engine/Utilities/Shader.h"
-// 
 #include "Engine/Assets/WorldTransform.h"
-// texture
 #include "Engine/Assets/RenderTexture.h"
-//
 #include "Render.h"
 
 enum class PipelineKind {
@@ -41,6 +36,7 @@ enum class PipelineKind {
 };
 
 class EffectSystem;
+class EffectSystemEditer;
 
 class Engine {
 public:
@@ -71,11 +67,13 @@ public:
 	/// フレームを終了する
 	/// </summary>
 	static void EndFrame();
+	static void EndImGui();
 
 	/// <summary>
 	/// offScreenRenderingの処理を行う
 	/// </summary>
 	static void EndRenderTexture();
+
 
 public:
 
@@ -182,7 +180,6 @@ private:
 // 無名名前空間で内部リンゲージする
 // ======================================================== //
 namespace {
-
 	int32_t kClientWidth_;
 	int32_t kClientHeight_;
 

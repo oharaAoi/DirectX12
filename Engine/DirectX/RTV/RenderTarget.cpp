@@ -134,16 +134,17 @@ void RenderTarget::ChangeOffScreenResource(ID3D12GraphicsCommandList* commandLis
 	TransitionResourceState(commandList, renderTargetResource_[0].Get(), beforState, afterState);
 }
 
+void RenderTarget::ChangeRTVResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
+	TransitionResourceState(commandList, renderTargetResource_[renderType].Get(), beforState, afterState);
+}
+
 /// <summary>
 /// レンダーターゲットを設定する関数
 /// </summary>
 /// <param name="commandList"></param>
 /// <param name="dsvHandle"></param>
-void RenderTarget::OMSetRenderTarget(ID3D12GraphicsCommandList* commandList, const D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle) {
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles[renderTargetNum_];
-	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
-		rtvHandles[oi] = RTVHandle_[oi].handleCPU;
-	}
-	
-	commandList->OMSetRenderTargets(renderTargetNum_, rtvHandles, false, &dsvHandle);
+void RenderTarget::OMSetRenderTarget(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle) {
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles{};
+	rtvHandles = RTVHandle_[renderType].handleCPU;
+	commandList->OMSetRenderTargets(1, &rtvHandles, false, &dsvHandle);
 }

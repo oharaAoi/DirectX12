@@ -33,7 +33,7 @@ void ParticleField::Update() {
 	}
 }
 
-void ParticleField::Draw(const Matrix4x4& vpMatrix) {
+void ParticleField::Draw(const Matrix4x4& vpMatrix) const {
 	if (onField_) {
 		DrawAABB(accelerationField_.area, vpMatrix, { 1,0,0,1 });
 	}

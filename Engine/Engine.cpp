@@ -1,5 +1,4 @@
 #include "Engine.h"
-// system
 #include "Engine/ParticleSystem/EffectSystem.h"
 
 Engine::Engine(){}
@@ -43,8 +42,6 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	renderTexture_ = std::make_unique<RenderTexture>();
 
-	//effectSystem_ = std::make_unique<EffectSystem>();
-
 	audio_ = std::make_unique<Audio>();
 
 	// shader
@@ -72,6 +69,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	renderTexture_->Init(dxDevice_->GetDevice());
 
+#ifdef _DEBUG
+	EffectSystem::GetInstacne()->EditerInit(renderTarget_.get(), descriptorHeap_.get(), dxCommands_.get(), dxDevice_->GetDevice());
+#endif
 	Log("Clear!\n");
 }
 
@@ -139,9 +139,12 @@ void Engine::BeginFrame() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::EndFrame() {
+	dxCommon_->End();
+}
+
+void Engine::EndImGui() {
 	imguiManager_->End();
 	imguiManager_->Draw(dxCommands_->GetCommandList());
-	dxCommon_->End();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

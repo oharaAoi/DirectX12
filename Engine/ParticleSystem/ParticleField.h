@@ -26,7 +26,7 @@ public:
 
 	void Update();
 
-	void Draw(const Matrix4x4& vpMatrix);
+	void Draw(const Matrix4x4& vpMatrix) const;
 
 	/// <summary>
 	/// ImGuiを編集する

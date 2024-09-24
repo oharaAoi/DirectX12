@@ -52,7 +52,7 @@ void DirectXCommon::Begin() {
 	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
 
 	// ---------------------------------------------------------------
-	// ↓barrierを張る 
+	// ↓barrierを張る(swapchainの状態がRenderTargetになっていないため)
 	// ---------------------------------------------------------------
 	// Transitionzで張る
 	barrier_.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
@@ -72,12 +72,13 @@ void DirectXCommon::Begin() {
 	//commandList->OMSetRenderTargets(1, &renderTarget_->GetRtvHandles(backBufferIndex), false, &dsvHandle);
 	//commandList->OMSetRenderTargets(2, &renderTarget_->GetRTVHandles(), false, &dsvHandle);
 	
-	renderTarget_->OMSetRenderTarget(commandList, dsvHandle);
+	renderTarget_->OMSetRenderTarget(commandList, RenderTargetType::OffScreen_RenderTarget, dsvHandle);
 
 	// 指定した深度で画面をクリア
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
+	// RenderTargetはoffScreen用のRenderTargetを指定しておく
 	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(RenderTargetType::OffScreen_RenderTarget).handleCPU, clearColor, 0, nullptr);
 
 	// srv
@@ -301,5 +302,5 @@ void DirectXCommon::CreateDSV() {
 	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 
-	device_->CreateDepthStencilView(depthStencilResource_.Get(), &desc, descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart());
+	device_->CreateDepthStencilView(depthStencilResource_.Get(), &desc, descriptorHeaps_->GetDescriptorHandle(DescriptorHeapType::TYPE_DSV).handleCPU);
 }

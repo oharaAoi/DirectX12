@@ -1,11 +1,16 @@
 #pragma once
 // DirectX
 #include "Engine/DirectX/DirectXCommon/DirectXCommon.h"
+#include "Engine/DirectX/RTV/RenderTarget.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
 // Emmiter
 #include "Engine/ParticleSystem/Emitter.h"
 #include "Engine/ParticleSystem/ParticleField.h"
 #include "Engine/ParticleSystem/BaseEffect.h"
 #include "Engine/ParticleSystem/EmissionEffect.h"
+
+class EffectSystemEditer;
 
 class EffectSystem {
 public:
@@ -25,44 +30,28 @@ public:
 	EffectSystem(const EffectSystem&) = delete;
 	const EffectSystem& operator=(const EffectSystem&) = delete;
 
-	/// <summary>
-	/// シングルトンインスタンスの取得
-	/// </summary>
-	/// <returns></returns>
 	static EffectSystem* GetInstacne();
 
-	/// <summary>
-	/// 初期化関数
-	/// </summary>
 	void Init();
-
-	/// <summary>
-	/// 終了関数
-	/// </summary>
 	void Finalize();
-
-	/// <summary>
-	/// 更新関数
-	/// </summary>
 	void Update();
-
-	/// <summary>
-	/// 描画関数
-	/// </summary>
-	void Draw();
+	void Draw() const;
 
 	/// <summary>
 	/// Effectを生成する
 	/// </summary>
 	void CreateEffect();
 
+#ifdef _DEBUG
+	void EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device);
+
 public:	// ImGui上でEffectだけを描画するための処理をする関数
 
-	/// <summary>
-	/// 描画前の処理
-	/// </summary>
-	void Begin();
+	void BeginEditer();
+	void EndEditer();
 
+	void UpdateEditer();
+#endif;
 
 public: // accessor
 
@@ -80,11 +69,9 @@ private:
 
 	// ------------------- ImGui上でEffectを作成するために必要な変数 ------------------- //
 	D3D12_RESOURCE_BARRIER barrier_;
-	// swapChain
-	ComPtr<ID3D12Resource> swapChainRenderResource_[2];
 
 	DirectXCommon* dxCommon_ = nullptr; 
-	DescriptorHeap* descriptorHeaps_ = nullptr;
-	DirectXCommands* dxCommands_ = nullptr;
+
+	std::unique_ptr<EffectSystemEditer> editer_;
 };
 

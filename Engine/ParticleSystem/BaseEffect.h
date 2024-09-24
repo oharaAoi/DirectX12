@@ -46,11 +46,8 @@ public:
 	virtual ~BaseEffect();
 
 	virtual void Finalize();
-
 	virtual void Init(const std::string& fileName, const uint32_t& particleNum);
-
 	virtual void Update(const Matrix4x4& viewMat, const Matrix4x4& projection);
-
 	virtual void Draw();
 
 	/// <summary>
@@ -94,9 +91,7 @@ private:
 	std::list<ParticleData> particlesData_;
 
 	// ------------------------
-	Matrix4x4 cameraMat_
-		
-		;
+	Matrix4x4 cameraMat_;
 
 	bool useBillboard_;
 

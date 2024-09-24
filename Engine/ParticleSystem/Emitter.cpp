@@ -7,9 +7,10 @@ Emitter::Emitter(BaseEffect* effect) : effect_(effect){
 
 Emitter::~Emitter() {}
 
-/// <summary>
-/// 初期化
-/// </summary>
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Emitter::Init() {
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,0.0f},{0.0f, 0.0f, 0.0f} };
 	count_ = 3;
@@ -22,9 +23,10 @@ void Emitter::Init() {
 	isRangeDraw_ = true;
 }
 
-/// <summary>
-/// 更新
-/// </summary>
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Emitter::Update() {
 	frequencyTime_ += kDeltaTime_;// 時刻を進める
 	if (frequency_ <= frequencyTime_) { // 頻度より大きいなら発生
@@ -34,9 +36,10 @@ void Emitter::Update() {
 	ImGuiDraw();
 }
 
-/// <summary>
-///　描画
-/// </summary>
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Emitter::Draw(const Matrix4x4& viewProjection) {
 	if (isRangeDraw_) {
 		Vector3 center = transform_.translate;
@@ -53,10 +56,10 @@ void Emitter::Draw(const Matrix4x4& viewProjection) {
 		};
 
 		for (uint32_t oi = 0; oi < 4; oi++) {
-			Render::DrawLine(point[oi], point[(oi + 1) % 4], { 1,1,1,1 }, viewProjection);
+			Render::DrawLine(point[oi], point[(oi + 1) % 4], { 1,0,0,1 }, viewProjection);
 			uint32_t j = oi + 4;
-			Render::DrawLine(point[j], point[(j + 1) % 4 + 4], { 1,1,1,1 }, viewProjection);
-			Render::DrawLine(point[oi], point[j], { 1,1,1,1 }, viewProjection);
+			Render::DrawLine(point[j], point[(j + 1) % 4 + 4], { 1,0,0,1 }, viewProjection);
+			Render::DrawLine(point[oi], point[j], { 1,0,0,1 }, viewProjection);
 		}
 	}
 }

@@ -92,6 +92,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EffectSystemCamera.cpp" />
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Assets\Material.cpp" />
     <ClCompile Include="Engine\Assets\Mesh.cpp" />
@@ -146,6 +147,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp" />
     <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp" />
     <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp" />
+    <ClCompile Include="Engine\ParticleSystem\EffectSystemEditer.cpp" />
     <ClCompile Include="Engine\ParticleSystem\EmissionEffect.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Emitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\ParticleField.cpp" />
@@ -172,6 +174,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Render.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EffectSystemCamera.h" />
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Assets\Material.h" />
     <ClInclude Include="Engine\Assets\Mesh.h" />
@@ -233,6 +236,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\ParticleSystem\BaseEffect.h" />
     <ClInclude Include="Engine\ParticleSystem\BaseParticle.h" />
     <ClInclude Include="Engine\ParticleSystem\EffectSystem.h" />
+    <ClInclude Include="Engine\ParticleSystem\EffectSystemEditer.h" />
     <ClInclude Include="Engine\ParticleSystem\EmissionEffect.h" />
     <ClInclude Include="Engine\ParticleSystem\Emitter.h" />
     <ClInclude Include="Engine\ParticleSystem\ParticleField.h" />
