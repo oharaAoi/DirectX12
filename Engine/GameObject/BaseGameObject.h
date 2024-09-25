@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "Engine/GameObject/Model.h"
 #include "Engine/Assets/WorldTransform.h"
+#include "Engine/Assets/Animeter.h"
 
 /// <summary>
 /// 
@@ -26,10 +27,10 @@ public:
 
 	void SetObject(const std::string& objName);
 
-
 protected:
 
 	std::unique_ptr<Model> model_;
 	WorldTransform transform_;
 
+	Animeter animeter_;
 };

@@ -26,12 +26,12 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	// ↓各初期化
 	winApp_->CreateGameWindow();
 	dxCommon_->Initialize(winApp_, kClientWidth_, kClientHeight_);
-	dxDevice_ = std::make_unique<DirectXDevice>(dxCommon_->GetUseAdapter());
+	dxDevice_ = std::make_shared<DirectXDevice>(dxCommon_->GetUseAdapter());
 
 	assert(dxDevice_->GetDevice());
 
 	dxCommands_ = std::make_unique<DirectXCommands>(dxDevice_->GetDevice());
-	descriptorHeap_ = std::make_unique<DescriptorHeap>(dxDevice_->GetDevice());
+	descriptorHeap_ = std::make_shared<DescriptorHeap>(dxDevice_->GetDevice());
 	renderTarget_ = std::make_unique<RenderTarget>();
 	dxCompiler_ = std::make_unique<DirectXCompiler>();
 	shaders_ = std::make_unique<Shader>();
@@ -54,7 +54,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	// renderTarget
 	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get());
 	// texture
-	textureManager_->Init(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), descriptorHeap_.get());
+	textureManager_->Init(dxDevice_, dxCommands_->GetCommandList(), descriptorHeap_);
 	// pipeline
 	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
 	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
@@ -72,7 +72,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 #ifdef _DEBUG
 	EffectSystem::GetInstacne()->EditerInit(renderTarget_.get(), descriptorHeap_.get(), dxCommands_.get(), dxDevice_->GetDevice());
 #endif
-	Log("Clear!\n");
+	Log("Engine Initialize compulete!\n");
 }
 
 

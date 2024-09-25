@@ -9,6 +9,7 @@
 #include "Engine/Utilities/Convert.h"
 #include "Engine/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
@@ -33,22 +34,22 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="device"></param>
-	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, DescriptorHeap* dxHeap);
+	void Init(std::shared_ptr<DirectXDevice> device, ID3D12GraphicsCommandList* commandList, std::shared_ptr<DescriptorHeap> dxHeap);
 
 	void Finalize();
 
 public:
 
-	void LoadTextureFile(const std::string& filePath, ID3D12GraphicsCommandList* commandList);
+	static void LoadTextureFile(const std::string& filePath);
 
 	/// <summary>
 	/// Textrueデータを読む
 	/// </summary>
 	/// <param name="filePath"></param>
 	/// <returns></returns>
-	DirectX::ScratchImage LoadTexture(const std::string& filePath);
+	static DirectX::ScratchImage LoadTexture(const std::string& filePath);
 
-	void LoadWhite1x1Texture(const std::string& filePath, ID3D12GraphicsCommandList* commandList);
+	static void LoadWhite1x1Texture(const std::string& filePath, ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// TextureResourceにデータを転送する
@@ -59,7 +60,7 @@ public:
 	/// <param name="commandList"></param>
 	/// <returns></returns>
 	[[nodiscard]]
-	ComPtr<ID3D12Resource> UploadTextureData(
+	static ComPtr<ID3D12Resource> UploadTextureData(
 		Microsoft::WRL::ComPtr<ID3D12Resource> texture,
 		const DirectX::ScratchImage& mipImage,
 		Microsoft::WRL::ComPtr<ID3D12Device> device,
@@ -77,7 +78,7 @@ public:
 	/// </summary>
 	/// <param name="metadata"></param>
 	/// <returns></returns>
-	D3D12_RESOURCE_DESC CreateResourceDesc(const DirectX::TexMetadata& metadata);
+	static D3D12_RESOURCE_DESC CreateResourceDesc(const DirectX::TexMetadata& metadata);
 
 	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(srvData_.size()); }
 
@@ -91,10 +92,10 @@ private:
 	};
 
 	//std::vector<SRVData> srvData_;
-	std::map<std::string, SRVData> srvData_;
+	static std::map<std::string, SRVData> srvData_;
 
 	// 生成で使う変数
-	ID3D12Device* device_ = nullptr;
-
-	DescriptorHeap* dxHeap_ = nullptr;
+	static std::shared_ptr<DirectXDevice> device_;
+	static std::shared_ptr<DescriptorHeap> dxHeap_;
+	static ID3D12GraphicsCommandList* commandList_;
 };

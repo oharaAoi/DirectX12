@@ -191,24 +191,24 @@ namespace {
 	Input* input_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
 	// dxDevice
-	std::unique_ptr<DirectXDevice> dxDevice_ = nullptr;
+	std::shared_ptr<DirectXDevice> dxDevice_ = nullptr;
 	// descriptorHeap
-	std::unique_ptr<DescriptorHeap> descriptorHeap_ = nullptr;
+	std::shared_ptr<DescriptorHeap> descriptorHeap_ = nullptr;
 	// dxCommand
 	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
 	// renderTarget
-	std::unique_ptr<RenderTarget> renderTarget_ = nullptr;
+	std::shared_ptr<RenderTarget> renderTarget_ = nullptr;
 	// dxCompiler
-	std::unique_ptr<DirectXCompiler> dxCompiler_ = nullptr;
+	std::shared_ptr<DirectXCompiler> dxCompiler_ = nullptr;
 	// pipeline
 	std::unique_ptr<GraphicsPipelines> graphicsPipelines_ = nullptr;
-	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
+	std::shared_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
 	// CS
 	std::unique_ptr<ComputeShader> computeShader_ = nullptr;
 	// audio
 	std::unique_ptr<Audio> audio_ = nullptr;
 	// shaderファイルのパスをまとめたクラス
-	std::unique_ptr<Shader> shaders_;
+	std::shared_ptr<Shader> shaders_;
 
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;

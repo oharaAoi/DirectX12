@@ -1,11 +1,16 @@
 #include "TextureManager.h"
 
+std::map<std::string, TextureManager::SRVData> TextureManager::srvData_;
+std::shared_ptr<DirectXDevice> TextureManager::device_ = nullptr;
+std::shared_ptr<DescriptorHeap> TextureManager::dxHeap_ = nullptr;
+ID3D12GraphicsCommandList* TextureManager::commandList_ = nullptr;
+
 TextureManager* TextureManager::GetInstance() {
 	static TextureManager instance;
 	return &instance;
 }
 
-void TextureManager::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, DescriptorHeap* dxHeap) {
+void TextureManager::Init(std::shared_ptr<DirectXDevice> device, ID3D12GraphicsCommandList* commandList, std::shared_ptr<DescriptorHeap> dxHeap) {
 	assert(device);
 	assert(dxHeap);
 
@@ -14,31 +19,32 @@ void TextureManager::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comma
 
 	srvData_.clear();
 
-	LoadTextureFile("uvChecker.png", commandList);
-	LoadTextureFile("tori.png", commandList);
-	LoadTextureFile("monsterBall.png", commandList);
-	LoadTextureFile("checkerBoard.png", commandList);
-	LoadTextureFile("fence.png", commandList);
-	LoadTextureFile("circle.png", commandList);
-	LoadTextureFile("grass.png", commandList);
-	LoadTextureFile("skin.png", commandList);
-	
+	commandList_ = commandList;
+
+	/*LoadTextureFile("uvChecker.png");
+	LoadTextureFile("tori.png");
+	LoadTextureFile("monsterBall.png");
+	LoadTextureFile("checkerBoard.png");
+	LoadTextureFile("fence.png");
+	LoadTextureFile("circle.png");
+	LoadTextureFile("grass.png");
+	*/
 	//
-	LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_BaseColor.jpg", commandList);
-	LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_Normal.jpg", commandList);
-	LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_Metallic.jpg", commandList);
-	LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_Roughness.jpg", commandList);
+	LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_BaseColor.jpg");
+	LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_Normal.jpg");
+	LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_Metallic.jpg");
+	LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_Roughness.jpg");
 
 	//
-	LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_BaseColor.jpg", commandList);
-	LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Normal.jpg", commandList);
-	LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Metallic.jpg", commandList);
-	LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Roughness.jpg", commandList);
+	LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_BaseColor.jpg");
+	LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Normal.jpg");
+	LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Metallic.jpg");
+	LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Roughness.jpg");
 
-	LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_BaseColor.jpg", commandList);
-	LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_Normal.jpg", commandList);
-	LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_Metallic.jpg", commandList);
-	LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_Roughness.jpg", commandList);
+	LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_BaseColor.jpg");
+	LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_Normal.jpg");
+	LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_Metallic.jpg");
+	LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_Roughness.jpg");
 
 	// 
 	//CreateShaderResource("Materials/leather2/LEATHER_BROWN_SCRATCH_1K_BaseColor.jpg", commandList);
@@ -77,7 +83,9 @@ void TextureManager::Finalize() {
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Textureを読み込む
 /////////////////////////////////////////////////////////////////////////////////////////////
-void TextureManager::LoadTextureFile(const std::string& filePath, ID3D12GraphicsCommandList* commandList) {
+void TextureManager::LoadTextureFile(const std::string& filePath) {
+	Log("Begin Load Texture\n");
+	Log("Texture  [" + filePath + "]\n");
 	SRVData data{};
 
 	DirectX::ScratchImage mipImage = LoadTexture("Resources/" + filePath);
@@ -91,8 +99,8 @@ void TextureManager::LoadTextureFile(const std::string& filePath, ID3D12Graphics
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
 	// shaderResourceの作成
-	data.textureResource_ = CerateShaderResource(device_, &desc, &heapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COPY_DEST);
-	data.intermediateResource_ = UploadTextureData(data.textureResource_, mipImage, device_, commandList);
+	data.textureResource_ = CerateShaderResource(device_->GetDevice(), &desc, &heapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COPY_DEST);
+	data.intermediateResource_ = UploadTextureData(data.textureResource_, mipImage, device_->GetDevice(), commandList_);
 
 	// ------------------------------------------------------------
 	// metadataを元にSRVの設定
@@ -110,7 +118,9 @@ void TextureManager::LoadTextureFile(const std::string& filePath, ID3D12Graphics
 	srvData_["Resources/" + filePath] = data;
 
 	// 生成
-	device_->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);
+	device_->GetDevice()->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);
+
+	Log("Load Finish  [" + filePath + "]\n");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,8 +161,8 @@ void TextureManager::LoadWhite1x1Texture(const std::string& filePath, ID3D12Grap
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
 	// shaderResourceの作成
-	data.textureResource_ = CerateShaderResource(device_, &desc, &heapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COPY_DEST);
-	data.intermediateResource_ = UploadTextureData(data.textureResource_, image, device_, commandList);
+	data.textureResource_ = CerateShaderResource(device_->GetDevice(), &desc, &heapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COPY_DEST);
+	data.intermediateResource_ = UploadTextureData(data.textureResource_, image, device_->GetDevice(), commandList);
 
 	// ------------------------------------------------------------
 	// metadataを元にSRVの設定
@@ -170,7 +180,7 @@ void TextureManager::LoadWhite1x1Texture(const std::string& filePath, ID3D12Grap
 	srvData_.emplace("Resources/" + filePath, data);
 
 	// 生成
-	device_->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);
+	device_->GetDevice()->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

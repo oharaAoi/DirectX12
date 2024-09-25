@@ -14,12 +14,12 @@ Model::~Model() {
 void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
 	std::string path = directorPath + "/" + fileName;
 
-	materialArray_ = LoadMaterialData(directorPath, fileName, device);
-	meshArray_ = LoadVertexData(path, device);
+	//materialArray_ = LoadMaterialData(directorPath, fileName, device);
+	//meshArray_ = LoadVertexData(path, device);
 
 	Log("Load: " + fileName + "\n");
 
-	//LoadObj(directorPath, fileName, device);
+	LoadObj(directorPath, fileName, device);
 	LoadAnimation(directorPath, "Animation_Node_00.gltf");
 
 	currentAnimationTime_ = 0;
@@ -416,7 +416,9 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
 			materials.push_back(materialName.C_Str());
 			materialData[materialName.C_Str()] = Material::ModelMaterialData();
-			materialData[materialName.C_Str()].textureFilePath = directoryPath + "/" + textureFilePath.C_Str();
+			std::string objTexture = directoryPath + "/" + textureFilePath.C_Str();
+			materialData[materialName.C_Str()].textureFilePath = objTexture;
+			TextureManager::LoadTextureFile(textureFilePath.C_Str());
 
 			hasTexture_ = true;
 		}

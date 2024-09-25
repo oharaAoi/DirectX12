@@ -4,12 +4,14 @@ void BaseGameObject::Finalize() {
 }
 
 void BaseGameObject::Init() {
-	model_ = Engine::CreateModel("skin.obj");
+	model_ = Engine::CreateModel("AnimatedCube.gltf");
 	transform_ = Engine::CreateWorldTransform();
+	animeter_.LoadAnimation("AnimatedCube.gltf");
 }
 
 void BaseGameObject::Update() {
-	transform_.Update();
+	animeter_.Update(model_->GetRootNodeName());
+	transform_.Update(animeter_.GetMatrix());
 }
 
 void BaseGameObject::Draw() const {

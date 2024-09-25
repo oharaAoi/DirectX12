@@ -60,6 +60,15 @@ public:
 	/// <param name="q2"></param>
 	/// <returns></returns>
 	static float Dot(const Quaternion& q1, const Quaternion& q2);
+
+	/// <summary>
+	/// 球面線形補間
+	/// </summary>
+	/// <param name="q1"></param>
+	/// <param name="q2"></param>
+	/// <param name="t"></param>
+	/// <returns></returns>
+	static Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, const float& t);
 	
 public:
 

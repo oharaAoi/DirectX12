@@ -1,4 +1,5 @@
 #include "WorldTransform.h"
+#include <Math/MyMatrix.h>
 
 WorldTransform::WorldTransform() {}
 WorldTransform::~WorldTransform() {
@@ -16,9 +17,9 @@ void WorldTransform::Init(ID3D12Device* device) {
 	translation_ = { 0.0f, 0.0f, 0.0f };
 }
 
-void WorldTransform::Update() {
+void WorldTransform::Update(const Matrix4x4& mat) {
 	// GPUに送るデータを更新
-	data_->matWorld = MakeAffineMatrix(scale_, rotation_, translation_);
+	data_->matWorld = mat * MakeAffineMatrix(scale_, rotation_, translation_);
 	data_->worldInverseTranspose = Transpose(Inverse(data_->matWorld));
 }
 

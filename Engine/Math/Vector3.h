@@ -123,4 +123,11 @@ struct Vector3 final {
 		return result;
 	}
 
+	static Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) {
+		Vector3 result{};
+		result.x = std::lerp(v1.x, v2.x, t);
+		result.y = std::lerp(v1.y, v2.y, t);
+		result.z = std::lerp(v1.z, v2.z, t);
+		return result;
+	}
 };

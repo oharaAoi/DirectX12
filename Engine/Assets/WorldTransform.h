@@ -6,6 +6,7 @@
 // DirectX
 #include "Engine/Utilities/DirectXUtils.h"
 // math
+#include "Engine/Math/Matrix4x4.h"
 #include "Engine/Math/MyMath.h"
 #include "Engine/Manager/ImGuiManager.h"
 #include "Engine/Math/Quaternion.h"
@@ -31,15 +32,13 @@ public:
 	WorldTransform();
 	~WorldTransform();
 
+	void Finalize();
 	void Init(ID3D12Device* device);
-
-	void Update();
-
+	void Update(const Matrix4x4& mat = MakeIdentity4x4());
 	void Draw(ID3D12GraphicsCommandList* commandList) const;
 
 	void ImGuiDraw();
 
-	void Finalize();
 
 	/// <summary>
 	/// gltfファイルで読み込んだモデルのLoacalMatを適応させる

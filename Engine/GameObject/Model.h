@@ -100,6 +100,8 @@ public:
 
 	bool GetHasTexture() const { return hasTexture_; }
 
+	std::string GetRootNodeName() { return rootNode_.name; }
+
 private:
 
 	// 頂点バッファやインデックスバッファを持つ

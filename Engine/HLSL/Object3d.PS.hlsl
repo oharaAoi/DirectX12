@@ -141,7 +141,7 @@ PixelShaderOutput main(VertexShaderOutput input)
 	}
 	
 	// phong
-	float3 directionalSpeculer = BlinnPhong(NdotH, gDirectionalLight.color) * gDirectionalLight.intensity;
+	float3 directionalSpeculer = BlinnPhong(NdotH, gDirectionalLight.color) * textureColor.rgb * gDirectionalLight.intensity;
 	
 	// --------------------- point --------------------- //
 	float3 pointDiffuse;
@@ -153,7 +153,7 @@ PixelShaderOutput main(VertexShaderOutput input)
 	// phong
 	float3 phalfVector = normalize(-pointLightDirection + toEye);
 	float pNdotH = dot(normalize(input.normal), phalfVector);
-	float3 pointSpeculer = BlinnPhong(pNdotH, gPointLight.color * factor) * gPointLight.intensity;
+	float3 pointSpeculer = BlinnPhong(pNdotH, gPointLight.color * factor) * textureColor.rgb * gPointLight.intensity;
 	
 	// --------------------- spot --------------------- //
 	// 入射光
@@ -172,13 +172,13 @@ PixelShaderOutput main(VertexShaderOutput input)
 	spotDiffuse = HalfLambert(NdotL, spotColor).rbg * gMaterial.color.rgb * textureColor.rgb;
 	
 	// phong
-	float3 spotSpeculer = BlinnPhong(NdotH, spotColor);
+	float3 spotSpeculer = BlinnPhong(NdotH, spotColor) * textureColor.rgb;
 	
 	// --------------------- limLight --------------------- //
 	float lim = 1.0f - saturate(dot(normal, toEye));
 	// リムライトの光の調整
 	lim *= saturate(1.0f - saturate(dot(normal, lightDire)) + dot(toEye, lightDire));
-	float3 limCol = pow(lim, gDirectionalLight.limPower) * gDirectionalLight.color.rgb * gDirectionalLight.intensity;
+	float3 limCol = pow(lim, gDirectionalLight.limPower) * gDirectionalLight.color.rgb * textureColor.rgb * gDirectionalLight.intensity;
 	
 	// --------------------- final --------------------- //
 	output.color.rgb = directionalDiffuse + directionalSpeculer;

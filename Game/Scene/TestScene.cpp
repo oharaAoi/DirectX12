@@ -47,8 +47,6 @@ void TestScene::Draw() const {
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
-	//Engine::DrawModel(cubeModel_.get(), cubeTransform_);
-
 	testObj_->Draw();
 
 #pragma endregion

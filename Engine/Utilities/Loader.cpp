@@ -170,6 +170,7 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(cons
 			std::string textureFilename;
 			s >> textureFilename;
 			materialDatas[materialName].textureFilePath = directoryPath + "/" + textureFilename;
+			TextureManager::LoadTextureFile(textureFilename);
 
 		} else if (materialIdentifier == "Ka") {
 			// アルベド色を読み取る(環境反射率)

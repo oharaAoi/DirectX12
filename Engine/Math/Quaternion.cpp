@@ -96,6 +96,44 @@ float Quaternion::Dot(const Quaternion& q1, const Quaternion& q2) {
 	return (q1.x * q2.x) + (q1.y * q2.y) + (q1.z * q2.z) + (q1.w * q2.w);
 }
 
+Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const float& t) {
+	// 2つの回転の内積を求める
+	float dot = Dot(q1, q2);
+	dot = std::clamp(dot, -1.0f, 1.0f);
+
+	Quaternion newQ2 = q2;
+	// 内積が負の時最短距離で補完を得るため片方の回転を負にして内積を正にする
+	if (dot < 0) {
+		newQ2 = Quaternion(-q2.x, -q2.y, -q2.z, -q2.w);
+		dot = -dot;
+	}
+
+	// 角度が0に近い場合は線形補間
+	if (dot > 0.9995f) {
+		return Quaternion(
+			q1.x + t * (newQ2.x - q1.x),
+			q1.y + t * (newQ2.y - q1.y),
+			q1.z + t * (newQ2.z - q1.z),
+			q1.w + t * (newQ2.w - q1.w)
+		).Normalize();
+	}
+
+	// 二つの回転の角度を求める
+	float rad = std::acosf(dot);
+	float bottom = std::sinf(rad);
+	float a_rotate = std::sinf((1 - t) * rad) / bottom;
+	float b_rotate = std::sinf(t * rad) / bottom;
+
+	Quaternion result = Quaternion(
+		q1.x * a_rotate + newQ2.x * b_rotate,
+		q1.y * a_rotate + newQ2.y * b_rotate,
+		q1.z * a_rotate + newQ2.z * b_rotate,
+		q1.w * a_rotate + newQ2.w * b_rotate
+	);
+
+	return result.Normalize();
+}
+
 Quaternion Quaternion::operator*(const Quaternion& q2) const {
 	return Quaternion(
 		(this->w * q2.x) - (this->z * q2.y) + (this->y * q2.z) + (this->x * q2.w),

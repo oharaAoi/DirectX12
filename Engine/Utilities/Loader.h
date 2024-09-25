@@ -8,6 +8,7 @@
 
 #include "Engine/Assets/Mesh.h"
 #include "Engine/Assets/Material.h"
+#include "Engine/Manager/TextureManager.h"
 
 /// <summary>
 /// meshの情報を読み込む
