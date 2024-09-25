@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine.h"
 #include "Engine/Input/Input.h"
+#include "Game/Scene/BaseScene.h"
 // lib
 #include "Engine/Lib/Transform.h"
 #include "Engine/Utilities/DrawUtils.h"
@@ -12,20 +13,19 @@
 // effectSystem
 #include "Engine/ParticleSystem/EffectSystem.h"
 
-class TestScene {
+class TestScene 
+: public BaseScene {
 public:
 
 
 public:
 
 	TestScene();
-	~TestScene();
+	~TestScene() override;
 
-	void Init();
-
-	void Update();
-
-	void Draw();
+	void Init() override;
+	void Update() override;
+	void Draw() const override;
 
 	void ImGuiDraw();
 

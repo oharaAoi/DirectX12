@@ -1,6 +1,6 @@
 #include "TestScene.h"
 
-TestScene::TestScene() {}
+TestScene::TestScene() { Init(); }
 TestScene::~TestScene() {}
 
 void TestScene::Init() {
@@ -55,7 +55,7 @@ void TestScene::Update() {
 	ImGuiDraw();
 }
 
-void TestScene::Draw() {
+void TestScene::Draw() const {
 	//DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
 #pragma region NormalPipeline
