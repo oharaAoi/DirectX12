@@ -145,13 +145,16 @@ void EffectSystem::BeginEditer() {
 	editer_->Begin();
 }
 
-void EffectSystem::EndEditer() {
-	editer_->End();
-}
-
 void EffectSystem::UpdateEditer() {
 	editer_->Update();
+}
+
+void EffectSystem::DrawEditer() {
 	editer_->Draw();
+}
+
+void EffectSystem::EndEditer() {
+	editer_->End();
 }
 
 #endif

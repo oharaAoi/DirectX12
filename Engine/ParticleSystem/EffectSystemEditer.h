@@ -42,10 +42,8 @@ private:
 	DescriptorHeap* descriptorHeaps_ = nullptr;
 	// commands
 	DirectXCommands* dxCommands_ = nullptr;
+
 	ID3D12Device* device_ = nullptr;
-	
-	D3D12_VIEWPORT viewport_;
-	D3D12_RECT scissorRect_;
 
 	// dsv
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;

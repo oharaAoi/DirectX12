@@ -70,10 +70,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		effectSystem->BeginEditer();
 
+		effectSystem->UpdateEditer();
+
+		effectSystem->DrawEditer();
+
 		// offScreenのスプライトを描画する
 		Engine::EndRenderTexture();
 
 		Engine::EndImGui();
+
 		effectSystem->EndEditer();
 
 		Engine::EndFrame();

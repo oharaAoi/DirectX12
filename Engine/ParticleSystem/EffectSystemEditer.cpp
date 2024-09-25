@@ -6,41 +6,52 @@ EffectSystemEditer::EffectSystemEditer(RenderTarget* renderTarget, DescriptorHea
 	Init(renderTarget, descriptorHeaps, dxCommands, device);
 }
 
-EffectSystemEditer::~EffectSystemEditer() {
-}
+EffectSystemEditer::~EffectSystemEditer() {}
 
 void EffectSystemEditer::Finalize() {
 	depthStencilResource_.Reset();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device) {
 
 	renderTarget_ = renderTarget;
 	descriptorHeaps_ = descriptorHeaps;
 	dxCommands_ = dxCommands;
-	device_ = device;
 
-	
-
-	depthStencilResource_ = CreateDepthStencilTextureResource(device_, kClientWidth_, kClientHeight_);
-
+	// -------------------------------------------------
+	// ↓ 深度バッファの作成
+	// -------------------------------------------------
+	depthStencilResource_ = CreateDepthStencilTextureResource(device, kClientWidth_, kClientHeight_);
 	// DSVの生成
 	D3D12_DEPTH_STENCIL_VIEW_DESC desc{};
 	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 
-	device_->CreateDepthStencilView(depthStencilResource_.Get(), &desc, descriptorHeaps_->GetDescriptorHandle(DescriptorHeapType::TYPE_DSV).handleCPU);
+	device->CreateDepthStencilView(depthStencilResource_.Get(), &desc, descriptorHeaps_->GetDescriptorHandle(DescriptorHeapType::TYPE_DSV).handleCPU);
 
-	// Cameraの初期化
+	// -------------------------------------------------
+	// ↓ カメラの初期化
+	// -------------------------------------------------
 	effectSystemCamera_ = std::make_unique<EffectSystemCamera>();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Update() {
 	effectSystemCamera_->Update();
 }
 
-void EffectSystemEditer::Draw() const {
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
+void EffectSystemEditer::Draw() const {
 	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 
 	// 最後にImGui上でEffectを描画する
@@ -50,6 +61,10 @@ void EffectSystemEditer::Draw() const {
 	ImGui::Image((void*)textureID, ImVec2(static_cast<float>(640), static_cast<float>(360))); // サイズは適宜調整
 	ImGui::End();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Begin() {
 	// ここでゲーム描画のRenderTargetからEffect用のRenderTargetに変更する

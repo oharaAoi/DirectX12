@@ -51,6 +51,8 @@ public:	// ImGui上でEffectだけを描画するための処理をする関数
 	void EndEditer();
 
 	void UpdateEditer();
+	void DrawEditer();
+
 #endif;
 
 public: // accessor
