@@ -43,6 +43,7 @@ void SceneManager::Run() {
 		#ifdef _DEBUG
 		effectSystem_->BeginEditer();
 		effectSystem_->UpdateEditer();
+		Engine::SetPipeline(PipelineKind::kParticlePipeline);
 		effectSystem_->DrawEditer();
 		#endif
 

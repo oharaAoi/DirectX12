@@ -30,6 +30,6 @@ public:
 protected:
 
 	std::unique_ptr<Model> model_;
-	std::unique_ptr<WorldTransform> transform_;
+	WorldTransform transform_;
 
 };

@@ -10,6 +10,15 @@ EffectSystemEditer::~EffectSystemEditer() {}
 
 void EffectSystemEditer::Finalize() {
 	depthStencilResource_.Reset();
+	for (std::list<EffectData>::iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
+		for (std::list<std::unique_ptr<BaseEffect>>::iterator effectListIter = effectDataListIter->effectList.begin();
+			 effectListIter != effectDataListIter->effectList.end();) {
+			(*effectListIter)->Finalize();
+
+			++effectListIter;
+		}
+		++effectDataListIter;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,6 +46,8 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 	// ↓ カメラの初期化
 	// -------------------------------------------------
 	effectSystemCamera_ = std::make_unique<EffectSystemCamera>();
+
+	CreateEffect();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +56,29 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 
 void EffectSystemEditer::Update() {
 	effectSystemCamera_->Update();
+
+	for (std::list<EffectData>::iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
+		// -------------------------------------------------
+		// ↓ エミッターの更新
+		// -------------------------------------------------
+		for (std::list<std::unique_ptr<Emitter>>::iterator emitterListIter = effectDataListIter->emitterList.begin(); emitterListIter != effectDataListIter->emitterList.end();) {
+			(*emitterListIter)->Update();
+			++emitterListIter;
+		}
+
+		// -------------------------------------------------
+		// ↓ effectの更新
+		// -------------------------------------------------
+		for (std::list<std::unique_ptr<BaseEffect>>::iterator effectListIter = effectDataListIter->effectList.begin(); effectListIter != effectDataListIter->effectList.end();) {
+			(*effectListIter)->SetCameraMatrix(effectSystemCamera_->GetCameraMatrix());
+			(*effectListIter)->Update(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
+			++effectListIter;
+		}
+
+		++effectDataListIter;
+	}
+
+	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +86,27 @@ void EffectSystemEditer::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Draw() const {
-	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
+	for (std::list<EffectData>::const_iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
+		// -------------------------------------------------
+		// ↓ effectの更新
+		// -------------------------------------------------
+		for (std::list<std::unique_ptr<BaseEffect>>::const_iterator effectListIter = effectDataListIter->effectList.begin();
+			 effectListIter != effectDataListIter->effectList.end();) {
+			(*effectListIter)->Draw();
+			++effectListIter;
+		}
+
+		// -------------------------------------------------
+		// ↓ エミッターの更新
+		// -------------------------------------------------
+		for (std::list<std::unique_ptr<Emitter>>::const_iterator emitterListIter = effectDataListIter->emitterList.begin();
+			 emitterListIter != effectDataListIter->emitterList.end();) {
+			(*emitterListIter)->Draw(effectSystemCamera_->GetViewMatrix() * effectSystemCamera_->GetProjectionMatrix());
+			++emitterListIter;
+		}
+
+		++effectDataListIter;
+	}
 
 	// 最後にImGui上でEffectを描画する
 	renderTarget_->ChangeRTVResource(dxCommands_->GetCommandList(), EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
@@ -60,6 +114,18 @@ void EffectSystemEditer::Draw() const {
 	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetOffScreenSRVHandle(RenderTargetType::EffectSystem_RenderTarget).handleGPU.ptr));
 	ImGui::Image((void*)textureID, ImVec2(static_cast<float>(640), static_cast<float>(360))); // サイズは適宜調整
 	ImGui::End();
+}
+
+void EffectSystemEditer::CreateEffect() {
+	EffectData effectData;
+	std::unique_ptr<BaseEffect> effect = std::make_unique<BaseEffect>();
+	effect->Init("particle.obj", 10);
+	std::unique_ptr<Emitter> emitter = std::make_unique<Emitter>(effect.get());
+
+	effectData.emitterList.push_back(std::move(emitter));
+	effectData.effectList.push_back(std::move(effect));
+
+	effectList_.push_back(std::move(effectData));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

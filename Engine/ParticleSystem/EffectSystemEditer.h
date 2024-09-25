@@ -17,6 +17,15 @@ class EffectSystemEditer {
 public:
 
 #ifdef _DEBUG
+
+	/// <summary>
+	/// Effectのデータ(EmitterとEffect)
+	/// </summary>
+	struct EffectData {
+		std::list<std::unique_ptr<Emitter>> emitterList;
+		std::list<std::unique_ptr<BaseEffect>> effectList;
+	};
+
 	EffectSystemEditer(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device);
 	~EffectSystemEditer();
 
@@ -24,6 +33,8 @@ public:
 	void Init(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device);
 	void Update();
 	void Draw() const;
+
+	void CreateEffect();
 
 	void Begin();
 	void End();
@@ -47,6 +58,9 @@ private:
 
 	// dsv
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
+
+	std::unique_ptr<ParticleField> particleField_ = nullptr;
+	std::list<EffectData> effectList_;
 
 #endif // _DEBUG
 };

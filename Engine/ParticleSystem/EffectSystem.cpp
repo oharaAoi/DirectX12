@@ -17,8 +17,6 @@ void EffectSystem::Init() {
 	particleField_->Init();
 	/*particleField_->SetParticle(particle_.get());*/
 
-	CreateEffect();
-
 	// -------------------------------------------------
 	// ↓ Systemの初期化
 	// -------------------------------------------------

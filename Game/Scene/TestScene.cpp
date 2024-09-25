@@ -6,22 +6,10 @@ TestScene::~TestScene() {}
 void TestScene::Init() {
 	// カメラ -------------------------------------------------------------------
 	camera_ = std::make_unique<Camera>();
-
-	// transform --------------------------------------------------------------
-	skinTransform_ = Engine::CreateWorldTransform();
-	sphereTransform_ = Engine::CreateWorldTransform();
-	cubeTransform_ = Engine::CreateWorldTransform();
-
-	skinTransform_.translation_ = { 2.0f, 0.0f, 0.0f };
-	sphereTransform_.translation_ = { -2.0f, 0.0f, 0.0f };
-	cubeTransform_.translation_ = { 0.0f, 0.0f, 0.0f };
-	cubeTransform_.scale_ = { 0.6f, 0.6f, 0.6f };
-
-	// モデル --------------------------------------------------------------
-	objectKind_ = 0;
-	skinModel_ = Engine::CreateModel("skin.obj");
-	sphereModel_ = Engine::CreateModel("sphere_Block.obj");
-	//cubeModel_ = Engine::CreateModel("cube.obj");
+	/*sphereModel_ = Engine::CreateModel("sphere_Block.obj");*/
+	
+	testObj_ = std::make_unique<BaseGameObject>();
+	testObj_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,9 +33,7 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	// ↓ 行列の更新
 	// -------------------------------------------------
-	skinTransform_.Update();
-	sphereTransform_.Update();
-	cubeTransform_.Update();
+	testObj_->Update();
 
 	// -------------------------------------------------
 	// ↓ の更新
@@ -61,8 +47,9 @@ void TestScene::Draw() const {
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
-	Render::DrawModel(skinModel_.get(), skinTransform_);
 	//Engine::DrawModel(cubeModel_.get(), cubeTransform_);
+
+	testObj_->Draw();
 
 #pragma endregion
 
@@ -75,29 +62,14 @@ void TestScene::Draw() const {
 #pragma region PBR
 
 	Engine::SetPipeline(PipelineKind::kPBRPipeline);
-	Render::DrawModel(sphereModel_.get(), sphereTransform_);
 
 #pragma endregion
-
-
 }
 
+#ifdef _DEBUG
 void TestScene::ImGuiDraw() {
 	ImGui::Begin("GameObjects");
-	if (ImGui::TreeNode("skin")) {
-		skinTransform_.ImGuiDraw();
-		ImGui::TreePop();
-	}
-
-	if (ImGui::TreeNode("sphere")) {
-		sphereTransform_.ImGuiDraw();
-		ImGui::TreePop();
-	}
-
-	if (ImGui::TreeNode("cube")) {
-		cubeTransform_.ImGuiDraw();
-		ImGui::TreePop();
-	}
-	
+	testObj_->Debug_Gui();
 	ImGui::End();
 }
+#endif
