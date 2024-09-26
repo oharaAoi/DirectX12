@@ -23,16 +23,6 @@ private:
 	std::unique_ptr<Camera> camera_ = nullptr;
 	std::unique_ptr<Sphere> sphere_ = nullptr;
 	
-
-	// ---------- model ---------- //
-	std::unique_ptr<Model> model_ = nullptr;
-	std::unique_ptr<Model> sphereModel_ = nullptr;
-	std::unique_ptr<Model> teapotModel_ = nullptr;
-
-	std::unique_ptr<Model> terrainModel_ = nullptr;
-
-	std::unique_ptr<Model> particleModel_ = nullptr;
-
 	// ---------- vertex ---------- //
 	Mesh::Vertices vertex_ = {
 		{-0.5f, -0.5f, 0.0f, 1.0f},
@@ -52,10 +42,6 @@ private:
 		{0.0f, 360.0f, 0.0f, 1.0f},
 		{640.0f, 360.0f, 0.0f, 1.0f}
 	};
-
-	// トランスフォーム --------------------------------------
-	WorldTransform sphereTransform_;
-	WorldTransform sphereModelTransform_;
 
 	// ---------- parameter ---------- //
 	float roughness_;

@@ -7,6 +7,7 @@
 #include <assimp/postprocess.h>
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/Quaternion.h"
+#include "Engine/Assets/Skeleton.h"
 
 /// <summary>
 /// Animationに関するクラス
@@ -51,7 +52,9 @@ public:
 	void Init();
 	void Update(const std::string& rootName);
 
-	void LoadAnimation(const std::string& animationFile);
+	void LoadAnimation(const std::string directoryPath, const std::string& animationFile);
+
+	void ApplyAnimation(Skeleton& skelton);
 
 	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, const float& time);
 	Quaternion CalculateQuaternion(const std::vector<KeyframeQuaternion>& keyframes, const float& time);
@@ -61,8 +64,6 @@ public:
 	const Matrix4x4 GetMatrix() const { return animationMat_; }
 
 private:
-
-	const std::string kDirectoryPath_ = "./Resources/";
 
 	Animation animation_;
 

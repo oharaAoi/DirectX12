@@ -11,25 +11,13 @@ void GameScene::Init() {
 
 	sphere_ = Engine::CreateSphere(16);
 
-	/*model_ = Engine::CreateModel("floor.obj");*/
-	sphereModel_ = Engine::CreateModel("sphere.obj");
-	teapotModel_ = Engine::CreateModel("plane.obj");
-
-	terrainModel_ = Engine::CreateModel("terrain.obj");
-
-	particleModel_ = Engine::CreateModel("particle.obj");
-
-	sphereTransform_ = Engine::CreateWorldTransform();
-	sphereTransform_ = Engine::CreateWorldTransform();
-	sphereModelTransform_ = Engine::CreateWorldTransform();
-
 	roughness_ = 0.5f;
 	metallic_ = 0.5f;
 
 	lightKind_ = 0;
 
-	soundData_ = Engine::LoadSE("Resources/fanfare.wav");
-	bgmData_ = Engine::LoadBGM("Resources/fanfare.wav");
+	soundData_ = Engine::LoadSE("Resources/Audio/fanfare.wav");
+	bgmData_ = Engine::LoadBGM("Resources/Audio/fanfare.wav");
 }
 
 void GameScene::Update() {
@@ -42,9 +30,6 @@ void GameScene::Update() {
 	Render::SetEyePos(camera_->GetWorldTranslate());
 	Render::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 
-	sphereTransform_.Update();
-	sphereModelTransform_.Update();
-	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// sound
 	//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,8 +84,6 @@ void GameScene::Update() {
 	sphere_->ImGuiDraw("Sphere");
 	sphereModel_->ImGuiDraw("sphereModel");
 	teapotModel_->ImGuiDraw("teapot");*/
-
-	sphereModel_->ImGuiDraw("sphereModel");
 }
 
 void GameScene::Draw() {

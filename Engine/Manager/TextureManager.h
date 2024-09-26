@@ -40,16 +40,16 @@ public:
 
 public:
 
-	static void LoadTextureFile(const std::string& filePath);
+	static void LoadTextureFile(const std::string& directoryPath, const std::string& filePath);
 
 	/// <summary>
 	/// Textrueデータを読む
 	/// </summary>
 	/// <param name="filePath"></param>
 	/// <returns></returns>
-	static DirectX::ScratchImage LoadTexture(const std::string& filePath);
+	static DirectX::ScratchImage LoadTexture(const std::string& directoryPath, const std::string& filePath);
 
-	static void LoadWhite1x1Texture(const std::string& filePath, ID3D12GraphicsCommandList* commandList);
+	static void LoadWhite1x1Texture(const std::string& directoryPath, const std::string& filePath, ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// TextureResourceにデータを転送する

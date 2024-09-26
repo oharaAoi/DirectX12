@@ -4,7 +4,6 @@
 #include <Engine/Math/Vector3.h>
 #include <assert.h>
 #include <cmath>
-#include "Engine/Lib/Transform.h"
 
 class Quaternion;
 
@@ -91,8 +90,6 @@ Matrix4x4 MakeRotateXYZMatrix(const Vector3& radian);
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Quaternion& rotate, const Vector3& translate);
-
-Matrix4x4 MakeAffineMatrix(const kTransform& transform);
 
 /// <summary>
 /// 座標変換

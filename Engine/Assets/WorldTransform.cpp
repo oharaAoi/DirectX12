@@ -19,7 +19,7 @@ void WorldTransform::Init(ID3D12Device* device) {
 
 void WorldTransform::Update(const Matrix4x4& mat) {
 	// GPUに送るデータを更新
-	data_->matWorld = mat * MakeAffineMatrix(scale_, rotation_, translation_);
+	data_->matWorld = mat * MakeAffineMatrix(scale_, rotation_.Normalize(), translation_);
 	data_->worldInverseTranspose = Transpose(Inverse(data_->matWorld));
 }
 
@@ -39,4 +39,9 @@ void WorldTransform::Finalize() {
 
 void WorldTransform::AdaptToGLTF(const Matrix4x4& mat) const {
 	data_->matWorld = mat * data_->matWorld;
+}
+
+void WorldTransform::SetMatrix(const Matrix4x4& mat) {
+	data_->matWorld = mat;
+	data_->worldInverseTranspose = Transpose(Inverse(data_->matWorld));
 }

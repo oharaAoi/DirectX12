@@ -10,7 +10,7 @@ public:
 
     void Finalize() override;
 
-    void Init(const std::string& fileName, const uint32_t& particleNum) override;
+    void Init(const std::string& directoryPath, const std::string& fileName, const uint32_t& particleNum) override;
 
     void Update(const Matrix4x4& viewMat, const Matrix4x4& projection) override;
 

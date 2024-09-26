@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Engine/Math/MyRandom.h"
 #include "Emitter.h"
+#include "Engine/Lib/Transform.h"
 
 /// <summary>
 /// Effectの元となるクラス
@@ -46,7 +47,7 @@ public:
 	virtual ~BaseEffect();
 
 	virtual void Finalize();
-	virtual void Init(const std::string& fileName, const uint32_t& particleNum);
+	virtual void Init(const std::string& directoryPath, const std::string& fileName, const uint32_t& particleNum);
 	virtual void Update(const Matrix4x4& viewMat, const Matrix4x4& projection);
 	virtual void Draw();
 

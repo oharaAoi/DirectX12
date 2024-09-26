@@ -134,7 +134,7 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(cons
 	std::string mtlFile;
 
 	// objファイルからmtlファイルを探す
-	std::ifstream file(directoryPath + "/" + fileName);
+	std::ifstream file(directoryPath + fileName);
 	assert(file.is_open());
 
 	while (std::getline(file, line)) {
@@ -151,7 +151,7 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(cons
 	}
 
 	// mtlファイルを開く
-	std::ifstream file2(directoryPath + "/" + mtlFile);
+	std::ifstream file2(directoryPath + mtlFile);
 	assert(file2.is_open());
 
 	// ファイルを読む
@@ -169,8 +169,8 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(cons
 			// テクスチャマップを読み取る
 			std::string textureFilename;
 			s >> textureFilename;
-			materialDatas[materialName].textureFilePath = directoryPath + "/" + textureFilename;
-			TextureManager::LoadTextureFile(textureFilename);
+			materialDatas[materialName].textureFilePath = textureFilename;
+			TextureManager::LoadTextureFile(directoryPath, textureFilename);
 
 		} else if (materialIdentifier == "Ka") {
 			// アルベド色を読み取る(環境反射率)

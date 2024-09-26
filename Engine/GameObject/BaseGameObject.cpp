@@ -4,22 +4,29 @@ void BaseGameObject::Finalize() {
 }
 
 void BaseGameObject::Init() {
-	model_ = Engine::CreateModel("AnimatedCube.gltf");
 	transform_ = Engine::CreateWorldTransform();
-	animeter_.LoadAnimation("AnimatedCube.gltf");
 }
 
 void BaseGameObject::Update() {
 	animeter_.Update(model_->GetRootNodeName());
-	transform_.Update(animeter_.GetMatrix());
+	animeter_.ApplyAnimation(skeleton_);
+	skeleton_.Update();
+	transform_.Update();
 }
 
 void BaseGameObject::Draw() const {
 	Render::DrawModel(model_.get(), transform_);
+	skeleton_.Draw();
 }
 
-void BaseGameObject::SetObject(const std::string& objName) {
-	model_ = Engine::CreateModel(objName);
+void BaseGameObject::SetObject(const std::string& directoryPath, const std::string& objName) {
+	model_ = Engine::CreateModel(directoryPath, objName);
+}
+
+void BaseGameObject::SetAnimater(const std::string& directoryPath, const std::string& objName) {
+	animeter_.LoadAnimation(directoryPath, objName);
+	skeleton_.CreateSkeleton(model_->GetNode());
+	skeleton_.Init();
 }
 
 #ifdef _DEBUG

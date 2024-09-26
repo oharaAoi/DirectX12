@@ -10,8 +10,8 @@ void EmissionEffect::Finalize() {
 	BaseEffect::Finalize();
 }
 
-void EmissionEffect::Init(const std::string& fileName, const uint32_t& particleNum) {
-	BaseEffect::Init(fileName, particleNum);
+void EmissionEffect::Init(const std::string& directoryPath, const std::string& fileName, const uint32_t& particleNum) {
+	BaseEffect::Init(directoryPath, fileName, particleNum);
 }
 
 void EmissionEffect::Update(const Matrix4x4& viewMat, const Matrix4x4& projection) {

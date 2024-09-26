@@ -115,7 +115,7 @@ void EffectSystem::Draw() const {
 void EffectSystem::CreateEffect() {
 	EffectData effectData;
 	std::unique_ptr<BaseEffect> effect = std::make_unique<BaseEffect>();
-	effect->Init("particle.obj", 10);
+	effect->Init("./Resources/Effect/", "particle.obj", 10);
 	std::unique_ptr<Emitter> emitter = std::make_unique<Emitter>(effect.get());
 	
 	effectData.emitterList.push_back(std::move(emitter));

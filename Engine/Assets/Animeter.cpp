@@ -13,19 +13,19 @@ void Animeter::Update(const std::string& rootName) {
 	animationTime_ += 1.0f / 60.0f;
 	animationTime_ = std::fmod(animationTime_, animation_.duration);
 
-	// =======================================================================================
-	NodeAnimation& rootNodeAnimation = animation_.nodeAnimations[rootName];
-	// =======================================================================================
+	//// =======================================================================================
+	//NodeAnimation& rootNodeAnimation = animation_.nodeAnimations[rootName];
+	//// =======================================================================================
 
-	Vector3 translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
-	Quaternion rotate = CalculateQuaternion(rootNodeAnimation.rotate.keyframes, animationTime_);
-	Vector3 scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime_);
-	animationMat_ = MakeAffineMatrix(scale, rotate, translate);
+	//Vector3 translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
+	//Quaternion rotate = CalculateQuaternion(rootNodeAnimation.rotate.keyframes, animationTime_);
+	//Vector3 scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime_);
+	//animationMat_ = MakeAffineMatrix(scale, rotate, translate);
 }
 
-void Animeter::LoadAnimation(const std::string& animationFile) {
+void Animeter::LoadAnimation(const std::string directoryPath, const std::string& animationFile) {
 	Assimp::Importer importer;
-	std::string filePath = kDirectoryPath_ + animationFile;
+	std::string filePath = directoryPath + animationFile;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
 	assert(scene->mNumAnimations != 0);		// アニメーションがない
 	// =======================================================================================
@@ -72,6 +72,17 @@ void Animeter::LoadAnimation(const std::string& animationFile) {
 			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
 			keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y, keyAssimp.mValue.z };
 			nodeAnimation.scale.keyframes.push_back(keyframe);
+		}
+	}
+}
+
+void Animeter::ApplyAnimation(Skeleton& skelton) {
+	for (Skeleton::Joint& joint : skelton.GetJoints()) {
+		if (auto it = animation_.nodeAnimations.find(joint.name); it != animation_.nodeAnimations.end()) {
+			const NodeAnimation& rootNodeAnimation = (*it).second;
+			joint.transform.translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
+			joint.transform.rotate = CalculateQuaternion(rootNodeAnimation.rotate.keyframes, animationTime_);
+			joint.transform.scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime_);
 		}
 	}
 }

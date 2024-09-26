@@ -20,28 +20,39 @@ Matrix4x4 Quaternion::MakeMatrix() const {
 	float wy = w * y;
 	float wz = w * z;
 
+	// 2倍の値を先に計算して効率化
+	float two_xx = 2.0f * xx;
+	float two_yy = 2.0f * yy;
+	float two_zz = 2.0f * zz;
+	float two_xy = 2.0f * xy;
+	float two_xz = 2.0f * xz;
+	float two_yz = 2.0f * yz;
+	float two_wx = 2.0f * wx;
+	float two_wy = 2.0f * wy;
+	float two_wz = 2.0f * wz;
+
 	Matrix4x4 matrix;
 	// 回転行列を計算して4x4行列に埋め込む
-	matrix.m[0][0] = 1.0f - 2.0f * (yy + zz);
-	matrix.m[0][1] = 2.0f * (xy - wz);
-	matrix.m[0][2] = 2.0f * (xz + wy);
-	matrix.m[0][3] = 0.0f; // 平行移動成分は0
+	matrix.m[0][0] = 1.0f - two_yy - two_zz;
+	matrix.m[0][1] = two_xy - two_wz;
+	matrix.m[0][2] = two_xz + two_wy;
+	matrix.m[0][3] = 0.0f;
 
-	matrix.m[1][0] = 2.0f * (xy + wz);
-	matrix.m[1][1] = 1.0f - 2.0f * (xx + zz);
-	matrix.m[1][2] = 2.0f * (yz - wx);
-	matrix.m[1][3] = 0.0f; // 平行移動成分は0
+	matrix.m[1][0] = two_xy + two_wz;
+	matrix.m[1][1] = 1.0f - two_xx - two_zz;
+	matrix.m[1][2] = two_yz - two_wx;
+	matrix.m[1][3] = 0.0f;
 
-	matrix.m[2][0] = 2.0f * (xz - wy);
-	matrix.m[2][1] = 2.0f * (yz + wx);
-	matrix.m[2][2] = 1.0f - 2.0f * (xx + yy);
-	matrix.m[2][3] = 0.0f; // 平行移動成分は0
+	matrix.m[2][0] = two_xz - two_wy;
+	matrix.m[2][1] = two_yz + two_wx;
+	matrix.m[2][2] = 1.0f - two_xx - two_yy;
+	matrix.m[2][3] = 0.0f;
 
 	// 4列目 (同次座標系のための部分)
 	matrix.m[3][0] = 0.0f;
 	matrix.m[3][1] = 0.0f;
 	matrix.m[3][2] = 0.0f;
-	matrix.m[3][3] = 1.0f; // 同次座標系の1
+	matrix.m[3][3] = 1.0f;
 
 	return matrix;
 }

@@ -10,6 +10,8 @@ void TestScene::Init() {
 	
 	testObj_ = std::make_unique<BaseGameObject>();
 	testObj_->Init();
+	testObj_->SetObject("./Resources/Develop/", "plane.obj");
+	/*testObj_->SetAnimater("./Resources/Animation/", "sneakWalk.gltf");*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

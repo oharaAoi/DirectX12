@@ -9,9 +9,9 @@ void BaseEffect::Finalize() {
 	particles_->Finalize();
 }
 
-void BaseEffect::Init(const std::string& fileName, const uint32_t& particleNum) {
+void BaseEffect::Init(const std::string& directoryPath, const std::string& fileName, const uint32_t& particleNum) {
 	kNumInstance_ = particleNum;
-	particles_ = Engine::CreateBaseParticle(fileName, particleNum);
+	particles_ = Engine::CreateBaseParticle(directoryPath, fileName, particleNum);
 	useBillboard_ = false;
 
 	rotate_ = { 0.0f, 0.0f, 0.0f };

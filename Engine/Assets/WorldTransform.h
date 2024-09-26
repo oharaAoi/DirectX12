@@ -46,6 +46,8 @@ public:
 	/// <param name="mat"></param>
 	void AdaptToGLTF(const Matrix4x4& mat) const;
 
+	void SetMatrix(const Matrix4x4& mat);
+
 private:
 
 	ComPtr<ID3D12Resource> cBuffer_;

@@ -21,30 +21,21 @@ void TextureManager::Init(std::shared_ptr<DirectXDevice> device, ID3D12GraphicsC
 
 	commandList_ = commandList;
 
-	/*LoadTextureFile("uvChecker.png");
-	LoadTextureFile("tori.png");
-	LoadTextureFile("monsterBall.png");
-	LoadTextureFile("checkerBoard.png");
-	LoadTextureFile("fence.png");
-	LoadTextureFile("circle.png");
-	LoadTextureFile("grass.png");
-	*/
-	//
-	LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_BaseColor.jpg");
-	LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_Normal.jpg");
-	LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_Metallic.jpg");
-	LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_Roughness.jpg");
+	//LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_BaseColor.jpg");
+	//LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_Normal.jpg");
+	//LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_Metallic.jpg");
+	//LoadTextureFile("Materials/brick/Brick_Cracked_001_1K_Roughness.jpg");
 
-	//
-	LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_BaseColor.jpg");
-	LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Normal.jpg");
-	LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Metallic.jpg");
-	LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Roughness.jpg");
+	////
+	//LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_BaseColor.jpg");
+	//LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Normal.jpg");
+	//LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Metallic.jpg");
+	//LoadTextureFile("Materials/leather/LEATHER_BROWN_TENSE_SCRATCH_1K_Roughness.jpg");
 
-	LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_BaseColor.jpg");
-	LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_Normal.jpg");
-	LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_Metallic.jpg");
-	LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_Roughness.jpg");
+	//LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_BaseColor.jpg");
+	//LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_Normal.jpg");
+	//LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_Metallic.jpg");
+	//LoadTextureFile("Materials/block/TERRAZZO_CRACKED_004_1K_Roughness.jpg");
 
 	// 
 	//CreateShaderResource("Materials/leather2/LEATHER_BROWN_SCRATCH_1K_BaseColor.jpg", commandList);
@@ -83,12 +74,19 @@ void TextureManager::Finalize() {
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Textureを読み込む
 /////////////////////////////////////////////////////////////////////////////////////////////
-void TextureManager::LoadTextureFile(const std::string& filePath) {
+void TextureManager::LoadTextureFile(const std::string& directoryPath, const std::string& filePath) {
+
+	// 一度読み込んだファイルか確認する
+	auto it = srvData_.find(filePath);
+	if (it != srvData_.end()) {
+		return;
+	}
+
 	Log("Begin Load Texture\n");
 	Log("Texture  [" + filePath + "]\n");
 	SRVData data{};
 
-	DirectX::ScratchImage mipImage = LoadTexture("Resources/" + filePath);
+	DirectX::ScratchImage mipImage = LoadTexture(directoryPath, filePath);
 	const DirectX::TexMetadata& metadata = mipImage.GetMetadata();
 
 	// resourceDescの作成
@@ -115,7 +113,7 @@ void TextureManager::LoadTextureFile(const std::string& filePath) {
 	data.address_ = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
 	
 	// 配列に入れる
-	srvData_["Resources/" + filePath] = data;
+	srvData_[filePath] = data;
 
 	// 生成
 	device_->GetDevice()->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);
@@ -126,9 +124,9 @@ void TextureManager::LoadTextureFile(const std::string& filePath) {
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Textrueデータを読む
 /////////////////////////////////////////////////////////////////////////////////////////////
-DirectX::ScratchImage TextureManager::LoadTexture(const std::string& filePath) {
+DirectX::ScratchImage TextureManager::LoadTexture(const std::string& directoryPath, const std::string& filePath) {
 	DirectX::ScratchImage image{};
-	std::wstring filePathW = ConvertWString(filePath);
+	std::wstring filePathW = ConvertWString(directoryPath + filePath);
 	HRESULT hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
 	assert(SUCCEEDED(hr));
 
@@ -143,11 +141,11 @@ DirectX::ScratchImage TextureManager::LoadTexture(const std::string& filePath) {
 /////////////////////////////////////////////////////////////////////////////////////////////
 //	White1x1のTextureを読み込む
 /////////////////////////////////////////////////////////////////////////////////////////////
-void TextureManager::LoadWhite1x1Texture(const std::string& filePath, ID3D12GraphicsCommandList* commandList) {
+void TextureManager::LoadWhite1x1Texture(const std::string& directoryPath, const std::string& filePath, ID3D12GraphicsCommandList* commandList) {
 	SRVData data{};
 
 	DirectX::ScratchImage image{};
-	std::wstring filePathW = ConvertWString("Resources/" + filePath);
+	std::wstring filePathW = ConvertWString(directoryPath + filePath);
 	HRESULT hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
 	assert(SUCCEEDED(hr));
 
@@ -177,7 +175,7 @@ void TextureManager::LoadWhite1x1Texture(const std::string& filePath, ID3D12Grap
 	data.address_ = dxHeap_->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
 
 	// mapに値を代入
-	srvData_.emplace("Resources/" + filePath, data);
+	srvData_.emplace(filePath, data);
 
 	// 生成
 	device_->GetDevice()->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);

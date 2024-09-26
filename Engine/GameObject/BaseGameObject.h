@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "Engine/GameObject/Model.h"
 #include "Engine/Assets/WorldTransform.h"
+#include "Engine/Assets/Skeleton.h"
 #include "Engine/Assets/Animeter.h"
 
 /// <summary>
@@ -25,7 +26,11 @@ public:
 	void Debug_Gui();
 #endif // _DEBUG
 
-	void SetObject(const std::string& objName);
+	void SetObject(const std::string& directoryPath, const std::string& objName);
+
+	void SetAnimater(const std::string& directoryPath, const std::string& objName);
+
+	WorldTransform& GetTransform() { return transform_; }
 
 protected:
 
@@ -33,4 +38,5 @@ protected:
 	WorldTransform transform_;
 
 	Animeter animeter_;
+	Skeleton skeleton_;
 };

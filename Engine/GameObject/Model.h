@@ -7,17 +7,15 @@
 #include <cmath>
 #include <unordered_map>
 #include <Lib/tiny_gltf.h> // Assimpの場合使わない
-
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-
-#include "Enviroment.h"
 #include "Engine/Assets/Mesh.h"
 #include "Engine/Assets/Material.h"
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/ViewProjection.h"
 #include "Engine/Manager/TextureManager.h"
+#include "Engine/Lib/Transform.h"
 #include "Engine/Utilities/AnimationUtils.h"
 
 class Model {
@@ -31,6 +29,7 @@ public:
 	};
 
 	struct Node {
+		QuaternionTransform transform;
 		Matrix4x4 localMatrix;				 // NodeのLocalMatrix
 		std::string name;					 // Nodeの名前
 		std::vector<Node> children;			 // 子供のNode
@@ -101,6 +100,8 @@ public:
 	bool GetHasTexture() const { return hasTexture_; }
 
 	std::string GetRootNodeName() { return rootNode_.name; }
+
+	Node& GetNode() { return rootNode_; }
 
 private:
 

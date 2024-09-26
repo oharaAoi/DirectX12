@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/Assets/Mesh.h"
-#include "Engine/Assets/Material.h"
+#include "Engine/Lib/Transform.h"
 #include "Engine/Manager/TextureManager.h"
 #include "Engine/Manager/ImGuiManager.h"
 #include "Engine/Assets/WorldTransform.h"
