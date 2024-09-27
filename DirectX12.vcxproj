@@ -131,6 +131,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GameObject\Sprite.cpp" />
     <ClCompile Include="Engine\GameObject\Triangle.cpp" />
     <ClCompile Include="Engine\Input\Input.cpp" />
+    <ClCompile Include="Engine\Lib\GameTimer.cpp" />
     <ClCompile Include="Engine\Lib\Transform.cpp" />
     <ClCompile Include="Engine\Light\BaseLight.cpp" />
     <ClCompile Include="Engine\Light\DirectionalLight.cpp" />
@@ -216,6 +217,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GameObject\Sprite.h" />
     <ClInclude Include="Engine\GameObject\Triangle.h" />
     <ClInclude Include="Engine\Input\Input.h" />
+    <ClInclude Include="Engine\Lib\GameTimer.h" />
     <ClInclude Include="Engine\Lib\Transform.h" />
     <ClInclude Include="Engine\Lib\VertexData.h" />
     <ClInclude Include="Engine\Light\BaseLight.h" />

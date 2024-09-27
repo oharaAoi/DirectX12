@@ -1,6 +1,6 @@
 #include "SceneManager.h"
 
-SceneManager::SceneManager() {Init();}
+SceneManager::SceneManager() { Init();}
 
 SceneManager::~SceneManager() {}
 
@@ -58,6 +58,8 @@ void SceneManager::Run() {
 		#endif
 
 		Engine::EndFrame();
+
+		gameTimer_.WaitNextFrame();
 	}
 
 	Finalize();
