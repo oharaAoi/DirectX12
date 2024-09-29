@@ -100,6 +100,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Assets\PBRMaterial.cpp" />
     <ClCompile Include="Engine\Assets\RenderTexture.cpp" />
     <ClCompile Include="Engine\Assets\Skeleton.cpp" />
+    <ClCompile Include="Engine\Assets\Skinning.cpp" />
     <ClCompile Include="Engine\Assets\TransformationMatrix.cpp" />
     <ClCompile Include="Engine\Assets\ViewProjection.cpp" />
     <ClCompile Include="Engine\Assets\WorldTransform.cpp" />
@@ -186,6 +187,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Assets\PBRMaterial.h" />
     <ClInclude Include="Engine\Assets\RenderTexture.h" />
     <ClInclude Include="Engine\Assets\Skeleton.h" />
+    <ClInclude Include="Engine\Assets\Skinning.h" />
     <ClInclude Include="Engine\Assets\TransformationMatrix.h" />
     <ClInclude Include="Engine\Assets\ViewProjection.h" />
     <ClInclude Include="Engine\Assets\WorldTransform.h" />

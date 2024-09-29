@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Render.h"
 
 Sprite::Sprite() {}
 
@@ -87,12 +88,16 @@ void Sprite::Update() {
 	);
 }
 
+void Sprite::Draw() {
+	Render::DrawSprite(this);
+}
+
 void Sprite::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	commandList->IASetIndexBuffer(&indexBufferView_);
 	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
 	commandList->SetGraphicsRootConstantBufferView(1, transformBuffer_->GetGPUVirtualAddress());
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/tori.png", 2);
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName_, 2);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }

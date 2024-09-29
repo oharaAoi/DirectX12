@@ -354,14 +354,18 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 	std::unordered_map<std::string, Material::ModelMaterialData> materialData;
 	std::vector<std::string> materials;
 
-	// meshの解析
+	// -------------------------------------------------
+	// ↓ meshの解析
+	// -------------------------------------------------
 	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
 		std::vector<Mesh::VertexData> triangle;
 		aiMesh* mesh = scene->mMeshes[meshIndex];
 		assert(mesh->HasNormals()); // 法線がないなら非対応
 		assert(mesh->HasTextureCoords(0)); // texcoordがないmeshは非対応
 
-		// faceの解析をする
+		// -------------------------------------------------
+		// ↓ faceの解析をする
+		// -------------------------------------------------
 		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex) {
 			aiFace& face = mesh->mFaces[faceIndex];
 
@@ -387,13 +391,16 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 			//triangle.insert(triangle.end(), vertices.begin(), vertices.end());
 		}
 
-		// メッシュのマテリアルインデックスを取得
+		// -------------------------------------------------
+		// ↓ メッシュのマテリアルインデックスを取得
+		// -------------------------------------------------
 		uint32_t materialIndex = mesh->mMaterialIndex;
 		if (materialIndex < scene->mNumMaterials) {
 			aiMaterial* material = scene->mMaterials[materialIndex];
 			aiString materialName;
 			if (AI_SUCCESS == material->Get(AI_MATKEY_NAME, materialName)) {
 				std::string nameStr = materialName.C_Str();
+				// DefaultMaterialを除く処理
 				if (nameStr == "DefaultMaterial") {
 					continue;
 				}
@@ -401,13 +408,42 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 			}
 		}
 
+		// -------------------------------------------------
+		// ↓ skinningを取得する用の処理
+		// -------------------------------------------------
+		for (uint32_t boneIndex = 0; boneIndex < mesh->mNumBones; ++boneIndex) {
+			// jointごとの格納領域を作る
+			aiBone* bone = mesh->mBones[boneIndex];
+			std::string jointName = bone->mName.C_Str();
+			Skinning::JointWeightData& jointWeightData = skinClusterData_[jointName];
+
+			// InverseBindPoseMatrixの抽出
+			aiMatrix4x4 bindPoseMatrixAssimp = bone->mOffsetMatrix.Inverse();
+			aiVector3D scale, translate;
+			aiQuaternion rotate;
+			bindPoseMatrixAssimp.Decompose(scale, rotate, translate);
+			Matrix4x4 bindPoseMatrix = MakeAffineMatrix({ scale.x, scale.y, scale.z },
+														{ rotate.x, -rotate.y, -rotate.z, rotate.w },
+														{ -translate.x, translate.y, translate.z }
+			);
+			jointWeightData.inverseBindPoseMatrix = Inverse(bindPoseMatrix);
+
+			// Weight情報を取り出す
+			for (uint32_t weightIndex = 0; weightIndex < bone->mNumWeights; ++weightIndex) {
+				jointWeightData.vertexWeight.push_back({bone->mWeights[weightIndex].mWeight, bone->mWeights[weightIndex].mVertexId});
+			}
+		}
+
+
 		// nodeの解析
 		rootNode_ = ReadNode(scene->mRootNode, scene);
 
 		meshVertices.push_back(triangle);
 	}
 
-	// materialの解析
+	// -------------------------------------------------
+	// ↓ materialの解析
+	// -------------------------------------------------
 	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
 		aiMaterial* material = scene->mMaterials[materialIndex];
 

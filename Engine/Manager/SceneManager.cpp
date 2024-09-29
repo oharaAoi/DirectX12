@@ -59,7 +59,7 @@ void SceneManager::Run() {
 
 		Engine::EndFrame();
 
-		gameTimer_.WaitNextFrame();
+		//gameTimer_.WaitNextFrame();
 	}
 
 	Finalize();

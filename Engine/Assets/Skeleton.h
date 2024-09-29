@@ -37,12 +37,15 @@ public:
 	void Draw() const;
 
 	void CreateSkeleton(const Model::Node& node);
-
 	int32_t CreateJoint(const Model::Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints);
 
 public:
 
+	const std::map<std::string, int32_t>& GetJointMap() const { return jointMap_; }
+
 	std::vector<Joint>& GetJoints() { return joints_; }
+
+	const size_t GetJointsSize() const { return joints_.size(); }
 
 private:
 

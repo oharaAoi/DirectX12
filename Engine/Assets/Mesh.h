@@ -8,8 +8,6 @@
 // math
 #include "Engine/Math/MyMath.h"
 
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
 class Mesh final {
 public: // 構造体
 
@@ -66,6 +64,8 @@ public:
 	void SetVertexData(std::vector<VertexData> vertexData);
 
 	UINT GetVertexSize() { return vertexBufferSize_; }
+
+	UINT GetVerticesSize() { return vertexBufferSize_ / sizeof(VertexData); }
 
 	/// <summary>
 	/// indexBufferを取得

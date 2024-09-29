@@ -35,5 +35,6 @@ private:
 
 	// ゲームオブジェクト ------------------------------------
 	std::unique_ptr<BaseGameObject> testObj_ = nullptr;
+	std::unique_ptr<Sprite> sprite_ = nullptr;
 };
 

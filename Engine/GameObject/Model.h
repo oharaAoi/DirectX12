@@ -12,6 +12,7 @@
 #include <assimp/postprocess.h>
 #include "Engine/Assets/Mesh.h"
 #include "Engine/Assets/Material.h"
+#include "Engine/Assets/Skinning.h"
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/ViewProjection.h"
 #include "Engine/Manager/TextureManager.h"
@@ -103,12 +104,16 @@ public:
 
 	Node& GetNode() { return rootNode_; }
 
+	std::map<std::string, Skinning::JointWeightData>& GetSkinClusterData() { return skinClusterData_; }
+
 private:
 
 	// 頂点バッファやインデックスバッファを持つ
 	std::vector<std::unique_ptr<Mesh>> meshArray_;
 	// テクスチャの情報を持っている
 	std::unordered_map<std::string, std::unique_ptr<Material>> materialArray_;
+	
+	std::map<std::string, Skinning::JointWeightData> skinClusterData_;
 	// ノード
 	Node rootNode_;
 

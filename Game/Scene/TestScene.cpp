@@ -11,6 +11,11 @@ void TestScene::Init() {
 	testObj_ = std::make_unique<BaseGameObject>();
 	testObj_->Init();
 	testObj_->SetObject("./Resources/Develop/", "plane.obj");
+
+	sprite_ = Engine::CreateSprite({128, 128}, {256, 256});
+	sprite_->SetTexture("uvChecker.png");
+
+	TextureManager::LoadTextureFile("./Resources/Develop/", "uvChecker.png");
 	/*testObj_->SetAnimater("./Resources/Animation/", "sneakWalk.gltf");*/
 }
 
@@ -37,10 +42,14 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	testObj_->Update();
 
+	sprite_->Update();
+
 	// -------------------------------------------------
 	// ↓ の更新
 	// -------------------------------------------------
+#ifdef _DEBUG
 	ImGuiDraw();
+#endif
 }
 
 void TestScene::Draw() const {
@@ -62,6 +71,14 @@ void TestScene::Draw() const {
 #pragma region PBR
 
 	Engine::SetPipeline(PipelineKind::kPBRPipeline);
+
+#pragma endregion
+
+#pragma region Sprite
+
+	Engine::SetPipeline(PipelineKind::kSpritePipeline);
+	sprite_->Draw();
+	
 
 #pragma endregion
 }

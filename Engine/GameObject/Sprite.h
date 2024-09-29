@@ -6,6 +6,8 @@
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/ViewProjection.h"
 
+class Render;
+
 class Sprite {
 public:
 
@@ -30,14 +32,18 @@ public:
 	~Sprite();
 
 	void Init(ID3D12Device* device, const Mesh::RectVetices& rect);
-
 	void Update();
+	void Draw();
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="commandList"></param>
 	void Draw(ID3D12GraphicsCommandList* commandList);
+
+public:
+
+	void SetTexture(const std::string& fileName) { textureName_ = fileName; };
 
 private:
 
@@ -60,4 +66,6 @@ private:
 	// Transform情報
 	kTransform transform_;
 	kTransform uvTransform_;
+
+	std::string textureName_;
 };

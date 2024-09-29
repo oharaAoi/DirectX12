@@ -348,10 +348,13 @@
     <ClCompile Include="Engine\Lib\Transform.cpp">
       <Filter>Engine\Lib</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Skeleton.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Lib\GameTimer.cpp">
+      <Filter>Engine\Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\Skeleton.cpp">
+      <Filter>Engine\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\Skinning.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -626,10 +629,13 @@
     <ClInclude Include="Engine\Assets\Animeter.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Skeleton.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Lib\GameTimer.h">
+      <Filter>Engine\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Skeleton.h">
+      <Filter>Engine\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Skinning.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

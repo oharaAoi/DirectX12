@@ -5,7 +5,6 @@
 #include <cassert>
 #include <dxgidebug.h>
 #include <wrl.h>
-
 // dxc
 #include <dxcapi.h>
 #include <vector>

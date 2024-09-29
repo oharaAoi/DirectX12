@@ -196,6 +196,18 @@ std::unique_ptr<Sprite> Engine::CreateSprite(const Mesh::RectVetices& rect) {
 	return sprite;
 }
 
+std::unique_ptr<Sprite> Engine::CreateSprite(const Vector2& centerPos, const Vector2& size) {
+	Mesh::RectVetices rect = {
+		{centerPos.x - (size.x / 2.0f), centerPos.y - (size.y / 2.0f), 0.0f, 1.0f},
+		{centerPos.x + (size.x / 2.0f), centerPos.y - (size.y / 2.0f), 0.0f, 1.0f},
+		{centerPos.x - (size.x / 2.0f), centerPos.y + (size.y / 2.0f), 0.0f, 1.0f},
+		{centerPos.x + (size.x / 2.0f), centerPos.y + (size.y / 2.0f), 0.0f, 1.0f},
+	};
+	std::unique_ptr<Sprite> sprite = std::make_unique<Sprite>();
+	sprite->Init(dxDevice_->GetDevice(), rect);
+	return sprite;
+}
+
 std::unique_ptr<Sphere> Engine::CreateSphere(const uint32_t& devision) {
 	std::unique_ptr<Sphere> sphere = std::make_unique<Sphere>();
 	sphere->Init(dxDevice_->GetDevice(), devision);
