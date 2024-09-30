@@ -153,7 +153,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp" />
     <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp" />
     <ClCompile Include="Engine\ParticleSystem\EffectSystemEditer.cpp" />
-    <ClCompile Include="Engine\ParticleSystem\EmissionEffect.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Emitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\ParticleField.cpp" />
     <ClCompile Include="Engine\ParticleSystem\ParticleForGPU.cpp" />
@@ -246,7 +245,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\ParticleSystem\BaseParticle.h" />
     <ClInclude Include="Engine\ParticleSystem\EffectSystem.h" />
     <ClInclude Include="Engine\ParticleSystem\EffectSystemEditer.h" />
-    <ClInclude Include="Engine\ParticleSystem\EmissionEffect.h" />
     <ClInclude Include="Engine\ParticleSystem\Emitter.h" />
     <ClInclude Include="Engine\ParticleSystem\ParticleField.h" />
     <ClInclude Include="Engine\ParticleSystem\ParticleForGPU.h" />

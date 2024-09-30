@@ -6,9 +6,13 @@
 #include "Engine/ParticleSystem/Emitter.h"
 #include "Engine/ParticleSystem/ParticleField.h"
 #include "Engine/ParticleSystem/BaseEffect.h"
-#include "Engine/ParticleSystem/EmissionEffect.h"
 #include "EffectSystemCamera.h"
 #include "Engine/Utilities/DrawUtils.h"
+
+#ifdef _DEBUG
+#include <Externals/nlohmann/json.hpp>
+#endif // _DEBUG
+
 
 /// <summary>
 /// effectを作成する用のクラス
@@ -38,6 +42,9 @@ public:
 
 	void Begin();
 	void End();
+
+	void LoadEffectFile(const std::string& filePath);
+	void SaveEffectFile(const std::string& filePath);
 
 private:
 

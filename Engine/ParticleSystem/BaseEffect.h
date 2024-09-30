@@ -51,17 +51,11 @@ public:
 	virtual void Update(const Matrix4x4& viewMat, const Matrix4x4& projection);
 	virtual void Draw();
 
-	/// <summary>
-	/// ImGuiの描画
-	/// </summary>
-	void ImGuiDraw();
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
 
 	ParticleData MakeParticle(const ParticleCreateData& emitter);
-
-	/// <summary>
-	/// カメラのマトリックスを取得する
-	/// </summary>
-	/// <param name="cameraMat"></param>
 	void SetCameraMatrix(const Matrix4x4& cameraMat);
 
 	/// <summary>

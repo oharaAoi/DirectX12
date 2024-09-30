@@ -1,8 +1,6 @@
 #include "ParticleForGPU.h"
 
-ParticleForGPU::ParticleForGPU() {
-}
-
+ParticleForGPU::ParticleForGPU() {}
 ParticleForGPU::~ParticleForGPU() {
 	Finalize();
 }
@@ -18,16 +16,6 @@ void ParticleForGPU::Init(ID3D12Device* device, const uint32_t& instanceSize) {
 	cBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&particleData_));
 }
 
-void ParticleForGPU::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection, const Vector4& color) {
-	for (uint32_t oi = 0; oi < instanceSize_; oi++) {
-		particleData_[oi].world = world;
-		particleData_[oi].view = view;
-		particleData_[oi].projection = projection;
-		particleData_[oi].worldInverseTranspose = Transpose(Inverse(world));
-		particleData_[oi].color = color;
-	}
-}
-
 void ParticleForGPU::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection, const Vector4& color, const uint32_t& index) {
 	particleData_[index].world = world;
 	particleData_[index].view = view;
@@ -36,11 +24,7 @@ void ParticleForGPU::Update(const Matrix4x4& world, const Matrix4x4& view, const
 	particleData_[index].color = color;
 }
 
-void ParticleForGPU::Draw(ID3D12GraphicsCommandList* commandList) {
-	commandList->SetGraphicsRootConstantBufferView(1, cBuffer_->GetGPUVirtualAddress());
-}
-
-void ParticleForGPU::DrawSRV(ID3D12GraphicsCommandList* commandList) {
+void ParticleForGPU::StackCommand(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetGraphicsRootDescriptorTable(1, instancingSrvHandle_.handleGPU);
 }
 

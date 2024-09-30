@@ -1,13 +1,9 @@
 #pragma once
 #include <Windows.h>
 #include <cstdint>
-#include <d3d12.h>
-#include <wrl.h>
 #include <string>
-// DirectX
 #include "Engine/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
-// math
 #include "Engine/Math/MyMath.h"
 
 template<typename T>
@@ -30,32 +26,9 @@ public:
 	~ParticleForGPU();
 
 	void Finalize();
-
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	/// <param name="device"></param>
-	/// <param name="instanceSize"></param>
 	void Init(ID3D12Device* device, const uint32_t& instanceSize);
-
-	/// <summary>
-	/// 更新処理
-	/// </summary>
-	/// <param name="world"></param>
-	/// <param name="view"></param>
-	/// <param name="projection"></param>
-	/// <param name="color"></param>
-	void Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection, const Vector4& color);
-
 	void Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection, const Vector4& color, const uint32_t& index);
-
-	/// <summary>
-	/// 描画
-	/// </summary>
-	/// <param name="commandList"></param>
-	void Draw(ID3D12GraphicsCommandList* commandList);
-
-	void DrawSRV(ID3D12GraphicsCommandList* commandList);
+	void StackCommand(ID3D12GraphicsCommandList* commandList);
 
 	void CreateSrv(ID3D12Device* device, DescriptorHeap* dxHeap, const uint32_t& instanceNum);
 

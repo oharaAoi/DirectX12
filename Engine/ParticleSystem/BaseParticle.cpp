@@ -23,11 +23,11 @@ void BaseParticle::Update(const Matrix4x4& world, const Matrix4x4& viewMat, cons
 
 void BaseParticle::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& numInstance) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
+	
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 		meshArray_[oi]->Draw(commandList);
 		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
-		particleForGPU_->DrawSRV(commandList);
+		particleForGPU_->StackCommand(commandList);
 
 		std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetMateriaData().textureFilePath;
 		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 2);
