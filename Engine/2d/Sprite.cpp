@@ -2,7 +2,6 @@
 #include "Render.h"
 
 Sprite::Sprite() {}
-
 Sprite::~Sprite() {
 	vertexBuffer_.Reset();
 	indexBuffer_.Reset();
@@ -69,18 +68,6 @@ void Sprite::Init(ID3D12Device* device, const Mesh::RectVetices& rect) {
 }
 
 void Sprite::Update() {
-	ImGui::DragFloat2("translation", &transform_.translate.x, 2.0f);
-	ImGui::DragFloat2("scale", &transform_.scale.x, 0.01f, -10.0f, 10.0f);
-	ImGui::SliderAngle("rotation", &transform_.rotate.z);
-	if (ImGui::TreeNode("material")) {
-		ImGui::DragFloat2("uvTranslation", &uvTransform_.translate.x, 0.1f);
-		ImGui::DragFloat2("uvScale", &uvTransform_.scale.x, 0.01f, -10.0f, 10.0f);
-		ImGui::SliderAngle("uvRotation", &uvTransform_.rotate.z);
-
-		materialData_->uvTransform = MakeAffineMatrix(uvTransform_);
-		ImGui::TreePop();
-	}
-
 	transformData_->wvp = Matrix4x4(
 		MakeAffineMatrix(transform_)
 		* MakeIdentity4x4()
@@ -101,3 +88,20 @@ void Sprite::Draw(ID3D12GraphicsCommandList* commandList) {
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName_, 2);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
+
+#ifdef _DEBUG
+void Sprite::Debug_Gui() {
+	ImGui::DragFloat2("translation", &transform_.translate.x, 2.0f);
+	ImGui::DragFloat2("scale", &transform_.scale.x, 0.01f, -10.0f, 10.0f);
+	ImGui::SliderAngle("rotation", &transform_.rotate.z);
+	if (ImGui::TreeNode("material")) {
+		ImGui::DragFloat2("uvTranslation", &uvTransform_.translate.x, 0.1f);
+		ImGui::DragFloat2("uvScale", &uvTransform_.scale.x, 0.01f, -10.0f, 10.0f);
+		ImGui::SliderAngle("uvRotation", &uvTransform_.rotate.z);
+
+		materialData_->uvTransform = MakeAffineMatrix(uvTransform_);
+		ImGui::TreePop();
+	}
+
+}
+#endif

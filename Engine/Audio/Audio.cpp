@@ -54,24 +54,6 @@ LoadData Audio::LoadWave(const char* filename) {
 	FormatChunk format = {};
 	// チャンクヘッダーの確認
 	file.read((char*)&format, sizeof(ChunkHeader));
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// 変更したところ
-
-	// JUNKチャンクを検出した場合
-	//if (strncmp(format.chunk.id, "JUNK", 4) == 0) {
-	//	// JUNKチャンクのサイズ（ヘッダーサイズを含む）
-	//	std::streampos junkChunkSize = format.chunk.size;
-
-	//	// 読み取り位置をJUNKチャンクの終わりまで進める
-	//	file.seekg(junkChunkSize, std::ios_base::cur);
-
-	//	// 次のチャンクヘッダーの読み込み
-	//	file.read((char*)&format, sizeof(ChunkHeader));
-	//	// ここでformat.chunk.idが次のチャンクのIDとして読み込まれる
-	//}
-
 	while (strncmp(format.chunk.id, "fmt ", 4) != 0) {
 		// チャンクサイズ分だけ読み飛ばす
 		file.seekg(format.chunk.size, std::ios_base::cur);
@@ -97,21 +79,8 @@ LoadData Audio::LoadWave(const char* filename) {
 	// -------------------------------------------------
 	// ↓ Dataチャンクの読み込み
 	// -------------------------------------------------
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// 変更したところ
-	
 	ChunkHeader data;
 	file.read((char*)&data, sizeof(data));
-	//// JUNKチャンクを検出した場合
-	//if (strncmp(data.id, "JUNK", 4) == 0) {
-	//	// 読み取り位置をJUNKチャンクの終わりまで進める
-	//	file.seekg(data.size, std::ios_base::cur);
-	//	// 再読み込み
-	//	file.read((char*)&data, sizeof(data));
-	//}
-
-	// この部分を変更
 	while (strncmp(data.id, "data", 4) != 0) {
 		// チャンクサイズ分だけ読み飛ばす
 		file.seekg(data.size, std::ios_base::cur);
@@ -124,8 +93,7 @@ LoadData Audio::LoadWave(const char* filename) {
 			assert(0);
 		}
 	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	// 本物のデータチャンク
 	if (strncmp(data.id, "data", 4) != 0) {
 		assert(0);

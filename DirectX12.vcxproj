@@ -94,6 +94,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="EffectSystemCamera.cpp" />
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
+    <ClCompile Include="Engine\2d\Sprite.cpp" />
+    <ClCompile Include="Engine\2d\Triangle.cpp" />
     <ClCompile Include="Engine\Assets\Animeter.cpp" />
     <ClCompile Include="Engine\Assets\Material.cpp" />
     <ClCompile Include="Engine\Assets\Mesh.cpp" />
@@ -129,8 +131,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\GameObject\BaseGameObject.cpp" />
     <ClCompile Include="Engine\GameObject\Model.cpp" />
     <ClCompile Include="Engine\GameObject\Sphere.cpp" />
-    <ClCompile Include="Engine\GameObject\Sprite.cpp" />
-    <ClCompile Include="Engine\GameObject\Triangle.cpp" />
     <ClCompile Include="Engine\Input\Input.cpp" />
     <ClCompile Include="Engine\Lib\GameTimer.cpp" />
     <ClCompile Include="Engine\Lib\Transform.cpp" />
@@ -181,6 +181,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClInclude Include="EffectSystemCamera.h" />
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
+    <ClInclude Include="Engine\2d\Sprite.h" />
+    <ClInclude Include="Engine\2d\Triangle.h" />
     <ClInclude Include="Engine\Assets\Animeter.h" />
     <ClInclude Include="Engine\Assets\Material.h" />
     <ClInclude Include="Engine\Assets\Mesh.h" />
@@ -216,8 +218,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\GameObject\BaseGameObject.h" />
     <ClInclude Include="Engine\GameObject\Model.h" />
     <ClInclude Include="Engine\GameObject\Sphere.h" />
-    <ClInclude Include="Engine\GameObject\Sprite.h" />
-    <ClInclude Include="Engine\GameObject\Triangle.h" />
     <ClInclude Include="Engine\Input\Input.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
     <ClInclude Include="Engine\Lib\Transform.h" />

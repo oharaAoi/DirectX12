@@ -1,14 +1,11 @@
 #pragma once
-// GameObject
-#include "Engine/GameObject/Triangle.h"
-#include "Engine/GameObject/Sprite.h"
+#include "Engine/2d/Triangle.h"
+#include "Engine/2d/Sprite.h"
 #include "Engine/GameObject/Sphere.h"
 #include "Engine/GameObject/Model.h"
 #include "Engine/ParticleSystem/BaseParticle.h"
-// 2d
 #include "Engine/DirectX/Pipeline/PrimitivePipeline.h"
 #include "Engine/2d/PrimitiveDrawer.h"
-// light
 #include "Engine/Light/LightGroup.h"
 
 /// <summary>

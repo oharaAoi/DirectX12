@@ -41,6 +41,10 @@ public:
 	/// <param name="commandList"></param>
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
+
 public:
 
 	void SetTexture(const std::string& fileName) { textureName_ = fileName; };

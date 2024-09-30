@@ -100,6 +100,9 @@
     <Filter Include="Engine\ComputeShader">
       <UniqueIdentifier>{e36a48b7-226a-4643-84c0-30429e83d8a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ParticleSystem\Editer">
+      <UniqueIdentifier>{7b22c7be-5f2d-4123-9040-e2b78f54709f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -147,9 +150,6 @@
     <ClCompile Include="Engine\Math\MyMatrix.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObject\Triangle.cpp">
-      <Filter>Engine\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Externals\ImGui\imgui.cpp">
       <Filter>Engine\ImGui</Filter>
     </ClCompile>
@@ -176,9 +176,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Manager\TextureManager.cpp">
       <Filter>Engine\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GameObject\Sprite.cpp">
-      <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameObject\Sphere.cpp">
       <Filter>Engine\GameObject</Filter>
@@ -312,9 +309,6 @@
     <ClCompile Include="Engine\ParticleSystem\EmissionEffect.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
@@ -333,12 +327,6 @@
     <ClCompile Include="Engine\Manager\ModelManager.cpp">
       <Filter>Engine\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="EffectSystemCamera.cpp">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ParticleSystem\EffectSystemEditer.cpp">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Math\Quaternion.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
@@ -355,7 +343,22 @@
       <Filter>Engine\Assets</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Assets\Skinning.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Engine\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\Sprite.cpp">
+      <Filter>Engine\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\Triangle.cpp">
+      <Filter>Engine\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\EffectSystemEditer.cpp">
+      <Filter>Engine\ParticleSystem\Editer</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectSystemCamera.cpp">
+      <Filter>Engine\ParticleSystem\Editer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp">
+      <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -419,9 +422,6 @@
     <ClInclude Include="Engine\Math\MyMatrix.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObject\Triangle.h">
-      <Filter>Engine\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Lib\Transform.h">
       <Filter>Engine\Lib</Filter>
     </ClInclude>
@@ -454,9 +454,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Manager\TextureManager.h">
       <Filter>Engine\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameObject\Sprite.h">
-      <Filter>Engine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Lib\VertexData.h">
       <Filter>Engine\Lib</Filter>
@@ -596,9 +593,6 @@
     <ClInclude Include="Engine\ParticleSystem\EmissionEffect.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ParticleSystem\EffectSystem.h">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\BaseEffect.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
@@ -617,12 +611,6 @@
     <ClInclude Include="Engine\Manager\ModelManager.h">
       <Filter>Engine\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="EffectSystemCamera.h">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ParticleSystem\EffectSystemEditer.h">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Math\Quaternion.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
@@ -636,7 +624,22 @@
       <Filter>Engine\Assets</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Assets\Skinning.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Engine\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\Sprite.h">
+      <Filter>Engine\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\Triangle.h">
+      <Filter>Engine\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\EffectSystemEditer.h">
+      <Filter>Engine\ParticleSystem\Editer</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectSystemCamera.h">
+      <Filter>Engine\ParticleSystem\Editer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\EffectSystem.h">
+      <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

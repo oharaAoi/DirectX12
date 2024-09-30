@@ -88,5 +88,10 @@ void TestScene::ImGuiDraw() {
 	ImGui::Begin("GameObjects");
 	testObj_->Debug_Gui();
 	ImGui::End();
+
+	ImGui::Begin("Sprite");
+	sprite_->Debug_Gui();
+	ImGui::End();
+
 }
 #endif
