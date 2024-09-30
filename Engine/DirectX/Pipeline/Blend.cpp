@@ -34,6 +34,9 @@ D3D12_BLEND_DESC Blend::SetBlend(const BlendMode& mode) {
 	case BlendMode::kBlendModeMultily:
 		SetMultiplyBlend(blendDesc);
 		break;
+	case BlendMode::kBlendModeScreen:
+		SetScreenBlend(blendDesc);
+		break;
 	}
 
 	return blendDesc;
@@ -61,4 +64,10 @@ void Blend::SetMultiplyBlend(D3D12_BLEND_DESC& blendDesc) {
 	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
 	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_SRC_COLOR;
+}
+
+void Blend::SetScreenBlend(D3D12_BLEND_DESC& blendDesc) {
+	blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_INV_DEST_COLOR;
+	blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
 }

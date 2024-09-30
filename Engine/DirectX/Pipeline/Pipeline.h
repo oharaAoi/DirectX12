@@ -21,7 +21,7 @@ public:
 
 	void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, 
 					const Shader::ShaderData& shaderData, const RootSignatureType& rootSignatureType,
-					const std::vector<D3D12_INPUT_ELEMENT_DESC>& desc
+					const std::vector<D3D12_INPUT_ELEMENT_DESC>& desc, const Blend::BlendMode& blendMode
 	);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
@@ -58,7 +58,7 @@ public:
 	/// <summary>
 	/// PSOの生成
 	/// </summary>
-	void CreatePSO();
+	void CreatePSO(const Blend::BlendMode& blendMode);
 
 private:
 	// rootSignature
