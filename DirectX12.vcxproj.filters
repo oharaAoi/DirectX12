@@ -103,6 +103,9 @@
     <Filter Include="Engine\ParticleSystem\Editer">
       <UniqueIdentifier>{7b22c7be-5f2d-4123-9040-e2b78f54709f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\ParticleSystem\Field">
+      <UniqueIdentifier>{74c8d076-9996-47da-9754-be95ab9f5d45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -246,9 +249,6 @@
     <ClCompile Include="Engine\Math\MyRandom.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ParticleSystem\ParticleField.cpp">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ParticleSystem\Emitter.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
@@ -306,9 +306,6 @@
     <ClCompile Include="Render.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ParticleSystem\EmissionEffect.cpp">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
@@ -359,6 +356,9 @@
     </ClCompile>
     <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp">
       <Filter>Engine\ParticleSystem\Editer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\ParticleField.cpp">
+      <Filter>Engine\ParticleSystem\Field</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -527,9 +527,6 @@
     <ClInclude Include="Engine\Math\MyRandom.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ParticleSystem\ParticleField.h">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\Emitter.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
@@ -590,9 +587,6 @@
     <ClInclude Include="Render.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ParticleSystem\EmissionEffect.h">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\BaseEffect.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
@@ -640,6 +634,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\EffectSystem.h">
       <Filter>Engine\ParticleSystem\Editer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\ParticleField.h">
+      <Filter>Engine\ParticleSystem\Field</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

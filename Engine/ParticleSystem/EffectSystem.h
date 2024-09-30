@@ -8,7 +8,6 @@
 #include "Engine/ParticleSystem/Emitter.h"
 #include "Engine/ParticleSystem/ParticleField.h"
 #include "Engine/ParticleSystem/BaseEffect.h"
-#include "Engine/ParticleSystem/EmissionEffect.h"
 
 class EffectSystemEditer;
 

@@ -12,7 +12,7 @@ void BaseEffect::Finalize() {
 void BaseEffect::Init(const std::string& directoryPath, const std::string& fileName, const uint32_t& particleNum) {
 	kNumInstance_ = particleNum;
 	particles_ = Engine::CreateBaseParticle(directoryPath, fileName, particleNum);
-	useBillboard_ = false;
+	useBillboard_ = true;
 
 	rotate_ = { 0.0f, 0.0f, 0.0f };
 }
@@ -58,13 +58,16 @@ void BaseEffect::Draw() {
 	Render::DrawParticle(particles_.get(), liveNumInstance_);
 }
 
-void BaseEffect::ImGuiDraw() {
+#ifdef _DEBUG
+void BaseEffect::Debug_Gui() {
 	ImGui::Begin("particle");
 	ImGui::Text("liveCount: %d", liveNumInstance_);
 	ImGui::Checkbox("useBillboard", &useBillboard_);
 	ImGui::DragFloat("rotate.x", &rotate_.z, 0.1f);
+	ImGui::Text("particlesData_.size: %d", static_cast<int>(particlesData_.size()));
 	ImGui::End();
 }
+#endif
 
 BaseEffect::ParticleData BaseEffect::MakeParticle(const ParticleCreateData& emitter) {
 	ParticleData data{};

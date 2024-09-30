@@ -14,11 +14,11 @@ Emitter::~Emitter() {}
 void Emitter::Init() {
 	transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f,0.0f,0.0f},{0.0f, 0.0f, 0.0f} };
 	count_ = 3;
-	frequency_ = 0.5f;
+	frequency_ = 1.0f;
 	frequencyTime_ = 0.0f;
 	size_ = { 0.1f, 0.1f, 0.1f };
 	firstVelocity_ = { RandomFloat(-1.0f, 1.0f), RandomFloat(-1.0f, 1.0f), RandomFloat(-1.0f, 1.0f) };
-	lifeTime_ = RandomFloat(1.0f, 5.0f);
+	lifeTime_ = RandomFloat(4.0f, 5.0f);
 
 	isRangeDraw_ = true;
 }
@@ -31,9 +31,8 @@ void Emitter::Update() {
 	frequencyTime_ += kDeltaTime_;// 時刻を進める
 	if (frequency_ <= frequencyTime_) { // 頻度より大きいなら発生
 		CreateParticle();// 発生処理
-		frequencyTime_ -= frequency_;// 余計に過ぎた時間も紙した頻度計算する
+		frequencyTime_ = 0;// 余計に過ぎた時間も紙した頻度計算する
 	}
-	ImGuiDraw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,10 +63,7 @@ void Emitter::Draw(const Matrix4x4& viewProjection) {
 	}
 }
 
-/// <summary>
-/// ImGuiの描画
-/// </summary>
-void Emitter::ImGuiDraw() {
+void Emitter::Debug_Gui() {
 	ImGui::Begin("Emitter");
 	if (ImGui::Button("emit")) {
 		CreateParticle();
@@ -85,7 +81,7 @@ void Emitter::CreateParticle() {
 	lifeTime_ = RandomFloat(1.0f, 5.0f);
 
 	// 生成時に必要なデータを生成する
-	BaseEffect::ParticleCreateData data(transform_, size_, count_, firstVelocity_, lifeTime_);
+	BaseEffect::ParticleCreateData data(transform_, size_, count_, Normalize(firstVelocity_), lifeTime_);
 	// リストにパーティクルを追加する
 	effect_->AddParticleList(data);
 }

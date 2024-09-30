@@ -15,13 +15,16 @@ void TestScene::Init() {
 	sprite_ = Engine::CreateSprite({128, 128}, {256, 256});
 	sprite_->SetTexture("uvChecker.png");
 
-	TextureManager::LoadTextureFile("./Resources/Develop/", "uvChecker.png");
+	
 	/*testObj_->SetAnimater("./Resources/Animation/", "sneakWalk.gltf");*/
 }
 
 void TestScene::Load() {
+	// modelのload
 	ModelManager::LoadModel("./Resources/Develop/", "plane.obj");
 	ModelManager::LoadModel("./Resources/Develop/", "SquarePyramid.obj");
+	// textureのload
+	TextureManager::LoadTextureFile("./Resources/Develop/", "uvChecker.png");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +49,7 @@ void TestScene::Update() {
 	// ↓ 行列の更新
 	// -------------------------------------------------
 	testObj_->Update();
-
+	
 	sprite_->Update();
 
 	// -------------------------------------------------
@@ -64,7 +67,7 @@ void TestScene::Draw() const {
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
 	testObj_->Draw();
-
+	
 #pragma endregion
 
 #pragma region Textureless
