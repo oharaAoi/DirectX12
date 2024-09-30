@@ -54,20 +54,19 @@ struct PixelShaderOutput
 //==========================================
 // Lambert
 //==========================================
-float4 Lambert(float NdotL, float4 textureColor)
+float3 Lambert(float NdotL, float3 textureColor)
 {
-	//float4 diffuse = gMaterial.diffuseColor + (1.0f / PI);
-	float4 resultColor = textureColor * NdotL;
+	float3 resultColor = textureColor * NdotL;
 	return resultColor;
 }
 
 //==========================================
 // HalfLambert
 //==========================================
-float4 HalfLambert(float NdotL, float4 lightColor)
+float3 HalfLambert(float NdotL, float3 lightColor)
 {
 	float cos = (pow(NdotL * 0.5f + 0.5f, 2.0f)) / 3.1415f;
-	float4 diffuse = lightColor * cos;
+	float3 diffuse = lightColor * cos;
 	
 	return diffuse;
 }
@@ -75,7 +74,7 @@ float4 HalfLambert(float NdotL, float4 lightColor)
 //==========================================
 //　phong
 //==========================================
-float3 Phong(float RDotE, float4 lightColor)
+float3 Phong(float RDotE, float3 lightColor)
 {
 	// 反射強度
 	float specularPow = pow(saturate(RDotE), gMaterial.shininess);
@@ -88,7 +87,7 @@ float3 Phong(float RDotE, float4 lightColor)
 //==========================================
 //　BlinnPhong
 //==========================================
-float3 BlinnPhong(float NDotH, float4 lightColor)
+float3 BlinnPhong(float NDotH, float3 lightColor)
 {
 	// 反射強度
 	float specularPow = pow(saturate(NDotH), gMaterial.shininess);
@@ -135,25 +134,25 @@ PixelShaderOutput main(VertexShaderOutput input)
 	// lambert
 	float3 directionalDiffuse;
 	if (gMaterial.enableLighting == 1){
-		directionalDiffuse = Lambert(NdotL, gDirectionalLight.color).rbg * gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.intensity;
+		directionalDiffuse = Lambert(NdotL, gDirectionalLight.color.rgb) * gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.intensity;
 	}else{
-		directionalDiffuse = HalfLambert(NdotL, gDirectionalLight.color).rbg * gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.intensity;
+		directionalDiffuse = HalfLambert(NdotL, gDirectionalLight.color.rgb) * gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.intensity;
 	}
 	
 	// phong
-	float3 directionalSpeculer = BlinnPhong(NdotH, gDirectionalLight.color) * textureColor.rgb * gDirectionalLight.intensity;
+	float3 directionalSpeculer = BlinnPhong(NdotH, gDirectionalLight.color.rgb) * textureColor.rgb * gDirectionalLight.intensity;
 	
 	// --------------------- point --------------------- //
 	float3 pointDiffuse;
 	if (gMaterial.enableLighting == 1){
-		pointDiffuse = HalfLambert(NdotL, gPointLight.color * factor).rbg * gMaterial.color.rgb * textureColor.rgb * gPointLight.intensity;
+		pointDiffuse = HalfLambert(NdotL, gPointLight.color.rgb * factor) * gMaterial.color.rgb * textureColor.rgb * gPointLight.intensity;
 	} else {
-		pointDiffuse = Lambert(NdotL, gPointLight.color * factor).rbg * gMaterial.color.rgb * textureColor.rgb * gPointLight.intensity;
+		pointDiffuse = Lambert(NdotL, gPointLight.color.rgb * factor) * gMaterial.color.rgb * textureColor.rgb * gPointLight.intensity;
 	}
 	// phong
 	float3 phalfVector = normalize(-pointLightDirection + toEye);
 	float pNdotH = dot(normalize(input.normal), phalfVector);
-	float3 pointSpeculer = BlinnPhong(pNdotH, gPointLight.color * factor) * textureColor.rgb * gPointLight.intensity;
+	float3 pointSpeculer = BlinnPhong(pNdotH, gPointLight.color.rgb * factor) * textureColor.rgb * gPointLight.intensity;
 	
 	// --------------------- spot --------------------- //
 	// 入射光
@@ -165,14 +164,14 @@ PixelShaderOutput main(VertexShaderOutput input)
 	float distanceSpot = length(gSpotLight.position - input.worldPos.xyz);
 	float attenuationFactor = pow(saturate(-distanceSpot / gSpotLight.distance + 1.0f), gSpotLight.decay);
 	// スポットライトのカラー
-	float4 spotColor = gSpotLight.color * gSpotLight.intensity * attenuationFactor * falloffFactor;
+	float3 spotColor = gSpotLight.color.rgb * gSpotLight.intensity * attenuationFactor * falloffFactor;
 	
 	// lambert
 	float3 spotDiffuse;
-	spotDiffuse = HalfLambert(NdotL, spotColor).rbg * gMaterial.color.rgb * textureColor.rgb;
+	spotDiffuse = HalfLambert(NdotL, spotColor.rgb) * gMaterial.color.rgb * textureColor.rgb;
 	
 	// phong
-	float3 spotSpeculer = BlinnPhong(NdotH, spotColor) * textureColor.rgb;
+	float3 spotSpeculer = BlinnPhong(NdotH, spotColor.rgb) * textureColor.rgb;
 	
 	// --------------------- limLight --------------------- //
 	float lim = 1.0f - saturate(dot(normal, toEye));
@@ -182,14 +181,13 @@ PixelShaderOutput main(VertexShaderOutput input)
 	
 	// --------------------- final --------------------- //
 	output.color.rgb = directionalDiffuse + directionalSpeculer;
-	output.color.rgb += pointDiffuse + pointSpeculer;
-	output.color.rgb += spotDiffuse + spotSpeculer;
-	output.color.rgb += limCol;
+	//output.color.rgb += pointDiffuse + pointSpeculer;
+	//output.color.rgb += spotDiffuse + spotSpeculer;
+	//output.color.rgb += limCol;
 	
 	output.color.a = gMaterial.color.a * textureColor.a;
 	
-	if (output.color.a <= 0.0f)
-	{
+	if (output.color.a <= 0.1f){
 		discard;
 	}
 	

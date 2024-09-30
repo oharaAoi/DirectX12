@@ -17,7 +17,9 @@ public:
 		// 減算
 		kBlendModeSubtract,
 		// 乗算
-		kBlendModeMultily
+		kBlendModeMultily,
+		//
+		kBlendModeScreen
 	};
 
 public:
@@ -36,6 +38,8 @@ public:
 	void SetSubtractBlend(D3D12_BLEND_DESC& blendDesc);
 
 	void SetMultiplyBlend(D3D12_BLEND_DESC& blendDesc);
+
+	void SetScreenBlend(D3D12_BLEND_DESC& blendDesc);
 
 private:
 

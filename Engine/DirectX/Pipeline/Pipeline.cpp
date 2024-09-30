@@ -6,7 +6,7 @@ Pipeline::~Pipeline() {}
 
 void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler,
 						  const Shader::ShaderData& shaderData, const RootSignatureType& rootSignatureType,
-						  const std::vector<D3D12_INPUT_ELEMENT_DESC>& desc) {
+						  const std::vector<D3D12_INPUT_ELEMENT_DESC>& desc, const Blend::BlendMode& blendMode) {
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
@@ -14,7 +14,7 @@ void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler,
 	elementDescs = desc;
 	ShaderCompile(shaderData);
 
-	CreatePSO();
+	CreatePSO(blendMode);
 }
 
 void Pipeline::Draw(ID3D12GraphicsCommandList* commandList) {
@@ -87,14 +87,14 @@ void Pipeline::SetRootSignature(const RootSignatureType& type) {
 //------------------------------------------------------------------------------------------------------
 // ↓PSOの追加
 //------------------------------------------------------------------------------------------------------
-void Pipeline::CreatePSO() {
+void Pipeline::CreatePSO(const Blend::BlendMode& blendMode) {
 	// PSOの生成
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc{};
 	desc.pRootSignature = rootSignature_->GetRootSignature();
 	desc.InputLayout = CreateInputLayout(elementDescs);
 	desc.VS = { vertexShaderBlob_->GetBufferPointer(), vertexShaderBlob_->GetBufferSize() };
 	desc.PS = { pixelShaderBlob_->GetBufferPointer(), pixelShaderBlob_->GetBufferSize() };
-	desc.BlendState = blend_.SetBlend(Blend::kBlendModeNormal);
+	desc.BlendState = blend_.SetBlend(blendMode);
 	desc.RasterizerState = SetRasterizerState();
 	desc.DepthStencilState = SetDepthStencilState();
 	desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
