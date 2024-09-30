@@ -15,6 +15,7 @@ using ComPtr = Microsoft::WRL::ComPtr <T>;
 enum class RootSignatureType {
 	Normal,
 	TextureLess,
+	Skinnig,
 	Primitive,
 	Particle,
 	Sprite,
@@ -44,6 +45,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	ComPtr<ID3D12RootSignature> CreateTexturelessRootSignature();
+
+	/// <summary>
+	/// Skinnngを行うモデルのRootSignatureの作成
+	/// </summary>
+	/// <returns></returns>
+	ComPtr<ID3D12RootSignature> CreateSkinnigRootSignature();
 
 	/// <summary>
 	/// primitiveRootSignatureの作成

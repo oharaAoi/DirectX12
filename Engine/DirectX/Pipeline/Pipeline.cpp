@@ -95,7 +95,6 @@ void Pipeline::CreatePSO() {
 	desc.VS = { vertexShaderBlob_->GetBufferPointer(), vertexShaderBlob_->GetBufferSize() };
 	desc.PS = { pixelShaderBlob_->GetBufferPointer(), pixelShaderBlob_->GetBufferSize() };
 	desc.BlendState = blend_.SetBlend(Blend::kBlendModeNormal);
-	//desc.BlendState = blend_.SetBlend(Blend::kBlendModeNormal);
 	desc.RasterizerState = SetRasterizerState();
 	desc.DepthStencilState = SetDepthStencilState();
 	desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;

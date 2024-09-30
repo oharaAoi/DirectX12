@@ -8,7 +8,8 @@ enum class PipelineType {
 	TextureLessPipeline,
 	ParticlePipeline,
 	PBRPipeline,
-	SpritePipeline
+	SpritePipeline,
+	SkinngPipeline
 };
 
 class GraphicsPipelines {

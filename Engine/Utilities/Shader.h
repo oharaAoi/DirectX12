@@ -11,6 +11,7 @@ public:
 	enum ShaderName {
 		Normal,
 		TextureLess,
+		Skinning,
 		Primitive,
 		Phong,
 		PBR,
