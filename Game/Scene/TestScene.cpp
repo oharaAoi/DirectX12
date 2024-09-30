@@ -1,6 +1,6 @@
 #include "TestScene.h"
 
-TestScene::TestScene() { Init(); }
+TestScene::TestScene() {}
 TestScene::~TestScene() {}
 
 void TestScene::Init() {
@@ -10,13 +10,18 @@ void TestScene::Init() {
 	
 	testObj_ = std::make_unique<BaseGameObject>();
 	testObj_->Init();
-	testObj_->SetObject("./Resources/Develop/", "plane.obj");
+	testObj_->SetObject("plane.obj");
 
 	sprite_ = Engine::CreateSprite({128, 128}, {256, 256});
 	sprite_->SetTexture("uvChecker.png");
 
 	TextureManager::LoadTextureFile("./Resources/Develop/", "uvChecker.png");
 	/*testObj_->SetAnimater("./Resources/Animation/", "sneakWalk.gltf");*/
+}
+
+void TestScene::Load() {
+	ModelManager::LoadModel("./Resources/Develop/", "plane.obj");
+	ModelManager::LoadModel("./Resources/Develop/", "SquarePyramid.obj");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

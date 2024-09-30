@@ -6,13 +6,17 @@ SceneManager::~SceneManager() {}
 
 void SceneManager::Finalize() {
 	effectSystem_->Finalize();
+	ModelManager::GetInstance()->Finalize();
 	Engine::Finalize();
 }
 
 void SceneManager::Init() {
 	Engine::Initialize(kWindowWidth_, kWindowHeight_);
+	ModelManager::GetInstance()->Init();
 
 	scene_ = std::make_unique<TestScene>();
+	scene_->Load();
+	scene_->Init();
 
 	effectSystem_ = EffectSystem::GetInstacne();
 	effectSystem_->Init();

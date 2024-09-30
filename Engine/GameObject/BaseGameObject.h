@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include "Engine.h"
+#include "Engine/Manager/ModelManager.h"
 #include "Engine/GameObject/Model.h"
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/Skeleton.h"
@@ -26,7 +27,7 @@ public:
 	void Debug_Gui();
 #endif // _DEBUG
 
-	void SetObject(const std::string& directoryPath, const std::string& objName);
+	void SetObject(const std::string& objName);
 
 	void SetAnimater(const std::string& directoryPath, const std::string& objName);
 
@@ -34,7 +35,7 @@ public:
 
 protected:
 
-	std::unique_ptr<Model> model_;
+	Model* model_;
 	WorldTransform transform_;
 
 	Animeter animeter_;

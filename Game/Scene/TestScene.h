@@ -21,6 +21,7 @@ public:
 	~TestScene() override;
 
 	void Init() override;
+	void Load() override;
 	void Update() override;
 	void Draw() const override;
 

@@ -15,12 +15,12 @@ void BaseGameObject::Update() {
 }
 
 void BaseGameObject::Draw() const {
-	Render::DrawModel(model_.get(), transform_);
+	Render::DrawModel(model_, transform_);
 	skeleton_.Draw();
 }
 
-void BaseGameObject::SetObject(const std::string& directoryPath, const std::string& objName) {
-	model_ = Engine::CreateModel(directoryPath, objName);
+void BaseGameObject::SetObject(const std::string& objName) {
+	model_ = ModelManager::GetModel(objName);
 }
 
 void BaseGameObject::SetAnimater(const std::string& directoryPath, const std::string& objName) {

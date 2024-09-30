@@ -20,6 +20,9 @@ void GameScene::Init() {
 	bgmData_ = Engine::LoadBGM("Resources/Audio/fanfare.wav");
 }
 
+void GameScene::Load() {
+}
+
 void GameScene::Update() {
 	//transform_.rotate.y += 0.01f;
 
@@ -86,7 +89,7 @@ void GameScene::Update() {
 	teapotModel_->ImGuiDraw("teapot");*/
 }
 
-void GameScene::Draw() {
+void GameScene::Draw() const {
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);

@@ -8,7 +8,7 @@ void Skeleton::Init() {
 	for (size_t oi = 0; oi < joints_.size(); ++oi) {
 		auto& instance = obj_.emplace_back(std::make_unique<BaseGameObject>());
 		instance->Init();
-		instance->SetObject("./Resources/Develop/", "SquarePyramid.obj");
+		instance->SetObject("SquarePyramid.obj");
 	}
 }
 

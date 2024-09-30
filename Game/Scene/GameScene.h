@@ -1,22 +1,23 @@
 #pragma once
 #include "Engine.h"
+#include "Game/Scene/BaseScene.h"
 // lib
 #include "Engine/Lib/Transform.h"
 #include "Engine/Utilities/DrawUtils.h"
 // gameObject
 #include "Game/Camera/Camera.h"
 
-class GameScene {
+class GameScene 
+	: public BaseScene {
 public:
 
 	GameScene();
 	~GameScene();
 
-	void Init();
-
-	void Update();
-
-	void Draw();
+	void Init() override;
+	void Load()  override;
+	void Update() override;
+	void Draw() const override;
 
 private:
 

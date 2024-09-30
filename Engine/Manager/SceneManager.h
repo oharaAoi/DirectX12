@@ -4,6 +4,7 @@
 #include "Game/Scene/TestScene.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/ParticleSystem/EffectSystem.h"
+#include "Engine/Manager/ModelManager.h"
 
 /// <summary>
 /// シーンを管理するクラス

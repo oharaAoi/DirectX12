@@ -12,16 +12,12 @@ Model::~Model() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
-	std::string path = directorPath + fileName;
-
 	//materialArray_ = LoadMaterialData(directorPath, fileName, device);
 	//meshArray_ = LoadVertexData(path, device);
-
+	
 	Log("Load: " + fileName + "\n");
-
 	LoadObj(directorPath, fileName, device);
-	/*LoadAnimation(directorPath, "Animation_Node_00.gltf");*/
-
+	
 	currentAnimationTime_ = 0;
 }
 
