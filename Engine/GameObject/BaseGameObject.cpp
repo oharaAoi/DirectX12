@@ -8,15 +8,22 @@ void BaseGameObject::Init() {
 }
 
 void BaseGameObject::Update() {
-	animeter_.Update(model_->GetRootNodeName());
-	animeter_.ApplyAnimation(skeleton_);
-	skeleton_.Update();
+	if (isAnimation_) {
+		animeter_.Update(model_->GetRootNodeName());
+		animeter_.ApplyAnimation(skeleton_);
+		skeleton_.Update();
+		skinning_.Update(skeleton_);
+	}
 	transform_.Update();
 }
 
 void BaseGameObject::Draw() const {
 	Render::DrawModel(model_, transform_);
 	skeleton_.Draw();
+}
+
+void BaseGameObject::DrawSKinning() const {
+	Render::DrawAnimationModel(model_, skinning_, transform_);
 }
 
 void BaseGameObject::SetObject(const std::string& objName) {
@@ -27,6 +34,8 @@ void BaseGameObject::SetAnimater(const std::string& directoryPath, const std::st
 	animeter_.LoadAnimation(directoryPath, objName);
 	skeleton_.CreateSkeleton(model_->GetNode());
 	skeleton_.Init();
+	skinning_ = Engine::CreateSkinning(skeleton_, model_->GetMesh(0), model_->GetSkinClusterData());
+	isAnimation_ = true;
 }
 
 #ifdef _DEBUG

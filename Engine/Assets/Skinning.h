@@ -54,6 +54,8 @@ public:
 
 	void CreateSkinCluster(ID3D12Device* device, const Skeleton& skeleton, Mesh* mesh, DescriptorHeap* heap, std::map<std::string, Skinning::JointWeightData>& skinClusterData);
 
+	void StackCommand(ID3D12GraphicsCommandList* commandList, const D3D12_VERTEX_BUFFER_VIEW& vbv) const;
+
 private:
 
 	std::vector<Matrix4x4> inverseBindPoseMatrices_;

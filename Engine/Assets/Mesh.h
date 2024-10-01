@@ -42,13 +42,15 @@ public:
 	~Mesh();
 
 	void Init(ID3D12Device* device, const uint32_t& vBSize, const uint32_t& iBSize);
-
 	void Draw(ID3D12GraphicsCommandList* commandList);
-	void DrawPar(ID3D12GraphicsCommandList* commandList);
-
 	void Finalize();
 
+	void DrawIndex(ID3D12GraphicsCommandList* commandList);
+
 public:
+
+	D3D12_VERTEX_BUFFER_VIEW GetVBV() { return vertexBufferView_; }
+
 	/// <summary>
 	/// vertexBuffer
 	/// </summary>

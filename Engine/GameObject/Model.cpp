@@ -1,4 +1,5 @@
 #include "Model.h"
+#include <Math/MyMatrix.h>
 
 Model::Model() {
 }
@@ -28,9 +29,9 @@ void Model::Update() {
 	currentAnimationTime_ += rootNode_.animationsData.tickPerSecond * kDeltaTime_;
 	currentAnimationTime_ = fmod(currentAnimationTime_, rootNode_.animationsData.duration);
 
-	AnimationUpdate();
-	Matrix4x4 mat = MakeAffineMatrix(localTransform_);
-	rootNode_.localMatrix *= mat;
+	//AnimationUpdate();
+	/*Matrix4x4 mat = MakeAffineMatrix(localTransform_);
+	rootNode_.localMatrix = mat;*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,6 +45,27 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& w
 		//worldTransform.AdaptToGLTF(rootNode_.localMatrix);
 		worldTransform.Draw(commandList);
 		viewProjection->Draw(commandList);
+
+		if (hasTexture_) {
+			std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetMateriaData().textureFilePath;
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 3);
+		}
+
+		UINT size = meshArray_[oi]->GetVertexSize() / sizeof(Mesh::VertexData);
+
+		commandList->DrawIndexedInstanced(size, 1, 0, 0, 0);
+	}
+}
+
+void Model::DrawSkinning(ID3D12GraphicsCommandList* commandList, const Skinning& skinning, const WorldTransform& worldTransform, const ViewProjection* viewprojection) {
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
+		skinning.StackCommand(commandList, meshArray_[oi]->GetVBV());
+		meshArray_[oi]->DrawIndex(commandList);
+		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
+
+		worldTransform.Draw(commandList);
+		viewprojection->Draw(commandList);
 
 		if (hasTexture_) {
 			std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetMateriaData().textureFilePath;
@@ -87,14 +109,6 @@ Model::Node Model::ReadNode(aiNode* node, const aiScene* scene) {
 	result.transform.rotate = { rotate.x, -rotate.y, -rotate.z, rotate.w };
 	result.transform.translate = { -translate.x, translate.y, translate.z };
 	result.localMatrix = MakeAffineMatrix(result.transform.scale, result.transform.rotate, result.transform.translate);
-
-	//aiMatrix4x4 aiLocalMat = node->mTransformation; // nodeのlocalMatrixを取得
-	//aiLocalMat.Transpose(); // 列ベクトル形式を行ベクトル形式に転置
-	//for (uint8_t row = 0; row < 4; row++) {
-	//	for (uint8_t col = 0; col < 4; col++) {
-	//		result.localMatrix.m[row][col] = aiLocalMat[row][col];
-	//	}
-	//}
 	result.name = node->mName.C_Str(); // Nodeの名前を格納
 
 	// ----------------------------------
@@ -108,6 +122,194 @@ Model::Node Model::ReadNode(aiNode* node, const aiScene* scene) {
 
 	return result;
 }
+
+
+void Model::LoadObj(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device) {
+	Assimp::Importer importer;
+	std::string filePath = directoryPath + fileName;
+	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_CalcTangentSpace);
+	assert(scene->HasMeshes()); // meshがないのは対応しない
+
+	std::vector<std::vector<Mesh::VertexData>> meshVertices;
+	std::vector<std::string> useMaterial;
+
+	std::unordered_map<std::string, Material::ModelMaterialData> materialData;
+	std::vector<std::string> materials;
+
+	// -------------------------------------------------
+	// ↓ meshの解析
+	// -------------------------------------------------
+	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
+		std::vector<Mesh::VertexData> triangle;
+		aiMesh* mesh = scene->mMeshes[meshIndex];
+		assert(mesh->HasNormals()); // 法線がないなら非対応
+		assert(mesh->HasTextureCoords(0)); // texcoordがないmeshは非対応
+
+		// -------------------------------------------------
+		// ↓ faceの解析をする
+		// -------------------------------------------------
+		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex) {
+			aiFace& face = mesh->mFaces[faceIndex];
+
+			assert(face.mNumIndices == 3); // 三角形のみ対応
+
+			std::vector<Mesh::VertexData> vertices;
+			// vertexの解析を行う
+			for (uint32_t element = 0; element < face.mNumIndices; ++element) {
+				uint32_t vertexIndex = face.mIndices[element];
+				aiVector3D& position = mesh->mVertices[vertexIndex];
+				aiVector3D& normal = mesh->mNormals[vertexIndex];
+				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
+
+				Mesh::VertexData vertex;
+				vertex.pos = { position.x, position.y, position.z, 1.0f };
+				vertex.normal = { normal.x, normal.y, normal.z };
+				vertex.texcoord = { texcoord.x, texcoord.y };
+
+				vertex.pos.z *= -1.0f;
+				vertex.normal.z *= -1.0f;
+
+				triangle.push_back(vertex);
+			}
+
+			//std::reverse(vertices.begin(), vertices.end());
+			//triangle.insert(triangle.end(), vertices.begin(), vertices.end());
+		}
+
+		// -------------------------------------------------
+		// ↓ メッシュのマテリアルインデックスを取得
+		// -------------------------------------------------
+		uint32_t materialIndex = mesh->mMaterialIndex;
+		if (materialIndex < scene->mNumMaterials) {
+			aiMaterial* material = scene->mMaterials[materialIndex];
+			aiString materialName;
+			if (AI_SUCCESS == material->Get(AI_MATKEY_NAME, materialName)) {
+				std::string nameStr = materialName.C_Str();
+				// DefaultMaterialを除く処理
+				if (nameStr == "DefaultMaterial") {
+					continue;
+				}
+				useMaterial.push_back(nameStr);
+			}
+		}
+
+		// -------------------------------------------------
+		// ↓ skinningを取得する用の処理
+		// -------------------------------------------------
+		for (uint32_t boneIndex = 0; boneIndex < mesh->mNumBones; ++boneIndex) {
+			// jointごとの格納領域を作る
+			aiBone* bone = mesh->mBones[boneIndex];
+			std::string jointName = bone->mName.C_Str();
+			Skinning::JointWeightData& jointWeightData = skinClusterData_[jointName];
+
+			// InverseBindPoseMatrixの抽出
+			aiMatrix4x4 bindPoseMatrixAssimp = bone->mOffsetMatrix.Inverse();
+			aiVector3D scale, translate;
+			aiQuaternion rotate;
+			bindPoseMatrixAssimp.Decompose(scale, rotate, translate);
+			Matrix4x4 bindPoseMatrix = MakeAffineMatrix({ scale.x, scale.y, scale.z },
+														{ rotate.x, -rotate.y, -rotate.z, rotate.w },
+														{ -translate.x, translate.y, translate.z }
+			);
+			jointWeightData.inverseBindPoseMatrix = bindPoseMatrix.Inverse();
+
+			// Weight情報を取り出す
+			for (uint32_t weightIndex = 0; weightIndex < bone->mNumWeights; ++weightIndex) {
+				jointWeightData.vertexWeight.push_back({bone->mWeights[weightIndex].mWeight, bone->mWeights[weightIndex].mVertexId});
+			}
+		}
+		// nodeの解析
+		rootNode_ = ReadNode(scene->mRootNode, scene);
+
+		meshVertices.push_back(triangle);
+	}
+
+	// -------------------------------------------------
+	// ↓ materialの解析
+	// -------------------------------------------------
+	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
+		aiMaterial* material = scene->mMaterials[materialIndex];
+
+		aiString materialName;
+		if (AI_SUCCESS == material->Get(AI_MATKEY_NAME, materialName)) {
+			std::string nameStr = materialName.C_Str();
+			if (nameStr == "DefaultMaterial") {
+				continue;
+			}
+		}
+
+		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
+			aiString textureFilePath;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
+			materials.push_back(materialName.C_Str());
+			materialData[materialName.C_Str()] = Material::ModelMaterialData();
+			std::string objTexture = textureFilePath.C_Str();
+			materialData[materialName.C_Str()].textureFilePath = objTexture;
+			TextureManager::LoadTextureFile(directoryPath, textureFilePath.C_Str());
+
+			hasTexture_ = true;
+		}
+	}
+
+	//std::reverse(meshVertices.begin(), meshVertices.end());
+
+	std::vector<std::unique_ptr<Mesh>> result;
+	for (uint32_t oi = 0; oi < meshVertices.size(); oi++) {
+		// Meshクラスの宣言
+		std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>();
+		mesh->Init(device, static_cast<uint32_t>(meshVertices[oi].size()) * sizeof(Mesh::VertexData), static_cast<uint32_t>(meshVertices[oi].size()));
+		// 入れるMeshを初期化する(直すところ)
+		mesh->SetUseMaterial(useMaterial[oi]);
+		mesh->SetVertexData(meshVertices[oi]);
+		// Meshを配列に格納
+		result.push_back(std::move(mesh));
+	}
+
+	std::unordered_map<std::string, std::unique_ptr<Material>> materialResult;// 結果
+	for (uint32_t oi = 0; oi < materials.size(); oi++) {
+		materialResult[materials[oi]] = std::make_unique<Material>();
+		materialResult[materials[oi]]->Init(device);
+		materialResult[materials[oi]]->SetMaterialData(materialData[materials[oi]]);
+	}
+
+	meshArray_ = std::move(result);
+	materialArray_ = std::move(materialResult);
+}
+
+void Model::LoadAnimation(const std::string& directoryPath, const std::string& fileName) {
+	Assimp::Importer importer;
+	std::string filePath = directoryPath + fileName;
+	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
+
+	for (uint32_t animIndex = 0; animIndex < scene->mNumAnimations; ++animIndex) {
+		// ----------------------------------
+		// Animationを取得する
+		// ----------------------------------
+		aiAnimation* anime = scene->mAnimations[animIndex];
+		for (uint32_t channelIndex = 0; channelIndex < anime->mNumChannels; ++channelIndex) {
+			aiNodeAnim* nodeAnim = anime->mChannels[channelIndex];
+			if (nodeAnim->mNodeName == scene->mRootNode->mName) {
+				NodeAnimationData data;
+				data.animations.push_back(NodeAnimation(nodeAnim));
+				data.tickPerSecond = static_cast<float>(anime->mTicksPerSecond);
+				data.duration = static_cast<float>(anime->mDuration);
+				// データを入れる
+				rootNode_.animationsData = data;
+			}
+		}
+	}
+}
+
+void Model::AnimationUpdate() {
+	for (auto& anim : rootNode_.animationsData.animations) {
+		aiVector3D vectorPos = InterpolationPosition(anim, currentAnimationTime_);
+		aiVector3D vectorRotation = InterpolationRotation(anim, currentAnimationTime_);
+
+		localTransform_.translate = { vectorPos.x,  vectorPos.y,  vectorPos.z };
+		localTransform_.rotate = { vectorRotation.x,  vectorRotation.y, vectorRotation.z };
+	}
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // Meshを読み込む関数
@@ -336,189 +538,4 @@ std::unordered_map<std::string, std::unique_ptr<Material>> Model::LoadMaterialDa
 	}
 
 	return result;
-}
-
-void Model::LoadObj(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device) {
-	Assimp::Importer importer;
-	std::string filePath = directoryPath + fileName;
-	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_CalcTangentSpace);
-	assert(scene->HasMeshes()); // meshがないのは対応しない
-
-	std::vector<std::vector<Mesh::VertexData>> meshVertices;
-	std::vector<std::string> useMaterial;
-
-	std::unordered_map<std::string, Material::ModelMaterialData> materialData;
-	std::vector<std::string> materials;
-
-	// -------------------------------------------------
-	// ↓ meshの解析
-	// -------------------------------------------------
-	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
-		std::vector<Mesh::VertexData> triangle;
-		aiMesh* mesh = scene->mMeshes[meshIndex];
-		assert(mesh->HasNormals()); // 法線がないなら非対応
-		assert(mesh->HasTextureCoords(0)); // texcoordがないmeshは非対応
-
-		// -------------------------------------------------
-		// ↓ faceの解析をする
-		// -------------------------------------------------
-		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex) {
-			aiFace& face = mesh->mFaces[faceIndex];
-
-			assert(face.mNumIndices == 3); // 三角形のみ対応
-
-			std::vector<Mesh::VertexData> vertices;
-			// vertexの解析を行う
-			for (uint32_t element = 0; element < face.mNumIndices; ++element) {
-				uint32_t vertexIndex = face.mIndices[element];
-				aiVector3D& position = mesh->mVertices[vertexIndex];
-				aiVector3D& normal = mesh->mNormals[vertexIndex];
-				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
-
-				Mesh::VertexData vertex;
-				vertex.pos = { position.x, position.y, -position.z, 1.0f };
-				vertex.normal = { normal.x, normal.y, -normal.z };
-				vertex.texcoord = { texcoord.x, texcoord.y };
-
-				triangle.push_back(vertex);
-			}
-
-			//std::reverse(vertices.begin(), vertices.end());
-			//triangle.insert(triangle.end(), vertices.begin(), vertices.end());
-		}
-
-		// -------------------------------------------------
-		// ↓ メッシュのマテリアルインデックスを取得
-		// -------------------------------------------------
-		uint32_t materialIndex = mesh->mMaterialIndex;
-		if (materialIndex < scene->mNumMaterials) {
-			aiMaterial* material = scene->mMaterials[materialIndex];
-			aiString materialName;
-			if (AI_SUCCESS == material->Get(AI_MATKEY_NAME, materialName)) {
-				std::string nameStr = materialName.C_Str();
-				// DefaultMaterialを除く処理
-				if (nameStr == "DefaultMaterial") {
-					continue;
-				}
-				useMaterial.push_back(nameStr);
-			}
-		}
-
-		// -------------------------------------------------
-		// ↓ skinningを取得する用の処理
-		// -------------------------------------------------
-		for (uint32_t boneIndex = 0; boneIndex < mesh->mNumBones; ++boneIndex) {
-			// jointごとの格納領域を作る
-			aiBone* bone = mesh->mBones[boneIndex];
-			std::string jointName = bone->mName.C_Str();
-			Skinning::JointWeightData& jointWeightData = skinClusterData_[jointName];
-
-			// InverseBindPoseMatrixの抽出
-			aiMatrix4x4 bindPoseMatrixAssimp = bone->mOffsetMatrix.Inverse();
-			aiVector3D scale, translate;
-			aiQuaternion rotate;
-			bindPoseMatrixAssimp.Decompose(scale, rotate, translate);
-			Matrix4x4 bindPoseMatrix = MakeAffineMatrix({ scale.x, scale.y, scale.z },
-														{ rotate.x, -rotate.y, -rotate.z, rotate.w },
-														{ -translate.x, translate.y, translate.z }
-			);
-			jointWeightData.inverseBindPoseMatrix = Inverse(bindPoseMatrix);
-
-			// Weight情報を取り出す
-			for (uint32_t weightIndex = 0; weightIndex < bone->mNumWeights; ++weightIndex) {
-				jointWeightData.vertexWeight.push_back({bone->mWeights[weightIndex].mWeight, bone->mWeights[weightIndex].mVertexId});
-			}
-		}
-
-
-		// nodeの解析
-		rootNode_ = ReadNode(scene->mRootNode, scene);
-
-		meshVertices.push_back(triangle);
-	}
-
-	// -------------------------------------------------
-	// ↓ materialの解析
-	// -------------------------------------------------
-	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
-		aiMaterial* material = scene->mMaterials[materialIndex];
-
-		aiString materialName;
-		if (AI_SUCCESS == material->Get(AI_MATKEY_NAME, materialName)) {
-			std::string nameStr = materialName.C_Str();
-			if (nameStr == "DefaultMaterial") {
-				continue;
-			}
-		}
-
-		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
-			aiString textureFilePath;
-			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
-			materials.push_back(materialName.C_Str());
-			materialData[materialName.C_Str()] = Material::ModelMaterialData();
-			std::string objTexture = textureFilePath.C_Str();
-			materialData[materialName.C_Str()].textureFilePath = objTexture;
-			TextureManager::LoadTextureFile(directoryPath, textureFilePath.C_Str());
-
-			hasTexture_ = true;
-		}
-	}
-
-	//std::reverse(meshVertices.begin(), meshVertices.end());
-
-	std::vector<std::unique_ptr<Mesh>> result;
-	for (uint32_t oi = 0; oi < meshVertices.size(); oi++) {
-		// Meshクラスの宣言
-		std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>();
-		mesh->Init(device, static_cast<uint32_t>(meshVertices[oi].size()) * sizeof(Mesh::VertexData), static_cast<uint32_t>(meshVertices[oi].size()));
-		// 入れるMeshを初期化する(直すところ)
-		mesh->SetUseMaterial(useMaterial[oi]);
-		mesh->SetVertexData(meshVertices[oi]);
-		// Meshを配列に格納
-		result.push_back(std::move(mesh));
-	}
-
-	std::unordered_map<std::string, std::unique_ptr<Material>> materialResult;// 結果
-	for (uint32_t oi = 0; oi < materials.size(); oi++) {
-		materialResult[materials[oi]] = std::make_unique<Material>();
-		materialResult[materials[oi]]->Init(device);
-		materialResult[materials[oi]]->SetMaterialData(materialData[materials[oi]]);
-	}
-
-	meshArray_ = std::move(result);
-	materialArray_ = std::move(materialResult);
-}
-
-void Model::LoadAnimation(const std::string& directoryPath, const std::string& fileName) {
-	Assimp::Importer importer;
-	std::string filePath = directoryPath + fileName;
-	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
-
-	for (uint32_t animIndex = 0; animIndex < scene->mNumAnimations; ++animIndex) {
-		// ----------------------------------
-		// Animationを取得する
-		// ----------------------------------
-		aiAnimation* anime = scene->mAnimations[animIndex];
-		for (uint32_t channelIndex = 0; channelIndex < anime->mNumChannels; ++channelIndex) {
-			aiNodeAnim* nodeAnim = anime->mChannels[channelIndex];
-			if (nodeAnim->mNodeName == scene->mRootNode->mName) {
-				NodeAnimationData data;
-				data.animations.push_back(NodeAnimation(nodeAnim));
-				data.tickPerSecond = static_cast<float>(anime->mTicksPerSecond);
-				data.duration = static_cast<float>(anime->mDuration);
-				// データを入れる
-				rootNode_.animationsData = data;
-			}
-		}
-	}
-}
-
-void Model::AnimationUpdate() {
-	for (auto& anim : rootNode_.animationsData.animations) {
-		aiVector3D vectorPos = InterpolationPosition(anim, currentAnimationTime_);
-		aiVector3D vectorRotation = InterpolationRotation(anim, currentAnimationTime_);
-
-		localTransform_.translate = { vectorPos.x,  vectorPos.y,  vectorPos.z };
-		localTransform_.rotate = { vectorRotation.x,  vectorRotation.y, vectorRotation.z };
-	}
 }
