@@ -92,7 +92,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="EffectSystemCamera.cpp" />
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
     <ClCompile Include="Engine\2d\Triangle.cpp" />
@@ -152,10 +151,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp" />
     <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp" />
     <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp" />
+    <ClCompile Include="Engine\ParticleSystem\EffectSystemCamera.cpp" />
     <ClCompile Include="Engine\ParticleSystem\EffectSystemEditer.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Emitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\ParticleField.cpp" />
     <ClCompile Include="Engine\ParticleSystem\ParticleForGPU.cpp" />
+    <ClCompile Include="Engine\Render.cpp" />
     <ClCompile Include="Engine\Utilities\AnimationUtils.cpp" />
     <ClCompile Include="Engine\Utilities\Convert.cpp" />
     <ClCompile Include="Engine\Utilities\DirectXUtils.cpp" />
@@ -175,10 +176,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Render.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EffectSystemCamera.h" />
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
     <ClInclude Include="Engine\2d\Triangle.h" />
@@ -244,10 +243,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\ParticleSystem\BaseEffect.h" />
     <ClInclude Include="Engine\ParticleSystem\BaseParticle.h" />
     <ClInclude Include="Engine\ParticleSystem\EffectSystem.h" />
+    <ClInclude Include="Engine\ParticleSystem\EffectSystemCamera.h" />
     <ClInclude Include="Engine\ParticleSystem\EffectSystemEditer.h" />
     <ClInclude Include="Engine\ParticleSystem\Emitter.h" />
     <ClInclude Include="Engine\ParticleSystem\ParticleField.h" />
     <ClInclude Include="Engine\ParticleSystem\ParticleForGPU.h" />
+    <ClInclude Include="Engine\Render.h" />
     <ClInclude Include="Engine\Utilities\AnimationUtils.h" />
     <ClInclude Include="Engine\Utilities\Convert.h" />
     <ClInclude Include="Engine\Utilities\Debug.h" />
@@ -269,7 +270,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
-    <ClInclude Include="Render.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Blend.CS.hlsl">
