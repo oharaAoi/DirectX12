@@ -303,9 +303,6 @@
     <ClCompile Include="Engine\ComputeShader\GaussianBlur.cpp">
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
-    <ClCompile Include="Render.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
@@ -351,14 +348,17 @@
     <ClCompile Include="Engine\ParticleSystem\EffectSystemEditer.cpp">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClCompile>
-    <ClCompile Include="EffectSystemCamera.cpp">
-      <Filter>Engine\ParticleSystem\Editer</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ParticleSystem\ParticleField.cpp">
       <Filter>Engine\ParticleSystem\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\EffectSystemCamera.cpp">
+      <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -584,9 +584,6 @@
     <ClInclude Include="Engine\ComputeShader\GaussianBlur.h">
       <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
-    <ClInclude Include="Render.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\BaseEffect.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
@@ -629,14 +626,17 @@
     <ClInclude Include="Engine\ParticleSystem\EffectSystemEditer.h">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClInclude>
-    <ClInclude Include="EffectSystemCamera.h">
-      <Filter>Engine\ParticleSystem\Editer</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\EffectSystem.h">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\ParticleField.h">
       <Filter>Engine\ParticleSystem\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\EffectSystemCamera.h">
+      <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
