@@ -1,4 +1,5 @@
 #pragma once
+#include "DirectXMath.h"
 
 struct Matrix4x4 final {
 	float m[4][4];
@@ -62,5 +63,22 @@ struct Matrix4x4 final {
 		}
 		*this = result;
 		return *this;
+	}
+
+	Matrix4x4 Inverse() const {
+		DirectX::XMMATRIX thisMat = MatrixToXMMATRIX();
+		DirectX::XMVECTOR det = DirectX::XMMatrixDeterminant(thisMat);
+		Matrix4x4 inverse;
+		inverse.XMMATRIXToMatrix(DirectX::XMMatrixInverse(&det, thisMat));
+		return  inverse;
+	}
+
+	DirectX::XMMATRIX MatrixToXMMATRIX()const {
+		return DirectX::XMLoadFloat4x4(reinterpret_cast<const DirectX::XMFLOAT4X4*>(this));
+	}
+
+	Matrix4x4* XMMATRIXToMatrix(const DirectX::XMMATRIX& xmmat) {
+		XMStoreFloat4x4(reinterpret_cast<DirectX::XMFLOAT4X4*>(this), xmmat);
+		return this;
 	}
 };

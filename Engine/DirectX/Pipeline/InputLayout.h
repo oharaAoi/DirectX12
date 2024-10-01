@@ -23,4 +23,6 @@ public:
 	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateParticleInputLayout();
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateSpriteInputLayout();
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateSkinningInputLayout();
 };

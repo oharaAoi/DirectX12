@@ -13,9 +13,9 @@ void Animeter::Update(const std::string& rootName) {
 	animationTime_ += 1.0f / 60.0f;
 	animationTime_ = std::fmod(animationTime_, animation_.duration);
 
-	//// =======================================================================================
+	////// =======================================================================================
 	//NodeAnimation& rootNodeAnimation = animation_.nodeAnimations[rootName];
-	//// =======================================================================================
+	////// =======================================================================================
 
 	//Vector3 translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
 	//Quaternion rotate = CalculateQuaternion(rootNodeAnimation.rotate.keyframes, animationTime_);

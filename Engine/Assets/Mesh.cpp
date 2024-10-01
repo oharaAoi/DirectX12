@@ -86,3 +86,7 @@ void Mesh::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	commandList->IASetIndexBuffer(&indexBufferView_);
 }
+
+void Mesh::DrawIndex(ID3D12GraphicsCommandList* commandList) {
+	commandList->IASetIndexBuffer(&indexBufferView_);
+}

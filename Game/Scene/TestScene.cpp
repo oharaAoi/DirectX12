@@ -10,19 +10,19 @@ void TestScene::Init() {
 	
 	testObj_ = std::make_unique<BaseGameObject>();
 	testObj_->Init();
-	testObj_->SetObject("plane.obj");
+	testObj_->SetObject("walk.gltf");
+	testObj_->SetAnimater("./Resources/Animation/", "walk.gltf");
 
 	sprite_ = Engine::CreateSprite({128, 128}, {256, 256});
 	sprite_->SetTexture("uvChecker.png");
-
-	
-	/*testObj_->SetAnimater("./Resources/Animation/", "sneakWalk.gltf");*/
 }
 
 void TestScene::Load() {
 	// modelのload
 	ModelManager::LoadModel("./Resources/Develop/", "plane.obj");
 	ModelManager::LoadModel("./Resources/Develop/", "SquarePyramid.obj");
+	ModelManager::LoadModel("./Resources/Animation/", "walk.gltf");
+	ModelManager::LoadModel("./Resources/Animation/", "simpleSkin.gltf");
 	// textureのload
 	TextureManager::LoadTextureFile("./Resources/Develop/", "uvChecker.png");
 }
@@ -66,7 +66,7 @@ void TestScene::Draw() const {
 #pragma region NormalPipeline
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
-	testObj_->Draw();
+	//testObj_->Draw();
 	
 #pragma endregion
 
@@ -87,8 +87,10 @@ void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineKind::kSpritePipeline);
 	sprite_->Draw();
 	
-
 #pragma endregion
+
+	Engine::SetPipeline(PipelineKind::kSkinningPipeline);
+	testObj_->DrawSKinning();
 }
 
 #ifdef _DEBUG

@@ -73,7 +73,7 @@ Matrix4x4 Inverse(Matrix4x4 matrix) {
     // 前進消去
     for (int i = 0; i < 4; ++i) {
         // ピボットが0ならば行の入れ替えを行う
-        if (matrix.m[i][i] == 0.0f) {
+        if (fabs(matrix.m[i][i] <kEpsilon)) {
             for (int j = i + 1; j < 4; ++j) {
                 if (matrix.m[j][i] != 0.0f) {
                     swapRows(matrix, i, j);
@@ -105,10 +105,7 @@ Matrix4x4 Inverse(Matrix4x4 matrix) {
         }
     }
 
-    // 逆行列を結果にコピー
-    matrix = result;
-
-    return matrix;
+    return result;
 }
 
 void swapRows(Matrix4x4& matrix, int row1, int row2) {

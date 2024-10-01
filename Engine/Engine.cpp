@@ -233,6 +233,12 @@ WorldTransform Engine::CreateWorldTransform() {
 	return result;
 }
 
+Skinning Engine::CreateSkinning(const Skeleton& skeleton, Mesh* mesh, std::map<std::string, Skinning::JointWeightData>& skinClusterData) {
+	Skinning result;
+	result.CreateSkinCluster(dxDevice_->GetDevice(), skeleton, mesh, descriptorHeap_.get(), skinClusterData);
+	return result;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　パイプラインの設定
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -254,6 +260,10 @@ void Engine::SetPipeline(const PipelineKind& kind) {
 	case PipelineKind::kSpritePipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
 		
+		break;
+	case PipelineKind::kSkinningPipeline:
+		graphicsPipelines_->SetPipeline(PipelineType::SkinningPipeline, dxCommands_->GetCommandList());
+
 		break;
 	}
 }

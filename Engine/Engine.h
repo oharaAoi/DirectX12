@@ -32,7 +32,8 @@ enum class PipelineKind {
 	kTexturelessPipeline,
 	kPBRPipeline,
 	kParticlePipeline,
-	kSpritePipeline
+	kSpritePipeline,
+	kSkinningPipeline
 };
 
 class EffectSystem;
@@ -93,6 +94,8 @@ public:
 	static std::unique_ptr<BaseParticle> CreateBaseParticle(const std::string& directoryPath, const std::string& fileName, const uint32_t& instanceNum);
 	// ワールドトランスフォームを作成
 	static WorldTransform CreateWorldTransform();
+
+	static Skinning CreateSkinning(const Skeleton& skeleton, Mesh* mesh, std::map<std::string, Skinning::JointWeightData>& skinClusterData);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 描画系

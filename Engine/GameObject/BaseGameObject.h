@@ -22,6 +22,7 @@ public:
 	virtual void Init();
 	virtual void Update();
 	virtual void Draw() const;
+	void DrawSKinning() const;
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -40,4 +41,6 @@ protected:
 
 	Animeter animeter_;
 	Skeleton skeleton_;
+	Skinning skinning_;
+	bool isAnimation_ = false;
 };
