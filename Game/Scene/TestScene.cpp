@@ -22,8 +22,10 @@ void TestScene::Init() {
 	testObj3_->SetObject("simpleSkin.gltf");
 	testObj3_->SetAnimater("./Resources/Animation/", "simpleSkin.gltf");
 
-	testObj2_->GetTransform().translation_.x = 2.0f;
-	testObj3_->GetTransform().translation_.x = -2.0f;
+	testObj2_->GetTransform().SetTranslation_X(2.0f);
+	testObj3_->GetTransform().SetTranslation_X(-2.0f);
+
+	testObj2_->GetTransform().SetParent(testObj_->GetTransform().GetWorldMatrix());
 
 	sprite_ = Engine::CreateSprite({128, 128}, {256, 256});
 	sprite_->SetTexture("uvChecker.png");
