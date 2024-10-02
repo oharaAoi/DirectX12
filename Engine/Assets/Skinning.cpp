@@ -9,13 +9,13 @@ Skinning::~Skinning() {}
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skinning::Update(Skeleton& skeleton) {
-	for (size_t jointIndex = 0; jointIndex < skeleton.GetJoints().size(); ++jointIndex) {
+void Skinning::Update(Skeleton* skeleton) {
+	for (size_t jointIndex = 0; jointIndex < skeleton->GetJoints().size(); ++jointIndex) {
 		assert(jointIndex < inverseBindPoseMatrices_.size());
 
 		// jointのlocalからskeletonの空間への変換行列
 		mappedPalette_[jointIndex].skeltonSpaceMatrix =
-			inverseBindPoseMatrices_[jointIndex] * skeleton.GetJoints()[jointIndex].skeltonSpaceMat;
+			inverseBindPoseMatrices_[jointIndex] * skeleton->GetJoints()[jointIndex].skeltonSpaceMat;
 
 		// 変換行列のInverse
 		mappedPalette_[jointIndex].skeltonSpaceInverseTransposeMat =
@@ -27,11 +27,9 @@ void Skinning::Update(Skeleton& skeleton) {
 // ↓　CPUで作られたデータをGPUで扱えるように
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skinning::CreateSkinCluster(ID3D12Device* device, const Skeleton& skeleton, Mesh* mesh,
-								 DescriptorHeap* heap, std::map<std::string, Skinning::JointWeightData>& skinClusterData) {
-
-	uint32_t vertices = mesh->GetIndexNum();
-	uint32_t jointSize = skeleton.GetJointsSize();
+void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, std::map<std::string, Skinning::JointWeightData>& skinClusterData) {
+	uint32_t vertices = (uint32_t)mesh->GetIndexNum();
+	uint32_t jointSize = skeleton->GetJointsSize();
 
 	// -------------------------------------------------
 	// ↓ palette用のResourceを確保
@@ -81,8 +79,8 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, const Skeleton& skeleton,
 	// ↓ ModelのskinClusterの情報を解析
 	// -------------------------------------------------
 	for (const auto& jointWeight : skinClusterData) {
-		auto it = skeleton.GetJointMap().find(jointWeight.first);	// jointWeight.firstはjoint名なので、skeletonに対象となるjointが含まれているか判断
-		if (it == skeleton.GetJointMap().end()) {
+		auto it = skeleton->GetJointMap().find(jointWeight.first);	// jointWeight.firstはjoint名なので、skeletonに対象となるjointが含まれているか判断
+		if (it == skeleton->GetJointMap().end()) {
 			continue;
 		}
 		//(*it).secondにはjointのindexが入っているので、該当のindexのinverseBindPoseMatrixを代入

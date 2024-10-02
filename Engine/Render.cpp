@@ -78,7 +78,7 @@ void Render::DrawModel(Model* model, const WorldTransform& worldTransform) {
 	model->Draw(commandList_, worldTransform, viewProjection_.get());
 }
 
-void Render::DrawAnimationModel(Model* model, const Skinning& skinning, const WorldTransform& worldTransform) {
+void Render::DrawAnimationModel(Model* model, const Skinning* skinning, const WorldTransform& worldTransform) {
 	lightGroup_->Draw(commandList_, 5);
 	model->DrawSkinning(commandList_, skinning, worldTransform, viewProjection_.get());
 }

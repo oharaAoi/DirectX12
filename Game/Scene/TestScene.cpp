@@ -20,11 +20,8 @@ void TestScene::Init() {
 
 	testObj3_ = std::make_unique<BaseGameObject>();
 	testObj3_->Init();
-	/*testObj3_->SetObject("simpleSkin.gltf");
-	testObj3_->SetAnimater("./Resources/Animation/", "simpleSkin.gltf");*/
-
-	testObj3_->SetObject("testSkinning.gltf");
-	testObj3_->SetAnimater("./Resources/Animation/", "testSkinning.gltf");
+	testObj3_->SetObject("simpleSkin.gltf");
+	testObj3_->SetAnimater("./Resources/Animation/", "simpleSkin.gltf");
 
 	testObj2_->GetTransform().SetTranslation_X(2.0f);
 	testObj3_->GetTransform().SetTranslation_X(-2.0f);
@@ -130,8 +127,8 @@ void TestScene::Draw() const {
 #pragma endregion
 
 	Engine::SetPipeline(PipelineKind::kSkinningPipeline);
-	testObj_->DrawSKinning();
-	testObj3_->DrawSKinning();
+	testObj_->Draw();
+	testObj3_->Draw();
 }
 
 #ifdef _DEBUG

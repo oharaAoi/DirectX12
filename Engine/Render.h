@@ -61,6 +61,7 @@ public:
 	static void DrawModel(Model* model, const WorldTransform& worldTransform);
 
 	static void DrawAnimationModel(Model* model, const Skinning& skeleton, const WorldTransform& worldTransform);
+	static void DrawAnimationModel(Model* model, const Skinning* skeleton, const WorldTransform& worldTransform);
 
 	/// <summary>
 	/// Particleの描画

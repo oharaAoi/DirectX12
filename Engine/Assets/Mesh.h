@@ -3,9 +3,7 @@
 #include <cstdint>
 #include <d3d12.h>
 #include <wrl.h>
-// DirectX
 #include "Engine/Utilities/DirectXUtils.h"
-// math
 #include "Engine/Math/MyMath.h"
 
 class Mesh final {

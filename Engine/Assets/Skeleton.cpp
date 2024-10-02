@@ -1,5 +1,4 @@
 #include "Skeleton.h"
-#include "Engine/GameObject/BaseGameObject.h"
 
 Skeleton::Skeleton() {}
 Skeleton::~Skeleton() {}
@@ -8,20 +7,13 @@ Skeleton::~Skeleton() {}
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skeleton::Init() {
-	for (size_t oi = 0; oi < joints_.size(); ++oi) {
-		auto& instance = obj_.emplace_back(std::make_unique<BaseGameObject>());
-		instance->Init();
-		instance->SetObject("SquarePyramid.obj");
-	}
-}
+void Skeleton::Init() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Skeleton::Update() {
-	uint32_t oi = 0;
 	for (Joint& joint : joints_) {
 		joint.localMat = MakeAffineMatrix(joint.transform.scale, joint.transform.rotate.Normalize(), joint.transform.translate);
 
@@ -30,9 +22,6 @@ void Skeleton::Update() {
 		} else {
 			joint.skeltonSpaceMat = joint.localMat;
 		}
-
-		obj_[oi]->GetTransform().Update(joint.skeltonSpaceMat);
-		oi++;
 	}
 }
 
@@ -40,11 +29,7 @@ void Skeleton::Update() {
 // ↓　描画処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skeleton::Draw() const {
-	for (int32_t oi = 0; oi < joints_.size(); ++oi) {
-		obj_[oi]->Draw();
-	}
-}
+void Skeleton::Draw() const {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　skeletonの作成

@@ -324,7 +324,7 @@
     <ClCompile Include="Engine\Math\Quaternion.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Animeter.cpp">
+    <ClCompile Include="Engine\Assets\AnimetionClip.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Lib\Transform.cpp">
@@ -368,6 +368,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Math\Vector3.cpp">
       <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\Animetor.cpp">
+      <Filter>Engine\Assets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -614,7 +617,7 @@
     <ClInclude Include="Engine\Math\Quaternion.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Animeter.h">
+    <ClInclude Include="Engine\Assets\AnimetionClip.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Lib\GameTimer.h">
@@ -649,6 +652,9 @@
     </ClInclude>
     <ClInclude Include="Game\Camera\DebugCamera.h">
       <Filter>Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Animetor.h">
+      <Filter>Engine\Assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

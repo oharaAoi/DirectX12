@@ -5,25 +5,22 @@ void BaseGameObject::Finalize() {
 
 void BaseGameObject::Init() {
 	transform_ = Engine::CreateWorldTransform();
+	animetor_ = nullptr;
 }
 
 void BaseGameObject::Update() {
-	if (isAnimation_) {
-		animeter_.Update();
-		animeter_.ApplyAnimation(skeleton_);
-		skeleton_.Update();
-		skinning_.Update(skeleton_);
+	if (animetor_ != nullptr) {
+		animetor_->Update();
 	}
 	transform_.Update();
 }
 
 void BaseGameObject::Draw() const {
-	Render::DrawModel(model_, transform_);
-	//skeleton_.Draw();
-}
-
-void BaseGameObject::DrawSKinning() const {
-	Render::DrawAnimationModel(model_, skinning_, transform_);
+	if (animetor_ == nullptr) {
+		Render::DrawModel(model_, transform_);
+	} else {
+		Render::DrawAnimationModel(model_, animetor_->GetSkinning(), transform_);
+	}
 }
 
 void BaseGameObject::SetObject(const std::string& objName) {
@@ -31,11 +28,8 @@ void BaseGameObject::SetObject(const std::string& objName) {
 }
 
 void BaseGameObject::SetAnimater(const std::string& directoryPath, const std::string& objName) {
-	animeter_.LoadAnimation(directoryPath, objName);
-	skeleton_.CreateSkeleton(model_->GetNode());
-	skeleton_.Init();
-	skinning_ = Engine::CreateSkinning(skeleton_, model_->GetMesh(0), model_->GetSkinClusterData());
-	isAnimation_ = true;
+	animetor_ = std::make_unique<Animetor>();
+	animetor_->LoadAnimation(directoryPath, objName, model_);
 }
 
 #ifdef _DEBUG

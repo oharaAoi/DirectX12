@@ -50,9 +50,9 @@ public:
 	Skinning();
 	~Skinning();
 
-	void Update(Skeleton& skeleton);
+	void Update(Skeleton* skeleton);
 
-	void CreateSkinCluster(ID3D12Device* device, const Skeleton& skeleton, Mesh* mesh, DescriptorHeap* heap, std::map<std::string, Skinning::JointWeightData>& skinClusterData);
+	void CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, std::map<std::string, Skinning::JointWeightData>& skinClusterData);
 
 	void StackCommand(ID3D12GraphicsCommandList* commandList, const D3D12_VERTEX_BUFFER_VIEW& vbv) const;
 

@@ -1,5 +1,4 @@
 #include "Model.h"
-#include <Math/MyMatrix.h>
 
 Model::Model() {
 }
@@ -13,7 +12,7 @@ Model::~Model() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
-	//materialArray_ = LoadMaterialData(directorPath, fileName, device);
+	//materialArray_ w= LoadMaterialData(directorPath, fileName, device);
 	//meshArray_ = LoadVertexData(path, device);
 
 	Log("Load: " + fileName + "\n");
@@ -55,10 +54,10 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& w
 	}
 }
 
-void Model::DrawSkinning(ID3D12GraphicsCommandList* commandList, const Skinning& skinning, const WorldTransform& worldTransform, const ViewProjection* viewprojection) {
+void Model::DrawSkinning(ID3D12GraphicsCommandList* commandList, const Skinning* skinning, const WorldTransform& worldTransform, const ViewProjection* viewprojection) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
-		skinning.StackCommand(commandList, meshArray_[oi]->GetVBV());
+		skinning->StackCommand(commandList, meshArray_[oi]->GetVBV());
 		meshArray_[oi]->DrawIndex(commandList);
 		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
 
@@ -430,7 +429,7 @@ std::vector<std::unique_ptr<Mesh>> Model::LoadVertexData(const std::string& file
 	for (uint32_t oi = 0; oi < meshVertices.size(); oi++) {
 		// Meshクラスの宣言
 		std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>();
-		//mesh->Init(device, static_cast<uint32_t>(meshVertices[oi].size()) * sizeof(Mesh::VertexData), static_cast<uint32_t>(meshVertices[oi].size()));
+		//mesh->Init(device, meshVertices[oi], meshVertices[oi]);
 		// 入れるMeshを初期化する
 		mesh->SetUseMaterial(useMaterial[oi]);
 		// Meshを配列に格納
