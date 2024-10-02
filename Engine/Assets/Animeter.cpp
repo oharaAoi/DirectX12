@@ -9,7 +9,7 @@ Animeter::~Animeter() {
 void Animeter::Init() {
 }
 
-void Animeter::Update(const std::string& rootName) {
+void Animeter::Update() {
 	animationTime_ += 1.0f / 60.0f;
 	animationTime_ = std::fmod(animationTime_, animation_.duration);
 

@@ -13,7 +13,7 @@ void WorldTransform::Init(ID3D12Device* device) {
 
 	// 値を初期化しておく
 	scale_ = {1.0f, 1.0f, 1.0f};
-	rotation_ = Quaternion();
+	rotation_ = Quaternion(0.0f, 90, 0, 1.0f);
 	translation_ = { 0.0f, 0.0f, 0.0f };
 }
 

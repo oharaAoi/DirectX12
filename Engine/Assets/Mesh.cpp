@@ -9,6 +9,7 @@ Mesh::~Mesh() {
 
 void Mesh::Finalize() {
 	vertexBuffer_.Reset();
+	indexBuffer_.Reset();
 }
 
 void Mesh::CalculateTangent(VertexData* data) {
@@ -39,47 +40,39 @@ void Mesh::CalculateTangent(VertexData* data) {
 	data[2].tangent = tangent;
 }
 
-
-void Mesh::SetVertexData(std::vector<VertexData> vertexData) {
-	for (size_t index = 0; index < vertexData.size(); index++) {
-		vertexData_[index].pos = vertexData[index].pos;
-		vertexData_[index].texcoord = vertexData[index].texcoord;
-		vertexData_[index].normal = vertexData[index].normal;
-	}
-}
-
-void Mesh::Init(ID3D12Device* device, const uint32_t& vBSize, const uint32_t& iBSize) {
+void Mesh::Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::vector<uint32_t>& indices) {
 	// ---------------------------------------------------------------
 	// ↓Vetrtexの設定
 	// ---------------------------------------------------------------
 	// VertexBufferViewを作成する
-	vertexBuffer_ = CreateBufferResource(device, vBSize);
+	vertexBuffer_ = CreateBufferResource(device, vertexData.size() * sizeof(Mesh::VertexData));
 	// リソースの先頭のアドレスから使う
 	vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();
 	// 使用するリソースのサイズは頂点3つ分のサイズ
-	vertexBufferView_.SizeInBytes = vBSize;
+	vertexBufferView_.SizeInBytes = vertexData.size() * sizeof(Mesh::VertexData);
 	// 1頂点当たりのサイズ
 	vertexBufferView_.StrideInBytes = sizeof(VertexData);
 	// Resourceにデータを書き込む 
 	vertexData_ = nullptr;
 	// アドレスを取得
 	vertexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
-
-	vertexBufferSize_ = vBSize;
+	std::memcpy(vertexData_, vertexData.data(), sizeof(VertexData) * vertexData.size());
 
 	// ---------------------------------------------------------------
 	// ↓indexの設定
 	// ---------------------------------------------------------------
-	indexBuffer_ = CreateBufferResource(device, sizeof(uint32_t) * iBSize);
+	indices_ = indices;
+
+	indexBuffer_ = CreateBufferResource(device, sizeof(uint32_t) * indices.size());
 	indexBufferView_.BufferLocation = indexBuffer_->GetGPUVirtualAddress();
-	indexBufferView_.SizeInBytes = UINT(sizeof(uint32_t) * iBSize);
+	indexBufferView_.SizeInBytes = UINT(sizeof(uint32_t) * indices.size());
 	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
 
 	indexData_ = nullptr;
 	indexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
-	for (uint32_t oi = 0; oi < iBSize; oi++) {
-		indexData_[oi] = oi;
-	}
+	std::memcpy(indexData_, indices.data(), sizeof(uint32_t) * indices.size());
+
+	indexNum_ = indices.size();
 }
 
 void Mesh::Draw(ID3D12GraphicsCommandList* commandList) {

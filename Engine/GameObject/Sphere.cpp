@@ -11,8 +11,12 @@ void Sphere::Init(ID3D12Device* device, const uint32_t& division) {
 	material_ = std::make_unique<Material>();
 	
 	vertexCount_ = division * division * 6;
+	std::vector<Mesh::VertexData> vertices;
+	std::vector<uint32_t> indices;
+	vertices.resize(vertexCount_);
+	indices.resize(vertexCount_);
 
-	mesh_->Init(device, sizeof(Mesh::VertexData) * vertexCount_, vertexCount_);
+	mesh_->Init(device, vertices, indices);
 	material_->Init(device);
 
 	const float kLonEvery = float(M_PI) * 2.0f / float(division);// fai

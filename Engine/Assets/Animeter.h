@@ -50,7 +50,7 @@ public:
 	~Animeter();
 
 	void Init();
-	void Update(const std::string& rootName);
+	void Update();
 
 	void LoadAnimation(const std::string directoryPath, const std::string& animationFile);
 

@@ -9,7 +9,7 @@ void BaseGameObject::Init() {
 
 void BaseGameObject::Update() {
 	if (isAnimation_) {
-		animeter_.Update(model_->GetRootNodeName());
+		animeter_.Update();
 		animeter_.ApplyAnimation(skeleton_);
 		skeleton_.Update();
 		skinning_.Update(skeleton_);
@@ -19,7 +19,7 @@ void BaseGameObject::Update() {
 
 void BaseGameObject::Draw() const {
 	Render::DrawModel(model_, transform_);
-	skeleton_.Draw();
+	//skeleton_.Draw();
 }
 
 void BaseGameObject::DrawSKinning() const {

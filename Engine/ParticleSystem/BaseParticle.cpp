@@ -32,7 +32,7 @@ void BaseParticle::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& 
 		std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetMateriaData().textureFilePath;
 		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 2);
 
-		UINT size = meshArray_[oi]->GetVertexSize() / sizeof(Mesh::VertexData);
+		UINT size = meshArray_[oi]->GetIndexNum();
 
 		commandList->DrawIndexedInstanced(size, numInstance, 0, 0, 0);
 	}
