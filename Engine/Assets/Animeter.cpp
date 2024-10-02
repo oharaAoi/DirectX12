@@ -26,7 +26,7 @@ void Animeter::Update() {
 void Animeter::LoadAnimation(const std::string directoryPath, const std::string& animationFile) {
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + animationFile;
-	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_MakeLeftHanded);
+	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
 	assert(scene->mNumAnimations != 0);		// アニメーションがない
 	// =======================================================================================
 	aiAnimation* animationAssimp = scene->mAnimations[0];	// 最初のアニメーションだけ	
@@ -48,7 +48,7 @@ void Animeter::LoadAnimation(const std::string directoryPath, const std::string&
 			aiVectorKey& keyAssimp = nodeAnimationAssimp->mPositionKeys[keyIndex];
 			KeyframeVector3 keyframe;
 			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
-			keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y, keyAssimp.mValue.z };
+			keyframe.value = { -keyAssimp.mValue.x,keyAssimp.mValue.y, keyAssimp.mValue.z };
 			nodeAnimation.translate.keyframes.push_back(keyframe);
 		}
 
@@ -59,7 +59,7 @@ void Animeter::LoadAnimation(const std::string directoryPath, const std::string&
 			aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
 			KeyframeQuaternion keyframe;
 			keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
-			keyframe.value = { keyAssimp.mValue.x, keyAssimp.mValue.y, -keyAssimp.mValue.z, keyAssimp.mValue.w };
+			keyframe.value = { keyAssimp.mValue.x, -keyAssimp.mValue.y, -keyAssimp.mValue.z, keyAssimp.mValue.w };
 			nodeAnimation.rotate.keyframes.push_back(keyframe);
 		}
 

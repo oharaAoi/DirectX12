@@ -1,7 +1,12 @@
 #pragma once
 #include "DirectXMath.h"
+#include <cmath>
 
-struct Matrix4x4 final {
+//class Vector3;
+
+class Matrix4x4 final {
+public:
+
 	float m[4][4];
 
 	//*======================================================================
@@ -81,4 +86,24 @@ struct Matrix4x4 final {
 		XMStoreFloat4x4(reinterpret_cast<DirectX::XMFLOAT4X4*>(this), xmmat);
 		return this;
 	}
+
+	/*Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, const float& angle) {
+		Matrix4x4 result;
+
+		float cosf = std::cosf(angle);
+		float sinf = std::sinf(angle);
+
+		result.m[0][0] = ((axis.x * axis.x) * (1 - cosf)) + cosf;
+		result.m[0][1] = ((axis.x * axis.y) * (1 - cosf)) + (sinf * axis.z);
+		result.m[0][2] = ((axis.x * axis.z) * (1 - cosf)) + (sinf * axis.y);
+		result.m[0][3] = 0.0f;
+
+		result.m[1][0] = ((axis.x * axis.y) * (1 - cosf)) + (sinf * axis.z);
+		result.m[1][1] = ((axis.y * axis.y) * (1 - cosf)) + cosf;
+		result.m[1][2] = ((axis.y * axis.z) * (1 - cosf)) + (sinf * axis.y);
+		result.m[1][3] = 0.0f;
+
+
+		return result;
+	}*/
 };

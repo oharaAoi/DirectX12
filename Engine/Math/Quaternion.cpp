@@ -10,9 +10,11 @@ Quaternion Quaternion::Normalize() const {
 
 Matrix4x4 Quaternion::MakeMatrix() const {
 	// クォータニオンの各成分
+	Matrix4x4 result;
 	float xx = x * x;
 	float yy = y * y;
 	float zz = z * z;
+	float ww = w * w;
 	float xy = x * y;
 	float xz = x * z;
 	float yz = y * z;
@@ -20,41 +22,27 @@ Matrix4x4 Quaternion::MakeMatrix() const {
 	float wy = w * y;
 	float wz = w * z;
 
-	// 2倍の値を先に計算して効率化
-	float two_xx = 2.0f * xx;
-	float two_yy = 2.0f * yy;
-	float two_zz = 2.0f * zz;
-	float two_xy = 2.0f * xy;
-	float two_xz = 2.0f * xz;
-	float two_yz = 2.0f * yz;
-	float two_wx = 2.0f * wx;
-	float two_wy = 2.0f * wy;
-	float two_wz = 2.0f * wz;
+	result.m[0][0] = ww + xx - yy - zz;
+	result.m[0][1] = 2.0f * (xy + wz);
+	result.m[0][2] = 2.0f * (xz - wy);
+	result.m[0][3] = 0.0f;
 
-	Matrix4x4 matrix;
-	// 回転行列を計算して4x4行列に埋め込む
-	matrix.m[0][0] = 1.0f - two_yy - two_zz;
-	matrix.m[0][1] = two_xy - two_wz;
-	matrix.m[0][2] = two_xz + two_wy;
-	matrix.m[0][3] = 0.0f;
+	result.m[1][0] = 2.0f * (xy - wz);
+	result.m[1][1] = ww - xx + yy - zz;
+	result.m[1][2] = 2.0f * (yz + wx);
+	result.m[1][3] = 0.0f;
 
-	matrix.m[1][0] = two_xy + two_wz;
-	matrix.m[1][1] = 1.0f - two_xx - two_zz;
-	matrix.m[1][2] = two_yz - two_wx;
-	matrix.m[1][3] = 0.0f;
+	result.m[2][0] = 2.0f * (xz + wy);
+	result.m[2][1] = 2.0f * (yz - wx);
+	result.m[2][2] = ww - xx - yy + zz;
+	result.m[2][3] = 0.0f;
 
-	matrix.m[2][0] = two_xz - two_wy;
-	matrix.m[2][1] = two_yz + two_wx;
-	matrix.m[2][2] = 1.0f - two_xx - two_yy;
-	matrix.m[2][3] = 0.0f;
+	result.m[3][0] = 0.0f;
+	result.m[3][1] = 0.0f;
+	result.m[3][2] = 0.0f;
+	result.m[3][3] = 1.0f;
 
-	// 4列目 (同次座標系のための部分)
-	matrix.m[3][0] = 0.0f;
-	matrix.m[3][1] = 0.0f;
-	matrix.m[3][2] = 0.0f;
-	matrix.m[3][3] = 1.0f;
-
-	return matrix;
+	return result;
 }
 
 Quaternion Quaternion::AngleAxis(const float& angle, const Vector3& axis) {
@@ -115,7 +103,7 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const f
 	Quaternion newQ2 = q2;
 	// 内積が負の時最短距離で補完を得るため片方の回転を負にして内積を正にする
 	if (dot < 0) {
-		newQ2 = Quaternion(-q2.x, -q2.y, -q2.z, -q2.w);
+		newQ2 = Quaternion(-q2.x, -q2.y, -q2.z, -q2.w).Normalize();
 		dot = -dot;
 	}
 
@@ -147,16 +135,21 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const f
 
 Quaternion Quaternion::operator*(const Quaternion& q2) const {
 	return Quaternion(
-		(this->w * q2.x) - (this->z * q2.y) + (this->y * q2.z) + (this->x * q2.w),
-		(this->z * q2.x) + (this->w * q2.y) - (this->x * q2.z) + (this->y * q2.w),
-		(this->y * q2.x) + (this->x * q2.y) + (this->w * q2.z) + (this->z * q2.w),
-		(this->x * q2.x) - (this->y * q2.y) - (this->z * q2.z) + (this->w * q2.w)
+		(this->w * q2.x) + (this->x * q2.w) + (this->y * q2.z) - (this->z * q2.y),
+		(this->w * q2.y) - (this->x * q2.z) + (this->y * q2.w) + (this->z * q2.x),
+		(this->w * q2.z) + (this->x * q2.y) - (this->y * q2.x) + (this->z * q2.w),
+		(this->w * q2.w) - (this->x * q2.x) - (this->y * q2.y) - (this->z * q2.z)
 	);
 }
 
 Vector3 Quaternion::operator*(const Vector3& v) {
-	Quaternion vecQuaternion = Quaternion(v.x, v.y, v.z, 0.0f);
-	Quaternion vecAfterRotate = (*this) *vecQuaternion * Inverse((*this));
+	// ベクトルをクォータニオンに変換（w = 0）
+	Quaternion vecQuaternion(v.x, v.y, v.z, 0.0f);
+	// クォータニオンの共役を取得
+	Quaternion conjugate = Quaternion(-this->x, -this->y, -this->z, this->w);
+	// 回転後のベクトルクォータニオンを計算
+	Quaternion vecAfterRotate = (*this) * vecQuaternion * conjugate;
+	// 回転後のベクトルを返す
 	return Vector3(vecAfterRotate.x, vecAfterRotate.y, vecAfterRotate.z);
 }
 

@@ -49,7 +49,7 @@ void Mesh::Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::v
 	// リソースの先頭のアドレスから使う
 	vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();
 	// 使用するリソースのサイズは頂点3つ分のサイズ
-	vertexBufferView_.SizeInBytes = vertexData.size() * sizeof(Mesh::VertexData);
+	vertexBufferView_.SizeInBytes = (UINT)vertexData.size() * sizeof(Mesh::VertexData);
 	// 1頂点当たりのサイズ
 	vertexBufferView_.StrideInBytes = sizeof(VertexData);
 	// Resourceにデータを書き込む 
@@ -72,7 +72,7 @@ void Mesh::Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::v
 	indexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 	std::memcpy(indexData_, indices.data(), sizeof(uint32_t) * indices.size());
 
-	indexNum_ = indices.size();
+	indexNum_ = (uint32_t)indices.size();
 }
 
 void Mesh::Draw(ID3D12GraphicsCommandList* commandList) {

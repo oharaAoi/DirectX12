@@ -102,8 +102,8 @@ Model::Node Model::ReadNode(aiNode* node, const aiScene* scene) {
 	aiQuaternion rotate;
 	node->mTransformation.Decompose(scale, rotate, translate);
 	result.transform.scale = { scale.x, scale.y, scale.z };
-	result.transform.rotate = { rotate.x, rotate.y, -rotate.z, rotate.w };
-	result.transform.translate = { translate.x, translate.y, -translate.z };
+	result.transform.rotate = { rotate.x, -rotate.y, -rotate.z, rotate.w };
+	result.transform.translate = { -translate.x, translate.y, translate.z };
 	result.localMatrix = MakeAffineMatrix(result.transform.scale, result.transform.rotate, result.transform.translate);
 	result.name = node->mName.C_Str(); // Nodeの名前を格納
 
@@ -124,7 +124,7 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + fileName;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs |
-											 aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices | aiProcess_MakeLeftHanded);
+											 aiProcess_Triangulate | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
 	assert(scene->HasMeshes()); // meshがないのは対応しない
 
 	std::vector<std::vector<Mesh::VertexData>> meshVertices;
@@ -163,25 +163,22 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 			vertices[vertexIndex].texcoord = { texcoord.x, texcoord.y };
 			vertices[vertexIndex].tangent = { tangent.x, tangent.y, tangent.z };
 
-			/*vertices[vertexIndex].pos.x *= -1.0f;
-			vertices[vertexIndex].normal.x *= -1.0f;*/
-
-			vertices[vertexIndex].pos.z *= -1.0f;
-			vertices[vertexIndex].normal.z *= -1.0f;
+			vertices[vertexIndex].pos.x *= -1.0f;
+			vertices[vertexIndex].normal.x *= -1.0f;
 		}
 
 		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex) {
 			aiFace& face = mesh->mFaces[faceIndex];
 			assert(face.mNumIndices == 3);
 
-			/*for (uint32_t element = 0; element < face.mNumIndices; ++element) {
+			for (uint32_t element = 0; element < face.mNumIndices; ++element) {
 				uint32_t vertexIndex = face.mIndices[element];
 				meshIndices[scene->mNumMeshes - 1].push_back(vertexIndex);
-			}*/
-			for (uint32_t element = 0; element < face.mNumIndices; ++element) {
+			}
+			/*for (uint32_t element = 0; element < face.mNumIndices; ++element) {
 				uint32_t vertexIndex = face.mIndices[face.mNumIndices - 1 - element];
 				meshIndices[scene->mNumMeshes - 1].push_back(vertexIndex);
-			}
+			}*/
 		}
 
 		// -------------------------------------------------
@@ -216,8 +213,8 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 			aiQuaternion rotate;
 			bindPoseMatrixAssimp.Decompose(scale, rotate, translate);
 			Matrix4x4 bindPoseMatrix = MakeAffineMatrix({ scale.x, scale.y, scale.z },
-														{ rotate.x, rotate.y, -rotate.z, rotate.w },
-														{ translate.x, translate.y, -translate.z }
+														{ rotate.x, -rotate.y, -rotate.z, rotate.w },
+														{ -translate.x, translate.y, translate.z }
 			);
 			jointWeightData.inverseBindPoseMatrix = bindPoseMatrix.Inverse();
 
