@@ -144,10 +144,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Manager\SceneManager.cpp" />
     <ClCompile Include="Engine\Manager\TextureManager.cpp" />
     <ClCompile Include="Engine\Math\MathStructures.cpp" />
+    <ClCompile Include="Engine\Math\Matrix4x4.cpp" />
     <ClCompile Include="Engine\Math\MyMath.cpp" />
     <ClCompile Include="Engine\Math\MyMatrix.cpp" />
     <ClCompile Include="Engine\Math\MyRandom.cpp" />
     <ClCompile Include="Engine\Math\Quaternion.cpp" />
+    <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp" />
     <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp" />
     <ClCompile Include="Engine\ParticleSystem\EffectSystem.cpp" />
@@ -172,6 +174,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Externals\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
+    <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
@@ -267,6 +270,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
+    <ClInclude Include="Game\Camera\DebugCamera.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />

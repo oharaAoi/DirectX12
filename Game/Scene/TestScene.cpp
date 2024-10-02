@@ -6,12 +6,13 @@ TestScene::~TestScene() {}
 void TestScene::Init() {
 	// カメラ -------------------------------------------------------------------
 	camera_ = std::make_unique<Camera>();
+	debugCamera_ = std::make_unique<DebugCamera>();
 	/*sphereModel_ = Engine::CreateModel("sphere_Block.obj");*/
 	
 	testObj_ = std::make_unique<BaseGameObject>();
 	testObj_->Init();
 	testObj_->SetObject("walk.gltf");
-	testObj_->SetAnimater("./Resources/Animation/", "walk.gltf");
+	testObj_->SetAnimater("./Resources/Animation/", "sneakWalk.gltf");
 
 	testObj2_ = std::make_unique<BaseGameObject>();
 	testObj2_->Init();
@@ -19,8 +20,11 @@ void TestScene::Init() {
 
 	testObj3_ = std::make_unique<BaseGameObject>();
 	testObj3_->Init();
-	testObj3_->SetObject("simpleSkin.gltf");
-	testObj3_->SetAnimater("./Resources/Animation/", "simpleSkin.gltf");
+	/*testObj3_->SetObject("simpleSkin.gltf");
+	testObj3_->SetAnimater("./Resources/Animation/", "simpleSkin.gltf");*/
+
+	testObj3_->SetObject("testSkinning.gltf");
+	testObj3_->SetAnimater("./Resources/Animation/", "testSkinning.gltf");
 
 	testObj2_->GetTransform().SetTranslation_X(2.0f);
 	testObj3_->GetTransform().SetTranslation_X(-2.0f);
@@ -37,8 +41,10 @@ void TestScene::Load() {
 	ModelManager::LoadModel("./Resources/Develop/", "skin.obj");
 	//ModelManager::LoadModel("./Resources/Develop/", "bunny.obj");
 	ModelManager::LoadModel("./Resources/Develop/", "SquarePyramid.obj");
+	ModelManager::LoadModel("./Resources/Animation/", "testSkinning.gltf");
 	ModelManager::LoadModel("./Resources/Animation/", "walk.gltf");
 	ModelManager::LoadModel("./Resources/Animation/", "simpleSkin.gltf");
+	ModelManager::LoadModel("./Resources/Animation/", "sneakWalk.gltf");
 	// textureのload
 	TextureManager::LoadTextureFile("./Resources/Develop/", "uvChecker.png");
 }
@@ -50,11 +56,17 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	// ↓ カメラの更新
 	// -------------------------------------------------
-	camera_->Update();
-	Render::SetEyePos(camera_->GetWorldTranslate());
-	Render::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-	Render::SetViewProjection2D(camera_->GetViewMatrix2D(), camera_->GetProjectionMatrix2D());
-
+	if (isDebugCamera_) {
+		debugCamera_->Update();
+		Render::SetEyePos(debugCamera_->GetWorldTranslate());
+		Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
+	} else {
+		camera_->Update();
+		Render::SetEyePos(camera_->GetWorldTranslate());
+		Render::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+		Render::SetViewProjection2D(camera_->GetViewMatrix2D(), camera_->GetProjectionMatrix2D());
+	}
+	
 	// -------------------------------------------------
 	// ↓ ParticleのViewを設定する
 	// -------------------------------------------------
@@ -69,6 +81,15 @@ void TestScene::Update() {
 	testObj3_->Update();
 	
 	sprite_->Update();
+
+	Quaternion rotation0 = Quaternion::AngleAxis(0.3f, Normalize({ 0.71f, 0.71f, 0.0f }));
+	Quaternion rotation1 = Quaternion::AngleAxis(3.141592f, { 0.71f, 0.0f, 0.71f });
+	Quaternion rotation2 = Quaternion::AngleAxis(0.45f, Normalize({ 1.0f, 0.4f, -0.2f }));
+	Quaternion result = Quaternion::Slerp(rotation0, rotation1, 0.3f);
+
+	ImGui::Begin("Quaternion");
+	ImGui::DragFloat4("Qua", &rotation2.x, 0.01f);
+	ImGui::End();
 
 	// -------------------------------------------------
 	// ↓ の更新
@@ -117,6 +138,7 @@ void TestScene::Draw() const {
 void TestScene::ImGuiDraw() {
 	ImGui::Begin("GameObjects");
 	testObj_->Debug_Gui();
+	testObj3_->Debug_Gui();
 	ImGui::End();
 
 	ImGui::Begin("Sprite");

@@ -360,6 +360,15 @@
     <ClCompile Include="Engine\ParticleSystem\EffectSystemCamera.cpp">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Camera\DebugCamera.cpp">
+      <Filter>Game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Matrix4x4.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Vector3.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -637,6 +646,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\EffectSystemCamera.h">
       <Filter>Engine\ParticleSystem\Editer</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\DebugCamera.h">
+      <Filter>Game\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

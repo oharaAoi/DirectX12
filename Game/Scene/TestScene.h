@@ -6,6 +6,7 @@
 #include "Engine/Utilities/DrawUtils.h"
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Game/Camera/Camera.h"
+#include "Game/Camera/DebugCamera.h"
 #include "Engine/ParticleSystem/Emitter.h"
 #include "Engine/ParticleSystem/ParticleField.h"
 #include "Engine/ParticleSystem/EffectSystem.h"
@@ -33,6 +34,8 @@ private:
 
 	// カメラ ----------------------------------------------
 	std::unique_ptr<Camera> camera_ = nullptr;
+	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
+	bool isDebugCamera_ = true;
 
 	// ゲームオブジェクト ------------------------------------
 	std::unique_ptr<BaseGameObject> testObj_ = nullptr;
