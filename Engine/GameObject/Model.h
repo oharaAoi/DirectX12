@@ -17,6 +17,7 @@
 #include "Engine/Assets/ViewProjection.h"
 #include "Engine/Manager/TextureManager.h"
 #include "Engine/Lib/Transform.h"
+#include "Engine/Math/MyMatrix.h"
 #include "Engine/Utilities/AnimationUtils.h"
 
 class Model {
@@ -45,7 +46,7 @@ public:
 	void Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName);
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewprojection);
-	void DrawSkinning(ID3D12GraphicsCommandList* commandList, const Skinning& skinning, const WorldTransform& worldTransform, const ViewProjection* viewprojection);
+	void DrawSkinning(ID3D12GraphicsCommandList* commandList, const Skinning* skinning, const WorldTransform& worldTransform, const ViewProjection* viewprojection);
 
 	/// <summary>
 	/// ImGuiを編集する
@@ -99,7 +100,7 @@ public:
 
 	bool GetHasTexture() const { return hasTexture_; }
 
-	std::string GetRootNodeName() { return rootNode_.name; }
+	const std::string& GetRootNodeName() const { return rootNode_.name; }
 
 	Node& GetNode() { return rootNode_; }
 

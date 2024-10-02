@@ -8,8 +8,6 @@
 #include "Engine/Lib/Transform.h"
 #include "Engine/GameObject/Model.h"
 
-class BaseGameObject;
-
 /// <summary>
 /// アニメーションのNodeを階層構造を管理する機構
 /// </summary>
@@ -52,7 +50,5 @@ private:
 	int32_t root_;	// RootJointのIndex
 	std::map<std::string, int32_t> jointMap_;	// Joint名とIndexの辞書
 	std::vector<Joint> joints_;	// 所属しているジョイント
-
-	std::vector<std::unique_ptr<BaseGameObject>> obj_;
 };
 

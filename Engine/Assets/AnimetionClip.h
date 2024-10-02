@@ -12,7 +12,7 @@
 /// <summary>
 /// Animationに関するクラス
 /// </summary>
-class Animeter {
+class AnimetionClip {
 public:
 
 	template <typename tValue>
@@ -46,8 +46,8 @@ public:
 
 public:
 
-	Animeter();
-	~Animeter();
+	AnimetionClip();
+	~AnimetionClip();
 
 	void Init();
 	void Update();
@@ -55,6 +55,7 @@ public:
 	void LoadAnimation(const std::string directoryPath, const std::string& animationFile);
 
 	void ApplyAnimation(Skeleton& skelton);
+	void ApplyAnimation(Skeleton* skelton);
 
 	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, const float& time);
 	Quaternion CalculateQuaternion(const std::vector<KeyframeQuaternion>& keyframes, const float& time);

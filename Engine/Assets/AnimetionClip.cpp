@@ -1,15 +1,15 @@
-#include "Animeter.h"
+#include "AnimetionClip.h"
 
-Animeter::Animeter() {
+AnimetionClip::AnimetionClip() {
 }
 
-Animeter::~Animeter() {
+AnimetionClip ::~AnimetionClip() {
 }
 
-void Animeter::Init() {
+void AnimetionClip::Init() {
 }
 
-void Animeter::Update() {
+void AnimetionClip::Update() {
 	animationTime_ += 1.0f / 60.0f;
 	animationTime_ = std::fmod(animationTime_, animation_.duration);
 
@@ -23,7 +23,7 @@ void Animeter::Update() {
 	//animationMat_ = MakeAffineMatrix(scale, rotate, translate);
 }
 
-void Animeter::LoadAnimation(const std::string directoryPath, const std::string& animationFile) {
+void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::string& animationFile) {
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + animationFile;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
@@ -76,7 +76,7 @@ void Animeter::LoadAnimation(const std::string directoryPath, const std::string&
 	}
 }
 
-void Animeter::ApplyAnimation(Skeleton& skelton) {
+void AnimetionClip::ApplyAnimation(Skeleton& skelton) {
 	for (Skeleton::Joint& joint : skelton.GetJoints()) {
 		if (auto it = animation_.nodeAnimations.find(joint.name); it != animation_.nodeAnimations.end()) {
 			const NodeAnimation& rootNodeAnimation = (*it).second;
@@ -87,7 +87,18 @@ void Animeter::ApplyAnimation(Skeleton& skelton) {
 	}
 }
 
-Vector3 Animeter::CalculateValue(const std::vector<KeyframeVector3>& keyframes, const float& time) {
+void AnimetionClip::ApplyAnimation(Skeleton* skelton) {
+	for (Skeleton::Joint& joint : skelton->GetJoints()) {
+		if (auto it = animation_.nodeAnimations.find(joint.name); it != animation_.nodeAnimations.end()) {
+			const NodeAnimation& rootNodeAnimation = (*it).second;
+			joint.transform.translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
+			joint.transform.rotate = CalculateQuaternion(rootNodeAnimation.rotate.keyframes, animationTime_);
+			joint.transform.scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime_);
+		}
+	}
+}
+
+Vector3 AnimetionClip::CalculateValue(const std::vector<KeyframeVector3>& keyframes, const float& time) {
 	assert(!keyframes.empty());
 	if (keyframes.size() == 1 || time <= keyframes[0].time) {
 		return keyframes[0].value;
@@ -106,7 +117,7 @@ Vector3 Animeter::CalculateValue(const std::vector<KeyframeVector3>& keyframes, 
 	return (*keyframes.rbegin()).value;
 }
 
-Quaternion Animeter::CalculateQuaternion(const std::vector<KeyframeQuaternion>& keyframes, const float& time) {
+Quaternion AnimetionClip::CalculateQuaternion(const std::vector<KeyframeQuaternion>& keyframes, const float& time) {
 	assert(!keyframes.empty());
 	if (keyframes.size() == 1 || time <= keyframes[0].time) {
 		return keyframes[0].value;

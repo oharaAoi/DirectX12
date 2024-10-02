@@ -95,7 +95,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
     <ClCompile Include="Engine\2d\Triangle.cpp" />
-    <ClCompile Include="Engine\Assets\Animeter.cpp" />
+    <ClCompile Include="Engine\Assets\AnimetionClip.cpp" />
+    <ClCompile Include="Engine\Assets\Animetor.cpp" />
     <ClCompile Include="Engine\Assets\Material.cpp" />
     <ClCompile Include="Engine\Assets\Mesh.cpp" />
     <ClCompile Include="Engine\Assets\PBRMaterial.cpp" />
@@ -184,7 +185,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
     <ClInclude Include="Engine\2d\Triangle.h" />
-    <ClInclude Include="Engine\Assets\Animeter.h" />
+    <ClInclude Include="Engine\Assets\AnimetionClip.h" />
+    <ClInclude Include="Engine\Assets\Animetor.h" />
     <ClInclude Include="Engine\Assets\Material.h" />
     <ClInclude Include="Engine\Assets\Mesh.h" />
     <ClInclude Include="Engine\Assets\PBRMaterial.h" />
