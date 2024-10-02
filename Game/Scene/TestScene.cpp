@@ -25,7 +25,7 @@ void TestScene::Init() {
 	testObj2_->GetTransform().SetTranslation_X(2.0f);
 	testObj3_->GetTransform().SetTranslation_X(-2.0f);
 
-	testObj2_->GetTransform().SetParent(testObj_->GetTransform().GetWorldMatrix());
+	//testObj2_->GetTransform().SetParent(testObj_->GetTransform().GetWorldMatrix());
 
 	sprite_ = Engine::CreateSprite({128, 128}, {256, 256});
 	sprite_->SetTexture("uvChecker.png");
@@ -35,6 +35,7 @@ void TestScene::Load() {
 	// modelのload
 	ModelManager::LoadModel("./Resources/Develop/", "plane.obj");
 	ModelManager::LoadModel("./Resources/Develop/", "skin.obj");
+	//ModelManager::LoadModel("./Resources/Develop/", "bunny.obj");
 	ModelManager::LoadModel("./Resources/Develop/", "SquarePyramid.obj");
 	ModelManager::LoadModel("./Resources/Animation/", "walk.gltf");
 	ModelManager::LoadModel("./Resources/Animation/", "simpleSkin.gltf");
