@@ -41,7 +41,7 @@ public:
 	Mesh();
 	~Mesh();
 
-	void Init(ID3D12Device* device, const uint32_t& vBSize, const uint32_t& iBSize);
+	void Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::vector<uint32_t>& indices);
 	void Draw(ID3D12GraphicsCommandList* commandList);
 	void Finalize();
 
@@ -63,11 +63,7 @@ public:
 	/// <returns></returns>
 	VertexData* GetVertexData() { return vertexData_; }
 
-	void SetVertexData(std::vector<VertexData> vertexData);
-
-	UINT GetVertexSize() { return vertexBufferSize_; }
-
-	UINT GetVerticesSize() { return vertexBufferSize_ / sizeof(VertexData); }
+	uint32_t GetIndexNum() { return indexNum_; }
 
 	/// <summary>
 	/// indexBufferを取得
@@ -94,8 +90,11 @@ private:
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
 	uint32_t* indexData_ = nullptr;
 
+	std::vector<uint32_t> indices_;
+
 	// 使用するマテリアル
 	std::string useMaterial_;
 
-	uint32_t vertexBufferSize_;
+	uint32_t indexNum_;
+	UINT vbvSize_;
 };

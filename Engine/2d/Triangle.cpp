@@ -12,7 +12,12 @@ void Triangle::Init(ID3D12Device* device, const Mesh::Vertices& vertex) {
 	mesh_ = std::make_unique<Mesh>();
 	material_ = std::make_unique<Material>();
 
-	mesh_->Init(device, sizeof(Mesh::VertexData) * 3, 3);
+	std::vector<Mesh::VertexData> vertices;
+	std::vector<uint32_t> indices;
+	vertices.resize(3);
+	indices.resize(3);
+
+	mesh_->Init(device, vertices, indices);
 	material_->Init(device);
 	
 	// vertexの設定

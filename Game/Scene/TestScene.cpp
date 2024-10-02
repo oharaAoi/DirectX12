@@ -13,6 +13,18 @@ void TestScene::Init() {
 	testObj_->SetObject("walk.gltf");
 	testObj_->SetAnimater("./Resources/Animation/", "walk.gltf");
 
+	testObj2_ = std::make_unique<BaseGameObject>();
+	testObj2_->Init();
+	testObj2_->SetObject("skin.obj");
+
+	testObj3_ = std::make_unique<BaseGameObject>();
+	testObj3_->Init();
+	testObj3_->SetObject("simpleSkin.gltf");
+	testObj3_->SetAnimater("./Resources/Animation/", "simpleSkin.gltf");
+
+	testObj2_->GetTransform().translation_.x = 2.0f;
+	testObj3_->GetTransform().translation_.x = -2.0f;
+
 	sprite_ = Engine::CreateSprite({128, 128}, {256, 256});
 	sprite_->SetTexture("uvChecker.png");
 }
@@ -20,6 +32,7 @@ void TestScene::Init() {
 void TestScene::Load() {
 	// modelのload
 	ModelManager::LoadModel("./Resources/Develop/", "plane.obj");
+	ModelManager::LoadModel("./Resources/Develop/", "skin.obj");
 	ModelManager::LoadModel("./Resources/Develop/", "SquarePyramid.obj");
 	ModelManager::LoadModel("./Resources/Animation/", "walk.gltf");
 	ModelManager::LoadModel("./Resources/Animation/", "simpleSkin.gltf");
@@ -49,6 +62,8 @@ void TestScene::Update() {
 	// ↓ 行列の更新
 	// -------------------------------------------------
 	testObj_->Update();
+	testObj2_->Update();
+	testObj3_->Update();
 	
 	sprite_->Update();
 
@@ -67,6 +82,7 @@ void TestScene::Draw() const {
 
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
 	//testObj_->Draw();
+	testObj2_->Draw();
 	
 #pragma endregion
 
@@ -91,6 +107,7 @@ void TestScene::Draw() const {
 
 	Engine::SetPipeline(PipelineKind::kSkinningPipeline);
 	testObj_->DrawSKinning();
+	testObj3_->DrawSKinning();
 }
 
 #ifdef _DEBUG

@@ -30,7 +30,7 @@ void Skinning::Update(Skeleton& skeleton) {
 void Skinning::CreateSkinCluster(ID3D12Device* device, const Skeleton& skeleton, Mesh* mesh,
 								 DescriptorHeap* heap, std::map<std::string, Skinning::JointWeightData>& skinClusterData) {
 
-	uint32_t vertices = mesh->GetVerticesSize();
+	uint32_t vertices = mesh->GetIndexNum();
 	uint32_t jointSize = skeleton.GetJointsSize();
 
 	// -------------------------------------------------
