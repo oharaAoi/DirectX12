@@ -1,4 +1,5 @@
 #include "WinApp.h"
+#pragma comment(lib, "winmm.lib")
 
 //#include "ImGuiManager.h"
 
@@ -78,6 +79,8 @@ void WinApp::CreateGameWindow(){
 
 	// ウィンドウを表示する
 	ShowWindow(hwnd_, SW_SHOW);
+
+	timeBeginPeriod(1);
 }
 
 //===============================================================================================================
