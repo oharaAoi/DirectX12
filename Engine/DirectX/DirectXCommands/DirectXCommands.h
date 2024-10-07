@@ -1,13 +1,8 @@
 #pragma once
-#include <d3d12.h>
-#include <dxgi1_6.h>
-#include <cassert>
-#include <wrl.h>
-// utilities
 #include "Engine/Utilities/Convert.h"
 #include "Engine/Utilities/DirectXUtils.h"
-// DirectX系
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
+#include "Engine/Lib/GameTimer.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
@@ -37,10 +32,6 @@ public:
 	/// </summary>
 	void SyncGPUAndCPU();
 
-	/// <summary>
-	/// コンピュートシェーダーを行った後にGPUとCPU
-	/// </summary>
-	void EffectShaderSyncGPUAndCPU();
 
 public:
 	/// <summary>
@@ -65,15 +56,8 @@ private:
 	// Fence & Event
 	ComPtr<ID3D12Fence> fence_ = nullptr;
 	uint64_t fenceValue_;
-	HANDLE fenceEvent_;
 
-	// computeShader用のコマンド系 ---------------------------------------------
-	ComPtr<ID3D12CommandQueue> effectCommandQueue_ = nullptr;
-	ComPtr<ID3D12CommandAllocator> effectCommandAllocator_ = nullptr;
-	ComPtr<ID3D12GraphicsCommandList> effectCommandList_ = nullptr;
+	// GameTime
+	GameTimer gameTimer_ = GameTimer(60);;
 
-	// Fence & Event
-	ComPtr<ID3D12Fence> effectFence_ = nullptr;
-	uint64_t effectFenceValue_;
-	HANDLE effectFenceEvent_;
 };

@@ -1,4 +1,5 @@
 #include "DirectXCommands.h"
+#include <synchapi.h>
 
 DirectXCommands::DirectXCommands(ID3D12Device* device) {
 	Initialize(device);
@@ -16,14 +17,7 @@ void DirectXCommands::Initialize(ID3D12Device* device) {
 }
 
 void DirectXCommands::Finalize() {
-	CloseHandle(effectFenceEvent_);
-	effectFence_.Reset();
-	CloseHandle(fenceEvent_);
 	fence_.Reset();
-
-	effectCommandQueue_.Reset();
-	effectCommandAllocator_.Reset();
-	effectCommandList_.Reset();
 
 	commandQueue_.Reset();
 	commandAllocator_.Reset();
@@ -50,22 +44,6 @@ void DirectXCommands::CreateCommand() {
 	// コマンドリストを生成する ----------------------------
 	hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_.Get(), nullptr, IID_PPV_ARGS(&commandList_));
 	assert(SUCCEEDED(hr));
-
-	// effectShader用のコマンド系の初期化 ======================================================================
-	// コマンドキューを生成する
-	D3D12_COMMAND_QUEUE_DESC effectQueueDesc = {};
-	effectQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_COMPUTE;
-	effectQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-	hr = device_->CreateCommandQueue(&effectQueueDesc, IID_PPV_ARGS(&effectCommandQueue_));
-	assert(SUCCEEDED(hr));
-
-	// コマンドアロケータを生成する
-	hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COMPUTE, IID_PPV_ARGS(&effectCommandAllocator_));
-	assert(SUCCEEDED(hr));
-
-	// コマンドリストを生成する ----------------------------
-	hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_COMPUTE, effectCommandAllocator_.Get(), nullptr, IID_PPV_ARGS(&effectCommandList_));
-	assert(SUCCEEDED(hr));
 }
 
 /// <summary>
@@ -77,20 +55,6 @@ void DirectXCommands::CreateFence() {
 	fenceValue_ = 0;
 	hr = device_->CreateFence(fenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
 	assert(SUCCEEDED(hr));
-
-	// Fenceのsignalを待つためのイベントを作成する
-	fenceEvent_ = CreateEvent(NULL, false, false, NULL);
-	assert(fenceEvent_ != nullptr);
-
-	// effectShader用のフェンスの初期化 ======================================================================
-	effectFenceValue_ = 0;
-	hr = device_->CreateFence(effectFenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&effectFence_));
-	assert(SUCCEEDED(hr));
-
-	// Fenceのsignalを待つためのイベントを作成する
-	effectFenceEvent_ = CreateEvent(NULL, false, false, NULL);
-	assert(effectFenceEvent_ != nullptr);
-
 }
 
 /// <summary>
@@ -104,29 +68,14 @@ void DirectXCommands::SyncGPUAndCPU() {
 
 	// Fenceの値が指定したSignal値にたどりついているか確認する
 	// GetCompletedValueの初期値はFence作成時に渡した初期値
-	if (fence_->GetCompletedValue() < fenceValue_) {
+	if (fence_->GetCompletedValue() != fenceValue_) {
 		// 指定下Signalにたどりついていないので、たどりつくまで松ようにイベントを設定する
-		fence_->SetEventOnCompletion(fenceValue_, fenceEvent_);
-
-		WaitForSingleObject(fenceEvent_, INFINITE);
+		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
+		fence_->SetEventOnCompletion(fenceValue_, event);
+		WaitForSingleObject(event, INFINITE);
+		CloseHandle(event);
+		
 	}
-}
 
-/// <summary>
-/// コンピュートシェーダーを行った後にGPUとCPU
-/// </summary>
-void DirectXCommands::EffectShaderSyncGPUAndCPU() {
-	// fenceの値を更新
-	effectFenceValue_++;
-	// GPUがここまでたどり着いた時に,fenceの値を指定した値に第謬するようにsignelを送る
-	effectCommandQueue_->Signal(fence_.Get(), effectFenceValue_);
-
-	// Fenceの値が指定したSignal値にたどりついているか確認する
-	// GetCompletedValueの初期値はFence作成時に渡した初期値
-	if (fence_->GetCompletedValue() < effectFenceValue_) {
-		// 指定下Signalにたどりついていないので、たどりつくまで松ようにイベントを設定する
-		fence_->SetEventOnCompletion(effectFenceValue_, effectFenceEvent_);
-
-		WaitForSingleObject(effectFenceEvent_, INFINITE);
-	}
+	gameTimer_.WaitNextFrame();
 }
