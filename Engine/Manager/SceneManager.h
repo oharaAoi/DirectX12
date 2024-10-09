@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Game/Scene/BaseScene.h"
 #include "Game/Scene/TestScene.h"
+#include "Game/Scene/GameScene.h"
 #include "Engine/ParticleSystem/EffectSystem.h"
 #include "Engine/Manager/ModelManager.h"
 
