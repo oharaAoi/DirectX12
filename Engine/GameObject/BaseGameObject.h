@@ -27,12 +27,12 @@ public:
 
 	void SetAnimater(const std::string& directoryPath, const std::string& objName);
 
-	WorldTransform& GetTransform() { return transform_; }
+	WorldTransform* GetTransform() { return transform_.get(); }
 
 protected:
 
 	Model* model_;
-	WorldTransform transform_;
+	std::unique_ptr<WorldTransform> transform_;
 
 	std::unique_ptr<Animetor> animetor_ = nullptr;
 	

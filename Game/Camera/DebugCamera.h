@@ -1,25 +1,23 @@
 #pragma once
-#include "Engine/Math/MyMatrix.h"
-#include "Engine/Math/MyMath.h"
-#include "Engine/Lib/Transform.h"
+#include "Game/Camera/BaseCamera.h"
 #include "Engine/Input/Input.h"
-#include "Engine/Manager/ImGuiManager.h"
-
+#include "Engine/Math/Quaternion.h"
 
 const float kDebugCameraMoveSpeed_ = 0.05f;
 
-/// <summary>
-/// Debug用のカメラ
-/// </summary>
-class DebugCamera {
+class DebugCamera : public BaseCamera {
 public:
 
 	DebugCamera();
-	~DebugCamera();
+	~DebugCamera() override;
 
-	void Init();
-	void Update();
-	void Draw();
+	void Finalize() override;
+	void Init() override;
+	void Update() override;
+
+#ifdef _DEBUG
+	void Debug_Gui() override;
+#endif
 
 	/// <summary>
 	/// カメラを動かす
@@ -36,41 +34,29 @@ public:
 	/// </summary>
 	void ScrollMove();
 
-public:
-
-	Matrix4x4 GetCameraMatrix() const { return cameraMatrix_; }
-
-	Matrix4x4 GetViewMatrix() const { return viewMatrix_; }
-	Matrix4x4 GetProjectionMatrix() const { return projectionMatrix_; }
-
-	Vector3 GetTranslate() const { return transform_.translate; }
-	Vector3 GetWorldTranslate() const {
-		Matrix4x4 matViewInverse = Inverse(viewMatrix_);
-		return { matViewInverse.m[3][0], matViewInverse.m[3][1] ,matViewInverse.m[3][2] };
-	}
-
-
 private:
 
-	kTransform transform_;
-
-	Matrix4x4 translateMat_;
-	Matrix4x4 scaleMat_;
-	Matrix4x4 rotateMat_;
-
-	Matrix4x4 cameraMatrix_;
-	Matrix4x4 projectionMatrix_;
-	Matrix4x4 viewMatrix_;
+	Quaternion quaternion_;
+	// 回転する前のQuaternion
+	Quaternion moveQuaternion_;
 
 	// ---------------------------------------------------------------
 	// ↓ デバックカメラで使う変数
 	// ---------------------------------------------------------------
 	bool debugCameraMode_ = true;
-	Vector3 lookPosition_;
-	Vector2 mousePosition_;
-	Vector2 rotateMousePosition_;
 
+	float isMoveSpeed_;
+	float isMoveMaxSpeed_ = 10.0f;
+	Vector3 moveDirection_;
+	Vector2 preMousePos_;
+
+	float yaw_ = 0.0f; 
+	float pitch_ = 0.0f;
+	float sensitivity_ = 10.0f; // 回転感度
+	
 	bool isMove = false;
 
+	Quaternion qYaw;
+	Quaternion qPitch;
 };
 

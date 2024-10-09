@@ -189,9 +189,6 @@
     <ClCompile Include="Engine\Light\LightGroup.cpp">
       <Filter>Engine\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Camera.cpp">
-      <Filter>Game\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Input\Input.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
@@ -360,9 +357,6 @@
     <ClCompile Include="Engine\ParticleSystem\EffectSystemCamera.cpp">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\DebugCamera.cpp">
-      <Filter>Game\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Math\Matrix4x4.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
@@ -371,6 +365,18 @@
     </ClCompile>
     <ClCompile Include="Engine\Assets\Animetor.cpp">
       <Filter>Engine\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp">
+      <Filter>Engine\DirectX\RootSignature</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\BaseCamera.cpp">
+      <Filter>Game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\Camera.cpp">
+      <Filter>Game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\DebugCamera.cpp">
+      <Filter>Game\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -478,9 +484,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Light\LightGroup.h">
       <Filter>Engine\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\Camera.h">
-      <Filter>Game\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Input\Input.h">
       <Filter>Engine\Input</Filter>
@@ -650,11 +653,20 @@
     <ClInclude Include="Engine\ParticleSystem\EffectSystemCamera.h">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\DebugCamera.h">
-      <Filter>Game\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Assets\Animetor.h">
       <Filter>Engine\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h">
+      <Filter>Engine\DirectX\RootSignature</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\BaseCamera.h">
+      <Filter>Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\Camera.h">
+      <Filter>Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\DebugCamera.h">
+      <Filter>Game\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -710,6 +722,9 @@
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\SkinningObject3d.VS.hlsl">
+      <Filter>Engine\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\ResultRender.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
   </ItemGroup>

@@ -10,7 +10,8 @@ void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler,
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
-	SetRootSignature(rootSignatureType);
+	rootSignature_ = std::make_unique<RootSignature>();
+	rootSignature_->Initialize(device, rootSignatureType);
 	elementDescs = desc;
 	ShaderCompile(shaderData);
 
@@ -78,10 +79,6 @@ D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState() {
 	desc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
 	return desc;
-}
-
-void Pipeline::SetRootSignature(const RootSignatureType& type) {
-	rootSignature_ = std::make_unique<RootSignature>(device_, type);
 }
 
 //------------------------------------------------------------------------------------------------------

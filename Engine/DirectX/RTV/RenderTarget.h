@@ -13,13 +13,15 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
-static const uint32_t renderTargetNum_ = 3;
-
 enum RenderTargetType {
+	Object3D_RenderTarget,
+	Sprite2D_RenderTarget,
 	OffScreen_RenderTarget,
 	DepthOfField_RenderTarget,
-	EffectSystem_RenderTarget
+	EffectSystem_RenderTarget,
 };
+
+static const uint32_t renderTargetNum_ = sizeof(RenderTargetType);
 
 class RenderTarget {
 public:
@@ -30,6 +32,8 @@ public:
 	void Finalize();
 
 	void Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, IDXGISwapChain4* swapChain);
+
+	void SetRenderTarget(ID3D12GraphicsCommandList* commandList, const RenderTargetType& type);
 
 	/// <summary>
 	/// バックバッファとフロントバッファのResource作成
@@ -59,7 +63,7 @@ public:
 	/// <param name="afterState">変更後の状態</param>
 	void ChangeOffScreenResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
-	void ChangeRTVResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType,  const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
+	void ChangeRTVResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
 	/// <summary>
 	/// レンダーターゲットを設定する関数
@@ -85,6 +89,8 @@ public:
 	const DescriptorHeap::DescriptorHandles& GetOffScreenSRVHandle(const RenderTargetType& type) const {
 		return SRVHandle_[type];
 	}
+
+	void Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
 private:
 

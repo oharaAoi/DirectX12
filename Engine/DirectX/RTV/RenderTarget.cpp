@@ -11,7 +11,7 @@ void RenderTarget::Finalize() {
 	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
 		renderTargetResource_[oi].Reset();
 	}
-	
+
 	swapChainRenderResource_[0].Reset();
 	swapChainRenderResource_[1].Reset();
 }
@@ -33,6 +33,20 @@ void RenderTarget::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, ID
 	// viewの作成
 	CreateRenderTargetView();
 	CreateOffScreenView();
+}
+
+void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* commandList, const RenderTargetType& type) {
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dxHeap_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
+
+	OMSetRenderTarget(commandList, type, dsvHandle);
+	// 指定した深度で画面をクリア
+	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	float clearColor[] = { 0.1f, 0.25f, 0.5f, 0.0f };
+	// RenderTargetはoffScreen用のRenderTargetを指定しておく
+	commandList->ClearRenderTargetView(RTVHandle_[type].handleCPU, clearColor, 0, nullptr);
+	// srv
+	ID3D12DescriptorHeap* descriptorHeaps[] = { dxHeap_->GetSRVHeap() };
+	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 }
 
 /// <summary>
@@ -131,7 +145,7 @@ void RenderTarget::CreateOffScreenView() {
 /// オフスクリーン用のリソースのステートを変更する
 /// </summary>
 void RenderTarget::ChangeOffScreenResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
-	TransitionResourceState(commandList, renderTargetResource_[0].Get(), beforState, afterState);
+	TransitionResourceState(commandList, renderTargetResource_[OffScreen_RenderTarget].Get(), beforState, afterState);
 }
 
 void RenderTarget::ChangeRTVResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
@@ -147,4 +161,9 @@ void RenderTarget::OMSetRenderTarget(ID3D12GraphicsCommandList* commandList, con
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles{};
 	rtvHandles = RTVHandle_[renderType].handleCPU;
 	commandList->OMSetRenderTargets(1, &rtvHandles, false, &dsvHandle);
+}
+
+void RenderTarget::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
+	//TransitionResourceState(commandList, renderTargetResource_[Object3D_RenderTarget].Get(), beforState, afterState);
+	TransitionResourceState(commandList, renderTargetResource_[Sprite2D_RenderTarget].Get(), beforState, afterState);
 }

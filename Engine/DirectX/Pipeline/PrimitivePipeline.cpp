@@ -9,7 +9,8 @@ void PrimitivePipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, 
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
-	rootSignature_ = std::make_unique<RootSignature>(device_, RootSignatureType::Primitive);
+	rootSignature_ = std::make_unique<RootSignature>();
+	rootSignature_->Initialize(device, RootSignatureType::Primitive);
 	elementDescs = inputLayout_.CreatePrimitiveInputLayout();
 	ShaderCompile(shader.vsShader, shader.psShader);
 

@@ -15,6 +15,11 @@
 #include "GaussianBlur.h"
 #include "DepthOfField.h"
 
+enum class CSKind {
+	GrayScale,
+	GaussianBlue
+};
+
 class ComputeShader {
 public:
 
@@ -31,13 +36,24 @@ public:
 	/// <param name="dxHeap">descriptorHeap</param>
 	/// <param name="computeShaderPath">シェーダーのパス</param>
 	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
-			  DescriptorHeap* dxHeap, DescriptorHeap::DescriptorHandles offScreenResourceAddress, 
+			  DescriptorHeap* dxHeap, DescriptorHeap::DescriptorHandles resourceAddress,
 			  Shader* shader);
+
+	/// <summary>
+	/// 行うCsをセットする
+	/// </summary>
+	/// <param name="kind"></param>
+	void SetComputeShader(const CSKind& kind);
+
+	/// <summary>
+	/// 行うCSをReset
+	/// </summary>
+	void ResetComputeShader() { isCsReset_ = true; }
 
 	/// <summary>
 	/// 最終的に描画するResourceを作成する
 	/// </summary>
-	void CreateRenderResource();
+	void CreateBlendResource();
 
 	/// <summary>
 	/// computerShaderを実行する
@@ -46,18 +62,12 @@ public:
 	void RunComputeShader(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// UAVの状態を変更する
+	/// 最終結果として描画するTextureを作成する
 	/// </summary>
-	/// <param name="commandList">コマンドリスト</param>
-	/// <param name="beforState">変更前の状態</param>
-	/// <param name="afterState">変更後の状態</param>
-	void TransitionUAVResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
-
-	/// <summary>
-	/// computeShaderで加工したResourceのアドレスを取得する関数
-	/// </summary>
-	/// <returns></returns>
-	const D3D12_GPU_DESCRIPTOR_HANDLE GetShaderResourceHandleGPU() const { return srvRenderAddress_.handleGPU; }
+	/// <param name="commandList">: コマンドリスト</param>
+	/// <param name="spriteGpuHandle">: sprite描画のGPUハンドル</param>
+	/// <param name="rendrerGpuHandle">: 最終描画するTextureのGPUハンドル</param>
+	void BlendRenderTarget(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& spriteGpuHandle, const D3D12_GPU_DESCRIPTOR_HANDLE& rendrerGpuHandle);
 
 private:
 	// computeShader用のパイプライン
@@ -68,10 +78,10 @@ private:
 	std::unique_ptr<GaussianBlur> gaussianBlur_;
 	std::unique_ptr<DepthOfField> depthOfField_;
 
-	ComPtr<ID3D12Resource> renderResource_;
+	ComPtr<ID3D12Resource> resultResource_;
 
 	std::vector<BaseCSResource*> executeCsArray_;
-	
+
 	// ---------------------------------------
 	// DXCで使う
 	DirectXCompiler* dxCompiler_ = nullptr;
@@ -84,6 +94,12 @@ private:
 	DescriptorHeap::DescriptorHandles uavRenderAddress_;
 	DescriptorHeap::DescriptorHandles srvRenderAddress_;
 
-	DescriptorHeap::DescriptorHandles offScreenResourceAddress_;
+	// Cs実行時最初に参照するアドレス
+	DescriptorHeap::DescriptorHandles runCsResourceAddress_;
+
+	UINT groupCountX_;
+	UINT groupCountY_;
+
+	bool isCsReset_;
 };
 

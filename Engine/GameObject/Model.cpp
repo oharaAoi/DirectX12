@@ -36,13 +36,13 @@ void Model::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 描画関数
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection) {
+void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform* worldTransform, const ViewProjection* viewProjection) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 		meshArray_[oi]->Draw(commandList);
 		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
 
-		worldTransform.Draw(commandList);
+		worldTransform->Draw(commandList);
 		viewProjection->Draw(commandList);
 
 		if (hasTexture_) {
@@ -54,14 +54,14 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& w
 	}
 }
 
-void Model::DrawSkinning(ID3D12GraphicsCommandList* commandList, const Skinning* skinning, const WorldTransform& worldTransform, const ViewProjection* viewprojection) {
+void Model::DrawSkinning(ID3D12GraphicsCommandList* commandList, const Skinning* skinning, const WorldTransform* worldTransform, const ViewProjection* viewprojection) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 		skinning->StackCommand(commandList, meshArray_[oi]->GetVBV());
 		meshArray_[oi]->DrawIndex(commandList);
 		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
 
-		worldTransform.Draw(commandList);
+		worldTransform->Draw(commandList);
 		viewprojection->Draw(commandList);
 
 		if (hasTexture_) {

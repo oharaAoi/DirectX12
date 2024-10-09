@@ -1,16 +1,9 @@
 #pragma once
-#include <d3d12.h>
-#include <dxgi1_6.h>
-#include "dxgidebug.h"
-#include <cassert>
-#include <wrl.h>
-// utilities
+#include <unordered_map>
 #include "Engine/Utilities/Convert.h"
 #include "Engine/Utilities/DirectXUtils.h"
 #include "Engine/Utilities/Debug.h"
-
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
+#include "Engine/DirectX/RootSignature/RootSignatureBuilder.h"
 
 enum class RootSignatureType {
 	Normal,
@@ -21,72 +14,52 @@ enum class RootSignatureType {
 	Sprite,
 	PBR,
 	ComputeShader,
-	ComputeShaderBlend
+	ComputeShaderBlend,
+	CSReultRenderBlend,
 };
 
 class RootSignature {
 public:
 
-	RootSignature(ID3D12Device* device, const RootSignatureType& type);
+	RootSignature();
 	~RootSignature();
 
 	void Initialize(ID3D12Device* device, const RootSignatureType& type);
 
 	void Finalize();
 
-	/// <summary>
-	/// RootSignatureの作成
-	/// </summary>
-	/// <returns></returns>
 	ComPtr<ID3D12RootSignature> CreateRootSignature();
-
-	/// <summary>
-	/// textureのないRootSignatureの作成
-	/// </summary>
-	/// <returns></returns>
 	ComPtr<ID3D12RootSignature> CreateTexturelessRootSignature();
-
-	/// <summary>
-	/// Skinnngを行うモデルのRootSignatureの作成
-	/// </summary>
-	/// <returns></returns>
 	ComPtr<ID3D12RootSignature> CreateSkinnigRootSignature();
-
-	/// <summary>
-	/// primitiveRootSignatureの作成
-	/// </summary>
-	/// <returns></returns>
 	ComPtr<ID3D12RootSignature> CreatePrimitiveRootSignature();
-
-	/// <summary>
-	/// particle用のrootSignatureの作成
-	/// </summary>
-	/// <returns></returns>
 	ComPtr<ID3D12RootSignature> CreateParticleRootSignature();
-
-	/// <summary>
-	/// sprite用のrootSignatureの作成
-	/// </summary>
-	/// <returns></returns>
 	ComPtr<ID3D12RootSignature> CreateSpriteRootSignature();
-
-	/// <summary>
-	/// RootSignatureの作成
-	/// </summary>
-	/// <returns></returns>
 	ComPtr<ID3D12RootSignature> CreatePBRRootSignature();
-
-	/// <summary>
-	/// コンピュートシェーダ用のRootSignatureの作成
-	/// </summary>
-	/// <returns></returns>
 	ComPtr<ID3D12RootSignature> CreateComputeShaderRootSignature();
-
-	/// <summary>
-	/// コンピュートシェーダ用
-	/// </summary>
-	/// <returns></returns>
 	ComPtr<ID3D12RootSignature> CreateBlendShaderRootSignature();
+	ComPtr<ID3D12RootSignature> CreateResultRenderRootSignature();
+
+public:
+
+	using FunctionPointer = ComPtr<ID3D12RootSignature>(RootSignature::*)();
+	std::unordered_map<RootSignatureType, FunctionPointer> functionMap_ = {
+		// graphics
+		{RootSignatureType::Normal, &RootSignature::CreateRootSignature},
+		{RootSignatureType::TextureLess, &RootSignature::CreateTexturelessRootSignature},
+		{RootSignatureType::Skinnig, &RootSignature::CreateSkinnigRootSignature},
+		{RootSignatureType::Primitive, &RootSignature::CreatePrimitiveRootSignature},
+		{RootSignatureType::Particle, &RootSignature::CreateParticleRootSignature},
+		{RootSignatureType::Sprite, &RootSignature::CreateSpriteRootSignature},
+		{RootSignatureType::PBR, &RootSignature::CreatePBRRootSignature},
+		// CS
+		{RootSignatureType::ComputeShader, &RootSignature::CreateComputeShaderRootSignature},
+		{RootSignatureType::ComputeShaderBlend, &RootSignature::CreateBlendShaderRootSignature},
+		{RootSignatureType::CSReultRenderBlend, &RootSignature::CreateResultRenderRootSignature},
+	};
+
+	ComPtr<ID3D12RootSignature> Create(const RootSignatureType& type);
+
+	D3D12_STATIC_SAMPLER_DESC CreateSampler();
 
 public:
 
@@ -96,6 +69,8 @@ private:
 
 	// rootSignature
 	ComPtr<ID3D12RootSignature> rootSignature_ = nullptr;
+
+	RootSignatureBuilder builder_;
 
 	ID3D12Device* device_ = nullptr;
 };

@@ -17,7 +17,8 @@ enum class CsPipelineType {
 	VerticalBlur_Pipeline,
 	GrayScale_Pipeline,
 	DepthOfField_Pipeline,
-	Blend_Pipeline
+	Blend_Pipeline,
+	Result_Pipeline
 };
 
 class ComputeShaderPipeline {
@@ -37,7 +38,7 @@ public:
 	/// <param name="computeShaderPath">シェーダーのパス</param>
 	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 			  DescriptorHeap* dxHeap, const std::string& computeShaderPath,
-			  const CsPipelineType& type
+			  const RootSignatureType& type
 	);
 
 	/// <summary>

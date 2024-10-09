@@ -50,11 +50,11 @@ void Triangle::Update() {
 	
 }
 
-void Triangle::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection) {
+void Triangle::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform* worldTransform, const ViewProjection* viewProjection) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	mesh_->Draw(commandList);
 	material_->Draw(commandList);
-	worldTransform.Draw(commandList);
+	worldTransform->Draw(commandList);
 	viewProjection->Draw(commandList);
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/uvChecker.png", 3);
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);

@@ -7,13 +7,14 @@ RenderTexture::~RenderTexture() {
 }
 
 void RenderTexture::Finalize() {
+	renderResource_.Reset();
 	vertexBuffer_.Reset();
 	indexBuffer_.Reset();
 	materialBuffer_.Reset();
 	transformBuffer_.Reset();
 }
 
-void RenderTexture::Init(ID3D12Device* device) {
+void RenderTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	// ----------------------------------------------------------------------------------
 	vertexBuffer_ = CreateBufferResource(device, sizeof(TextureMesh) * 4);
 	// リソースの先頭のアドレスから使う
@@ -65,17 +66,62 @@ void RenderTexture::Init(ID3D12Device* device) {
 
 	transformData_->wvp = Matrix4x4(
 		MakeAffineMatrix(transform)
-		* MakeIdentity4x4()
+		* Inverse(MakeAffineMatrix(transform))
 		* MakeOrthograhicMatrix(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f)
 	);
+
+	// 最終的に描画させるResourceの作成
+	D3D12_RESOURCE_DESC desc{};
+	desc.Width = kWindowWidth_;			// 画面の横幅
+	desc.Height = kWindowHeight_;			// 画面の縦幅
+	desc.MipLevels = 1;			// 
+	desc.DepthOrArraySize = 1;
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.SampleDesc.Count = 1;
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
+
+	// HEAPの設定
+	D3D12_HEAP_PROPERTIES heapProperties{};
+	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
+
+	// HEAPの設定
+	// Resourceの作成
+	renderResource_ = CerateShaderResource(device, &desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+
+	// ------------------------------------------------------------
+	// UAVの設定
+	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
+	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
+	uavDesc.Format = renderResource_->GetDesc().Format;
+	// SRVを作成するDescriptorHeapの場所を求める
+	renderUavRenderAddress_ = dxHeap->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
+	// 生成
+	device->CreateUnorderedAccessView(renderResource_.Get(), nullptr, &uavDesc, renderUavRenderAddress_.handleCPU);
+
+	// ------------------------------------------------------------
+	// SRVの設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+	// SRVを作成するDescriptorHeapの場所を求める
+	renderSrvRenderAddress_ = dxHeap->GetDescriptorHandle(DescriptorHeapType::TYPE_SRV);
+	// 生成
+	device->CreateShaderResourceView(renderResource_.Get(), &srvDesc, renderSrvRenderAddress_.handleCPU);
 }
 
-void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& srvHandleGPU) {
+void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	commandList->IASetIndexBuffer(&indexBufferView_);
 	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
 	commandList->SetGraphicsRootConstantBufferView(1, transformBuffer_->GetGPUVirtualAddress());
-	commandList->SetGraphicsRootDescriptorTable(2, srvHandleGPU);
+	commandList->SetGraphicsRootDescriptorTable(2, renderSrvRenderAddress_.handleGPU);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+}
+
+void RenderTexture::TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
+	TransitionResourceState(commandList, renderResource_.Get(), beforState, afterState);
 }

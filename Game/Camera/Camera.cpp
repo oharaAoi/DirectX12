@@ -7,41 +7,35 @@ Camera::Camera() {
 Camera::~Camera() {
 }
 
+void Camera::Finalize() {
+}
+
 void Camera::Init() {
-	transform_ = { {1.0f, 1.0f, 1.0f}, {0.5f, 0.0f, 0.0f}, {0.0f, 5.0f, -9.0f} };
-	
-	// 行列の生成
-	scaleMat_ = MakeScaleMatrix(transform_.scale);
-	rotateMat_ = MakeRotateXYZMatrix(transform_.rotate);
-	translateMat_ = MakeTranslateMatrix(transform_.translate);
+	BaseCamera::Init();
 
-	// worldの生成
-	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
-	viewMatrix_ = Inverse(cameraMatrix_);
-	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, float(1280) / float(720), 0.1f, 100.0f);
+	transform_ = {
+		{1.0f, 1.0f, 1.0f},
+		{0 , 0, 0.0f},
+		{0.0f, 4.0f, -30.0f}
+	};
 
-	// sprite描画のためのMatrixの初期化
-	projectionMatrix2D_ = MakeOrthograhicMatrix(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f);
-	viewMatrix2D_ = MakeIdentity4x4();
+	offset_ = transform_.translate;
 }
 
 void Camera::Update() {
+	// -------------------------------------------------
+	// ↓ Targetがいたら
+	// -------------------------------------------------
+	if (target_ != nullptr) {
+		transform_.translate.x = target_->GetTranslation().x + offset_.x;
+	}
 
-	// デバックカメラモードの時
-	transform_ = { {1.0f, 1.0f, 1.0f}, {0.5f, 0.0f, 0.0f}, {0.0f, 5.0f, -9.0f} };
-	rotateMat_ = MakeRotateXYZMatrix(transform_.rotate);
+	BaseCamera::Update();
+}
 
-
-	scaleMat_ = MakeScaleMatrix(transform_.scale);
-	translateMat_ = MakeTranslateMatrix(transform_.translate);
-
-	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
-	viewMatrix_ = Inverse(cameraMatrix_);
-	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, float(1280) / float(720), 0.1f, 100.0f);
-
-	projectionMatrix2D_ = MakeOrthograhicMatrix(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f);
-	viewMatrix2D_ = MakeIdentity4x4();
-
+#ifdef _DEBUG
+#include "Engine/Manager/ImGuiManager.h"
+void Camera::Debug_Gui() {
 	ImGui::Begin("Camera");
 	if (ImGui::Button("Reset")) {
 		transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, -9.0f} };
@@ -54,6 +48,4 @@ void Camera::Update() {
 
 	ImGui::End();
 }
-
-void Camera::Draw() {
-}
+#endif

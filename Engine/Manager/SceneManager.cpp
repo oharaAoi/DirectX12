@@ -41,14 +41,14 @@ void SceneManager::Run() {
 
 		scene_->Draw();
 
-		Engine::SetPipeline(PipelineKind::kParticlePipeline);
-		effectSystem_->Draw();
+		/*Engine::SetPipeline(PipelineKind::kParticlePipeline);
+		effectSystem_->Draw();*/
 
 		#ifdef _DEBUG
-		effectSystem_->BeginEditer();
+		/*effectSystem_->BeginEditer();
 		effectSystem_->UpdateEditer();
 		Engine::SetPipeline(PipelineKind::kParticlePipeline);
-		effectSystem_->DrawEditer();
+		effectSystem_->DrawEditer();*/
 		#endif
 
 		// ------------------------------------ //
@@ -58,7 +58,7 @@ void SceneManager::Run() {
 		Engine::EndImGui();
 
 		#ifdef _DEBUG
-		effectSystem_->EndEditer();
+		//effectSystem_->EndEditer();
 		#endif
 
 		Engine::EndFrame();

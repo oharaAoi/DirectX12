@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/2d/Triangle.h"
 #include "Engine/2d/Sprite.h"
 #include "Engine/GameObject/Sphere.h"
@@ -25,11 +26,12 @@ public:
 	/// <returns></returns>
 	static Render* GetInstacne();
 
-	void Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, PrimitivePipeline* primitive);
-
 	void Finalize();
-
+	void Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, PrimitivePipeline* primitive, RenderTarget* renderTarget);
 	static void Update();
+
+	static void Begin();
+	static void SetRenderTarget(const RenderTargetType& type);
 
 public:
 
@@ -38,8 +40,8 @@ public:
 	/// </summary>
 	/// <param name="triangle">: 三角形のポインタ</param>
 	/// <param name="worldTransform">: worldTrnasform</param>
-	static void DrawTriangle(Triangle* triangle, const WorldTransform& worldTransform);
-	
+	static void DrawTriangle(Triangle* triangle, const WorldTransform* worldTransform);
+
 	/// <summary>
 	/// Spriteの描画
 	/// </summary>
@@ -51,17 +53,17 @@ public:
 	/// </summary>
 	/// <param name="sphere">: sphereのポインタ</param>
 	/// <param name="worldTransform">: worldTransform</param>
-	static void DrawSphere(Sphere* sphere, const WorldTransform& worldTransform);
+	static void DrawSphere(Sphere* sphere, const WorldTransform* worldTransform);
 
 	/// <summary>
 	/// モデルの描画
 	/// </summary>
 	/// <param name="model">: モデルのポインタ</param>
 	/// <param name="worldTransform">: worldTransform</param>
-	static void DrawModel(Model* model, const WorldTransform& worldTransform);
+	static void DrawModel(Model* model, const WorldTransform* worldTransform);
 
-	static void DrawAnimationModel(Model* model, const Skinning& skeleton, const WorldTransform& worldTransform);
-	static void DrawAnimationModel(Model* model, const Skinning* skeleton, const WorldTransform& worldTransform);
+	static void DrawAnimationModel(Model* model, const Skinning& skeleton, const WorldTransform* worldTransform);
+	static void DrawAnimationModel(Model* model, const Skinning* skeleton, const WorldTransform* worldTransform);
 
 	/// <summary>
 	/// Particleの描画
@@ -78,6 +80,8 @@ public:
 	/// <param name="color">: 色</param>
 	/// <param name="vpMat">: viewProjection</param>
 	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat);
+
+	static void DrawLightGroup(const int& startIndex);
 
 	//==================================================================================
 	// ↓　設定系
@@ -99,8 +103,11 @@ public:
 
 	static void SetEyePos(const Vector3& eyePos);
 
+	static const ViewProjection* GetViewProjection();
+
 private:
 
+	RenderTarget* renderTarget_ = nullptr;
 
 };
 

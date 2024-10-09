@@ -94,12 +94,12 @@ void Sphere::Update() {
 	
 }
 
-void Sphere::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewProjection) {
+void Sphere::Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform* worldTransform, const ViewProjection* viewProjection) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	mesh_->Draw(commandList);
 	material_->Draw(commandList);
 
-	worldTransform.Draw(commandList);
+	worldTransform->Draw(commandList);
 	viewProjection->Draw(commandList);
 
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "Resources/monsterBall.png", 3);

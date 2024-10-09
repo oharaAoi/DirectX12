@@ -59,15 +59,15 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
 	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
 	// CS
-	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(),renderTarget_->GetOffScreenSRVHandle(RenderTargetType::OffScreen_RenderTarget), shaders_.get());
+	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(),renderTarget_->GetOffScreenSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
 	// input
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 	// audio
 	audio_->Init();
 
-	render_->Init(dxCommands_->GetCommandList(), dxDevice_->GetDevice(), primitivePipeline_.get());
+	render_->Init(dxCommands_->GetCommandList(), dxDevice_->GetDevice(), primitivePipeline_.get(), renderTarget_.get());
 
-	renderTexture_->Init(dxDevice_->GetDevice());
+	renderTexture_->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
 
 #ifdef _DEBUG
 	EffectSystem::GetInstacne()->EditerInit(renderTarget_.get(), descriptorHeap_.get(), dxCommands_.get(), dxDevice_->GetDevice());
@@ -127,6 +127,7 @@ bool Engine::ProcessMessage() {
 
 void Engine::BeginFrame() {
 	imguiManager_->Begin();
+	Render::Begin();
 	dxCommon_->Begin();
 
 	input_->Update();
@@ -152,32 +153,17 @@ void Engine::EndImGui() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::EndRenderTexture() {
-	// offScreenRenderingのResourceの状態を変更する
-	dxCommon_->ChangeOffScreenResource();
+	renderTexture_->TransitionResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	// object3DとSprite2DのRenderTargetを合成する
+	computeShader_->BlendRenderTarget(dxCommands_->GetCommandList(), renderTarget_->GetOffScreenSRVHandle(Sprite2D_RenderTarget).handleGPU, renderTexture_->GetUAV());
 	// これから書き込む画面をバックバッファに変更する
 	dxCommon_->SetSwapChain();
-
-	if (isRunCS_) {
-		//----------------------------------------------------------------
-		// computerShaderを実行する
-		computeShader_->RunComputeShader(dxCommands_->GetCommandList());
-		//----------------------------------------------------------------
-
-		// スプライト用のパイプラインの設定
-		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
-		// computeShaderで加工したTextureを描画する
-		renderTexture_->Draw(dxCommands_->GetCommandList(), computeShader_->GetShaderResourceHandleGPU());
-		//----------------------------------------------------------------
-		
-		// リソースの状態をShaderResourceから書き込める状態にする(SR→UA)
-		computeShader_->TransitionUAVResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-
-	} else {
-		// スプライト用のパイプラインの設定
-		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
-		// offScreenRenderingで書き込んだTextureを描画する
-		renderTexture_->Draw(dxCommands_->GetCommandList(), renderTarget_->GetOffScreenSRVHandle(RenderTargetType::OffScreen_RenderTarget).handleGPU);
-	}
+	// スプライト用のパイプラインの設定
+	graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
+	// computeShaderで加工したTextureを描画する
+	renderTexture_->Draw(dxCommands_->GetCommandList());
+	// 最終描画のTextureを書き込み可能状態にする
+	renderTexture_->TransitionResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -227,9 +213,9 @@ std::unique_ptr<BaseParticle> Engine::CreateBaseParticle(const std::string& dire
 	return particle;
 }
 
-WorldTransform Engine::CreateWorldTransform() {
-	WorldTransform result;
-	result.Init(dxDevice_->GetDevice());
+std::unique_ptr<WorldTransform> Engine::CreateWorldTransform() {
+	std::unique_ptr<WorldTransform> result = std::make_unique<WorldTransform>();
+	result->Init(dxDevice_->GetDevice());
 	return result;
 }
 
@@ -237,6 +223,10 @@ std::unique_ptr<Skinning> Engine::CreateSkinning(Skeleton* skeleton, Model* mode
 	std::unique_ptr<Skinning> result = std::make_unique<Skinning>();
 	result->CreateSkinCluster(dxDevice_->GetDevice(), skeleton, model->GetMesh(0), descriptorHeap_.get(), model->GetSkinClusterData());
 	return result;
+}
+
+void Engine::RunCS() {
+	computeShader_->RunComputeShader(dxCommands_->GetCommandList());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -266,6 +256,14 @@ void Engine::SetPipeline(const PipelineKind& kind) {
 
 		break;
 	}
+}
+
+void Engine::SetComputeShader(const CSKind& kind) {
+	computeShader_->SetComputeShader(kind);
+}
+
+void Engine::ResetComputeShader() {
+	computeShader_->ResetComputeShader();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -23,9 +23,6 @@ void TestScene::Init() {
 	testObj3_->SetObject("simpleSkin.gltf");
 	testObj3_->SetAnimater("./Resources/Animation/", "simpleSkin.gltf");
 
-	testObj2_->GetTransform().SetTranslation_X(2.0f);
-	testObj3_->GetTransform().SetTranslation_X(-2.0f);
-
 	//testObj2_->GetTransform().SetParent(testObj_->GetTransform().GetWorldMatrix());
 
 	sprite_ = Engine::CreateSprite({128, 128}, {256, 256});
@@ -104,31 +101,15 @@ void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineKind::kNormalPipeline);
 	//testObj_->Draw();
 	testObj2_->Draw();
-	
-#pragma endregion
 
-#pragma region Textureless
-
-	Engine::SetPipeline(PipelineKind::kTexturelessPipeline);
-
-#pragma endregion
-
-#pragma region PBR
-
-	Engine::SetPipeline(PipelineKind::kPBRPipeline);
-
-#pragma endregion
 
 #pragma region Sprite
-
-	Engine::SetPipeline(PipelineKind::kSpritePipeline);
-	sprite_->Draw();
 	
 #pragma endregion
 
-	Engine::SetPipeline(PipelineKind::kSkinningPipeline);
-	testObj_->Draw();
-	testObj3_->Draw();
+	Render::SetRenderTarget(Sprite2D_RenderTarget);
+	Engine::SetPipeline(PipelineKind::kSpritePipeline);
+	sprite_->Draw();
 }
 
 #ifdef _DEBUG

@@ -29,7 +29,7 @@ void Skinning::Update(Skeleton* skeleton) {
 
 void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, std::map<std::string, Skinning::JointWeightData>& skinClusterData) {
 	uint32_t vertices = (uint32_t)mesh->GetIndexNum();
-	uint32_t jointSize = skeleton->GetJointsSize();
+	uint32_t jointSize = (uint32_t)skeleton->GetJointsSize();
 
 	// -------------------------------------------------
 	// ↓ palette用のResourceを確保
