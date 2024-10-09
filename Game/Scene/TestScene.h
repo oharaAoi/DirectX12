@@ -21,6 +21,7 @@ public:
 	TestScene();
 	~TestScene() override;
 
+	void Finalize() override;
 	void Init() override;
 	void Load() override;
 	void Update() override;

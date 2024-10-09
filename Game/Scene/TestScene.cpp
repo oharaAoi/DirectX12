@@ -3,6 +3,9 @@
 TestScene::TestScene() {}
 TestScene::~TestScene() {}
 
+void TestScene::Finalize() {
+}
+
 void TestScene::Init() {
 	// カメラ -------------------------------------------------------------------
 	camera_ = std::make_unique<Camera>();
