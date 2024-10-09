@@ -32,13 +32,19 @@ public:
 
 	void Finalize();
 
-	void Init(ID3D12Device* device);
+	void Init(ID3D12Device* device, DescriptorHeap* dxHeap);
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="commandList"></param>
-	void Draw(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& srvHandleGPU);
+	void Draw(ID3D12GraphicsCommandList* commandList);
+
+	void TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
+
+public:
+
+	const D3D12_GPU_DESCRIPTOR_HANDLE& GetUAV() { return renderUavRenderAddress_.handleGPU; }
 
 private:
 
@@ -46,10 +52,14 @@ private:
 	ComPtr<ID3D12Resource> indexBuffer_;
 	ComPtr<ID3D12Resource> materialBuffer_;
 	ComPtr<ID3D12Resource> transformBuffer_;
+	ComPtr<ID3D12Resource> renderResource_;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
-	
+
+	DescriptorHeap::DescriptorHandles renderUavRenderAddress_;
+	DescriptorHeap::DescriptorHandles renderSrvRenderAddress_;
+
 	TextureMesh* vertexData_;
 	uint32_t* indexData_;
 	TextureMaterial* materialData_;

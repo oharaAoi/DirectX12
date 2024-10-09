@@ -7,7 +7,8 @@ public:
 
 	Quaternion() : x(0.0f), y(0.0f), z(0.0f), w(1.0f) {};
 	Quaternion(const float& _x, const float& _y, const float& _z, const float& _w) :
-		x(_x), y(_y), z(_z), w(_w) {};
+		x(_x), y(_y), z(_z), w(_w) {
+	};
 
 	~Quaternion() {};
 
@@ -20,6 +21,17 @@ public:
 
 	Matrix4x4 MakeMatrix() const;
 
+	Vector3 MakeForward() const;
+	Vector3 MakeUp() const;
+	Vector3 MakeRight() const;
+
+	/// <summary>
+	/// Quaternionからオイラー角
+	/// </summary>
+	/// <returns></returns>
+	Vector3 ToEulerAngles() const;
+
+	Quaternion Conjugate() const;
 public:
 
 	/// <summary>
@@ -29,6 +41,8 @@ public:
 	/// <param name="axis">: 回転させる軸</param>
 	/// <returns></returns>
 	static Quaternion AngleAxis(const float& angle, const Vector3& axis);
+
+	static Quaternion EulerToQuaternion(const Vector3& euler);
 
 	/// <summary>
 	/// fromからtoへの回転を返す
@@ -69,12 +83,12 @@ public:
 	/// <param name="t"></param>
 	/// <returns></returns>
 	static Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, const float& t);
-	
+
 public:
 
 	Quaternion operator*(const Quaternion& q2) const;
 	Vector3 operator*(const Vector3& v);
-	
+
 public:
 
 	float x;

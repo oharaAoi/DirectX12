@@ -91,7 +91,7 @@ public:
 	// パーティクルのポインタを作成
 	static std::unique_ptr<BaseParticle> CreateBaseParticle(const std::string& directoryPath, const std::string& fileName, const uint32_t& instanceNum);
 	// ワールドトランスフォームを作成
-	static WorldTransform CreateWorldTransform();
+	static std::unique_ptr<WorldTransform> CreateWorldTransform();
 	// Skinningの作成
 	static std::unique_ptr<Skinning> CreateSkinning(Skeleton* skeleton, Model* model);
 
@@ -100,7 +100,10 @@ public:
 	// 描画系
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	//static void DrawGameObject(BaseGameObject* gameObject, const GameObjectKind& kind);
+	/// <summary>
+	/// CSを行う
+	/// </summary>
+	static void RunCS();
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 設定系
@@ -111,6 +114,17 @@ public:
 	/// </summary>
 	/// <param name="kind">設定するパイプライン</param>
 	static void SetPipeline(const PipelineKind& kind);
+
+	/// <summary>
+	/// 行いたいCSを設定する
+	/// </summary>
+	/// <param name="kind"></param>
+	static void SetComputeShader(const CSKind& kind);
+
+	/// <summary>
+	/// CSをResetする
+	/// </summary>
+	static void ResetComputeShader();
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// sound系

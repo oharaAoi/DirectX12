@@ -48,42 +48,10 @@ void DirectXCommon::Finalize() {
 // 命令
 //------------------------------------------------------------------------------------------------------
 void DirectXCommon::Begin() {
-	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
 
-	// ---------------------------------------------------------------
-	// ↓barrierを張る(swapchainの状態がRenderTargetになっていないため)
-	// ---------------------------------------------------------------
-	// Transitionzで張る
-	barrier_.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-	barrier_.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	// barrierを張る対象のリソース
-	barrier_.Transition.pResource = renderTarget_->GetSwapChainRenderResource(backBufferIndex);
-	// 遷移前のリソース
-	barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
-	// 遷移後のResourceState
-	barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
-	// 張る
-	commandList->ResourceBarrier(1, &barrier_);
-
-	// ---------------------------------------------------------------
-	// dsv
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
-	//commandList->OMSetRenderTargets(1, &renderTarget_->GetRtvHandles(backBufferIndex), false, &dsvHandle);
-	//commandList->OMSetRenderTargets(2, &renderTarget_->GetRTVHandles(), false, &dsvHandle);
-	
-	renderTarget_->OMSetRenderTarget(commandList, RenderTargetType::OffScreen_RenderTarget, dsvHandle);
-
-	// 指定した深度で画面をクリア
-	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-
-	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
-	// RenderTargetはoffScreen用のRenderTargetを指定しておく
-	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(RenderTargetType::OffScreen_RenderTarget).handleCPU, clearColor, 0, nullptr);
-
-	// srv
-	ID3D12DescriptorHeap* descriptorHeaps[] = { descriptorHeaps_->GetSRVHeap() };
-	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
+	TransitionResourceState(commandList, renderTarget_->GetSwapChainRenderResource(backBufferIndex), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	// ---------------------------------------------------------------
 	commandList->RSSetViewports(1, &viewport_);
@@ -105,18 +73,17 @@ void DirectXCommon::SetSwapChain() {
 	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
 	commandList->OMSetRenderTargets(1, &renderTarget_->GetRtvHandles(backBufferIndex).handleCPU, false, &dsvHandle);
+	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
+	commandList->ClearRenderTargetView(renderTarget_->GetRtvHandles(backBufferIndex).handleCPU, clearColor, 0, nullptr);
 }
 
 void DirectXCommon::End() {
 	// ---------------------------------------------------------------
 	// ↓RTVの画面から画面表示できるようにする
 	// ---------------------------------------------------------------
-	barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-	barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
-
-	// 張る
-	dxCommands_->GetCommandList()->ResourceBarrier(1, &barrier_);
-
+	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
+	TransitionResourceState(dxCommands_->GetCommandList(), renderTarget_->GetSwapChainRenderResource(backBufferIndex), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
+	
 	// ---------------------------------------------------------------
 	HRESULT hr = dxCommands_->GetCommandList()->Close();
 	assert(SUCCEEDED(hr));
@@ -137,7 +104,7 @@ void DirectXCommon::End() {
 	assert(SUCCEEDED(hr));
 
 	// offScreenの設定を直す
-	renderTarget_->ChangeOffScreenResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	//renderTarget_->ChangeOffScreenResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
 void DirectXCommon::CreateDXGI() {

@@ -45,8 +45,8 @@ public:
 
 	void Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName);
 	void Update();
-	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform& worldTransform, const ViewProjection* viewprojection);
-	void DrawSkinning(ID3D12GraphicsCommandList* commandList, const Skinning* skinning, const WorldTransform& worldTransform, const ViewProjection* viewprojection);
+	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform* worldTransform, const ViewProjection* viewprojection);
+	void DrawSkinning(ID3D12GraphicsCommandList* commandList, const Skinning* skinning, const WorldTransform* worldTransform, const ViewProjection* viewprojection);
 
 	/// <summary>
 	/// ImGuiを編集する

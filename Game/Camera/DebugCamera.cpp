@@ -1,18 +1,25 @@
 #include "DebugCamera.h"
 
-DebugCamera::DebugCamera() { Init(); }
-DebugCamera::~DebugCamera() {}
+DebugCamera::DebugCamera() {
+	Init();
+}
+
+DebugCamera::~DebugCamera() {
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　初期化処理
+// ↓　初期化
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
+void DebugCamera::Finalize() {
+}
+
 void DebugCamera::Init() {
 	transform_ = {
-	{1.0f, 1.0f, 1.0f},
-	{0 , 0, 0.0f},
-	{0.0f, 0.0f, -10.0f}
+		{1.0f, 1.0f, 1.0f},
+		{0 , 0, 0.0f},
+		{0.0f, 5.0f, -30.0f}
 	};
-	//transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {-1.0f, -0.5f, -15.0f} };
 
 	// 行列の生成
 	scaleMat_ = MakeScaleMatrix(transform_.scale);
@@ -22,127 +29,131 @@ void DebugCamera::Init() {
 	// worldの生成
 	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
 	viewMatrix_ = Inverse(cameraMatrix_);
-	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, float(1280) / float(720), 0.1f, 100.0f);
+	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, float(kWindowWidth_) / float(kWindowHeight_), 0.1f, 100.0f);
 
 	debugCameraMode_ = true;
-	lookPosition_ = { 0,0,0 };
-	mousePosition_ = { 0,0 };
+
+	isMoveSpeed_ = 5.0f;
+	moveQuaternion_ = Quaternion();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
 void DebugCamera::Update() {
-	ScrollMove();
-	TransitionMove();
 	RotateMove();
+	TransitionMove();
+
+	quaternion_ = quaternion_.Normalize();
 
 	scaleMat_ = MakeScaleMatrix(transform_.scale);
+	rotateMat_ = quaternion_.MakeMatrix();
 	translateMat_ = MakeTranslateMatrix(transform_.translate);
 
-	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
+	cameraMatrix_ =scaleMat_ * rotateMat_ * translateMat_;
 	viewMatrix_ = Inverse(cameraMatrix_);
-	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, float(1280) / float(720), 0.1f, 100.0f);
+
+	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, float(kWindowWidth_) / float(kWindowHeight_), 0.1f, 100.0f);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　
-//////////////////////////////////////////////////////////////////////////////////////////////////
+#ifdef _DEBUG
+void DebugCamera::Debug_Gui() {
+	ImGui::Begin("Debug_Camera");
+	
+	Vector3 right = quaternion_.MakeRight();
+	Vector3 up = quaternion_.MakeUp();
+	Vector3 forward = quaternion_.MakeForward();
+	Vector3 eulaer = quaternion_.ToEulerAngles();
 
-void DebugCamera::Draw() {
+	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
+	ImGui::DragFloat4("rotate", &quaternion_.x, 0.01f);
+	ImGui::DragFloat("isMoveSpeed", &isMoveSpeed_, 0.1f, 0.0f, 10.0f);
+	ImGui::DragFloat("sensitivity", &sensitivity_, 0.1f, 0.0f, 10.0f);
+	ImGui::Separator();
+	ImGui::DragFloat("yaw", &yaw_, 0.1f);
+	ImGui::DragFloat("pitch", &pitch_, 0.1f);
+	ImGui::DragFloat4("qYaw", &qYaw.x, 0.01f);
+	ImGui::DragFloat4("qPitch", &qPitch.x, 0.01f);
+	ImGui::DragFloat3("eulaer", &eulaer.x, 0.01f);
+
+	if(ImGui::Button("Reset")) {
+		transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 5.0f, -30.0f} };
+		quaternion_ = Quaternion();
+		yaw_ = 0.0f;
+		pitch_ = 0.0f;
+	}
+
+	ImGui::End();
 }
+#endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　カメラの移動
+// ↓　xy軸方向移動
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DebugCamera::TransitionMove() {
-	if (Input::IsPressMouse(2)) {
-		Vector2 pos = Input::GetMousePosition();
+	
+	moveDirection_ = Vector3();
 
-		Vector2 diff{};
-		diff.x = static_cast<float>(pos.x - mousePosition_.x);
-		diff.y = static_cast<float>(pos.y - mousePosition_.y);
-
-		const float speed = 0.04f;
-		Vector3 move{};
-		// カメラの向きを求める
-		move = TransformNormal(Normalize({ diff.x, diff.y, 0 }) * speed, cameraMatrix_);
-
-		transform_.translate += move;
-		lookPosition_ += move;
-
-	} else if (!Input::IsPressMouse(2)) {
-		mousePosition_ = Input::GetMousePosition();
+	if (Input::IsPressKey(DIK_A)) {
+		moveDirection_ -= quaternion_.MakeRight() * isMoveSpeed_;
 	}
+
+	if (Input::IsPressKey(DIK_D)) {
+		moveDirection_ += quaternion_.MakeRight() * isMoveSpeed_;
+	}
+
+	if (Input::IsPressKey(DIK_W)) {
+		moveDirection_ += quaternion_.MakeForward() * isMoveSpeed_;
+	}
+
+	if (Input::IsPressKey(DIK_S)) {
+		moveDirection_ -= quaternion_.MakeForward() * isMoveSpeed_;
+	}
+
+	if (Input::IsPressKey(DIK_Q)) {
+		moveDirection_ += quaternion_.MakeUp() * isMoveSpeed_;
+	}
+
+	if (Input::IsPressKey(DIK_E)) {
+		moveDirection_ -= quaternion_.MakeUp() * isMoveSpeed_;
+	}
+
+	if (Input::IsPressKey(DIK_LSHIFT)) {
+		isMoveSpeed_ = isMoveMaxSpeed_;
+	}else{
+		isMoveSpeed_ = 5.0f;
+	}
+
+	transform_.translate += moveDirection_ * GameTimer::DeltaTime();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　カメラの回転
+// ↓　回転移動(FPS視点)
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DebugCamera::RotateMove() {
 	if (Input::IsPressMouse(1)) {
-		Vector3 normalizeDiff{};
-		Vector3 offset = { 0.0f, 0.0f, -10.0f };
-		const float speed = 0.015f;
-		// マウスの位置を得る
-		Vector2 mousePos = Input::GetMousePosition();
-		// マウスの移動量を求める
-		Vector2 rotateDiff{};
-		rotateDiff.x = static_cast<float>(mousePos.x - rotateMousePosition_.x);
-		rotateDiff.y = static_cast<float>(mousePos.y - rotateMousePosition_.y);
-		// 正規化する
-		normalizeDiff = Normalize({ rotateDiff.x , rotateDiff.y, 0 }) * speed;
+		
+		Vector2 dire = Input::GetMousePosition() - preMousePos_;
 
-		// 追加回転分の回転行列を生成
-		Matrix4x4 matRotDelta = MakeIdentity4x4();
-		matRotDelta *= MakeRotateXMatrix(normalizeDiff.y);
-		matRotDelta *= MakeRotateYMatrix(normalizeDiff.x);
+		// Y軸回転(Y軸回転は必ずworld空間での回転が行われる)
+		yaw_ += dire.x * sensitivity_ * GameTimer::DeltaTime();
+		qYaw = Quaternion::AngleAxis(yaw_, Vector3(0.0f,1.0f,0.0f)).Normalize();
 
-		// 累積の回転行列の合成
-		rotateMat_ = matRotDelta * rotateMat_;
+		// X軸回転(X軸回転は必ずlocal空間で回転が行われる)
+		pitch_ += dire.y * sensitivity_ * GameTimer::DeltaTime();
+		qPitch = Quaternion::AngleAxis(pitch_, Vector3(1.0f, 0.0f, 0.0f)).Normalize();
 
-		/// -------------------------------------------------------------------------
-		// 旋回させる
-		offset = TransformNormal(Vector3(0, 0, -10.0f), rotateMat_);
-		// 位置を動かす
-		transform_.translate = lookPosition_ + offset;
-
-		cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), MakeTranslateMatrix(transform_.translate));
-		viewMatrix_ = Inverse(cameraMatrix_);
-
-	} else if (!Input::IsPressMouse(1)) {
-		rotateMousePosition_ = Input::GetMousePosition();
+		// 回転合成
+		quaternion_ = (qYaw * moveQuaternion_ * qPitch).Normalize();
+		
+	} else {
+		moveQuaternion_ = quaternion_;
+		yaw_ = 0;
+		pitch_ = 0;
 	}
-}
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　カメラの奥行を変更
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void DebugCamera::ScrollMove() {
-	if (Input::GetWheel() > 0) {
-		Vector3 direction = { 0,0,1 };
-
-		direction = TransformNormal(direction, rotateMat_);
-		Normalize(direction);
-
-		direction *= kDebugCameraMoveSpeed_;
-
-		transform_.translate += direction;
-		lookPosition_ += direction;
-
-
-	} else if (Input::GetWheel() < 0) {
-		Vector3 direction = { 0,0,-1 };
-
-		direction = TransformNormal(direction, rotateMat_);
-		Normalize(direction);
-
-		direction *= kDebugCameraMoveSpeed_;
-
-		transform_.translate += direction;
-		lookPosition_ += direction;
-	}
+	preMousePos_ = Input::GetMousePosition();
 }

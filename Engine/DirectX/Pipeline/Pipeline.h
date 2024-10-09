@@ -53,8 +53,6 @@ public:
 	/// <returns></returns>
 	D3D12_DEPTH_STENCIL_DESC SetDepthStencilState();
 
-	void SetRootSignature(const RootSignatureType& type);
-
 	/// <summary>
 	/// PSOの生成
 	/// </summary>
