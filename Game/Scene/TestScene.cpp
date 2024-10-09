@@ -12,7 +12,7 @@ void TestScene::Init() {
 	testObj_ = std::make_unique<BaseGameObject>();
 	testObj_->Init();
 	testObj_->SetObject("walk.gltf");
-	testObj_->SetAnimater("./Resources/Animation/", "sneakWalk.gltf");
+	testObj_->SetAnimater("./Engine/Resources/Animation/", "sneakWalk.gltf");
 
 	testObj2_ = std::make_unique<BaseGameObject>();
 	testObj2_->Init();
@@ -21,7 +21,7 @@ void TestScene::Init() {
 	testObj3_ = std::make_unique<BaseGameObject>();
 	testObj3_->Init();
 	testObj3_->SetObject("simpleSkin.gltf");
-	testObj3_->SetAnimater("./Resources/Animation/", "simpleSkin.gltf");
+	testObj3_->SetAnimater("./Engine/Resources/Animation/", "simpleSkin.gltf");
 
 	//testObj2_->GetTransform().SetParent(testObj_->GetTransform().GetWorldMatrix());
 
@@ -31,14 +31,14 @@ void TestScene::Init() {
 
 void TestScene::Load() {
 	// modelのload
-	ModelManager::LoadModel("./Resources/Develop/", "plane.obj");
-	ModelManager::LoadModel("./Resources/Develop/", "skin.obj");
+	ModelManager::LoadModel("./Engine/Resources/Develop/", "plane.obj");
+	ModelManager::LoadModel("./Engine/Resources/Develop/", "skin.obj");
 	//ModelManager::LoadModel("./Resources/Develop/", "bunny.obj");
-	ModelManager::LoadModel("./Resources/Develop/", "SquarePyramid.obj");
-	ModelManager::LoadModel("./Resources/Animation/", "testSkinning.gltf");
-	ModelManager::LoadModel("./Resources/Animation/", "walk.gltf");
-	ModelManager::LoadModel("./Resources/Animation/", "simpleSkin.gltf");
-	ModelManager::LoadModel("./Resources/Animation/", "sneakWalk.gltf");
+	ModelManager::LoadModel("./Engine/Resources/Develop/", "SquarePyramid.obj");
+	ModelManager::LoadModel("./Engine/Resources/Animation/", "testSkinning.gltf");
+	ModelManager::LoadModel("./Engine/Resources/Animation/", "walk.gltf");
+	ModelManager::LoadModel("./Engine/Resources/Animation/", "simpleSkin.gltf");
+	ModelManager::LoadModel("./Engine/Resources/Animation/", "sneakWalk.gltf");
 	// textureのload
 	TextureManager::LoadTextureFile("./Resources/Develop/", "uvChecker.png");
 }
