@@ -26,7 +26,12 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Init();
-	skydome_->SetObject("skydome.obj");
+
+	// -------------------------------------------------
+	// ↓ Editer初期化
+	// -------------------------------------------------
+	railPointEditer_ = std::make_unique<RailPointEditer>();
+	railPointEditer_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,8 +65,8 @@ void GameScene::Update() {
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
 
-
 #ifdef _DEBUG
+	railPointEditer_->Update();
 	Debug_Gui();
 #endif
 }

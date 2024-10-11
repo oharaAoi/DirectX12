@@ -109,6 +109,9 @@
     <Filter Include="Game\WorldObject">
       <UniqueIdentifier>{f3bed25f-35f8-4003-901e-f387f6cf5204}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Editer">
+      <UniqueIdentifier>{edd6ab96-f2d0-4369-9796-63928d35806c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -382,6 +385,9 @@
       <Filter>Game\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Game\WorldObject\Skydome.cpp">
+      <Filter>Game\WorldObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Editer\RailPointEditer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -675,6 +681,9 @@
       <Filter>Game\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Game\WorldObject\Skydome.h">
+      <Filter>Game\WorldObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Editer\RailPointEditer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

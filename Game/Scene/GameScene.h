@@ -6,6 +6,7 @@
 #include "Game/Camera/BaseCamera.h"
 #include "Game/Camera/DebugCamera.h"
 #include "Game/WorldObject/Skydome.h"
+#include "Game/Editer/RailPointEditer.h"
 
 class GameScene 
 	: public BaseScene {
@@ -32,4 +33,6 @@ private:
 	// ------------------- WorldObject ------------------- //
 	std::unique_ptr<Skydome> skydome_;
 
+	// ------------------- Edier ------------------- //
+	std::unique_ptr<RailPointEditer> railPointEditer_;
 };
