@@ -1,0 +1,13 @@
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/CMakeFiles/uninstall.dir
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/CMakeFiles/UpdateAssimpLibsDebugSymbolsAndDLLs.dir
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/CMakeFiles/INSTALL.dir
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/contrib/zlib/CMakeFiles/zlibstatic.dir
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/contrib/zlib/CMakeFiles/INSTALL.dir
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/contrib/zlib/CMakeFiles/ALL_BUILD.dir
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/code/CMakeFiles/assimp.dir
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/code/CMakeFiles/INSTALL.dir
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/test/CMakeFiles/unit.dir
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/test/CMakeFiles/INSTALL.dir
+C:/Users/81801/source/repos/LC2/CG2/DirectX12/Externals/assimp/build/test/headercheck/CMakeFiles/INSTALL.dir

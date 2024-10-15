@@ -1,0 +1,15 @@
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\adler32.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\adler32.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\compress.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\compress.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\crc32.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\crc32.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\deflate.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\deflate.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\gzclose.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\gzclose.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\gzlib.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\gzlib.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\gzread.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\gzread.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\gzwrite.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\gzwrite.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\inflate.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\inflate.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\infback.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\infback.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\inftrees.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\inftrees.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\inffast.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\inffast.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\trees.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\trees.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\uncompr.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\uncompr.obj
+C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zlib\zutil.c;C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\contrib\zlib\zlibstatic.dir\Release\zutil.obj

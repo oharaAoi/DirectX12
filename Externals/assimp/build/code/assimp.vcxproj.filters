@@ -1,0 +1,1982 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Assimp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\CApi\CInterfaceIOWrapper.cpp">
+      <Filter>CApi</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Compression.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\BaseImporter.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\BaseProcess.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\PostStepRegistry.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\ImporterRegistry.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\DefaultIOStream.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\IOSystem.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\DefaultIOSystem.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\ZipArchiveIOSystem.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Importer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\SGSpatialSort.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\VertexTriangleAdjacency.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\SpatialSort.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\SceneCombiner.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\ScenePreprocessor.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\SkeletonMeshBuilder.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\StandardShapes.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\TargetAnimation.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\RemoveComments.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Subdivision.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\scene.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Bitmap.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Version.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\CreateAnimMesh.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\simd.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\material.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\AssertHandler.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Exceptional.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Base64.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Geometry\GeometryUtils.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\DefaultLogger.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Exporter.cpp">
+      <Filter>Exporter</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\CApi\AssimpCExport.cpp">
+      <Filter>Exporter</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\CalcTangentsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ComputeUVMappingProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ConvertToLHProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\EmbedTexturesProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\FindDegenerates.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\FindInstancesProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\FindInvalidDataProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\FixNormalsStep.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\DropFaceNormalsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\GenFaceNormalsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\GenVertexNormalsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\PretransformVertices.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ImproveCacheLocality.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\JoinVerticesProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\LimitBoneWeightsProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\RemoveRedundantMaterials.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\RemoveVCProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\SortByPTypeProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\SplitLargeMeshes.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\TextureTransform.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\TriangulateProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ValidateDataStructure.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\OptimizeGraph.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\OptimizeMeshes.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\DeboneProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ProcessHelper.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\MakeVerboseFormat.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ScaleProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ArmaturePopulate.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\GenBoundingBoxesProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\SplitByBoneCountProcess.cpp">
+      <Filter>PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Material\MaterialSystem.cpp">
+      <Filter>MaterialSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\STEPParser\STEPFileReader.cpp">
+      <Filter>STEPParser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\STEPParser\STEPFileEncoding.cpp">
+      <Filter>STEPParser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\AMF\AMFImporter.cpp">
+      <Filter>AssetLib\AMF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\AMF\AMFImporter_Geometry.cpp">
+      <Filter>AssetLib\AMF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\AMF\AMFImporter_Material.cpp">
+      <Filter>AssetLib\AMF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\AMF\AMFImporter_Postprocess.cpp">
+      <Filter>AssetLib\AMF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3DS\3DSConverter.cpp">
+      <Filter>AssetLib\3DS</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3DS\3DSLoader.cpp">
+      <Filter>AssetLib\3DS</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\AC\ACLoader.cpp">
+      <Filter>AssetLib\AC</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\ASE\ASELoader.cpp">
+      <Filter>AssetLib\ASE</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\ASE\ASEParser.cpp">
+      <Filter>AssetLib\ASE</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assbin\AssbinLoader.cpp">
+      <Filter>AssetLib\ASSBIN</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\B3D\B3DImporter.cpp">
+      <Filter>AssetLib\B3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\BVH\BVHLoader.cpp">
+      <Filter>AssetLib\BVH</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Collada\ColladaHelper.cpp">
+      <Filter>AssetLib\COLLADA</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Collada\ColladaLoader.cpp">
+      <Filter>AssetLib\COLLADA</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Collada\ColladaParser.cpp">
+      <Filter>AssetLib\COLLADA</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\DXF\DXFLoader.cpp">
+      <Filter>AssetLib\DXF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\CSM\CSMLoader.cpp">
+      <Filter>AssetLib\CSM</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\HMP\HMPLoader.cpp">
+      <Filter>AssetLib\HMP</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Irr\IRRMeshLoader.cpp">
+      <Filter>AssetLib\IRRMESH</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Irr\IRRShared.cpp">
+      <Filter>AssetLib\IRRMESH</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IQM\IQMImporter.cpp">
+      <Filter>AssetLib\IQM</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Irr\IRRLoader.cpp">
+      <Filter>AssetLib\IRR</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\LWO\LWOAnimation.cpp">
+      <Filter>AssetLib\LWO</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\LWO\LWOBLoader.cpp">
+      <Filter>AssetLib\LWO</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\LWO\LWOLoader.cpp">
+      <Filter>AssetLib\LWO</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\LWO\LWOMaterial.cpp">
+      <Filter>AssetLib\LWO</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\LWS\LWSLoader.cpp">
+      <Filter>AssetLib\LWS</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\M3D\M3DImporter.cpp">
+      <Filter>AssetLib\M3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\M3D\M3DWrapper.cpp">
+      <Filter>AssetLib\M3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MD2\MD2Loader.cpp">
+      <Filter>AssetLib\MD2</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MD3\MD3Loader.cpp">
+      <Filter>AssetLib\MD3</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MD5\MD5Loader.cpp">
+      <Filter>AssetLib\MD5</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MD5\MD5Parser.cpp">
+      <Filter>AssetLib\MD5</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDC\MDCLoader.cpp">
+      <Filter>AssetLib\MDC</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\MDLLoader.cpp">
+      <Filter>AssetLib\MDL</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\MDLMaterialLoader.cpp">
+      <Filter>AssetLib\MDL</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\HalfLife\HL1MDLLoader.cpp">
+      <Filter>AssetLib\MDL</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\HalfLife\UniqueNameGenerator.cpp">
+      <Filter>AssetLib\MDL</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\NFF\NFFLoader.cpp">
+      <Filter>AssetLib\NFF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\NDO\NDOLoader.cpp">
+      <Filter>AssetLib\NDO</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\OFF\OFFLoader.cpp">
+      <Filter>AssetLib\OFF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Obj\ObjFileImporter.cpp">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Obj\ObjFileMtlImporter.cpp">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Obj\ObjFileParser.cpp">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ogre\OgreImporter.cpp">
+      <Filter>AssetLib\OGRE</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ogre\OgreStructs.cpp">
+      <Filter>AssetLib\OGRE</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ogre\OgreBinarySerializer.cpp">
+      <Filter>AssetLib\OGRE</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ogre\OgreXmlSerializer.cpp">
+      <Filter>AssetLib\OGRE</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ogre\OgreMaterial.cpp">
+      <Filter>AssetLib\OGRE</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\OpenGEX\OpenGEXImporter.cpp">
+      <Filter>AssetLib\OPENGEX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ply\PlyLoader.cpp">
+      <Filter>AssetLib\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ply\PlyParser.cpp">
+      <Filter>AssetLib\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MS3D\MS3DLoader.cpp">
+      <Filter>AssetLib\MS3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\COB\COBLoader.cpp">
+      <Filter>AssetLib\COB</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderLoader.cpp">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderDNA.cpp">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderScene.cpp">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderModifier.cpp">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderBMesh.cpp">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderTessellator.cpp">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderCustomData.cpp">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCLoader.cpp">
+      <Filter>AssetLib\IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCReaderGen1_2x3.cpp">
+      <Filter>AssetLib\IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCReaderGen2_2x3.cpp">
+      <Filter>AssetLib\IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCUtil.cpp">
+      <Filter>AssetLib\IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCGeometry.cpp">
+      <Filter>AssetLib\IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCMaterial.cpp">
+      <Filter>AssetLib\IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCProfile.cpp">
+      <Filter>AssetLib\IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCCurve.cpp">
+      <Filter>AssetLib\IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCBoolean.cpp">
+      <Filter>AssetLib\IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCOpenings.cpp">
+      <Filter>AssetLib\IFC</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\XGL\XGLLoader.cpp">
+      <Filter>AssetLib\XGL</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXImporter.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXParser.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXTokenizer.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXConverter.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXUtil.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXDocument.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXProperties.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXMeshGeometry.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXMaterial.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXModel.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXAnimation.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXNodeAttribute.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXDeformer.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXBinaryTokenizer.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXDocumentUtil.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Q3D\Q3DLoader.cpp">
+      <Filter>AssetLib\Q3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Q3BSP\Q3BSPFileParser.cpp">
+      <Filter>AssetLib\Q3BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Q3BSP\Q3BSPFileImporter.cpp">
+      <Filter>AssetLib\Q3BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Raw\RawLoader.cpp">
+      <Filter>AssetLib\RAW</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\SIB\SIBImporter.cpp">
+      <Filter>AssetLib\SIB</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\SMD\SMDLoader.cpp">
+      <Filter>AssetLib\SMD</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\STL\STLLoader.cpp">
+      <Filter>AssetLib\STL</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Terragen\TerragenLoader.cpp">
+      <Filter>AssetLib\TERRAGEN</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Unreal\UnrealLoader.cpp">
+      <Filter>AssetLib\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X\XFileImporter.cpp">
+      <Filter>AssetLib\X</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X\XFileParser.cpp">
+      <Filter>AssetLib\X</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter_Geometry2D.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter_Geometry3D.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter_Group.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter_Light.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter_Metadata.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter_Networking.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter_Postprocess.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter_Rendering.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter_Shape.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter_Texturing.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DGeoHelper.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DXmlHelper.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF\glTFCommon.cpp">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF\glTFImporter.cpp">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF2\glTF2Importer.cpp">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3MF\XmlSerializer.cpp">
+      <Filter>AssetLib\3MF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3MF\D3MFImporter.cpp">
+      <Filter>AssetLib\3MF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3MF\D3MFOpcPackage.cpp">
+      <Filter>AssetLib\3MF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MMD\MMDImporter.cpp">
+      <Filter>AssetLib\MMD</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MMD\MMDPmxParser.cpp">
+      <Filter>AssetLib\MMD</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Obj\ObjExporter.cpp">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\OpenGEX\OpenGEXExporter.cpp">
+      <Filter>AssetLib\OPENGEX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ply\PlyExporter.cpp">
+      <Filter>AssetLib\PLY</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3DS\3DSExporter.cpp">
+      <Filter>AssetLib\3DS</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assbin\AssbinExporter.cpp">
+      <Filter>AssetLib\ASSBIN</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assbin\AssbinFileWriter.cpp">
+      <Filter>AssetLib\ASSBIN</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assxml\AssxmlExporter.cpp">
+      <Filter>AssetLib\ASSXML</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assxml\AssxmlFileWriter.cpp">
+      <Filter>AssetLib\ASSXML</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\M3D\M3DExporter.cpp">
+      <Filter>AssetLib\M3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Collada\ColladaExporter.cpp">
+      <Filter>AssetLib\COLLADA</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXExporter.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXExportNode.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXExportProperty.cpp">
+      <Filter>AssetLib\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\STL\STLExporter.cpp">
+      <Filter>AssetLib\STL</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X\XFileExporter.cpp">
+      <Filter>AssetLib\X</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DExporter.cpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF\glTFExporter.cpp">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF2\glTF2Exporter.cpp">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3MF\D3MFExporter.cpp">
+      <Filter>AssetLib\3MF</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Pbrt\PbrtExporter.cpp">
+      <Filter>AssetLib\PBRT</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assjson\cencode.c">
+      <Filter>AssetLib\ASSJSON</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assjson\json_exporter.cpp">
+      <Filter>AssetLib\ASSJSON</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assjson\mesh_splitter.cpp">
+      <Filter>AssetLib\ASSJSON</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Step\StepExporter.cpp">
+      <Filter>AssetLib\STEP</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\unzip\ioapi.c">
+      <Filter>Contrib\unzip</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\unzip\unzip.c">
+      <Filter>Contrib\unzip</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\poly2tri\poly2tri\common\shapes.cc">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\poly2tri\poly2tri\sweep\advancing_front.cc">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\poly2tri\poly2tri\sweep\cdt.cc">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\poly2tri\poly2tri\sweep\sweep.cc">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\poly2tri\poly2tri\sweep\sweep_context.cc">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\clipper\clipper.cpp">
+      <Filter>Contrib\Clipper</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\code\OpenDDLParser.cpp">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\code\DDLNode.cpp">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\code\OpenDDLCommon.cpp">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\code\OpenDDLExport.cpp">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\code\Value.cpp">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\code\OpenDDLStream.cpp">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcArithmeticCodec.cpp">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcDynamicVectorDecoder.cpp">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcDynamicVectorEncoder.cpp">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcTools.cpp">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcTriangleFans.cpp">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zip\src\zip.c">
+      <Filter>ziplib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\CApi\CInterfaceIOWrapper.h">
+      <Filter>CApi</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\StbCommon.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Compression.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\BaseProcess.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Importer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\ScenePrivate.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\DefaultProgressHandler.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\PolyTools.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Maybe.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\IFF.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\VertexTriangleAdjacency.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\ScenePreprocessor.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\StackAllocator.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\StackAllocator.inl">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\TargetAnimation.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\simd.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Geometry\GeometryUtils.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\DefaultLogger.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\LogStream.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Logger.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\NullLogger.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\Win32DebugLogStream.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\FileLogStream.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Common\StdOStreamLogStream.h">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\BlobIOSystem.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\CalcTangentsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ComputeUVMappingProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ConvertToLHProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\EmbedTexturesProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\FindDegenerates.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\FindInstancesProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\FindInvalidDataProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\FixNormalsStep.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\DropFaceNormalsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\GenFaceNormalsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\GenVertexNormalsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\PretransformVertices.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ImproveCacheLocality.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\JoinVerticesProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\LimitBoneWeightsProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\RemoveRedundantMaterials.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\RemoveVCProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\SortByPTypeProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\SplitLargeMeshes.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\TextureTransform.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\TriangulateProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ValidateDataStructure.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\OptimizeGraph.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\OptimizeMeshes.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\DeboneProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ProcessHelper.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\MakeVerboseFormat.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ScaleProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\ArmaturePopulate.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\GenBoundingBoxesProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\PostProcessing\SplitByBoneCountProcess.h">
+      <Filter>PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Material\MaterialSystem.h">
+      <Filter>MaterialSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\STEPParser\STEPFileReader.h">
+      <Filter>STEPParser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\STEPParser\STEPFileEncoding.h">
+      <Filter>STEPParser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\AMF\AMFImporter.hpp">
+      <Filter>AssetLib\AMF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\AMF\AMFImporter_Node.hpp">
+      <Filter>AssetLib\AMF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3DS\3DSHelper.h">
+      <Filter>AssetLib\3DS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3DS\3DSLoader.h">
+      <Filter>AssetLib\3DS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\AC\ACLoader.h">
+      <Filter>AssetLib\AC</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\ASE\ASELoader.h">
+      <Filter>AssetLib\ASE</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\ASE\ASEParser.h">
+      <Filter>AssetLib\ASE</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assbin\AssbinLoader.h">
+      <Filter>AssetLib\ASSBIN</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\B3D\B3DImporter.h">
+      <Filter>AssetLib\B3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\BVH\BVHLoader.h">
+      <Filter>AssetLib\BVH</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Collada\ColladaHelper.h">
+      <Filter>AssetLib\COLLADA</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Collada\ColladaLoader.h">
+      <Filter>AssetLib\COLLADA</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Collada\ColladaParser.h">
+      <Filter>AssetLib\COLLADA</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\DXF\DXFLoader.h">
+      <Filter>AssetLib\DXF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\DXF\DXFHelper.h">
+      <Filter>AssetLib\DXF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\CSM\CSMLoader.h">
+      <Filter>AssetLib\CSM</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\HMP\HMPFileData.h">
+      <Filter>AssetLib\HMP</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\HMP\HMPLoader.h">
+      <Filter>AssetLib\HMP</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\HMP\HalfLifeFileData.h">
+      <Filter>AssetLib\HMP</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Irr\IRRMeshLoader.h">
+      <Filter>AssetLib\IRRMESH</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Irr\IRRShared.h">
+      <Filter>AssetLib\IRRMESH</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IQM\iqm.h">
+      <Filter>AssetLib\IQM</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IQM\IQMImporter.h">
+      <Filter>AssetLib\IQM</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Irr\IRRLoader.h">
+      <Filter>AssetLib\IRR</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\LWO\LWOAnimation.h">
+      <Filter>AssetLib\LWO</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\LWO\LWOFileData.h">
+      <Filter>AssetLib\LWO</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\LWO\LWOLoader.h">
+      <Filter>AssetLib\LWO</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\LWS\LWSLoader.h">
+      <Filter>AssetLib\LWS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\M3D\M3DMaterials.h">
+      <Filter>AssetLib\M3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\M3D\M3DImporter.h">
+      <Filter>AssetLib\M3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\M3D\M3DWrapper.h">
+      <Filter>AssetLib\M3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\M3D\m3d.h">
+      <Filter>AssetLib\M3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MD2\MD2FileData.h">
+      <Filter>AssetLib\MD2</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MD2\MD2Loader.h">
+      <Filter>AssetLib\MD2</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MD2\MD2NormalTable.h">
+      <Filter>AssetLib\MD2</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MD3\MD3FileData.h">
+      <Filter>AssetLib\MD3</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MD3\MD3Loader.h">
+      <Filter>AssetLib\MD3</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MD5\MD5Loader.h">
+      <Filter>AssetLib\MD5</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MD5\MD5Parser.h">
+      <Filter>AssetLib\MD5</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDC\MDCFileData.h">
+      <Filter>AssetLib\MDC</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDC\MDCLoader.h">
+      <Filter>AssetLib\MDC</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDC\MDCNormalTable.h">
+      <Filter>AssetLib\MDC</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\MDLDefaultColorMap.h">
+      <Filter>AssetLib\MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\MDLFileData.h">
+      <Filter>AssetLib\MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\MDLLoader.h">
+      <Filter>AssetLib\MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\HalfLife\HalfLifeMDLBaseHeader.h">
+      <Filter>AssetLib\MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\HalfLife\HL1FileData.h">
+      <Filter>AssetLib\MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\HalfLife\HL1MDLLoader.h">
+      <Filter>AssetLib\MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\HalfLife\HL1ImportDefinitions.h">
+      <Filter>AssetLib\MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\HalfLife\HL1ImportSettings.h">
+      <Filter>AssetLib\MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\HalfLife\HL1MeshTrivert.h">
+      <Filter>AssetLib\MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\HalfLife\LogFunctions.h">
+      <Filter>AssetLib\MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MDL\HalfLife\UniqueNameGenerator.h">
+      <Filter>AssetLib\MDL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\NFF\NFFLoader.h">
+      <Filter>AssetLib\NFF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\NDO\NDOLoader.h">
+      <Filter>AssetLib\NDO</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\OFF\OFFLoader.h">
+      <Filter>AssetLib\OFF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Obj\ObjFileData.h">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Obj\ObjFileImporter.h">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Obj\ObjFileMtlImporter.h">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Obj\ObjFileParser.h">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Obj\ObjTools.h">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ogre\OgreImporter.h">
+      <Filter>AssetLib\OGRE</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ogre\OgreStructs.h">
+      <Filter>AssetLib\OGRE</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ogre\OgreParsingUtils.h">
+      <Filter>AssetLib\OGRE</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ogre\OgreBinarySerializer.h">
+      <Filter>AssetLib\OGRE</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ogre\OgreXmlSerializer.h">
+      <Filter>AssetLib\OGRE</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\OpenGEX\OpenGEXImporter.h">
+      <Filter>AssetLib\OPENGEX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\OpenGEX\OpenGEXStructs.h">
+      <Filter>AssetLib\OPENGEX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ply\PlyLoader.h">
+      <Filter>AssetLib\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ply\PlyParser.h">
+      <Filter>AssetLib\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MS3D\MS3DLoader.h">
+      <Filter>AssetLib\MS3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\COB\COBLoader.h">
+      <Filter>AssetLib\COB</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\COB\COBScene.h">
+      <Filter>AssetLib\COB</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderLoader.h">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderDNA.h">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderDNA.inl">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderScene.h">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderSceneGen.h">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderIntermediate.h">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderModifier.h">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderBMesh.h">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderTessellator.h">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Blender\BlenderCustomData.h">
+      <Filter>AssetLib\BLEND</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCLoader.h">
+      <Filter>AssetLib\IFC</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCReaderGen_2x3.h">
+      <Filter>AssetLib\IFC</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\IFC\IFCUtil.h">
+      <Filter>AssetLib\IFC</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\XGL\XGLLoader.h">
+      <Filter>AssetLib\XGL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXCompileConfig.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXImporter.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXParser.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXTokenizer.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXImportSettings.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXConverter.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXUtil.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXDocument.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXProperties.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXMeshGeometry.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXCommon.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Q3D\Q3DLoader.h">
+      <Filter>AssetLib\Q3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Q3BSP\Q3BSPFileData.h">
+      <Filter>AssetLib\Q3BSP</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Q3BSP\Q3BSPFileParser.h">
+      <Filter>AssetLib\Q3BSP</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Q3BSP\Q3BSPFileImporter.h">
+      <Filter>AssetLib\Q3BSP</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Raw\RawLoader.h">
+      <Filter>AssetLib\RAW</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\SIB\SIBImporter.h">
+      <Filter>AssetLib\SIB</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\SMD\SMDLoader.h">
+      <Filter>AssetLib\SMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\STL\STLLoader.h">
+      <Filter>AssetLib\STL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Terragen\TerragenLoader.h">
+      <Filter>AssetLib\TERRAGEN</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Unreal\UnrealLoader.h">
+      <Filter>AssetLib\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X\XFileHelper.h">
+      <Filter>AssetLib\X</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X\XFileImporter.h">
+      <Filter>AssetLib\X</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X\XFileParser.h">
+      <Filter>AssetLib\X</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter.hpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter_Macro.hpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DImporter_Node.hpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DGeoHelper.h">
+      <Filter>AssetLib\X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DXmlHelper.h">
+      <Filter>AssetLib\X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF\glTFCommon.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF\glTFAsset.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF\glTFAsset.inl">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF\glTFAssetWriter.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF\glTFAssetWriter.inl">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF\glTFImporter.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF2\glTF2Asset.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF2\glTF2Asset.inl">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF2\glTF2AssetWriter.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF2\glTF2AssetWriter.inl">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF2\glTF2Importer.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3MF\3MFTypes.h">
+      <Filter>AssetLib\3MF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3MF\XmlSerializer.h">
+      <Filter>AssetLib\3MF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3MF\D3MFImporter.h">
+      <Filter>AssetLib\3MF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3MF\D3MFOpcPackage.h">
+      <Filter>AssetLib\3MF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3MF\3MFXmlTags.h">
+      <Filter>AssetLib\3MF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MMD\MMDCpp14.h">
+      <Filter>AssetLib\MMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MMD\MMDImporter.h">
+      <Filter>AssetLib\MMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MMD\MMDPmdParser.h">
+      <Filter>AssetLib\MMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MMD\MMDPmxParser.h">
+      <Filter>AssetLib\MMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\MMD\MMDVmdParser.h">
+      <Filter>AssetLib\MMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Obj\ObjExporter.h">
+      <Filter>AssetLib\OBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\OpenGEX\OpenGEXExporter.h">
+      <Filter>AssetLib\OPENGEX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Ply\PlyExporter.h">
+      <Filter>AssetLib\PLY</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3DS\3DSExporter.h">
+      <Filter>AssetLib\3DS</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assbin\AssbinExporter.h">
+      <Filter>AssetLib\ASSBIN</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assbin\AssbinFileWriter.h">
+      <Filter>AssetLib\ASSBIN</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assxml\AssxmlExporter.h">
+      <Filter>AssetLib\ASSXML</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assxml\AssxmlFileWriter.h">
+      <Filter>AssetLib\ASSXML</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\M3D\M3DExporter.h">
+      <Filter>AssetLib\M3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Collada\ColladaExporter.h">
+      <Filter>AssetLib\COLLADA</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXExporter.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXExportNode.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\FBX\FBXExportProperty.h">
+      <Filter>AssetLib\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\STL\STLExporter.h">
+      <Filter>AssetLib\STL</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X\XFileExporter.h">
+      <Filter>AssetLib\X</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\X3D\X3DExporter.hpp">
+      <Filter>AssetLib\X3D</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF\glTFExporter.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\glTF2\glTF2Exporter.h">
+      <Filter>AssetLib\GLTF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\3MF\D3MFExporter.h">
+      <Filter>AssetLib\3MF</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\Pbrt\PbrtExporter.h">
+      <Filter>AssetLib\PBRT</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assjson\cencode.h">
+      <Filter>AssetLib\ASSJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Assjson\mesh_splitter.h">
+      <Filter>AssetLib\ASSJSON</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\AssetLib\Step\StepExporter.h">
+      <Filter>AssetLib\STEP</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\unzip\crypt.h">
+      <Filter>Contrib\unzip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\unzip\ioapi.h">
+      <Filter>Contrib\unzip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\unzip\unzip.h">
+      <Filter>Contrib\unzip</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\poly2tri\poly2tri\common\shapes.h">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\poly2tri\poly2tri\common\utils.h">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\poly2tri\poly2tri\sweep\advancing_front.h">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\poly2tri\poly2tri\sweep\cdt.h">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\poly2tri\poly2tri\sweep\sweep.h">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\poly2tri\poly2tri\sweep\sweep_context.h">
+      <Filter>Contrib\Poly2Tri</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\clipper\clipper.hpp">
+      <Filter>Contrib\Clipper</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\include\openddlparser\OpenDDLParser.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\include\openddlparser\OpenDDLParserUtils.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\include\openddlparser\OpenDDLCommon.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\include\openddlparser\OpenDDLExport.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\include\openddlparser\OpenDDLStream.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\include\openddlparser\DDLNode.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\openddlparser\include\openddlparser\Value.h">
+      <Filter>Contrib\openddl_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcAdjacencyInfo.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcArithmeticCodec.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcBinaryStream.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcCommon.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcDVEncodeParams.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcDynamicVectorDecoder.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcDynamicVectorEncoder.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcDynamicVector.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcFIFO.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcIndexedFaceSet.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcIndexedFaceSet.inl">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcSC3DMCDecoder.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcSC3DMCDecoder.inl">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcSC3DMCEncodeParams.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcSC3DMCEncoder.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcSC3DMCEncoder.inl">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcTimer.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcTriangleFans.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcTriangleListDecoder.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcTriangleListDecoder.inl">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcTriangleListEncoder.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcTriangleListEncoder.inl">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcVector.h">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\Open3DGC\o3dgcVector.inl">
+      <Filter>Contrib\open3dgc</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zip\src\miniz.h">
+      <Filter>ziplib</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\zip\src\zip.h">
+      <Filter>ziplib</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\pugixml\src\pugiconfig.hpp">
+      <Filter>Contrib\Pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\pugixml\src\pugixml.hpp">
+      <Filter>Contrib\Pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\contrib\stb\stb_image.h">
+      <Filter>Contrib\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\anim.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\aabb.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\ai_assert.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\camera.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\color4.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\color4.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\include\assimp\config.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\ColladaMetaData.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\commonMetaData.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\defs.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\cfileio.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\light.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\material.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\material.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\matrix3x3.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\matrix3x3.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\matrix4x4.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\matrix4x4.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\mesh.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\ObjMaterial.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\pbrmaterial.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\GltfMaterial.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\postprocess.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\quaternion.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\quaternion.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\scene.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\metadata.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\texture.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\types.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\vector2.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\vector2.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\vector3.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\vector3.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\version.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\cimport.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\AssertHandler.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\importerdesc.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Importer.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\ProgressHandler.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\IOStream.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\IOSystem.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\cexport.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Exporter.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\DefaultIOStream.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\DefaultIOSystem.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\ZipArchiveIOSystem.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\SceneCombiner.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\fast_atof.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\qnan.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\BaseImporter.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Hash.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\MemoryIOWrapper.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\ParsingUtils.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\StreamReader.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\StreamWriter.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\StringComparison.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\StringUtils.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\SGSpatialSort.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\GenericProperty.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\SpatialSort.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\SkeletonMeshBuilder.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\SmallVector.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\SmoothingGroups.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\SmoothingGroups.inl">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\StandardShapes.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\RemoveComments.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Subdivision.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Vertex.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\LineSplitter.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\TinyFormatter.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Profiler.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\LogAux.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Bitmap.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\XMLTools.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\IOStreamBuffer.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\CreateAnimMesh.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\XmlParser.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\MathFunctions.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Exceptional.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\ByteSwapper.h">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Base64.hpp">
+      <Filter>include\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Compiler\pushpack1.h">
+      <Filter>Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Compiler\poppack1.h">
+      <Filter>Compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\include\assimp\Compiler\pstdint.h">
+      <Filter>Compiler</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\code\res\assimp.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="AssetLib">
+      <UniqueIdentifier>{ABEF8F28-5632-3597-912E-DE3774FCAE02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\3D">
+      <UniqueIdentifier>{477600B4-AC8D-3256-A3E3-C0D7F08B0E7E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\3DS">
+      <UniqueIdentifier>{CCBAD6F6-69A3-3960-AE53-CB24EF2957CD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\3MF">
+      <UniqueIdentifier>{96BF37E3-713A-3285-BDEE-98F42BF2D69B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\AC">
+      <UniqueIdentifier>{1AD0F8C9-AB43-3CC1-8519-41C8B960F9DC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\AMF">
+      <UniqueIdentifier>{BA430CBC-0A62-3438-B914-E6586C078CD1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\ASE">
+      <UniqueIdentifier>{589A3B65-3C8C-30E0-9537-8E6A0EE70710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\ASSBIN">
+      <UniqueIdentifier>{F2E2742B-354D-32A4-95BC-6962C6C1F083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\ASSJSON">
+      <UniqueIdentifier>{37741C05-4922-396F-8DE3-C994C09A1463}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\ASSXML">
+      <UniqueIdentifier>{5FB01825-D10F-38A9-91E3-8FCE75725897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\B3D">
+      <UniqueIdentifier>{F1351B4B-F4B6-3CD3-A689-1ADD0B6B5742}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\BLEND">
+      <UniqueIdentifier>{D7573AE1-E85E-3EA2-8C66-8B730861B417}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\BVH">
+      <UniqueIdentifier>{EB12E983-AF18-313B-9EBF-7F3949D49288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\COB">
+      <UniqueIdentifier>{E6A84A97-FEAA-324D-B6F6-A8759E565E12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\COLLADA">
+      <UniqueIdentifier>{68C83084-240D-34FD-AA90-4191B5E06A86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\CSM">
+      <UniqueIdentifier>{366FFA0C-7FC8-369B-8F52-CB1500C09DCA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\DXF">
+      <UniqueIdentifier>{BF16B730-F5CB-3EF5-9367-A9CD87D617BE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\FBX">
+      <UniqueIdentifier>{288894F7-001D-3470-8A44-A0B501504C2C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\GLTF">
+      <UniqueIdentifier>{3B822633-C62F-362B-9918-5BC8A95D4E3A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\HMP">
+      <UniqueIdentifier>{7DD7C5A0-35D2-325A-95CF-0A35ED1430AB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\IFC">
+      <UniqueIdentifier>{604731D6-AB12-3B3B-8BC9-365175316C0F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\IQM">
+      <UniqueIdentifier>{C2F6ADDB-63F6-39AC-9E07-BF0D91F6A2D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\IRR">
+      <UniqueIdentifier>{4B08D9F5-3F7E-314D-B29D-F537C4A57247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\IRRMESH">
+      <UniqueIdentifier>{7E23452E-B759-3E21-9C2D-F8695F7ABE1E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\LWO">
+      <UniqueIdentifier>{3C301663-D8EC-3E63-B3CC-2C13242AE17C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\LWS">
+      <UniqueIdentifier>{144D94CB-EDC1-3BE1-8742-63D130465AFD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\M3D">
+      <UniqueIdentifier>{DA918743-9426-3656-930B-B23F3FDFAE00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\MD2">
+      <UniqueIdentifier>{71CF3BCD-3BB7-367D-B8D4-BFF16FE50239}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\MD3">
+      <UniqueIdentifier>{AD39AF6E-F2D8-367B-8A6D-F977F234701F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\MD5">
+      <UniqueIdentifier>{7657FB39-2B4D-31C2-847D-D74C28EA7DC4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\MDC">
+      <UniqueIdentifier>{00D0F56C-D647-3BD3-BB1D-1E4316694133}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\MDL">
+      <UniqueIdentifier>{4CB95B70-C6AA-3EF1-B0C0-1F8E7ECBCFAA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\MMD">
+      <UniqueIdentifier>{BE304919-A364-3D2A-9605-09393523A575}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\MS3D">
+      <UniqueIdentifier>{09EFC41D-BBC6-34EA-A7E6-2AE382671A4F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\NDO">
+      <UniqueIdentifier>{AAE6F2B9-8E11-388B-A091-3D58D84F7F1C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\NFF">
+      <UniqueIdentifier>{17BE638C-29C4-3B19-998B-09953D51A883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\OBJ">
+      <UniqueIdentifier>{0AF9AAB3-9269-33A1-B259-3E9D07D92F56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\OFF">
+      <UniqueIdentifier>{46357E38-9124-31FB-9501-06263BBB2BE1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\OGRE">
+      <UniqueIdentifier>{59D572F7-7A72-3CB7-9D8D-2FA1BFF8D076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\OPENGEX">
+      <UniqueIdentifier>{9639E5BF-07D1-38EE-B492-5822A281F6E9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\PBRT">
+      <UniqueIdentifier>{42787518-76C1-3EFD-ADF6-1264CE2944C3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\PLY">
+      <UniqueIdentifier>{3AA98C80-3D3E-3649-9A31-668F118444C2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\Q3BSP">
+      <UniqueIdentifier>{AACB8CBA-8AC3-3BFA-8831-E618FFD3CCFB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\Q3D">
+      <UniqueIdentifier>{4FE57A79-7CC1-31C5-9682-24360E3F423C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\RAW">
+      <UniqueIdentifier>{59040254-D1A8-309E-947B-4CECB8DC64FB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\SIB">
+      <UniqueIdentifier>{EF696A39-BD1A-37BE-9259-8E6BC7EAF2A0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\SMD">
+      <UniqueIdentifier>{DF084CA3-52F2-3AC5-8E9F-173DFD0D7800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\STEP">
+      <UniqueIdentifier>{B56BA606-6FCA-3DE4-AA84-5269C0116A3F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\STL">
+      <UniqueIdentifier>{596D1AE1-4C68-3ADA-ADFA-E4BAB17332EA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\TERRAGEN">
+      <UniqueIdentifier>{ED8E2BDB-E2AE-3D79-A8C0-93FAF02BAF92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\X">
+      <UniqueIdentifier>{3940EFE8-BA54-36F0-9C86-0533B9653C13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\X3D">
+      <UniqueIdentifier>{5DBE4D44-FCFD-33B4-98D7-E8B8772E2481}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetLib\XGL">
+      <UniqueIdentifier>{3A9137C8-960F-3A56-85C7-7DF4DBD35D55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CApi">
+      <UniqueIdentifier>{D28CB85D-0847-33E8-BEAD-CE0605B1A773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{4DDCF105-4199-3E2B-8F74-0E89F8CE1B4A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Compiler">
+      <UniqueIdentifier>{4109ABF0-8A7F-353E-90B9-3D55BA44F981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib">
+      <UniqueIdentifier>{CF9D33B9-5024-340C-A93C-39F5835E7492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\Clipper">
+      <UniqueIdentifier>{CDD413E6-2CCD-3A68-A094-D5EF9D7B9EF9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\Poly2Tri">
+      <UniqueIdentifier>{8421D154-69AD-30BC-969D-E4DC6069FEB3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\Pugixml">
+      <UniqueIdentifier>{8F80EF82-1CE1-3F46-95EF-669C684E742F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\open3dgc">
+      <UniqueIdentifier>{A138051D-79AA-37A5-BB32-3C9A35E48DFC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\openddl_parser">
+      <UniqueIdentifier>{611D7B51-172D-309C-8B86-506014893A42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\stb">
+      <UniqueIdentifier>{6F420617-508C-3BBC-AAD8-E3C059936913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contrib\unzip">
+      <UniqueIdentifier>{A491E3CC-DCA4-349B-A903-C400266619A0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exporter">
+      <UniqueIdentifier>{194058CF-6158-384E-B152-42546C3923A1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{B6E41F7E-388E-354F-87B2-1F5D53DAE4CE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logging">
+      <UniqueIdentifier>{A0A1BD06-4B85-35DE-980D-90C9B78506BC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MaterialSystem">
+      <UniqueIdentifier>{08DD04C6-236D-355F-9403-E158CAB803DE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostProcessing">
+      <UniqueIdentifier>{8E408DC3-6DA9-3D9C-A56D-27D03DFB54E8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="STEPParser">
+      <UniqueIdentifier>{280F9345-DED0-333C-BB75-1DF06EF3B3D6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{15EE91CE-F691-3565-9590-3B6853E9F5C6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{6225B641-BA9A-30F7-9226-743D337C381C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\assimp">
+      <UniqueIdentifier>{4F907A4C-40C9-313F-96BC-A30021EC0024}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ziplib">
+      <UniqueIdentifier>{B880B2BB-53E1-3F0C-AFF2-832CF74664D4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -19,7 +19,7 @@ void TestScene::Init() {
 
 	testObj2_ = std::make_unique<BaseGameObject>();
 	testObj2_->Init();
-	testObj2_->SetObject("skin.obj");
+	testObj2_->SetObject("test.fbx");
 
 	testObj3_ = std::make_unique<BaseGameObject>();
 	testObj3_->Init();
@@ -35,7 +35,7 @@ void TestScene::Init() {
 void TestScene::Load() {
 	// modelのload
 	ModelManager::LoadModel("./Engine/Resources/Develop/", "plane.obj");
-	ModelManager::LoadModel("./Engine/Resources/Develop/", "skin.obj");
+	ModelManager::LoadModel("./Engine/Resources/Develop/", "test.fbx");
 	//ModelManager::LoadModel("./Resources/Develop/", "bunny.obj");
 	ModelManager::LoadModel("./Engine/Resources/Develop/", "SquarePyramid.obj");
 	ModelManager::LoadModel("./Engine/Resources/Animation/", "testSkinning.gltf");
