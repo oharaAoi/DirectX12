@@ -2,6 +2,11 @@
 #include <vector>
 #include <string>
 #include "Engine/Math/Vector3.h"
+#include "Engine/Math/MyMath.h"
+#include "Game/WorldObject/Rail.h"
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 /// <summary>
 /// Railの中心点となる場所を編集するクラス
@@ -25,15 +30,23 @@ public:
 
 	void Init();
 	void Update();
+	void Draw(const Matrix4x4& vpMat) const;
+	void DrawObject();
+
+	void Save();
 
 #ifdef _DEBUG
 	void EditRail();
 	void Debug_Gui();
 #endif
 
+	std::vector<Vector3> GetRailPoints();
+
 private:
 
 	std::vector<RailData> railPoints;
+	std::vector<Vector3> railIndexPoints_;
+	std::vector<std::unique_ptr<Rail>> rails_;
 
 	// 新しく点を追加する際のパラメータ
 	Vector3 newPoint_;

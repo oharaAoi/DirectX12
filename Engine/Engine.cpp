@@ -249,11 +249,12 @@ void Engine::SetPipeline(const PipelineKind& kind) {
 		break;
 	case PipelineKind::kSpritePipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
-		
 		break;
 	case PipelineKind::kSkinningPipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::SkinningPipeline, dxCommands_->GetCommandList());
-
+		break;
+	case PipelineKind::kPrimitivePipeline:
+		primitivePipeline_->Draw(dxCommands_->GetCommandList());
 		break;
 	}
 }

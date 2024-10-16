@@ -13,7 +13,7 @@ void WorldTransform::Init(ID3D12Device* device) {
 
 	// 値を初期化しておく
 	scale_ = {1.0f, 1.0f, 1.0f};
-	rotation_ = Quaternion(0.0f, 90, 0, 1.0f);
+	rotation_ = Quaternion(0.0f, 0, 0, 1.0f);
 	translation_ = { 0.0f, 0.0f, 0.0f };
 	worldMat_ = MakeAffineMatrix(scale_, rotation_.Normalize(), translation_);
 }
@@ -48,8 +48,8 @@ void WorldTransform::AdaptToGLTF(const Matrix4x4& mat) const {
 	data_->matWorld = mat * data_->matWorld;
 }
 
-void WorldTransform::SetParent(const Matrix4x4& parentMat) {
-	parentMat_ = &parentMat; 
+void WorldTransform::SetParent(const Matrix4x4* parentMat) {
+	parentMat_ = parentMat; 
 }
 
 void WorldTransform::SetMatrix(const Matrix4x4& mat) {

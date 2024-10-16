@@ -40,7 +40,7 @@ public:
 	/// <param name="angle">: 回転させる角度</param>
 	/// <param name="axis">: 回転させる軸</param>
 	/// <returns></returns>
-	static Quaternion AngleAxis(const float& angle, const Vector3& axis);
+	static Quaternion AngleAxis(float angle, const Vector3& axis);
 
 	static Quaternion EulerToQuaternion(const Vector3& euler);
 

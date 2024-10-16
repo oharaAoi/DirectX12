@@ -40,20 +40,22 @@ private:
 	// 回転する前のQuaternion
 	Quaternion moveQuaternion_;
 
+
 	// ---------------------------------------------------------------
 	// ↓ デバックカメラで使う変数
 	// ---------------------------------------------------------------
 	bool debugCameraMode_ = true;
 
-	float isMoveSpeed_;
-	float isMoveMaxSpeed_ = 10.0f;
+	float moveBaseSpeed_;
+	float moveSpeed_;
+	float moveMaxSpeed_ = 30.0f;
 	Vector3 moveDirection_;
 	Vector2 preMousePos_;
 
-	float yaw_ = 0.0f; 
+	float yaw_ = 0.0f;
 	float pitch_ = 0.0f;
-	float sensitivity_ = 10.0f; // 回転感度
-	
+	float sensitivity_ = 0.05f; // 回転感度
+
 	bool isMove = false;
 
 	Quaternion qYaw;

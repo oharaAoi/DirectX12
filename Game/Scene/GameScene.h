@@ -3,10 +3,11 @@
 #include "Game/Scene/BaseScene.h"
 #include "Engine/Lib/Transform.h"
 #include "Engine/Utilities/DrawUtils.h"
-#include "Game/Camera/BaseCamera.h"
+#include "Game/Camera/RailCamera.h"
 #include "Game/Camera/DebugCamera.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/Editer/RailPointEditer.h"
+#include "Game/GameObject/Player.h"
 
 class GameScene 
 	: public BaseScene {
@@ -27,11 +28,21 @@ public:
 
 private:
 
+	// ------------------- eyePos/view/Projection ------------------- //
+	Vector3 eyePos_;
+	Matrix4x4 viewMat_;
+	Matrix4x4 projectionMat_;
+
 	// ------------------- Camera ------------------- //
-	std::unique_ptr<BaseCamera> mainCamera_;
+	std::unique_ptr<RailCamera> mainCamera_;
+	std::unique_ptr<DebugCamera> debugCamera_;
+	bool isDebugCamera_;
 
 	// ------------------- WorldObject ------------------- //
 	std::unique_ptr<Skydome> skydome_;
+
+	// ------------------- GameObject ------------------- //
+	std::unique_ptr<Player> player_;
 
 	// ------------------- Edier ------------------- //
 	std::unique_ptr<RailPointEditer> railPointEditer_;

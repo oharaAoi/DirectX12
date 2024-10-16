@@ -19,7 +19,11 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	// ↓ Cameraの初期化
 	// -------------------------------------------------
-	mainCamera_ = std::make_unique<DebugCamera>();
+	mainCamera_ = std::make_unique<RailCamera>();
+	mainCamera_->Init();
+
+	debugCamera_ = std::make_unique<DebugCamera>();
+	debugCamera_->Init();
 
 	// -------------------------------------------------
 	// ↓ worldObjectの初期化
@@ -28,10 +32,23 @@ void GameScene::Init() {
 	skydome_->Init();
 
 	// -------------------------------------------------
+	// ↓ GameObjectの初期化
+	// -------------------------------------------------
+	player_ = std::make_unique<Player>();
+	player_->Init();
+
+	// -------------------------------------------------
 	// ↓ Editer初期化
 	// -------------------------------------------------
 	railPointEditer_ = std::make_unique<RailPointEditer>();
 	railPointEditer_->Init();
+
+	// -------------------------------------------------
+	// ↓ 初期化時にやりたい処理を行う
+	// -------------------------------------------------
+	player_->GetTransform()->SetParent((&mainCamera_->GetCameraMatrix()));
+
+	isDebugCamera_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +58,9 @@ void GameScene::Init() {
 void GameScene::Load() {
 	// worldObject
 	ModelManager::LoadModel("./Game/Resources/Skydome/", "skydome.obj");
+	ModelManager::LoadModel("./Game/Resources/", "camera.obj");
+
+	ModelManager::LoadModel("./Engine/Resources/Develop/", "skin.obj");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,9 +71,10 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	// ↓ Cameraの更新
 	// -------------------------------------------------
+	mainCamera_->SetControlPoints(railPointEditer_->GetRailPoints());
 	mainCamera_->Update();
-	Render::SetEyePos(mainCamera_->GetWorldTranslate());
-	Render::SetViewProjection(mainCamera_->GetViewMatrix(), mainCamera_->GetProjectionMatrix());
+
+	debugCamera_->Update();
 
 	// -------------------------------------------------
 	// ↓ worldObjectの更新
@@ -64,6 +85,24 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
+
+	player_->Update();
+
+	// -------------------------------------------------
+	// ↓ Renderの更新
+	// -------------------------------------------------
+	if (!isDebugCamera_) {
+		eyePos_ = mainCamera_->GetWorldTranslate();
+		viewMat_ = mainCamera_->GetViewMatrix();
+		projectionMat_ = mainCamera_->GetProjectionMatrix();
+	} else {
+		eyePos_ = debugCamera_->GetWorldTranslate();
+		viewMat_ = debugCamera_->GetViewMatrix();
+		projectionMat_ = debugCamera_->GetProjectionMatrix();
+	}
+
+	Render::SetEyePos(eyePos_);
+	Render::SetViewProjection(viewMat_, projectionMat_);
 
 #ifdef _DEBUG
 	railPointEditer_->Update();
@@ -79,12 +118,18 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ worldObjectの描画
 	// -------------------------------------------------
-
+	Engine::SetPipeline(PipelineKind::kPrimitivePipeline);
+	railPointEditer_->Draw(viewMat_ * projectionMat_);
+	
+	Engine::SetPipeline(PipelineKind::kNormalPipeline);
+	skydome_->Draw();
+	
 	// -------------------------------------------------
 	// ↓ GameObjectの描画
 	// -------------------------------------------------
-	Engine::SetPipeline(PipelineKind::kNormalPipeline);
-	skydome_->Draw();
+	player_->Draw();
+
+	mainCamera_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,8 +139,9 @@ void GameScene::Draw() const {
 #ifdef _DEBUG
 void GameScene::Debug_Gui() {
 	ImGui::Begin("GameScene");
-
+	ImGui::Checkbox("isDebug", &isDebugCamera_);
 	mainCamera_->Debug_Gui();
+	debugCamera_->Debug_Gui();
 	ImGui::End();
 }
 #endif

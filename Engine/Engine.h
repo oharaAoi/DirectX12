@@ -31,7 +31,8 @@ enum class PipelineKind {
 	kPBRPipeline,
 	kParticlePipeline,
 	kSpritePipeline,
-	kSkinningPipeline
+	kSkinningPipeline,
+	kPrimitivePipeline
 };
 
 class EffectSystem;

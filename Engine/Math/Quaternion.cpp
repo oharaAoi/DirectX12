@@ -45,17 +45,15 @@ Matrix4x4 Quaternion::MakeMatrix() const {
 	return result;
 }
 
-Quaternion Quaternion::AngleAxis(const float& angle, const Vector3& axis) {
+Quaternion Quaternion::AngleAxis(float angle, const Vector3& axis) {
 	Vector3 normalizeAxis = axis.Normalize();
-	// 度数法から孤度法に変更
-	float rad = angle * toRadian;
-	float sinHalfAngle = std::sinf(rad / 2.0f);
+	float sinHalfAngle = std::sin(angle / 2.0f);
 
 	return Quaternion(
-		normalizeAxis.x * sinHalfAngle,
-		normalizeAxis.y * sinHalfAngle,
-		normalizeAxis.z * sinHalfAngle,
-		std::cosf(rad / 2.0f)
+		normalizeAxis.x * std::sin(angle / 2.0f),
+		normalizeAxis.y * std::sin(angle / 2.0f),
+		normalizeAxis.z * std::sin(angle / 2.0f),
+		std::cos(angle / 2.0f)
 	);
 }
 
@@ -66,19 +64,19 @@ Quaternion Quaternion::EulerToQuaternion(const Vector3& euler) {
 	float halfRoll = euler.z * 0.5f;
 
 	// 三角関数の計算
-	float cosPitch = cos(halfPitch);
-	float sinPitch = sin(halfPitch);
-	float cosYaw = cos(halfYaw);
-	float sinYaw = sin(halfYaw);
-	float cosRoll = cos(halfRoll);
-	float sinRoll = sin(halfRoll);
+	float cosPitch = std::cos(halfPitch);
+	float sinPitch = std::sin(halfPitch);
+	float cosYaw = std::cos(halfYaw);
+	float sinYaw = std::sin(halfYaw);
+	float cosRoll = std::cos(halfRoll);
+	float sinRoll = std::sin(halfRoll);
 
 	// クォータニオンの計算
 	Quaternion q;
-	q.w = cosYaw * cosPitch * cosRoll + sinYaw * sinPitch * sinRoll;
-	q.x = cosYaw * sinPitch * cosRoll + sinYaw * cosPitch * sinRoll;
-	q.y = sinYaw * cosPitch * cosRoll - cosYaw * sinPitch * sinRoll;
+	q.x = cosYaw * sinPitch * cosRoll - sinYaw * cosPitch * sinRoll;
+	q.y = sinYaw * cosPitch * cosRoll + cosYaw * sinPitch * sinRoll;
 	q.z = cosYaw * cosPitch * sinRoll - sinYaw * sinPitch * cosRoll;
+	q.w = cosYaw * cosPitch * cosRoll + sinYaw * sinPitch * sinRoll;
 
 	return q.Normalize();  // 正規化して返す
 }
@@ -129,7 +127,7 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const f
 	Quaternion newQ2 = q2;
 	// 内積が負の時最短距離で補完を得るため片方の回転を負にして内積を正にする
 	if (dot < 0) {
-		newQ2 = Quaternion(-q2.x, -q2.y, -q2.z, -q2.w);
+		/*newQ2 = Quaternion(-q2.x, -q2.y, -q2.z, -q2.w);*/
 		dot = -dot;
 	}
 
@@ -140,23 +138,23 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const f
 			q1.y + t * (newQ2.y - q1.y),
 			q1.z + t * (newQ2.z - q1.z),
 			q1.w + t * (newQ2.w - q1.w)
-		).Normalize();
+		);
 	}
 
 	// 二つの回転の角度を求める
-	float rad = std::acosf(dot);
-	float bottom = std::sinf(rad);
-	float a_rotate = std::sinf((1 - t) * rad) / bottom;
-	float b_rotate = std::sinf(t * rad) / bottom;
+	float rad = std::acos(dot);
+	float bottom = std::sin(rad);
+	float a_rotate = std::sin((1.0f - t) * rad) / bottom;
+	float b_rotate = std::sin(t * rad) / bottom;
 
 	Quaternion result = Quaternion(
-		q1.x * a_rotate + newQ2.x * b_rotate,
-		q1.y * a_rotate + newQ2.y * b_rotate,
-		q1.z * a_rotate + newQ2.z * b_rotate,
-		q1.w * a_rotate + newQ2.w * b_rotate
+		(q1.x * a_rotate) + (newQ2.x * b_rotate),
+		(q1.y * a_rotate) + (newQ2.y * b_rotate),
+		(q1.z * a_rotate) + (newQ2.z * b_rotate),
+		(q1.w * a_rotate) + (newQ2.w * b_rotate)
 	);
 
-	return result.Normalize();
+	return result;
 }
 
 Vector3 Quaternion::MakeForward() const {
@@ -188,26 +186,7 @@ Vector3 Quaternion::MakeRight() const {
 }
 
 Vector3 Quaternion::ToEulerAngles() const {
-	//float sinX = 2.0f * y + z - 2.0f * x * w;
-	//float absSinX = std::abs(sinX);
-	//// X軸の回転が0度付近の場合0になるか360度で差が大きいので0に丸める
-	//if (absSinX < kEpsilon) {
-	//	sinX = 0.0f;
-	//}
-
-	//float xRadius = std::asinf(-sinX);
-	///*if (std::isnan(xRadius) || std::abs(std::abs(xRadius) - PI / 2.0f) < kEpsilon) {
-	//	xRadius = std
-	//}*/
-
-	//xRadius = std::asinf(-sinX);
-	//float cosX = std::cosf(xRadius);
-
-	//float sinY = (2 * x * z + 2.0f * y * w) / cosX;
-	//float cosY = (2.0f * 
-
 	Vector3 eulerAngles;
-
 	// ピッチ (X軸の回転)
 	float sinp = 2.0f * (w * x + y * z);
 	if (std::abs(sinp) >= 1.0f)

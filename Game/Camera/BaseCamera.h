@@ -23,7 +23,7 @@ public:
 	virtual void Debug_Gui() {};
 #endif // _DEBUG
 
-	Matrix4x4 GetCameraMatrix() const { return cameraMatrix_; }
+	const Matrix4x4& GetCameraMatrix() const { return cameraMatrix_; }
 
 	Matrix4x4 GetViewMatrix() const { return viewMatrix_; }
 	Matrix4x4 GetProjectionMatrix() const { return projectionMatrix_; }

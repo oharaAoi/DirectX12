@@ -20,7 +20,7 @@ public : // データ構造体
 public:
 
 	// 線分の最大数
-	static const UINT kMaxLineCount = 4096;
+	static const UINT kMaxLineCount = 40960;
 	// 線分の頂点数
 	static const UINT kVertexCountLine = 2;
 

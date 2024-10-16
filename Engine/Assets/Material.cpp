@@ -56,7 +56,7 @@ void Material::SetMaterialData(ModelMaterialData materialData) {
 	materialData_ = materialData;
 
 	pbrMaterial_->color = materialData_.albedo;
-	pbrMaterial_->enableLighting = true;
+	pbrMaterial_->enableLighting = false;
 	pbrMaterial_->uvTransform = MakeIdentity4x4();
 	// 反射用素
 	pbrMaterial_->diffuseColor = materialData_.diffuse;

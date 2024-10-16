@@ -42,7 +42,7 @@ public:
 
 public:
 
-	void SetParent(const Matrix4x4& parentMat);
+	void SetParent(const Matrix4x4* parentMat);
 
 	void SetMatrix(const Matrix4x4& mat);
 	void SetScale(const Vector3& scale) { scale_ = scale; }
@@ -69,7 +69,5 @@ private:
 
 	Matrix4x4 worldMat_;
 	const Matrix4x4* parentMat_ = nullptr;
-
-	float test_angle_ = 0;
 };
 
