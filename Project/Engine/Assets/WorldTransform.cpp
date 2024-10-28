@@ -21,7 +21,6 @@ void WorldTransform::Init(ID3D12Device* device) {
 void WorldTransform::Update(const Matrix4x4& mat) {
 	rotation_ = (rotation_.Normalize() * moveQuaternion_.Normalize());
 	rotation_ = rotation_.Normalize();
-	//Vector3 test = rotation_.ToEulerAngles();
 	moveQuaternion_ = Quaternion();
 
 	if (parentTransition_ != nullptr) {

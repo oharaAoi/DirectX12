@@ -106,6 +106,15 @@
     <Filter Include="Engine\ParticleSystem\Field">
       <UniqueIdentifier>{74c8d076-9996-47da-9754-be95ab9f5d45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\GameObject">
+      <UniqueIdentifier>{c9977321-8003-48d9-bfd7-2761d4c4fa95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\WorldObject">
+      <UniqueIdentifier>{1747b4f0-b714-41c9-873d-b7e3ac64576e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Editer">
+      <UniqueIdentifier>{a9213fe6-5581-416b-a26a-73d463672c69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -392,6 +401,24 @@
     </ClCompile>
     <ClCompile Include="Game\GameResource.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\WorldObject\Rail.cpp">
+      <Filter>Game\WorldObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\WorldObject\Skydome.cpp">
+      <Filter>Game\WorldObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Editer\RailPointEditer.cpp">
+      <Filter>Game\Editer</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\Player.cpp">
+      <Filter>Game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameObject\PlayerBullet.cpp">
+      <Filter>Game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\RailCamera.cpp">
+      <Filter>Game\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -694,6 +721,24 @@
     </ClInclude>
     <ClInclude Include="Game\GameResource.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\WorldObject\Rail.h">
+      <Filter>Game\WorldObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\WorldObject\Skydome.h">
+      <Filter>Game\WorldObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Editer\RailPointEditer.h">
+      <Filter>Game\Editer</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\Player.h">
+      <Filter>Game\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameObject\PlayerBullet.h">
+      <Filter>Game\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\RailCamera.h">
+      <Filter>Game\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

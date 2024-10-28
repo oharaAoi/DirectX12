@@ -18,7 +18,6 @@ public:
 #ifdef _DEBUG
 	void Debug_Gui() override;
 #endif
-
 	/// <summary>
 	/// カメラを動かす
 	/// </summary>
@@ -29,10 +28,11 @@ public:
 	/// </summary>
 	void RotateMove();
 
-	/// <summary>
-	/// マウスのスクロールで移動する
-	/// </summary>
-	void ScrollMove();
+	void SetPlayerPos(Vector3 pos) {
+		transform_.translate.x = pos.x;
+		transform_.translate.y = pos.y;
+	}
+
 
 private:
 
@@ -45,18 +45,18 @@ private:
 	// ---------------------------------------------------------------
 	bool debugCameraMode_ = true;
 
-	float isMoveSpeed_;
-	float isMoveMaxSpeed_ = 10.0f;
+	float moveBaseSpeed_;
+	float moveSpeed_;
+	float moveMaxSpeed_ = 30.0f;
 	Vector3 moveDirection_;
 	Vector2 preMousePos_;
 
-	float yaw_ = 0.0f; 
+	float yaw_ = 0.0f;
 	float pitch_ = 0.0f;
-	float sensitivity_ = 10.0f; // 回転感度
-	
+	float sensitivity_ = 0.05f; // 回転感度
+
 	bool isMove = false;
 
 	Quaternion qYaw;
 	Quaternion qPitch;
 };
-
