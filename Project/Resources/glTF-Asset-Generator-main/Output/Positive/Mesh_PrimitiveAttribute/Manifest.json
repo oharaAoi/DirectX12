@@ -1,0 +1,90 @@
+{
+  "folder": "Mesh_PrimitiveAttribute",
+  "id": 13,
+  "models": [
+    {
+      "fileName": "Mesh_PrimitiveAttribute_00.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Mesh_PrimitiveAttribute_00.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Mesh_PrimitiveAttribute_01.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Mesh_PrimitiveAttribute_01.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Mesh_PrimitiveAttribute_02.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Mesh_PrimitiveAttribute_02.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Mesh_PrimitiveAttribute_03.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Mesh_PrimitiveAttribute_03.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Mesh_PrimitiveAttribute_04.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Mesh_PrimitiveAttribute_04.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Mesh_PrimitiveAttribute_05.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Mesh_PrimitiveAttribute_05.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    },
+    {
+      "fileName": "Mesh_PrimitiveAttribute_06.gltf",
+      "loadable": true,
+      "sampleImageName": "Figures/SampleImages/Mesh_PrimitiveAttribute_06.png",
+      "camera": {
+        "translation": [
+          0,
+          0,
+          1.3
+        ]
+      }
+    }
+  ]
+}

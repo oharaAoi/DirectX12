@@ -1,0 +1,45 @@
+{
+    "uri": "Buffer_Misc_00.gltf",
+    "mimeType": "model/gltf+json",
+    "validatorVersion": "2.0.0-dev.3.2",
+    "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 0,
+        "numHints": 0,
+        "messages": [],
+        "truncated": false
+    },
+    "info": {
+        "version": "2.0",
+        "generator": "glTF Asset Generator",
+        "resources": [
+            {
+                "pointer": "/buffers/0",
+                "mimeType": "application/gltf-buffer",
+                "storage": "external",
+                "uri": "Buffer_Misc_00.bin",
+                "byteLength": 72
+            },
+            {
+                "pointer": "/buffers/1",
+                "mimeType": "application/gltf-buffer",
+                "storage": "external",
+                "uri": "Buffer_Misc_Animation_00.bin",
+                "byteLength": 48
+            }
+        ],
+        "animationCount": 1,
+        "materialCount": 0,
+        "hasMorphTargets": false,
+        "hasSkins": false,
+        "hasTextures": false,
+        "hasDefaultScene": true,
+        "drawCallCount": 1,
+        "totalVertexCount": 4,
+        "totalTriangleCount": 2,
+        "maxUVs": 0,
+        "maxInfluences": 0,
+        "maxAttributes": 1
+    }
+}

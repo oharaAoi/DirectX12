@@ -1,9 +1,0 @@
-{
-  "scripts": {
-    "validate": "node validate.js",
-    "generateScreenshots": "node generateScreenshots.js"
-  },
-  "dependencies": {
-    "gltf-validator": "^2.0.0-dev.3.2"
-  }
-}
