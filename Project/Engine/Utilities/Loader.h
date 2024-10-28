@@ -5,10 +5,12 @@
 #include <sstream>
 #include <cassert>
 #include <unordered_map>
-
 #include "Engine/Assets/Mesh.h"
 #include "Engine/Assets/Material.h"
 #include "Engine/Manager/TextureManager.h"
+#include "Engine/Manager/ModelManager.h"
+
+static void LoadGameResources();
 
 /// <summary>
 /// meshの情報を読み込む

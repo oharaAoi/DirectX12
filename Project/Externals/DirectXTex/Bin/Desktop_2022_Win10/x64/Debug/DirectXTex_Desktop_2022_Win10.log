@@ -1,6 +1,23 @@
-﻿  BC.cpp
+﻿  DirectXTexUtil.cpp
+  BC.cpp
   BC4BC5.cpp
   BC6HBC7.cpp
   BCDirectCompute.cpp
+  DirectXTexCompress.cpp
+  DirectXTexCompressGPU.cpp
+  DirectXTexConvert.cpp
+  DirectXTexD3D11.cpp
+  DirectXTexD3D12.cpp
+  DirectXTexDDS.cpp
+  DirectXTexFlipRotate.cpp
+  DirectXTexHDR.cpp
+  DirectXTexImage.cpp
+  DirectXTexMipMaps.cpp
+  DirectXTexMisc.cpp
+  DirectXTexNormalMaps.cpp
+  DirectXTexPMAlpha.cpp
+  DirectXTexResize.cpp
+  DirectXTexTGA.cpp
+  DirectXTexWIC.cpp
   コードを生成中...
   DirectXTex_Desktop_2022_Win10.vcxproj -> C:\Users\81801\source\repos\LC2\CG2\DirectX12\Project\Externals\DirectXTex\Bin\Desktop_2022_Win10\x64\Debug\DirectXTex.lib

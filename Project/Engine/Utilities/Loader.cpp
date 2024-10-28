@@ -3,6 +3,15 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+void LoadGameResources() {
+	ModelManager::LoadModel("./Engine/Resources/Develop/", "skin.obj");
+	ModelManager::LoadModel("./Engine/Resources/Develop/", "cube.obj");
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　MeshのLoad
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 std::vector<std::unique_ptr<Mesh>> LoadVertexData(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device) {
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + fileName;
@@ -89,6 +98,11 @@ std::vector<std::unique_ptr<Mesh>> LoadVertexData(const std::string& directoryPa
 
 	return result;
 }
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　MaterialのLoad
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device) {
 	Assimp::Importer importer;

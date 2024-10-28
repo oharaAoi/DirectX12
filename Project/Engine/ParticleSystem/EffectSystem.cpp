@@ -83,9 +83,7 @@ void EffectSystem::Update() {
 	// ↓ ImGuiの描画
 	// -------------------------------------------------
 	//particle_->ImGuiDraw();
-#ifdef _DEBUG
-	Debug_Gui();
-#endif
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -160,9 +158,9 @@ void EffectSystem::SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matri
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
 void EffectSystem::Debug_Gui() {
-	/*ImGui::Begin("Engine");
+	ImGui::Begin("Engine");
 	ImGui::Checkbox("openEffectEditer", &isEffectEditer_);
-	ImGui::End();*/
+	ImGui::End();
 }
 
 void EffectSystem::EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device) {

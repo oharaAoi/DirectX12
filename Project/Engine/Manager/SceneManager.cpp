@@ -15,8 +15,9 @@ void SceneManager::Init() {
 	Engine::Initialize(kWindowWidth_, kWindowHeight_);
 	ModelManager::GetInstance()->Init();
 
-	Load();
-	
+	// gameに必要なResourceの読み込み
+	LoadGameResources();
+
 	scene_ = std::make_unique<GameScene>();
 	scene_->Init();
 
@@ -46,17 +47,7 @@ void SceneManager::Run() {
 		Engine::SetPipeline(PipelineType::ParticlePipeline);
 		effectSystem_->Draw();
 
-		// ------------------------------------ //
-		// シーン変更があるか
-		// ------------------------------------ //
 		#ifdef _DEBUG
-		/*ImGui::Begin("SceneManager");
-		if (ImGui::Combo("Scene", &selectSceneNum_, "Title\0Tutorial\0Game\0Result\0Test\0")) {
-			isSceneChange_ = true;
-
-		}
-		ImGui::End();*/
-
 		// ------------------------------------ //
 		// EffectEditerの処理
 		// ------------------------------------ //
@@ -67,6 +58,8 @@ void SceneManager::Run() {
 			Engine::SetPipeline(PipelineType::ParticlePipeline);
 			effectSystem_->DrawEditer();
 		}
+
+		effectSystem_->Debug_Gui();
 		#endif
 		gameTimer_.FPS();
 
@@ -77,9 +70,9 @@ void SceneManager::Run() {
 		Engine::EndImGui();
 
 		#ifdef _DEBUG
-		/*if (effectSystem_->GetIsEffectEditer()) {
+		if (effectSystem_->GetIsEffectEditer()) {
 			effectSystem_->EndEditer();
-		}*/
+		}
 		#endif
 
 		Engine::EndFrame();
@@ -89,10 +82,6 @@ void SceneManager::Run() {
 	}
 
 	Finalize();
-}
-
-void SceneManager::Load() {
-	
 }
 
 void SceneManager::SetChange() {
