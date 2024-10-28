@@ -318,22 +318,6 @@ void Engine::SetPipeline(const PipelineType& kind) {
 	case PipelineType ::SkinningPipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::SkinningPipeline, dxCommands_->GetCommandList());
 		break;
-
-	case PipelineType ::WaterSpacePipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::WaterSpacePipeline, dxCommands_->GetCommandList());
-		break;
-	case PipelineType::WaterLightingPipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::WaterLightingPipeline, dxCommands_->GetCommandList());
-		break;
-	case PipelineType::NotCullingPipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::NotCullingPipeline, dxCommands_->GetCommandList());
-		break;
-	case PipelineType::AddBlendSpritePipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::AddBlendSpritePipeline, dxCommands_->GetCommandList());
-		break;
-	case PipelineType::NormalBlendSpritePipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::NormalBlendSpritePipeline, dxCommands_->GetCommandList());
-		break;
 	}
 }
 

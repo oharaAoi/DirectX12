@@ -12,12 +12,6 @@ enum class PipelineType{
 	SpritePipeline,
 	SkinningPipeline,
 	PrimitivePipeline,
-
-	WaterSpacePipeline,
-	WaterLightingPipeline,
-	NotCullingPipeline,
-	AddBlendSpritePipeline,
-	NormalBlendSpritePipeline
 };
 
 class GraphicsPipelines {

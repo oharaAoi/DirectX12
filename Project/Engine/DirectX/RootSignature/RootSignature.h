@@ -45,13 +45,6 @@ public:
 
 public:
 
-	/// <summary>
-	/// 波を打つ
-	/// </summary>
-	/// <returns></returns>
-	ComPtr<ID3D12RootSignature> CreateWaterSpaceRootSignature();
-	ComPtr<ID3D12RootSignature> CreateWaterLightingRootSignature();
-
 	using FunctionPointer = ComPtr<ID3D12RootSignature>(RootSignature::*)();
 	std::unordered_map<RootSignatureType, FunctionPointer> functionMap_ = {
 		// graphics
@@ -67,9 +60,6 @@ public:
 		{RootSignatureType::CsSkinning, &RootSignature::CreateCsSkinnigRootSignature},
 		{RootSignatureType::ComputeShaderBlend, &RootSignature::CreateBlendShaderRootSignature},
 		{RootSignatureType::CSReultRenderBlend, &RootSignature::CreateResultRenderRootSignature},
-		// game
-		{RootSignatureType::WaterSpace, &RootSignature::CreateWaterSpaceRootSignature},
-		{RootSignatureType::WaterLighting, &RootSignature::CreateWaterLightingRootSignature},
 	};
 
 	ComPtr<ID3D12RootSignature> Create(const RootSignatureType& type);

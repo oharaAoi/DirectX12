@@ -387,6 +387,9 @@
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorAllocator.cpp">
       <Filter>Engine\DirectX\Descriptor</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Math\Vector2.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">

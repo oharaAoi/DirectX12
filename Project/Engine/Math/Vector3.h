@@ -5,7 +5,9 @@
 /// <summary>
 /// 3次元ベクトル
 /// </summary>
-struct Vector3 final{
+class Vector3 final{
+public:
+
 	float x;
 	float y;
 	float z;
@@ -102,41 +104,45 @@ struct Vector3 final{
 	// =============================================
 	// 数学用関数
 
-	Vector3 Normalize() const{
-		float length = Length();
-		if(length == 0.0f) {
-			return *this;
-		}
-		return Vector3(x / length, y / length, z / length);
-	}
+	/// <summary>
+	/// 正規化
+	/// </summary>
+	/// <returns></returns>
+	Vector3 Normalize() const;
 
-	float Length() const{
-		return std::sqrtf(x * x + y * y + z * z);
-	}
+	/// <summary>
+	/// 長さをとる
+	/// </summary>
+	/// <returns></returns>
+	float Length() const;
 
-	float Dot(const Vector3& v1) const{
-		return (this->x * v1.x) + (this->y * v1.y) + (this->z * v1.z);
-	}
+	/// <summary>
+	/// 内積
+	/// </summary>
+	/// <param name="v1">: ベクトル1</param>
+	/// <param name="v2">: ベクトル2</param>
+	/// <returns></returns>
+	static float Dot(const Vector3& v1, const Vector3& v2);
 
-	float Dot(const Vector3& v1, const Vector3& v2) const{
-		return (v2.x * v1.x) + (v2.y * v1.y) + (v2.z * v1.z);
-	}
+	/// <summary>
+	/// 外積
+	/// </summary>
+	/// <param name="v1">: ベクトル1</param>
+	/// <param name="v2">: ベクトル2</param>
+	/// <returns></returns>
+	static Vector3 Cross(const Vector3& v1, const Vector3& v2);
 
-	Vector3 Cross(const Vector3& v1) const{
-		Vector3 result{};
-
-		result.x = this->y * v1.z - this->z * v1.y;
-		result.y = this->z * v1.x - this->x * v1.z;
-		result.z = this->x * v1.y - this->y * v1.x;
-
-		return result;
-	}
-
-	static Vector3 Lerp(const Vector3& start, const Vector3& end, float t){
-		Vector3 result{};
-		result.x = std::lerp(start.x, end.x, t);
-		result.y = std::lerp(start.y, end.y, t);
-		result.z = std::lerp(start.z, end.z, t);
-		return result;
-	}
+	/// <summary>
+	/// 線形補完
+	/// </summary>
+	/// <param name="start">: 開始</param>
+	/// <param name="end">: 終わり</param>
+	/// <param name="t">: 補完係数</param>
+	/// <returns></returns>
+	static Vector3 Lerp(const Vector3& start, const Vector3& end, float t);
 };
+
+// フリー関数
+inline Vector3 operator*(const float& obj, const Vector3& vec) {
+	return Vector3(vec.x * obj, vec.y * obj, vec.z * obj);
+}

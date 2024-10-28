@@ -71,8 +71,6 @@ Matrix4x4 Inverse(Matrix4x4 matrix) {
         }
     }
 
-    const float kEpsilon = 1e-6f; // 小さな値を設定して比較するために使用
-
     // 前進消去
     for (int i = 0; i < 4; ++i) {
         // ピボットが0に近い場合は行の入れ替えを行う

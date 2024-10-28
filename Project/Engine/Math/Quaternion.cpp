@@ -90,7 +90,7 @@ Quaternion Quaternion::FromToRotation(const Vector3& fromDire, const Vector3& to
 	}
 
 	// 内積の定義から回転量を求める 
-	float rad = std::acosf(fromDire.Dot(toDire) / (fromDire.Length() * toDire.Length()));
+	float rad = std::acosf(Vector3::Dot(fromDire, toDire) / (fromDire.Length() * toDire.Length()));
 
 	return AngleAxis(rad * toDegree, axis);
 }
@@ -215,7 +215,7 @@ Quaternion Quaternion::operator*(const Quaternion& q2) const {
 	Vector3 v1 = Vector3(this->x, this->y, this->z);
 	Vector3 v2 = Vector3(q2.x, q2.y, q2.z);
 
-	float dot = v1.Dot(v2);
+	float dot = Vector3::Dot(v1, v2);
 	float newW = (this->w * q2.w) - dot;
 
 	Vector3 cross{};
