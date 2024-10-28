@@ -21,7 +21,7 @@ void ParticleForGPU::Update(const Matrix4x4& world, const Matrix4x4& view, const
 	particleData_[index].world = world;
 	particleData_[index].view = view;
 	particleData_[index].projection = projection;
-	particleData_[index].worldInverseTranspose = Transpose(Inverse(world));
+	particleData_[index].worldInverseTranspose = Inverse(world).Transpose();
 	particleData_[index].color = color;
 }
 

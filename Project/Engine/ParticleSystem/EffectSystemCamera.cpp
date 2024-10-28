@@ -17,14 +17,14 @@ void EffectSystemCamera::Init() {
 		{0.0f, 5.0f, -9.0f}
 	};
 
-	scaleMat_ = MakeScaleMatrix(transform_.scale);
-	rotateMat_ = MakeRotateXYZMatrix(transform_.rotate);
-	translateMat_ = MakeTranslateMatrix(transform_.translate);
+	scaleMat_ = transform_.scale.MakeScaleMat();
+	rotateMat_ = transform_.rotate.MakeRotateMat();
+	translateMat_ = transform_.translate.MakeTranslateMat();
 
 	// worldの生成
 	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
 	viewMatrix_ = Inverse(cameraMatrix_);
-	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, float(1280.0f) / float(720.0f), 0.1f, 100.0f);
+	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(0.45f, float(1280.0f) / float(720.0f), 0.1f, 100.0f);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,9 +32,9 @@ void EffectSystemCamera::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemCamera::Update() {
-	scaleMat_ = MakeScaleMatrix(transform_.scale);
-	rotateMat_ = MakeRotateXYZMatrix(transform_.rotate);
-	translateMat_ = MakeTranslateMatrix(transform_.translate);
+	scaleMat_ = transform_.scale.MakeScaleMat();
+	rotateMat_ = transform_.rotate.MakeRotateMat();
+	translateMat_ = transform_.translate.MakeTranslateMat();
 
 	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
 	viewMatrix_ = Inverse(cameraMatrix_);

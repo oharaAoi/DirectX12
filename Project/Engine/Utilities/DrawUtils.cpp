@@ -55,9 +55,9 @@ void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color)
 void DrawOBB(const OBB& obb, const Matrix4x4& vpMatrix, const Vector4& color) {
 	Matrix4x4 rotateMatrix = obb.matRotate;
 	// 平行移動分を作成
-	Matrix4x4 matTranslate = MakeTranslateMatrix(obb.center);
+	Matrix4x4 matTranslate = obb.center.MakeTranslateMat();
 	// 拡縮分
-	Matrix4x4 matScale = MakeScaleMatrix({ 1.0f,1.0f, 1.0f });
+	Matrix4x4 matScale = Vector3({ 1.0f,1.0f, 1.0f }).MakeScaleMat();
 	// ワールド行列を求める
 	Matrix4x4 worldMat = matScale * rotateMatrix * matTranslate;
 

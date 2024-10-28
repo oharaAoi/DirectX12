@@ -46,7 +46,7 @@ public:
 	struct ModelMaterialData {
 		Vector4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 		int32_t enableLighting = 1;
-		Matrix4x4 uvTransform = MakeIdentity4x4();
+		Matrix4x4 uvTransform = Matrix4x4::MakeUnit();
 		float shininess = 1.0f;
 		std::string textureFilePath; // 使用するtextureのパス
 	};

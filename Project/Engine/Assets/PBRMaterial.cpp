@@ -13,7 +13,7 @@ void PBRMaterial::Init(ID3D12Device* device) {
 
 	pbrMaterial_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	pbrMaterial_->enableLighting = false;
-	pbrMaterial_->uvTransform = MakeIdentity4x4();
+	pbrMaterial_->uvTransform = Matrix4x4::MakeUnit();
 
 	pbrMaterial_->diffuseColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	pbrMaterial_->specularColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -56,8 +56,6 @@ void PBRMaterial::Debug_Gui() {
 	ImGui::DragFloat("roughness", &pbrMaterial_->roughness, 0.01f, 0.0f, 1.0f);
 	ImGui::DragFloat("metallic", &pbrMaterial_->metallic, 0.01f, 0.0f, 1.0f);
 	//ImGui::DragFloat("shininess", &pbrMaterial_->shininess, 0.1f);
-
-	pbrMaterial_->uvTransform = MakeAffineMatrix(uvScale_, uvRotation_, uvTranslation_);
 }
 #endif
 
@@ -66,7 +64,7 @@ void PBRMaterial::SetMaterialData(Model::ModelMaterialData materialData) {
 
 	pbrMaterial_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	pbrMaterial_->enableLighting = true;
-	pbrMaterial_->uvTransform = MakeIdentity4x4();
+	pbrMaterial_->uvTransform = Matrix4x4::MakeUnit();
 
 	pbrMaterial_->diffuseColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	pbrMaterial_->specularColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);

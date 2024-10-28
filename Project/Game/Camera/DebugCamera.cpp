@@ -22,14 +22,14 @@ void DebugCamera::Init() {
 	};
 
 	// 行列の生成
-	scaleMat_ = MakeScaleMatrix(transform_.scale);
-	rotateMat_ = MakeRotateXYZMatrix(transform_.rotate);
-	translateMat_ = MakeTranslateMatrix(transform_.translate);
+	scaleMat_ = transform_.scale.MakeScaleMat();
+	rotateMat_ = transform_.rotate.MakeRotateMat();
+	translateMat_ = transform_.translate.MakeTranslateMat();
 
 	// worldの生成
 	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
 	viewMatrix_ = Inverse(cameraMatrix_);
-	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, float(kWindowWidth_) / float(kWindowHeight_), 0.1f, 100.0f);
+	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(0.45f, float(kWindowWidth_) / float(kWindowHeight_), 0.1f, 100.0f);
 
 	debugCameraMode_ = true;
 
@@ -47,14 +47,14 @@ void DebugCamera::Update() {
 
 	quaternion_ = quaternion_.Normalize();
 
-	scaleMat_ = MakeScaleMatrix(transform_.scale);
+	scaleMat_ = transform_.scale.MakeScaleMat();
 	rotateMat_ = quaternion_.MakeMatrix();
-	translateMat_ = MakeTranslateMatrix(transform_.translate);
+	translateMat_ = transform_.translate.MakeTranslateMat();
 
 	cameraMatrix_ =scaleMat_ * rotateMat_ * translateMat_;
 	viewMatrix_ = Inverse(cameraMatrix_);
 
-	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, float(kWindowWidth_) / float(kWindowHeight_), 0.1f, 100.0f);
+	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(0.45f, float(kWindowWidth_) / float(kWindowHeight_), 0.1f, 100.0f);
 }
 
 #ifdef _DEBUG

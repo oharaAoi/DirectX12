@@ -21,7 +21,7 @@ void Material::Init(ID3D12Device* device) {
 	// 色を決める
 	material_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	material_->enableLighting = false;
-	material_->uvTransform = MakeIdentity4x4();
+	material_->uvTransform = Matrix4x4::MakeUnit();
 	material_->shininess = 0;
 
 	uvTranslation_ = { 0,0,0 };
@@ -70,6 +70,6 @@ void Material::SetMaterialData(Model::ModelMaterialData materialData) {
 
 	material_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	material_->enableLighting = true;
-	material_->uvTransform = MakeIdentity4x4();
+	material_->uvTransform = Matrix4x4::MakeUnit();
 	material_->shininess = 50;
 }

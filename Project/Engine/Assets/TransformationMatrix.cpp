@@ -25,7 +25,7 @@ void TransformationMatrix::Update(const Matrix4x4& world, const Matrix4x4& view,
 		TransformationData_[oi].world = world;
 		TransformationData_[oi].view = view;
 		TransformationData_[oi].projection = projection;
-		TransformationData_[oi].worldInverseTranspose = Transpose(Inverse(world));
+		TransformationData_[oi].worldInverseTranspose = Inverse(world).Transpose();
 	}
 }
 

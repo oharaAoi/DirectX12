@@ -75,7 +75,7 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	materialBuffer_ = CreateBufferResource(device, sizeof(TextureMaterial));
 	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 	materialData_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
-	materialData_->uvTransform = MakeIdentity4x4();
+	materialData_->uvTransform = Matrix4x4::MakeUnit();
 	materialData_->uvDrawRange = { 1.0f, 1.0f };
 	
 	// ----------------------------------------------------------------------------------
@@ -87,8 +87,8 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 
 	transformData_->wvp = Matrix4x4(
 		MakeAffineMatrix(transform_)
-		* MakeIdentity4x4()
-		* MakeOrthograhicMatrix(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f)
+		* Matrix4x4::MakeUnit()
+		* Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f)
 	);
 }
 
@@ -158,7 +158,7 @@ void Sprite::Draw(bool isBackGround) {
 	// アフィン変換行列の作成
 	Matrix4x4 affineMatrix = MakeAffineMatrix(transform_);
 	// テクスチャ位置を保持するための補正行列
-	Matrix4x4 correctionTranslation = MakeTranslateMatrix({ pivotOffset.x, pivotOffset.y, 0.0f });
+	Matrix4x4 correctionTranslation = Vector3({ pivotOffset.x, pivotOffset.y, 0.0f }).MakeTranslateMat();
 
 	// 最終的なスプライトの変換行列
 	transformData_->wvp = Matrix4x4(

@@ -26,7 +26,7 @@ public:
 
 	void Finalize();
 	void Init(ID3D12Device* device);
-	void Update(const Matrix4x4& mat = MakeIdentity4x4());
+	void Update(const Matrix4x4& mat = Matrix4x4::MakeUnit());
 	void Draw(ID3D12GraphicsCommandList* commandList) const;
 
 #ifdef _DEBUG

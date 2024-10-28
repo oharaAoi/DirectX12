@@ -94,7 +94,7 @@ public:
 	/// </summary>
 	/// <param name="st">: 開始位置</param>
 	/// <param name="end">: 終了位置</param>
-	/// <param name="t">: 係数</param>
+	/// <param name="t"></param>
 	/// <returns></returns>
 	static Vector2 Lerp(const Vector2& st, const Vector2& end, float t);
 };

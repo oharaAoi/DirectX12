@@ -25,7 +25,7 @@ void Skeleton::Init() {
 
 void Skeleton::Update() {
 	for (Joint& joint : joints_) {
-		joint.localMat = MakeAffineMatrix(joint.transform.scale, joint.transform.rotate.Normalize(), joint.transform.translate);
+		joint.localMat = Matrix4x4::MakeAffine(joint.transform.scale, joint.transform.rotate.Normalize(), joint.transform.translate);
 
 		if (joint.parent) {
 			joint.skeltonSpaceMat = joint.localMat * joints_[*joint.parent].skeltonSpaceMat;
@@ -58,7 +58,7 @@ int32_t Skeleton::CreateJoint(const Model::Node& node, const std::optional<int32
 	Joint joint;
 	joint.name = node.name;
 	joint.localMat = node.localMatrix;
-	joint.skeltonSpaceMat = MakeIdentity4x4();
+	joint.skeltonSpaceMat = Matrix4x4::MakeUnit();
 	joint.transform = node.transform;
 	joint.index = int32_t(joints_.size());	// 登録されている数
 	joint.parent = parent;

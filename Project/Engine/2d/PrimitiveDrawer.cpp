@@ -50,7 +50,7 @@ void PrimitiveDrawer::Init(ID3D12Device* device) {
 	wvpBuffer_ = CreateBufferResource(device, sizeof(Matrix4x4));
 	wvpData_ = nullptr;
 	wvpBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData_));
-	*wvpData_ = MakeIdentity4x4();
+	*wvpData_ = Matrix4x4::MakeUnit();
 
 	useIndex_ = 0;
 }

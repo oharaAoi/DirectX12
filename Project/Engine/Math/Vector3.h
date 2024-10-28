@@ -1,6 +1,8 @@
 #pragma once
-#include "Matrix4x4.h"
 #include <cmath>
+#include "Matrix4x4.h"
+//
+//class Matrix4x4;
 
 /// <summary>
 /// 3次元ベクトル
@@ -117,6 +119,24 @@ public:
 	float Length() const;
 
 	/// <summary>
+	/// 拡縮行列の作成
+	/// </summary>
+	/// <returns></returns>
+	Matrix4x4 MakeScaleMat() const;
+
+	/// <summary>
+	/// 回転行列の作成
+	/// </summary>
+	/// <returns></returns>
+	Matrix4x4 MakeRotateMat() const;
+
+	/// <summary>
+	/// 平行行列の作成
+	/// </summary>
+	/// <returns></returns>
+	Matrix4x4 MakeTranslateMat() const;
+
+	/// <summary>
 	/// 内積
 	/// </summary>
 	/// <param name="v1">: ベクトル1</param>
@@ -140,6 +160,28 @@ public:
 	/// <param name="t">: 補完係数</param>
 	/// <returns></returns>
 	static Vector3 Lerp(const Vector3& start, const Vector3& end, float t);
+
+	/// <summary>
+	/// Matrixを作成する(z軸)
+	/// </summary>
+	/// <param name="z"></param>
+	/// <returns></returns>
+	Matrix4x4 MakeRollMatrix(float z_Roll) const;
+
+	/// <summary>
+	/// Matrixを作成する(x軸)
+	/// </summary>
+	/// <param name="x"></param>
+	/// <returns></returns>
+	Matrix4x4 MakePitchMatrix(float x_Picth) const;
+
+	/// <summary>
+	/// Matrixを作成する(y軸)
+	/// </summary>
+	/// <param name="y"></param>
+	/// <returns></returns>
+	Matrix4x4 MakeYawMatrix(float y_Yaw) const;
+
 };
 
 // フリー関数

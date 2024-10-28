@@ -6,9 +6,9 @@ Matrix4x4 MakeAffineMatrix(const kTransform& transform) {
     Matrix4x4 translateMatrix{};
     Matrix4x4 affineMatrix{};
 
-    scaleMatrix = MakeScaleMatrix(transform.scale);
-    rotateMatrix = MakeRotateXYZMatrix(transform.rotate);
-    translateMatrix = MakeTranslateMatrix(transform.translate);
+    scaleMatrix = transform.scale.MakeScaleMat();
+    rotateMatrix = transform.rotate.MakeRotateMat();
+    translateMatrix = transform.translate.MakeTranslateMat();
 
     affineMatrix = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
 

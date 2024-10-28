@@ -58,7 +58,7 @@ void RenderTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	materialBuffer_ = CreateBufferResource(device, sizeof(TextureMaterial));
 	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 	materialData_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
-	materialData_->uvTransform = MakeIdentity4x4();
+	materialData_->uvTransform = Matrix4x4::MakeUnit();
 	materialData_->uvDrawRange = { 1.0f, 1.0f };
 	
 	// ----------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ void RenderTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	transformData_->wvp = Matrix4x4(
 		MakeAffineMatrix(transform)
 		* Inverse(MakeAffineMatrix(transform))
-		* MakeOrthograhicMatrix(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f)
+		* Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f)
 	);
 
 	// 最終的に描画させるResourceの作成
