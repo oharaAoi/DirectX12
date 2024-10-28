@@ -72,6 +72,8 @@ public:
 	/// <param name="emitter"></param>
 	void AddParticleList(const ParticleCreateData& emitter);
 
+	BaseParticle* GetBaseParticle() { return particles_.get(); }
+
 public:
 
 	std::list<ParticleData>& GetParticleList() { return particlesData_; }

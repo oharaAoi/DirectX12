@@ -1,5 +1,4 @@
 #include "BaseParticle.h"
-
 void BaseParticle::Finalize() {
 	materialArray_.clear();
 	meshArray_.clear();

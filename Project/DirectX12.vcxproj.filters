@@ -234,9 +234,6 @@
     <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ParticleSystem\ParticleForGPU.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
@@ -390,6 +387,12 @@
     <ClCompile Include="Engine\Math\Vector2.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameResource.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -542,9 +545,6 @@
     <ClInclude Include="Engine\DirectX\Pipeline\Blend.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ParticleSystem\BaseParticle.h">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\ParticleForGPU.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
@@ -688,6 +688,12 @@
     </ClInclude>
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorAllocator.h">
       <Filter>Engine\DirectX\Descriptor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\BaseParticle.h">
+      <Filter>Engine\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameResource.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

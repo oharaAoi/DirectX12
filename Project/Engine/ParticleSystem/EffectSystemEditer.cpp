@@ -48,6 +48,9 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 	effectSystemCamera_ = std::make_unique<EffectSystemCamera>();
 
 	CreateEffect();
+
+	particleField_ = std::make_unique<ParticleField>();
+	particleField_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,11 +81,16 @@ void EffectSystemEditer::Update() {
 			ImGui::Begin("Editor");
 			(*effectListIter)->Debug_Gui();
 			ImGui::End();
+			particleField_->SetParticle((*effectListIter).get());
 			++effectListIter;
 		}
 
 		++effectDataListIter;
 	}
+
+	particleField_->Update();
+
+	particleField_->Debug_Gui();
 
 	//DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 }

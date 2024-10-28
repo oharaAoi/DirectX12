@@ -16,7 +16,7 @@ void SceneManager::Init() {
 	ModelManager::GetInstance()->Init();
 
 	// gameに必要なResourceの読み込み
-	LoadGameResources();
+	resources_.Load();
 
 	scene_ = std::make_unique<GameScene>();
 	scene_->Init();
@@ -52,6 +52,7 @@ void SceneManager::Run() {
 		// EffectEditerの処理
 		// ------------------------------------ //
 
+		effectSystem_->Debug_Gui();
 		if (effectSystem_->GetIsEffectEditer()) {
 			effectSystem_->BeginEditer();
 			effectSystem_->UpdateEditer();
@@ -59,7 +60,6 @@ void SceneManager::Run() {
 			effectSystem_->DrawEditer();
 		}
 
-		effectSystem_->Debug_Gui();
 		#endif
 		gameTimer_.FPS();
 

@@ -29,10 +29,9 @@ public:
 
 	void Draw(const Matrix4x4& vpMatrix) const;
 
-	/// <summary>
-	/// ImGuiを編集する
-	/// </summary>
-	void EditImGui();
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
 
 public:
 

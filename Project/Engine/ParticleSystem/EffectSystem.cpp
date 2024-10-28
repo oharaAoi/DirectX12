@@ -15,9 +15,8 @@ EffectSystem* EffectSystem::GetInstacne() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystem::Init() {
-	/*particleField_ = std::make_unique<ParticleField>();
-	particleField_->Init();*/
-	/*particleField_->SetParticle(particle_.get());*/
+	particleField_ = std::make_unique<ParticleField>();
+	particleField_->Init();
 
 	// -------------------------------------------------
 	// ↓ Systemの初期化
@@ -66,6 +65,7 @@ void EffectSystem::Update() {
 		// ↓ effectの更新
 		// -------------------------------------------------
 		for (std::list<std::unique_ptr<BaseEffect>>::iterator effectListIter = effectDataListIter->effectList.begin(); effectListIter != effectDataListIter->effectList.end();) {
+			particleField_->SetParticle((*effectListIter).get());
 			(*effectListIter)->SetCameraMatrix(cameraMat_);
 			(*effectListIter)->Update(viewMat_, projectionMat_);
 			++effectListIter;
@@ -79,11 +79,9 @@ void EffectSystem::Update() {
 	// -------------------------------------------------
 	//particleField_->Update();
 
-	// -------------------------------------------------
-	// ↓ ImGuiの描画
-	// -------------------------------------------------
-	//particle_->ImGuiDraw();
-
+#ifdef _DEBUG
+	//particleField_->Debug_Gui();
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

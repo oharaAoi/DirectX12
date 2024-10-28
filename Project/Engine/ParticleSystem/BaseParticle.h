@@ -5,7 +5,8 @@
 #include <sstream>
 #include <cassert>
 #include <unordered_map>
-
+#include "Engine/Assets/Mesh.h"
+#include "Engine/Assets/Material.h"
 #include "Engine/Utilities/Loader.h"
 #include "Engine/ParticleSystem/ParticleForGPU.h"
 #include "Engine/Manager/TextureManager.h"
