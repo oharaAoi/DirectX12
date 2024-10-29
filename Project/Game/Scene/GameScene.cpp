@@ -38,6 +38,13 @@ void GameScene::Init() {
 		auto& newRail = rails_.emplace_back(std::make_unique<Rail>());
 		newRail->Init();
 	}
+
+	// -------------------------------------------------
+	// ↓ Managerの初期化
+	// -------------------------------------------------
+	enemyManager_ = std::make_unique<EnemyManager>();
+	enemyManager_->Init();
+
 	// -------------------------------------------------
 	// ↓ UI初期化
 	// -------------------------------------------------
@@ -110,6 +117,13 @@ void GameScene::Update() {
 	reticle_->Update(playerPos, player_->GetForward(), mainCamera_->GetVpvpMatrix());
 
 	// -------------------------------------------------
+	// ↓ Managerの更新
+	// -------------------------------------------------
+	enemyManager_->SetPlayerForward(player_->GetForward());
+	enemyManager_->SetPlayerPos(player_->GetWorldPos());
+	enemyManager_->Update();
+
+	// -------------------------------------------------
 	// ↓ 死亡の確認
 	// -------------------------------------------------
 	playerBullets_.remove_if([](auto& bullet) {return bullet->GetIsAlive(); });
@@ -149,13 +163,15 @@ void GameScene::Draw() const {
 		rails_[index]->Draw();
 	}
 
+	// -------------------------------------------------
+	// ↓ GameObjectの描画
+	// -------------------------------------------------
+	enemyManager_->Draw();
+
 	for (const auto& bullet : playerBullets_) {
 		bullet->Draw();
 	}
 
-	// -------------------------------------------------
-	// ↓ GameObjectの描画
-	// -------------------------------------------------
 	player_->Draw();
 
 	//mainCamera_->Draw();

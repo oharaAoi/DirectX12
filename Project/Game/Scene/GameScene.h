@@ -10,6 +10,7 @@
 #include "Game/WorldObject/Rail.h"
 #include "Game/GameObject/Player.h"
 #include "Game/GameObject/PlayerBullet.h"
+#include "Game/Manager/EnemyManager.h"
 #include "Game/UI/Reticle.h"
 
 class GameScene 
@@ -31,28 +32,31 @@ public:
 
 private:
 
-	// ------------------- eyePos/view/Projection ------------------- //
+	// --- eyePos/view/Projection ------------------- //
 	Vector3 eyePos_;
 	Matrix4x4 viewMat_;
 	Matrix4x4 projectionMat_;
 
-	// ------------------- Camera ------------------- //
+	// --- Camera ---------------------------------- //
 	std::unique_ptr<RailCamera> mainCamera_;
 	std::unique_ptr<DebugCamera> debugCamera_;
 	bool isDebugCamera_;
 
-	// ------------------- WorldObject ------------------- //
+	// --- WorldObject ----------------------------- //
 	std::unique_ptr<Skydome> skydome_;
 	std::vector<std::unique_ptr<Rail>> rails_;
 
-	// ------------------- GameObject ------------------- //
+	// --- GameObject ------------------------------ //
 	std::unique_ptr<Player> player_;
 	std::list<std::unique_ptr<PlayerBullet>> playerBullets_;
 
-	// ------------------- UI ------------------- //
+	// --- Manager --------------------------------- //
+	std::unique_ptr<EnemyManager> enemyManager_;
+
+	// --- UI -------------------------------------- //
 	std::unique_ptr<Reticle> reticle_; 
 
-	// ------------------- Edier ------------------- //
+	// --- Edier ----------------------------------- //
 	std::unique_ptr<RailPointEditer> railPointEditer_;
 	
 };
