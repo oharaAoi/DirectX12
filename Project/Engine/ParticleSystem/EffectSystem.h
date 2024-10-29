@@ -84,7 +84,7 @@ private:
 	Matrix4x4 viewMat_;
 	Matrix4x4 projectionMat_;
 
-	bool isEffectEditer_ = true;
+	bool isEffectEditer_ = false;
 
 	// ------------------- ImGui上でEffectを作成するために必要な変数 ------------------- //
 	D3D12_RESOURCE_BARRIER barrier_;

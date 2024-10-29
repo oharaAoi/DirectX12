@@ -102,17 +102,24 @@ Quaternion Quaternion::Inverse(const Quaternion& rotation) {
 
 Quaternion Quaternion::LookRotation(const Vector3& forward, const Vector3& upVector) {
 	// 正面からforwardに向ける回転を取得
-	Quaternion lookRotation = FromToRotation(Vector3{ 0.0f,0.0f,1.0f }, forward);
+	Quaternion lookRotation = FromToRotation(Vector3{ 0.0f, 0.0f, 1.0f }, forward.Normalize());
 	// 外積を用いてupVectorとforwardに垂直なベクトルを求める
-	Vector3 xAxisHorizontal = Cross(upVector, forward);
+	Vector3 xAxisHorizontal = Cross(upVector, forward).Normalize();
+	if (xAxisHorizontal.Length() < 1e-6) {
+		// forwardとupVectorが平行な場合、回転が不定になるため例外処理やデフォルト回転を返す
+		return lookRotation;
+	}
 	// 回転後のy軸を求める
-	Vector3 yAxisAfterRotate = Cross(forward, xAxisHorizontal);
-
+	Vector3 yAxisAfterRotate = Cross(forward, xAxisHorizontal).Normalize();
 	// Look後のy軸から回転後のy軸へ修正する回転を求める
-	Vector3 yAxisVBefore = lookRotation * Vector3{ 0.0f, 1.0f, 0.0f };
+	Vector3 yAxisVBefore = (lookRotation * Vector3{ 0.0f, 1.0f, 0.0f }).Normalize();
 	Quaternion modifyRotation = FromToRotation(yAxisVBefore, yAxisAfterRotate);
-
 	return modifyRotation * lookRotation;
+}
+
+Quaternion Quaternion::LookAt(const Vector3& from, const Vector3& to, const Vector3& up) {
+	Vector3 forward = (to - from).Normalize();
+	return LookRotation(forward, up);
 }
 
 float Quaternion::Dot(const Quaternion& q1, const Quaternion& q2) {

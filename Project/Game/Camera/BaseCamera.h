@@ -31,6 +31,10 @@ public:
 	Matrix4x4 GetViewMatrix2D() const { return viewMatrix2D_; }
 	Matrix4x4 GetProjectionMatrix2D() const { return projectionMatrix2D_; }
 
+	const Matrix4x4 GetVpvpMatrix() const { return vpvpMatrix_; }
+
+	const Matrix4x4 GetVPVMatrix() const { return viewMatrix_ * projectionMatrix_ * viewportMatrix_; }
+
 	Vector3 GetTranslate() const { return transform_.translate; }
 	Vector3 GetWorldTranslate() const {
 		Matrix4x4 matViewInverse = Inverse(viewMatrix_);
@@ -52,6 +56,8 @@ protected:
 	Matrix4x4 cameraMatrix_;
 	Matrix4x4 projectionMatrix_;
 	Matrix4x4 viewMatrix_;
+	Matrix4x4 viewportMatrix_;
+	Matrix4x4 vpvpMatrix_;
 	// 2d
 	Matrix4x4 projectionMatrix2D_;
 	Matrix4x4 viewMatrix2D_;

@@ -66,6 +66,8 @@ public:
 	/// <returns></returns>
 	static Quaternion LookRotation(const Vector3& forward, const Vector3& upVector);
 
+	static Quaternion LookAt(const Vector3& from, const Vector3& to, const Vector3& up = Vector3{0.0f, 1.0f, 0.0f});
+	
 	/// <summary>
 	/// 二つの回転の内積を返す
 	/// </summary>

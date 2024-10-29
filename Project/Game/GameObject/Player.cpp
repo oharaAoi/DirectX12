@@ -30,6 +30,10 @@ void Player::Update() {
 		Shot();
 	}
 
+	if (Input::GetIsPadTrigger(R_SHOULDER)) {
+		Shot();
+	}
+
 	BaseGameObject::Update();
 }
 
@@ -46,7 +50,8 @@ void Player::Draw() const {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Shot() {
-	pGameScene_->AddPlayerBulletList(worldPos_, GetForward());
+	Vector3 dire = (reticlrPos_ - worldPos_).Normalize();
+	pGameScene_->AddPlayerBulletList(worldPos_, dire);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

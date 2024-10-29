@@ -10,6 +10,7 @@
 #include "Game/WorldObject/Rail.h"
 #include "Game/GameObject/Player.h"
 #include "Game/GameObject/PlayerBullet.h"
+#include "Game/UI/Reticle.h"
 
 class GameScene 
 	: public BaseScene {
@@ -47,6 +48,9 @@ private:
 	// ------------------- GameObject ------------------- //
 	std::unique_ptr<Player> player_;
 	std::list<std::unique_ptr<PlayerBullet>> playerBullets_;
+
+	// ------------------- UI ------------------- //
+	std::unique_ptr<Reticle> reticle_; 
 
 	// ------------------- Edier ------------------- //
 	std::unique_ptr<RailPointEditer> railPointEditer_;

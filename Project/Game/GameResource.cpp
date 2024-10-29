@@ -16,4 +16,6 @@ void GameResource::Load() {
 	ModelManager::LoadModel("./Game/Resources/", "camera.obj");
 	ModelManager::LoadModel("./Game/Resources/", "rail.obj");
 
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
+
 }

@@ -38,13 +38,11 @@ void RailPointEditer::Init() {
 	{ -15.0f, 3.0f, 28.0f } 
 	};*/
 
-	std::vector<Vector3> points = {
-	{ 0.0f, 0.0f, 0.0f },
-	{ 0.0f, 0.0f, 2.0f },
-	{ 0.0f, 0.0f, 4.0f },
-	{ 0.0f, 0.0f, 6.0f },
-	{ 0.0f, 0.0f, 8.0f },
-	};
+	std::vector<Vector3> points;
+	for (uint32_t oi = 0; oi < 30; ++oi) {
+		Vector3 pos = { 0.0f, 0.0f, 2.0f + oi };
+		points.push_back(pos);
+	}
 
 	for (uint32_t oi = 0; oi < points.size(); ++oi) {
 		RailData data(points[oi], 0.0f);
@@ -70,10 +68,6 @@ void RailPointEditer::Update() {
 		Vector3 pos = CatmullRomPosition(copyPos, t);
 		railIndexPoints_.push_back(pos);
 	}
-
-#ifdef _DEBUG
-	Debug_Gui();
-#endif
 }
 
 void RailPointEditer::Draw(const Matrix4x4& vpMat) const {

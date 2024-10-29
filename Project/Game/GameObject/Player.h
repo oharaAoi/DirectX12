@@ -23,11 +23,15 @@ public:
 
 	void SetPGameScene(GameScene* gameScene) { pGameScene_ = gameScene; }
 
+	void SetReticlePos(const Vector3& reticlePos) { reticlrPos_ = reticlePos; }
+
 	const Vector3 GetForward() const { return TransformNormal(Vector3(0,0,1), transform_->GetWorldMatrix()); }
 
 private:
 
 	// ポインタ
 	GameScene* pGameScene_;
+	// Reticleの座標
+	Vector3 reticlrPos_;
 };
 
