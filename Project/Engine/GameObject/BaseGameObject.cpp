@@ -22,7 +22,7 @@ void BaseGameObject::Update() {
 			animetor_->Update();
 
 			Engine::SetSkinning(animetor_->GetSkinning(), model_->GetMesh(0));
-			model_->GetMesh(0)->CopyVertexData(animetor_->GetSkinning()->GetVertexData());
+			model_->GetMesh(0)->CopyVertexData(animetor_->GetSkinning()->GetOutpusVertexData());
 		}
 	}
 

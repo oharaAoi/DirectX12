@@ -34,6 +34,11 @@ void GameScene::Init() {
 	railPointEditer_ = std::make_unique<RailPointEditer>();
 	railPointEditer_->Init();
 
+	for (size_t index = 0; index < railPointEditer_->GetRailNum(); ++index) {
+		auto& newRail = rails_.emplace_back(std::make_unique<Rail>());
+		newRail->Init();
+	}
+
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
@@ -52,11 +57,18 @@ void GameScene::Update() {
 
 	debugCamera_->Update();
 
+	railPointEditer_->Update();
+
 	// -------------------------------------------------
 	// ↓ worldObjectの更新
 	// -------------------------------------------------
 
 	skydome_->Update();
+
+	for (size_t index = 0; index < rails_.size(); ++index) {
+		rails_[index]->GetTransform()->SetTranslaion(railPointEditer_->GetRailBasePoints()[index]);
+		rails_[index]->Update();
+	}
 
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
@@ -92,7 +104,7 @@ void GameScene::Update() {
 	Render::SetViewProjection(viewMat_, projectionMat_);
 
 #ifdef _DEBUG
-	railPointEditer_->Update();
+	
 	Debug_Gui();
 #endif
 }
@@ -106,6 +118,10 @@ void GameScene::Draw() const {
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
+
+	for (size_t index = 0; index < rails_.size(); ++index) {
+		rails_[index]->Draw();
+	}
 
 	for (const auto& bullet : playerBullets_) {
 		bullet->Draw();

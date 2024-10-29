@@ -19,7 +19,7 @@ void Rail::Finalize() {
 
 void Rail::Init() {
 	BaseGameObject::Init();
-	SetObject("skin.obj");
+	SetObject("rail.obj");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

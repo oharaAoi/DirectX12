@@ -5,7 +5,7 @@ RailPointEditer::RailPointEditer() {}
 RailPointEditer::~RailPointEditer() {}
 
 void RailPointEditer::Init() {
-	std::vector<Vector3> points = {
+	/*std::vector<Vector3> points = {
 	{ 0.0f, 0.0f, 0.0f },    
 	{ 2.0f, 0.0f, 1.0f },    
 	{ 5.0f, 0.0f, 1.5f },   
@@ -36,6 +36,14 @@ void RailPointEditer::Init() {
 	{ -10.0f, 0.5f, 26.0f },
 	{ -12.0f, 2.0f, 27.0f },
 	{ -15.0f, 3.0f, 28.0f } 
+	};*/
+
+	std::vector<Vector3> points = {
+	{ 0.0f, 0.0f, 0.0f },
+	{ 0.0f, 0.0f, 2.0f },
+	{ 0.0f, 0.0f, 4.0f },
+	{ 0.0f, 0.0f, 6.0f },
+	{ 0.0f, 0.0f, 8.0f },
 	};
 
 	for (uint32_t oi = 0; oi < points.size(); ++oi) {
@@ -133,5 +141,12 @@ void RailPointEditer::Debug_Gui() {
 }
 std::vector<Vector3> RailPointEditer::GetRailPoints() {
 	return railIndexPoints_;
+}
+std::vector<Vector3> RailPointEditer::GetRailBasePoints() {
+	std::vector<Vector3> result;
+	for (uint32_t oi = 0; oi < railPoints.size(); ++oi) {
+		result.push_back(railPoints[oi].centerPosiont);
+	}
+	return result;
 }
 #endif

@@ -202,9 +202,6 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 	/*outputResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
 	std::memcpy(vertexData_, mesh->GetVertexData(), sizeof(Mesh::VertexData) * vertices);*/
 
-	D3D12_HEAP_PROPERTIES heapProperties = {};
-	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT; // UAVバッファはGPU専用のヒープに配置
-
 	D3D12_HEAP_PROPERTIES readbackHeapProps = {};
 	readbackHeapProps.Type = D3D12_HEAP_TYPE_READBACK;
 
@@ -286,4 +283,6 @@ void Skinning::EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh) {
 	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE);
 	commandList->CopyResource(readResource_.Get(), outputResource_.Get());
 	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+
+	readResource_->Map(0, nullptr, reinterpret_cast<void**>(&outputVertexData_));
 }

@@ -42,6 +42,10 @@ public:
 
 	std::vector<Vector3> GetRailPoints();
 
+	std::vector<Vector3> GetRailBasePoints();
+
+	const size_t GetRailNum() const { return railPoints.size(); }
+
 private:
 
 	std::vector<RailData> railPoints;

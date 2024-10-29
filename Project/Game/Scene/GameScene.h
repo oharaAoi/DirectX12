@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Engine.h"
 #include "Game/Scene/BaseScene.h"
 #include "Game/Camera/Camera.h"
@@ -6,6 +7,7 @@
 #include "Game/Camera/DebugCamera.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/Editer/RailPointEditer.h"
+#include "Game/WorldObject/Rail.h"
 #include "Game/GameObject/Player.h"
 #include "Game/GameObject/PlayerBullet.h"
 
@@ -40,6 +42,7 @@ private:
 
 	// ------------------- WorldObject ------------------- //
 	std::unique_ptr<Skydome> skydome_;
+	std::vector<std::unique_ptr<Rail>> rails_;
 
 	// ------------------- GameObject ------------------- //
 	std::unique_ptr<Player> player_;

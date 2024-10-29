@@ -34,7 +34,6 @@ void TestScene::Update() {
 		Render::SetViewProjection2D(camera_->GetViewMatrix2D(), camera_->GetProjectionMatrix2D());
 	}
 
-
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------

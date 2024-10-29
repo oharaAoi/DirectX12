@@ -66,7 +66,7 @@ public:
 
 	void EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh);
 
-	const Mesh::VertexData* GetVertexData() const { return outputVertexData_; }
+	const Mesh::VertexData* GetOutpusVertexData() const { return outputVertexData_; }
 
 private:
 	UINT vertices_;

@@ -14,5 +14,6 @@ void GameResource::Load() {
 	// worldObject
 	ModelManager::LoadModel("./Game/Resources/Skydome/", "skydome.obj");
 	ModelManager::LoadModel("./Game/Resources/", "camera.obj");
+	ModelManager::LoadModel("./Game/Resources/", "rail.obj");
 
 }

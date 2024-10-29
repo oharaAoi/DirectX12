@@ -17,7 +17,7 @@ void RailCamera::Init() {
 	cameraObj_->Init();
 	cameraObj_->SetObject("camera.obj");
 
-	offset_ = { 0.0f, 1.0f, -5.0f };
+	offset_ = { 0.0f, 1.0f, 0.0f };
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
