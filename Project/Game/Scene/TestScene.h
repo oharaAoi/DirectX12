@@ -37,9 +37,6 @@ private:
 	bool isDebugCamera_ = true;
 
 	// ゲームオブジェクト ------------------------------------
-	std::unique_ptr<BaseGameObject> testObj_ = nullptr;
-	std::unique_ptr<BaseGameObject> testObj2_ = nullptr;
-	std::unique_ptr<BaseGameObject> testObj3_ = nullptr;
-	std::unique_ptr<Sprite> sprite_ = nullptr;
+	
 };
 

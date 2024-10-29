@@ -155,7 +155,7 @@ void EffectSystemEditer::Begin() {
 	// RenderTargetを指定する
 	renderTarget_->SetRenderTarget(commandList, RenderTargetType::EffectSystem_RenderTarget);
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-	float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
 	// RenderTargetをクリアする
 	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(RenderTargetType::EffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
 }

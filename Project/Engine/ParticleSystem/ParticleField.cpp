@@ -7,7 +7,7 @@ ParticleField::~ParticleField() {
 }
 
 void ParticleField::Init() {
-	accelerationField_.acceleration = { 15.0f, 0.0f, 0.0f };
+	accelerationField_.acceleration = { 6.0f, 0.0f, 0.0f };
 	accelerationField_.area.min = { -1.0f, -1.0f, -1.0f };
 	accelerationField_.area.max = { 1.0f, 1.0f, 1.0f };
 
