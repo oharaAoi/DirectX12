@@ -11,6 +11,7 @@
 #include "Game/GameObject/Player.h"
 #include "Game/GameObject/PlayerBullet.h"
 #include "Game/Manager/EnemyManager.h"
+#include "Engine/Manager/CollisionManager.h"
 #include "Game/UI/Reticle.h"
 
 class GameScene 
@@ -52,6 +53,7 @@ private:
 
 	// --- Manager --------------------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_;
+	std::unique_ptr<CollisionManager> collisionManager_;
 
 	// --- UI -------------------------------------- //
 	std::unique_ptr<Reticle> reticle_; 

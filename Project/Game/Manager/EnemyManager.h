@@ -16,6 +16,8 @@ public:
 
 	void AddList(const Vector3& popPos);
 
+	std::list<std::unique_ptr<Enemy>>& GetList() { return enemyList_; }
+
 	void SetPlayerPos(const Vector3& pos) { playerPos_ = pos; }
 	void SetPlayerForward(const Vector3& forward) { playerForward_ = forward; }
 

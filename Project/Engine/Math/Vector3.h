@@ -106,6 +106,8 @@ public:
 	// =============================================
 	// 数学用関数
 
+	static Vector3 ZERO() { return Vector3(0.0f, 0.0f, 0.0f); };
+
 	/// <summary>
 	/// 正規化
 	/// </summary>
@@ -181,7 +183,6 @@ public:
 	/// <param name="y"></param>
 	/// <returns></returns>
 	Matrix4x4 MakeYawMatrix(float y_Yaw) const;
-
 };
 
 // フリー関数

@@ -15,6 +15,10 @@ void Enemy::Finalize() {
 void Enemy::Init() {
 	BaseGameObject::Init();
 	SetObject("star.obj");
+
+	isAlive_ = true;
+	tag_ = "enemy";
+	radius_ = 2.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,4 +35,14 @@ void Enemy::Update() {
 
 void Enemy::Draw() const {
 	BaseGameObject::Draw();
+}
+
+void Enemy::OnCollision(Collider* other) {
+	if (other->GetTag() == "playerBullet") {
+		isAlive_ = false;
+	}
+}
+
+const Vector3 Enemy::GetWorldPos() const {
+	return Transform(Vector3::ZERO(), transform_->GetWorldMatrix());
 }

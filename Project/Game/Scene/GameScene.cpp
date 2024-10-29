@@ -45,6 +45,9 @@ void GameScene::Init() {
 	enemyManager_ = std::make_unique<EnemyManager>();
 	enemyManager_->Init();
 
+	collisionManager_ = std::make_unique<CollisionManager>();
+	collisionManager_->Init();
+
 	// -------------------------------------------------
 	// ↓ UI初期化
 	// -------------------------------------------------
@@ -123,10 +126,21 @@ void GameScene::Update() {
 	enemyManager_->SetPlayerPos(player_->GetWorldPos());
 	enemyManager_->Update();
 
+	collisionManager_->Reset();
+	for (auto& bullet : playerBullets_) {
+		collisionManager_->AddCollider(bullet.get());
+	}
+
+	for (auto& enemy : enemyManager_->GetList()) {
+		collisionManager_->AddCollider(enemy.get());
+	}
+
+	collisionManager_->CheckAllCollision();
+
 	// -------------------------------------------------
 	// ↓ 死亡の確認
 	// -------------------------------------------------
-	playerBullets_.remove_if([](auto& bullet) {return bullet->GetIsAlive(); });
+	playerBullets_.remove_if([](auto& bullet) {return !bullet->GetIsAlive(); });
 
 	// -------------------------------------------------
 	// ↓ Renderの更新

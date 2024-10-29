@@ -23,6 +23,9 @@ void EnemyManager::Update() {
 		popTime_ = 0.0f;
 	}
 
+	// 生存確認
+	enemyList_.remove_if([](auto& enemy) {return !enemy->GetIsAlive(); });
+
 	for (std::list<std::unique_ptr<Enemy>>::iterator itr = enemyList_.begin(); itr != enemyList_.end();) {
 		(*itr)->Update();
 		++itr;

@@ -12,17 +12,17 @@ void CollisionManager::Init() {
 	colliders_.clear();
 }
 
-void CollisionManager::Draw(const Matrix4x4& vpMat)  const {
-	std::list<Collider*>::const_iterator iter = colliders_.begin();
-	for (; iter != colliders_.end(); ++iter) {
-		if (std::abs((playerPosition_ - (*iter)->GetWorldTranslation()).Length()) < 100.0f) {
-			/*AABB aabb = { (*iter)->GetWorldTranslation(),(*iter)->GetRadius() };
-			DrawAABB(aabb, vpMat, (*iter)->GetIsHitting() ? Vector4{ 1.0f, 0.0f, 0.0f, 1.0f } : Vector4{ 1.0f, 1.0f, 1.0f, 1.0f });*/
-
-			DrawOBB((*iter)->GetObb(), vpMat, (*iter)->GetIsHitting() ? Vector4{ 1.0f, 0.0f, 0.0f, 1.0f } : Vector4{ 1.0f, 1.0f, 1.0f, 1.0f });
-		}
-	}
-}
+//void CollisionManager::Draw(const Matrix4x4& vpMat)  const {
+//	std::list<Collider*>::const_iterator iter = colliders_.begin();
+//	for (; iter != colliders_.end(); ++iter) {
+//		if (std::abs((playerPosition_ - (*iter)->GetWorldTranslation()).Length()) < 100.0f) {
+//			/*AABB aabb = { (*iter)->GetWorldTranslation(),(*iter)->GetRadius() };
+//			DrawAABB(aabb, vpMat, (*iter)->GetIsHitting() ? Vector4{ 1.0f, 0.0f, 0.0f, 1.0f } : Vector4{ 1.0f, 1.0f, 1.0f, 1.0f });*/
+//
+//			DrawOBB((*iter)->GetObb(), vpMat, (*iter)->GetIsHitting() ? Vector4{ 1.0f, 0.0f, 0.0f, 1.0f } : Vector4{ 1.0f, 1.0f, 1.0f, 1.0f });
+//		}
+//	}
+//}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　すべての当たり判定チェック
@@ -55,22 +55,27 @@ void CollisionManager::CheckCollisionPair(Collider* colliderA, Collider* collide
 	colliderA->SetIsHitting(false);
 	colliderB->SetIsHitting(false);
 
-	Vector3 posA = colliderA->GetWorldTranslation();
-	Vector3 posB = colliderB->GetWorldTranslation();
+	if (colliderA->GetTag() == colliderB->GetTag()) {
+		return;
+	}
+
+	Vector3 posA = colliderA->GetWorldPos();
+	Vector3 posB = colliderB->GetWorldPos();
 	// 差分ベクトル
 	Vector3 subtract = posB - posA;
 	// 座標AとBの距離を求める
 	float distance = subtract.Length();
 	// 球と球の交差判定
 	if (colliderA->GetRadius() + colliderB->GetRadius() > distance) {
-		if (CheckCollisonObb(colliderA, colliderB)) {
-			// それぞれの衝突時コールバック関数を呼び出す
-			colliderA->OnCollision(colliderB);
-			colliderB->OnCollision(colliderA);
+		// それぞれの衝突時コールバック関数を呼び出す
+		colliderA->OnCollision(colliderB);
+		colliderB->OnCollision(colliderA);
 
-			colliderA->SetIsHitting(true);
-			colliderB->SetIsHitting(true);
-		}
+		colliderA->SetIsHitting(true);
+		colliderB->SetIsHitting(true);
+
+		/*if (CheckCollisonObb(colliderA, colliderB)) {
+		}*/
 	}
 }
 
