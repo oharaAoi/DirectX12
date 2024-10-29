@@ -32,8 +32,13 @@ void Mesh::Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::v
 	std::memcpy(vertexData_, vertexData.data(), sizeof(VertexData) * vertexData.size());
 	vertexDataSize_ = static_cast<uint32_t>(vertexData.size());
 
-	verticesData_ = vertexData;
+	initVertexData_ = new VertexData[vertexDataSize_];
+	for (size_t i = 0; i < vertexDataSize_; ++i) {
+		initVertexData_[i] = vertexData_[i];
+	}
 
+	verticesData_ = vertexData;
+	
 	// ---------------------------------------------------------------
 	// ↓indexの設定
 	// ---------------------------------------------------------------
@@ -60,6 +65,16 @@ void Mesh::DrawIndex(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetIndexBuffer(&indexBufferView_);
 }
 
+void Mesh::InitVertex() {
+	for (size_t i = 0; i < vertexDataSize_; ++i) {
+		vertexData_[i] = initVertexData_[i];
+	}
+}
+
 void Mesh::CopyVertexData(const VertexData* data) {
-	std::memcpy(vertexData_, data, sizeof(VertexData) * vertexDataSize_);
+	for (size_t i = 0; i < vertexDataSize_; ++i) {
+		vertexData_[i] = data[i];
+	}
+	/*vertexData_ = data;
+	std::memcpy(vertexData_, data, sizeof(VertexData) * vertexDataSize_);*/
 }

@@ -42,6 +42,8 @@ public:
 
 	void DrawIndex(ID3D12GraphicsCommandList* commandList);
 
+	void InitVertex();
+
 public:
 
 	D3D12_VERTEX_BUFFER_VIEW GetVBV() { return vertexBufferView_; }
@@ -84,6 +86,7 @@ private:
 	ComPtr<ID3D12Resource> vertexBuffer_;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 	VertexData* vertexData_ = nullptr;
+	VertexData* initVertexData_ = nullptr;
 	// IndexBuffer
 	ComPtr<ID3D12Resource> indexBuffer_;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};

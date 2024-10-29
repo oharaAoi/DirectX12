@@ -37,6 +37,7 @@ private:
 	bool isDebugCamera_ = true;
 
 	// ゲームオブジェクト ------------------------------------
-	
+	std::unique_ptr<BaseGameObject> test_animationCS_;
+
 };
 

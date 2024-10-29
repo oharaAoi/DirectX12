@@ -32,17 +32,6 @@ public:
 		std::vector<VertexWeightData> vertexWeight;
 	};
 
-	struct Vertex {
-		Vector4 pos;
-		Vector2 texcoord;
-		float pad1[2];
-		Vector3 normal;
-		float pad2;
-		Vector4 worldPos;
-		Vector3 tangent;
-		float pad3;
-	};
-
 	/// <summary>
 	/// 頂点に対して影響を与えるパラメータ群
 	/// </summary>
@@ -77,10 +66,12 @@ public:
 
 	void EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh);
 
-	const Mesh::VertexData* GetVertexData() const { return vertexData_; }
+	const Mesh::VertexData* GetVertexData() const { return outputVertexData_; }
 
 private:
 	UINT vertices_;
+
+	Mesh* mehs_;
 
 	// palette
 	ComPtr<ID3D12Resource> paletteResource_;
@@ -105,6 +96,7 @@ private:
 	ComPtr<ID3D12Resource> outputResource_;
 	DescriptorHeap::DescriptorHandles outputHandle_;
 	Mesh::VertexData* vertexData_;
+	Mesh::VertexData* outputVertexData_;
 	ComPtr<ID3D12Resource> readResource_;
 	// MeshInputView
 	DescriptorHeap::DescriptorHandles inputHandle_;

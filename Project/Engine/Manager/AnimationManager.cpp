@@ -21,7 +21,7 @@ void AnimationManager::AddMap(const AnimetionClip::Animation& animation, const s
 
 AnimetionClip::Animation AnimationManager::GetAnimation(const std::string& name) {
 	if (auto it = animationMap_.find(name); it == animationMap_.end()) {
-		assert(false && "Audio not found!");
+		assert(false && "Animation not found!");
 	}
 	return animationMap_[name];
 }

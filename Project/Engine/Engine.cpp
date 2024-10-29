@@ -331,6 +331,8 @@ void Engine::SetComputeShader(const CSKind& kind) {
 
 void Engine::SetSkinning(Skinning* skinning, Mesh* mesh) {
 	computeShader_->SetSkinningPipeline(CsPipelineType::Skinning_Pipeline, dxCommands_->GetCommandList());
+
+	mesh->InitVertex();
 	skinning->RunCs(dxCommands_->GetCommandList());
 	skinning->EndCS(dxCommands_->GetCommandList(), mesh);
 }
