@@ -230,6 +230,13 @@ void GameScene::Debug_Gui() {
 			ImGui::TreePop();
 		}
 	}
+
+	{
+		if (ImGui::TreeNode("Manager")) {
+			enemyManager_->Debug_Gui();
+			ImGui::TreePop();
+		}
+	}
 	ImGui::End();
 }
 

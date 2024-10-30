@@ -9,6 +9,7 @@ EnemyManager::~EnemyManager() {}
 
 void EnemyManager::Init() {
 	enemyList_.clear();
+	isPop_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,11 +17,13 @@ void EnemyManager::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EnemyManager::Update() {
-	popTime_ += GameTimer::DeltaTime();
+	if (isPop_) {
+		popTime_ += GameTimer::DeltaTime();
 
-	if (popTime_ > 1.0f) {
-		AddList(playerPos_);
-		popTime_ = 0.0f;
+		if (popTime_ > 1.0f) {
+			AddList(playerPos_);
+			popTime_ = 0.0f;
+		}
 	}
 
 	// 生存確認
@@ -61,3 +64,16 @@ void EnemyManager::AddList(const Vector3& popPos) {
 	newEnemy->Init();
 	newEnemy->GetTransform()->SetTranslaion(pos);
 }
+
+#ifdef _DEBUG
+void EnemyManager::Debug_Gui() {
+	if (ImGui::TreeNode("EnemyManager")) {
+
+		ImGui::Begin("EnmeyManager");
+		ImGui::Checkbox("isPop", &isPop_);
+		ImGui::End();
+		
+		ImGui::TreePop();
+	}
+}
+#endif

@@ -16,6 +16,10 @@ public:
 
 	void AddList(const Vector3& popPos);
 
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
+
 	std::list<std::unique_ptr<Enemy>>& GetList() { return enemyList_; }
 
 	void SetPlayerPos(const Vector3& pos) { playerPos_ = pos; }
@@ -34,5 +38,7 @@ private:
 	
 	// --- Parameter ------------------------------- //
 	float popTime_;
+
+	bool isPop_;
 };
 
