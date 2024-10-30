@@ -68,7 +68,7 @@ template <typename T>
 T DegitCount(T value) {
 	if (value == 0.0f) { return 0; }
 	// 桁数 = log10(値) + 1(std::log10はvalueが10以下の時は0が返される)
-	return static_cast<float>(std::floor(std::log10(value)) + 1);
+	return static_cast<T>(std::floor(std::log10(value)) + 1);
 }
 
 /// <summary>
@@ -85,7 +85,7 @@ T IntegerCount(T value, int n) {
 	}
 	T num = (static_cast<int>(value) / static_cast<int>(std::pow(10, n - 1)));
 	T result = num % 10;
-	return static_cast<float>(result);
+	return result;
 }
 
 /// <summary>

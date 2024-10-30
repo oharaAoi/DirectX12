@@ -11,14 +11,11 @@ public:
 	enum ShaderName {
 		Normal,
 		TextureLess,
-		Skinning,
 		Primitive,
 		Phong,
 		PBR,
 		Particle,
 		Sprite,
-		WaterSpace,
-		WaterLighting,
 	};
 
 	enum CsShaderName {

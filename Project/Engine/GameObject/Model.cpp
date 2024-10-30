@@ -53,55 +53,6 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList,
 	}
 }
 
-void Model::DrawSkinning(ID3D12GraphicsCommandList* commandList,
-						 const Skinning* skinning,
-						 const WorldTransform* worldTransform,
-						 const ViewProjection* viewprojection,
-						 const std::vector<std::unique_ptr<Material>>& materials) {
-
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
-		skinning->StackCommand(commandList, meshArray_[oi]->GetVBV());
-		meshArray_[oi]->DrawIndex(commandList);
-		materials[oi]->Draw(commandList);
-
-		worldTransform->Draw(commandList);
-		viewprojection->Draw(commandList);
-
-		if (hasTexture_) {
-			std::string textureName = materials[oi]->GetUseTexture();
-			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 3);
-		}
-
-		commandList->DrawIndexedInstanced(meshArray_[oi]->GetIndexNum(), 1, 0, 0, 0);
-	}
-}
-
-void Model::DrawSkinnings(ID3D12GraphicsCommandList* commandList,
-						  const std::vector<std::unique_ptr<Skinning>>& skinning,
-						  const WorldTransform* worldTransform,
-						  const ViewProjection* viewprojection, 
-						  const std::vector<std::unique_ptr<Material>>& materials) {
-
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
-		skinning[oi]->StackCommand(commandList, meshArray_[oi]->GetVBV());
-		meshArray_[oi]->DrawIndex(commandList);
-		materials[oi]->Draw(commandList);
-
-		worldTransform->Draw(commandList);
-		viewprojection->Draw(commandList);
-
-		if (hasTexture_) {
-			std::string textureName = materials[oi]->GetUseTexture();
-			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 3);
-		}
-
-		commandList->DrawIndexedInstanced(meshArray_[oi]->GetIndexNum(), 1, 0, 0, 0);
-	}
-}
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Debug
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +86,8 @@ Model::Node Model::ReadNode(aiNode* node, const aiScene* scene) {
 	aiQuaternion rotate;
 	node->mTransformation.Decompose(scale, rotate, translate);
 
-	result.transform.scale = { 1, 1, 1 };
+	//result.transform.scale = { 1, 1, 1 };
+	result.transform.scale = { scale.x, scale.y, scale.z };
 	result.transform.rotate = { rotate.x, -rotate.y, -rotate.z, rotate.w };
 	result.transform.translate = { -translate.x, translate.y, translate.z };
 	result.localMatrix = Matrix4x4::MakeAffine(result.transform.scale, result.transform.rotate.Normalize(), result.transform.translate);
