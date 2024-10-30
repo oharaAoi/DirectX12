@@ -34,6 +34,7 @@ public:
 	const Matrix4x4 GetVpvpMatrix() const { return vpvpMatrix_; }
 
 	const Matrix4x4 GetVPVMatrix() const { return viewMatrix_ * projectionMatrix_ * viewportMatrix_; }
+	const Matrix4x4 GetVPV2DMatrix() const { return view2DMatrix_ * projectionMatrix_ * viewportMatrix_; }
 
 	Vector3 GetTranslate() const { return transform_.translate; }
 	Vector3 GetWorldTranslate() const {
@@ -61,6 +62,9 @@ protected:
 	// 2d
 	Matrix4x4 projectionMatrix2D_;
 	Matrix4x4 viewMatrix2D_;
+	Matrix4x4 viewport2D_;
+
+	Matrix4x4 view2DMatrix_;
 
 };
 

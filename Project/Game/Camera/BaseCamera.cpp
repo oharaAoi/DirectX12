@@ -41,6 +41,8 @@ void BaseCamera::Update() {
 	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
 	viewMatrix_ = Inverse(cameraMatrix_);
 
+	view2DMatrix_ = Multiply(Multiply(scaleMat_, Quaternion().MakeMatrix()), translateMat_);
+	
 	Matrix4x4 matViewProjection = viewMatrix_ * projectionMatrix_;
 	vpvpMatrix_ = matViewProjection * viewportMatrix_;
 }

@@ -57,6 +57,9 @@ void GameScene::Init() {
 	knockDownEnemy_ = std::make_unique<KnockDownEnemy>();
 	knockDownEnemy_->Init();
 
+	totalScore_ = std::make_unique<TotalScore>();
+	totalScore_->Init();
+
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
@@ -129,6 +132,8 @@ void GameScene::Update() {
 	knockDownEnemy_->SetWorldPos(ScreenToWorldCoordinate(knockDownEnemy_->GetScreenPos(), mainCamera_->GetVPVMatrix().Inverse(), 10.0f));
 	knockDownEnemy_->Update();
 
+	totalScore_->Update(player_->GetScore());
+
 	// -------------------------------------------------
 	// ↓ Managerの更新
 	// -------------------------------------------------
@@ -183,9 +188,9 @@ void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
 
-	for (size_t index = 0; index < rails_.size(); ++index) {
+	/*for (size_t index = 0; index < rails_.size(); ++index) {
 		rails_[index]->Draw();
-	}
+	}*/
 
 	// -------------------------------------------------
 	// ↓ GameObjectの描画
@@ -201,11 +206,12 @@ void GameScene::Draw() const {
 	knockDownEnemy_->Draw();
 
 	//mainCamera_->Draw();
-
 	// -------------------------------------------------
 	// ↓ UIの描画
 	// -------------------------------------------------
 	reticle_->Draw();
+
+	totalScore_->Draw();
 
 }
 
@@ -258,6 +264,13 @@ void GameScene::Debug_Gui() {
 	{
 		if (ImGui::TreeNode("Manager")) {
 			enemyManager_->Debug_Gui();
+			ImGui::TreePop();
+		}
+	}
+
+	{
+		if (ImGui::TreeNode("UI")) {
+			totalScore_->Debug_Gui();
 			ImGui::TreePop();
 		}
 	}

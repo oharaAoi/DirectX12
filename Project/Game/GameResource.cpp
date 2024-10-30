@@ -22,5 +22,6 @@ void GameResource::Load() {
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "rail_plane.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "number.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "scoreBackground.png");
 
 }
