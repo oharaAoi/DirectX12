@@ -14,7 +14,7 @@ public:
 	~CollisionManager();
 
 	void Init();
-	void Draw(const Matrix4x4& vpMat) const;
+	//void Draw(const Matrix4x4& vpMat) const;
 
 	/// <summary>
 	/// すべての当たり判定チェック

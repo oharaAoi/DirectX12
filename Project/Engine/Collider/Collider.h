@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <string>
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/Vector4.h"
 #include "Engine/Math/MathStructures.h"
@@ -25,7 +26,7 @@ public:
 public:
 
 	// ------------ 位置(world) ------------ // 
-	const virtual Vector3 GetWorldTranslation() const = 0;
+	const virtual Vector3 GetWorldPos() const = 0;
 
 	// ------------ 半径 ------------ // 
 	float GetRadius() const { return radius_; }
@@ -35,13 +36,12 @@ public:
 	void SetIsHitting(const bool& hit) { isHitting_ = hit; }
 	const bool GetIsHitting() const { return isHitting_; }
 
-	// ------------- アクティブかどうか ------------- //
-	bool GetIsActive(){ return isActive_; }
-	void SetIsActive(const bool& isActive) { isActive_ = isActive; };
-
 	// --------------- オブジェクトの属性取得 -------------- //
-
 	int32_t GetObjectType(){ return typeID_; }
+
+	// --------------- tagの取得 -------------- //
+	void SetTag(const std::string& tag) { tag_ = tag; }
+	const std::string GetTag() const { return tag_; }
 
 	OBB& GetObb() { return obb_; }
 	void SetObbSize(float radius){ obb_.size = { radius,radius,radius }; }
@@ -54,10 +54,10 @@ protected:
 	int32_t typeID_ = -1;
 	// 当たり判定用
 	OBB obb_;
+	// タグ
+	std::string tag_;
 
 	bool isHitting_;
 	Vector4 color_;
-
-	bool isActive_ = true;
 };
 

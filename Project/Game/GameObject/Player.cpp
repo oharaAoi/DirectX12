@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Game/Scene/GameScene.h"
 
+uint32_t Player::score_ = 0;
+
 Player::Player() {
 }
 
@@ -19,6 +21,8 @@ void Player::Init() {
 	SetObject("skin.obj");
 	transform_->SetScale({ 0.5f, 0.5f, 0.5f });
 	transform_->SetTranslaion({ 0.0f, -0.5f, 0.0f });
+
+	score_ = 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +31,10 @@ void Player::Init() {
 
 void Player::Update() {
 	if (Input::IsTriggerKey(DIK_SPACE)) {
+		Shot();
+	}
+
+	if (Input::GetIsPadTrigger(R_SHOULDER)) {
 		Shot();
 	}
 
@@ -46,7 +54,8 @@ void Player::Draw() const {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Shot() {
-	pGameScene_->AddPlayerBulletList(worldPos_, GetForward());
+	Vector3 dire = (reticlrPos_ - worldPos_).Normalize();
+	pGameScene_->AddPlayerBulletList(worldPos_, dire);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,5 +64,13 @@ void Player::Shot() {
 
 #ifdef _DEBUG
 void Player::Debug_Gui() {
+	if (ImGui::TreeNode("player")) {
+		ImGui::Begin("player");
+
+		ImGui::Text("score : %d", score_);
+
+		ImGui::End();
+		ImGui::TreePop();
+	}
 }
 #endif

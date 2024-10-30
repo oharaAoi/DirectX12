@@ -1,7 +1,9 @@
 #pragma once
 #include "Engine/GameObject/BaseGameObject.h"
+#include "Game/GameObject/Player.h"
+#include "Game/UI/KnockDownEnemy.h"
 
-class PlayerBullet : BaseGameObject {
+class PlayerBullet : public BaseGameObject, public Collider {
 public:
 
 	PlayerBullet();
@@ -12,9 +14,13 @@ public:
 	void Update() override;
 	void Draw() const override;
 
+	void OnCollision([[maybe_unused]] Collider* other) override;
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
+
+	const Vector3 GetWorldPos() const override;
 
 	void SetPopPos(const Vector3& pos);
 
@@ -30,6 +36,5 @@ private:
 	float speed_;
 	
 	bool isAlive_;
-
 };
 

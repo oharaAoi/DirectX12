@@ -40,6 +40,27 @@ void GameScene::Init() {
 	}
 
 	// -------------------------------------------------
+	// ↓ Managerの初期化
+	// -------------------------------------------------
+	enemyManager_ = std::make_unique<EnemyManager>();
+	enemyManager_->Init();
+
+	collisionManager_ = std::make_unique<CollisionManager>();
+	collisionManager_->Init();
+
+	// -------------------------------------------------
+	// ↓ UI初期化
+	// -------------------------------------------------
+	reticle_ = std::make_unique<Reticle>();
+	reticle_->Init();
+
+	knockDownEnemy_ = std::make_unique<KnockDownEnemy>();
+	knockDownEnemy_->Init();
+
+	totalScore_ = std::make_unique<TotalScore>();
+	totalScore_->Init();
+
+	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
 	player_->GetTransform()->SetParent((mainCamera_->GetCameraMatrix()));
@@ -54,8 +75,17 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	mainCamera_->SetControlPoints(railPointEditer_->GetRailPoints());
 	mainCamera_->Update();
-
 	debugCamera_->Update();
+
+	if (!isDebugCamera_) {
+		Render::SetEyePos(mainCamera_->GetWorldTranslate());
+		Render::SetViewProjection(mainCamera_->GetViewMatrix(), mainCamera_->GetProjectionMatrix());
+		Render::SetViewProjection2D(mainCamera_->GetViewMatrix2D(), mainCamera_->GetProjectionMatrix2D());
+	} else {
+		Render::SetEyePos(debugCamera_->GetWorldTranslate());
+		Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
+		Render::SetViewProjection2D(debugCamera_->GetViewMatrix2D(), debugCamera_->GetProjectionMatrix2D());
+	}
 
 	railPointEditer_->Update();
 
@@ -67,6 +97,16 @@ void GameScene::Update() {
 
 	for (size_t index = 0; index < rails_.size(); ++index) {
 		rails_[index]->GetTransform()->SetTranslaion(railPointEditer_->GetRailBasePoints()[index]);
+		if (index < rails_.size() - 1) {
+			Vector3 from = rails_[index]->GetTransform()->GetTranslation();
+			Vector3 to = rails_[index + 1]->GetTransform()->GetTranslation();
+			Vector3 up = rails_[index]->GetTransform()->GetQuaternion().MakeUp();
+			rails_[index]->GetTransform()->SetQuaternion(Quaternion::LookAt(from, to, up));
+		}
+		/*if (index >= 1) {
+			rails_[index]->SetBottomVertex(rails_[index - 1]->GetTopVertex());
+		}
+		rails_[index]->SetTransform(railPointEditer_->GetRailBasePoints()[index]);*/
 		rails_[index]->Update();
 	}
 
@@ -75,6 +115,7 @@ void GameScene::Update() {
 	// -------------------------------------------------
 
 	// playerの更新
+	player_->SetReticlePos(ScreenToWorldCoordinate(reticle_->GetReticle2DPos(), mainCamera_->GetVPVMatrix().Inverse(), 50.0f));
 	player_->Update();
 
 	// bulletの更新
@@ -83,9 +124,38 @@ void GameScene::Update() {
 	}
 
 	// -------------------------------------------------
+	// ↓ UIの更新
+	// -------------------------------------------------
+	Vector3 playerPos = Transform({ 0.0, 0.0f, 0.0f }, player_->GetTransform()->GetWorldMatrix());
+	reticle_->Update(playerPos, player_->GetForward(), mainCamera_->GetVpvpMatrix());
+
+	knockDownEnemy_->SetWorldPos(ScreenToWorldCoordinate(knockDownEnemy_->GetScreenPos(), mainCamera_->GetVPVMatrix().Inverse(), 10.0f));
+	knockDownEnemy_->Update();
+
+	totalScore_->Update(player_->GetScore());
+
+	// -------------------------------------------------
+	// ↓ Managerの更新
+	// -------------------------------------------------
+	enemyManager_->SetPlayerForward(player_->GetForward());
+	enemyManager_->SetPlayerPos(player_->GetWorldPos());
+	enemyManager_->Update();
+
+	collisionManager_->Reset();
+	for (auto& bullet : playerBullets_) {
+		collisionManager_->AddCollider(bullet.get());
+	}
+
+	for (auto& enemy : enemyManager_->GetList()) {
+		collisionManager_->AddCollider(enemy.get());
+	}
+
+	collisionManager_->CheckAllCollision();
+
+	// -------------------------------------------------
 	// ↓ 死亡の確認
 	// -------------------------------------------------
-	playerBullets_.remove_if([](auto& bullet) {return bullet->GetIsAlive(); });
+	playerBullets_.remove_if([](auto& bullet) {return !bullet->GetIsAlive(); });
 
 	// -------------------------------------------------
 	// ↓ Renderの更新
@@ -104,7 +174,6 @@ void GameScene::Update() {
 	Render::SetViewProjection(viewMat_, projectionMat_);
 
 #ifdef _DEBUG
-	
 	Debug_Gui();
 #endif
 }
@@ -119,20 +188,31 @@ void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
 
-	for (size_t index = 0; index < rails_.size(); ++index) {
+	/*for (size_t index = 0; index < rails_.size(); ++index) {
 		rails_[index]->Draw();
-	}
+	}*/
+
+	// -------------------------------------------------
+	// ↓ GameObjectの描画
+	// -------------------------------------------------
+	enemyManager_->Draw();
 
 	for (const auto& bullet : playerBullets_) {
 		bullet->Draw();
 	}
 
-	// -------------------------------------------------
-	// ↓ GameObjectの描画
-	// -------------------------------------------------
 	player_->Draw();
 
+	knockDownEnemy_->Draw();
+
 	//mainCamera_->Draw();
+	// -------------------------------------------------
+	// ↓ UIの描画
+	// -------------------------------------------------
+	reticle_->Draw();
+
+	totalScore_->Draw();
+
 }
 
 void GameScene::AddPlayerBulletList(const Vector3& pos, const Vector3& velocity) {
@@ -149,9 +229,51 @@ void GameScene::AddPlayerBulletList(const Vector3& pos, const Vector3& velocity)
 #ifdef _DEBUG
 void GameScene::Debug_Gui() {
 	ImGui::Begin("GameScene");
-	ImGui::Checkbox("isDebug", &isDebugCamera_);
-	mainCamera_->Debug_Gui();
-	debugCamera_->Debug_Gui();
+	{
+		if (ImGui::TreeNode("Camera")) {
+			ImGui::Checkbox("isDebug", &isDebugCamera_);
+			mainCamera_->Debug_Gui();
+			debugCamera_->Debug_Gui();
+			ImGui::TreePop();
+		}
+
+		if (Input::IsTriggerKey(DIK_1)) {
+			isDebugCamera_ = !isDebugCamera_;
+		}
+	}
+
+	{
+		if (ImGui::TreeNode("GameObject")) {
+			player_->Debug_Gui();
+			knockDownEnemy_->Debug_Gui();
+			ImGui::TreePop();
+		}
+
+		if (Input::IsTriggerKey(DIK_1)) {
+			isDebugCamera_ = !isDebugCamera_;
+		}
+	}
+
+	{
+		if (ImGui::TreeNode("RailEditer")) {
+			railPointEditer_->Debug_Gui();
+			ImGui::TreePop();
+		}
+	}
+
+	{
+		if (ImGui::TreeNode("Manager")) {
+			enemyManager_->Debug_Gui();
+			ImGui::TreePop();
+		}
+	}
+
+	{
+		if (ImGui::TreeNode("UI")) {
+			totalScore_->Debug_Gui();
+			ImGui::TreePop();
+		}
+	}
 	ImGui::End();
 }
 

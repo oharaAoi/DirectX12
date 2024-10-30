@@ -55,6 +55,72 @@ Vector3 ScreenToWorldCoordinate(const Vector2& screenPos, const Matrix4x4& inver
 Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
 
 ////////////////////////////////////////////////////////////////////////////////////
+// 数字を求めたり
+////////////////////////////////////////////////////////////////////////////////////
+
+/// <summary>
+/// 引数の桁数を求める
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="value"></param>
+/// <returns></returns>
+template <typename T>
+T DegitCount(T value) {
+	if (value == 0.0f) { return 0; }
+	// 桁数 = log10(値) + 1(std::log10はvalueが10以下の時は0が返される)
+	return static_cast<float>(std::floor(std::log10(value)) + 1);
+}
+
+/// <summary>
+/// 引数の値から任意の桁目の数値を取り出す
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="value">: 値</param>
+/// <param name="n">: 任意の桁目</param>
+/// <returns></returns>
+template <typename T>
+T IntegerCount(T value, int n) {
+	if (n == 0) {
+		assert("not 0 Interger");
+	}
+	T num = (static_cast<int>(value) / static_cast<int>(std::pow(10, n - 1)));
+	T result = num % 10;
+	return static_cast<float>(result);
+}
+
+/// <summary>
+/// 数値のTextureから値に対応する左上座標の位置を求める
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="value"></param>
+/// <param name="size"></param>
+/// <returns></returns>
+template <typename T>
+Vector2 NumberSpriteLt(T value, const Vector2& size) {
+	if (value == 0) {
+		return { 0.0f, 0.0f };
+	} else if (value == 1) {
+		return { size.x , 0.0f };
+	} else if (value == 2) {
+		return { size.x * 2.0f, 0.0f };
+	} else if (value == 3) {
+		return { size.x * 3.0f , 0.0f };
+	} else if (value == 4) {
+		return { size.x * 4.0f , 0.0f };
+	} else if (value == 5) {
+		return { size.x * 5.0f, 0.0f };
+	} else if (value == 6) {
+		return { size.x * 6.0f, 0.0f };
+	} else if (value == 7) {
+		return { size.x * 7.0f, 0.0f };
+	} else if (value == 8) {
+		return { size.x * 8.0f, 0.0f };
+	} else {
+		return { size.x * 9.0f , 0.0f };
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////
 // 線形補完
 ////////////////////////////////////////////////////////////////////////////////////
 
