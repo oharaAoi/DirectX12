@@ -54,6 +54,9 @@ void GameScene::Init() {
 	reticle_ = std::make_unique<Reticle>();
 	reticle_->Init();
 
+	knockDownEnemy_ = std::make_unique<KnockDownEnemy>();
+	knockDownEnemy_->Init();
+
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
@@ -97,6 +100,10 @@ void GameScene::Update() {
 			Vector3 up = rails_[index]->GetTransform()->GetQuaternion().MakeUp();
 			rails_[index]->GetTransform()->SetQuaternion(Quaternion::LookAt(from, to, up));
 		}
+		/*if (index >= 1) {
+			rails_[index]->SetBottomVertex(rails_[index - 1]->GetTopVertex());
+		}
+		rails_[index]->SetTransform(railPointEditer_->GetRailBasePoints()[index]);*/
 		rails_[index]->Update();
 	}
 
@@ -118,6 +125,9 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	Vector3 playerPos = Transform({ 0.0, 0.0f, 0.0f }, player_->GetTransform()->GetWorldMatrix());
 	reticle_->Update(playerPos, player_->GetForward(), mainCamera_->GetVpvpMatrix());
+
+	knockDownEnemy_->SetWorldPos(ScreenToWorldCoordinate(knockDownEnemy_->GetScreenPos(), mainCamera_->GetVPVMatrix().Inverse(), 10.0f));
+	knockDownEnemy_->Update();
 
 	// -------------------------------------------------
 	// ↓ Managerの更新
@@ -188,6 +198,8 @@ void GameScene::Draw() const {
 
 	player_->Draw();
 
+	knockDownEnemy_->Draw();
+
 	//mainCamera_->Draw();
 
 	// -------------------------------------------------
@@ -216,6 +228,18 @@ void GameScene::Debug_Gui() {
 			ImGui::Checkbox("isDebug", &isDebugCamera_);
 			mainCamera_->Debug_Gui();
 			debugCamera_->Debug_Gui();
+			ImGui::TreePop();
+		}
+
+		if (Input::IsTriggerKey(DIK_1)) {
+			isDebugCamera_ = !isDebugCamera_;
+		}
+	}
+
+	{
+		if (ImGui::TreeNode("GameObject")) {
+			player_->Debug_Gui();
+			knockDownEnemy_->Debug_Gui();
 			ImGui::TreePop();
 		}
 

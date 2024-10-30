@@ -49,6 +49,8 @@ void PlayerBullet::Draw() const {
 void PlayerBullet::OnCollision(Collider* other) {
 	if (other->GetTag() == "enemy") {
 		isAlive_ = false;
+		Player::AddScore(40);
+		KnockDownEnemy::SetObj("star.obj", 40);
 	}
 }
 

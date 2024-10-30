@@ -13,6 +13,7 @@
 #include "Game/Manager/EnemyManager.h"
 #include "Engine/Manager/CollisionManager.h"
 #include "Game/UI/Reticle.h"
+#include "Game/UI/KnockDownEnemy.h"
 
 class GameScene 
 	: public BaseScene {
@@ -56,7 +57,8 @@ private:
 	std::unique_ptr<CollisionManager> collisionManager_;
 
 	// --- UI -------------------------------------- //
-	std::unique_ptr<Reticle> reticle_; 
+	std::unique_ptr<Reticle> reticle_;
+	std::unique_ptr<KnockDownEnemy> knockDownEnemy_;
 
 	// --- Edier ----------------------------------- //
 	std::unique_ptr<RailPointEditer> railPointEditer_;

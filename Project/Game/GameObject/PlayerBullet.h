@@ -1,5 +1,7 @@
 #pragma once
 #include "Engine/GameObject/BaseGameObject.h"
+#include "Game/GameObject/Player.h"
+#include "Game/UI/KnockDownEnemy.h"
 
 class PlayerBullet : public BaseGameObject, public Collider {
 public:

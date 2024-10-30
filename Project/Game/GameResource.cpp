@@ -20,5 +20,7 @@ void GameResource::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Star/", "star.obj");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "rail_plane.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "number.png");
 
 }

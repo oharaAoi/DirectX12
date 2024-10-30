@@ -16,8 +16,20 @@ public:
 	void Debug_Gui();
 #endif
 
+	void SetTransform(const Vector3& transform) { worldTransform_->SetTranslaion(transform); }
+
+	void SetBottomVertex(Mesh::VertexData* vertexData);
+
+	Mesh::VertexData* GetTopVertex();
+
 private:
 
+	std::unique_ptr<Mesh> mesh_;
+	std::unique_ptr<Material> material_;
+
+	std::vector<Mesh::VertexData> vertexData_;
+
+	std::unique_ptr<WorldTransform> worldTransform_;
 
 };
 
