@@ -314,8 +314,3 @@ DirectXGame/imgui.ini
 
 # DirectXTex Compiled Shaders
 **/DirectXTex/Shaders/Compiled/
-/Project/Externals/DirectXTex/Bin/Desktop_2022_Win10/x64/Debug/DirectXTex.lib
-/Project/Externals/DirectXTex/Bin/Desktop_2022_Win10/x64/Debug/DirectXTex.tlog/Cl.items.tlog
-/Project/Externals/DirectXTex/Bin/Desktop_2022_Win10/x64/Debug/DirectXTex.tlog/DirectXTex.lastbuildstate
-/Project/Externals/DirectXTex/Bin/Desktop_2022_Win10/x64/Debug/DirectXTex.tlog/Lib-link.read.1.tlog
-/Project/Externals/DirectXTex/Bin/Desktop_2022_Win10/x64/Debug/DirectXTex.tlog/Lib-link.write.1.tlog
