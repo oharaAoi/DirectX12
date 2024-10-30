@@ -10,7 +10,6 @@ enum class PipelineType{
 	ParticlePipeline,
 	PBRPipeline,
 	SpritePipeline,
-	SkinningPipeline,
 	PrimitivePipeline,
 };
 

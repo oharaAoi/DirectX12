@@ -313,10 +313,6 @@ void Engine::SetPipeline(const PipelineType& kind) {
 		break;
 	case PipelineType ::SpritePipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
-
-		break;
-	case PipelineType ::SkinningPipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::SkinningPipeline, dxCommands_->GetCommandList());
 		break;
 	}
 }

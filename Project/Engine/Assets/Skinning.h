@@ -60,13 +60,9 @@ public:
 
 	void CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, std::map<std::string, Skinning::JointWeightData>& skinClusterData);
 
-	void StackCommand(ID3D12GraphicsCommandList* commandList, const D3D12_VERTEX_BUFFER_VIEW& vbv) const;
-
 	void RunCs(ID3D12GraphicsCommandList* commandList) const;
 
 	void EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh);
-
-	const Mesh::VertexData* GetOutpusVertexData() const { return outputVertexData_; }
 
 private:
 	UINT vertices_;
@@ -87,19 +83,16 @@ private:
 	// well
 	std::vector<Matrix4x4> inverseBindPoseMatrices_;
 
-
 	// skinningInformation
 	SkinningInformation* skinningInformation_;
-	DescriptorHeap::DescriptorHandles skinningInformationSrvHandle_;
 	ComPtr<ID3D12Resource> skinningInformationResource_;
 	// output
 	ComPtr<ID3D12Resource> outputResource_;
 	DescriptorHeap::DescriptorHandles outputHandle_;
-	Mesh::VertexData* vertexData_;
-	Mesh::VertexData* outputVertexData_;
-	ComPtr<ID3D12Resource> readResource_;
-	// MeshInputView
+	// MeshInput
 	DescriptorHeap::DescriptorHandles inputHandle_;
+
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 
 };
 

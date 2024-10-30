@@ -835,9 +835,6 @@
     <FxCompile Include="Engine\HLSL\DepthOfField.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\SkinningObject3d.VS.hlsl">
-      <Filter>Engine\HLSL</Filter>
-    </FxCompile>
     <FxCompile Include="Engine\HLSL\ResultRender.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>

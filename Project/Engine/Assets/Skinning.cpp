@@ -168,23 +168,10 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 	skinningInformation_ = nullptr;
 	skinningInformationResource_->Map(0, nullptr, reinterpret_cast<void**>(&skinningInformation_));
 	skinningInformation_->numVertices = vertices;
-	skinningInformationSrvHandle_ = heap->AllocateSRV();
-
+	
 	// -------------------------------------------------
 	// ↓ outputResourceを作成
 	// -------------------------------------------------
-	D3D12_RESOURCE_DESC outputResourceDesc = {};
-	outputResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	outputResourceDesc.Width = sizeof(Mesh::VertexData) * vertices; // 頂点データ数分のサイズ
-	outputResourceDesc.Height = 1;
-	outputResourceDesc.DepthOrArraySize = 1;
-	outputResourceDesc.MipLevels = 1;
-	outputResourceDesc.SampleDesc.Count = 1;
-	outputResourceDesc.SampleDesc.Quality = 0;
-	outputResourceDesc.Format = DXGI_FORMAT_UNKNOWN;
-	outputResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	outputResourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
-
 	outputResource_ = CreateUAVResource(device, sizeof(Mesh::VertexData) * vertices);
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
 	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
@@ -197,26 +184,11 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 	outputHandle_ = heap->AllocateSRV();
 	device->CreateUnorderedAccessView(outputResource_.Get(), nullptr, &uavDesc, outputHandle_.handleCPU);
 
-	/*vertexData_ = nullptr;*/
-	// アドレスを取得
-	/*outputResource_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
-	std::memcpy(vertexData_, mesh->GetVertexData(), sizeof(Mesh::VertexData) * vertices);*/
-
-	D3D12_HEAP_PROPERTIES readbackHeapProps = {};
-	readbackHeapProps.Type = D3D12_HEAP_TYPE_READBACK;
-
-	D3D12_RESOURCE_DESC readbackBufferDesc = outputResourceDesc; // 同じサイズでREADBACKバッファを作成
-	readbackBufferDesc.Flags = D3D12_RESOURCE_FLAG_NONE; // UAVは不要
-	device->CreateCommittedResource(
-		&readbackHeapProps,
-		D3D12_HEAP_FLAG_NONE,
-		&readbackBufferDesc,
-		D3D12_RESOURCE_STATE_COPY_DEST,
-		nullptr,
-		IID_PPV_ARGS(&readResource_));
-
-	outputVertexData_ = nullptr;
-	readResource_->Map(0, nullptr, reinterpret_cast<void**>(&outputVertexData_));
+	vertexBufferView_.BufferLocation = outputResource_->GetGPUVirtualAddress();
+	// 使用するリソースのサイズは頂点3つ分のサイズ
+	vertexBufferView_.SizeInBytes = sizeof(Mesh::VertexData) * vertices;
+	// 1頂点当たりのサイズ
+	vertexBufferView_.StrideInBytes = sizeof(Mesh::VertexData);
 
 	// -------------------------------------------------
 	// ↓ intputResourceのviewを作成
@@ -260,16 +232,6 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 // ↓　描画コマンドを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skinning::StackCommand(ID3D12GraphicsCommandList* commandList, const D3D12_VERTEX_BUFFER_VIEW& vbv) const {
-	D3D12_VERTEX_BUFFER_VIEW vbvs[2] = {
-		vbv,				// vertexData
-		influenceBuffeView_	// ifluence
-	};
-
-	commandList->IASetVertexBuffers(0, 2, vbvs);
-	commandList->SetGraphicsRootDescriptorTable(4, paletteSrvHandle_.handleGPU);
-}
-
 void Skinning::RunCs(ID3D12GraphicsCommandList* commandList) const {
 	commandList->SetComputeRootDescriptorTable(0, paletteSrvHandle_.handleGPU);
 	commandList->SetComputeRootDescriptorTable(1, inputHandle_.handleGPU);
@@ -280,9 +242,8 @@ void Skinning::RunCs(ID3D12GraphicsCommandList* commandList) const {
 }
 
 void Skinning::EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh) {
-	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE);
-	commandList->CopyResource(readResource_.Get(), outputResource_.Get());
-	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-
-	readResource_->Map(0, nullptr, reinterpret_cast<void**>(&outputVertexData_));
+	// UAVからVertexBufferとして使用できる用に
+	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+	// meshクラスが持つViewに代入する
+	mesh->SetVBV(vertexBufferView_);
 }

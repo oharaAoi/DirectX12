@@ -47,7 +47,7 @@ void TotalScore::AddArray() {
 	newSprite->SetTextureSize(numberSpriteSize_);
 	newSprite->SetRectRange(numberSpriteSize_);
 	// 新しく追加する数値を求める
-	uint32_t number = IntegerCount(playerScore_, score_.size());
+	uint32_t number = IntegerCount(playerScore_, (int)score_.size());
 	// spriteの左上座標を求める
 	newSprite->SetLeftTop(NumberSpriteLt(number, numberSpriteSize_));
 

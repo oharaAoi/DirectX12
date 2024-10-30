@@ -59,10 +59,7 @@ public:
 	void Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName);
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform* worldTransform, const ViewProjection* viewprojection, const std::vector<std::unique_ptr<Material>>& materials);
-	void DrawSkinning(ID3D12GraphicsCommandList* commandList, const Skinning* skinning, const WorldTransform* worldTransform, const ViewProjection* viewprojection, const std::vector<std::unique_ptr<Material>>& materials);
-	void DrawSkinnings(ID3D12GraphicsCommandList* commandList, const std::vector<std::unique_ptr<Skinning>>& skinnig, const WorldTransform* worldTransform, const ViewProjection* viewprojection, const std::vector<std::unique_ptr<Material>>& materials);
-
-
+	
 #ifdef _DEBUG
 	void Debug_Gui(const std::string& name);
 #endif

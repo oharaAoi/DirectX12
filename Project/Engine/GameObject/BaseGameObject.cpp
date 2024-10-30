@@ -22,7 +22,7 @@ void BaseGameObject::Update() {
 			animetor_->Update();
 
 			Engine::SetSkinning(animetor_->GetSkinning(), model_->GetMesh(0));
-			model_->GetMesh(0)->CopyVertexData(animetor_->GetSkinning()->GetOutpusVertexData());
+			//model_->GetMesh(0)->CopyVertexData(animetor_->GetSkinning()->GetOutpusVertexData());
 		}
 	}
 
@@ -38,7 +38,6 @@ void BaseGameObject::Update() {
 
 void BaseGameObject::Draw() const {
 	Render::DrawModel(model_, transform_.get(), materials);
-	//Render::DrawAnimationModel(model_, animetor_->GetSkinning(), transform_.get(), materials);
 }
 
 void BaseGameObject::UpdateMatrix() {
