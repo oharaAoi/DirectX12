@@ -14,6 +14,21 @@
 *.userprefs
 
 # Mono auto generated filesmono_crash.*
+
+# Build results
+#[Dd]ebug/
+[Dd]ebugPublic/
+#[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+#[Oo]bj/
+[Ll]og/
+[Ll]ogs/
 Generated/
 
 # Visual Studio 2015/2017 cache/options directory
@@ -50,6 +65,37 @@ artifacts/
 StyleCopReport.xml
 
 # Files built by Visual Studio
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+[Dd]bug/.obj
+[Dd]ebug/.obj
+[Dd]ebugPublic/.obj
+[Rr]elease/.obj
+[Rr]eleases/.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
 
 # Chutzpah Test files
 _Chutzpah*
@@ -314,8 +360,3 @@ DirectXGame/imgui.ini
 
 # DirectXTex Compiled Shaders
 **/DirectXTex/Shaders/Compiled/
-/Project/Externals/DirectXTex/Bin/Desktop_2022_Win10/x64/Debug/DirectXTex.lib
-/Project/Externals/DirectXTex/Bin/Desktop_2022_Win10/x64/Debug/DirectXTex.tlog/Cl.items.tlog
-/Project/Externals/DirectXTex/Bin/Desktop_2022_Win10/x64/Debug/DirectXTex.tlog/DirectXTex.lastbuildstate
-/Project/Externals/DirectXTex/Bin/Desktop_2022_Win10/x64/Debug/DirectXTex.tlog/Lib-link.read.1.tlog
-/Project/Externals/DirectXTex/Bin/Desktop_2022_Win10/x64/Debug/DirectXTex.tlog/Lib-link.write.1.tlog
