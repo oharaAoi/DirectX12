@@ -78,6 +78,7 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	boss_->Update();
 
+	player_->SetvpvpMatrix(followCamera_->GetVpvpMatrix());
 	player_->Update();
 
 	// -------------------------------------------------

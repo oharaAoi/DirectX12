@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/GameObject/BaseGameObject.h"
+#include "Game/GameObject/ClutchWire.h"
 
 class Player
 	: public BaseGameObject {
@@ -12,6 +13,8 @@ public:
 	void Init() override;
 	void Update() override;
 	void Draw() const override;
+
+	void SetvpvpMatrix(const Matrix4x4& vpvp);
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -40,10 +43,14 @@ private:
 	float moveSpeed_ = 6.0f;
 
 	// クラッチ
-	float maxClutchLength_ = 2.0f;
+	std::unique_ptr<ClutchWire> wire_;
+	float maxClutchLength_ = 7.0f;
+	float stretchSpeed_ = 30.0f;
+	Vector2 clutchEnd_{};
+	float returnSpeed_ = 0.3f;
 	bool isReturnClutch_ = false;// 最大まで伸びて戻るか
 	bool isStretchClutch_ = false;// 伸ばす状態か
-
+	Matrix4x4 vpvpMat_;
 
 
 
