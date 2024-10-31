@@ -47,6 +47,8 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList,
 		if (hasTexture_) {
 			std::string textureName = materials[oi]->GetUseTexture();
 			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 3);
+		} else {
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "white.png", 3);
 		}
 
 		commandList->DrawIndexedInstanced(meshArray_[oi]->GetIndexNum(), 1, 0, 0, 0);
@@ -232,12 +234,12 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 			if (nameStr == "DefaultMaterial") {
 				continue;
 			}
+			materials.push_back(materialName.C_Str());
 		}
 
 		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
 			aiString textureFilePath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
-			materials.push_back(materialName.C_Str());
 			materialData[materialName.C_Str()] = ModelMaterialData();
 			std::string objTexture = textureFilePath.C_Str();
 			materialData[materialName.C_Str()].textureFilePath = objTexture;

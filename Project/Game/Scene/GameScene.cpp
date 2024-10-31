@@ -20,6 +20,9 @@ void GameScene::Init() {
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Init();
 
+	field_ = std::make_unique<Field>();
+	field_->Init();
+
 	// -------------------------------------------------
 	// ↓ GameObjectの初期化
 	// -------------------------------------------------
@@ -71,6 +74,8 @@ void GameScene::Update() {
 
 	skydome_->Update();
 
+	field_->Update();
+
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
@@ -116,6 +121,7 @@ void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
 
+	field_->Draw();
 
 	// -------------------------------------------------
 	// ↓ GameObjectの描画
@@ -153,9 +159,12 @@ void GameScene::Debug_Gui() {
 			player_->Debug_Gui();
 			ImGui::TreePop();
 		}
+	}
 
-		if (Input::IsTriggerKey(DIK_1)) {
-			isDebugCamera_ = !isDebugCamera_;
+	{
+		if (ImGui::TreeNode("WorldObject")) {
+			field_->Debug_Gui();
+			ImGui::TreePop();
 		}
 	}
 

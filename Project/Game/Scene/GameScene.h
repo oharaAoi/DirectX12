@@ -7,6 +7,7 @@
 #include "Game/WorldObject/Skydome.h"
 #include "Game/GameObject/Player.h"
 #include "Game/Manager/EnemyManager.h"
+#include "Game/WorldObject/Field.h"
 #include "Engine/Manager/CollisionManager.h"
 
 class GameScene 
@@ -37,6 +38,7 @@ private:
 
 	// --- WorldObject ----------------------------- //
 	std::unique_ptr<Skydome> skydome_;
+	std::unique_ptr<Field> field_;
 	
 	// --- GameObject ------------------------------ //
 	std::unique_ptr<Player> player_;
