@@ -12,6 +12,12 @@ void BossLeftHand::Finalize() {}
 void BossLeftHand::Init() {
 	BaseGameObject::Init();
 	SetObject("Left_Hand.obj");
+
+	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
+	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
+
+	// 調整項目の適応
+	AdaptAdjustment();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,6 +34,15 @@ void BossLeftHand::Update() {
 
 void BossLeftHand::Draw() const {
 	BaseGameObject::Draw();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　調整項目の適応
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossLeftHand::AdaptAdjustment() {
+	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
+	transform_->SetTranslaion(adjust->GetValue<Vector3>(groupName_, "pos"));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

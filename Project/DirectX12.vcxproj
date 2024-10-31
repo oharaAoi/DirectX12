@@ -180,6 +180,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\ParticleSystem\ParticleField.cpp" />
     <ClCompile Include="Engine\ParticleSystem\ParticleForGPU.cpp" />
     <ClCompile Include="Engine\Render.cpp" />
+    <ClCompile Include="Engine\Utilities\AdjustmentItem.cpp" />
     <ClCompile Include="Engine\Utilities\AnimationUtils.cpp" />
     <ClCompile Include="Engine\Utilities\Convert.cpp" />
     <ClCompile Include="Engine\Utilities\DirectXUtils.cpp" />
@@ -292,6 +293,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\ParticleSystem\ParticleField.h" />
     <ClInclude Include="Engine\ParticleSystem\ParticleForGPU.h" />
     <ClInclude Include="Engine\Render.h" />
+    <ClInclude Include="Engine\Utilities\AdjustmentItem.h" />
     <ClInclude Include="Engine\Utilities\AnimationUtils.h" />
     <ClInclude Include="Engine\Utilities\Convert.h" />
     <ClInclude Include="Engine\Utilities\Debug.h" />

@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+#include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/GameObject/BaseGameObject.h"
 
 /// <summary>
@@ -15,12 +17,15 @@ public:
 	void Update() override;
 	void Draw() const override;
 
+	void AdaptAdjustment();
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
 
 private:
 
+	std::string groupName_ = "BossRightHand";
 
 };
 

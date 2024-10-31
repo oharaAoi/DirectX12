@@ -11,6 +11,7 @@
 #include "Game/Manager/EnemyManager.h"
 #include "Game/WorldObject/Field.h"
 #include "Engine/Manager/CollisionManager.h"
+#include "Engine/Utilities/AdjustmentItem.h"
 
 class GameScene 
 	: public BaseScene {
@@ -28,6 +29,9 @@ public:
 #endif
 
 private:
+
+	// --- 調整項目 ----------------------------------- //
+	AdjustmentItem* adjustmentItem_;
 
 	// --- eyePos/view/Projection ------------------- //
 	Vector3 eyePos_;

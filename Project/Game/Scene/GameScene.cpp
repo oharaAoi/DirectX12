@@ -7,6 +7,9 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Init() {
+	adjustmentItem_ = AdjustmentItem::GetInstance();
+	adjustmentItem_->Init("gameScene");
+
 	// -------------------------------------------------
 	// ↓ Cameraの初期化
 	// -------------------------------------------------
@@ -197,8 +200,9 @@ void GameScene::Debug_Gui() {
 	}
 
 	{
-		if (ImGui::TreeNode("UI")) {
-		
+		if (ImGui::TreeNode("AdjustmentItem")) {
+			// Updateだが実質Gui表示なためここで更新
+			adjustmentItem_->Update();
 			ImGui::TreePop();
 		}
 	}

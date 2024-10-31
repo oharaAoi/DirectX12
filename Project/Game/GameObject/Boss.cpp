@@ -22,6 +22,14 @@ void Boss::Init() {
 
 	boss_rightHand_ = std::make_unique<BossRightHand>();
 	boss_rightHand_->Init();
+
+	// -------------------------------------------------
+	// ↓ handとbodyをペアレントさせる
+	// -------------------------------------------------
+
+	boss_leftHand_->GetTransform()->SetParent(boss_body_->GetTransform()->GetWorldMatrix());
+	boss_rightHand_->GetTransform()->SetParent(boss_body_->GetTransform()->GetWorldMatrix());
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
