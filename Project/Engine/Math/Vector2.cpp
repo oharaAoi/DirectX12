@@ -5,11 +5,11 @@ float Vector2::Length() const {
 }
 
 Vector2 Vector2::Normalize() const {
-	Vector2 result;
+	Vector2 result = { x, y };
 	float len = this->Length();
 	if (len != 0) {
-		result.x /= len;
-		result.y /= len;
+		 result.x /= len;
+		 result.y /= len;
 	}
 	return result;
 }

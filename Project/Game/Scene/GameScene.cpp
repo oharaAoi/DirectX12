@@ -71,6 +71,7 @@ void GameScene::Update() {
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
 
+	player_->SetvpvpMatrix(followCamera_->GetVpvpMatrix());
 	player_->Update();
 
 	// -------------------------------------------------

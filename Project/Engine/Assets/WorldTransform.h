@@ -51,7 +51,7 @@ public:
 	const Vector3 GetScale() const { return scale_; }
 	const Vector3& GetTranslation() const { return translation_; }
 	const Quaternion& GetQuaternion() const { return rotation_; }
-	const Matrix4x4 GetWorldMatrix() const { return worldMat_; }
+	const Matrix4x4& GetWorldMatrix() const { return worldMat_; }
 
 private:
 
