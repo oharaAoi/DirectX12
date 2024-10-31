@@ -61,7 +61,7 @@ void Triangle::Draw(ID3D12GraphicsCommandList* commandList, ViewProjection* view
 }
 
 void Triangle::SetVertices(const Mesh::Vertices& vertex) {
-	Mesh::VertexData* data = mesh_->GetVertexData();
+	Mesh::VertexData* data = mesh_->GetOutputVertexData();
 	data[0].pos = vertex.vertex1; // 左下
 	data[1].pos = vertex.vertex2; // 上
 	data[2].pos = vertex.vertex3; // 右下

@@ -244,7 +244,7 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 // ↓　描画コマンドを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skinning::RunCs(ID3D12GraphicsCommandList* commandList, Mesh* mesh) const {
+void Skinning::RunCs(ID3D12GraphicsCommandList* commandList) const {
 	
 	commandList->SetComputeRootDescriptorTable(0, paletteSrvHandle_.handleGPU);
 	commandList->SetComputeRootDescriptorTable(1, inputHandle_.handleGPU);

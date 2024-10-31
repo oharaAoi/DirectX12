@@ -22,7 +22,7 @@ void Sphere::Init(ID3D12Device* device, const uint32_t& division) {
 	const float kLonEvery = float(M_PI) * 2.0f / float(division);// fai
 	const float kLatEvery = float(M_PI) / float(division); // theta
 	// vertexの設定
-	Mesh::VertexData* vertexData = mesh_->GetVertexData();
+	Mesh::VertexData* vertexData = mesh_->GetOutputVertexData();
 	uint32_t start = 0;
 	// indexの設定
 	uint32_t* indexData = mesh_->GetIndexData();

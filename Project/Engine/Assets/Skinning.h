@@ -60,7 +60,7 @@ public:
 
 	void CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, std::map<std::string, Skinning::JointWeightData>& skinClusterData);
 
-	void RunCs(ID3D12GraphicsCommandList* commandList, Mesh* mesh) const;
+	void RunCs(ID3D12GraphicsCommandList* commandList) const;
 
 	void EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh);
 
