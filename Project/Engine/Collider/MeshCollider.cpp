@@ -108,8 +108,8 @@ void MeshCollider::Update(const WorldTransform* worldTransform) {
 	// ↓ OBBの更新
 	// -------------------------------------------------
 	obb_.size = size_;
-	obb_.center = worldMat->GetTranslation();
-	obb_.MakeOBBAxis(worldMat->GetQuaternion());
+	obb_.center = worldTransform->GetTranslation();
+	obb_.MakeOBBAxis(worldTransform->GetQuaternion());
 }
 
 void MeshCollider::Draw(const Matrix4x4& vpMat) const {
