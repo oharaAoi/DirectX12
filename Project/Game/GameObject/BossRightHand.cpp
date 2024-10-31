@@ -1,64 +1,47 @@
-#include "Boss.h"
+#include "BossRightHand.h"
 
-Boss::Boss() {
+BossRightHand::BossRightHand() {
 }
 
-Boss::~Boss() {
+BossRightHand::~BossRightHand() {
 }
 
-void Boss::Finalize() {
+void BossRightHand::Finalize() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Boss::Init() {
-	boss_body_ = std::make_unique<BossBody>();
-	boss_body_->Init();
-
-	boss_leftHand_ = std::make_unique<BossLeftHand>();
-	boss_leftHand_->Init();
-
-	boss_rightHand_ = std::make_unique<BossRightHand>();
-	boss_rightHand_->Init();
+void BossRightHand::Init() {
+	BaseGameObject::Init();
+	SetObject("Right_Hand.obj");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Boss::Update() {
-
-	// -------------------------------------------------
-	// ↓ 行列の更新
-	// -------------------------------------------------
-	boss_body_->Update();
-	boss_leftHand_->Update();
-	boss_rightHand_->Update();
+void BossRightHand::Update() {
+	BaseGameObject::Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　描画処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Boss::Draw() const {
-	boss_body_->Draw();
-	boss_leftHand_->Draw();
-	boss_rightHand_->Draw();
+void BossRightHand::Draw() const {
+	BaseGameObject::Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　Debug処理
+// ↓　Debug表示
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
-void Boss::Debug_Gui() {
-	if (ImGui::TreeNode("Boss")) {
-		boss_body_->Debug_Gui();
-		boss_leftHand_->Debug_Gui();
-		boss_rightHand_->Debug_Gui();
-		ImGui::TreePop();
-	}
+void BossRightHand::Debug_Gui() {
+	ImGui::Begin("Boss_RightHand");
+	transform_->Debug_Gui();
+	ImGui::End();
 }
 #endif

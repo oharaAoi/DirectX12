@@ -13,7 +13,6 @@ void BossBody::Init() {
 	BaseGameObject::Init();
 	SetObject("boss_body.obj");
 
-	transform_->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
 	transform_->SetTranslaion(Vector3(0.0f, -2.7f, 7.0f));
 }
 
