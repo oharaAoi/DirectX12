@@ -32,6 +32,9 @@ void GameScene::Init() {
 	player_ = std::make_unique<Player>();
 	player_->Init();
 
+	boss_ = std::make_unique<Boss>();
+	boss_->Init();
+
 	// -------------------------------------------------
 	// ↓ Editer初期化
 	// -------------------------------------------------
@@ -70,6 +73,7 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
+	boss_->Update();
 
 	player_->Update();
 
@@ -140,9 +144,9 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ GameObjectの描画
 	// -------------------------------------------------
+	boss_->Draw();
 
 	player_->Draw();
-	
 	// -------------------------------------------------
 	// ↓ UIの描画
 	// -------------------------------------------------
@@ -173,6 +177,7 @@ void GameScene::Debug_Gui() {
 	{
 		if (ImGui::TreeNode("GameObject")) {
 			player_->Debug_Gui();
+			boss_->Debug_Gui();
 			ImGui::TreePop();
 		}
 	}
