@@ -86,11 +86,7 @@ void Render::DrawSphere(Sphere* sphere, const WorldTransform* worldTransform) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Render::DrawModel(Model* model, const WorldTransform* worldTransform, const std::vector<std::unique_ptr<Material>>& materials) {
-	if (model->GetHasTexture()) {
-		lightGroup_->Draw(commandList_, 4);
-	} else {
-		lightGroup_->Draw(commandList_, 3);
-	}
+	lightGroup_->Draw(commandList_, 4);
 	model->Draw(commandList_, worldTransform, viewProjection_.get(), materials);
 }
 
@@ -163,6 +159,6 @@ void Render::SetEyePos(const Vector3& eyePos) {
 	lightGroup_->SetEyePos(eyePos);
 }
 
-const ViewProjection* Render::GetViewProjection(){
+const ViewProjection* Render::GetViewProjection() {
 	return viewProjection_.get();
 }

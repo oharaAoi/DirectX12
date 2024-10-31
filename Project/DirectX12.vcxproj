@@ -197,20 +197,14 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Camera\BaseCamera.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
-    <ClCompile Include="Game\Camera\RailCamera.cpp" />
-    <ClCompile Include="Game\Editer\RailPointEditer.cpp" />
     <ClCompile Include="Game\GameObject\Enemy.cpp" />
     <ClCompile Include="Game\GameObject\Player.cpp" />
-    <ClCompile Include="Game\GameObject\PlayerBullet.cpp" />
     <ClCompile Include="Game\GameResource.cpp" />
     <ClCompile Include="Game\Manager\EnemyManager.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
-    <ClCompile Include="Game\UI\KnockDownEnemy.cpp" />
-    <ClCompile Include="Game\UI\Reticle.cpp" />
-    <ClCompile Include="Game\UI\TotalScore.cpp" />
-    <ClCompile Include="Game\WorldObject\Rail.cpp" />
+    <ClCompile Include="Game\WorldObject\Field.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -313,20 +307,14 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Camera\BaseCamera.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\Camera\DebugCamera.h" />
-    <ClInclude Include="Game\Camera\RailCamera.h" />
-    <ClInclude Include="Game\Editer\RailPointEditer.h" />
     <ClInclude Include="Game\GameObject\Enemy.h" />
     <ClInclude Include="Game\GameObject\Player.h" />
-    <ClInclude Include="Game\GameObject\PlayerBullet.h" />
     <ClInclude Include="Game\GameResource.h" />
     <ClInclude Include="Game\Manager\EnemyManager.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
-    <ClInclude Include="Game\UI\KnockDownEnemy.h" />
-    <ClInclude Include="Game\UI\Reticle.h" />
-    <ClInclude Include="Game\UI\TotalScore.h" />
-    <ClInclude Include="Game\WorldObject\Rail.h" />
+    <ClInclude Include="Game\WorldObject\Field.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />
   </ItemGroup>
   <ItemGroup>
