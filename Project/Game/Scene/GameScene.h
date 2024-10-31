@@ -6,6 +6,7 @@
 #include "Game/Camera/DebugCamera.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/GameObject/Player.h"
+#include "Game/GameObject/Boss.h"
 #include "Game/Manager/EnemyManager.h"
 #include "Game/WorldObject/Field.h"
 #include "Engine/Manager/CollisionManager.h"
@@ -42,6 +43,7 @@ private:
 	
 	// --- GameObject ------------------------------ //
 	std::unique_ptr<Player> player_;
+	std::unique_ptr<Boss> boss_;
 	
 	// --- Manager --------------------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_;

@@ -19,6 +19,7 @@ void GameResource::Load() {
 
 	// gameObject
 	ModelManager::LoadModel("./Game/Resources/Model/Star/", "star.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Boss_Body/", "boss_body.obj");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "rail_plane.png");

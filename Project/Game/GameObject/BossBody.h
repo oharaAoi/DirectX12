@@ -2,13 +2,13 @@
 #include "Engine/GameObject/BaseGameObject.h"
 
 /// <summary>
-/// 大方となるマップ
+/// bossの胴体となるクラス
 /// </summary>
-class Field : public BaseGameObject {
+class BossBody : public BaseGameObject {
 public:
 
-	Field();
-	~Field();
+	BossBody();
+	~BossBody();
 
 	void Finalize() override;
 	void Init() override;
@@ -24,3 +24,4 @@ private:
 
 
 };
+
