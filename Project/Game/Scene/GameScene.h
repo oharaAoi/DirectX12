@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "Game/Scene/BaseScene.h"
 #include "Game/Camera/Camera.h"
+#include "Game/Camera/FollowCamera.h"
 #include "Game/Camera/DebugCamera.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/GameObject/Player.h"
@@ -34,6 +35,8 @@ private:
 	// --- Camera ---------------------------------- //
 	std::unique_ptr<DebugCamera> debugCamera_;
 	bool isDebugCamera_;
+
+	std::unique_ptr<FollowCamera> followCamera_;
 
 	// --- WorldObject ----------------------------- //
 	std::unique_ptr<Skydome> skydome_;

@@ -14,6 +14,9 @@ void GameScene::Init() {
 	debugCamera_ = std::make_unique<DebugCamera>();
 	debugCamera_->Init();
 
+	followCamera_ = std::make_unique<FollowCamera>();
+	followCamera_->Init();
+
 	// -------------------------------------------------
 	// ↓ worldObjectの初期化
 	// -------------------------------------------------
@@ -48,23 +51,11 @@ void GameScene::Init() {
 	// -------------------------------------------------
 
 	isDebugCamera_ = true;
+	followCamera_->SetTarget(player_->GetTransform());
+
 }
 
 void GameScene::Update() {
-	// -------------------------------------------------
-	// ↓ Cameraの更新
-	// -------------------------------------------------
-	
-	debugCamera_->Update();
-
-	if (!isDebugCamera_) {
-		
-	} else {
-		Render::SetEyePos(debugCamera_->GetWorldTranslate());
-		Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
-		Render::SetViewProjection2D(debugCamera_->GetViewMatrix2D(), debugCamera_->GetProjectionMatrix2D());
-	}
-
 	// -------------------------------------------------
 	// ↓ worldObjectの更新
 	// -------------------------------------------------
@@ -75,6 +66,7 @@ void GameScene::Update() {
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
 
+	player_->Update();
 
 	// -------------------------------------------------
 	// ↓ UIの更新
@@ -90,11 +82,33 @@ void GameScene::Update() {
 	// ↓ 死亡の確認
 	// -------------------------------------------------
 	
+
+	// -------------------------------------------------
+	// ↓ Cameraの更新
+	// -------------------------------------------------
+
+	debugCamera_->Update();
+	followCamera_->Update();
+
+	if (!isDebugCamera_) {
+		Render::SetEyePos(followCamera_->GetWorldTranslate());
+		Render::SetViewProjection(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
+		Render::SetViewProjection2D(followCamera_->GetViewMatrix2D(), followCamera_->GetProjectionMatrix2D());
+	}
+	else {
+		Render::SetEyePos(debugCamera_->GetWorldTranslate());
+		Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
+		Render::SetViewProjection2D(debugCamera_->GetViewMatrix2D(), debugCamera_->GetProjectionMatrix2D());
+	}
+
+
 	// -------------------------------------------------
 	// ↓ Renderの更新
 	// -------------------------------------------------
 	if (!isDebugCamera_) {
-		
+		eyePos_ = followCamera_->GetWorldTranslate();
+		viewMat_ = followCamera_->GetViewMatrix();
+		projectionMat_ = followCamera_->GetProjectionMatrix();
 	} else {
 		eyePos_ = debugCamera_->GetWorldTranslate();
 		viewMat_ = debugCamera_->GetViewMatrix();
@@ -120,7 +134,8 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ GameObjectの描画
 	// -------------------------------------------------
-	
+
+	player_->Draw();
 	
 	// -------------------------------------------------
 	// ↓ UIの描画
@@ -140,6 +155,7 @@ void GameScene::Debug_Gui() {
 			ImGui::Checkbox("isDebug", &isDebugCamera_);
 			
 			debugCamera_->Debug_Gui();
+			followCamera_->Debug_Gui();
 			ImGui::TreePop();
 		}
 

@@ -14,9 +14,9 @@ void Player::Finalize() {
 
 void Player::Init() {
 	BaseGameObject::Init();
-	SetObject("skin.obj");
-	transform_->SetScale({ 0.5f, 0.5f, 0.5f });
-	transform_->SetTranslaion({ 0.0f, -0.5f, 0.0f });
+	SetObject("cube.obj");
+	transform_->SetScale({ 1.0f, 1.0f, 1.0f });
+	transform_->SetTranslaion({ 0.0f, 0.0f, 0.0f });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,6 +24,10 @@ void Player::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Update() {
+
+	Move();
+	Clutch();
+
 	BaseGameObject::Update();
 }
 
@@ -43,6 +47,14 @@ void Player::Draw() const {
 void Player::Debug_Gui() {
 	if (ImGui::TreeNode("player")) {
 		ImGui::Begin("player");
+		if (ImGui::TreeNode("Move")) {
+
+			ImGui::DragFloat("MoveSpeed", &moveSpeed_, 0.01f, 0.0f, 20.0f);
+			Vector3 pos = transform_->GetTranslation();
+			ImGui::DragFloat3("Trans", &pos.x);
+
+			ImGui::TreePop();
+		}
 
 
 		ImGui::End();
@@ -50,3 +62,32 @@ void Player::Debug_Gui() {
 	}
 }
 #endif
+
+void Player::Move() {
+	Vector3 pos = transform_->GetTranslation();
+	if (Input::IsPressKey(DIK_A)) {
+		pos.x -= moveSpeed_ * GameTimer::DeltaTime();
+	}
+	if (Input::IsPressKey(DIK_D)) {
+		pos.x += moveSpeed_ * GameTimer::DeltaTime();
+	}
+
+	transform_->SetTranslaion(pos);
+}
+
+void Player::Clutch() {
+
+	if (!isReturnClutch_) {// 最大まで伸びて、戻る状態じゃない時
+		if (Input::IsPressMouse(0)) {
+			isStretchClutch_ = true;
+		}
+	}
+
+
+	if (isStretchClutch_) {
+		
+	}
+
+
+
+}
