@@ -226,13 +226,26 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 			}
 		}
 	}
+
+	CD3DX12_HEAP_PROPERTIES heapProperties(D3D12_HEAP_TYPE_READBACK);
+	CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(Mesh::VertexData) * vertices);
+
+	device->CreateCommittedResource(
+		&heapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&resourceDesc,
+		D3D12_RESOURCE_STATE_COPY_DEST,
+		nullptr,
+		IID_PPV_ARGS(&copyResource_)
+	);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　描画コマンドを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skinning::RunCs(ID3D12GraphicsCommandList* commandList) const {
+void Skinning::RunCs(ID3D12GraphicsCommandList* commandList, Mesh* mesh) const {
+	
 	commandList->SetComputeRootDescriptorTable(0, paletteSrvHandle_.handleGPU);
 	commandList->SetComputeRootDescriptorTable(1, inputHandle_.handleGPU);
 	commandList->SetComputeRootDescriptorTable(2, influenceSrvHandle_.handleGPU);
@@ -242,8 +255,22 @@ void Skinning::RunCs(ID3D12GraphicsCommandList* commandList) const {
 }
 
 void Skinning::EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh) {
-	// UAVからVertexBufferとして使用できる用に
-	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
-	// meshクラスが持つViewに代入する
+	//// UAVからVertexBufferとして使用できる用に
+	//TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+	//mesh->SetVBV(vertexBufferView_);
+
+	// 出力された頂点データを読み取るためのResourceにコピーする
+	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE);
+	commandList->CopyResource(copyResource_.Get(), outputResource_.Get());
+	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+
+	// 出力されたvbvをmeshの持つvbvにコピーする
 	mesh->SetVBV(vertexBufferView_);
+
+	// マップしてデータを取得
+	Mesh::VertexData* pVertexDataBegin;
+	copyResource_->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin));
+
+	// skinningされた後のlocal頂点座標を取得する
+	mesh->SetOutputVertexData(pVertexDataBegin);
 }

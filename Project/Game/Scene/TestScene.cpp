@@ -13,6 +13,8 @@ void TestScene::Init() {
 	test_animationCS_->Init();
 	test_animationCS_->SetObject("walk.gltf");
 	test_animationCS_->SetAnimater("./Engine/Resources/Animation/", "walk.gltf", true);
+
+	meshCollider_.Init(test_animationCS_->GetModel()->GetMesh(0));
 	
 }
 
@@ -39,6 +41,8 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	test_animationCS_->Update();
 
+	meshCollider_.Update(test_animationCS_->GetTransform());
+
 	// -------------------------------------------------
 	// ↓ ParticleのViewを設定する
 	// -------------------------------------------------
@@ -53,12 +57,16 @@ void TestScene::Update() {
 void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	test_animationCS_->Draw();
+
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	meshCollider_.Draw(debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
 }
 
 #ifdef _DEBUG
 void TestScene::ImGuiDraw() {
 	ImGui::Begin("TestScene");
 	ImGui::Checkbox("isDebug", &isDebugCamera_);
+	test_animationCS_->Debug_Gui();
 	camera_->Debug_Gui();
 	debugCamera_->Debug_Gui();
 	ImGui::End();

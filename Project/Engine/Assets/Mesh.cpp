@@ -33,8 +33,10 @@ void Mesh::Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::v
 	vertexDataSize_ = static_cast<uint32_t>(vertexData.size());
 
 	initVertexData_ = new VertexData[vertexDataSize_];
+	outputVertexData_ = new VertexData[vertexDataSize_];
 	for (size_t i = 0; i < vertexDataSize_; ++i) {
 		initVertexData_[i] = vertexData_[i];
+		
 	}
 
 	verticesData_ = vertexData;
@@ -65,16 +67,14 @@ void Mesh::DrawIndex(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetIndexBuffer(&indexBufferView_);
 }
 
-void Mesh::InitVertex() {
+void Mesh::SetInitVertex() {
 	for (size_t i = 0; i < vertexDataSize_; ++i) {
 		vertexData_[i] = initVertexData_[i];
 	}
 }
 
-void Mesh::CopyVertexData(const VertexData* data) {
+void Mesh::SetOutputVertexData(VertexData* vertexData) {
 	for (size_t i = 0; i < vertexDataSize_; ++i) {
-		vertexData_[i] = data[i];
+		outputVertexData_[i] = vertexData[i];
 	}
-	/*vertexData_ = data;
-	std::memcpy(vertexData_, data, sizeof(VertexData) * vertexDataSize_);*/
 }
