@@ -42,7 +42,7 @@ public:
 
 	void DrawIndex(ID3D12GraphicsCommandList* commandList);
 
-	void InitVertex();
+	void SetInitVertex();
 
 public:
 
@@ -59,10 +59,12 @@ public:
 	/// vertexDataを取得する
 	/// </summary>
 	/// <returns></returns>
-	VertexData* GetVertexData() { return vertexData_; }
+	VertexData* GetOutputVertexData() { return outputVertexData_; }
 
-	void CopyVertexData(const VertexData* data);
-
+	/// <summary>
+	/// indexの数を
+	/// </summary>
+	/// <returns></returns>
 	uint32_t GetIndexNum() { return indexNum_; }
 
 	/// <summary>
@@ -77,7 +79,19 @@ public:
 	/// <returns></returns>
 	uint32_t* GetIndexData() { return indexData_; }
 
+	/// <summary>
+	/// 配列に入っている頂点データ(生成時のデータ)
+	/// </summary>
+	/// <returns></returns>
 	const std::vector<VertexData>& GetVerticesData() const { return verticesData_; }
+
+	void SetOutputVertexData(VertexData* vertexData);
+
+	/// <summary>
+	/// 頂点数を取得する
+	/// </summary>
+	/// <returns></returns>
+	const uint32_t GetVertexSize() const { return (uint32_t)verticesData_.size(); }
 
 	void SetUseMaterial(const std::string& usemtl) { useMaterial_ = usemtl; }
 	const std::string GetUseMaterial() const { return useMaterial_; }
@@ -88,6 +102,7 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 	VertexData* vertexData_ = nullptr;
 	VertexData* initVertexData_ = nullptr;
+	VertexData* outputVertexData_ = nullptr;
 	// IndexBuffer
 	ComPtr<ID3D12Resource> indexBuffer_;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};

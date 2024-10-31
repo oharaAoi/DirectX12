@@ -122,6 +122,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Audio\Audio.cpp" />
     <ClCompile Include="Engine\Collider\BoxCollider.cpp" />
     <ClCompile Include="Engine\Collider\Collider.cpp" />
+    <ClCompile Include="Engine\Collider\MeshCollider.cpp" />
     <ClCompile Include="Engine\ComputeShader\BaseCSResource.cpp" />
     <ClCompile Include="Engine\ComputeShader\ComputeShader.cpp" />
     <ClCompile Include="Engine\ComputeShader\ComputeShaderPipeline.cpp" />
@@ -233,6 +234,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Audio\Audio.h" />
     <ClInclude Include="Engine\Collider\BoxCollider.h" />
     <ClInclude Include="Engine\Collider\Collider.h" />
+    <ClInclude Include="Engine\Collider\MeshCollider.h" />
     <ClInclude Include="Engine\ComputeShader\BaseCSResource.h" />
     <ClInclude Include="Engine\ComputeShader\ComputeShader.h" />
     <ClInclude Include="Engine\ComputeShader\ComputeShaderPipeline.h" />

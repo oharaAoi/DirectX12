@@ -50,6 +50,8 @@ public:
 
 	Animetor* GetAnimetor() { return animetor_.get(); }
 
+	Model* GetModel() { return model_; }
+
 protected:
 
 	Model* model_;

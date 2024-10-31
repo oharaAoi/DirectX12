@@ -10,6 +10,7 @@ void GameResource::Load() {
 	ModelManager::LoadModel("./Engine/Resources/Develop/", "skin.obj");
 	ModelManager::LoadModel("./Engine/Resources/Develop/", "cube.obj");
 	ModelManager::LoadModel("./Engine/Resources/Animation/", "walk.gltf");
+	ModelManager::LoadModel("./Engine/Resources/Animation/", "simpleSkin.gltf");
 
 	// worldObject
 	ModelManager::LoadModel("./Game/Resources/Model/Skydome/", "skydome.obj");

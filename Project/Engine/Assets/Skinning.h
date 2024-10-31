@@ -60,7 +60,7 @@ public:
 
 	void CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, std::map<std::string, Skinning::JointWeightData>& skinClusterData);
 
-	void RunCs(ID3D12GraphicsCommandList* commandList) const;
+	void RunCs(ID3D12GraphicsCommandList* commandList, Mesh* mesh) const;
 
 	void EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh);
 
@@ -93,6 +93,9 @@ private:
 	DescriptorHeap::DescriptorHandles inputHandle_;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
+
+	// copy
+	ComPtr<ID3D12Resource> copyResource_;
 
 };
 
