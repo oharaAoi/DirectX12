@@ -14,7 +14,8 @@ public:
 	void Update() override;
 	void Draw() const override;
 
-	void SetvpvpMatrix(const Matrix4x4& vpvp);
+	void SetInverMatrix(const Matrix4x4& inver);
+	void SetCameraZDis(float z);
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -46,11 +47,12 @@ private:
 	std::unique_ptr<ClutchWire> wire_;
 	float maxClutchLength_ = 7.0f;
 	float stretchSpeed_ = 30.0f;
+	float camerazDis_ = 0.0f;
 	Vector2 clutchEnd_{};
 	float returnSpeed_ = 0.3f;
 	bool isReturnClutch_ = false;// 最大まで伸びて戻るか
 	bool isStretchClutch_ = false;// 伸ばす状態か
-	Matrix4x4 vpvpMat_;
+	Matrix4x4 inverMat_;
 
 
 

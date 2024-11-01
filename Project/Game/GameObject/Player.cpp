@@ -46,8 +46,12 @@ void Player::Draw() const {
 	wire_->Draw();
 }
 
-void Player::SetvpvpMatrix(const Matrix4x4& vpvp) {
-	vpvpMat_ = vpvp;
+void Player::SetInverMatrix(const Matrix4x4& inver) {
+	inverMat_ = inver;
+}
+
+void Player::SetCameraZDis(float z) {
+	camerazDis_ = z;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,15 +106,16 @@ void Player::Clutch() {
 	if (!isReturnClutch_) {// 最大まで伸びて、戻る状態じゃない時
 		if (Input::IsPressMouse(0)) {
 			if (!isStretchClutch_) {
-				clutchEnd_ = Input::GetMousePosition();
+				Vector3 end= ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
+				clutchEnd_ = { end.x,end.y };
 			}
-			Vector3 screenPos = Transform({ 0,0,0 }, transform_->GetWorldMatrix() * vpvpMat_);
+			Vector3 screenPos = transform_->GetTranslation();
 
 			start = { screenPos.x,screenPos.y };
 			clutchDirection = (clutchEnd_ - start).Normalize();
 			float angle = std::atan2f(clutchDirection.x, clutchDirection.y);
 
-			Quaternion moveRotate = Quaternion::AngleAxis(angle, Vector3::FORWARD());
+			Quaternion moveRotate = Quaternion::AngleAxis(-angle, Vector3::FORWARD());
 			Quaternion rotate = wire_->GetTransform()->GetQuaternion();
 			wire_->GetTransform()->SetQuaternion(moveRotate);
 			isStretchClutch_ = true;
