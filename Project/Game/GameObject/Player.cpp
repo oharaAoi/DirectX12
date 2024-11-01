@@ -107,6 +107,9 @@ void Player::Clutch() {
 		if (Input::IsPressMouse(0)) {
 			if (!isStretchClutch_) {
 				Vector3 end= ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
+				end -= transform_->GetTranslation();
+				end = end.Normalize() * maxClutchLength_;
+				end += transform_->GetTranslation();
 				clutchEnd_ = { end.x,end.y };
 			}
 			Vector3 screenPos = transform_->GetTranslation();
