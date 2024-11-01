@@ -78,7 +78,8 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	boss_->Update();
 
-	player_->SetvpvpMatrix(followCamera_->GetVpvpMatrix());
+	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
+	player_->SetCameraZDis(followCamera_->GetTranslate().z);
 	player_->Update();
 
 	// -------------------------------------------------
