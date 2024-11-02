@@ -51,7 +51,8 @@ private:
 	Vector2 clutchEnd_{};
 	float returnSpeed_ = 0.3f;
 	bool isReturnClutch_ = false;// 最大まで伸びて戻るか
-	bool isStretchClutch_ = false;// 伸ばす状態か
+	bool isStretchClutch_ = false;// 伸びてる状態か
+	bool isStretching_ = false;
 	Matrix4x4 inverMat_;
 
 

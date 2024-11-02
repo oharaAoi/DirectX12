@@ -106,11 +106,12 @@ void Player::Clutch() {
 	if (!isReturnClutch_) {// 最大まで伸びて、戻る状態じゃない時
 		if (Input::IsPressMouse(0)) {
 			if (!isStretchClutch_) {
-				Vector3 end= ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
+				Vector3 end = ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
 				end -= transform_->GetTranslation();
 				end = end.Normalize() * maxClutchLength_;
 				end += transform_->GetTranslation();
 				clutchEnd_ = { end.x,end.y };
+				isStretching_ = true;
 			}
 			Vector3 screenPos = transform_->GetTranslation();
 
@@ -136,7 +137,7 @@ void Player::Clutch() {
 	}
 
 
-	if (isStretchClutch_) {
+	if (isStretching_) {
 
 		Vector3 nowScale = wire_->GetTransform()->GetScale();
 		if (nowScale.y <= maxClutchLength_) {
@@ -144,14 +145,27 @@ void Player::Clutch() {
 			wire_->GetTransform()->SetScale(nowScale);
 		}
 		else {
-			if (!Input::IsPressMouse(0)) {
-				isStretchClutch_ = false;
-				isReturnClutch_ = true;
-			}
+			isStretching_ = false;
 		}
-
 	}
 
 
+	if (isStretchClutch_) {
 
+		if (!Input::IsPressMouse(0) && !isStretching_) {
+			isStretchClutch_ = false;
+			isReturnClutch_ = true;
+		}
+
+		if (!isStretching_) {
+			float length = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Length();
+			if (length <= maxClutchLength_) {
+
+				Vector3 nowScale = wire_->GetTransform()->GetScale();
+				nowScale.y = length;
+				wire_->GetTransform()->SetScale(nowScale);
+
+			}
+		}
+	}
 }
