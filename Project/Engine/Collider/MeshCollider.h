@@ -29,7 +29,24 @@ public:
 		onCollision_ = callback;
 	}
 
+	// ------------ 半径 ------------ // 
+	float GetRadius() const { return radius_; }
+	void SetRadius(const float& radius) { radius_ = radius; }
+
+	// ------------ Hitしているか ------------ // 
+	void SetIsHitting(const bool& hit) { isHitting_ = hit; }
+	const bool GetIsHitting() const { return isHitting_; }
+
+	// --------------- オブジェクトの属性取得 -------------- //
+	int32_t GetObjectType() { return typeID_; }
+
+	// --------------- tagの取得 -------------- //
+	void SetTag(const std::string& tag) { tag_ = tag; }
+	const std::string GetTag() const { return tag_; }
+
 	const OBB& GetOBB() { return obb_; }
+
+	const Vector3 GetObbCenter() const { return obb_.center; }
 	
 private:
 
