@@ -38,6 +38,9 @@ void GameScene::Init() {
 	boss_ = std::make_unique<Boss>();
 	boss_->Init();
 
+	testCollisionObj_ = std::make_unique<TestCollisionObj>();
+	testCollisionObj_->Init();
+
 	// -------------------------------------------------
 	// ↓ Editer初期化
 	// -------------------------------------------------
@@ -82,6 +85,8 @@ void GameScene::Update() {
 	player_->SetCameraZDis(followCamera_->GetTranslate().z);
 	player_->Update();
 
+	testCollisionObj_->Update();
+
 	// -------------------------------------------------
 	// ↓ UIの更新
 	// -------------------------------------------------
@@ -91,6 +96,11 @@ void GameScene::Update() {
 	// ↓ Managerの更新
 	// -------------------------------------------------
 	
+	collisionManager_->Reset();
+	collisionManager_->AddCollider(player_->GetWireTipCollider());
+	collisionManager_->AddCollider(testCollisionObj_.get());
+	collisionManager_->CheckAllCollision();
+
 
 	// -------------------------------------------------
 	// ↓ 死亡の確認
@@ -152,6 +162,8 @@ void GameScene::Draw() const {
 	boss_->Draw();
 
 	player_->Draw();
+
+	testCollisionObj_->Draw();
 	// -------------------------------------------------
 	// ↓ UIの描画
 	// -------------------------------------------------

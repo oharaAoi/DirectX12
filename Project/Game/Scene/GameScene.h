@@ -13,6 +13,8 @@
 #include "Engine/Manager/CollisionManager.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 
+#include "TestCollisionObj.h"
+
 class GameScene 
 	: public BaseScene {
 public:
@@ -52,6 +54,8 @@ private:
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<Boss> boss_;
 	
+	std::unique_ptr<TestCollisionObj> testCollisionObj_;
+
 	// --- Manager --------------------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_;
 	std::unique_ptr<CollisionManager> collisionManager_;

@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Game/GameObject/ClutchWire.h"
+#include "WireTip.h"
 
 class Player
 	: public BaseGameObject {
@@ -20,6 +21,8 @@ public:
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
+
+	Collider* GetWireTipCollider() { return wireTip_.get(); }
 
 	const Vector3 GetForward() const { return TransformNormal(Vector3(0,0,1), transform_->GetWorldMatrix()); }
 	const Vector3 GetWorldPos() const { return Transform(Vector3(0, 0, 0), transform_->GetWorldMatrix()); }
@@ -55,6 +58,9 @@ private:
 	bool isStretching_ = false;
 	Matrix4x4 inverMat_;
 
+
+	// ワイヤー先端
+	std::unique_ptr<WireTip> wireTip_;
 
 
 };

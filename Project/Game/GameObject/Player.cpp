@@ -21,6 +21,10 @@ void Player::Init() {
 	wire_ = std::make_unique<ClutchWire>();
 	wire_->Init();
 	wire_->GetTransform()->SetParent(transform_->GetWorldMatrix());
+
+	wireTip_ = std::make_unique<WireTip>();
+	wireTip_->Init();
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +39,7 @@ void Player::Update() {
 	BaseGameObject::Update();
 
 	wire_->Update();
+	wireTip_->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,6 +49,7 @@ void Player::Update() {
 void Player::Draw() const {
 	BaseGameObject::Draw();
 	wire_->Draw();
+	wireTip_->Draw();
 }
 
 void Player::SetInverMatrix(const Matrix4x4& inver) {
@@ -85,21 +91,16 @@ void Player::Move() {
 	Vector3 pos = transform_->GetTranslation();
 	if (Input::IsPressKey(DIK_A)) {
 		pos.x -= moveSpeed_ * GameTimer::DeltaTime();
-		if (Input::IsPressMouse(0)) {
-			clutchEnd_.x += moveSpeed_ * GameTimer::DeltaTime();
-		}
 	}
 	if (Input::IsPressKey(DIK_D)) {
 		pos.x += moveSpeed_ * GameTimer::DeltaTime();
-		if (Input::IsPressMouse(0)) {
-			clutchEnd_.x -= moveSpeed_ * GameTimer::DeltaTime();
-		}
 	}
 
 	transform_->SetTranslaion(pos);
 }
 
 void Player::Clutch() {
+
 
 	Vector2 start;
 	Vector2 clutchDirection;
@@ -134,6 +135,17 @@ void Player::Clutch() {
 			isReturnClutch_ = false;
 		}
 		wire_->GetTransform()->SetScale(nowScale);
+	}
+
+
+	Vector2 wireTipPos = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Normalize() * wire_->GetTransform()->GetScale().y;
+	wireTipPos += {transform_->GetTranslation().x, transform_->GetTranslation().y};
+	wireTip_->GetTransform()->SetTranslaion({ wireTipPos.x,wireTipPos.y, transform_->GetTranslation().z });
+	if (wireTip_->GetIsHitting() && isStretchClutch_) {
+		if (isStretching_) {
+			clutchEnd_ = wireTipPos;
+		}
+		isStretching_ = false;
 	}
 
 
