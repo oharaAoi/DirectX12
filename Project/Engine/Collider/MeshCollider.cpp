@@ -104,6 +104,14 @@ void MeshCollider::Update(const WorldTransform* worldTransform) {
 	float zRadius = std::abs(maxSize_.z - minSize_.z) * 0.5f;
 	size_ = { xRadius, yRadius, zRadius };
 
+	if (xRadius < yRadius) {
+		radius_ = yRadius;
+	}
+
+	if (radius_ < zRadius) {
+		radius_ = zRadius;
+	}
+
 	// -------------------------------------------------
 	// ↓ OBBの更新
 	// -------------------------------------------------
@@ -114,4 +122,10 @@ void MeshCollider::Update(const WorldTransform* worldTransform) {
 
 void MeshCollider::Draw(const Matrix4x4& vpMat) const {
 	DrawOBB(obb_, vpMat, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+}
+
+void MeshCollider::OnCollision(MeshCollider& other) {
+	if (onCollision_) {
+		onCollision_(other);
+	}
 }

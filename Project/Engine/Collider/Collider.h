@@ -4,6 +4,7 @@
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/Vector4.h"
 #include "Engine/Math/MathStructures.h"
+#include "Engine/Collider/MeshCollider.h"
 
 /// <summary>
 /// 衝突判定オブジェクト
@@ -59,5 +60,6 @@ protected:
 
 	bool isHitting_;
 	Vector4 color_;
+
 };
 
