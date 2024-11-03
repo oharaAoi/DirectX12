@@ -25,6 +25,7 @@ void WireTip::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WireTip::Update() {
+	isSnagged_ = false;
 	BaseGameObject::Update();
 }
 
@@ -41,6 +42,11 @@ void WireTip::Draw() const {
 
 
 void WireTip::OnCollision(Collider* other) {
+
+	if (other->GetTag() == "hook") {
+		isSnagged_ = true;
+	}
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

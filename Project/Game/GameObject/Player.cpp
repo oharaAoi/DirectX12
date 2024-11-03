@@ -89,13 +89,34 @@ void Player::Debug_Gui() {
 
 void Player::Move() {
 	Vector3 pos = transform_->GetTranslation();
-	if (Input::IsPressKey(DIK_A)) {
-		pos.x -= moveSpeed_ * GameTimer::DeltaTime();
+	if (pos.y > 0.5f) {
+		velocity_.y += gravity_ * GameTimer::DeltaTime();
 	}
-	if (Input::IsPressKey(DIK_D)) {
-		pos.x += moveSpeed_ * GameTimer::DeltaTime();
+	Vector3 testPrePos = pos + velocity_;
+	if (testPrePos.y <= 0.5f) {
+		pos.y = 0.5f;
+	}
+	if (pos.y <= 0.5f) {
+		velocity_.y = 0.0f;
+		pos.y = 0.5f;
 	}
 
+	if (!wireTip_->GetSnagged()) {
+		velocity_.x = 0.0f;
+		if (Input::IsPressKey(DIK_A)) {
+			velocity_.x -= moveSpeed_ * GameTimer::DeltaTime();
+		}
+		if (Input::IsPressKey(DIK_D)) {
+			velocity_.x += moveSpeed_ * GameTimer::DeltaTime();
+		}
+	}
+	else if(wireTip_->GetSnagged() && isStretchClutch_) {
+		velocity_.y = 0.0f;
+		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, 0.1f);
+		
+	}
+
+	pos += velocity_;
 	transform_->SetTranslaion(pos);
 }
 

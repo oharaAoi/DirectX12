@@ -44,7 +44,9 @@ private:
 	/// ==========================================
 
 	// 移動
+	Vector3 velocity_{};
 	float moveSpeed_ = 6.0f;
+	float gravity_ = -0.8f;
 
 	// クラッチ
 	std::unique_ptr<ClutchWire> wire_;

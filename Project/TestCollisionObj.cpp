@@ -17,10 +17,10 @@ void TestCollisionObj::Init() {
 	BaseGameObject::Init();
 	SetObject("cube.obj");
 	transform_->SetScale({ 1.0f, 1.0f, 1.0f });
-	transform_->SetTranslaion({ 4.0f, 0.0f, 0.0f });
+	transform_->SetTranslaion({ 4.0f, 4.0f, 0.0f });
 
 	radius_ = 1.0f;
-	tag_ = "obj";
+	tag_ = "hook";
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
