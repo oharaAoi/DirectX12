@@ -101,18 +101,23 @@ void Player::Move() {
 
 void Player::Clutch() {
 
+	if (!Input::IsPressMouse(0)) {
+		isRekey_ = true;
+	}
 
 	Vector2 start;
 	Vector2 clutchDirection;
 	if (!isReturnClutch_) {// 最大まで伸びて、戻る状態じゃない時
 		if (Input::IsPressMouse(0)) {
-			if (!isStretchClutch_) {
+			if (!isStretchClutch_ && isRekey_) {
 				Vector3 end = ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
 				end -= transform_->GetTranslation();
 				end = end.Normalize() * maxClutchLength_;
 				end += transform_->GetTranslation();
 				clutchEnd_ = { end.x,end.y };
 				isStretching_ = true;
+				isStretchClutch_ = true;
+				isRekey_ = false;
 			}
 			Vector3 screenPos = transform_->GetTranslation();
 
@@ -123,7 +128,6 @@ void Player::Clutch() {
 			Quaternion moveRotate = Quaternion::AngleAxis(-angle, Vector3::FORWARD());
 			Quaternion rotate = wire_->GetTransform()->GetQuaternion();
 			wire_->GetTransform()->SetQuaternion(moveRotate);
-			isStretchClutch_ = true;
 		}
 	}
 	else {
@@ -178,6 +182,12 @@ void Player::Clutch() {
 				wire_->GetTransform()->SetScale(nowScale);
 
 			}
+
+			if (!wireTip_->GetIsHitting()) {
+				isStretchClutch_ = false;
+				isReturnClutch_ = true;
+			}
+
 		}
 	}
 }

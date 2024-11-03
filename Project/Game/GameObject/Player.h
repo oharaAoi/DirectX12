@@ -56,11 +56,15 @@ private:
 	bool isReturnClutch_ = false;// 最大まで伸びて戻るか
 	bool isStretchClutch_ = false;// 伸びてる状態か
 	bool isStretching_ = false;
+	bool isRekey_ = true;// 一回ボタンから手離したかった
 	Matrix4x4 inverMat_;
+
 
 
 	// ワイヤー先端
 	std::unique_ptr<WireTip> wireTip_;
+
+
 
 
 };
