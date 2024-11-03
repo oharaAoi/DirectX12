@@ -11,8 +11,8 @@ void TestScene::Init() {
 	// GameObject -------------------------------------------------------------------
 	test_animationCS_ = std::make_unique<BaseGameObject>();
 	test_animationCS_->Init();
-	test_animationCS_->SetObject("walk.gltf");
-	test_animationCS_->SetAnimater("./Engine/Resources/Animation/", "walk.gltf", true);
+	test_animationCS_->SetObject("amimationCharacter.gltf");
+	test_animationCS_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true);
 
 	meshCollider_.Init(test_animationCS_->GetModel()->GetMesh(0));
 	

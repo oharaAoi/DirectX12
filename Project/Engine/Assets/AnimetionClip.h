@@ -54,32 +54,38 @@ public:
 	void Init();
 	void Update();
 
-	void LoadAnimation(const std::string directoryPath, const std::string& animationFile, const std::string& name);
-	void LoadGetAnimation(const std::string& animationFile);
+	void LoadAnimation(const std::string directoryPath, const std::string& animationFile, const std::string& rootName, bool isSkinning);
+	void LoadGetAnimation(const std::string& animationFile, bool isSkinning);
 
-
-	void ApplyAnimation(Skeleton& skelton);
 	void ApplyAnimation(Skeleton* skelton);
+
+	void LerpApplyAnimation(Skeleton* skelton);
 
 	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, const float& time);
 	Quaternion CalculateQuaternion(const std::vector<KeyframeQuaternion>& keyframes, const float& time);
 
+	void SetLerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation);
+
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
+
 	float GetAnimationTime() const { return animationTime_; }
 	void SetAnimationTime(float time) { animationTime_ = time; }
-
-public:
 
 	const Matrix4x4 GetMatrix() const { return animationMat_; }
 
 	const bool GetIsAnimationFinish() const { return isAnimationFinish_; }
 
+	const bool GetIsChange() const { return isAnimationChange_; }
+
 private:
 
 	AnimationManager* manager_;
 
-	std::vector<Animation> animations_;
+	// 実際にアウル動き
 	Animation animation_;
-
+	// アニメーションの時間
 	float animationTime_ = 0.0f;
 	bool isAnimationFinish_;
 
@@ -87,6 +93,23 @@ private:
 
 	std::string rootName_;
 
+	// アニメーションの入っているファイルの名前
+	std::string animationFileName_;
+	// アニメーションの名前の配列
+	std::vector<std::string> animationNames_;
+	// skinningを行うか
+	bool isSkinnig_;
+
+	int selectedAnimationIndex = 0;
+
+	// -------------------------------------------------
+	// ↓ アニメーションの遷移に関する変数
+	// -------------------------------------------------
+	bool isAnimationChange_;			// アニメーションの遷移を行うか
+	float blendFactor_;					// 補完の線形代数
+	Animation lerpAnimetion_[2];		// 補完させるアニメーション
+	float lerpAnimationTime_[2];		// アニメーションさせるkeyTime
+	int lerpAnimationNamesIndex_[2];	// 
 };
 
 

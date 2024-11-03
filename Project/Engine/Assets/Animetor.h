@@ -20,18 +20,22 @@ public:
 	void Finalize();
 	void Update();
 
-	void UpdateScript();
+	void LoadAnimation(const std::string& directoryPath, const std::string& fileName, Model* model, bool isSkinning);
 
-	void LoadAnimation(const std::string& directoryPath, const std::string& fileName, Model* model);
-
-public:
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
 
 	Skinning* GetSkinning() { return skinning_.get(); }
+
+	const Matrix4x4 GetAnimationMat() const { return animetionClip_->GetMatrix(); }
 
 	const bool GetIsAnimationFinish() const;
 
 	float GetAnimationTime() const { return animetionClip_->GetAnimationTime(); }
 	void SetAnimationTime(float time) { animetionClip_->SetAnimationTime(time); }
+
+	const bool GetIsSkinning() const { return isSkinning_; }
 
 private:
 
@@ -40,5 +44,7 @@ private:
 	std::unique_ptr<AnimetionClip> animetionClip_;
 	std::unique_ptr<Skeleton> skeleton_ = nullptr;
 	std::unique_ptr<Skinning> skinning_ = nullptr;
+
+	bool isSkinning_;
 };
 

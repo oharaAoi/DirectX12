@@ -10,50 +10,44 @@ void BaseGameObject::Finalize() {
 	materials.clear();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　初期化処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void BaseGameObject::Init() {
 	transform_ = Engine::CreateWorldTransform();
 	animetor_ = nullptr;
-	isAnimationControlScript_ = false;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　更新処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void BaseGameObject::Update() {
-	if (!isAnimationControlScript_) {
-		if (animetor_ != nullptr) {
-			animetor_->Update();
-
-			Engine::SetSkinning(animetor_->GetSkinning(), model_->GetMesh(0));
-			//model_->GetMesh(0)->CopyVertexData(animetor_->GetSkinning()->GetOutpusVertexData());
-		}
+	if (animetor_ != nullptr) {
+		animetor_->Update();
 	}
-
-	if (animationClip_) {
-		animationClip_->Update();
-		transform_->Update(animationClip_->GetMatrix());
+	if (!animetor_->GetIsSkinning()) {
+		transform_->Update(animetor_->GetAnimationMat());
 	} else {
+		Engine::SetSkinning(animetor_->GetSkinning(), model_->GetMesh(0));
 		transform_->Update();
 	}
 
 	worldPos_ = Vector3(0.0f, 0.0f, 0.0f) * transform_->GetWorldMatrix();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　描画処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::Draw() const {
 	Render::DrawModel(model_, transform_.get(), materials);
 }
 
-void BaseGameObject::UpdateMatrix() {
-	if (animetor_ != nullptr) {
-		animetor_->Update();
-	}
-
-	if (animationClip_) {
-		animationClip_->Update();
-		transform_->Update(animationClip_->GetMatrix());
-	} else {
-		transform_->Update();
-	}
-
-	worldPos_ = Vector3(0.0f, 0.0f, 0.0f) * transform_->GetWorldMatrix();
-}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　modelを設定する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::SetObject(const std::string& objName) {
 	model_ = nullptr;
@@ -65,15 +59,18 @@ void BaseGameObject::SetObject(const std::string& objName) {
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　アニメーションを設定する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void BaseGameObject::SetAnimater(const std::string& directoryPath, const std::string& objName, bool isSkinning) {
-	if (isSkinning) {
-		animetor_.reset(new Animetor);
-		animetor_->LoadAnimation(directoryPath, objName, model_);
-	} else {
-		animationClip_.reset(new AnimetionClip);
-		animationClip_->LoadAnimation(directoryPath, objName, model_->GetRootNodeName());
-	}
+	animetor_.reset(new Animetor);
+	animetor_->LoadAnimation(directoryPath, objName, model_, isSkinning);
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　materialの色を変える
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::SetColor(const Vector4& color) {
 	for (size_t oi = 0; oi < materials.size(); ++oi) {
@@ -81,19 +78,19 @@ void BaseGameObject::SetColor(const Vector4& color) {
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　lightingの設定を変更する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void BaseGameObject::SetIsLighting(bool isLighting) {
 	for (size_t oi = 0; oi < materials.size(); ++oi) {
 		materials[oi]->SetIsLighting(isLighting);
 	}
 }
 
-bool BaseGameObject::IsSetAnimetor() {
-	if (animetor_ == nullptr) {
-		return false;
-	} else {
-		return true;
-	}
-}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　materialのtextureを変更する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::SetTexture(const std::string& path) {
 	for (size_t oi = 0; oi < materials.size(); ++oi) {
@@ -101,9 +98,17 @@ void BaseGameObject::SetTexture(const std::string& path) {
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Debug
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 #ifdef _DEBUG
 void BaseGameObject::Debug_Gui() {
 	transform_->Debug_Gui();
 	model_->Debug_Gui("Test");
+
+	if (animetor_ != nullptr) {
+		animetor_->Debug_Gui();
+	}
 }
 #endif // _DEBUG
