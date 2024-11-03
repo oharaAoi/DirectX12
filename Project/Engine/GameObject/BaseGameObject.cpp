@@ -26,11 +26,15 @@ void BaseGameObject::Init() {
 void BaseGameObject::Update() {
 	if (animetor_ != nullptr) {
 		animetor_->Update();
-	}
-	if (!animetor_->GetIsSkinning()) {
-		transform_->Update(animetor_->GetAnimationMat());
+
+		if (!animetor_->GetIsSkinning()) {
+			transform_->Update(animetor_->GetAnimationMat());
+		} else {
+			Engine::SetSkinning(animetor_->GetSkinning(), model_->GetMesh(0));
+			transform_->Update();
+		}
+
 	} else {
-		Engine::SetSkinning(animetor_->GetSkinning(), model_->GetMesh(0));
 		transform_->Update();
 	}
 
