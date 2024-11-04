@@ -83,9 +83,11 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	boss_->Update();
 
-	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
-	player_->SetCameraZDis(followCamera_->GetTranslate().z);
-	player_->Update();
+	if (!isDebugCamera_) {
+		player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
+		player_->SetCameraZDis(followCamera_->GetTranslate().z);
+		player_->Update();
+	}
 
 	testCollisionObj_->Update();
 

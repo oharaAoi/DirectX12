@@ -6,6 +6,7 @@
 #include "Engine/Render.h"
 #include "Engine/Math/Vector3.h"
 #include "Engine/GameObject/BaseGameObject.h"
+#include "Engine/Math/MyMath.h"
 
 using json = nlohmann::json;
 
@@ -27,6 +28,10 @@ public:
 #endif
 
 private:
+
+	uint32_t segmentCount_;
+
+	std::vector<Vector3> movePoints_;
 
 	std::vector<Vector3> controlPoint_;
 	std::vector<std::unique_ptr<BaseGameObject>> controlPointObjects_;

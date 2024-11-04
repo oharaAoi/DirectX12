@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/GameObject/BaseGameObject.h"
+#include "Engine/Collider/MeshCollider.h"
 
 /// <summary>
 /// Bossの右手
@@ -27,5 +29,6 @@ private:
 
 	std::string groupName_ = "BossRightHand";
 
+	std::unique_ptr<MeshCollider> meshCollider_;
 };
 

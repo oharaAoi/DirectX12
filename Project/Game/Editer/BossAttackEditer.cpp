@@ -10,6 +10,8 @@ BossAttackEditer::~BossAttackEditer() {}
 void BossAttackEditer::Init() {
 	controlPoint_.clear();
 	controlPointObjects_.clear();
+
+	segmentCount_ = 50;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,6 +20,15 @@ void BossAttackEditer::Init() {
 void BossAttackEditer::Update() {
 	for (size_t index = 0; index < controlPointObjects_.size(); ++index) {
 		controlPointObjects_[index]->Update();
+	}
+
+	movePoints_.clear();
+	if (controlPoint_.size() > 4) {
+		for (uint32_t oi = 0; oi < segmentCount_; ++oi) {
+			float t = (1.0f / static_cast<float>(segmentCount_)) * oi;
+			Vector3 pos = CatmullRomPosition(controlPoint_, t);
+			movePoints_.push_back(pos);
+		}
 	}
 }
 
@@ -28,10 +39,10 @@ void BossAttackEditer::Draw() const {
 	// -------------------------------------------------
 	// ↓ 線の描画
 	// -------------------------------------------------
-	if (controlPoint_.size() > 1) {
+	if (movePoints_.size() > 4) {
 		Engine::SetPipeline(PipelineType::PrimitivePipeline);
-		for (size_t index = 0; index < controlPoint_.size() - 1; ++index) {
-			Render::DrawLine(controlPoint_[index], controlPoint_[index + 1], Vector4(1, 1, 1, 1));
+		for (size_t index = 0; index < movePoints_.size() - 1; ++index) {
+			Render::DrawLine(movePoints_[index], movePoints_[index + 1], Vector4(1, 1, 1, 1));
 		}
 	}
 

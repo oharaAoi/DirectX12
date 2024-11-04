@@ -13,6 +13,9 @@ void BossLeftHand::Init() {
 	BaseGameObject::Init();
 	SetObject("Left_Hand.obj");
 
+	meshCollider_ = std::make_unique<MeshCollider>();
+	meshCollider_->Init(model_->GetMesh(0));
+
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
 

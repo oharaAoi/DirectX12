@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/GameObject/BaseGameObject.h"
+#include "Engine/Collider/MeshCollider.h"
 
 class BossLeftHand : public BaseGameObject {
 public:
@@ -24,6 +26,8 @@ public:
 private:
 
 	std::string groupName_ = "BossLeftHand";
+
+	std::unique_ptr<MeshCollider> meshCollider_;
 
 };
 
