@@ -17,6 +17,9 @@ void BossRightHand::Init() {
 	BaseGameObject::Init();
 	SetObject("Right_Hand.obj");
 
+	meshCollider_ = std::make_unique<MeshCollider>();
+	meshCollider_->Init(model_->GetMesh(0));
+
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
 
@@ -30,6 +33,8 @@ void BossRightHand::Init() {
 
 void BossRightHand::Update() {
 	BaseGameObject::Update();
+
+	meshCollider_->Update(transform_.get(), Vector3::ZERO());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +42,13 @@ void BossRightHand::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossRightHand::Draw() const {
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	BaseGameObject::Draw();
+
+#ifdef _DEBUG
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	meshCollider_->Draw();
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

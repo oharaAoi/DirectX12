@@ -41,7 +41,7 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	test_animationCS_->Update();
 
-	meshCollider_.Update(test_animationCS_->GetTransform());
+	meshCollider_.Update(test_animationCS_->GetTransform(), Vector3::ZERO());
 
 	// -------------------------------------------------
 	// ↓ ParticleのViewを設定する

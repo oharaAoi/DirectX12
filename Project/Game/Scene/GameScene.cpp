@@ -172,6 +172,7 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	boss_->Draw();
 
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	player_->Draw();
 
 	testCollisionObj_->Draw();

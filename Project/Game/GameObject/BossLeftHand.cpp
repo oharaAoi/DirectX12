@@ -30,7 +30,7 @@ void BossLeftHand::Init() {
 void BossLeftHand::Update() {
 	BaseGameObject::Update();
 
-	meshCollider_->Update(transform_.get());
+	meshCollider_->Update(transform_.get(), Vector3::ZERO());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
