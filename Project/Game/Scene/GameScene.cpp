@@ -253,6 +253,7 @@ void GameScene::Debug_Gui() {
 			}
 			if (ImGui::TreeNode("Right")) {
 				bossRightAttackEditer_->AddPoint();
+				bossRightAttackEditer_->DeletePoint(debugCamera_->GetVpvpMatrix());
 				ImGui::TreePop();
 			}
 			ImGui::End();

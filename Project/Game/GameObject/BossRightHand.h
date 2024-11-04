@@ -27,6 +27,9 @@ public:
 	void Debug_Gui();
 #endif
 
+	const bool GetIsAttack() const { return isAttackMove_; }
+	void SetIsAttack(bool isAttack) { isAttackMove_ = isAttack; }
+
 private:
 
 	std::string groupName_ = "BossRightHand";
@@ -34,5 +37,7 @@ private:
 	std::unique_ptr<MeshCollider> meshCollider_;
 
 	Vector2 objectScreenPos_;
+
+	bool isAttackMove_;
 };
 

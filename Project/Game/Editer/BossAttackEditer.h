@@ -26,18 +26,22 @@ public:
 
 #ifdef _DEBUG
 	void AddPoint();
-#endif
+
+	void DeletePoint(const Matrix4x4& vpvpMat);
+#endif 
+
+	std::vector<Vector3>& GetMovePoints() { return movePoints_; }
 
 private:
 
 	uint32_t segmentCount_;
-
+	// 実際に動く座標
 	std::vector<Vector3> movePoints_;
-
+	// 制御点
 	std::vector<Vector3> controlPoint_;
 	std::vector<std::unique_ptr<BaseGameObject>> controlPointObjects_;
-
+	// 新しく生成する座標
 	Vector3 newPoint_;
-
+	uint32_t selectIndex_ = 0;
 };
 

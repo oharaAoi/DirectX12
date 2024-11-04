@@ -77,7 +77,6 @@ void BossRightHand::CheckMouseCursorCollision(const Matrix4x4& vpvpMat) {
 		isNear = true;
 	}
 
-
 	bool isClick = false;
 	if (isNear) {
 		if (Input::IsPressMouse(0)) {
