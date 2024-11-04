@@ -63,6 +63,7 @@ private:
 	// --- UI -------------------------------------- //
 	
 	// --- Edier ----------------------------------- //
-	std::unique_ptr<BossAttackEditer> bossAttackEditer_;
+	std::unique_ptr<BossAttackEditer> bossLeftAttackEditer_;
+	std::unique_ptr<BossAttackEditer> bossRightAttackEditer_;
 	
 };

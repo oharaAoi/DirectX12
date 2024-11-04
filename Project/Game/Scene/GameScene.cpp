@@ -53,8 +53,11 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	// ↓ Editer初期化
 	// -------------------------------------------------
-	bossAttackEditer_ = std::make_unique<BossAttackEditer>();
-	bossAttackEditer_->Init();
+	bossLeftAttackEditer_ = std::make_unique<BossAttackEditer>();
+	bossLeftAttackEditer_->Init();
+
+	bossRightAttackEditer_ = std::make_unique<BossAttackEditer>();
+	bossRightAttackEditer_->Init();
 
 	// -------------------------------------------------
 	// ↓ UI初期化
@@ -156,7 +159,8 @@ void GameScene::Draw() const {
 	// ↓ Debugの描画
 	// -------------------------------------------------
 #ifdef _DEBUG
-	bossAttackEditer_->Draw();
+	bossLeftAttackEditer_->Draw();
+	bossRightAttackEditer_->Draw();
 #endif
 	
 	// -------------------------------------------------
@@ -233,11 +237,19 @@ void GameScene::Debug_Gui() {
 		}
 	}
 
-	bossAttackEditer_->Update();
+	bossLeftAttackEditer_->Update();
+	bossRightAttackEditer_->Update();
 	{
 		if (ImGui::TreeNode("BossAttackEditer")) {
 			ImGui::Begin("BossAttackEditer");
-			bossAttackEditer_->AddPoint();
+			if (ImGui::TreeNode("Left")) {
+				bossLeftAttackEditer_->AddPoint();
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Right")) {
+				bossRightAttackEditer_->AddPoint();
+				ImGui::TreePop();
+			}
 			ImGui::End();
 			ImGui::TreePop();
 		}

@@ -3,6 +3,7 @@
 #include "Game/GameObject/BossBody.h"
 #include "Game/GameObject/BossLeftHand.h"
 #include "Game/GameObject/BossRightHand.h"
+#include "Game/Editer/BossAttackEditer.h"
 
 /// <summary>
 /// Bossの大元となるクラス
@@ -23,6 +24,11 @@ public:
 	void Debug_Gui();
 #endif
 
+	void SetEditer(BossAttackEditer* left, BossAttackEditer* right) {
+		leftHandEditer_ = left;
+		rightHandEditer_ = right;
+	}
+
 private:
 
 	// 体
@@ -31,6 +37,9 @@ private:
 	std::unique_ptr<BossLeftHand> boss_leftHand_;
 	// 右手
 	std::unique_ptr<BossRightHand> boss_rightHand_;
+
+	BossAttackEditer* leftHandEditer_ = nullptr;
+	BossAttackEditer* rightHandEditer_ = nullptr;
 
 };
 
