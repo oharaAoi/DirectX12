@@ -120,8 +120,8 @@ void MeshCollider::Update(const WorldTransform* worldTransform) {
 	obb_.MakeOBBAxis(worldTransform->GetQuaternion());
 }
 
-void MeshCollider::Draw(const Matrix4x4& vpMat) const {
-	DrawOBB(obb_, vpMat, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+void MeshCollider::Draw() const {
+	DrawOBB(obb_, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 }
 
 void MeshCollider::OnCollision(MeshCollider& other) {

@@ -13,7 +13,7 @@ public:
 
 	void Init(Mesh* mesh);
 	void Update(const WorldTransform* worldTransform);
-	void Draw(const Matrix4x4& vpMat) const;
+	void Draw() const;
 
 	/// <summary>
 	/// 衝突時にコールバック関数を呼び出す

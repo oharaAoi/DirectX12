@@ -52,7 +52,7 @@ void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color)
 	}
 }
 
-void DrawOBB(const OBB& obb, const Matrix4x4& vpMatrix, const Vector4& color) {
+void DrawOBB(const OBB& obb, const Vector4& color) {
 	Matrix4x4 rotateMatrix = obb.matRotate;
 	// 平行移動分を作成
 	Matrix4x4 matTranslate = obb.center.MakeTranslateMat();
@@ -77,9 +77,9 @@ void DrawOBB(const OBB& obb, const Matrix4x4& vpMatrix, const Vector4& color) {
 
 
 	for (uint32_t oi = 0; oi < 4; oi++) {
-		Render::DrawLine(point[oi], point[(oi + 1) % 4], color, vpMatrix);
+		Render::DrawLine(point[oi], point[(oi + 1) % 4], color);
 		uint32_t j = oi + 4;
-		Render::DrawLine(point[j], point[(j + 1) % 4 + 4], color, vpMatrix);
-		Render::DrawLine(point[oi], point[j], color, vpMatrix);
+		Render::DrawLine(point[j], point[(j + 1) % 4 + 4], color);
+		Render::DrawLine(point[oi], point[j], color);
 	}
 }
