@@ -61,6 +61,32 @@ void BossRightHand::AdaptAdjustment() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　マウスカーソルとあっているかを確認
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossRightHand::CheckMouseCursorCollision(const Matrix4x4& vpvpMat) {
+	Vector2 mousePos = Input::GetMousePosition();
+
+	// objectのscreen座標を求める
+	Vector3 objectScreen = Transform(Vector3::ZERO(), transform_->GetWorldMatrix() * vpvpMat);
+	objectScreenPos_ = Vector2(objectScreen.x, objectScreen.y);
+
+	bool isNear = false;
+	// 長さを取って距離が近かったら
+	if ((mousePos - objectScreenPos_).Length() < 100.0f) {
+		isNear = true;
+	}
+
+
+	bool isClick = false;
+	if (isNear) {
+		if (Input::IsPressMouse(0)) {
+			isClick = true;
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Debug表示
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -68,6 +94,7 @@ void BossRightHand::AdaptAdjustment() {
 void BossRightHand::Debug_Gui() {
 	ImGui::Begin("Boss_RightHand");
 	transform_->Debug_Gui();
+	ImGui::DragFloat2("objectScreenPos", &objectScreenPos_.x, 1.0f);
 	ImGui::End();
 }
 #endif

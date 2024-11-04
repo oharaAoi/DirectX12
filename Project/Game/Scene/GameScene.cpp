@@ -159,6 +159,9 @@ void GameScene::Draw() const {
 	// ↓ Debugの描画
 	// -------------------------------------------------
 #ifdef _DEBUG
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	DrawGrid(viewMat_, projectionMat_);
+
 	bossLeftAttackEditer_->Draw();
 	bossRightAttackEditer_->Draw();
 #endif
@@ -237,6 +240,8 @@ void GameScene::Debug_Gui() {
 		}
 	}
 
+	
+	boss_->CheckMouseCursolCollision(debugCamera_->GetVpvpMatrix());
 	bossLeftAttackEditer_->Update();
 	bossRightAttackEditer_->Update();
 	{

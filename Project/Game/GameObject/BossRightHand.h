@@ -21,6 +21,8 @@ public:
 
 	void AdaptAdjustment();
 
+	void CheckMouseCursorCollision(const Matrix4x4& vpvpMat);
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
@@ -30,5 +32,7 @@ private:
 	std::string groupName_ = "BossRightHand";
 
 	std::unique_ptr<MeshCollider> meshCollider_;
+
+	Vector2 objectScreenPos_;
 };
 

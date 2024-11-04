@@ -19,6 +19,7 @@ public:
 	void Update();
 	void Draw() const;
 
+	void CheckMouseCursolCollision(const Matrix4x4& vpvpMat);
 
 #ifdef _DEBUG
 	void Debug_Gui();
