@@ -12,7 +12,7 @@ public:
 	~MeshCollider();
 
 	void Init(Mesh* mesh);
-	void Update(const WorldTransform* worldTransform);
+	void Update(const WorldTransform* worldTransform, const Vector3& offset);
 	void Draw() const;
 
 	/// <summary>
@@ -47,7 +47,7 @@ public:
 	const OBB& GetOBB() { return obb_; }
 
 	const Vector3 GetObbCenter() const { return obb_.center; }
-	
+
 private:
 
 	// OBBのサイズ
@@ -73,4 +73,3 @@ private:
 	// 衝突用のコールバック
 	std::function<void(MeshCollider&)> onCollision_;
 };
-

@@ -56,14 +56,15 @@ void MeshCollider::Init(Mesh* mesh) {
 	size_ = { xRadius, yRadius, zRadius };
 }
 
-void MeshCollider::Update(const WorldTransform* worldTransform) {
+void MeshCollider::Update(const WorldTransform* worldTransform, const Vector3& offset) {
 	maxSize_ = { -9999.0f, -9999.0f, -9999.0f };
 	minSize_ = { 9999.0f, 9999.0f, 9999.0f };
 
 	// meshのVertexから各軸での最大の値を取り出す
 	Mesh::VertexData* vertices = mesh_->GetOutputVertexData();
 	for (uint32_t index = 0; index < mesh_->GetVertexSize(); ++index) {
-		Vector3 size = Vector3(vertices[index].pos.x, vertices[index].pos.y , vertices[index].pos.z);
+		//Vector3 size = Vector3(vertices[index].pos.x, vertices[index].pos.y , vertices[index].pos.z);
+		Vector3 size = Transform(Vector3(vertices[index].pos.x, vertices[index].pos.y, vertices[index].pos.z), worldTransform->GetWorldMatrix());
 
 		// -------------------------------------------------
 		// ↓ 最小を取得
@@ -116,7 +117,7 @@ void MeshCollider::Update(const WorldTransform* worldTransform) {
 	// ↓ OBBの更新
 	// -------------------------------------------------
 	obb_.size = size_;
-	obb_.center = worldTransform->GetTranslation();
+	obb_.center = Transform(offset, worldTransform->GetWorldMatrix());
 	obb_.MakeOBBAxis(worldTransform->GetQuaternion());
 }
 
