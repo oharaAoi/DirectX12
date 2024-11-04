@@ -59,7 +59,7 @@ void TestScene::Draw() const {
 	test_animationCS_->Draw();
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
-	meshCollider_.Draw(debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
+	meshCollider_.Draw();
 }
 
 #ifdef _DEBUG
