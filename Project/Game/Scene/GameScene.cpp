@@ -42,10 +42,6 @@ void GameScene::Init() {
 	testCollisionObj_->Init();
 
 	// -------------------------------------------------
-	// ↓ Editer初期化
-	// -------------------------------------------------
-	
-	// -------------------------------------------------
 	// ↓ Managerの初期化
 	// -------------------------------------------------
 	enemyManager_ = std::make_unique<EnemyManager>();
@@ -53,6 +49,12 @@ void GameScene::Init() {
 
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
+
+	// -------------------------------------------------
+	// ↓ Editer初期化
+	// -------------------------------------------------
+	bossAttackEditer_ = std::make_unique<BossAttackEditer>();
+	bossAttackEditer_->Init();
 
 	// -------------------------------------------------
 	// ↓ UI初期化
@@ -149,6 +151,13 @@ void GameScene::Update() {
 
 void GameScene::Draw() const {
 	// -------------------------------------------------
+	// ↓ Debugの描画
+	// -------------------------------------------------
+#ifdef _DEBUG
+	bossAttackEditer_->Draw();
+#endif
+	
+	// -------------------------------------------------
 	// ↓ worldObjectの描画
 	// -------------------------------------------------
 	Engine::SetPipeline(PipelineType::NormalPipeline);
@@ -217,6 +226,16 @@ void GameScene::Debug_Gui() {
 		if (ImGui::TreeNode("AdjustmentItem")) {
 			// Updateだが実質Gui表示なためここで更新
 			adjustmentItem_->Update();
+			ImGui::TreePop();
+		}
+	}
+
+	bossAttackEditer_->Update();
+	{
+		if (ImGui::TreeNode("BossAttackEditer")) {
+			ImGui::Begin("BossAttackEditer");
+			bossAttackEditer_->AddPoint();
+			ImGui::End();
 			ImGui::TreePop();
 		}
 	}
