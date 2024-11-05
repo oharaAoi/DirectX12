@@ -14,6 +14,8 @@ void TestScene::Init() {
 	test_animationCS_->SetObject("amimationCharacter.gltf");
 	test_animationCS_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true);
 
+	test_animationCS_->SetObjectAxis();
+
 	meshCollider_.Init(test_animationCS_->GetModel()->GetMesh(0));
 	
 }
