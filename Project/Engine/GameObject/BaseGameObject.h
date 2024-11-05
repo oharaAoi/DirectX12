@@ -27,6 +27,8 @@ public:
 #ifdef _DEBUG
 	void Debug_Gui();
 
+	void Debug_Axis();
+
 	void SetObjectAxis(bool isAxis = true);
 #endif // _DEBUG
 

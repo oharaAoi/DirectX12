@@ -125,6 +125,14 @@ void BaseGameObject::Debug_Gui() {
 	transform_->Debug_Gui();
 	model_->Debug_Gui("Test");
 
+	Debug_Axis();
+
+	if (animetor_ != nullptr) {
+		animetor_->Debug_Gui();
+	}
+}
+
+void BaseGameObject::Debug_Axis() {
 	// debug姿勢表示のonoff
 	if (!isDebugAxis_) {
 		ImGui::Checkbox("debugAxis", &isDebugAxis_);
@@ -140,9 +148,6 @@ void BaseGameObject::Debug_Gui() {
 		}
 	}
 
-	if (animetor_ != nullptr) {
-		animetor_->Debug_Gui();
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,9 +158,11 @@ void BaseGameObject::SetObjectAxis(bool isAxis) {
 	if (isAxis) {
 		objectAxis_ = std::make_unique<ObjectAxis>();
 		objectAxis_->Init();
+		isDebugAxis_ = true;
 	} else if (objectAxis_ != nullptr) {
 		objectAxis_->Finalize();
 		objectAxis_ = nullptr;
+		isDebugAxis_ = false;
 	}
 }
 #endif // _DEBUG
