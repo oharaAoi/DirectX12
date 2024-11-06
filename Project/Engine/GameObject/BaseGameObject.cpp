@@ -38,6 +38,13 @@ void BaseGameObject::Update() {
 		transform_->Update();
 	}
 
+#ifdef _DEBUG
+	// Debug表示
+	if (objectAxis_ != nullptr) {
+		objectAxis_->Update(transform_->GetWorldMatrix());
+	}
+#endif
+
 	worldPos_ = Vector3(0.0f, 0.0f, 0.0f) * transform_->GetWorldMatrix();
 }
 
@@ -47,6 +54,13 @@ void BaseGameObject::Update() {
 
 void BaseGameObject::Draw() const {
 	Render::DrawModel(model_, transform_.get(), materials);
+
+#ifdef _DEBUG
+	// Debug表示
+	if (objectAxis_ != nullptr) {
+		objectAxis_->Draw();
+	}
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,8 +125,44 @@ void BaseGameObject::Debug_Gui() {
 	transform_->Debug_Gui();
 	model_->Debug_Gui("Test");
 
+	Debug_Axis();
+
 	if (animetor_ != nullptr) {
 		animetor_->Debug_Gui();
+	}
+}
+
+void BaseGameObject::Debug_Axis() {
+	// debug姿勢表示のonoff
+	if (!isDebugAxis_) {
+		ImGui::Checkbox("debugAxis", &isDebugAxis_);
+
+		if (isDebugAxis_) {
+			SetObjectAxis();
+		}
+	} else {
+		ImGui::Checkbox("debugAxis", &isDebugAxis_);
+
+		if (!isDebugAxis_) {
+			SetObjectAxis(false);
+		}
+	}
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Objectの姿勢を可視化させる
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BaseGameObject::SetObjectAxis(bool isAxis) {
+	if (isAxis) {
+		objectAxis_ = std::make_unique<ObjectAxis>();
+		objectAxis_->Init();
+		isDebugAxis_ = true;
+	} else if (objectAxis_ != nullptr) {
+		objectAxis_->Finalize();
+		objectAxis_ = nullptr;
+		isDebugAxis_ = false;
 	}
 }
 #endif // _DEBUG

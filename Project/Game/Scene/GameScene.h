@@ -12,7 +12,7 @@
 #include "Game/WorldObject/Field.h"
 #include "Engine/Manager/CollisionManager.h"
 #include "Engine/Utilities/AdjustmentItem.h"
-
+#include "Game/Editer/BossAttackEditer.h"
 #include "TestCollisionObj.h"
 
 class GameScene 
@@ -64,5 +64,7 @@ private:
 	// --- UI -------------------------------------- //
 	
 	// --- Edier ----------------------------------- //
+	std::unique_ptr<BossAttackEditer> bossLeftAttackEditer_;
+	std::unique_ptr<BossAttackEditer> bossRightAttackEditer_;
 	
 };

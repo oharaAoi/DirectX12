@@ -147,6 +147,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\GameObject\BaseGameObject.cpp" />
     <ClCompile Include="Engine\GameObject\Model.cpp" />
+    <ClCompile Include="Engine\GameObject\ObjectAxis.cpp" />
     <ClCompile Include="Engine\GameObject\Sphere.cpp" />
     <ClCompile Include="Engine\Input\Input.cpp" />
     <ClCompile Include="Engine\Lib\GameTimer.cpp" />
@@ -200,6 +201,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
+    <ClCompile Include="Game\Editer\BossAttackEditer.cpp" />
     <ClCompile Include="Game\GameObject\ClutchWire.cpp" />
     <ClCompile Include="Game\GameObject\Boss.cpp" />
     <ClCompile Include="Game\GameObject\BossBody.cpp" />
@@ -207,6 +209,9 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameObject\BossRightHand.cpp" />
     <ClCompile Include="Game\GameObject\Enemy.cpp" />
     <ClCompile Include="Game\GameObject\Player.cpp" />
+    <ClCompile Include="Game\GameObject\State\BaseObjectState.cpp" />
+    <ClCompile Include="Game\GameObject\State\BossAttackState.cpp" />
+    <ClCompile Include="Game\GameObject\State\BossRootState.cpp" />
     <ClCompile Include="Game\GameResource.cpp" />
     <ClCompile Include="Game\Manager\EnemyManager.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
@@ -261,6 +266,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\GameObject\BaseGameObject.h" />
     <ClInclude Include="Engine\GameObject\Model.h" />
+    <ClInclude Include="Engine\GameObject\ObjectAxis.h" />
     <ClInclude Include="Engine\GameObject\Sphere.h" />
     <ClInclude Include="Engine\Input\Input.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
@@ -320,6 +326,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\Camera\DebugCamera.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
+    <ClInclude Include="Game\Editer\BossAttackEditer.h" />
     <ClInclude Include="Game\GameObject\Boss.h" />
     <ClInclude Include="Game\GameObject\BossBody.h" />
     <ClInclude Include="Game\GameObject\BossLeftHand.h" />
@@ -327,6 +334,9 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\GameObject\ClutchWire.h" />
     <ClInclude Include="Game\GameObject\Enemy.h" />
     <ClInclude Include="Game\GameObject\Player.h" />
+    <ClInclude Include="Game\GameObject\State\BaseObjectState.h" />
+    <ClInclude Include="Game\GameObject\State\BossAttackState.h" />
+    <ClInclude Include="Game\GameObject\State\BossRootState.h" />
     <ClInclude Include="Game\GameResource.h" />
     <ClInclude Include="Game\Manager\EnemyManager.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />

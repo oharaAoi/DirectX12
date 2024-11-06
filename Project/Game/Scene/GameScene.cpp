@@ -50,10 +50,6 @@ void GameScene::Init() {
 
 
 	// -------------------------------------------------
-	// ↓ Editer初期化
-	// -------------------------------------------------
-	
-	// -------------------------------------------------
 	// ↓ Managerの初期化
 	// -------------------------------------------------
 	enemyManager_ = std::make_unique<EnemyManager>();
@@ -61,6 +57,15 @@ void GameScene::Init() {
 
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
+
+	// -------------------------------------------------
+	// ↓ Editer初期化
+	// -------------------------------------------------
+	bossLeftAttackEditer_ = std::make_unique<BossAttackEditer>();
+	bossLeftAttackEditer_->Init();
+
+	bossRightAttackEditer_ = std::make_unique<BossAttackEditer>();
+	bossRightAttackEditer_->Init();
 
 	// -------------------------------------------------
 	// ↓ UI初期化
@@ -72,6 +77,8 @@ void GameScene::Init() {
 
 	isDebugCamera_ = true;
 	followCamera_->SetTarget(player_->GetTransform());
+
+	boss_->SetEditer(bossLeftAttackEditer_.get(), bossRightAttackEditer_.get());
 
 }
 
@@ -89,9 +96,11 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	boss_->Update();
 
-	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
-	player_->SetCameraZDis(followCamera_->GetTranslate().z);
-	player_->Update();
+	if (!isDebugCamera_) {
+		player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
+		player_->SetCameraZDis(followCamera_->GetTranslate().z);
+		player_->Update();
+	}
 
 	testCollisionObj_->Update();
 	testCollisionObj2_->Update();
@@ -159,6 +168,17 @@ void GameScene::Update() {
 
 void GameScene::Draw() const {
 	// -------------------------------------------------
+	// ↓ Debugの描画
+	// -------------------------------------------------
+#ifdef _DEBUG
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	DrawGrid(viewMat_, projectionMat_);
+
+	bossLeftAttackEditer_->Draw();
+	bossRightAttackEditer_->Draw();
+#endif
+	
+	// -------------------------------------------------
 	// ↓ worldObjectの描画
 	// -------------------------------------------------
 	Engine::SetPipeline(PipelineType::NormalPipeline);
@@ -171,6 +191,7 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	boss_->Draw();
 
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	player_->Draw();
 
 	testCollisionObj_->Draw();
@@ -228,6 +249,28 @@ void GameScene::Debug_Gui() {
 		if (ImGui::TreeNode("AdjustmentItem")) {
 			// Updateだが実質Gui表示なためここで更新
 			adjustmentItem_->Update();
+			ImGui::TreePop();
+		}
+	}
+
+	
+	boss_->CheckMouseCursolCollision(debugCamera_->GetVpvpMatrix());
+	bossLeftAttackEditer_->Update();
+	bossRightAttackEditer_->Update();
+	{
+		if (ImGui::TreeNode("BossAttackEditer")) {
+			ImGui::Begin("BossAttackEditer");
+			if (ImGui::TreeNode("Left")) {
+				bossRightAttackEditer_->AddPoint();
+				bossRightAttackEditer_->DeletePoint(debugCamera_->GetVpvpMatrix());
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Right")) {
+				bossRightAttackEditer_->AddPoint();
+				bossRightAttackEditer_->DeletePoint(debugCamera_->GetVpvpMatrix());
+				ImGui::TreePop();
+			}
+			ImGui::End();
 			ImGui::TreePop();
 		}
 	}

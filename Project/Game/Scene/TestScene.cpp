@@ -14,6 +14,8 @@ void TestScene::Init() {
 	test_animationCS_->SetObject("amimationCharacter.gltf");
 	test_animationCS_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true);
 
+	test_animationCS_->SetObjectAxis();
+
 	meshCollider_.Init(test_animationCS_->GetModel()->GetMesh(0));
 	
 }
@@ -41,7 +43,7 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	test_animationCS_->Update();
 
-	meshCollider_.Update(test_animationCS_->GetTransform());
+	meshCollider_.Update(test_animationCS_->GetTransform(), Vector3::ZERO());
 
 	// -------------------------------------------------
 	// ↓ ParticleのViewを設定する
@@ -59,7 +61,7 @@ void TestScene::Draw() const {
 	test_animationCS_->Draw();
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
-	meshCollider_.Draw(debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
+	meshCollider_.Draw();
 }
 
 #ifdef _DEBUG

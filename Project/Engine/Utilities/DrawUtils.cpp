@@ -1,33 +1,42 @@
 #include "DrawUtils.h"
 
 void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
-	const float kGridHalfwidth_ = 2.0f;
-	const uint32_t kSubdivision_ = 10;
-	const float kGridEvery_ = (kGridHalfwidth_ * 4.0f) / float(kSubdivision_);
+	const float kGridHalfwidth_ = 20.0f; // 中心からの半幅
+	const uint32_t kSubdivision_ = 60;   // 分割数
+	const float gridLength = 30.0f;      // グリッドの全体幅
+	const float kGridEvery_ = 1.0f;      // グリッドの1マスのサイズ
 
+	// X軸に平行なグリッド線の描画
 	for (uint32_t xIndex = 0; xIndex <= kSubdivision_; ++xIndex) {
-		float half = float(kSubdivision_) / kGridHalfwidth_;
+		float half = float(kSubdivision_) / 2.0f;
 
-		Vector3 stPos = { -2 , 0, float((xIndex)-half) * kGridEvery_ / (float(kGridHalfwidth_)) };
-		Vector3 endPos = { 2 , 0, float((xIndex)-half) * kGridEvery_ / (float(kGridHalfwidth_)) };
+		// 始点と終点
+		Vector3 stPos = { -gridLength, 0, (xIndex - half) * kGridEvery_ };
+		Vector3 endPos = { gridLength, 0, (xIndex - half) * kGridEvery_ };
 
-		if (xIndex == 5) {
-			Render::DrawLine(stPos, endPos, { 0.0f, 0.0f, 0.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+		// 中央軸ラインの色を変更
+		if (xIndex == kSubdivision_ / 2) {
+			Render::DrawLine(stPos, endPos, { 0.0f, 0.0f, 1.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
 		} else {
-			Render::DrawLine(stPos, endPos, { 1.0f, 1.0f, 1.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+			// 他のグリッド線
+			Render::DrawLine(stPos, endPos, { 0.8f, 0.8f, 0.8f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
 		}
 	}
 
+	// Z軸に平行なグリッド線の描画
 	for (uint32_t zIndex = 0; zIndex <= kSubdivision_; ++zIndex) {
-		float half = float(kSubdivision_) / kGridHalfwidth_;
+		float half = float(kSubdivision_) / 2.0f;
 
-		Vector3 stPos = { float((zIndex)-half) * kGridEvery_ / (float(kGridHalfwidth_)) , 0,2 };
-		Vector3 endPos = { float((zIndex)-half) * kGridEvery_ / (float(kGridHalfwidth_)) , 0, -2 };
+		// 始点と終点
+		Vector3 stPos = { (zIndex - half) * kGridEvery_, 0, gridLength };
+		Vector3 endPos = { (zIndex - half) * kGridEvery_, 0, -gridLength };
 
-		if (zIndex == 5) {
-			Render::DrawLine(stPos, endPos, { 0.0f, 0.0f, 0.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+		// 中央軸ラインの色を変更
+		if (zIndex == kSubdivision_ / 2) {
+			Render::DrawLine(stPos, endPos, { 1.0f, 0.0f, 0.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
 		} else {
-			Render::DrawLine(stPos, endPos, { 1.0f, 1.0f, 1.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+			// 他のグリッド線
+			Render::DrawLine(stPos, endPos, { 0.8f, 0.8f, 0.8f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
 		}
 	}
 }
@@ -52,7 +61,7 @@ void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color)
 	}
 }
 
-void DrawOBB(const OBB& obb, const Matrix4x4& vpMatrix, const Vector4& color) {
+void DrawOBB(const OBB& obb, const Vector4& color) {
 	Matrix4x4 rotateMatrix = obb.matRotate;
 	// 平行移動分を作成
 	Matrix4x4 matTranslate = obb.center.MakeTranslateMat();
@@ -77,9 +86,9 @@ void DrawOBB(const OBB& obb, const Matrix4x4& vpMatrix, const Vector4& color) {
 
 
 	for (uint32_t oi = 0; oi < 4; oi++) {
-		Render::DrawLine(point[oi], point[(oi + 1) % 4], color, vpMatrix);
+		Render::DrawLine(point[oi], point[(oi + 1) % 4], color);
 		uint32_t j = oi + 4;
-		Render::DrawLine(point[j], point[(j + 1) % 4 + 4], color, vpMatrix);
-		Render::DrawLine(point[oi], point[j], color, vpMatrix);
+		Render::DrawLine(point[j], point[(j + 1) % 4 + 4], color);
+		Render::DrawLine(point[oi], point[j], color);
 	}
 }

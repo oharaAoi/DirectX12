@@ -78,6 +78,14 @@ public:
 	/// <param name="vpMat">: viewProjection</param>
 	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat);
 
+	/// <summary>
+	/// 線の描画
+	/// </summary>
+	/// <param name="p1">: 始点</param>
+	/// <param name="p2">: 終点</param>
+	/// <param name="color">: 色</param>
+	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color);
+
 	static void DrawLightGroup(const int& startIndex);
 
 	//==================================================================================

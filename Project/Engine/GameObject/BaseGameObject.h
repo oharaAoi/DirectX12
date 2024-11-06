@@ -6,6 +6,7 @@
 #include "Engine/Manager/ModelManager.h"
 #include "Engine/GameObject/Model.h"
 #include "Engine/Assets/WorldTransform.h"
+#include "Engine/GameObject/ObjectAxis.h"
 #include "Engine/Assets/Animetor.h"
 #include "Engine/Math/MyMatrix.h"
 #include "Engine/Collider/Collider.h"
@@ -25,6 +26,10 @@ public:
 
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	void Debug_Axis();
+
+	void SetObjectAxis(bool isAxis = true);
 #endif // _DEBUG
 
 	void SetObject(const std::string& objName);
@@ -54,9 +59,14 @@ protected:
 	std::unique_ptr<WorldTransform> transform_;
 	std::unique_ptr<Animetor> animetor_ = nullptr;
 
-	bool isAnimation_ = false;
+	std::unique_ptr<ObjectAxis> objectAxis_; // objectの回転を可視化したもの
 
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
-
 	Vector3 worldPos_;
+
+	bool isAnimation_ = false;
+
+#ifdef _DEBUG
+	bool isDebugAxis_;
+#endif // _DEBUG
 };
