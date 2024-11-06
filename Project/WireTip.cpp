@@ -53,8 +53,10 @@ void WireTip::OnCollision(Collider* other) {
 	}
 
 	if (other->GetTag() == "canPullObj") {
-		isPull_ = true;
-		isFollow_ = true;
+		if (!isFollow_) {
+			isPull_ = true;
+			isFollow_ = true;
+		}
 	}
 
 }

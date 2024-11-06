@@ -19,6 +19,9 @@ public:
 	bool GetPull()const { return isPull_; }
 	void SetPull(bool is) { isPull_ = is; }
 
+	bool GetFollow()const { return isFollow_; }
+	void SetFolllow(bool is) { isFollow_ = is; }
+
 	bool GetSnagged()const { return isSnagged_; }
 	void SetSnagged(bool is) { isSnagged_ = is; }
 

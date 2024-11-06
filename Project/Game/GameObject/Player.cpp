@@ -36,6 +36,7 @@ void Player::Update() {
 	Move();
 	Clutch();
 
+
 	BaseGameObject::Update();
 
 	wire_->Update();
@@ -87,6 +88,16 @@ void Player::Debug_Gui() {
 }
 #endif
 
+Vector3 Player::GetThrow() const {
+
+	Vector3 theow = ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
+	theow -= transform_->GetTranslation();
+	theow = theow.Normalize();
+
+	return theow;
+}
+
+
 void Player::Move() {
 	Vector3 pos = transform_->GetTranslation();
 	if (pos.y > 0.5f) {
@@ -130,25 +141,32 @@ void Player::Clutch() {
 	Vector2 clutchDirection;
 	if (!isReturnClutch_) {// 最大まで伸びて、戻る状態じゃない時
 		if (Input::IsPressMouse(0)) {
-			if (!isStretchClutch_ && isRekey_) {
-				Vector3 end = ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
-				end -= transform_->GetTranslation();
-				end = end.Normalize() * maxClutchLength_;
-				end += transform_->GetTranslation();
-				clutchEnd_ = { end.x,end.y };
-				isStretching_ = true;
-				isStretchClutch_ = true;
-				isRekey_ = false;
+			if (!wireTip_->GetFollow()) {
+
+				if (!isStretchClutch_ && isRekey_) {
+					Vector3 end = ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
+					end -= transform_->GetTranslation();
+					end = end.Normalize() * maxClutchLength_;
+					end += transform_->GetTranslation();
+					clutchEnd_ = { end.x,end.y };
+					isStretching_ = true;
+					isStretchClutch_ = true;
+					isRekey_ = false;
+				}
+				Vector3 screenPos = transform_->GetTranslation();
+
+				start = { screenPos.x,screenPos.y };
+				clutchDirection = (clutchEnd_ - start).Normalize();
+				float angle = std::atan2f(clutchDirection.x, clutchDirection.y);
+
+				Quaternion moveRotate = Quaternion::AngleAxis(-angle, Vector3::FORWARD());
+				Quaternion rotate = wire_->GetTransform()->GetQuaternion();
+				wire_->GetTransform()->SetQuaternion(moveRotate);
 			}
-			Vector3 screenPos = transform_->GetTranslation();
-
-			start = { screenPos.x,screenPos.y };
-			clutchDirection = (clutchEnd_ - start).Normalize();
-			float angle = std::atan2f(clutchDirection.x, clutchDirection.y);
-
-			Quaternion moveRotate = Quaternion::AngleAxis(-angle, Vector3::FORWARD());
-			Quaternion rotate = wire_->GetTransform()->GetQuaternion();
-			wire_->GetTransform()->SetQuaternion(moveRotate);
+			else if (isRekey_ && !isStretchClutch_ && wireTip_->GetFollow()) {
+				isThrow_ = true;
+				wireTip_->SetFolllow(false);
+			}
 		}
 	}
 	else {

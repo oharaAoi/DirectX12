@@ -29,6 +29,24 @@ void TestCollisionObj::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TestCollisionObj::Update() {
+
+	if (isfollowWire_) {
+		Vector3 position = player_->GetWireTip()->GetTransform()->GetTranslation();
+		position -= player_->GetTransform()->GetTranslation();
+		transform_->SetTranslaion(position);
+		if (player_->GetThrow()) {
+			tag_ = "throwObj";
+			Matrix4x4* parentMat = nullptr;
+			transform_->SetParent(*parentMat);
+			isfollowWire_ = false;
+			player_->SetThrow(false);
+			Vector3 position = transform_->GetTranslation();
+			position += player_->GetTransform()->GetTranslation();
+			transform_->SetTranslaion(position);
+		}
+	}
+
+
 	BaseGameObject::Update();
 }
 
@@ -47,6 +65,7 @@ void TestCollisionObj::OnCollision(Collider* other) {
 			transform_->SetParent(player_->GetTransform()->GetWorldMatrix());
 			Vector3 position = transform_->GetTranslation() - player_->GetTransform()->GetTranslation();
 			transform_->SetTranslaion(position);
+			isfollowWire_ = true;
 		}
 	}
 

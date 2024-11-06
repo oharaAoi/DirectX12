@@ -42,7 +42,7 @@ private:
 	/// ==========================================
 
 
-	bool isfallowWire_ = false;
+	bool isfollowWire_ = false;
 	Player* player_ = nullptr;
 
 };

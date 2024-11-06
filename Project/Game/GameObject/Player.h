@@ -18,9 +18,18 @@ public:
 	void SetInverMatrix(const Matrix4x4& inver);
 	void SetCameraZDis(float z);
 
+	WireTip* GetWireTip() { return wireTip_.get(); }
+
+
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
+
+	// objectを投げるように
+	Vector3 GetThrow()const;
+	bool GetThrow() { return isThrow_; }
+	void SetThrow(bool is) { isThrow_ = is; }
 
 	Collider* GetWireTipCollider() { return wireTip_.get(); }
 
@@ -67,6 +76,8 @@ private:
 	std::unique_ptr<WireTip> wireTip_;
 
 
+	// 投げる
+	bool isThrow_ = false;
 
 
 };
