@@ -40,12 +40,17 @@ void TestCollisionObj::Update() {
 			transform_->SetParent(*parentMat);
 			isfollowWire_ = false;
 			player_->SetThrow(false);
+			velocity_ = player_->GetThrowVelo();
 			Vector3 position = transform_->GetTranslation();
 			position += player_->GetTransform()->GetTranslation();
 			transform_->SetTranslaion(position);
 		}
 	}
-
+	else {
+		Vector3 position = transform_->GetTranslation();
+		position += velocity_ * GameTimer::DeltaTime();
+		transform_->SetTranslaion(position);
+	}
 
 	BaseGameObject::Update();
 }

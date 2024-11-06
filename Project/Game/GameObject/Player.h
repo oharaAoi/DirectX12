@@ -27,7 +27,7 @@ public:
 #endif
 
 	// objectを投げるように
-	Vector3 GetThrow()const;
+	Vector3 GetThrowVelo()const;
 	bool GetThrow() { return isThrow_; }
 	void SetThrow(bool is) { isThrow_ = is; }
 

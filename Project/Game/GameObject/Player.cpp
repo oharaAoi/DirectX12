@@ -88,7 +88,7 @@ void Player::Debug_Gui() {
 }
 #endif
 
-Vector3 Player::GetThrow() const {
+Vector3 Player::GetThrowVelo() const {
 
 	Vector3 theow = ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
 	theow -= transform_->GetTranslation();

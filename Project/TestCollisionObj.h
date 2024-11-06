@@ -45,5 +45,8 @@ private:
 	bool isfollowWire_ = false;
 	Player* player_ = nullptr;
 
+
+	Vector3 velocity_{};
+
 };
 
