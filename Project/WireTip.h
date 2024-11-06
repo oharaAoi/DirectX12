@@ -14,8 +14,10 @@ public:
 	void Draw() const override;
 
 	void OnCollision([[maybe_unused]] Collider* other)override;
-	bool GetHit()const { return hit_; }
-	void SetHit(bool is) { hit_ = is; }
+	bool GetHit()const { return isHit_; }
+	void SetHit(bool is) { isHit_ = is; }
+	bool GetPull()const { return isPull_; }
+	void SetPull(bool is) { isPull_ = is; }
 
 	bool GetSnagged()const { return isSnagged_; }
 	void SetSnagged(bool is) { isSnagged_ = is; }
@@ -28,7 +30,9 @@ public:
 
 private:
 
-	bool hit_ = false;
+	bool isHit_ = false;
+	bool isPull_ = false;
+	bool isFollow_ = false;
 	bool isSnagged_ = false;
 
 };

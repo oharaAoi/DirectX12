@@ -55,6 +55,7 @@ private:
 	std::unique_ptr<Boss> boss_;
 	
 	std::unique_ptr<TestCollisionObj> testCollisionObj_;
+	std::unique_ptr<TestCollisionObj> testCollisionObj2_;
 
 	// --- Manager --------------------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_;

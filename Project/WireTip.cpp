@@ -18,6 +18,7 @@ void WireTip::Init() {
 	SetObject("cube.obj");
 	transform_->SetScale({ 0.25f, 0.25f, 0.25f });
 	transform_->SetTranslaion({ 0.0f, 0.0f, 0.0f });
+	tag_ = "wireTip";
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,6 +26,8 @@ void WireTip::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WireTip::Update() {
+	isHit_ = false;
+	isPull_ = false;
 	isSnagged_ = false;
 	BaseGameObject::Update();
 }
@@ -43,8 +46,15 @@ void WireTip::Draw() const {
 
 void WireTip::OnCollision(Collider* other) {
 
+	isHit_ = true;
+
 	if (other->GetTag() == "hook") {
 		isSnagged_ = true;
+	}
+
+	if (other->GetTag() == "canPullObj") {
+		isPull_ = true;
+		isFollow_ = true;
 	}
 
 }

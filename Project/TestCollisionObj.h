@@ -2,6 +2,8 @@
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Collider/Collider.h"
 
+class Player;
+
 class TestCollisionObj
 	: public BaseGameObject,public Collider {
 public:
@@ -15,7 +17,7 @@ public:
 	void Draw() const override;
 
 	void OnCollision([[maybe_unused]] Collider* other)override;
-
+	void SetPlayer(Player* player) { player_ = player; }
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -40,8 +42,8 @@ private:
 	/// ==========================================
 
 
-
-
+	bool isfallowWire_ = false;
+	Player* player_ = nullptr;
 
 };
 

@@ -166,7 +166,7 @@ void Player::Clutch() {
 	Vector2 wireTipPos = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Normalize() * wire_->GetTransform()->GetScale().y;
 	wireTipPos += {transform_->GetTranslation().x, transform_->GetTranslation().y};
 	wireTip_->GetTransform()->SetTranslaion({ wireTipPos.x,wireTipPos.y, transform_->GetTranslation().z });
-	if (wireTip_->GetIsHitting() && isStretchClutch_) {
+	if (wireTip_->GetHit() && isStretchClutch_) {
 		if (isStretching_) {
 			clutchEnd_ = wireTipPos;
 		}
@@ -204,7 +204,12 @@ void Player::Clutch() {
 
 			}
 
-			if (!wireTip_->GetIsHitting()) {
+			if (!wireTip_->GetHit()) {
+				isStretchClutch_ = false;
+				isReturnClutch_ = true;
+			}
+
+			if (wireTip_->GetPull()) {
 				isStretchClutch_ = false;
 				isReturnClutch_ = true;
 			}

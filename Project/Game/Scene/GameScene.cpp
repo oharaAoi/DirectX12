@@ -40,6 +40,14 @@ void GameScene::Init() {
 
 	testCollisionObj_ = std::make_unique<TestCollisionObj>();
 	testCollisionObj_->Init();
+	testCollisionObj_->SetPlayer(player_.get());
+
+	testCollisionObj2_ = std::make_unique<TestCollisionObj>();
+	testCollisionObj2_->Init();
+	testCollisionObj2_->SetPlayer(player_.get());
+	testCollisionObj2_->SetTag("canPullObj");
+	testCollisionObj2_->GetTransform()->SetTranslaion({ -3.0f,4.0f,0.0f });
+
 
 	// -------------------------------------------------
 	// ↓ Editer初期化
@@ -86,6 +94,7 @@ void GameScene::Update() {
 	player_->Update();
 
 	testCollisionObj_->Update();
+	testCollisionObj2_->Update();
 
 	// -------------------------------------------------
 	// ↓ UIの更新
@@ -99,6 +108,7 @@ void GameScene::Update() {
 	collisionManager_->Reset();
 	collisionManager_->AddCollider(player_->GetWireTipCollider());
 	collisionManager_->AddCollider(testCollisionObj_.get());
+	collisionManager_->AddCollider(testCollisionObj2_.get());
 	collisionManager_->CheckAllCollision();
 
 
@@ -164,6 +174,7 @@ void GameScene::Draw() const {
 	player_->Draw();
 
 	testCollisionObj_->Draw();
+	testCollisionObj2_->Draw();
 	// -------------------------------------------------
 	// ↓ UIの描画
 	// -------------------------------------------------

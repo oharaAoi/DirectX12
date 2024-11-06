@@ -1,4 +1,5 @@
 #include "TestCollisionObj.h"
+#include "Game/GameObject/Player.h"
 
 TestCollisionObj::TestCollisionObj() {
 }
@@ -40,6 +41,15 @@ void TestCollisionObj::Draw() const {
 }
 
 void TestCollisionObj::OnCollision(Collider* other) {
+
+	if (other->GetTag() == "wireTip") {
+		if (tag_=="canPullObj") {
+			transform_->SetParent(player_->GetTransform()->GetWorldMatrix());
+			Vector3 position = transform_->GetTranslation() - player_->GetTransform()->GetTranslation();
+			transform_->SetTranslaion(position);
+		}
+	}
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
