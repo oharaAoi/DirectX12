@@ -70,6 +70,8 @@ void GameScene::Init() {
 	isDebugCamera_ = true;
 	followCamera_->SetTarget(player_->GetTransform());
 
+	boss_->SetEditer(bossLeftAttackEditer_.get(), bossRightAttackEditer_.get());
+
 }
 
 void GameScene::Update() {
@@ -248,7 +250,8 @@ void GameScene::Debug_Gui() {
 		if (ImGui::TreeNode("BossAttackEditer")) {
 			ImGui::Begin("BossAttackEditer");
 			if (ImGui::TreeNode("Left")) {
-				bossLeftAttackEditer_->AddPoint();
+				bossRightAttackEditer_->AddPoint();
+				bossRightAttackEditer_->DeletePoint(debugCamera_->GetVpvpMatrix());
 				ImGui::TreePop();
 			}
 			if (ImGui::TreeNode("Right")) {

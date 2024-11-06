@@ -4,6 +4,7 @@
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Collider/MeshCollider.h"
+#include "Game/Editer/BossAttackEditer.h"
 
 /// <summary>
 /// Bossの右手
@@ -21,6 +22,10 @@ public:
 
 	void AdaptAdjustment();
 
+	void LoadAllFile();
+
+	void AttackMove();
+
 	void CheckMouseCursorCollision(const Matrix4x4& vpvpMat);
 
 #ifdef _DEBUG
@@ -30,14 +35,26 @@ public:
 	const bool GetIsAttack() const { return isAttackMove_; }
 	void SetIsAttack(bool isAttack) { isAttackMove_ = isAttack; }
 
+	void SetAttackEditer(BossAttackEditer* pRightHandEditer) { pAttackEditer_ = pRightHandEditer; }
+
 private:
 
+	BossAttackEditer* pAttackEditer_ = nullptr;
+
 	std::string groupName_ = "BossRightHand";
+	std::string attackDirectoryPath = "./Game/Resources/GameData/BossAttack/RightHand/";
 
 	std::unique_ptr<MeshCollider> meshCollider_;
 
 	Vector2 objectScreenPos_;
 
-	bool isAttackMove_;
+	uint32_t moveIndex_;
+	float moveTime_;
+
+	// 攻撃に使う変数
+	
+	// フラグ
+	bool isAttackMove_;	// 攻撃の動きをするか
+	bool isClicked_;	// クリックされているか
 };
 
