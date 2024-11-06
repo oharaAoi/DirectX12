@@ -11,12 +11,8 @@ void TestScene::Init() {
 	// GameObject -------------------------------------------------------------------
 	test_animationCS_ = std::make_unique<BaseGameObject>();
 	test_animationCS_->Init();
-	test_animationCS_->SetObject("amimationCharacter.gltf");
-	test_animationCS_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true);
-
-	test_animationCS_->SetObjectAxis();
-
-	meshCollider_.Init(test_animationCS_->GetModel()->GetMesh(0));
+	test_animationCS_->SetObject("walk.gltf");
+	test_animationCS_->SetAnimater("./Engine/Resources/Animation/", "walk.gltf", true);
 	
 }
 
@@ -43,8 +39,6 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	test_animationCS_->Update();
 
-	meshCollider_.Update(test_animationCS_->GetTransform(), Vector3::ZERO());
-
 	// -------------------------------------------------
 	// ↓ ParticleのViewを設定する
 	// -------------------------------------------------
@@ -59,16 +53,12 @@ void TestScene::Update() {
 void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	test_animationCS_->Draw();
-
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
-	meshCollider_.Draw();
 }
 
 #ifdef _DEBUG
 void TestScene::ImGuiDraw() {
 	ImGui::Begin("TestScene");
 	ImGui::Checkbox("isDebug", &isDebugCamera_);
-	test_animationCS_->Debug_Gui();
 	camera_->Debug_Gui();
 	debugCamera_->Debug_Gui();
 	ImGui::End();

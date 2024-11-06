@@ -10,7 +10,6 @@
 #include "Engine/ParticleSystem/Emitter.h"
 #include "Engine/ParticleSystem/ParticleField.h"
 #include "Engine/ParticleSystem/EffectSystem.h"
-#include "Engine/Collider/MeshCollider.h"
 
 class TestScene 
 : public BaseScene {
@@ -39,7 +38,6 @@ private:
 
 	// ゲームオブジェクト ------------------------------------
 	std::unique_ptr<BaseGameObject> test_animationCS_;
-	MeshCollider meshCollider_;
 
 };
 
