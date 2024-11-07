@@ -49,7 +49,8 @@ private:
 
 	// --- GameObject ------------------------------ //
 	std::unique_ptr<Player> player_;
-	std::unique_ptr<PlayerBullet> playerBullets_[2];
+	static const uint32_t kBulletNum_ = 1;
+	std::unique_ptr<PlayerBullet> playerBullets_[kBulletNum_];
 
 	// --- Manager --------------------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_;

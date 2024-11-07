@@ -20,7 +20,7 @@ void EnemyManager::Update() {
 	if (isPop_) {
 		popTime_ += GameTimer::DeltaTime();
 
-		if (popTime_ > 1.0f) {
+		if (popTime_ > 6.0f) {
 			AddList(playerPos_);
 			popTime_ = 0.0f;
 		}

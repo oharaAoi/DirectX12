@@ -29,7 +29,7 @@ void GameScene::Init() {
 	player_->Init();
 
 	// 弾
-	for (uint32_t index = 0; index < 2; ++index) {
+	for (uint32_t index = 0; index < kBulletNum_; ++index) {
 		playerBullets_[index] = std::make_unique<PlayerBullet>();
 		playerBullets_[index]->Init();
 
@@ -156,9 +156,19 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	enemyManager_->SetPlayerForward(player_->GetForward());
 	enemyManager_->SetPlayerPos(player_->GetWorldPos());
-	//enemyManager_->Update();
+	enemyManager_->Update();
 
 	collisionManager_->Reset();
+
+	if (player_->GetIsShot()) {
+		for (auto& bullet : playerBullets_) {
+			collisionManager_->AddCollider(bullet->GetMeshCollider());
+		}
+	}
+
+	for (auto& enemy : enemyManager_->GetList()) {
+		collisionManager_->AddCollider(enemy->GetMeshCollider());
+	}
 	
 	collisionManager_->CheckAllCollision();
 
@@ -191,7 +201,7 @@ void GameScene::Draw() const {
 	railPointEditer_->Draw(viewMat_ * projectionMat_);
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
-	skydome_->Draw();
+	/*skydome_->Draw();*/
 
 	/*for (size_t index = 0; index < rails_.size(); ++index) {
 		rails_[index]->Draw();
@@ -200,14 +210,16 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ GameObjectの描画
 	// -------------------------------------------------
-	//enemyManager_->Draw();
+	enemyManager_->Draw();
 
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	if (player_->GetIsShot()) {
 		for (const auto& bullet : playerBullets_) {
 			bullet->Draw();
 		}
 	}
 
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	player_->Draw();
 
 	knockDownEnemy_->Draw();

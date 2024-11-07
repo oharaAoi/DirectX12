@@ -42,7 +42,11 @@ void Enemy::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Enemy::Draw() const {
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	BaseGameObject::Draw();
+
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	meshCollider_->Draw();
 }
 
 void Enemy::OnCollision(MeshCollider& other) {
