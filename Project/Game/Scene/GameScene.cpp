@@ -129,7 +129,7 @@ void GameScene::Update() {
 	// -------------------------------------------------
 
 	// playerの更新
-	player_->SetReticlePos(ScreenToWorldCoordinate(reticle_->GetReticle2DPos(), mainCamera_->GetVPVMatrix().Inverse(), 50.0f));
+	player_->SetReticlePos(ScreenToWorldCoordinate(reticle_->GetReticle2DPos(), mainCamera_->GetVPVMatrix().Inverse(), 60.0f));
 	player_->Update();
 
 	// bulletの更新
