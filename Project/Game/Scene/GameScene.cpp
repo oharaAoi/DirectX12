@@ -33,12 +33,12 @@ void GameScene::Init() {
 		playerBullets_[index] = std::make_unique<PlayerBullet>();
 		playerBullets_[index]->Init();
 
-		playerBullets_[index]->GetTransform()->SetParent(player_->GetTransform()->GetWorldMatrix());
+		//playerBullets_[index]->GetTransform()->SetParent(player_->GetTransform()->GetWorldMatrix());
 		
 		if (index == 0) {
-			playerBullets_[index]->GetTransform()->SetTranslaion(Vector3::RIGHT() * -1);
+			playerBullets_[index]->SetOffset(Vector3(0.5f * -1, -0.35f, 1.6f));
 		} else {
-			playerBullets_[index]->GetTransform()->SetTranslaion(Vector3::RIGHT());
+			playerBullets_[index]->SetOffset(Vector3(0.5f, -0.35f, 1.6f));
 		}
 	}
 
@@ -118,7 +118,7 @@ void GameScene::Update() {
 			Vector3 from = rails_[index]->GetTransform()->GetTranslation();
 			Vector3 to = rails_[index + 1]->GetTransform()->GetTranslation();
 			Vector3 up = rails_[index]->GetTransform()->GetQuaternion().MakeUp();
-			//rails_[index]->GetTransform()->SetQuaternion(Quaternion::LookAt(from, to, up));
+			rails_[index]->GetTransform()->SetQuaternion(Quaternion::LookAt(from, to, Vector3::FORWARD()));
 		}
 		/*if (index >= 1) {
 			rails_[index]->SetBottomVertex(rails_[index - 1]->GetTopVertex());
@@ -138,6 +138,8 @@ void GameScene::Update() {
 	// bulletの更新
 	if (player_->GetIsShot()) {
 		for (auto& bullet : playerBullets_) {
+			bullet->SetCameraMat(mainCamera_->GetCameraMatrix());
+			bullet->GetTransform()->SetTranslaion(player_->GetWorldPos());
 			bullet->GetTransform()->SetQuaternion(player_->GetShotQuaternion());
 			bullet->Update();
 		}
@@ -208,9 +210,9 @@ void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	/*skydome_->Draw();*/
 
-	/*for (size_t index = 0; index < rails_.size(); ++index) {
+	for (size_t index = 0; index < rails_.size(); ++index) {
 		rails_[index]->Draw();
-	}*/
+	}
 
 	// -------------------------------------------------
 	// ↓ GameObjectの描画
@@ -267,10 +269,6 @@ void GameScene::Debug_Gui() {
 			knockDownEnemy_->Debug_Gui();
 			ImGui::TreePop();
 		}
-
-		if (Input::IsTriggerKey(DIK_1)) {
-			isDebugCamera_ = !isDebugCamera_;
-		}
 	}
 
 	{
@@ -294,6 +292,15 @@ void GameScene::Debug_Gui() {
 			ImGui::TreePop();
 		}
 	}
+
+	for (uint32_t index = 0; index < kBulletNum_; ++index) {
+		if (index == 0) {
+			playerBullets_[index]->Debug_Gui("left");
+		} else {
+			playerBullets_[index]->Debug_Gui("right");
+		}
+	}
+
 	ImGui::End();
 }
 

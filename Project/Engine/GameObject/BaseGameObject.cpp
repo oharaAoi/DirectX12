@@ -45,7 +45,7 @@ void BaseGameObject::Update() {
 	}
 #endif
 
-	worldPos_ = Vector3(0.0f, 0.0f, 0.0f) * transform_->GetWorldMatrix();
+	worldPos_ = Transform(Vector3::ZERO(), transform_->GetWorldMatrix());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

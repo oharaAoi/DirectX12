@@ -21,6 +21,8 @@ public:
 
 	const Vector2 GetReticle2DPos() const { return reticleScreenPos_; }
 
+	const Vector3 GetReticle3DPos() const { return Transform(Vector3(0.0f, 0.0f, 60.0f), reticle3D_->GetTransform()->GetWorldMatrix()); }
+
 private:
 
 	std::unique_ptr<Sprite> reticle_;

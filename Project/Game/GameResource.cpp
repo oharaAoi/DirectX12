@@ -9,6 +9,7 @@ GameResource::~GameResource() {
 void GameResource::Load() {
 	ModelManager::LoadModel("./Engine/Resources/Develop/", "skin.obj");
 	ModelManager::LoadModel("./Engine/Resources/Develop/", "cube.obj");
+	ModelManager::LoadModel("./Engine/Resources/Develop/", "axis.obj");
 	ModelManager::LoadModel("./Engine/Resources/Animation/", "walk.gltf");
 
 	// worldObject
@@ -19,6 +20,7 @@ void GameResource::Load() {
 	// gameObject
 	ModelManager::LoadModel("./Game/Resources/Model/Star/", "star.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Razer/", "razer.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Cart/", "cart.obj");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "rail_plane.png");

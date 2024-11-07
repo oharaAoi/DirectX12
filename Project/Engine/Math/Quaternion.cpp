@@ -168,27 +168,25 @@ Quaternion Quaternion::LookRotation(const Vector3& forward, const Vector3& upVec
 	}
 }
 
-Quaternion Quaternion::LookAt(const Vector3& from, const Vector3& to) {
-	// プレイヤーから敵への方向ベクトルを計算
+Quaternion Quaternion::LookAt(const Vector3& from, const Vector3& to, const Vector3& fromForward) {
+	// ターゲットまでの方向ベクトルを計算
 	Vector3 direction = (to - from).Normalize();
 
-	// 現在の前方ベクトル（z方向を前方と仮定）
-	Vector3 forward(0.0f, 0.0f, 1.0f);
+	// XZ平面でのヨー回転
+	Vector3 forwardXZ(direction.x, 0.0f, direction.z);
+	forwardXZ = forwardXZ.Normalize();
+	float yawAngle = std::atan2(forwardXZ.x, forwardXZ.z);
 
-	// 回転軸を計算（外積を利用）
-	Vector3 rotationAxis = Vector3::Cross(forward, direction);
-	if (rotationAxis.x == 0 && rotationAxis.y == 0 && rotationAxis.z == 0) {
-		// forward と direction が同じか逆向きの場合、適切なクォータニオンを返す
-		return Quaternion(1, 0, 0, 0);
-	}
+	// YZ平面でのピッチ回転
+	float pitchAngle = std::asin(-direction.y); // 単純にy成分からピッチを計算
 
-	rotationAxis = rotationAxis.Normalize();
+	// ヨー回転（XZ平面）
+	Quaternion yawQuat = Quaternion::AngleAxis(yawAngle, Vector3(0.0f, 1.0f, 0.0f)); // Y軸周りの回転
+	// ピッチ回転（YZ平面）
+	Quaternion pitchQuat = Quaternion::AngleAxis(pitchAngle, Vector3(1.0f, 0.0f, 0.0f)); // X軸周りの回転
 
-	// 内積から角度を計算
-	float angle = std::acos(Vector3::Dot(forward, direction));
-
-	// 回転クォータニオンを作成
-	return Quaternion::AngleAxis(angle, rotationAxis);
+	// ヨーとピッチの回転を組み合わせたクォータニオン
+	return yawQuat * pitchQuat;
 }
 
 float Quaternion::Dot(const Quaternion& q1, const Quaternion& q2) {

@@ -18,9 +18,9 @@ void Player::Finalize() {
 
 void Player::Init() {
 	BaseGameObject::Init();
-	SetObject("skin.obj");
+	SetObject("cart.obj");
 	transform_->SetScale({ 0.5f, 0.5f, 0.5f });
-	transform_->SetTranslaion({ 0.0f, -0.5f, 0.0f });
+	transform_->SetTranslaion({ 0.0f, -0.5f, 0.7f });
 
 	score_ = 0;
 
@@ -73,7 +73,7 @@ void Player::Draw() const {
 void Player::Shot() {
 	isShot_ = true;
 	Vector3 dire = (reticlrPos_ - worldPos_).Normalize();
-	shotQuaternion_ = Quaternion::LookAt(worldPos_, reticlrPos_);
+	shotQuaternion_ = Quaternion::LookAt(worldPos_, reticlrPos_, Vector3::FORWARD());
 	shotEnergy_ -= GameTimer::DeltaTime();
 	shotEnergyRaito_ = shotEnergy_ / 1.0f;
 }
@@ -86,7 +86,7 @@ void Player::Shot() {
 void Player::Debug_Gui() {
 	if (ImGui::TreeNode("player")) {
 		ImGui::Begin("player");
-
+		transform_->Debug_Gui();
 		ImGui::Text("score : %d", score_);
 		ImGui::Text("shotEnergyRaito : %f", shotEnergyRaito_);
 

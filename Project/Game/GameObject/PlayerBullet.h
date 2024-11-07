@@ -19,7 +19,7 @@ public:
 	void OnCollision(MeshCollider& other);
 
 #ifdef _DEBUG
-	void Debug_Gui();
+	void Debug_Gui(const std::string& name);
 #endif
 
 	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
@@ -28,7 +28,9 @@ public:
 
 	void SetPopPos(const Vector3& pos);
 
-	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
+	void SetOffset(const Vector3& offset) { offset_ = offset; }
+
+	void SetCameraMat(const Matrix4x4& mat) { cameraMat_ = mat; }
 
 	void SetIsAlive(bool isAlive) { isAlive_ = isAlive; }
 	const bool GetIsAlive() const { return isAlive_; }
@@ -36,6 +38,9 @@ public:
 private:
 
 	Vector3 velocity_;
+	Matrix4x4 cameraMat_;
+
+	Vector3 offset_;
 
 	float speed_;
 	

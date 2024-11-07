@@ -24,6 +24,8 @@ void PlayerBullet::Init() {
 	meshCollider_->Init(model_->GetMesh(0));
 	meshCollider_->SetTag("playerBullet");
 
+	//SetObjectAxis();
+
 	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
 		this->OnCollision(other);
 	 });
@@ -34,6 +36,9 @@ void PlayerBullet::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerBullet::Update() {
+	Vector3 worldOffset = Transform(offset_, cameraMat_);
+	transform_->SetTranslaion( worldOffset);
+
 	BaseGameObject::Update();
 
 	meshCollider_->Update(transform_.get(), Vector3::ZERO());
@@ -82,6 +87,9 @@ void PlayerBullet::SetPopPos(const Vector3& pos) {
 // ↓　Debug表示
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
-void PlayerBullet::Debug_Gui() {
+void PlayerBullet::Debug_Gui(const std::string& name) {
+	ImGui::Begin(name.c_str());
+	transform_->Debug_Quaternion();
+	ImGui::End();
 }
 #endif
