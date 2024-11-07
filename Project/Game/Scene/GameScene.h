@@ -15,6 +15,7 @@
 #include "Game/UI/Reticle.h"
 #include "Game/UI/KnockDownEnemy.h"
 #include "Game/UI/TotalScore.h"
+#include "Game/UI/Energy.h"
 
 class GameScene 
 	: public BaseScene {
@@ -60,6 +61,7 @@ private:
 	std::unique_ptr<Reticle> reticle_;
 	std::unique_ptr<KnockDownEnemy> knockDownEnemy_;
 	std::unique_ptr<TotalScore> totalScore_;
+	std::unique_ptr<Energy> energyUI_;
 
 	// --- Edier ----------------------------------- //
 	std::unique_ptr<RailPointEditer> railPointEditer_;

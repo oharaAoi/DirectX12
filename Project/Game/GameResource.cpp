@@ -24,5 +24,7 @@ void GameResource::Load() {
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "rail_plane.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "number.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "scoreBackground.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "razer_outside.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "energy.png");
 
 }

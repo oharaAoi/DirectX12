@@ -209,6 +209,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
+    <ClCompile Include="Game\UI\Energy.cpp" />
     <ClCompile Include="Game\UI\KnockDownEnemy.cpp" />
     <ClCompile Include="Game\UI\Reticle.cpp" />
     <ClCompile Include="Game\UI\TotalScore.cpp" />
@@ -327,6 +328,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
+    <ClInclude Include="Game\UI\Energy.h" />
     <ClInclude Include="Game\UI\KnockDownEnemy.h" />
     <ClInclude Include="Game\UI\Reticle.h" />
     <ClInclude Include="Game\UI\TotalScore.h" />

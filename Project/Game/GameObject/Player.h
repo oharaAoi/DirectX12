@@ -34,6 +34,8 @@ public:
 	const bool GetIsShot() const { return isShot_; }
 	void SetIsShot(bool isShot) { isShot_ = isShot; }
 
+	const float GetShotEnergyRaito() const { return shotEnergyRaito_; }
+
 	const Quaternion GetShotQuaternion() const { return shotQuaternion_; }
 
 private:
@@ -51,5 +53,6 @@ private:
 
 	bool isShot_;
 	float shotEnergy_;
+	float shotEnergyRaito_;
 };
 

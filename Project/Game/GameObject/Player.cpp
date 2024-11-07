@@ -25,6 +25,7 @@ void Player::Init() {
 	score_ = 0;
 
 	shotEnergy_ = 1.0f;
+	shotEnergyRaito_ = 1.0f;
 
 	test_ = std::make_unique<BaseGameObject>();
 	test_->Init();
@@ -40,11 +41,15 @@ void Player::Update() {
 		Shot();
 	} else {
 		isShot_ = false;
+		shotEnergy_ += GameTimer::DeltaTime();
+		shotEnergyRaito_ = shotEnergy_ / 1.0f;
 	}
 
 	if (Input::GetIsPadTrigger(R_SHOULDER)) {
 		Shot();
 	}
+
+	shotEnergy_ = std::clamp(shotEnergy_, 0.0f, 1.0f);
 
 	test_->GetTransform()->SetTranslaion(reticlrPos_);
 
@@ -69,7 +74,8 @@ void Player::Shot() {
 	isShot_ = true;
 	Vector3 dire = (reticlrPos_ - worldPos_).Normalize();
 	shotQuaternion_ = Quaternion::LookAt(worldPos_, reticlrPos_);
-
+	shotEnergy_ -= GameTimer::DeltaTime();
+	shotEnergyRaito_ = shotEnergy_ / 1.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,6 +88,7 @@ void Player::Debug_Gui() {
 		ImGui::Begin("player");
 
 		ImGui::Text("score : %d", score_);
+		ImGui::Text("shotEnergyRaito : %f", shotEnergyRaito_);
 
 		ImGui::End();
 		ImGui::TreePop();

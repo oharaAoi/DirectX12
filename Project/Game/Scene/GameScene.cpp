@@ -74,6 +74,9 @@ void GameScene::Init() {
 	totalScore_ = std::make_unique<TotalScore>();
 	totalScore_->Init();
 
+	energyUI_ = std::make_unique<Energy>();
+	energyUI_->Init();
+
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
@@ -150,6 +153,8 @@ void GameScene::Update() {
 	knockDownEnemy_->Update();
 
 	totalScore_->Update(player_->GetScore());
+
+	energyUI_->Update(player_->GetShotEnergyRaito());
 
 	// -------------------------------------------------
 	// ↓ Managerの更新
@@ -232,6 +237,8 @@ void GameScene::Draw() const {
 
 	totalScore_->Draw();
 
+	energyUI_->Draw();
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -283,6 +290,7 @@ void GameScene::Debug_Gui() {
 	{
 		if (ImGui::TreeNode("UI")) {
 			totalScore_->Debug_Gui();
+			energyUI_->Debug_Gui();
 			ImGui::TreePop();
 		}
 	}
