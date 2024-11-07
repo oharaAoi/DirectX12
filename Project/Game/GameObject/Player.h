@@ -3,6 +3,13 @@
 #include "Game/GameObject/ClutchWire.h"
 #include "WireTip.h"
 
+
+enum class PlayerState {
+	Default = 0,
+	Attack = 1,
+};
+
+
 class Player
 	: public BaseGameObject {
 public:
@@ -30,6 +37,10 @@ public:
 	Vector3 GetThrowVelo()const;
 	bool GetThrow() { return isThrow_; }
 	void SetThrow(bool is) { isThrow_ = is; }
+
+
+
+
 
 	Collider* GetWireTipCollider() { return wireTip_.get(); }
 
