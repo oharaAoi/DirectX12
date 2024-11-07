@@ -99,6 +99,7 @@ Vector3 Player::GetThrowVelo() const {
 
 
 void Player::Move() {
+
 	Vector3 pos = transform_->GetTranslation();
 	if (pos.y > 0.5f) {
 		velocity_.y += gravity_ * GameTimer::DeltaTime();
@@ -114,16 +115,23 @@ void Player::Move() {
 
 	if (!wireTip_->GetSnagged()) {
 		velocity_.x = 0.0f;
-		if (Input::IsPressKey(DIK_A)) {
-			velocity_.x -= moveSpeed_ * GameTimer::DeltaTime();
-		}
-		if (Input::IsPressKey(DIK_D)) {
-			velocity_.x += moveSpeed_ * GameTimer::DeltaTime();
+		if (!isStretching_) {
+			if (Input::IsPressKey(DIK_A)) {
+				velocity_.x -= moveSpeed_ * GameTimer::DeltaTime();
+			}
+			if (Input::IsPressKey(DIK_D)) {
+				velocity_.x += moveSpeed_ * GameTimer::DeltaTime();
+			}
 		}
 	}
 	else if(wireTip_->GetSnagged() && isStretchClutch_) {
 		velocity_.y = 0.0f;
 		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, 0.1f);
+
+		float errorLength = (clutchEnd_ - Vector2{ pos.x,pos.y }).Length();
+		if (errorLength < 0.2f) {
+			isStretchClutch_ = false;
+		}
 		
 	}
 
@@ -208,8 +216,10 @@ void Player::Clutch() {
 	if (isStretchClutch_) {
 
 		if (!Input::IsPressMouse(0) && !isStretching_) {
-			isStretchClutch_ = false;
-			isReturnClutch_ = true;
+			if (!wireTip_->GetSnagged()) {// 移動地点に到達するまで離れない
+				isStretchClutch_ = false;
+				isReturnClutch_ = true;
+			}
 		}
 
 		if (!isStretching_) {
