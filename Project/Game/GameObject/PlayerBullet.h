@@ -1,9 +1,11 @@
 #pragma once
+#include <memory>
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Game/GameObject/Player.h"
 #include "Game/UI/KnockDownEnemy.h"
+#include "Engine/Collider/MeshCollider.h"
 
-class PlayerBullet : public BaseGameObject, public Collider {
+class PlayerBullet : public BaseGameObject {
 public:
 
 	PlayerBullet();
@@ -14,13 +16,15 @@ public:
 	void Update() override;
 	void Draw() const override;
 
-	void OnCollision([[maybe_unused]] Collider* other) override;
+	void OnCollision(MeshCollider& other);
 
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
 
-	const Vector3 GetWorldPos() const override;
+	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
+
+	const Vector3 GetWorldPos() const;
 
 	void SetPopPos(const Vector3& pos);
 
@@ -36,5 +40,7 @@ private:
 	float speed_;
 	
 	bool isAlive_;
+
+	std::unique_ptr<MeshCollider> meshCollider_;
 };
 

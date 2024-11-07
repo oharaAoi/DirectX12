@@ -23,6 +23,12 @@ void Player::Init() {
 	transform_->SetTranslaion({ 0.0f, -0.5f, 0.0f });
 
 	score_ = 0;
+
+	shotEnergy_ = 1.0f;
+
+	test_ = std::make_unique<BaseGameObject>();
+	test_->Init();
+	test_->SetObject("cube.obj");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,14 +36,19 @@ void Player::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Update() {
-	if (Input::IsTriggerKey(DIK_SPACE)) {
+	if (Input::IsPressKey(DIK_SPACE)) {
 		Shot();
+	} else {
+		isShot_ = false;
 	}
 
 	if (Input::GetIsPadTrigger(R_SHOULDER)) {
 		Shot();
 	}
 
+	test_->GetTransform()->SetTranslaion(reticlrPos_);
+
+	test_->Update();
 	BaseGameObject::Update();
 }
 
@@ -47,6 +58,7 @@ void Player::Update() {
 
 void Player::Draw() const {
 	BaseGameObject::Draw();
+	test_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,8 +66,10 @@ void Player::Draw() const {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Shot() {
+	isShot_ = true;
 	Vector3 dire = (reticlrPos_ - worldPos_).Normalize();
-	pGameScene_->AddPlayerBulletList(worldPos_, dire);
+	shotQuaternion_ = Quaternion::LookAt(worldPos_, reticlrPos_);
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

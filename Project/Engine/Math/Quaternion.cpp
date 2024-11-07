@@ -93,6 +93,27 @@ Quaternion Quaternion::FromToRotation(const Vector3& fromDire, const Vector3& to
 	float rad = std::acosf(Vector3::Dot(fromDire, toDire) / (fromDire.Length() * toDire.Length()));
 
 	return AngleAxis(rad * toDegree, axis);
+
+	//Vector3 fromNorm = fromDire.Normalize();
+	//Vector3 toNorm = toDire.Normalize();
+
+	//// 回転軸を求める（外積）
+	//Vector3 axis = Vector3::Cross(fromNorm, toNorm);
+
+	//// 回転角度を求める（内積からコサインを取得）
+	//float dot = Vector3::Dot(fromNorm, toNorm);
+	//float angle = std::acos(dot);
+
+	//// 角度をもとに四元数を計算
+	//float sinHalfAngle = std::sin(angle / 2);
+	//float cosHalfAngle = std::cos(angle / 2);
+
+	//return Quaternion{
+	//	axis.x * sinHalfAngle,
+	//	axis.y * sinHalfAngle,
+	//	axis.z * sinHalfAngle,
+	//	cosHalfAngle,
+	//};
 }
 
 Quaternion Quaternion::Inverse(const Quaternion& rotation) {
@@ -101,25 +122,73 @@ Quaternion Quaternion::Inverse(const Quaternion& rotation) {
 }
 
 Quaternion Quaternion::LookRotation(const Vector3& forward, const Vector3& upVector) {
-	// 正面からforwardに向ける回転を取得
-	Quaternion lookRotation = FromToRotation(Vector3{ 0.0f, 0.0f, 1.0f }, forward.Normalize());
-	// 外積を用いてupVectorとforwardに垂直なベクトルを求める
-	Vector3 xAxisHorizontal = Cross(upVector, forward).Normalize();
-	if (xAxisHorizontal.Length() < 1e-6) {
-		// forwardとupVectorが平行な場合、回転が不定になるため例外処理やデフォルト回転を返す
-		return lookRotation;
+	Vector3 z = forward.Normalize();
+	Vector3 x = Vector3::Cross(upVector, z).Normalize();
+	Vector3 y = Vector3::Cross(z, x);
+
+	// 3x3 回転行列の要素
+	float m00 = x.x, m01 = x.y, m02 = x.z;
+	float m10 = y.x, m11 = y.y, m12 = y.z;
+	float m20 = z.x, m21 = z.y, m22 = z.z;
+
+	// 回転行列から四元数を生成
+	float trace = m00 + m11 + m22;
+	if (trace > 0) {
+		float s = 0.5f / std::sqrt(trace + 1.0f);
+		return Quaternion{
+			0.25f / s,
+			(m21 - m12) * s,
+			(m02 - m20) * s,
+			(m10 - m01) * s
+		};
+	} else if (m00 > m11 && m00 > m22) {
+		float s = 2.0f * std::sqrt(1.0f + m00 - m11 - m22);
+		return Quaternion{
+			(m21 - m12) / s,
+			0.25f * s,
+			(m01 + m10) / s,
+			(m02 + m20) / s
+		};
+	} else if (m11 > m22) {
+		float s = 2.0f * std::sqrt(1.0f + m11 - m00 - m22);
+		return Quaternion{
+			(m02 - m20) / s,
+			(m01 + m10) / s,
+			0.25f * s,
+			(m12 + m21) / s
+		};
+	} else {
+		float s = 2.0f * std::sqrt(1.0f + m22 - m00 - m11);
+		return Quaternion{
+			(m10 - m01) / s,
+			(m02 + m20) / s,
+			(m12 + m21) / s,
+			0.25f * s
+		};
 	}
-	// 回転後のy軸を求める
-	Vector3 yAxisAfterRotate = Cross(forward, xAxisHorizontal).Normalize();
-	// Look後のy軸から回転後のy軸へ修正する回転を求める
-	Vector3 yAxisVBefore = (lookRotation * Vector3{ 0.0f, 1.0f, 0.0f }).Normalize();
-	Quaternion modifyRotation = FromToRotation(yAxisVBefore, yAxisAfterRotate);
-	return modifyRotation * lookRotation;
 }
 
-Quaternion Quaternion::LookAt(const Vector3& from, const Vector3& to, const Vector3& up) {
-	Vector3 forward = (to - from).Normalize();
-	return LookRotation(forward, up);
+Quaternion Quaternion::LookAt(const Vector3& from, const Vector3& to) {
+	// プレイヤーから敵への方向ベクトルを計算
+	Vector3 direction = (to - from).Normalize();
+
+	// 現在の前方ベクトル（z方向を前方と仮定）
+	Vector3 forward(0.0f, 0.0f, 1.0f);
+
+	// 回転軸を計算（外積を利用）
+	Vector3 rotationAxis = Vector3::Cross(forward, direction);
+	if (rotationAxis.x == 0 && rotationAxis.y == 0 && rotationAxis.z == 0) {
+		// forward と direction が同じか逆向きの場合、適切なクォータニオンを返す
+		return Quaternion(1, 0, 0, 0);
+	}
+
+	rotationAxis = rotationAxis.Normalize();
+
+	// 内積から角度を計算
+	float angle = std::acos(Vector3::Dot(forward, direction));
+
+	// 回転クォータニオンを作成
+	return Quaternion::AngleAxis(angle, rotationAxis);
 }
 
 float Quaternion::Dot(const Quaternion& q1, const Quaternion& q2) {

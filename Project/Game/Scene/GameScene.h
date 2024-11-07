@@ -27,8 +27,6 @@ public:
 	void Update() override;
 	void Draw() const override;
 
-	void AddPlayerBulletList(const Vector3& pos, const Vector3& velocity);
-
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
@@ -51,7 +49,7 @@ private:
 
 	// --- GameObject ------------------------------ //
 	std::unique_ptr<Player> player_;
-	std::list<std::unique_ptr<PlayerBullet>> playerBullets_;
+	std::unique_ptr<PlayerBullet> playerBullets_[2];
 
 	// --- Manager --------------------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_;

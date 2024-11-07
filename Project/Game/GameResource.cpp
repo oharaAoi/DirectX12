@@ -18,6 +18,7 @@ void GameResource::Load() {
 
 	// gameObject
 	ModelManager::LoadModel("./Game/Resources/Model/Star/", "star.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Razer/", "razer.obj");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "rail_plane.png");

@@ -31,6 +31,11 @@ public:
 	static uint32_t GetScore() { return score_; }
 	static void AddScore(uint32_t add) { score_ += add; }
 
+	const bool GetIsShot() const { return isShot_; }
+	void SetIsShot(bool isShot) { isShot_ = isShot; }
+
+	const Quaternion GetShotQuaternion() const { return shotQuaternion_; }
+
 private:
 
 	// ポインタ
@@ -38,6 +43,13 @@ private:
 	// Reticleの座標
 	Vector3 reticlrPos_;
 
+	std::unique_ptr<BaseGameObject> test_;
+
+	Quaternion shotQuaternion_;
+
 	static uint32_t score_;
+
+	bool isShot_;
+	float shotEnergy_;
 };
 

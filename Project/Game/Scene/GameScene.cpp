@@ -28,6 +28,20 @@ void GameScene::Init() {
 	player_ = std::make_unique<Player>();
 	player_->Init();
 
+	// 弾
+	for (uint32_t index = 0; index < 2; ++index) {
+		playerBullets_[index] = std::make_unique<PlayerBullet>();
+		playerBullets_[index]->Init();
+
+		playerBullets_[index]->GetTransform()->SetParent(player_->GetTransform()->GetWorldMatrix());
+		
+		if (index == 0) {
+			playerBullets_[index]->GetTransform()->SetTranslaion(Vector3::RIGHT() * -1);
+		} else {
+			playerBullets_[index]->GetTransform()->SetTranslaion(Vector3::RIGHT());
+		}
+	}
+
 	// -------------------------------------------------
 	// ↓ Editer初期化
 	// -------------------------------------------------
@@ -101,7 +115,7 @@ void GameScene::Update() {
 			Vector3 from = rails_[index]->GetTransform()->GetTranslation();
 			Vector3 to = rails_[index + 1]->GetTransform()->GetTranslation();
 			Vector3 up = rails_[index]->GetTransform()->GetQuaternion().MakeUp();
-			rails_[index]->GetTransform()->SetQuaternion(Quaternion::LookAt(from, to, up));
+			//rails_[index]->GetTransform()->SetQuaternion(Quaternion::LookAt(from, to, up));
 		}
 		/*if (index >= 1) {
 			rails_[index]->SetBottomVertex(rails_[index - 1]->GetTopVertex());
@@ -119,8 +133,11 @@ void GameScene::Update() {
 	player_->Update();
 
 	// bulletの更新
-	for (auto& bullet : playerBullets_) {
-		bullet->Update();
+	if (player_->GetIsShot()) {
+		for (auto& bullet : playerBullets_) {
+			bullet->GetTransform()->SetQuaternion(player_->GetShotQuaternion());
+			bullet->Update();
+		}
 	}
 
 	// -------------------------------------------------
@@ -139,23 +156,11 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	enemyManager_->SetPlayerForward(player_->GetForward());
 	enemyManager_->SetPlayerPos(player_->GetWorldPos());
-	enemyManager_->Update();
+	//enemyManager_->Update();
 
 	collisionManager_->Reset();
-	for (auto& bullet : playerBullets_) {
-		collisionManager_->AddCollider(bullet.get());
-	}
-
-	for (auto& enemy : enemyManager_->GetList()) {
-		collisionManager_->AddCollider(enemy.get());
-	}
-
+	
 	collisionManager_->CheckAllCollision();
-
-	// -------------------------------------------------
-	// ↓ 死亡の確認
-	// -------------------------------------------------
-	playerBullets_.remove_if([](auto& bullet) {return !bullet->GetIsAlive(); });
 
 	// -------------------------------------------------
 	// ↓ Renderの更新
@@ -195,10 +200,12 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ GameObjectの描画
 	// -------------------------------------------------
-	enemyManager_->Draw();
+	//enemyManager_->Draw();
 
-	for (const auto& bullet : playerBullets_) {
-		bullet->Draw();
+	if (player_->GetIsShot()) {
+		for (const auto& bullet : playerBullets_) {
+			bullet->Draw();
+		}
 	}
 
 	player_->Draw();
@@ -213,13 +220,6 @@ void GameScene::Draw() const {
 
 	totalScore_->Draw();
 
-}
-
-void GameScene::AddPlayerBulletList(const Vector3& pos, const Vector3& velocity) {
-	auto& newBullet = playerBullets_.emplace_back(std::make_unique<PlayerBullet>());
-	newBullet->Init();
-	newBullet->SetPopPos(pos);
-	newBullet->SetVelocity(velocity);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

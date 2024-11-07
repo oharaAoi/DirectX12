@@ -17,8 +17,14 @@ void Enemy::Init() {
 	SetObject("star.obj");
 
 	isAlive_ = true;
-	tag_ = "enemy";
-	radius_ = 2.0f;
+
+	meshCollider_ = std::make_unique<MeshCollider>();
+	meshCollider_->Init(model_->GetMesh(0));
+
+	meshCollider_->SetTag("enemy");
+	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
+		this->OnCollision(other);
+										  });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +33,8 @@ void Enemy::Init() {
 
 void Enemy::Update() {
 	BaseGameObject::Update();
+
+	meshCollider_->Update(transform_.get(), Vector3::ZERO());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,8 +45,8 @@ void Enemy::Draw() const {
 	BaseGameObject::Draw();
 }
 
-void Enemy::OnCollision(Collider* other) {
-	if (other->GetTag() == "playerBullet") {
+void Enemy::OnCollision(MeshCollider& other) {
+	if (other.GetTag() == "playerBullet") {
 		isAlive_ = false;
 	}
 }

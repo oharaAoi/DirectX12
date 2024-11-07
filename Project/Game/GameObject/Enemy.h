@@ -1,9 +1,10 @@
 #pragma once
+#include <memory>
 #include "Engine/GameObject/BaseGameObject.h"
-#include "Engine/Collider/Collider.h"
+#include "Engine/Collider/MeshCollider.h"
 
 class Enemy
-	: public BaseGameObject , public Collider {
+	: public BaseGameObject {
 public:
 
 	Enemy();
@@ -14,17 +15,21 @@ public:
 	void Update() override;
 	void Draw() const override;
 
-	void OnCollision([[maybe_unused]] Collider* other) override;
+	void OnCollision(MeshCollider& other);
 
 #ifdef _DEBUG
 	void DeBug_Gui() {};
 #endif
 
-	const Vector3 GetWorldPos() const override;
+	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
+
+	const Vector3 GetWorldPos() const;
 
 	const bool GetIsAlive() const { return isAlive_; }
 	
 private:
+
+	std::unique_ptr<MeshCollider> meshCollider_;
 
 	bool isAlive_;
 

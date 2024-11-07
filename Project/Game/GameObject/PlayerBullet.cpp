@@ -1,6 +1,7 @@
 #include "PlayerBullet.h"
 
 PlayerBullet::PlayerBullet() {
+	
 }
 
 PlayerBullet::~PlayerBullet() {
@@ -16,11 +17,16 @@ void PlayerBullet::Finalize() {
 void PlayerBullet::Init() {
 	isAlive_ = true;
 	BaseGameObject::Init();
-	SetObject("cube.obj");
-	transform_->SetScale({ 0.5f, 0.5f, 0.5f });
+	SetObject("razer.obj");
 	speed_ = 2.0f;
 
-	tag_ = "playerBullet";
+	meshCollider_ = std::make_unique<MeshCollider>();
+	meshCollider_->Init(model_->GetMesh(0));
+	meshCollider_->SetTag("playerBullet");
+
+	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
+		this->OnCollision(other);
+	 });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,10 +34,9 @@ void PlayerBullet::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerBullet::Update() {
-	Vector3 pos = transform_->GetTranslation();
-	pos += velocity_ * speed_;
-	transform_->SetTranslaion(pos);
 	BaseGameObject::Update();
+
+	meshCollider_->Update(transform_.get(), Vector3::ZERO());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,9 +50,8 @@ void PlayerBullet::Draw() const {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　衝突時の処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
-
-void PlayerBullet::OnCollision(Collider* other) {
-	if (other->GetTag() == "enemy") {
+void PlayerBullet::OnCollision(MeshCollider& other) {
+	if (other.GetTag() == "enemy") {
 		isAlive_ = false;
 		Player::AddScore(40);
 		KnockDownEnemy::SetObj("star.obj", 40);
