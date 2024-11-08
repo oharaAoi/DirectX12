@@ -90,6 +90,8 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	// ↓ Cameraの更新
 	// -------------------------------------------------
+	railPointEditer_->Update();
+
 	mainCamera_->SetControlPoints(railPointEditer_->GetRailPoints());
 	mainCamera_->Update();
 	debugCamera_->Update();
@@ -103,8 +105,6 @@ void GameScene::Update() {
 		Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
 		Render::SetViewProjection2D(debugCamera_->GetViewMatrix2D(), debugCamera_->GetProjectionMatrix2D());
 	}
-
-	railPointEditer_->Update();
 
 	// -------------------------------------------------
 	// ↓ worldObjectの更新
@@ -163,7 +163,7 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	enemyManager_->SetPlayerForward(player_->GetForward());
 	enemyManager_->SetPlayerPos(player_->GetWorldPos());
-	enemyManager_->Update();
+	//enemyManager_->Update();
 
 	collisionManager_->Reset();
 
@@ -208,7 +208,7 @@ void GameScene::Draw() const {
 	railPointEditer_->Draw(viewMat_ * projectionMat_);
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
-	/*skydome_->Draw();*/
+	skydome_->Draw();
 
 	for (size_t index = 0; index < rails_.size(); ++index) {
 		rails_[index]->Draw();

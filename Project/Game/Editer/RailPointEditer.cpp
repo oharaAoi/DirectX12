@@ -6,37 +6,43 @@ RailPointEditer::~RailPointEditer() {}
 
 void RailPointEditer::Init() {
 	std::vector<Vector3> points = {
-	{ 0.0f, 0.0f, 0.0f },    
-	{ 2.0f, 0.0f, 1.0f },    
-	{ 5.0f, 0.0f, 1.5f },   
-	{ 7.0f, 2.0f, 2.0f },   
-	{ 6.0f, 3.0f, 3.0f },   
-	{ 3.0f, 5.0f, 4.0f },   
-	{ 0.0f, 6.0f, 5.0f },   
-	{ -2.0f, 5.0f, 6.0f },  
-	{ -3.0f, 3.0f, 7.0f },  
-	{ -4.0f, 0.0f, 8.0f },  
-	{ 0.0f, -1.0f, 9.0f },  
-	{ 3.0f, -1.5f, 10.0f }, 
-	{ 5.0f, -2.0f, 11.0f }, 
-	{ 7.0f, 0.0f, 12.0f },  
-	{ 10.0f, 1.0f, 13.0f }, 
-	{ 12.0f, 1.5f, 14.0f }, 
-	{ 13.0f, 0.5f, 15.0f }, 
-	{ 15.0f, 0.0f, 16.0f }, 
+	{ 0.0f, 0.0f, 0.0f },
+	{ 2.0f, 0.0f, 1.0f },
+	{ 5.0f, 0.0f, 1.5f },
+	{ 7.0f, 2.0f, 2.0f },
+	{ 6.0f, 3.0f, 3.0f },
+	{ 3.0f, 5.0f, 4.0f },
+	{ 0.0f, 6.0f, 5.0f },
+	{ -2.0f, 5.0f, 6.0f },
+	{ -3.0f, 3.0f, 7.0f },
+	{ -4.0f, 0.0f, 8.0f },
+	{ 0.0f, -1.0f, 9.0f },
+	{ 3.0f, -1.5f, 10.0f },
+	{ 5.0f, -2.0f, 11.0f },
+	{ 7.0f, 0.0f, 12.0f },
+	{ 10.0f, 1.0f, 13.0f },
+	{ 12.0f, 1.5f, 14.0f },
+	{ 13.0f, 0.5f, 15.0f },
+	{ 15.0f, 0.0f, 16.0f },
 	{ 17.0f, -1.0f, 17.0f },
 	{ 19.0f, -2.0f, 18.0f },
 	{ 20.0f, -3.0f, 19.0f },
 	{ 18.0f, -2.0f, 20.0f },
-	{ 15.0f, 0.0f, 21.0f }, 
-	{ 10.0f, 1.0f, 22.0f }, 
-	{ 5.0f, 0.0f, 23.0f },  
-	{ 0.0f, 0.0f, 24.0f },  
-	{ -5.0f, 0.0f, 25.0f }, 
+	{ 15.0f, 0.0f, 21.0f },
+	{ 10.0f, 1.0f, 22.0f },
+	{ 5.0f, 0.0f, 23.0f },
+	{ 0.0f, 0.0f, 24.0f },
+	{ -5.0f, 0.0f, 25.0f },
 	{ -10.0f, 0.5f, 26.0f },
 	{ -12.0f, 2.0f, 27.0f },
-	{ -15.0f, 3.0f, 28.0f } 
+	{ -15.0f, 3.0f, 28.0f }
 	};
+
+	Vector3 start(0, 0, 0);
+	Vector3 direction(1, 0, 0); // x軸方向に進む場合
+
+	// 10個の点を配置
+	//std::vector<Vector3> points = createVector3Points(start, direction, 30);
 
 	/*std::vector<Vector3> points;
 	for (uint32_t oi = 0; oi < 30; ++oi) {
@@ -73,7 +79,7 @@ void RailPointEditer::Update() {
 void RailPointEditer::Draw(const Matrix4x4& vpMat) const {
 	// 線を描画する
 	for (size_t oi = 0; oi < railIndexPoints_.size() - 2; ++oi) {
-		Render::DrawLine(railIndexPoints_[oi], railIndexPoints_[oi + 1], {0.0f, 0.0f, 0.0f, 1.0f}, vpMat);
+		Render::DrawLine(railIndexPoints_[oi], railIndexPoints_[oi + 1], { 1.0f, 1.0f, 1.0f, 1.0f }, vpMat);
 	}
 }
 
@@ -81,8 +87,33 @@ void RailPointEditer::DrawObject() {
 
 }
 
-void RailPointEditer::Save() {
+std::vector<Vector3> RailPointEditer::createVector3Points(const Vector3& start, const Vector3& direction, int count) {
+	std::vector<Vector3> points;
+	points.push_back(start);
 
+	Vector3 current = start;
+	for (int i = 1; i < count; ++i) {
+		// 新しい点を作成 (directionは正規化されていると仮定して2を掛ける)
+		Vector3 next(current.x + direction.x * 2, current.y + direction.y * 2, current.z + direction.z * 2);
+		points.push_back(next);
+		current = next;  // currentを更新
+	}
+
+	return points;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　保存
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void RailPointEditer::Save() {
+	json root;
+
+	for (uint32_t index = 0; index < railPoints.size(); ++index) {
+		std::string id = "railData_" + std::to_string(index);
+
+
+	}
 }
 
 #ifdef _DEBUG
@@ -122,7 +153,7 @@ void RailPointEditer::EditRail() {
 		std::string endName = std::to_string(oi + 10);
 		std::string name = startName + endName;
 		if (ImGui::TreeNode(name.c_str())) {
-			
+
 			ImGui::End();
 		}
 	}*/

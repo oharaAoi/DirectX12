@@ -23,6 +23,15 @@ public:
 		}
 	};
 
+	struct RailPointData {
+		Vector3 pos;
+		Quaternion rotate;
+
+		RailPointData(const Vector3& newPos, const Quaternion& newRotate) {
+			pos = newPos, rotate = newRotate;
+		}
+	};
+
 public:
 
 	RailPointEditer();
@@ -32,6 +41,8 @@ public:
 	void Update();
 	void Draw(const Matrix4x4& vpMat) const;
 	void DrawObject();
+
+	std::vector<Vector3> createVector3Points(const Vector3& start, const Vector3& direction, int count);
 
 	void Save();
 
