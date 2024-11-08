@@ -63,8 +63,8 @@ void MeshCollider::Update(const WorldTransform* worldTransform, const Vector3& o
 	// meshのVertexから各軸での最大の値を取り出す
 	Mesh::VertexData* vertices = mesh_->GetOutputVertexData();
 	for (uint32_t index = 0; index < mesh_->GetVertexSize(); ++index) {
-		//Vector3 size = Vector3(vertices[index].pos.x, vertices[index].pos.y , vertices[index].pos.z);
-		Vector3 size = Transform(Vector3(vertices[index].pos.x, vertices[index].pos.y, vertices[index].pos.z), worldTransform->GetWorldMatrix());
+		Vector3 size = Vector3(vertices[index].pos.x, vertices[index].pos.y , vertices[index].pos.z);
+		//Vector3 size = Transform(Vector3(vertices[index].pos.x, vertices[index].pos.y, vertices[index].pos.z), worldTransform->GetWorldMatrix());
 
 		// -------------------------------------------------
 		// ↓ 最小を取得
@@ -104,7 +104,7 @@ void MeshCollider::Update(const WorldTransform* worldTransform, const Vector3& o
 	float yRadius = std::abs(maxSize_.y - minSize_.y) * 0.5f;
 	float zRadius = std::abs(maxSize_.z - minSize_.z) * 0.5f;
 	size_ = { xRadius, yRadius, zRadius };
-
+	
 	if (xRadius < yRadius) {
 		radius_ = yRadius;
 	}
@@ -117,7 +117,8 @@ void MeshCollider::Update(const WorldTransform* worldTransform, const Vector3& o
 	// ↓ OBBの更新
 	// -------------------------------------------------
 	obb_.size = size_;
-	obb_.center = Transform(offset, worldTransform->GetWorldMatrix());
+	obb_.center = (maxSize_ + minSize_) * 0.5f;
+	obb_.center = Transform(obb_.center + offset, worldTransform->GetWorldMatrix());
 	obb_.MakeOBBAxis(worldTransform->GetQuaternion());
 }
 
