@@ -71,7 +71,11 @@ void TestScene::ImGuiDraw() {
 	test_animationCS_->Debug_Gui();
 	camera_->Debug_Gui();
 	debugCamera_->Debug_Gui();
-	ImGui::End();
 
+	ImGui::Separator();
+
+	ShowEasingDebug(easeIndex_);
+
+	ImGui::End();
 }
 #endif
