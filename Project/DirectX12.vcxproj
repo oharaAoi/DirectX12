@@ -165,6 +165,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Manager\ModelManager.cpp" />
     <ClCompile Include="Engine\Manager\SceneManager.cpp" />
     <ClCompile Include="Engine\Manager\TextureManager.cpp" />
+    <ClCompile Include="Engine\Math\Easing.cpp" />
     <ClCompile Include="Engine\Math\MathStructures.cpp" />
     <ClCompile Include="Engine\Math\Matrix4x4.cpp" />
     <ClCompile Include="Engine\Math\MyMath.cpp" />
@@ -285,6 +286,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Manager\ModelManager.h" />
     <ClInclude Include="Engine\Manager\SceneManager.h" />
     <ClInclude Include="Engine\Manager\TextureManager.h" />
+    <ClInclude Include="Engine\Math\Easing.h" />
     <ClInclude Include="Engine\Math\MathStructures.h" />
     <ClInclude Include="Engine\Math\Matrix3x3.h" />
     <ClInclude Include="Engine\Math\Matrix4x4.h" />
