@@ -9,6 +9,7 @@
 #include "Engine/Math/Vector3.h"
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Math/MyMath.h"
+#include "Engine/Math/Easing.h"
 
 using json = nlohmann::json;
 
@@ -18,10 +19,15 @@ using json = nlohmann::json;
 class BossAttackEditer {
 public:
 
-	struct HandTransform {
+	struct HandMoveData {
+		// SRT
 		Vector3 scale;
 		Quaternion rotate;
 		Vector3 translate;
+		// Easing関数
+		int easeType;
+		// その間の移動を何秒で行うか
+		float moveTimeLimit;
 	};
 
 public:
@@ -39,9 +45,11 @@ public:
 #ifdef _DEBUG
 	void AddPoint();
 
-	void AddPoint(const Vector3& scale, const Quaternion& rotate, const Vector3& translate);
+	void AddPoint(const Vector3& scale, const Quaternion& rotate, const Vector3& translate, int easeType, float moveTimeLimit);
 
 	void DeletePoint(const Matrix4x4& vpvpMat);
+
+	void EditHandMoves();
 
 	void Debug_Gui(const std::string& directoryPath);
 
@@ -54,7 +62,9 @@ public:
 
 	std::vector<Vector3>& GetMovePoints() { return movePoints_; }
 
-	std::vector<HandTransform>& GetHandTransforms() { return handTransforms_; }
+	std::vector<HandMoveData>& GetHandMoves() { return handMoves_; }
+
+	void SetHandMoves(const std::string& fileName);
 
 private:
 
@@ -66,9 +76,9 @@ private:
 	std::vector<std::unique_ptr<BaseGameObject>> controlPointObjects_;
 
 	// 実際に手が動く情報が入った変数
-	std::vector<HandTransform> handTransforms_;
+	std::vector<HandMoveData> handMoves_;
 	// 攻撃の情報をまとめた変数
-	std::unordered_map<std::string, std::vector<HandTransform>> attackMoveMap_;
+	std::unordered_map<std::string, std::vector<HandMoveData>> attackMoveMap_;
 	std::vector<std::string> attackFileNames_;
 
 	// 新しく生成する座標

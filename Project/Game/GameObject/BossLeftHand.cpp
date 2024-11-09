@@ -87,21 +87,23 @@ void BossLeftHand::LoadAllFile() {
 
 void BossLeftHand::AttackMove() {
 	moveTime_ += GameTimer::DeltaTime();
-	float t = moveTime_ / 1.0f;
-	if (pAttackEditer_->GetHandTransforms().size() - 1 > moveIndex_) {
+	if (pAttackEditer_->GetHandMoves().size() - 1 > moveIndex_) {
 		/*Vector3 scale = transform_->GetScale();
 		Quaternion rotate = transform_->GetQuaternion();
 		Vector3 translate = transform_->GetTranslation();*/
 
-		Vector3 scale = Vector3::Lerp(pAttackEditer_->GetHandTransforms()[moveIndex_].scale, pAttackEditer_->GetHandTransforms()[moveIndex_ + 1].scale, t);
-		Vector3 translate = Vector3::Lerp(pAttackEditer_->GetHandTransforms()[moveIndex_].translate, pAttackEditer_->GetHandTransforms()[moveIndex_ + 1].translate, t);
+		float t = moveTime_ / pAttackEditer_->GetHandMoves()[moveIndex_].moveTimeLimit;
+		int easeType = pAttackEditer_->GetHandMoves()[moveIndex_].easeType;
+
+		Vector3 scale = Vector3::Lerp(pAttackEditer_->GetHandMoves()[moveIndex_].scale, pAttackEditer_->GetHandMoves()[moveIndex_ + 1].scale,  CallEasingFunc(easeType, t));
+		Vector3 translate = Vector3::Lerp(pAttackEditer_->GetHandMoves()[moveIndex_].translate, pAttackEditer_->GetHandMoves()[moveIndex_ + 1].translate, CallEasingFunc(easeType, t));
 
 		transform_->SetScale(scale);
 		transform_->SetTranslaion(translate);
 	}
 
 	if (moveTime_ > 1.0f) {
-		if (pAttackEditer_->GetHandTransforms().size() - 1 == moveIndex_) {
+		if (pAttackEditer_->GetHandMoves().size() - 1 == moveIndex_) {
 			isAttackMove_ = false;
 		} else {
 			moveIndex_++;
@@ -146,11 +148,13 @@ void BossLeftHand::Debug_Gui() {
 	ImGui::Begin("Boss_LeftHand");
 	transform_->Debug_Gui();
 
-	ImGui::DragFloat2("objectScreenPos", &objectScreenPos_.x, 1.0f);
+	ShowEasingDebug(easeType_);	// easingを決める
+	ImGui::DragFloat("moveTimeLimit", &moveTimeLimit_, 0.1f);	// 移動時間を決める
 
+	// 決定する
 	if (isClicked_) {
 		if (Input::IsTriggerKey(DIK_SPACE)) {
-			pAttackEditer_->AddPoint(transform_->GetScale(), transform_->GetQuaternion(), transform_->GetTranslation());
+			pAttackEditer_->AddPoint(transform_->GetScale(), transform_->GetQuaternion(), transform_->GetTranslation(), easeType_, moveTimeLimit_);
 		}
 	}
 
@@ -158,10 +162,12 @@ void BossLeftHand::Debug_Gui() {
 	ImGui::Text("Editer");
 	pAttackEditer_->Debug_Gui(attackDirectoryPath);
 
-	if (ImGui::Button("attackMove")) {
-		isAttackMove_ = true;
-		moveIndex_ = 0;
-		moveTime_ = 0;
+	if (pAttackEditer_->GetHandMoves().size() != 0) {
+		if (ImGui::Button("attackMove")) {
+			isAttackMove_ = true;
+			moveIndex_ = 0;
+			moveTime_ = 0;
+		}
 	}
 
 	ImGui::End();

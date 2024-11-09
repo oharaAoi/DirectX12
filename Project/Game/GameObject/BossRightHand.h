@@ -4,6 +4,7 @@
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Collider/MeshCollider.h"
+#include "Engine/Math/Easing.h"
 #include "Game/Editer/BossAttackEditer.h"
 
 /// <summary>
@@ -50,6 +51,10 @@ private:
 
 	uint32_t moveIndex_;
 	float moveTime_;
+
+	// ファイルに保存する変数
+	float moveTimeLimit_;	// 動く時間
+	int easeType_;			// easingの種類
 
 	// 攻撃に使う変数
 	

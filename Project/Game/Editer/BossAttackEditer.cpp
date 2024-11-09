@@ -89,22 +89,36 @@ void BossAttackEditer::LoadFile(const std::string& directoryPath, const std::str
 	// ファイルを閉じる
 	ifs.close();
 
-	std::vector<HandTransform> handTransforms;
+	std::vector<HandMoveData> handTransforms;
 	for (auto& [topKey, nestedData] : root.items()) {
 		for (auto& [key, value] : nestedData.items()) {
 			Vector3 scale = { value["scale"][0], value["scale"][1], value["scale"][2] };
 			Vector4 rotate = { value["rotate"][0], value["rotate"][1], value["rotate"][2], value["rotate"][3] };
 			Vector3 translate = { value["translate"][0], value["translate"][1], value["translate"][2] };
 
-			auto& newTransform = handTransforms.emplace_back(HandTransform());
+			auto& newTransform = handTransforms.emplace_back(HandMoveData());
 			newTransform.scale = scale;
 			newTransform.rotate = Quaternion(rotate.x, rotate.y, rotate.z, rotate.w);
 			newTransform.translate = translate;
+			newTransform.easeType = value["easeType"];
+			newTransform.moveTimeLimit = value["moveTimeLimit"];
 		}
 	}
 
 	attackMoveMap_.try_emplace(fileName, std::move(handTransforms));
 	attackFileNames_.push_back(fileName);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Mapから攻撃のデータを取り出す
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossAttackEditer::SetHandMoves(const std::string& fileName) {
+	if (auto it = attackMoveMap_.find(fileName); it == attackMoveMap_.end()) {
+		assert(false && "Model not found!");
+	}
+
+	handMoves_ = attackMoveMap_[fileName];
 }
 
 #ifdef _DEBUG
@@ -124,11 +138,13 @@ void BossAttackEditer::AddPoint() {
 	}
 }
 
-void BossAttackEditer::AddPoint(const Vector3& scale, const Quaternion& rotate, const Vector3& translate) {
-	auto& newPoint = handTransforms_.emplace_back(HandTransform());
+void BossAttackEditer::AddPoint(const Vector3& scale, const Quaternion& rotate, const Vector3& translate, int easeType, float moveTimeLimit) {
+	auto& newPoint = handMoves_.emplace_back(HandMoveData());
 	newPoint.scale = scale;
 	newPoint.rotate = rotate;
 	newPoint.translate = translate;
+	newPoint.easeType = easeType;
+	newPoint.moveTimeLimit = moveTimeLimit;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,16 +186,53 @@ void BossAttackEditer::DeletePoint(const Matrix4x4& vpvpMat) {
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　ポイントの編集
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossAttackEditer::EditHandMoves() {
+	
+	for (uint32_t index = 0; index < handMoves_.size(); ++index) {
+		std::string id = "move_" + std::to_string(index);
+		if (ImGui::TreeNode(id.c_str())) {
+			ImGui::DragFloat3("scale", &handMoves_[index].scale.x, 0.1f);
+			ImGui::DragFloat4("rotate", &handMoves_[index].rotate.x, 0.1f);
+			ImGui::DragFloat3("translate", &handMoves_[index].translate.x, 0.1f);
+			ShowEasingDebug(handMoves_[index].easeType);
+			ImGui::DragFloat("moveTimeLimit", &handMoves_[index].moveTimeLimit);
+			// 要素の削除
+			if (ImGui::Button("Delete")) {
+				handMoves_.erase(handMoves_.begin() + index);
+			}
+			ImGui::TreePop();
+		}
+	}
+}
+
 void BossAttackEditer::Debug_Gui(const std::string& directoryPath) {
-	ImGui::Text("handTransforms : %d", (int)handTransforms_.size());
-
-	ImGui::InputText(".json##fileName", &fileName_[0], sizeof(char) * 64);
-
-	// 攻撃のファイルを選ぶ
-	SelectAttack();
+	ImGui::Text("handMoves : %d", (int)handMoves_.size());
 
 	if (ImGui::Button("Save")) {
 		SaveAttack(directoryPath);
+	}
+	ImGui::SameLine();
+	ImGui::InputText(".json##fileName", &fileName_[0], sizeof(char) * 64);
+
+	// 攻撃のファイルを選ぶ
+	if (ImGui::Button("Adapt")) {
+		SetHandMoves(selectFileName_);
+	}
+	ImGui::SameLine();
+	SelectAttack();
+	ImGui::Separator();
+	// 編集を行う
+	if (ImGui::TreeNode("Edit")) {
+		EditHandMoves();
+		// 再保存
+		if (ImGui::Button("ReSave")) {
+			SaveAttack(selectFileName_);
+		}
+		ImGui::TreePop();
 	}
 }
 
@@ -191,17 +244,20 @@ void BossAttackEditer::SaveAttack(const std::string& directoryPath) {
 	json root;
 
 	// handTransformsの先頭から順でファイルに保存する
-	for (uint32_t index = 0; index < handTransforms_.size(); ++index) {
+	for (uint32_t index = 0; index < handMoves_.size(); ++index) {
 		std::string id = "handTransform" + std::to_string(index);
 
-		json scale = json::array({ handTransforms_[index].scale.x,handTransforms_[index].scale.y, handTransforms_[index].scale.z });
-		json rotate = json::array({ handTransforms_[index].rotate.x,handTransforms_[index].rotate.y, handTransforms_[index].rotate.z, handTransforms_[index].rotate.w });
-		json pos = json::array({ handTransforms_[index].translate.x,handTransforms_[index].translate.y, handTransforms_[index].translate.z });
+		json scale = json::array({ handMoves_[index].scale.x,handMoves_[index].scale.y, handMoves_[index].scale.z });
+		json rotate = json::array({ handMoves_[index].rotate.x,handMoves_[index].rotate.y, handMoves_[index].rotate.z, handMoves_[index].rotate.w });
+		json pos = json::array({ handMoves_[index].translate.x,handMoves_[index].translate.y, handMoves_[index].translate.z });
+		json easeType = handMoves_[index].easeType;
 
 		root[fileName_.c_str()][id] = {
 			{"scale", scale},
 			{"rotate", rotate},
-			{"translate", pos}
+			{"translate", pos},
+			{"easeType",easeType },
+			{"moveTimeLimit",  handMoves_[index].moveTimeLimit}
 		};
 	}
 

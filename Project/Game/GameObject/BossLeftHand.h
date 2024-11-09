@@ -5,6 +5,7 @@
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Collider/MeshCollider.h"
 #include "Game/Editer/BossAttackEditer.h"
+#include "Engine/Math/Easing.h"
 
 class BossLeftHand : public BaseGameObject {
 public:
@@ -44,6 +45,8 @@ private:
 
 	uint32_t moveIndex_;
 	float moveTime_;
+	float moveTimeLimit_;	// 動く時間
+	int easeType_;			// easingの種類
 
 	// 攻撃に使う変数
 
