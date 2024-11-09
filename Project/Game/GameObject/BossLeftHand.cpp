@@ -146,6 +146,8 @@ void BossLeftHand::CheckMouseCursorCollision(const Matrix4x4& vpvpMat) {
 #ifdef _DEBUG
 void BossLeftHand::Debug_Gui() {
 	ImGui::Begin("Boss_LeftHand");
+	ImGui::BulletText("Set_Parameter");
+	ImGui::Indent(20.0f);
 	transform_->Debug_Gui();
 
 	ShowEasingDebug(easeType_);	// easingを決める
@@ -157,9 +159,11 @@ void BossLeftHand::Debug_Gui() {
 			pAttackEditer_->AddPoint(transform_->GetScale(), transform_->GetQuaternion(), transform_->GetTranslation(), easeType_, moveTimeLimit_);
 		}
 	}
+	ImGui::Unindent(20.0f);
 
 	ImGui::Separator();
-	ImGui::Text("Editer");
+	ImGui::BulletText("Editer_Files");
+	ImGui::Indent(20.0f);
 	pAttackEditer_->Debug_Gui(attackDirectoryPath);
 
 	if (pAttackEditer_->GetHandMoves().size() != 0) {
@@ -169,6 +173,14 @@ void BossLeftHand::Debug_Gui() {
 			moveTime_ = 0;
 		}
 	}
+	ImGui::Unindent(20.0f);
+
+	ImGui::Separator();
+	ImGui::BulletText("Debug_Parameter");
+	ImGui::Indent(20.0f);
+	Debug_Axis();
+	ImGui::DragFloat2("objectScreenPos", &objectScreenPos_.x, 1.0f);
+	ImGui::Unindent(20.0f);
 
 	ImGui::End();
 }

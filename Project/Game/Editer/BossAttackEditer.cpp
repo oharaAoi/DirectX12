@@ -225,8 +225,11 @@ void BossAttackEditer::Debug_Gui(const std::string& directoryPath) {
 	ImGui::SameLine();
 	SelectAttack();
 	ImGui::Separator();
+
+	ImGui::BulletText("Edit_Moves");
+	ImGui::Indent(20.0f);
 	// 編集を行う
-	if (ImGui::TreeNode("Edit")) {
+	if (ImGui::TreeNode("Moves")) {
 		EditHandMoves();
 		// 再保存
 		if (ImGui::Button("ReSave")) {
@@ -234,6 +237,7 @@ void BossAttackEditer::Debug_Gui(const std::string& directoryPath) {
 		}
 		ImGui::TreePop();
 	}
+	ImGui::Unindent(20.0f);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
