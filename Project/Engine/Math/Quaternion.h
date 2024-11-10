@@ -31,6 +31,10 @@ public:
 	Vector3 ToEulerAngles() const;
 
 	Quaternion Conjugate() const;
+
+	static Quaternion CatmullRomInterRotate(const Quaternion& q0, const Quaternion& q1, const Quaternion& q2, const Quaternion& q3, float t);
+
+	static Quaternion CatmullRomRotate(const std::vector<Quaternion>& points, float t);
 public:
 
 	/// <summary>
@@ -84,11 +88,23 @@ public:
 	/// <param name="t"></param>
 	/// <returns></returns>
 	static Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, const float& t);
+
+	static float GetYawFromQuaternion(const Quaternion& q);
+
+#ifdef _DEBUG
+	static void Debug_Gui(Quaternion& rotate, const char* id);
+#endif
 	
 public:
 
 	Quaternion operator*(const Quaternion& q2) const;
 	Vector3 operator*(const Vector3& v);
+
+	Quaternion operator+(const Quaternion& q) const;
+
+	Quaternion operator-(const Quaternion& q) const;
+
+	Quaternion operator*(float scalar) const;
 	
 public:
 

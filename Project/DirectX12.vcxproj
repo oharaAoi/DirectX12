@@ -215,6 +215,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\UI\TotalScore.cpp" />
     <ClCompile Include="Game\WorldObject\Rail.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
+    <ClCompile Include="Game\WorldObject\WorldObjects.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -334,6 +335,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\UI\TotalScore.h" />
     <ClInclude Include="Game\WorldObject\Rail.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />
+    <ClInclude Include="Game\WorldObject\WorldObjects.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Blend.CS.hlsl">

@@ -30,6 +30,8 @@ public:
 
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	void ResetRail();
 #endif
 
 private:

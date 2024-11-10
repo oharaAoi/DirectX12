@@ -231,6 +231,10 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const f
 	return result;
 }
 
+float Quaternion::GetYawFromQuaternion(const Quaternion& q) {
+	return std::atan2f(2.0f * (q.w * q.z + q.x * q.y), 1.0f - 2.0f * (q.y * q.y + q.z * q.z));
+}
+
 Vector3 Quaternion::MakeForward() const {
 	float xx = x * x;
 	float yy = y * y;
@@ -307,4 +311,95 @@ Vector3 Quaternion::operator*(const Vector3& v) {
 	return Vector3(vecAfterRotate.x, vecAfterRotate.y, vecAfterRotate.z);
 }
 
+Quaternion Quaternion::operator+(const Quaternion& q) const {
+	return Quaternion(x + q.x, y + q.y, z + q.z, w + q.w);
+}
 
+Quaternion Quaternion::operator-(const Quaternion& q) const {
+	return Quaternion(x - q.x, y - q.y, z - q.z, w - q.w);
+}
+
+Quaternion Quaternion::operator*(float scalar) const {
+	return Quaternion(x * scalar, y * scalar, z * scalar, w * scalar);
+}
+
+#ifdef _DEBUG
+#include "Engine/Manager/ImGuiManager.h"
+void Quaternion::Debug_Gui(Quaternion& rotate, const char* id) {
+	Quaternion debug_rotate;
+	ImGui::DragFloat4(id, &debug_rotate.x, 0.01f);
+	rotate = (rotate.Normalize() * debug_rotate.Normalize());
+}
+#endif
+
+/// <summary>
+/// Quaternion版のCatmullRom補完
+/// </summary>
+/// <param name="q0">Quaternion 0</param>
+/// <param name="q1">Quaternion 1</param>
+/// <param name="q2">Quaternion 2</param>
+/// <param name="q3">Quaternion 3</param>
+/// <param name="t">0と1の間の補完率</param>
+/// <returns>補完されたQuaternion</returns>
+Quaternion Quaternion::CatmullRomInterRotate(const Quaternion& q0, const Quaternion& q1, const Quaternion& q2, const Quaternion& q3, float t) {
+	const float s = 0.5f; // 数式に出てくる1/2
+
+	float t2 = t * t; // tの2乗
+	float t3 = t2 * t; // tの3乗
+
+	// ベクトル値関数の式
+	Quaternion e3 = (q0 * -1) + (q1 * 3) - (q2 * 3) + q3;
+	Quaternion e2 = (q0 * 2) - (q1 * 5) + (q2 * 4) - q3;
+	Quaternion e1 = (q0 * -1) + q2;
+	Quaternion e0 = q1 * 2;
+
+	// SLERPを用いて補間
+	Quaternion result = ((e3 * t3) + (e2 * t2) + (e1 * t) + e0) * s;
+	return result;
+}
+
+/// <summary>
+/// Quaternion版のCatmullRomスプライン曲線上のクォータニオン
+/// </summary>
+/// <param name="points">クォータニオンの制御点</param>
+/// <param name="t">スプラインの全体に対する割合指定</param>
+/// <returns>内挿されたQuaternion</returns>
+Quaternion Quaternion::CatmullRomRotate(const std::vector<Quaternion>& points, float t) {
+	assert(points.size() >= 4 && "制御点は4以上必要です");
+	// 区間数は制御点の数の-1
+	size_t division = points.size() - 1;
+	// 1区間の長さ(全体を1.0とした割合)
+	float areaWidth = 1.0f / division;
+
+	// 区間の始点を0.0f, 終点を1.0fとしたときの現在の位置
+	float t2 = std::fmod(t, areaWidth) / areaWidth;
+	t2 = std::clamp(t2, 0.0f, 1.0f);
+
+	// 区間番号
+	size_t index = static_cast<size_t>(t / areaWidth);
+	// 区間番号が上限を超えないように収める
+	index = std::clamp(static_cast<int>(index), 0, static_cast<int>(division) - 1);
+
+	// 4点分のインデックス
+	size_t index0 = index - 1;
+	size_t index1 = index;
+	size_t index2 = index + 1;
+	size_t index3 = index + 2;
+
+	// 始点の場合はp0とp1は同じ
+	if (index == 0) {
+		index0 = index1;
+	}
+	// 最後の区間はp3とp2は同じ
+	if (index3 >= points.size()) {
+		index3 = index2;
+	}
+
+	// 4点のクォータニオン
+	const Quaternion& q0 = points[index0];
+	const Quaternion& q1 = points[index1];
+	const Quaternion& q2 = points[index2];
+	const Quaternion& q3 = points[index3];
+
+	return CatmullRomInterRotate(q0, q1, q2, q3, t2);
+}

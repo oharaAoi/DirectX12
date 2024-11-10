@@ -18,6 +18,10 @@ void RailCamera::Init() {
 	cameraObj_->SetObject("camera.obj");
 
 	offset_ = { 0.0f, 1.0f, 0.0f };
+	eyeIndex_ = 0;
+	forwardIndex_ = 0;
+
+	isMove_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,6 +29,11 @@ void RailCamera::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void RailCamera::Update() {
+	if (!isMove_) {
+		BaseCamera::Update();
+		return;
+	}
+
 	frameCount_ += GameTimer::DeltaTime();
 
 	if (frameCount_ > 0.1f) {
@@ -48,7 +57,7 @@ void RailCamera::Draw() const {
 // ↓　レールに沿ってカメラが動くように
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void RailCamera::RailMove() {
+void RailCamera::InitRail() {
 	eyeIndex_++;
 	if (eyeIndex_ >= static_cast<uint32_t>(controlPoints_.size() - 1)) {
 		return;
@@ -69,8 +78,35 @@ void RailCamera::RailMove() {
 	transform_.rotate.x = localRotate_.x + std::atan2f(-diff.y, xzLenght);
 }
 
+void RailCamera::RailMove() {
+	eyeIndex_++;
+	if (eyeIndex_ >= static_cast<uint32_t>(controlPoints_.size() - 1)) {
+		return;
+	}
+
+	forwardIndex_ = eyeIndex_ + 5;
+	if (controlPoints_.size() <= forwardIndex_) {
+		forwardIndex_ = static_cast<uint32_t>(controlPoints_.size() - 1);
+	}
+
+	transform_.translate = controlPoints_[eyeIndex_] + offset_;
+	// forwardの座標を求める
+	Vector3 forwardPos = controlPoints_[forwardIndex_] + offset_;
+
+	Vector3 diff = Normalize(forwardPos - transform_.translate);
+	transform_.rotate.y = localRotate_.y + std::atan2f(diff.x, diff.z);
+	float xzLenght = Length({ diff.x, 0, diff.z });
+	transform_.rotate.x = localRotate_.x + std::atan2f(-diff.y, xzLenght);
+
+	transform_.rotate.z = controlRotateZ_[eyeIndex_];
+}
+
 void RailCamera::SetControlPoints(const std::vector<Vector3>& points) {
 	controlPoints_ = points;
+}
+
+void RailCamera::SetControlRotateZ(const std::vector<float>& points) {
+	controlRotateZ_ = points;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +121,10 @@ void RailCamera::Debug_Gui() {
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
 	if (ImGui::Button("Reset")) {
 		eyeIndex_ = 0;
+	}
+	ImGui::Checkbox("isMove", &isMove_);
+	if (Input::IsTriggerKey(DIK_L)) {
+		isMove_ = &isMove_;
 	}
 	ImGui::End();
 }

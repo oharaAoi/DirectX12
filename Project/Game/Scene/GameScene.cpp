@@ -83,6 +83,10 @@ void GameScene::Init() {
 	player_->GetTransform()->SetParent((mainCamera_->GetCameraMatrix()));
 	player_->SetPGameScene(this);
 
+	railPointEditer_->Update();
+	mainCamera_->SetControlPoints(railPointEditer_->GetRailPoints());
+	mainCamera_->InitRail();
+
 	isDebugCamera_ = false;
 }
 
@@ -93,6 +97,7 @@ void GameScene::Update() {
 	railPointEditer_->Update();
 
 	mainCamera_->SetControlPoints(railPointEditer_->GetRailPoints());
+	mainCamera_->SetControlRotateZ(railPointEditer_->GetRailRotateZ());
 	mainCamera_->Update();
 	debugCamera_->Update();
 
@@ -113,13 +118,15 @@ void GameScene::Update() {
 	skydome_->Update();
 
 	for (size_t index = 0; index < rails_.size(); ++index) {
-		rails_[index]->GetTransform()->SetTranslaion(railPointEditer_->GetRailBasePoints()[index]);
-		if (index < rails_.size() - 1) {
+		rails_[index]->GetTransform()->SetTranslaion(railPointEditer_->GetRailPos(index));
+		rails_[index]->GetTransform()->SetQuaternion(railPointEditer_->GetRailRotate(index));
+		
+		/*if (index < rails_.size() - 1) {
 			Vector3 from = rails_[index]->GetTransform()->GetTranslation();
 			Vector3 to = rails_[index + 1]->GetTransform()->GetTranslation();
 			Vector3 up = rails_[index]->GetTransform()->GetQuaternion().MakeUp();
 			rails_[index]->GetTransform()->SetQuaternion(Quaternion::LookAt(from, to, Vector3::FORWARD()));
-		}
+		}*/
 		/*if (index >= 1) {
 			rails_[index]->SetBottomVertex(rails_[index - 1]->GetTopVertex());
 		}
@@ -208,6 +215,10 @@ void GameScene::Draw() const {
 	railPointEditer_->Draw(viewMat_ * projectionMat_);
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
+#ifdef _DEBUG
+	railPointEditer_->DrawObject();
+#endif
+
 	skydome_->Draw();
 
 	for (size_t index = 0; index < rails_.size(); ++index) {
@@ -293,15 +304,19 @@ void GameScene::Debug_Gui() {
 		}
 	}
 
-	for (uint32_t index = 0; index < kBulletNum_; ++index) {
-		if (index == 0) {
-			playerBullets_[index]->Debug_Gui("left");
-		} else {
-			playerBullets_[index]->Debug_Gui("right");
-		}
+	if (Input::IsTriggerKey(DIK_R)) {
+		ResetRail();
 	}
 
 	ImGui::End();
+}
+
+void GameScene::ResetRail() {
+	rails_.clear();
+	for (size_t index = 0; index < railPointEditer_->GetRailNum(); ++index) {
+		auto& newRail = rails_.emplace_back(std::make_unique<Rail>());
+		newRail->Init();
+	}
 }
 
 #endif

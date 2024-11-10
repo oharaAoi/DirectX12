@@ -14,9 +14,11 @@ public:
 	void Update();
 	void Draw() const;
 
+	void InitRail();
 	void RailMove();
 
 	void SetControlPoints(const std::vector<Vector3>& points);
+	void SetControlRotateZ(const std::vector<float>& points);
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -29,6 +31,7 @@ public:
 private:
 	// 制御点
 	std::vector<Vector3> controlPoints_;
+	std::vector<float> controlRotateZ_;
 
 	float frameCount_ = 0;
 
@@ -47,7 +50,7 @@ private:
 	Quaternion moveQuaternion_;
 
 	// ---------------------------------------
-
+	bool isMove_;
 	std::unique_ptr<BaseGameObject> cameraObj_ = nullptr;
 
 };
