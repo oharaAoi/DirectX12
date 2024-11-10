@@ -1,8 +1,13 @@
 #pragma once
 #include <memory>
 #include <list>
+#include <map>
 #include "Game/GameObject/Enemy.h"
 #include "Engine/Math/MyRandom.h"
+
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 class EnemyManager {
 public:
@@ -16,8 +21,18 @@ public:
 
 	void AddList(const Vector3& popPos);
 
+	void Load(const std::string& fileName);
+
+	void LoadAllFile();
+
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	void Edit();
+
+	void Edit_Pop();
+
+	void Save();
 #endif
 
 	std::list<std::unique_ptr<Enemy>>& GetList() { return enemyList_; }
@@ -27,8 +42,23 @@ public:
 
 private:
 
+	struct NewEnmeyData {
+		Vector3 translate_;
+		Vector3 velocity_;
+		EnemyType enemyType_;
+		
+		NewEnmeyData(const Vector3& translate, const Vector3& velocity, const EnemyType& type) {
+			translate_ = translate, velocity_ = velocity, enemyType_ = type;
+		};
+	};
+
+private:
+
 	// enemyのリスト
 	std::list<std::unique_ptr<Enemy>> enemyList_;
+
+	// enemyの出現をまとめたファイル
+	std::map<uint32_t, std::vector<NewEnmeyData>> popEnemyData_;
 
 	// --- playerの情報 ----------------------------- //
 	// playerの座標
@@ -40,5 +70,22 @@ private:
 	float popTime_;
 
 	bool isPop_;
+
+	// -------------------------------------------------
+	// ↓ Editerに関する変数
+	// -------------------------------------------------
+
+	const std::string directoryPath_ = "Game/Resources/GameData/EnemyData/";
+	std::string enemyDataFile_;
+	uint32_t popIndex_;
+
+	std::unique_ptr<Enemy> newEnmey_;
+
+	Vector3 newTranslate_;
+	Vector3 newVelocity_;
+	EnemyType newEnemyType_;
+
+	std::list<std::unique_ptr<Enemy>> popEnemies_;
+
 };
 

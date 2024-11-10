@@ -24,6 +24,8 @@ public:
 
 	WorldTransform* GetWorldTransform() { return cameraObj_->GetTransform(); }
 
+	const uint32_t GetEyeIndex() const { return eyeIndex_; }
+
 private:
 	// 制御点
 	std::vector<Vector3> controlPoints_;
