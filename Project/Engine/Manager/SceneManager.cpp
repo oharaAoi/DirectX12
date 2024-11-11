@@ -56,7 +56,7 @@ void SceneManager::Run() {
 		if (effectSystem_->GetIsEffectEditer()) {
 			effectSystem_->BeginEditer();
 			effectSystem_->UpdateEditer();
-			Engine::SetPipeline(PipelineType::ParticlePipeline);
+			
 			effectSystem_->DrawEditer();
 		}
 

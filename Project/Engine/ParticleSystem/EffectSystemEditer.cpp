@@ -100,6 +100,10 @@ void EffectSystemEditer::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Draw() const {
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
+
+	Engine::SetPipeline(PipelineType::ParticlePipeline);
 	for (std::list<EffectData>::const_iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
 		// -------------------------------------------------
 		// ↓ effectの更新
