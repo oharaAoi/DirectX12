@@ -20,7 +20,7 @@ void Player::Init() {
 	BaseGameObject::Init();
 	SetObject("cart.obj");
 	transform_->SetScale({ 0.5f, 0.5f, 0.5f });
-	transform_->SetTranslaion({ 0.0f, -0.5f, 0.7f });
+	transform_->SetTranslaion({ 0.0f, -0.3f, -0.2f });
 
 	score_ = 0;
 

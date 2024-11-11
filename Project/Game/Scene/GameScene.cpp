@@ -22,6 +22,9 @@ void GameScene::Init() {
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Init();
 
+	worldObjcts_ = std::make_unique<WorldObjects>();
+	worldObjcts_->Init();
+
 	// -------------------------------------------------
 	// ↓ GameObjectの初期化
 	// -------------------------------------------------
@@ -36,9 +39,9 @@ void GameScene::Init() {
 		//playerBullets_[index]->GetTransform()->SetParent(player_->GetTransform()->GetWorldMatrix());
 		
 		if (index == 0) {
-			playerBullets_[index]->SetOffset(Vector3(0.5f * -1, -0.35f, 1.6f));
+			playerBullets_[index]->SetOffset(Vector3(0.5f * -1, -0.35f, 1.3f));
 		} else {
-			playerBullets_[index]->SetOffset(Vector3(0.5f, -0.35f, 1.6f));
+			playerBullets_[index]->SetOffset(Vector3(0.5f, -0.35f, 1.3f));
 		}
 	}
 
@@ -116,6 +119,8 @@ void GameScene::Update() {
 	// -------------------------------------------------
 
 	skydome_->Update();
+
+	worldObjcts_->Update();
 
 	for (size_t index = 0; index < rails_.size(); ++index) {
 		rails_[index]->GetTransform()->SetTranslaion(railPointEditer_->GetRailPos(index));
@@ -220,6 +225,8 @@ void GameScene::Draw() const {
 #endif
 
 	skydome_->Draw();
+
+	worldObjcts_->Draw();
 
 	for (size_t index = 0; index < rails_.size(); ++index) {
 		rails_[index]->Draw();

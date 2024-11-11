@@ -22,6 +22,7 @@ void GameResource::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Razer/", "razer.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Cart/", "cart.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Board/", "board.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Ground/", "ground.obj");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "rail_plane.png");

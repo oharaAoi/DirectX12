@@ -8,6 +8,7 @@
 #include "Game/WorldObject/Skydome.h"
 #include "Game/Editer/RailPointEditer.h"
 #include "Game/WorldObject/Rail.h"
+#include "Game/WorldObject/WorldObjects.h"
 #include "Game/GameObject/Player.h"
 #include "Game/GameObject/PlayerBullet.h"
 #include "Game/Manager/EnemyManager.h"
@@ -49,6 +50,8 @@ private:
 	// --- WorldObject ----------------------------- //
 	std::unique_ptr<Skydome> skydome_;
 	std::vector<std::unique_ptr<Rail>> rails_;
+
+	std::unique_ptr<WorldObjects> worldObjcts_;
 
 	// --- GameObject ------------------------------ //
 	std::unique_ptr<Player> player_;

@@ -1,4 +1,8 @@
 #pragma once
+#include <map>
+#include <memory>
+#include <string>
+#include "Engine/GameObject/BaseGameObject.h"
 
 /// <summary>
 /// Worldのオブジェクトをまとめたクラス
@@ -15,7 +19,7 @@ public:
 
 private:
 
-
+	std::map < std::string, std::unique_ptr<BaseGameObject>> objectMap_;
 
 };
 
