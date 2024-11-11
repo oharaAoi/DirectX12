@@ -214,6 +214,20 @@ const Quaternion RailPointEditer::GetRailRotate(size_t index) const {
 	return railPoints[index].rotate;
 }
 
+std::vector<Vector3> RailPointEditer::GetRailPoints() {
+	return railIndexPoints_;
+}
+std::vector<Vector3> RailPointEditer::GetRailBasePoints() {
+	std::vector<Vector3> result;
+	for (uint32_t oi = 0; oi < railPoints.size(); ++oi) {
+		result.push_back(railPoints[oi].pos);
+	}
+	return result;
+}
+std::vector<float> RailPointEditer::GetRailRotateZ() {
+	return railIndexPointsRotateZ_;
+}
+
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
 void RailPointEditer::EditRail() {
@@ -271,18 +285,5 @@ void RailPointEditer::Debug_Gui() {
 		Save();
 	}
 	ImGui::End();
-}
-std::vector<Vector3> RailPointEditer::GetRailPoints() {
-	return railIndexPoints_;
-}
-std::vector<Vector3> RailPointEditer::GetRailBasePoints() {
-	std::vector<Vector3> result;
-	for (uint32_t oi = 0; oi < railPoints.size(); ++oi) {
-		result.push_back(railPoints[oi].pos);
-	}
-	return result;
-}
-std::vector<float> RailPointEditer::GetRailRotateZ() {
-	return railIndexPointsRotateZ_;
 }
 #endif
