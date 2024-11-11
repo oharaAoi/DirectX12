@@ -1,7 +1,7 @@
 #include "DrawUtils.h"
 
 void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
-	const float kGridHalfwidth_ = 20.0f; // 中心からの半幅
+	//const float kGridHalfwidth_ = 20.0f; // 中心からの半幅
 	const uint32_t kSubdivision_ = 60;   // 分割数
 	const float gridLength = 30.0f;      // グリッドの全体幅
 	const float kGridEvery_ = 1.0f;      // グリッドの1マスのサイズ
