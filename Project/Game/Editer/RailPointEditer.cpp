@@ -50,8 +50,9 @@ void RailPointEditer::Init() {
 	//	railPoints.push_back(data);
 	//}
 
-	newRail_ = std::make_unique<Rail>();
+	newRail_ = std::make_unique<BaseGameObject>();
 	newRail_->Init();
+	newRail_->SetObject("rail.obj");
 
 	std::filesystem::path dire(directoryPath_);
 	if (!std::filesystem::exists(directoryPath_)) {
@@ -153,7 +154,7 @@ void RailPointEditer::Load() {
 		size_t pos = key.find_last_of('_');
 		if (pos != std::string::npos) {
 			int index = std::stoi(key.substr(pos + 1));  // 番号を抽出
-			sortedRailPoints[index] = item.value();  // 番号順に格納
+			sortedRailPoints[index] = item.value();  // D番号順に格納
 		}
 	}
 
@@ -235,13 +236,14 @@ void RailPointEditer::EditRail() {
 	ImGui::Text("pos.x");
 	ImGui::SameLine();
 	Vector3 dire = Vector3::ZERO();
+	Vector3 direDrag = Vector3::ZERO();
 	if (ImGui::ArrowButton("x##Left", ImGuiDir_Left)) {
 		dire -= newRotate_.MakeRight() * 0.05f;
 	}
 	ImGui::SameLine();
 	ImGui::SetNextItemWidth(50);
-	if (ImGui::DragFloat("##x", &dire.x, 0.02f)) {
-		dire += newRotate_.MakeRight() * dire.x;
+	if (ImGui::DragFloat("##x", &direDrag.x, 0.02f)) {
+		dire += newRotate_.MakeRight() * direDrag.x;
 	}
 	ImGui::SameLine();
 	if (ImGui::ArrowButton("x##Right", ImGuiDir_Right)) {
@@ -256,8 +258,8 @@ void RailPointEditer::EditRail() {
 	}
 	ImGui::SameLine();
 	ImGui::SetNextItemWidth(50);
-	if (ImGui::DragFloat("##y", &dire.y, 0.02f)) {
-		dire += newRotate_.MakeUp() * dire.y;
+	if (ImGui::DragFloat("##y", &direDrag.y, 0.02f)) {
+		dire += newRotate_.MakeUp() * direDrag.y;
 	}
 	ImGui::SameLine();
 	if (ImGui::ArrowButton("y##Right", ImGuiDir_Right)) {
@@ -271,8 +273,8 @@ void RailPointEditer::EditRail() {
 	}
 	ImGui::SameLine();
 	ImGui::SetNextItemWidth(50);
-	if (ImGui::DragFloat("##z", &dire.z, 0.02f)) {
-		dire += newRotate_.MakeForward() * dire.z;
+	if (ImGui::DragFloat("##z", &direDrag.z, 0.02f)) {
+		dire += newRotate_.MakeForward() * direDrag.z;
 	}
 	ImGui::SameLine();
 	if (ImGui::ArrowButton("z##Right", ImGuiDir_Right)) {
@@ -280,12 +282,17 @@ void RailPointEditer::EditRail() {
 	}
 
 	newPoint_ += dire;
-
+	
 	Quaternion::Debug_Gui(newRotate_, "new_rotate");
 
 	//ImGui::DragFloat("newTwist", &newTwist_, 0.1f);
 	if (ImGui::Button("Add")) {
 		railPoints.emplace_back(RailPointData(newPoint_, newRotate_));
+		isAdd_ = true;
+	}
+
+	if (isAdd_) {
+		ImGui::Text("preAdd");
 	}
 
 	// -------------------------------------------------

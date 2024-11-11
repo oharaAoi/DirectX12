@@ -52,10 +52,13 @@ void GameScene::Init() {
 	railPointEditer_->Init();
 	railPointEditer_->SetGameScene(this);
 
-	for (size_t index = 0; index < railPointEditer_->GetRailNum(); ++index) {
+	/*for (size_t index = 0; index < railPointEditer_->GetRailNum(); ++index) {
 		auto& newRail = rails_.emplace_back(std::make_unique<Rail>());
 		newRail->Init();
-	}
+	}*/
+
+	rail_ = std::make_unique<Rail>();
+	rail_->Init("./Game/Resources/", "rail.obj", (uint32_t)railPointEditer_->GetRailNum());
 
 	// -------------------------------------------------
 	// ↓ Managerの初期化
@@ -123,10 +126,10 @@ void GameScene::Update() {
 
 	worldObjcts_->Update();
 
-	for (size_t index = 0; index < rails_.size(); ++index) {
-		rails_[index]->GetTransform()->SetTranslaion(railPointEditer_->GetRailPos(index));
+	for (size_t index = 0; index < (size_t)railPointEditer_->GetRailNum(); ++index) {
+		/*rails_[index]->GetTransform()->SetTranslaion(railPointEditer_->GetRailPos(index));
 		rails_[index]->GetTransform()->SetQuaternion(railPointEditer_->GetRailRotate(index));
-		
+		*/
 		/*if (index < rails_.size() - 1) {
 			Vector3 from = rails_[index]->GetTransform()->GetTranslation();
 			Vector3 to = rails_[index + 1]->GetTransform()->GetTranslation();
@@ -137,7 +140,7 @@ void GameScene::Update() {
 			rails_[index]->SetBottomVertex(rails_[index - 1]->GetTopVertex());
 		}
 		rails_[index]->SetTransform(railPointEditer_->GetRailBasePoints()[index]);*/
-		rails_[index]->Update();
+		rail_->Update(railPointEditer_->GetRailPos(index), railPointEditer_->GetRailRotate(index), viewMat_, projectionMat_, index);
 	}
 
 	// -------------------------------------------------
@@ -229,9 +232,11 @@ void GameScene::Draw() const {
 
 	worldObjcts_->Draw();
 
-	for (size_t index = 0; index < rails_.size(); ++index) {
+	Engine::SetPipeline(PipelineType::ParticlePipeline);
+	/*for (size_t index = 0; index < rails_.size(); ++index) {
 		rails_[index]->Draw();
-	}
+	}*/
+	rail_->Draw();
 
 	// -------------------------------------------------
 	// ↓ GameObjectの描画
@@ -314,17 +319,16 @@ void GameScene::Debug_Gui() {
 
 	if (Input::IsTriggerKey(DIK_R)) {
 		ResetRail();
+		railPointEditer_->SetIsAdd(false);
 	}
 
 	ImGui::End();
 }
 
 void GameScene::ResetRail() {
-	rails_.clear();
-	for (size_t index = 0; index < railPointEditer_->GetRailNum(); ++index) {
-		auto& newRail = rails_.emplace_back(std::make_unique<Rail>());
-		newRail->Init();
-	}
+	
+	rail_->Finalize();
+	rail_->Init("./Game/Resources/", "rail.obj", (uint32_t)railPointEditer_->GetRailNum());
 }
 
 #endif

@@ -178,6 +178,8 @@ public:
 	static ID3D12Device* GetDevice();
 	static ID3D12GraphicsCommandList* GetCommandList();
 
+	static DescriptorHeap* GetHeap();
+
 private:
 
 };

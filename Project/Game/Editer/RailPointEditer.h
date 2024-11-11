@@ -3,6 +3,7 @@
 #include <string>
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/MyMath.h"
+#include "Engine/GameObject/BaseGameObject.h"
 #include "Game/WorldObject/Rail.h"
 #include <nlohmann/json.hpp>
 
@@ -66,6 +67,8 @@ public:
 
 	const size_t GetRailNum() const { return railPoints.size(); }
 
+	void SetIsAdd(bool isAdd) { isAdd_ = isAdd; }
+
 	void SetGameScene(GameScene* gameScene) { pGameScene_ = gameScene; }
 
 private:
@@ -85,8 +88,10 @@ private:
 	// 新しく点を追加する際のパラメータ
 	Vector3 newPoint_;
 	Quaternion newRotate_;
-	std::unique_ptr<Rail> newRail_;
+	std::unique_ptr<BaseGameObject> newRail_;
 	float newTwist_;
+
+	bool isAdd_;
 
 	char selectPointIndex_[64];
 	std::string selectIndex_ = "0";

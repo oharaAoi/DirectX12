@@ -33,7 +33,7 @@ void Material::Update(const Matrix4x4& uvTransform) {
 	material_->uvTransform = uvTransform;
 }
 
-void Material::Draw(ID3D12GraphicsCommandList* commandList) {
+void Material::Draw(ID3D12GraphicsCommandList* commandList){
 	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
 }
 

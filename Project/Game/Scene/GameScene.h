@@ -51,6 +51,8 @@ private:
 	std::unique_ptr<Skydome> skydome_;
 	std::vector<std::unique_ptr<Rail>> rails_;
 
+	std::unique_ptr<Rail> rail_;
+
 	std::unique_ptr<WorldObjects> worldObjcts_;
 
 	// --- GameObject ------------------------------ //

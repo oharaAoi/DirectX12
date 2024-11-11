@@ -386,3 +386,7 @@ ID3D12GraphicsCommandList* Engine::GetCommandList() {
 	// TODO: return ステートメントをここに挿入します
 	return dxCommands_->GetCommandList();
 }
+
+DescriptorHeap* Engine::GetHeap() {
+	return descriptorHeap_.get();
+}

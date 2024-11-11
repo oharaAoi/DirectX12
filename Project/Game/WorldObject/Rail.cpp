@@ -11,94 +11,75 @@ Rail::~Rail() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Rail::Finalize() {
+	materialArray_.clear();
+	meshArray_.clear();
+	forGpuData_ = nullptr;
+	forGpuDataBuffer_.Reset();
+	DescriptorHeap::AddFreeSrvList(instancingSrvHandle_.assignIndex_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Rail::Init() {
-	//// MeshのVertexDataを作成する
-	//Mesh::VertexData vertex;
-	//// 左上の実装
-	//vertex.pos = Vector4{ -1, 0.0f, 1.0f, 1.0f };
-	//vertex.texcoord = { 0.0f, 0.0f };
-	//vertex.normal = { 0.0f, 1.0f, 0.0f };
-	//vertex.tangent = { 0.0f, 0.0f, 0.0f };
-	//vertexData_.push_back(vertex);
-	//// 右上
-	//vertex.pos = Vector4{ 1, 0.0f, 1.0f, 1.0f };
-	//vertex.texcoord = { 1.0f, 0.0f };
-	//vertex.normal = { 0.0f, 1.0f, 0.0f };
-	//vertex.tangent = { 0.0f, 0.0f, 0.0f };
-	//vertexData_.push_back(vertex);
-	//// 左下
-	//vertex.pos = Vector4{ -1, 0.0f, -1.0f, 1.0f };
-	//vertex.texcoord = { 0.0f, 1.0f };
-	//vertex.normal = { 0.0f, 1.0f, 0.0f };
-	//vertex.tangent = { 0.0f, 0.0f, 0.0f };
-	//vertexData_.push_back(vertex);
-	//// 右下
-	//vertex.pos = Vector4{ 1, 0.0f, -1.0f, 1.0f };
-	//vertex.texcoord = { 1.0f, 1.0f };
-	//vertex.normal = { 0.0f, 1.0f, 0.0f };
-	//vertex.tangent = { 0.0f, 0.0f, 0.0f };
-	//vertexData_.push_back(vertex);
+void Rail::Init(const std::string& directorPath, const std::string& fileName, const uint32_t& instanceNum) {
+	materialArray_ = LoadMaterialData(directorPath, fileName, Engine::GetDevice());
+	meshArray_ = LoadVertexData(directorPath, fileName, Engine::GetDevice());
 
-	//std::vector<uint32_t> indices_;
-	//indices_.resize(6);
-	//indices_[0] = 0;
-	//indices_[1] = 1;
-	//indices_[2] = 2;
-	//indices_[3] = 1;
-	//indices_[4] = 3;
-	//indices_[5] = 2;
+	kNumInstance_ = instanceNum;
 
-	//// Meshを作成する
-	//mesh_ = std::make_unique<Mesh>();
-	//mesh_->Init(Engine::GetDevice(), vertexData_, indices_);
+	forGpuDataBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(ForGPUData) * kNumInstance_);
+	// データをマップ
+	forGpuDataBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&forGpuData_));
 
-	//material_ = std::make_unique<Material>();
-	//material_->Init(Engine::GetDevice());
-	//// Textureの設定
-	//material_->SetUseTexture("rail_plane.png");
+	D3D12_SHADER_RESOURCE_VIEW_DESC desc{};
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	desc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	desc.Buffer.FirstElement = 0;
+	desc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	desc.Buffer.NumElements = instanceNum;
+	desc.Buffer.StructureByteStride = sizeof(ForGPUData);
 
-	//worldTransform_ = std::make_unique<WorldTransform>();
-	//worldTransform_->Init(Engine::GetDevice());
+	instancingSrvHandle_ = Engine::GetHeap()->AllocateSRV();
 
-	BaseGameObject::Init();
-	SetObject("rail.obj");
-
-	SetIsLighting(false);
+	Engine::GetDevice()->CreateShaderResourceView(forGpuDataBuffer_.Get(), &desc, instancingSrvHandle_.handleCPU);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Rail::Update() {
-	//worldTransform_->Update();
-	BaseGameObject::Update();
+void Rail::Update(const Vector3& translate, const Quaternion& rotate, const Matrix4x4& view, const Matrix4x4& projection, uint32_t index) {
+	Matrix4x4 worldMat = Vector3(1, 1, 1).MakeScaleMat() * rotate.MakeMatrix() * translate.MakeTranslateMat();
+	forGpuData_[index].world = worldMat;
+	forGpuData_[index].view = view;
+	forGpuData_[index].projection = projection;
+	forGpuData_[index].worldInverseTranspose = Inverse(worldMat).Transpose();
+	forGpuData_[index].color = Vector4(1, 1, 1, 1);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　描画処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Rail::Draw() const {
-	/*mesh_->Draw(Engine::GetCommandList());
-	material_->Draw(Engine::GetCommandList());
-	worldTransform_->Draw(Engine::GetCommandList());
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(Engine::GetCommandList(), material_->GetUseTexture(), 3);
-	Engine::GetCommandList()->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
-	*/
-	BaseGameObject::Draw();
+void Rail::Draw() {
+	
+	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
+	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
+		std::string useMaterial = meshArray_[oi]->GetUseMaterial();
+		
+		meshArray_[oi]->Draw(commandList);
+		materialArray_[useMaterial]->Draw(commandList);
+		commandList->SetGraphicsRootDescriptorTable(1, instancingSrvHandle_.handleGPU);
+
+		std::string textureName = materialArray_[useMaterial]->GetUseTexture();
+		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 2);
+
+		commandList->DrawIndexedInstanced(meshArray_[oi]->GetIndexNum(), kNumInstance_, 0, 0, 0);
+	}
 }
 
-void Rail::SetBottomVertex(Mesh::VertexData* vertexData) {
-	vertexData_[2] = vertexData[0];
-	vertexData_[3] = vertexData[1];
-}
 
 #ifdef _DEBUG
 void Rail::Debug_Gui() {
