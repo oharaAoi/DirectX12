@@ -22,6 +22,15 @@ public:
 		float currentTime;
 	};
 
+	struct Particle {
+		Vector3 scale;		// 拡縮
+		Vector3 translate;	// 座標	
+		Vector3 velocity;	// 速度
+		float lifeTime;		// 生存時間
+		float currentTime;	// 現在の時間
+		Vector4 color;		// 色
+	};
+
 	/// <summary>
 	/// Particleを生成時に必要なデータ
 	/// </summary>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\81801\source\repos\LC2\CG2\DirectX12\Externals\assimp\build\CMakeFiles\fc1889a44f45c92b9e405bdab50be967\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{8595A506-EF70-3AE4-93C0-C1D056FB0327}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
