@@ -6,73 +6,9 @@ RailPointEditer::RailPointEditer() {}
 RailPointEditer::~RailPointEditer() {}
 
 void RailPointEditer::Init() {
-	/*std::vector<Vector3> points = {
-	{ 0.0f, 0.0f, 0.0f },
-	{ 2.0f, 0.0f, 1.0f },
-	{ 5.0f, 0.0f, 1.5f },
-	{ 7.0f, 2.0f, 2.0f },
-	{ 6.0f, 3.0f, 3.0f },
-	{ 3.0f, 5.0f, 4.0f },
-	{ 0.0f, 6.0f, 5.0f },
-	{ -2.0f, 5.0f, 6.0f },
-	{ -3.0f, 3.0f, 7.0f },
-	{ -4.0f, 0.0f, 8.0f },
-	{ 0.0f, -1.0f, 9.0f },
-	{ 3.0f, -1.5f, 10.0f },
-	{ 5.0f, -2.0f, 11.0f },
-	{ 7.0f, 0.0f, 12.0f },
-	{ 10.0f, 1.0f, 13.0f },
-	{ 12.0f, 1.5f, 14.0f },
-	{ 13.0f, 0.5f, 15.0f },
-	{ 15.0f, 0.0f, 16.0f },
-	{ 17.0f, -1.0f, 17.0f },
-	{ 19.0f, -2.0f, 18.0f },
-	{ 20.0f, -3.0f, 19.0f },
-	{ 18.0f, -2.0f, 20.0f },
-	{ 15.0f, 0.0f, 21.0f },
-	{ 10.0f, 1.0f, 22.0f },
-	{ 5.0f, 0.0f, 23.0f },
-	{ 0.0f, 0.0f, 24.0f },
-	{ -5.0f, 0.0f, 25.0f },
-	{ -10.0f, 0.5f, 26.0f },
-	{ -12.0f, 2.0f, 27.0f },
-	{ -15.0f, 3.0f, 28.0f }
-	};*/
-
-	std::vector<Vector3> points;
-	for (uint32_t oi = 0; oi < 40; ++oi) {
-		Vector3 pos = { 0.0f, 0.0f, 2.0f * oi };
-		points.push_back(pos);
-	}
-
-	//for (uint32_t oi = 0; oi < points.size(); ++oi) {
-	//	RailPointData data(points[oi], Quaternion());
-	//	railPoints.push_back(data);
-	//}
-
-	newRail_ = std::make_unique<BaseGameObject>();
-	newRail_->Init();
-	newRail_->SetObject("rail.obj");
-
-	std::filesystem::path dire(directoryPath_);
-	if (!std::filesystem::exists(directoryPath_)) {
-		std::filesystem::create_directories(directoryPath_);
-	}
-
-	railPoints.clear();
-	for (const auto& entry : std::filesystem::directory_iterator(directoryPath_)) {
-		std::string fileName = entry.path().stem().string();
-		Load();
-	}
-}
-
-void RailPointEditer::Update() {
-	if (railPoints.size() < 4) {
-		return;
-	}
-
-	railIndexPoints_.clear();
-	railIndexPointsRotateZ_.clear();
+	points_.clear();
+	pointsRotateZ_.clear();
+	
 	std::vector<Vector3> copyPos;
 	for (uint32_t oi = 0; oi < railPoints.size(); ++oi) {
 		copyPos.push_back(railPoints[oi].pos);
@@ -96,6 +32,79 @@ void RailPointEditer::Update() {
 		float t = (1.0f / static_cast<float>(segmentCount)) * oi;
 		Quaternion rotate = Quaternion::CatmullRomRotate(copyRotate, t);
 		railIndexPointsRotateZ_.push_back(Quaternion::GetYawFromQuaternion(rotate));
+	}
+
+	const uint32_t lerpNum = 6; // 補完するオブジェクトの個数
+	for (uint32_t oi = 0; oi < railPoints.size() - 1; ++oi) {
+		for (uint32_t index = 0; index < lerpNum; ++index) {
+			float t = (float)index / (float)lerpNum;
+			Vector3 pos = Vector3::Lerp(railPoints[oi].pos, railPoints[oi + 1].pos, t);
+			Quaternion rotate = Quaternion::Slerp(railPoints[oi].rotate, railPoints[oi + 1].rotate, CallEasingFunc(easeType_, t));
+
+			points_.push_back(pos);
+			pointsRotateZ_.push_back(rotate);
+		}
+	}
+
+	newRail_ = std::make_unique<BaseGameObject>();
+	newRail_->Init();
+	newRail_->SetObject("rail.obj");
+
+	newRail_->SetObjectAxis();
+}
+
+void RailPointEditer::Update() {
+	points_.clear();
+	pointsRotateZ_.clear();
+	railIndexPoints_.clear();
+
+	std::vector<Vector3> copyPos;
+	for (uint32_t oi = 0; oi < railPoints.size(); ++oi) {
+		copyPos.push_back(railPoints[oi].pos);
+	}
+
+	std::vector<Quaternion> copyRotate;
+	for (uint32_t oi = 0; oi < railPoints.size(); ++oi) {
+		copyRotate.push_back(railPoints[oi].rotate.Normalize());
+	}
+
+	//const size_t segmentCount = 200;
+	//// 点からSpline曲線を引く
+	//for (uint32_t oi = 0; oi < segmentCount; ++oi) {
+	//	float t = (1.0f / static_cast<float>(segmentCount)) * oi;
+	//	Vector3 pos = CatmullRomPosition(copyPos, t);
+	//	railIndexPoints_.push_back(pos);
+	//}
+
+	//// 点からSpline曲線を引く
+	//for (uint32_t oi = 0; oi < segmentCount; ++oi) {
+	//	float t = (1.0f / static_cast<float>(segmentCount)) * oi;
+	//	Quaternion rotate = Quaternion::CatmullRomRotate(copyRotate, t);
+	//	railIndexPointsRotateZ_.push_back(Quaternion::GetYawFromQuaternion(rotate));
+	//}
+
+	const uint32_t lerpNum = 6; // 補完するオブジェクトの個数
+	for (uint32_t oi = 0; oi < railPoints.size() - 1; ++oi) {
+		for (uint32_t index = 0; index < lerpNum; ++index) {
+			float t = (float)index / (float)lerpNum;
+			Vector3 pos = Vector3::Lerp(railPoints[oi].pos, railPoints[oi + 1].pos, t);
+			Quaternion rotate = Quaternion::Slerp(railPoints[oi].rotate, railPoints[oi + 1].rotate, CallEasingFunc(easeType_, t));
+
+			points_.push_back(pos);
+			pointsRotateZ_.push_back(rotate);
+		}
+	}
+
+	for (uint32_t oi = 0; oi < pointsRotateZ_.size() - 1; ++oi) {
+		pointsRotateZ_[oi] = Quaternion::Slerp(pointsRotateZ_[oi], pointsRotateZ_[oi + 1], CallEasingFunc(easeType_, 0.9f));
+	}
+
+	const size_t segmentCount = points_.size();
+	// 点からSpline曲線を引く
+	for (uint32_t oi = 0; oi < segmentCount; ++oi) {
+		float t = (1.0f / static_cast<float>(segmentCount)) * oi;
+		Vector3 pos = CatmullRomPosition(points_, t);
+		railIndexPoints_.push_back(pos);
 	}
 }
 
@@ -166,6 +175,19 @@ void RailPointEditer::Load() {
 	}
 }
 
+void RailPointEditer::InitLoad() {
+	std::filesystem::path dire(directoryPath_);
+	if (!std::filesystem::exists(directoryPath_)) {
+		std::filesystem::create_directories(directoryPath_);
+	}
+
+	railPoints.clear();
+	for (const auto& entry : std::filesystem::directory_iterator(directoryPath_)) {
+		std::string fileName = entry.path().stem().string();
+		Load();
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　保存
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -210,8 +232,22 @@ const Quaternion RailPointEditer::GetRailRotate(size_t index) const {
 	return railPoints[index].rotate;
 }
 
+const Vector3 RailPointEditer::GetPoints(size_t index) const {
+	return points_[index];
+}
+
+const Quaternion RailPointEditer::GetPointsRotate(size_t index) const {
+	return pointsRotateZ_[index];
+}
+
 std::vector<Vector3> RailPointEditer::GetRailPoints() {
 	return railIndexPoints_;
+}
+std::vector<Vector3> RailPointEditer::GetPoints() {
+	return points_;
+}
+std::vector<float> RailPointEditer::GetPointsRotate() {
+	return std::vector<float>();
 }
 std::vector<Vector3> RailPointEditer::GetRailBasePoints() {
 	std::vector<Vector3> result;
@@ -227,6 +263,9 @@ std::vector<float> RailPointEditer::GetRailRotateZ() {
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
 void RailPointEditer::EditRail() {
+
+	ShowEasingDebug(easeType_);
+
 	// -------------------------------------------------
 	// ↓ 新しい点を追加する
 	// -------------------------------------------------
@@ -288,6 +327,7 @@ void RailPointEditer::EditRail() {
 	//ImGui::DragFloat("newTwist", &newTwist_, 0.1f);
 	if (ImGui::Button("Add")) {
 		railPoints.emplace_back(RailPointData(newPoint_, newRotate_));
+		pGameScene_->ResetRail();
 		isAdd_ = true;
 	}
 
@@ -312,7 +352,57 @@ void RailPointEditer::EditRail() {
 		if (std::stoi(selectIndex_) < railPoints.size()) {
 			ImGui::DragFloat3("point", &railPoints[std::stoi(selectIndex_)].pos.x, 0.1f);
 			Quaternion::Debug_Gui(railPoints[std::stoi(selectIndex_)].rotate, "edit_rotate");
-			//ImGui::DragFloat("twist", &railPoints[std::stoi(selectIndex_)].twist, 0.1f);
+
+			// ------------------- X ------------------- //
+			ImGui::Text("selectPos.x");
+			ImGui::SameLine();
+			Vector3 direSelect = Vector3::ZERO();
+			Vector3 direDragSelect = Vector3::ZERO();
+			if (ImGui::ArrowButton("sx##Left", ImGuiDir_Left)) {
+				direSelect -= railPoints[std::stoi(selectIndex_)].rotate.MakeRight() * 0.05f;
+			}
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(50);
+			if (ImGui::DragFloat("##sx", &direDragSelect.x, 0.02f)) {
+				direSelect += railPoints[std::stoi(selectIndex_)].rotate.MakeRight() * direDragSelect.x;
+			}
+			ImGui::SameLine();
+			if (ImGui::ArrowButton("sx##Right", ImGuiDir_Right)) {
+				direSelect += railPoints[std::stoi(selectIndex_)].rotate.MakeRight() * 0.05f;
+			}
+
+			// ------------------- Y ------------------- //
+			ImGui::Text("selectPos.y");
+			ImGui::SameLine();
+			if (ImGui::ArrowButton("sy##Left", ImGuiDir_Left)) {
+				direSelect -= railPoints[std::stoi(selectIndex_)].rotate.MakeUp() * 0.05f;
+			}
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(50);
+			if (ImGui::DragFloat("##sy", &direDragSelect.y, 0.02f)) {
+				direSelect += railPoints[std::stoi(selectIndex_)].rotate.MakeUp() * direDragSelect.y;
+			}
+			ImGui::SameLine();
+			if (ImGui::ArrowButton("sy##Right", ImGuiDir_Right)) {
+				direSelect += railPoints[std::stoi(selectIndex_)].rotate.MakeUp() * 0.05f;
+			}
+			// ------------------- Z ------------------- //
+			ImGui::Text("selectPos.z");
+			ImGui::SameLine();
+			if (ImGui::ArrowButton("sz##Left", ImGuiDir_Left)) {
+				direSelect -= railPoints[std::stoi(selectIndex_)].rotate.MakeForward() * 0.05f;
+			}
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(50);
+			if (ImGui::DragFloat("##sz", &direDragSelect.z, 0.02f)) {
+				direSelect += railPoints[std::stoi(selectIndex_)].rotate.MakeForward() * direDragSelect.z;
+			}
+			ImGui::SameLine();
+			if (ImGui::ArrowButton("sz##Right", ImGuiDir_Right)) {
+				direSelect += railPoints[std::stoi(selectIndex_)].rotate.MakeForward() * 0.05f;
+			}
+
+			railPoints[std::stoi(selectIndex_)].pos += direSelect;
 
 			if (ImGui::Button("delte")) {
 				railPoints.erase(railPoints.begin() + std::stoi(selectIndex_));

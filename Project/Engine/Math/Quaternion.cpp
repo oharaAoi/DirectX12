@@ -329,6 +329,10 @@ void Quaternion::Debug_Gui(Quaternion& rotate, const char* id) {
 	Quaternion debug_rotate;
 	ImGui::DragFloat4(id, &debug_rotate.x, 0.01f);
 	rotate = (rotate.Normalize() * debug_rotate.Normalize());
+
+	if (ImGui::Button("Reset")) {
+		rotate = Quaternion();
+	}
 }
 #endif
 

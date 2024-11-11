@@ -49,6 +49,7 @@ void GameScene::Init() {
 	// ↓ Editer初期化
 	// -------------------------------------------------
 	railPointEditer_ = std::make_unique<RailPointEditer>();
+	railPointEditer_->InitLoad();
 	railPointEditer_->Init();
 	railPointEditer_->SetGameScene(this);
 
@@ -58,7 +59,7 @@ void GameScene::Init() {
 	}*/
 
 	rail_ = std::make_unique<Rail>();
-	rail_->Init("./Game/Resources/", "rail.obj", (uint32_t)railPointEditer_->GetRailNum());
+	rail_->Init("./Game/Resources/", "rail.obj", (uint32_t)railPointEditer_->GetPointsSize());
 
 	// -------------------------------------------------
 	// ↓ Managerの初期化
@@ -104,7 +105,7 @@ void GameScene::Update() {
 	railPointEditer_->Update();
 
 	mainCamera_->SetControlPoints(railPointEditer_->GetRailPoints());
-	mainCamera_->SetControlRotateZ(railPointEditer_->GetRailRotateZ());
+	//mainCamera_->SetControlRotateZ(railPointEditer_->GetRailRotateZ());
 	mainCamera_->Update();
 	debugCamera_->Update();
 
@@ -126,21 +127,9 @@ void GameScene::Update() {
 
 	worldObjcts_->Update();
 
-	for (size_t index = 0; index < (size_t)railPointEditer_->GetRailNum(); ++index) {
-		/*rails_[index]->GetTransform()->SetTranslaion(railPointEditer_->GetRailPos(index));
-		rails_[index]->GetTransform()->SetQuaternion(railPointEditer_->GetRailRotate(index));
-		*/
-		/*if (index < rails_.size() - 1) {
-			Vector3 from = rails_[index]->GetTransform()->GetTranslation();
-			Vector3 to = rails_[index + 1]->GetTransform()->GetTranslation();
-			Vector3 up = rails_[index]->GetTransform()->GetQuaternion().MakeUp();
-			rails_[index]->GetTransform()->SetQuaternion(Quaternion::LookAt(from, to, Vector3::FORWARD()));
-		}*/
-		/*if (index >= 1) {
-			rails_[index]->SetBottomVertex(rails_[index - 1]->GetTopVertex());
-		}
-		rails_[index]->SetTransform(railPointEditer_->GetRailBasePoints()[index]);*/
-		rail_->Update(railPointEditer_->GetRailPos(index), railPointEditer_->GetRailRotate(index), viewMat_, projectionMat_, index);
+	for (size_t index = 0; index < (size_t)railPointEditer_->GetPointsSize(); ++index) {
+
+		rail_->Update(railPointEditer_->GetPoints(index), railPointEditer_->GetPointsRotate(index), viewMat_, projectionMat_, index);
 	}
 
 	// -------------------------------------------------
@@ -327,8 +316,10 @@ void GameScene::Debug_Gui() {
 
 void GameScene::ResetRail() {
 	
+	railPointEditer_->Init();
+
 	rail_->Finalize();
-	rail_->Init("./Game/Resources/", "rail.obj", (uint32_t)railPointEditer_->GetRailNum());
+	rail_->Init("./Game/Resources/", "rail.obj", (uint32_t)railPointEditer_->GetPointsSize());
 }
 
 #endif

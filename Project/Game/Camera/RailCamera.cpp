@@ -17,7 +17,7 @@ void RailCamera::Init() {
 	cameraObj_->Init();
 	cameraObj_->SetObject("camera.obj");
 
-	offset_ = { 0.0f, 0.1f, 0.0f };
+	offset_ = { 0.0f, 0.2f, 0.0f };
 	eyeIndex_ = 0;
 	forwardIndex_ = 0;
 
@@ -104,7 +104,7 @@ void RailCamera::RailMove() {
 	float xzLenght = Length({ diff.x, 0, diff.z });
 	transform_.rotate.x = localRotate_.x + std::atan2f(-diff.y, xzLenght);
 
-	transform_.rotate.z = controlRotateZ_[eyeIndex_];
+	//transform_.rotate.z = controlRotateZ_[eyeIndex_];
 }
 
 void RailCamera::SetControlPoints(const std::vector<Vector3>& points) {

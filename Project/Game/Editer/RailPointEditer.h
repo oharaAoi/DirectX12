@@ -3,6 +3,7 @@
 #include <string>
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/MyMath.h"
+#include "Engine/Math/Easing.h"
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Game/WorldObject/Rail.h"
 #include <nlohmann/json.hpp>
@@ -49,6 +50,8 @@ public:
 
 	void Load();
 
+	void InitLoad();
+
 	void Save();
 
 #ifdef _DEBUG
@@ -57,6 +60,8 @@ public:
 #endif
 
 	std::vector<Vector3> GetRailPoints();
+	std::vector<Vector3> GetPoints();
+	std::vector<float> GetPointsRotate();
 
 	std::vector<Vector3> GetRailBasePoints();
 
@@ -65,11 +70,16 @@ public:
 	const Vector3 GetRailPos(size_t index) const;
 	const Quaternion GetRailRotate(size_t index) const;
 
+	const Vector3 GetPoints(size_t index) const;
+	const Quaternion GetPointsRotate(size_t index) const;
+
 	const size_t GetRailNum() const { return railPoints.size(); }
 
 	void SetIsAdd(bool isAdd) { isAdd_ = isAdd; }
 
 	void SetGameScene(GameScene* gameScene) { pGameScene_ = gameScene; }
+
+	uint32_t GetPointsSize() const { return points_.size(); }
 
 private:
 
@@ -78,6 +88,9 @@ private:
 	std::vector<RailPointData> railPoints;
 	std::vector<Vector3> railIndexPoints_;
 	std::vector<float> railIndexPointsRotateZ_;
+
+	std::vector<Vector3> points_;
+	std::vector<Quaternion> pointsRotateZ_;
 
 	std::vector<std::unique_ptr<Rail>> rails_;
 
@@ -90,6 +103,8 @@ private:
 	Quaternion newRotate_;
 	std::unique_ptr<BaseGameObject> newRail_;
 	float newTwist_;
+
+	int easeType_ = (int)EasingType::Out::Cubic;
 
 	bool isAdd_;
 
