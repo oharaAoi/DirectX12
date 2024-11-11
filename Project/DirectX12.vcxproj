@@ -88,7 +88,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Debug\assimp-vc143-mtd.dll" "$(Tar
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)Game\Scene;$(ProjectDir)Game\Camera;$(ProjectDir)Game;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\WinApp;$(ProjectDir)Engine\Utilities;$(ProjectDir)Engine\ParticleSystem;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Manager;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Lib;$(ProjectDir)Engine\ImGui;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\ComputeShader;$(ProjectDir)Engine\HLSL;$(ProjectDir)Engine\GameObject;$(ProjectDir)Engine\Collider;$(ProjectDir)Engine\Assets;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\DirectX\RTV;$(ProjectDir)Engine\DirectX\RootSignature;$(ProjectDir)Engine\DirectX\Pipeline;$(ProjectDir)Engine\DirectX\DirectXDevice;$(ProjectDir)Engine\DirectX\DirectXCompiler;$(ProjectDir)Engine\DirectX\DirectXCommon;$(ProjectDir)Engine\DirectX\DirectXCommands;$(ProjectDir)Engine\DirectX\Descriptor;$(ProjectDir)Engine\DirectX\;$(ProjectDir)Engine;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals;$(ProjectDir)Externals\assimp\include;$(ProjectDir)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals;$(ProjectDir)Externals\assimp\include;$(ProjectDir)\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -388,6 +389,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     </FxCompile>
     <FxCompile Include="Engine\HLSL\ResultRender.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\Skinning.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
