@@ -11,8 +11,12 @@ void TestScene::Init() {
 	// GameObject -------------------------------------------------------------------
 	test_animationCS_ = std::make_unique<BaseGameObject>();
 	test_animationCS_->Init();
-	test_animationCS_->SetObject("walk.gltf");
-	test_animationCS_->SetAnimater("./Engine/Resources/Animation/", "walk.gltf", true);
+	test_animationCS_->SetObject("amimationCharacter.gltf");
+	test_animationCS_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true);
+
+	//test_animationCS_->SetObjectAxis();
+
+	meshCollider_.Init(test_animationCS_->GetModel()->GetMesh(0));
 	
 }
 
@@ -61,7 +65,11 @@ void TestScene::ImGuiDraw() {
 	ImGui::Checkbox("isDebug", &isDebugCamera_);
 	camera_->Debug_Gui();
 	debugCamera_->Debug_Gui();
-	ImGui::End();
 
+	ImGui::Separator();
+
+	ShowEasingDebug(easeIndex_);
+
+	ImGui::End();
 }
 #endif

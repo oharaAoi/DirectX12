@@ -88,7 +88,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Debug\assimp-vc143-mtd.dll" "$(Tar
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)Game\Scene;$(ProjectDir)Game\Camera;$(ProjectDir)Game;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\WinApp;$(ProjectDir)Engine\Utilities;$(ProjectDir)Engine\ParticleSystem;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Manager;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Lib;$(ProjectDir)Engine\ImGui;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\ComputeShader;$(ProjectDir)Engine\HLSL;$(ProjectDir)Engine\GameObject;$(ProjectDir)Engine\Collider;$(ProjectDir)Engine\Assets;$(ProjectDir)Engine\2d;$(ProjectDir)Engine\DirectX\RTV;$(ProjectDir)Engine\DirectX\RootSignature;$(ProjectDir)Engine\DirectX\Pipeline;$(ProjectDir)Engine\DirectX\DirectXDevice;$(ProjectDir)Engine\DirectX\DirectXCompiler;$(ProjectDir)Engine\DirectX\DirectXCommon;$(ProjectDir)Engine\DirectX\DirectXCommands;$(ProjectDir)Engine\DirectX\Descriptor;$(ProjectDir)Engine\DirectX\;$(ProjectDir)Engine;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals;$(ProjectDir)Externals\assimp\include;$(ProjectDir)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals;$(ProjectDir)Externals\assimp\include;$(ProjectDir)\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -165,6 +166,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Manager\ModelManager.cpp" />
     <ClCompile Include="Engine\Manager\SceneManager.cpp" />
     <ClCompile Include="Engine\Manager\TextureManager.cpp" />
+    <ClCompile Include="Engine\Math\Easing.cpp" />
     <ClCompile Include="Engine\Math\MathStructures.cpp" />
     <ClCompile Include="Engine\Math\Matrix4x4.cpp" />
     <ClCompile Include="Engine\Math\MyMath.cpp" />
@@ -179,6 +181,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\ParticleSystem\EffectSystemCamera.cpp" />
     <ClCompile Include="Engine\ParticleSystem\EffectSystemEditer.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Emitter.cpp" />
+    <ClCompile Include="Engine\ParticleSystem\GpuParticle.cpp" />
     <ClCompile Include="Engine\ParticleSystem\ParticleField.cpp" />
     <ClCompile Include="Engine\ParticleSystem\ParticleForGPU.cpp" />
     <ClCompile Include="Engine\Render.cpp" />
@@ -280,6 +283,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Manager\ModelManager.h" />
     <ClInclude Include="Engine\Manager\SceneManager.h" />
     <ClInclude Include="Engine\Manager\TextureManager.h" />
+    <ClInclude Include="Engine\Math\Easing.h" />
     <ClInclude Include="Engine\Math\MathStructures.h" />
     <ClInclude Include="Engine\Math\Matrix3x3.h" />
     <ClInclude Include="Engine\Math\Matrix4x4.h" />
@@ -296,6 +300,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\ParticleSystem\EffectSystemCamera.h" />
     <ClInclude Include="Engine\ParticleSystem\EffectSystemEditer.h" />
     <ClInclude Include="Engine\ParticleSystem\Emitter.h" />
+    <ClInclude Include="Engine\ParticleSystem\GpuParticle.h" />
     <ClInclude Include="Engine\ParticleSystem\ParticleField.h" />
     <ClInclude Include="Engine\ParticleSystem\ParticleForGPU.h" />
     <ClInclude Include="Engine\Render.h" />
@@ -346,6 +351,14 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="Engine\HLSL\GpuParticleInit.CS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Engine\HLSL\GrayScale.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -392,6 +405,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     </FxCompile>
     <FxCompile Include="Engine\HLSL\ResultRender.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\Skinning.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

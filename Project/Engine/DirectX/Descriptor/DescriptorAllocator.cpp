@@ -11,7 +11,7 @@ DescriptorHeap::DescriptorHandles DescriptorAllocator::Allocate(ID3D12Descriptor
 		/*std::string name = std::to_string(reusedIndex);
 		Log("popHeap" + name + "\n");*/
 		return GetDescriptorHandle(descriptorHeap, reusedIndex);
-	} else if (currentIndex_ < totalDescriptors_) {
+	} else if (currentIndex_ < (int)totalDescriptors_) {
 		// 新しいディスクリプタを割り当て
 		return GetDescriptorHandle(descriptorHeap, currentIndex_++);
 	} else {

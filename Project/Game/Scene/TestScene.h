@@ -10,6 +10,8 @@
 #include "Engine/ParticleSystem/Emitter.h"
 #include "Engine/ParticleSystem/ParticleField.h"
 #include "Engine/ParticleSystem/EffectSystem.h"
+#include "Engine/Collider/MeshCollider.h"
+#include "Engine/Math/Easing.h"
 
 class TestScene 
 : public BaseScene {
@@ -38,6 +40,8 @@ private:
 
 	// ゲームオブジェクト ------------------------------------
 	std::unique_ptr<BaseGameObject> test_animationCS_;
+
+	int easeIndex_ = 0;
 
 };
 

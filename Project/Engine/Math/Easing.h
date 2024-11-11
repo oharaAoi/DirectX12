@@ -1,47 +1,127 @@
 #pragma once
+#include <array>
+#include <string>
+#include <iostream>
 #define _USE_MATH_DEFINES
 #include <math.h>
-// range(t): 0 ~ 1;
 
-float EaseInSine(float t);
-float EaseOutSine(float t);
-float EaseInOutSine(float t);
+#ifdef _DEBUG
+#include "Engine/Manager/ImGuiManager.h"
+#endif
 
-float EaseInQuad(float t);
-float EaseOutQuad(float t);
-float EaseInOutQuad(float t);
+using EasingFunc = float(*)(float);
 
-float EaseInCubic(float t);
-float EaseOutCubic(float t);
-float EaseInOutCubic(float t);
+namespace Ease {
+	namespace In {
+		float Sine(float t);
+		float Cubic(float t);
+		float Quad(float t);
+		float Quart(float t);
+		float Quint(float t);
+		float Expo(float t);
+		float Circ(float t);
+		float Back(float t);
+		float Elastic(float t);
+		float Bounce(float t);
+	}
 
-float EaseInQuart(float t);
-float EaseOutQuart(float t);
-float EaseInOutQuart(float t);
+	namespace Out {
+		float Sine(float t);
+		float Cubic(float t);
+		float Quad(float t);
+		float Quart(float t);
+		float Quint(float t);
+		float Expo(float t);
+		float Circ(float t);
+		float Back(float t);
+		float Elastic(float t);
+		float Bounce(float t);
+	}
 
-float EaseInQuint(float t);
-float EaseOutQuint(float t);
-float EaseInOutQuint(float t);
+	namespace InOut {
+		float Sine(float t);
+		float Cubic(float t);
+		float Quad(float t);
+		float Quart(float t);
+		float Quint(float t);
+		float Expo(float t);
+		float Circ(float t);
+		float Back(float t);
+		float Elastic(float t);
+		float Bounce(float t);
+	}
+}
 
-float EaseInExpo(float t);
-float EaseOutExpo(float t);
-float EaseInOutExpo(float t);
+namespace EasingType {
+	enum class In {
+		Sine,
+		Cubic,
+		Quad,
+		Quart,
+		Quint,
+		Expo,
+		Circ,
+		Back,
+		Elastic,
+		Bounce,
+	};
 
-float EaseInCirc(float t);
-float EaseOutCirc(float t);
-float EaseInOutCirc(float t);
+	enum class Out {
+		Sine = 10,
+		Cubic,
+		Quad,
+		Quart,
+		Quint,
+		Expo,
+		Circ,
+		Back,
+		Elastic,
+		Bounce,
+	};
 
-float EaseInBack(float t);
-float EaseOutBack(float t);
-float EaseOutBack(float t, float overShootRate);
-float EaseInOutBack(float t);
+	enum class InOut {
+		Sine = 20,
+		Cubic,
+		Quad,
+		Quart,
+		Quint,
+		Expo,
+		Circ,
+		Back,
+		Elastic,
+		Bounce,
+	};
+}
 
-float EaseInElastic(float t);
-float EaseOutElastic(float t);
-float EaseInOutElastic(float t);
+/// <summary>
+/// Easing関数をまとめた配列
+/// </summary>
+const std::array<EasingFunc, 30> easingFuncs = {
+	// ------------------- In ------------------- //
+	Ease::In::Sine, Ease::In::Cubic, Ease::In::Quad,
+	Ease::In::Quart, Ease::In::Quint, Ease::In::Expo,
+	Ease::In::Circ, Ease::In::Back, Ease::In::Elastic, Ease::In::Bounce,
 
-float EaseInBounce(float t);
-float EaseOutBounce(float t);
-float EaseInOutBounce(float t);
+	// ------------------- Out ------------------- //
+	Ease::Out::Sine, Ease::Out::Cubic, Ease::Out::Quad,
+	Ease::Out::Quart, Ease::Out::Quint, Ease::Out::Expo,
+	Ease::Out::Circ, Ease::Out::Back, Ease::Out::Elastic, Ease::Out::Bounce,
 
+	// ------------------- InOut ------------------- //
+	Ease::InOut::Sine, Ease::InOut::Cubic, Ease::InOut::Quad,
+	Ease::InOut::Quart, Ease::InOut::Quint, Ease::InOut::Expo,
+	Ease::InOut::Circ, Ease::InOut::Back, Ease::InOut::Elastic, Ease::InOut::Bounce,
 
+};
+
+/// <summary> 
+/// Easingを関数を呼び出す
+/// </summary> 
+/// <param name="index">: EasingType</param> 
+/// <param name="t">: 線形代数</param> 
+/// <returns> Easingした結果の線形代数 </returns> 
+float CallEasingFunc(int index, float t);
+
+#ifdef _DEBUG
+void ShowEasingDebug(int& easeKind);
+#endif
