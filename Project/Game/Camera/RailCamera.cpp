@@ -17,7 +17,7 @@ void RailCamera::Init() {
 	cameraObj_->Init();
 	cameraObj_->SetObject("camera.obj");
 
-	offset_ = { 0.0f, 0.0f, 0.0f };
+	offset_ = { 0.0f, 0.1f, 0.0f };
 	eyeIndex_ = 0;
 	forwardIndex_ = 0;
 
@@ -43,6 +43,12 @@ void RailCamera::Update() {
 	cameraObj_->GetTransform()->SetTranslaion(transform_.translate);
 	cameraObj_->Update();
 	BaseCamera::Update();
+
+#ifdef _DEBUG
+	if (Input::IsTriggerKey(DIK_L)) {
+		isMove_ = &isMove_;
+	}
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,9 +129,8 @@ void RailCamera::Debug_Gui() {
 		eyeIndex_ = 0;
 	}
 	ImGui::Checkbox("isMove", &isMove_);
-	if (Input::IsTriggerKey(DIK_L)) {
-		isMove_ = &isMove_;
-	}
+
+	ImGui::Text("eyeIndex : %d", eyeIndex_);
 	ImGui::End();
 }
 #endif

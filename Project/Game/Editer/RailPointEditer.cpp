@@ -1,5 +1,6 @@
 #include "RailPointEditer.h"
 #include "Render.h"
+#include "Game/Scene/GameScene.h"
 
 RailPointEditer::RailPointEditer() {}
 RailPointEditer::~RailPointEditer() {}
@@ -38,14 +39,8 @@ void RailPointEditer::Init() {
 	{ -15.0f, 3.0f, 28.0f }
 	};*/
 
-	Vector3 start(0, 0, 0);
-	Vector3 direction(1, 0, 0); // x軸方向に進む場合
-
-	// 10個の点を配置
-	//std::vector<Vector3> points = createVector3Points(start, direction, 30);
-
 	std::vector<Vector3> points;
-	for (uint32_t oi = 0; oi < 5; ++oi) {
+	for (uint32_t oi = 0; oi < 40; ++oi) {
 		Vector3 pos = { 0.0f, 0.0f, 2.0f * oi };
 		points.push_back(pos);
 	}
@@ -235,7 +230,59 @@ void RailPointEditer::EditRail() {
 	// ↓ 新しい点を追加する
 	// -------------------------------------------------
 	ImGui::DragFloat3("newPoint", &newPoint_.x, 0.1f);
+	
+	// ------------------- X ------------------- //
+	ImGui::Text("pos.x");
+	ImGui::SameLine();
+	Vector3 dire = Vector3::ZERO();
+	if (ImGui::ArrowButton("x##Left", ImGuiDir_Left)) {
+		dire -= newRotate_.MakeRight() * 0.05f;
+	}
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(50);
+	if (ImGui::DragFloat("##x", &dire.x, 0.02f)) {
+		dire += newRotate_.MakeRight() * dire.x;
+	}
+	ImGui::SameLine();
+	if (ImGui::ArrowButton("x##Right", ImGuiDir_Right)) {
+		dire += newRotate_.MakeRight() * 0.05f;
+	}
+
+	// ------------------- Y ------------------- //
+	ImGui::Text("pos.y");
+	ImGui::SameLine();
+	if (ImGui::ArrowButton("y##Left", ImGuiDir_Left)) {
+		dire -= newRotate_.MakeUp() * 0.05f;
+	}
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(50);
+	if (ImGui::DragFloat("##y", &dire.y, 0.02f)) {
+		dire += newRotate_.MakeUp() * dire.y;
+	}
+	ImGui::SameLine();
+	if (ImGui::ArrowButton("y##Right", ImGuiDir_Right)) {
+		dire += newRotate_.MakeUp() * 0.05f;
+	}
+	// ------------------- Z ------------------- //
+	ImGui::Text("pos.z");
+	ImGui::SameLine();
+	if (ImGui::ArrowButton("z##Left", ImGuiDir_Left)) {
+		dire -= newRotate_.MakeForward() * 0.05f;
+	}
+	ImGui::SameLine();
+	ImGui::SetNextItemWidth(50);
+	if (ImGui::DragFloat("##z", &dire.z, 0.02f)) {
+		dire += newRotate_.MakeForward() * dire.z;
+	}
+	ImGui::SameLine();
+	if (ImGui::ArrowButton("z##Right", ImGuiDir_Right)) {
+		dire += newRotate_.MakeForward() * 0.05f;
+	}
+
+	newPoint_ += dire;
+
 	Quaternion::Debug_Gui(newRotate_, "new_rotate");
+
 	//ImGui::DragFloat("newTwist", &newTwist_, 0.1f);
 	if (ImGui::Button("Add")) {
 		railPoints.emplace_back(RailPointData(newPoint_, newRotate_));
@@ -259,6 +306,11 @@ void RailPointEditer::EditRail() {
 			ImGui::DragFloat3("point", &railPoints[std::stoi(selectIndex_)].pos.x, 0.1f);
 			Quaternion::Debug_Gui(railPoints[std::stoi(selectIndex_)].rotate, "edit_rotate");
 			//ImGui::DragFloat("twist", &railPoints[std::stoi(selectIndex_)].twist, 0.1f);
+
+			if (ImGui::Button("delte")) {
+				railPoints.erase(railPoints.begin() + std::stoi(selectIndex_));
+				pGameScene_->ResetRail();
+			}
 		}
 	}
 

@@ -8,6 +8,8 @@
 
 using json = nlohmann::json;
 
+class GameScene;
+
 /// <summary>
 /// Railの中心点となる場所を編集するクラス
 /// </summary>
@@ -64,7 +66,11 @@ public:
 
 	const size_t GetRailNum() const { return railPoints.size(); }
 
+	void SetGameScene(GameScene* gameScene) { pGameScene_ = gameScene; }
+
 private:
+
+	GameScene* pGameScene_;
 
 	std::vector<RailPointData> railPoints;
 	std::vector<Vector3> railIndexPoints_;

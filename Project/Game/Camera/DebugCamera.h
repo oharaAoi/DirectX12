@@ -47,7 +47,8 @@ private:
 
 	float moveBaseSpeed_;
 	float moveSpeed_;
-	float moveMaxSpeed_ = 30.0f;
+	float moveMaxSpeed_ = 100.0f;
+	float speedStrength_ = 5.0f;
 	Vector3 moveDirection_;
 	Vector2 preMousePos_;
 

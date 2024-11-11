@@ -50,6 +50,7 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	railPointEditer_ = std::make_unique<RailPointEditer>();
 	railPointEditer_->Init();
+	railPointEditer_->SetGameScene(this);
 
 	for (size_t index = 0; index < railPointEditer_->GetRailNum(); ++index) {
 		auto& newRail = rails_.emplace_back(std::make_unique<Rail>());
@@ -276,7 +277,7 @@ void GameScene::Debug_Gui() {
 			ImGui::TreePop();
 		}
 
-		if (Input::IsTriggerKey(DIK_1)) {
+		if (Input::IsTriggerKey(DIK_C)) {
 			isDebugCamera_ = !isDebugCamera_;
 		}
 	}

@@ -119,6 +119,13 @@ void DebugCamera::TransitionMove() {
 	if (Input::IsPressKey(DIK_E)) {
 		moveDirection_ -= quaternion_.MakeUp() * moveSpeed_;
 	}
+
+	if (Input::IsPressKey(DIK_LSHIFT)) {
+		moveSpeed_ = moveBaseSpeed_ * speedStrength_;
+	} else {
+		moveBaseSpeed_ = 5.0f;
+	}
+
 	
 	transform_.translate += moveDirection_ * GameTimer::DeltaTime();
 }
