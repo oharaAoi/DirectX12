@@ -40,6 +40,7 @@ private:
 
 	// ゲームオブジェクト ------------------------------------
 	std::unique_ptr<BaseGameObject> test_animationCS_;
+	MeshCollider meshCollider_;
 
 	int easeIndex_ = 0;
 
