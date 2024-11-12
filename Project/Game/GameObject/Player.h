@@ -55,8 +55,9 @@ private:
 	void Move();
 	void Clutch();
 
-
-
+	void BaseClutch();
+	void FirstClutch();
+	void Stretching();
 
 
 	/// ==========================================
@@ -79,6 +80,7 @@ private:
 	bool isStretchClutch_ = false;// 伸びてる状態か
 	bool isStretching_ = false;
 	bool isRekey_ = true;// 一回ボタンから手離したかった
+	bool isSnagged_ = false;
 	Matrix4x4 inverMat_;
 
 
