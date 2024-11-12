@@ -10,6 +10,7 @@
 #include "Game/WorldObject/Rail.h"
 #include "Game/WorldObject/WorldObjects.h"
 #include "Game/GameObject/Player.h"
+#include "Game/GameObject/Boss.h"
 #include "Game/GameObject/PlayerBullet.h"
 #include "Game/Manager/EnemyManager.h"
 #include "Engine/Manager/CollisionManager.h"
@@ -17,6 +18,7 @@
 #include "Game/UI/KnockDownEnemy.h"
 #include "Game/UI/TotalScore.h"
 #include "Game/UI/Energy.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 class GameScene 
 	: public BaseScene {
@@ -66,6 +68,8 @@ private:
 	static const uint32_t kBulletNum_ = 2;
 	std::unique_ptr<PlayerBullet> playerBullets_[kBulletNum_];
 
+	std::unique_ptr<Boss> boss_;
+
 	// --- Manager --------------------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_;
 	std::unique_ptr<CollisionManager> collisionManager_;
@@ -80,6 +84,8 @@ private:
 	std::unique_ptr<Sprite> panel_;
 	float titleAplpa_;
 	float frameCount_;
+
+	std::unique_ptr<AudioPlayer> bgm_;
 
 	// --- Edier ----------------------------------- //
 	std::unique_ptr<RailPointEditer> railPointEditer_;

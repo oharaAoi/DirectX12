@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include "Game/Scene/BaseScene.h"
 #include "Engine/2d/Sprite.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 class ResultScene : public BaseScene {
 public:

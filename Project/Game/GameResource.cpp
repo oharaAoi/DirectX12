@@ -25,6 +25,7 @@ void GameResource::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Ground/", "ground.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Balloon/", "balloon.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Jet/", "jet.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Boss/", "boss.obj");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "rail_plane.png");
@@ -36,4 +37,9 @@ void GameResource::Load() {
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "panel.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "clear.png");
 
+	AudioManager::LoadAudio("./Game/Resources/Audio/", "hit.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/", "shot.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/", "guutara.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/", "push.mp3");
+	AudioManager::LoadAudio("./Engine/Resources/Develop/Audio/", "fanfare.wav");
 }

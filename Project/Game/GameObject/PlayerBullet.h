@@ -4,6 +4,7 @@
 #include "Game/GameObject/Player.h"
 #include "Game/UI/KnockDownEnemy.h"
 #include "Engine/Collider/MeshCollider.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 class PlayerBullet : public BaseGameObject {
 public:

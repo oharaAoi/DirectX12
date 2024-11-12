@@ -29,6 +29,7 @@ void KnockDownEnemy::Init() {
 	numberSpriteSize_ = { 52.0f, 52.0f };
 
 	SetObject("star.obj");
+	SetIsLighting(false);
 
 	transform_->SetTranslaion(Vector3(1.5f, -0.6f, 7.0f));
 }
@@ -41,6 +42,7 @@ void KnockDownEnemy::Update() {
 	// objectの更新があるか
 	if (isChange_) {
 		SetObject(knockObjName_);
+		SetIsLighting(false);
 		rotateCount_ = rotateTime_;
 		rotateAngle_ = 0.0f;
 		CalculateionScore();

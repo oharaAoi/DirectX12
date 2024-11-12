@@ -28,6 +28,10 @@ void Enemy::Init() {
 	isAlive_ = true;
 
 	speed_ = 2.0f;
+
+	lifeTime_ = 0.0f;
+
+	SetIsLighting(false);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +39,8 @@ void Enemy::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Enemy::Update() {
+	lifeTime_ += GameTimer::DeltaTime();
+
 	if (isMove_) {
 		Vector3 translate = transform_->GetTranslation();
 		translate += (velocity_ * speed_) * GameTimer::DeltaTime();
@@ -44,6 +50,10 @@ void Enemy::Update() {
 	if (enemyType_ == EnemyType::JET) {
 		Quaternion rotate = Quaternion::FromToRotation(Vector3::FORWARD(), velocity_.Normalize());
 		transform_->SetQuaternion(rotate.Normalize());
+	}
+
+	if (lifeTime_ > 10.0f) {
+		isAlive_ = false;
 	}
 
 	BaseGameObject::Update();
@@ -59,8 +69,8 @@ void Enemy::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	BaseGameObject::Draw();
 
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
-	meshCollider_->Draw();
+	/*Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	meshCollider_->Draw();*/
 }
 
 void Enemy::OnCollision(MeshCollider& other) {
@@ -102,6 +112,8 @@ void Enemy::ChangeModel() {
 	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
 		this->OnCollision(other);
 										  });
+
+	SetIsLighting(false);
 }
 
 void Enemy::SetModel(EnemyType type) {
@@ -134,6 +146,8 @@ void Enemy::SetModel(EnemyType type) {
 	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
 		this->OnCollision(other);
 										  });
+
+	SetIsLighting(false);
 }
 
 #ifdef _DEBUG

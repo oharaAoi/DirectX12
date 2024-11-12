@@ -7,9 +7,11 @@ Player::Player() {
 }
 
 Player::~Player() {
+	Finalize();
 }
 
 void Player::Finalize() {
+	shotSe_->Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,9 +29,8 @@ void Player::Init() {
 	shotEnergy_ = 1.0f;
 	shotEnergyRaito_ = 1.0f;
 
-	test_ = std::make_unique<BaseGameObject>();
-	test_->Init();
-	test_->SetObject("cube.obj");
+	shotSe_ = std::make_unique<AudioPlayer>();
+	shotSe_->Init("shot.mp3");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,6 +44,7 @@ void Player::Update() {
 		isShot_ = false;
 		shotEnergy_ += GameTimer::DeltaTime();
 		shotEnergyRaito_ = shotEnergy_ / 1.0f;
+		shotSe_->Stop();
 	}
 
 	if (Input::GetIsPadTrigger(R_SHOULDER)) {
@@ -51,9 +53,7 @@ void Player::Update() {
 
 	shotEnergy_ = std::clamp(shotEnergy_, 0.0f, 1.0f);
 
-	test_->GetTransform()->SetTranslaion(reticlrPos_);
 
-	test_->Update();
 	BaseGameObject::Update();
 }
 
@@ -63,7 +63,7 @@ void Player::Update() {
 
 void Player::Draw() const {
 	BaseGameObject::Draw();
-	test_->Draw();
+	//test_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,11 +71,18 @@ void Player::Draw() const {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Shot() {
+	if (shotEnergy_ <= 0.0f) {
+		isShot_ = false;
+		return;
+	}
+
 	isShot_ = true;
 	Vector3 dire = (reticlrPos_ - worldPos_).Normalize();
 	shotQuaternion_ = Quaternion::LookAt(worldPos_, reticlrPos_, Vector3::FORWARD());
 	shotEnergy_ -= GameTimer::DeltaTime();
 	shotEnergyRaito_ = shotEnergy_ / 1.0f;
+
+	shotSe_->Play(true, 0.3f, true);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

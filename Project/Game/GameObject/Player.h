@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/GameObject/BaseGameObject.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 class GameScene;
 
@@ -46,6 +47,7 @@ private:
 	Vector3 reticlrPos_;
 
 	std::unique_ptr<BaseGameObject> test_;
+	std::unique_ptr<AudioPlayer> shotSe_;
 
 	Quaternion shotQuaternion_;
 

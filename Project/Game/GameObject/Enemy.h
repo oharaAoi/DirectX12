@@ -62,6 +62,8 @@ private:
 
 	Vector3 firstTranslate_;
 
+	float lifeTime_;
+
 	bool isAlive_;
 	bool isMove_;
 

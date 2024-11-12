@@ -4,6 +4,7 @@ GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
+	bgm_->Finalize();
 }
 
 void GameScene::Init() {
@@ -47,6 +48,9 @@ void GameScene::Init() {
 			playerBullets_[index]->SetOffset(Vector3(0.5f, -0.35f, 1.3f));
 		}
 	}
+
+	boss_ = std::make_unique<Boss>();
+	boss_->Init();
 
 	// -------------------------------------------------
 	// ↓ Editer初期化
@@ -97,6 +101,10 @@ void GameScene::Init() {
 	titleAplpa_ = 1;
 	frameCount_ = 0;
 
+
+	bgm_ = std::make_unique<AudioPlayer>();
+	bgm_->Init("guutara.mp3");
+
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
@@ -117,6 +125,8 @@ void GameScene::Update() {
 			isStart_ = true;
 			isTransition_ = true;
 			mainCamera_->SetIsMove(true);
+			bgm_->Play(true, 0.2f);
+			AudioPlayer::SinglShotPlay("push.mp3", 0.3f);
 		}
 		title_->SetColor(Vector4(1.0f, 1.0f, 1.0f, titleAplpa_));
 		title_->Update();
@@ -140,6 +150,7 @@ void GameScene::Update() {
 
 		if (frameCount_ > 2.0f) {
 			SetNextScene(SceneType::Scene_Result);
+			bgm_->Stop();
 		}
 	}
 
@@ -194,6 +205,18 @@ void GameScene::Update() {
 		}
 	}
 
+	if (mainCamera_->GetIsBoss()) {
+		boss_->SetIsMove(true);
+	}
+
+	boss_->Update();
+
+	if (boss_->GetIsFinish()) {
+		if (mainCamera_->GetIsBoss()) {
+			mainCamera_->ReStart();
+		}
+	}
+
 	// -------------------------------------------------
 	// ↓ UIの更新
 	// -------------------------------------------------
@@ -229,6 +252,8 @@ void GameScene::Update() {
 	for (auto& enemy : enemyManager_->GetList()) {
 		collisionManager_->AddCollider(enemy->GetMeshCollider());
 	}
+
+	collisionManager_->AddCollider(boss_->GetMeshCollider());
 	
 	collisionManager_->CheckAllCollision();
 
@@ -288,6 +313,8 @@ void GameScene::Draw() const {
 	}
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
+	boss_->Draw();
+
 	player_->Draw();
 
 	knockDownEnemy_->Draw();
@@ -380,6 +407,8 @@ void GameScene::Debug_Gui() {
 		ResetRail();
 		railPointEditer_->SetIsAdd(false);
 	}
+
+	boss_->Debug_Gui();
 
 	ImGui::SliderFloat("alpha", &titleAplpa_, 0.0f, 1.0f);
 

@@ -17,6 +17,8 @@ public:
 
 	void RailMove();
 
+	void ReStart();
+
 	void SetControlPoints(const std::vector<Vector3>& points);
 	void SetControlRotateZ(const std::vector<float>& points);
 
@@ -31,6 +33,8 @@ public:
 	void SetIsMove(bool isMove) { isMove_ = isMove; }
 
 	const bool GetIsFinish() { return isFinish_; }
+
+	const bool GetIsBoss() const { return isBoss_; }
 
 private:
 	// 制御点
@@ -59,6 +63,8 @@ private:
 	// ---------------------------------------
 	bool isMove_;
 	bool isFinish_;
+
+	bool isBoss_;
 
 	std::unique_ptr<BaseGameObject> cameraObj_ = nullptr;
 

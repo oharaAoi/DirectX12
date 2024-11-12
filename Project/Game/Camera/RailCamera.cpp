@@ -22,6 +22,7 @@ void RailCamera::Init() {
 	forwardIndex_ = 0;
 
 	isMove_ = false;
+	isBoss_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +32,10 @@ void RailCamera::Init() {
 void RailCamera::Update() {
 	if (Input::IsTriggerKey(DIK_L)) {
 		isMove_ = !isMove_;
+	}
+
+	if (isBoss_) {
+		return;
 	}
 
 	if (!isMove_) {
@@ -93,6 +98,10 @@ void RailCamera::RailMove() {
 		frameCount_ = 0;
 	}
 
+	if (eyeIndex_ == 124) {
+		isBoss_ = true;
+	}
+
 	const size_t segmentCount = controlPoints_.size();
 	// 点からSpline曲線を引く
 	t += (1.0f / static_cast<float>(segmentCount)) * (GameTimer::DeltaTime() * 2.0f);
@@ -120,6 +129,12 @@ void RailCamera::RailMove() {
 	transform_.rotate.x = localRotate_.x + std::atan2f(-diff.y, xzLenght);
 
 	//transform_.rotate.z = controlRotateZ_[eyeIndex_];
+}
+
+void RailCamera::ReStart() {
+	isBoss_ = false;
+	eyeIndex_++;
+	frameCount_ = 0;
 }
 
 void RailCamera::SetControlPoints(const std::vector<Vector3>& points) {
