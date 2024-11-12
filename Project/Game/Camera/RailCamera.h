@@ -28,6 +28,10 @@ public:
 
 	const uint32_t GetEyeIndex() const { return eyeIndex_; }
 
+	void SetIsMove(bool isMove) { isMove_ = isMove; }
+
+	const bool GetIsFinish() { return isFinish_; }
+
 private:
 	// 制御点
 	std::vector<Vector3> controlPoints_;
@@ -54,6 +58,8 @@ private:
 
 	// ---------------------------------------
 	bool isMove_;
+	bool isFinish_;
+
 	std::unique_ptr<BaseGameObject> cameraObj_ = nullptr;
 
 };

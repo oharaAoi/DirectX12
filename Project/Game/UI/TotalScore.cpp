@@ -1,5 +1,7 @@
 #include "TotalScore.h"
 
+uint32_t TotalScore::playerScore_ = 0;
+
 TotalScore::TotalScore() {
 }
 

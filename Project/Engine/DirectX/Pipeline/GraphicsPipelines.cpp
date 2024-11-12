@@ -22,6 +22,8 @@ void GraphicsPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, 
 	pipelineMap_[PipelineType::TextureLessPipeline]	 = std::make_unique<Pipeline>();
 	pipelineMap_[PipelineType::ParticlePipeline]	 = std::make_unique<Pipeline>();
 	pipelineMap_[PipelineType::SpritePipeline]		 = std::make_unique<Pipeline>();
+	pipelineMap_[PipelineType::NormalSpritePipeline] = std::make_unique<Pipeline>();
+	pipelineMap_[PipelineType::AddSpritePipeline]	 = std::make_unique<Pipeline>();
 	pipelineMap_[PipelineType::PBRPipeline]			 = std::make_unique<Pipeline>();
 	
 	pipelineMap_[PipelineType::NormalPipeline]			->Initialize(device_, dxCompiler_, shaders->GetShaderData(Shader::Normal),RootSignatureType::Normal, inputLayout_.CreateInputLayout(), Blend::kBlendModeNormal, true, true);
@@ -29,6 +31,8 @@ void GraphicsPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, 
 	pipelineMap_[PipelineType::TextureLessPipeline]		->Initialize(device_, dxCompiler_, shaders->GetShaderData(Shader::TextureLess), RootSignatureType::TextureLess, inputLayout_.CreateInputLayout(), Blend::kBlendModeNormal, true, true);
 	pipelineMap_[PipelineType::ParticlePipeline]		->Initialize(device_, dxCompiler_, shaders->GetShaderData(Shader::Particle), RootSignatureType::Particle, inputLayout_.CreateParticleInputLayout(), Blend::kBlendModeNormal, true, true);
 	pipelineMap_[PipelineType::SpritePipeline]			->Initialize(device_, dxCompiler_, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSpriteInputLayout(), Blend::kBlendModeNone, true, true);
+	pipelineMap_[PipelineType::NormalSpritePipeline]	->Initialize(device_, dxCompiler_, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSpriteInputLayout(), Blend::kBlendModeNormal, true, false);
+	pipelineMap_[PipelineType::AddSpritePipeline]		->Initialize(device_, dxCompiler_, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSpriteInputLayout(), Blend::kBlendModeAdd, true, false);
 	pipelineMap_[PipelineType::PBRPipeline]				->Initialize(device_, dxCompiler_, shaders->GetShaderData(Shader::PBR), RootSignatureType::PBR, inputLayout_.CreateInputLayout(), Blend::kBlendModeNormal, true, true);
 	
 }

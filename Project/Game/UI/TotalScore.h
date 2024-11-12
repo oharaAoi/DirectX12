@@ -21,12 +21,14 @@ public:
 	void Debug_Gui();
 #endif
 
+	static uint32_t GetTotalScore() { return playerScore_; }
+
 private:
 
 	std::unique_ptr<Sprite> background_;
 
 	std::vector<std::unique_ptr<Sprite>> score_;
-	uint32_t playerScore_;
+	static uint32_t playerScore_;
 
 	Vector2 numberSpriteSize_;
 	Vector2 originPos_;

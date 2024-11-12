@@ -314,6 +314,12 @@ void Engine::SetPipeline(const PipelineType& kind) {
 	case PipelineType ::SpritePipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
 		break;
+	case PipelineType::NormalSpritePipeline:
+		graphicsPipelines_->SetPipeline(PipelineType::NormalSpritePipeline, dxCommands_->GetCommandList());
+		break;
+	case PipelineType::AddSpritePipeline:
+		graphicsPipelines_->SetPipeline(PipelineType::AddSpritePipeline, dxCommands_->GetCommandList());
+		break;
 	}
 }
 

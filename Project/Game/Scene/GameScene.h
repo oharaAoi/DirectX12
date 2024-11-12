@@ -29,6 +29,8 @@ public:
 	void Update() override;
 	void Draw() const override;
 
+	void Transition();
+
 #ifdef _DEBUG
 	void Debug_Gui();
 
@@ -36,6 +38,10 @@ public:
 #endif
 
 private:
+
+	bool isStart_;
+
+	bool isTransition_;
 
 	// --- eyePos/view/Projection ------------------- //
 	Vector3 eyePos_;
@@ -69,6 +75,11 @@ private:
 	std::unique_ptr<KnockDownEnemy> knockDownEnemy_;
 	std::unique_ptr<TotalScore> totalScore_;
 	std::unique_ptr<Energy> energyUI_;
+
+	std::unique_ptr<Sprite> title_;
+	std::unique_ptr<Sprite> panel_;
+	float titleAplpa_;
+	float frameCount_;
 
 	// --- Edier ----------------------------------- //
 	std::unique_ptr<RailPointEditer> railPointEditer_;

@@ -18,6 +18,7 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 
     // UIのアルファを使用して合成
     // 色が変わらないように、UIの色のアルファを使ってブレンド
+	//float4 resultColor = lerp(color3D, colorUI, colorUI.a);
 	float4 resultColor = lerp(color3D, colorUI, colorUI.a);
 
     // 結果を出力バッファに書き込む

@@ -27,6 +27,10 @@ void KnockDownEnemy::Init() {
 	originPos_ = { 1030.0f, 580.0f };
 
 	numberSpriteSize_ = { 52.0f, 52.0f };
+
+	SetObject("star.obj");
+
+	transform_->SetTranslaion(Vector3(1.5f, -0.6f, 7.0f));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +60,6 @@ void KnockDownEnemy::Update() {
 	// ↓ 回転の更新と位置の更新
 	// -------------------------------------------------
 	rotateAngle_+= 360.0f * GameTimer::DeltaTime();
-	transform_->SetTranslaion(worldPos_);
 	transform_->SetScale({ 0.5f, 0.5f, 0.5f });
 	transform_->SetQuaternion(Quaternion::AngleAxis(rotateAngle_ * toRadian, {0.0f, 1.0f, 0.0f}));
 
@@ -106,6 +109,9 @@ void KnockDownEnemy::Debug_Gui() {
 		ImGui::DragFloat2("originPos", &originPos_.x, 1.0f);
 		ImGui::DragFloat2("screenPos", &screenPos_.x, 1.0f);
 		ImGui::DragFloat3("worldPos", &worldPos_.x, 1.0f);
+		Vector3 pos = transform_->GetTranslation();
+		ImGui::DragFloat3("Pos", &pos.x, 0.1f);
+		transform_->SetTranslaion(pos);
 		ImGui::End();
 		ImGui::TreePop();
 	}

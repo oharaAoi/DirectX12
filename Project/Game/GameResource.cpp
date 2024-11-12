@@ -32,5 +32,8 @@ void GameResource::Load() {
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "scoreBackground.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "razer_outside.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "energy.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "title.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "panel.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "clear.png");
 
 }

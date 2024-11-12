@@ -79,6 +79,11 @@ void SceneManager::Run() {
 
 		// fpsの計算
 		gameTimer_.CalculationFrame();
+
+		if (scene_->GetType()) {
+			SetChange();
+			scene_->SetNextScene(std::nullopt);
+		}
 	}
 
 	Finalize();
@@ -90,5 +95,15 @@ void SceneManager::SetChange() {
 }
 
 void SceneManager::GetScene() {
-	
+	switch (scene_->GetType().value()) {
+	case SceneType::Scene_Game:
+		scene_.reset(new GameScene);
+		break;
+	case SceneType::Scene_Result:
+		scene_.reset(new ResultScene);
+		break;
+	case SceneType::Scene_Test:
+		scene_.reset(new TestScene);
+		break;
+	}
 }

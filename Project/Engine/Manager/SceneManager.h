@@ -4,6 +4,7 @@
 #include "Game/Scene/BaseScene.h"
 #include "Game/Scene/TestScene.h"
 #include "Game/Scene/GameScene.h"
+#include "Game/Scene/ResultScene.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/ParticleSystem/EffectSystem.h"
 #include "Engine/Manager/ModelManager.h"

@@ -54,7 +54,6 @@ void Reticle::Update(const Vector3& playerPos, const Vector3& playerForward, con
 void Reticle::Draw() const {
 	//reticle3D_->Draw();
 
-	Engine::SetPipeline(PipelineType::SpritePipeline);
 	reticle_->Draw();
 }
 

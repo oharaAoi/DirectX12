@@ -69,6 +69,11 @@ void PlayerBullet::OnCollision(MeshCollider& other) {
 		isAlive_ = false;
 		Player::AddScore(20);
 		KnockDownEnemy::SetObj("balloon.obj", 20);
+
+	} else if (other.GetTag() == "jet") {
+		isAlive_ = false;
+		Player::AddScore(60);
+		KnockDownEnemy::SetObj("jet.obj", 60);
 	}
 }
 

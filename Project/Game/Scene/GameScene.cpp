@@ -7,6 +7,9 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Init() {
+	isStart_ = false;
+	isTransition_ = false;
+
 	// -------------------------------------------------
 	// ↓ Cameraの初期化
 	// -------------------------------------------------
@@ -85,6 +88,15 @@ void GameScene::Init() {
 	energyUI_ = std::make_unique<Energy>();
 	energyUI_->Init();
 
+	title_ = Engine::CreateSprite("title.png");
+	title_->SetCenterPos({640.0f, 360.0f});
+
+	panel_ = Engine::CreateSprite("panel.png");
+	panel_->SetCenterPos({ 640.0f, 360.0f });
+
+	titleAplpa_ = 1;
+	frameCount_ = 0;
+
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
@@ -93,11 +105,44 @@ void GameScene::Init() {
 
 	railPointEditer_->Update();
 	mainCamera_->SetControlPoints(railPointEditer_->GetRailPoints());
+
+	knockDownEnemy_->GetTransform()->SetParent((mainCamera_->GetCameraMatrix()));
 	
 	isDebugCamera_ = false;
 }
 
 void GameScene::Update() {
+	if (!isStart_) {
+		if (Input::IsTriggerKey(DIK_SPACE)) {
+			isStart_ = true;
+			isTransition_ = true;
+			mainCamera_->SetIsMove(true);
+		}
+		title_->SetColor(Vector4(1.0f, 1.0f, 1.0f, titleAplpa_));
+		title_->Update();
+
+		if (!isDebugCamera_) {
+			Render::SetEyePos(mainCamera_->GetWorldTranslate());
+			Render::SetViewProjection(mainCamera_->GetViewMatrix(), mainCamera_->GetProjectionMatrix());
+			Render::SetViewProjection2D(mainCamera_->GetViewMatrix2D(), mainCamera_->GetProjectionMatrix2D());
+		} else {
+			Render::SetEyePos(debugCamera_->GetWorldTranslate());
+			Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
+			Render::SetViewProjection2D(debugCamera_->GetViewMatrix2D(), debugCamera_->GetProjectionMatrix2D());
+		}
+	}
+
+	if (mainCamera_->GetIsFinish()) {
+		frameCount_ += GameTimer::DeltaTime();
+		titleAplpa_ = std::lerp(0.0f, 1.0f, (frameCount_ / 2.0f));
+		panel_->SetColor(Vector4(1.0f, 1.0f, 1.0f, titleAplpa_));
+		panel_->Update();
+
+		if (frameCount_ > 2.0f) {
+			SetNextScene(SceneType::Scene_Result);
+		}
+	}
+
 	// -------------------------------------------------
 	// ↓ Cameraの更新
 	// -------------------------------------------------
@@ -155,12 +200,16 @@ void GameScene::Update() {
 	Vector3 playerPos = Transform({ 0.0, 0.0f, 0.0f }, player_->GetTransform()->GetWorldMatrix());
 	reticle_->Update(playerPos, player_->GetForward(), mainCamera_->GetVpvpMatrix());
 
-	knockDownEnemy_->SetWorldPos(ScreenToWorldCoordinate(knockDownEnemy_->GetScreenPos(), mainCamera_->GetVPVMatrix().Inverse(), 10.0f));
+	//knockDownEnemy_->SetWorldPos(ScreenToWorldCoordinate(knockDownEnemy_->GetScreenPos(), debugCamera_->GetVPVMatrix().Inverse(), 10.0f));
 	knockDownEnemy_->Update();
 
 	totalScore_->Update(player_->GetScore());
 
 	energyUI_->Update(player_->GetShotEnergyRaito());
+
+	if (isTransition_) {
+		Transition();
+	}
 
 	// -------------------------------------------------
 	// ↓ Managerの更新
@@ -247,12 +296,34 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ UIの描画
 	// -------------------------------------------------
+
+	Engine::SetPipeline(PipelineType::NormalSpritePipeline);
 	reticle_->Draw();
 
 	totalScore_->Draw();
 
 	energyUI_->Draw();
 
+	if (!isStart_ || isTransition_) {
+		title_->Draw();
+	}
+
+	if (mainCamera_->GetIsFinish()) {
+		panel_->Draw();
+	}
+}
+
+void GameScene::Transition() {
+	frameCount_ += GameTimer::DeltaTime();
+	titleAplpa_ = std::lerp(1.0f, 0.0f, (frameCount_ / 1.0f));
+	title_->SetColor(Vector4(1.0f, 1.0f, 1.0f, titleAplpa_));
+	title_->Update();
+
+	if (frameCount_ > 1.0f) {
+		isTransition_ = false;
+		titleAplpa_ = 1;
+		frameCount_ = 0;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -309,6 +380,8 @@ void GameScene::Debug_Gui() {
 		ResetRail();
 		railPointEditer_->SetIsAdd(false);
 	}
+
+	ImGui::SliderFloat("alpha", &titleAplpa_, 0.0f, 1.0f);
 
 	ImGui::End();
 }

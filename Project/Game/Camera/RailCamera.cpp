@@ -96,18 +96,19 @@ void RailCamera::RailMove() {
 	const size_t segmentCount = controlPoints_.size();
 	// 点からSpline曲線を引く
 	t += (1.0f / static_cast<float>(segmentCount)) * (GameTimer::DeltaTime() * 2.0f);
+	if (t >= 1.0f) {
+		t = 1.0f;
+		isFinish_ = true;
+	}
+
 	Vector3 pos = CatmullRomPosition(controlPoints_, t);
 
 	t2 = t + (((1.0f / static_cast<float>(segmentCount)) * (GameTimer::DeltaTime() * 10.0f)));
-	Vector3 pos2 = CatmullRomPosition(controlPoints_, t2);
-
-	if (t >= 1.0f) {
-		t = 1.0f;
-	}
-
 	if (t2 >= 1.0f) {
 		t2 = 1.0f;
 	}
+	Vector3 pos2 = CatmullRomPosition(controlPoints_, t2);
+
 
 	transform_.translate = pos + offset_;
 	// forwardの座標を求める
@@ -145,6 +146,7 @@ void RailCamera::Debug_Gui() {
 		eyeIndex_ = 0.0f;
 	}
 	ImGui::Checkbox("isMove", &isMove_);
+	ImGui::Checkbox("isFinish", &isFinish_);
 
 	ImGui::Text("eyeIndex : %d", eyeIndex_);
 
