@@ -10,9 +10,10 @@ public:
 	Field();
 	~Field();
 
-	void Init();
-	void Update();
-	void Draw() const;
+	void Finalize() override;
+	void Init() override;
+	void Update() override;
+	void Draw() const override;
 
 #ifdef _DEBUG
 	void Debug_Gui();

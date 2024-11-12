@@ -49,6 +49,8 @@ void WorldTransform::Debug_Gui() {
 		}
 		if (ImGui::TreeNode("rotate")) {
 			Debug_Quaternion();
+			float norm = std::sqrtf(Quaternion::Dot(rotation_, rotation_));
+			ImGui::Text("norm: %f", norm);
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("translation")) {
@@ -57,9 +59,6 @@ void WorldTransform::Debug_Gui() {
 		}
 		ImGui::TreePop();
 	}
-
-	float norm = std::sqrtf(Quaternion::Dot(rotation_, rotation_));
-	ImGui::Text("norm: %f", norm);
 }
 
 void WorldTransform::Debug_Quaternion() {
