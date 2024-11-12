@@ -1,0 +1,64 @@
+{
+    "test_left": {
+        "handTransform0": {
+            "easeType": 0,
+            "moveTimeLimit": 1.0,
+            "rotate": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translate": [
+                8.0,
+                6.5,
+                0.10000000149011612
+            ]
+        },
+        "handTransform1": {
+            "easeType": 2,
+            "moveTimeLimit": 1.0,
+            "rotate": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translate": [
+                8.0,
+                6.5,
+                -5.400000095367432
+            ]
+        },
+        "handTransform2": {
+            "easeType": 9,
+            "moveTimeLimit": 1.0,
+            "rotate": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "scale": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "translate": [
+                8.0,
+                3.299999952316284,
+                -5.400000095367432
+            ]
+        }
+    }
+}
