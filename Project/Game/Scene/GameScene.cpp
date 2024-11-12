@@ -45,7 +45,7 @@ void GameScene::Init() {
 	testCollisionObj2_ = std::make_unique<TestCollisionObj>();
 	testCollisionObj2_->Init();
 	testCollisionObj2_->SetPlayer(player_.get());
-	testCollisionObj2_->SetTag("canPullObj");
+	testCollisionObj2_->SetTag("canCatchObj");
 	testCollisionObj2_->GetTransform()->SetTranslaion({ -3.0f,4.0f,0.0f });
 
 

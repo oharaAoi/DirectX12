@@ -66,11 +66,14 @@ void TestCollisionObj::Draw() const {
 void TestCollisionObj::OnCollision(Collider* other) {
 
 	if (other->GetTag() == "wireTip") {
-		if (tag_=="canPullObj") {
+		if (tag_=="canCatchObj") {
 			transform_->SetParent(player_->GetTransform()->GetWorldMatrix());
 			Vector3 position = transform_->GetTranslation() - player_->GetTransform()->GetTranslation();
 			transform_->SetTranslaion(position);
 			isfollowWire_ = true;
+		}
+		if (tag_ == "canPullObj") {
+
 		}
 	}
 
