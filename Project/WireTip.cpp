@@ -29,6 +29,8 @@ void WireTip::Update() {
 	isHit_ = false;
 	isCautch_ = false;
 	isSnagged_ = false;
+	isPull_ = false;
+	weight_ = 0.0f;
 	BaseGameObject::Update();
 }
 
@@ -57,6 +59,11 @@ void WireTip::OnCollision(Collider* other) {
 			isCautch_ = true;
 			isFollow_ = true;
 		}
+	}
+
+	if (other->GetTag() == "canPullObj") {
+		isPull_ = true;
+		weight_ = 0.5f;
 	}
 
 }

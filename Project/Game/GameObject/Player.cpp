@@ -116,12 +116,34 @@ void Player::Move() {
 	if (!isSnagged_) {
 		velocity_.x = 0.0f;
 		if (!isStretching_) {
+			float weight = 1.0f;
+			if (isPull_&&wireTip_->GetPull()) {
+				weight = wireTip_->GetWeight();
+			}
+
 			if (Input::IsPressKey(DIK_A)) {
 				velocity_.x -= moveSpeed_ * GameTimer::DeltaTime();
 			}
 			if (Input::IsPressKey(DIK_D)) {
 				velocity_.x += moveSpeed_ * GameTimer::DeltaTime();
 			}
+
+
+			if (velocity_.x < 0) {
+
+				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
+				if (sab.x>0) {
+					velocity_ *= weight;
+				}
+			}
+			else if (velocity_.x > 0) {
+
+				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
+				if (sab.x < 0) {
+					velocity_ *= weight;
+				}
+			}
+
 		}
 	}
 	else if(wireTip_->GetSnagged() && isStretchClutch_) {
@@ -143,6 +165,7 @@ void Player::Clutch() {
 
 	if (!Input::IsPressMouse(0)) {
 		isRekey_ = true;
+		isPull_ = false;
 	}
 
 	BaseClutch();
@@ -153,6 +176,9 @@ void Player::Clutch() {
 	if (wireTip_->GetHit() && isStretchClutch_) {
 		if (isStretching_) {
 			clutchEnd_ = wireTipPos;
+		}
+		if (wireTip_->GetSnagged()) {
+			isSnagged_ = true;
 		}
 		isStretching_ = false;
 	}
@@ -201,6 +227,7 @@ void Player::BaseClutch() {
 	if (!isReturnClutch_) {// 最大まで伸びて、戻る状態じゃない時
 		if (Input::IsPressMouse(0)) {
 			if (!wireTip_->GetFollow()) {
+				isPull_ = true;
 
 				FirstClutch();
 

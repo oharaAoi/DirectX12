@@ -52,6 +52,14 @@ void TestCollisionObj::Update() {
 		transform_->SetTranslaion(position);
 	}
 
+	if (isPulling_&& player_->GetPull()) {
+		Vector3 position = player_->GetWireTip()->GetTransform()->GetTranslation();
+		transform_->SetTranslaion({ position.x,transform_->GetTranslation().y,position.z });
+	}
+	if (!player_->GetPull()) {
+		isPulling_ = false;
+	}
+
 	BaseGameObject::Update();
 }
 
@@ -72,8 +80,10 @@ void TestCollisionObj::OnCollision(Collider* other) {
 			transform_->SetTranslaion(position);
 			isfollowWire_ = true;
 		}
-		if (tag_ == "canPullObj") {
 
+		if (tag_ == "canPullObj") {
+			
+			isPulling_ = true;
 		}
 	}
 
