@@ -34,35 +34,34 @@ void RailCamera::Update() {
 	}
 
 	if (!isMove_) {
-		if (eyeIndex_ >= static_cast<uint32_t>(controlPoints_.size() - 1)) {
-			return;
+		const size_t segmentCount = controlPoints_.size();
+		Vector3 pos = CatmullRomPosition(controlPoints_, t);
+		Vector3 pos2 = CatmullRomPosition(controlPoints_, t2);
+
+		if (t >= 1.0f) {
+			t = 1.0f;
 		}
 
-		forwardIndex_ = eyeIndex_ + 5;
-		if (controlPoints_.size() <= forwardIndex_) {
-			forwardIndex_ = static_cast<uint32_t>(controlPoints_.size() - 1);
+		if (t2 >= 1.0f) {
+			t2 = 1.0f;
 		}
 
-		transform_.translate = controlPoints_[eyeIndex_] + offset_;
+		transform_.translate = pos + offset_;
 		// forwardの座標を求める
-		Vector3 forwardPos = controlPoints_[forwardIndex_] + offset_;
+		Vector3 forwardPos = pos2 + offset_;
 
 		Vector3 diff = Normalize(forwardPos - transform_.translate);
 		transform_.rotate.y = localRotate_.y + std::atan2f(diff.x, diff.z);
 		float xzLenght = Length({ diff.x, 0, diff.z });
 		transform_.rotate.x = localRotate_.x + std::atan2f(-diff.y, xzLenght);
+
+
 		BaseCamera::Update();
 		return;
 	}
 
 	RailMove();
 
-	//frameCount_ += GameTimer::DeltaTime();
-
-	//if (frameCount_ > 0.0f) {
-	//	RailMove();
-	//	frameCount_ = 0.0f;
-	//}
 	cameraObj_->GetTransform()->SetTranslaion(transform_.translate);
 	cameraObj_->Update();
 	BaseCamera::Update();
@@ -86,33 +85,13 @@ void RailCamera::Draw() const {
 // ↓　レールに沿ってカメラが動くように
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void RailCamera::InitRail() {
-	frameCount_ += GameTimer::DeltaTime();
-
-	eyeIndex_++;
-
-	if (eyeIndex_ >= static_cast<uint32_t>(controlPoints_.size() - 1)) {
-		return;
-	}
-
-	forwardIndex_ = eyeIndex_ + 5;
-	if (controlPoints_.size() <= forwardIndex_) {
-		forwardIndex_ = static_cast<uint32_t>(controlPoints_.size() - 1);
-	}
-
-	transform_.translate = controlPoints_[eyeIndex_] + offset_;
-	// forwardの座標を求める
-	Vector3 forwardPos = controlPoints_[forwardIndex_] + offset_;
-
-	Vector3 diff = Normalize(forwardPos - transform_.translate);
-	transform_.rotate.y = localRotate_.y + std::atan2f(diff.x, diff.z);
-	float xzLenght = Length({ diff.x, 0, diff.z });
-	transform_.rotate.x = localRotate_.x + std::atan2f(-diff.y, xzLenght);
-}
-
 void RailCamera::RailMove() {
 
-	frameCount_ += GameTimer::DeltaTime() * 10.0f;
+	frameCount_ += GameTimer::DeltaTime();
+	if (frameCount_ > 0.5f) {
+		eyeIndex_++;
+		frameCount_ = 0;
+	}
 
 	const size_t segmentCount = controlPoints_.size();
 	// 点からSpline曲線を引く
@@ -129,12 +108,6 @@ void RailCamera::RailMove() {
 	if (t2 >= 1.0f) {
 		t2 = 1.0f;
 	}
-
-
-	/*forwardIndex_ = eyeIndex_ + 5;
-	if (controlPoints_.size() <= forwardIndex_) {
-		forwardIndex_ = static_cast<uint32_t>(controlPoints_.size() - 1);
-	}*/
 
 	transform_.translate = pos + offset_;
 	// forwardの座標を求める
@@ -167,8 +140,9 @@ void RailCamera::Debug_Gui() {
 	ImGui::Begin("RailCamera");
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
 	if (ImGui::Button("Reset")) {
-		eyeIndex_ = 0;
-		frameCount_ = 0;
+		t = 0;
+		t2 = 0;
+		eyeIndex_ = 0.0f;
 	}
 	ImGui::Checkbox("isMove", &isMove_);
 

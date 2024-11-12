@@ -15,7 +15,6 @@ public:
 	void Update();
 	void Draw() const;
 
-	void InitRail();
 	void RailMove();
 
 	void SetControlPoints(const std::vector<Vector3>& points);

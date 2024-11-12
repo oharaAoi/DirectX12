@@ -93,8 +93,7 @@ void GameScene::Init() {
 
 	railPointEditer_->Update();
 	mainCamera_->SetControlPoints(railPointEditer_->GetRailPoints());
-	mainCamera_->InitRail();
-
+	
 	isDebugCamera_ = false;
 }
 

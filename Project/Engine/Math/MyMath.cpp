@@ -169,7 +169,12 @@ Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t) {
     }
 
     // ローカル t を計算
-    float localT = (distanceAlongCurve - distances[index]) / (distances[index + 1] - distances[index]);
+    float localT = 0.0f;
+    if (index < distances.size() - 1) {
+        localT = (distanceAlongCurve - distances[index]) / (distances[index + 1] - distances[index]);
+    } else {
+        localT = 1.0f;
+    }
 
     // 4点のインデックスを求める
     size_t index0 = (index == 0) ? index : index - 1;
