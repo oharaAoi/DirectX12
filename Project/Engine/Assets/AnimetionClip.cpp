@@ -125,6 +125,8 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 	animation_ = manager_->GetAnimation(animationFile, manager_->GetAnimationFirstName(animationFile));
 
 	animationNames_ = manager_->GetModelHaveAnimationNames(animationFileName_);
+
+	rootName_ = rootName;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
