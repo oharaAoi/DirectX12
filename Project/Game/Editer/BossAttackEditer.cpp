@@ -288,7 +288,7 @@ void BossAttackEditer::SelectAttack() {
 	}
 	
 	if (ImGui::BeginCombo(".json##", &selectFileName_[0], ImGuiComboFlags_HeightLargest)) {
-		for (int i = 0; i < attackFileNames_.size(); i++) {
+		for (uint32_t i = 0; i < attackFileNames_.size(); i++) {
 			const bool isSelected = (selectIndex_ == i);
 			if (ImGui::Selectable(attackFileNames_[selectIndex_].c_str(), isSelected)) {
 				selectIndex_ = i;
