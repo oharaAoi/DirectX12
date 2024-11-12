@@ -41,6 +41,11 @@ void Enemy::Update() {
 		transform_->SetTranslaion(translate);
 	}
 
+	if (enemyType_ == EnemyType::JET) {
+		Quaternion rotate = Quaternion::FromToRotation(Vector3::FORWARD(), velocity_.Normalize());
+		transform_->SetQuaternion(rotate.Normalize());
+	}
+
 	BaseGameObject::Update();
 
 	meshCollider_->Update(transform_.get(), Vector3::ZERO());
@@ -77,7 +82,7 @@ void Enemy::ChangeModel() {
 		tag = "star";
 		break;
 	case EnemyType::JET:
-		SetObject("star.obj");
+		SetObject("jet.obj");
 		SetColor(Vector4(1, 1, 1, 1));
 		tag = "jet";
 		break;
@@ -109,7 +114,7 @@ void Enemy::SetModel(EnemyType type) {
 		tag = "star";
 		break;
 	case EnemyType::JET:
-		SetObject("star.obj");
+		SetObject("jet.obj");
 		SetColor(Vector4(1, 1, 1, 1));
 		tag = "jet";
 		break;

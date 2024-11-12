@@ -34,6 +34,23 @@ void RailCamera::Update() {
 	}
 
 	if (!isMove_) {
+		if (eyeIndex_ >= static_cast<uint32_t>(controlPoints_.size() - 1)) {
+			return;
+		}
+
+		forwardIndex_ = eyeIndex_ + 5;
+		if (controlPoints_.size() <= forwardIndex_) {
+			forwardIndex_ = static_cast<uint32_t>(controlPoints_.size() - 1);
+		}
+
+		transform_.translate = controlPoints_[eyeIndex_] + offset_;
+		// forwardの座標を求める
+		Vector3 forwardPos = controlPoints_[forwardIndex_] + offset_;
+
+		Vector3 diff = Normalize(forwardPos - transform_.translate);
+		transform_.rotate.y = localRotate_.y + std::atan2f(diff.x, diff.z);
+		float xzLenght = Length({ diff.x, 0, diff.z });
+		transform_.rotate.x = localRotate_.x + std::atan2f(-diff.y, xzLenght);
 		BaseCamera::Update();
 		return;
 	}
@@ -138,10 +155,21 @@ void RailCamera::Debug_Gui() {
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
 	if (ImGui::Button("Reset")) {
 		eyeIndex_ = 0;
+		frameCount_ = 0;
 	}
 	ImGui::Checkbox("isMove", &isMove_);
 
 	ImGui::Text("eyeIndex : %d", eyeIndex_);
+
+	ImGui::Text("pos.x");
+	ImGui::SameLine();
+	if (ImGui::ArrowButton("x##Left", ImGuiDir_Left)) {
+		eyeIndex_--;
+	}
+	ImGui::SameLine();
+	if (ImGui::ArrowButton("x##Right", ImGuiDir_Right)) {
+		eyeIndex_++;
+	}
 	ImGui::End();
 }
 #endif

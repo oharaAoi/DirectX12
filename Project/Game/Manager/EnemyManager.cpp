@@ -238,10 +238,15 @@ void EnemyManager::Edit_Pop() {
 				ImGui::SameLine();
 				if (ImGui::Button("delete")) {
 					it = popEnemies_.erase(it);
+
+					ImGui::TreePop();
+					continue;
 				}
 
 				ImGui::TreePop();
 			}
+
+			++it;
 
 			++index;
 		}
