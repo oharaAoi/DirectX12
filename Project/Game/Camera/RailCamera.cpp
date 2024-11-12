@@ -89,7 +89,7 @@ void RailCamera::Draw() const {
 void RailCamera::InitRail() {
 	frameCount_ += GameTimer::DeltaTime();
 
-	eyeIndex_ = uint32_t(frameCount_);
+	eyeIndex_++;
 
 	if (eyeIndex_ >= static_cast<uint32_t>(controlPoints_.size() - 1)) {
 		return;
@@ -111,21 +111,26 @@ void RailCamera::InitRail() {
 }
 
 void RailCamera::RailMove() {
-	frameCount_ += GameTimer::DeltaTime() * 10;
 
-	eyeIndex_ = uint32_t(frameCount_);
-	if (eyeIndex_ >= static_cast<uint32_t>(controlPoints_.size() - 1)) {
-		return;
-	}
+	frameCount_ += GameTimer::DeltaTime();
 
-	forwardIndex_ = eyeIndex_ + 5;
+	const size_t segmentCount = controlPoints_.size();
+	// 点からSpline曲線を引く
+	float t = (1.0f / static_cast<float>(segmentCount)) * frameCount_;
+	Vector3 pos = CatmullRomPosition(controlPoints_, t);
+
+	float t2 = (1.0f / static_cast<float>(segmentCount)) * (frameCount_ + (GameTimer::DeltaTime() * 5.0f));
+	Vector3 pos2 = CatmullRomPosition(controlPoints_, t2);
+
+
+	/*forwardIndex_ = eyeIndex_ + 5;
 	if (controlPoints_.size() <= forwardIndex_) {
 		forwardIndex_ = static_cast<uint32_t>(controlPoints_.size() - 1);
-	}
+	}*/
 
-	transform_.translate = controlPoints_[eyeIndex_] + offset_;
+	transform_.translate = pos + offset_;
 	// forwardの座標を求める
-	Vector3 forwardPos = controlPoints_[forwardIndex_] + offset_;
+	Vector3 forwardPos = pos2 + offset_;
 
 	Vector3 diff = Normalize(forwardPos - transform_.translate);
 	transform_.rotate.y = localRotate_.y + std::atan2f(diff.x, diff.z);
