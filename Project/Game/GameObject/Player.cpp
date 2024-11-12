@@ -73,6 +73,7 @@ void Player::Draw() const {
 void Player::Shot() {
 	if (shotEnergy_ <= 0.0f) {
 		isShot_ = false;
+		shotSe_->Stop();
 		return;
 	}
 

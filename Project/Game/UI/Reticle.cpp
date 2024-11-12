@@ -81,4 +81,20 @@ void Reticle::Move() {
 	if (Input::IsPressKey(DIK_DOWN)) {
 		offsetPos_.y += moveSpeed_;
 	}
+
+	if (offsetPos_.x < -640) {
+		offsetPos_.x = -640;
+	}
+
+	if (offsetPos_.x > 640) {
+		offsetPos_.x = 640;
+	}
+
+	if (offsetPos_.y < -360) {
+		offsetPos_.y = -360;
+	}
+
+	if (offsetPos_.y > 360) {
+		offsetPos_.y = 360;
+	}
 }

@@ -80,6 +80,10 @@ void Boss::OnCollision(MeshCollider& other) {
 		return;
 	}
 
+	if (!isAlive_) {
+		return;
+	}
+
 	if (other.GetTag() == "playerBullet") {
 		hitedTime_ += GameTimer::DeltaTime();
 
