@@ -205,6 +205,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\Editer\BossAttackEditer.cpp" />
+    <ClCompile Include="Game\GameObject\BossCore.cpp" />
     <ClCompile Include="Game\GameObject\ClutchWire.cpp" />
     <ClCompile Include="Game\GameObject\Boss.cpp" />
     <ClCompile Include="Game\GameObject\BossBody.cpp" />
@@ -334,6 +335,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Editer\BossAttackEditer.h" />
     <ClInclude Include="Game\GameObject\Boss.h" />
     <ClInclude Include="Game\GameObject\BossBody.h" />
+    <ClInclude Include="Game\GameObject\BossCore.h" />
     <ClInclude Include="Game\GameObject\BossLeftHand.h" />
     <ClInclude Include="Game\GameObject\BossRightHand.h" />
     <ClInclude Include="Game\GameObject\ClutchWire.h" />

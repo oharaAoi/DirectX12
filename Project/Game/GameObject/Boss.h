@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "Game/GameObject/BossBody.h"
+#include "Game/GameObject/BossCore.h"
 #include "Game/GameObject/BossLeftHand.h"
 #include "Game/GameObject/BossRightHand.h"
 #include "Game/Editer/BossAttackEditer.h"
@@ -57,6 +58,8 @@ private:
 
 	// 体
 	std::unique_ptr<BossBody> boss_body_;
+	// コア部
+	std::unique_ptr<BossCore> boss_core_;
 	// 左手
 	std::unique_ptr<BossLeftHand> boss_leftHand_;
 	// 右手
