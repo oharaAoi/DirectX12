@@ -112,15 +112,23 @@ void RailCamera::InitRail() {
 
 void RailCamera::RailMove() {
 
-	frameCount_ += GameTimer::DeltaTime();
+	frameCount_ += GameTimer::DeltaTime() * 10.0f;
 
 	const size_t segmentCount = controlPoints_.size();
 	// 点からSpline曲線を引く
-	float t = (1.0f / static_cast<float>(segmentCount)) * frameCount_;
+	t += (1.0f / static_cast<float>(segmentCount)) * (GameTimer::DeltaTime() * 2.0f);
 	Vector3 pos = CatmullRomPosition(controlPoints_, t);
 
-	float t2 = (1.0f / static_cast<float>(segmentCount)) * (frameCount_ + (GameTimer::DeltaTime() * 5.0f));
+	t2 = t + (((1.0f / static_cast<float>(segmentCount)) * (GameTimer::DeltaTime() * 10.0f)));
 	Vector3 pos2 = CatmullRomPosition(controlPoints_, t2);
+
+	if (t >= 1.0f) {
+		t = 1.0f;
+	}
+
+	if (t2 >= 1.0f) {
+		t2 = 1.0f;
+	}
 
 
 	/*forwardIndex_ = eyeIndex_ + 5;

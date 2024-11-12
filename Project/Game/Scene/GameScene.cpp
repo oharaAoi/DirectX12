@@ -104,7 +104,7 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	railPointEditer_->Update();
 
-	mainCamera_->SetControlPoints(railPointEditer_->GetPoints());
+	mainCamera_->SetControlPoints(railPointEditer_->GetRailBasePoints());
 	//mainCamera_->SetControlRotateZ(railPointEditer_->GetRailRotateZ());
 	mainCamera_->Update();
 	debugCamera_->Update();

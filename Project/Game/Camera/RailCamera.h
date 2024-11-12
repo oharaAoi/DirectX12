@@ -2,6 +2,7 @@
 #include "BaseCamera.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/GameObject/BaseGameObject.h"
+#include "Engine/Math/Easing.h"
 
 class RailCamera
 	: public BaseCamera {
@@ -48,6 +49,9 @@ private:
 	Quaternion quaternion_;
 	// 回転する前のQuaternion
 	Quaternion moveQuaternion_;
+
+	float t;
+	float t2;
 
 	// ---------------------------------------
 	bool isMove_;
