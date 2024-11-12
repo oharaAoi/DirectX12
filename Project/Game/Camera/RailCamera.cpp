@@ -29,17 +29,23 @@ void RailCamera::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void RailCamera::Update() {
+	if (Input::IsTriggerKey(DIK_L)) {
+		isMove_ = !isMove_;
+	}
+
 	if (!isMove_) {
 		BaseCamera::Update();
 		return;
 	}
 
-	frameCount_ += GameTimer::DeltaTime();
+	RailMove();
 
-	if (frameCount_ > 0.1f) {
-		RailMove();
-		frameCount_ = 0.0f;
-	}
+	//frameCount_ += GameTimer::DeltaTime();
+
+	//if (frameCount_ > 0.0f) {
+	//	RailMove();
+	//	frameCount_ = 0.0f;
+	//}
 	cameraObj_->GetTransform()->SetTranslaion(transform_.translate);
 	cameraObj_->Update();
 	BaseCamera::Update();
@@ -64,7 +70,10 @@ void RailCamera::Draw() const {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void RailCamera::InitRail() {
-	eyeIndex_++;
+	frameCount_ += GameTimer::DeltaTime();
+
+	eyeIndex_ = uint32_t(frameCount_);
+
 	if (eyeIndex_ >= static_cast<uint32_t>(controlPoints_.size() - 1)) {
 		return;
 	}
@@ -85,7 +94,9 @@ void RailCamera::InitRail() {
 }
 
 void RailCamera::RailMove() {
-	eyeIndex_++;
+	frameCount_ += GameTimer::DeltaTime() * 10;
+
+	eyeIndex_ = uint32_t(frameCount_);
 	if (eyeIndex_ >= static_cast<uint32_t>(controlPoints_.size() - 1)) {
 		return;
 	}

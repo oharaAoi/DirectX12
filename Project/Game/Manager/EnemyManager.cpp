@@ -26,15 +26,17 @@ void EnemyManager::Init() {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void EnemyManager::Update() {
-	if (isPop_) {
+void EnemyManager::Update(uint32_t eyeIndex) {
+	Pop(eyeIndex);
+
+	/*if (isPop_) {
 		popTime_ += GameTimer::DeltaTime();
 
 		if (popTime_ > 6.0f) {
 			AddList(playerPos_);
 			popTime_ = 0.0f;
 		}
-	}
+	}*/
 
 	// 生存確認
 	enemyList_.remove_if([](auto& enemy) {return !enemy->GetIsAlive(); });
@@ -135,6 +137,31 @@ void EnemyManager::LoadAllFile() {
 	}
 }
 
+void EnemyManager::Pop(uint32_t index) {
+	std::vector<NewEnmeyData> data;
+	
+	if (auto it = popEnemyData_.find(index); it == popEnemyData_.end()) {
+		return;
+	}
+
+	data = popEnemyData_[index];
+
+	for (size_t oi = 0; oi < data.size(); ++oi) {
+		Vector3 pos = data[oi].translate_;
+		Vector3 velocity = data[oi].velocity_;
+		
+		auto& newEnemy = enemyList_.emplace_back(std::make_unique<Enemy>());
+		newEnemy->Init();
+		newEnemy->GetTransform()->SetTranslaion(pos);
+		newEnemy->SetFirstTranslate(pos);
+		newEnemy->SetVelocity(velocity);
+		newEnemy->SetIsMove(true);
+		newEnemy->SetModel(data[oi].enemyType_);
+	}
+
+	popEnemyData_[index].clear();
+}
+
 #ifdef _DEBUG
 void EnemyManager::Debug_Gui() {
 	if (ImGui::TreeNode("EnemyManager")) {
@@ -158,6 +185,15 @@ void EnemyManager::Edit() {
 	}
 	ImGui::SameLine();
 	ImGui::InputText(".json##enemyDataFile", &enemyDataFile_[0], sizeof(char) * 64);
+
+	ImGui::InputScalar("debugPopIndex", ImGuiDataType_U32, &debugPopIndex_);
+	if (ImGui::Button("Load")) {
+		Debug_Pop(debugPopIndex_);
+	}
+
+	if (ImGui::Button("ReLoad")) {
+		LoadAllFile();
+	}
 }
 
 void EnemyManager::Edit_Pop() {
@@ -167,12 +203,43 @@ void EnemyManager::Edit_Pop() {
 			newObj->Init();
 		}
 
+		if (ImGui::Button("start")) {
+			for (auto& popEnemy : popEnemies_) {
+				popEnemy->SetFirstTranslate(popEnemy->GetTranslate());
+				popEnemy->SetIsMove(true);
+			}
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Button("stop")) {
+			for (auto& popEnemy : popEnemies_) {
+				popEnemy->SetIsMove(false);
+			}
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Button("Reset")) {
+			for (auto& popEnemy : popEnemies_) {
+				popEnemy->GetTransform()->SetTranslaion(popEnemy->GetFirstTranslate());
+				popEnemy->SetIsMove(false);
+			}
+		}
+
 		uint32_t index = 0;
-		for (auto& popEnemy : popEnemies_) {
+		for (auto it = popEnemies_.begin(); it != popEnemies_.end(); ) {
 			std::string id = "enemy_" + std::to_string(index);
 			if (ImGui::TreeNode(id.c_str())) {
-				popEnemy->Debug_Gui();
-				popEnemy->Update();
+				(*it)->Debug_Gui();
+				(*it)->Update();
+
+				if (ImGui::Button("toPlayerPos")) {
+					(*it)->GetTransform()->SetTranslaion(playerPos_);
+				}
+				ImGui::SameLine();
+				if (ImGui::Button("delete")) {
+					it = popEnemies_.erase(it);
+				}
+
 				ImGui::TreePop();
 			}
 
@@ -182,6 +249,31 @@ void EnemyManager::Edit_Pop() {
 		ImGui::TreePop();
 	}
 }
+
+
+void EnemyManager::Debug_Pop(uint32_t index) {
+	std::vector<NewEnmeyData> data;
+	popEnemies_.clear();
+
+	if (auto it = popEnemyData_.find(index); it == popEnemyData_.end()) {
+		return;
+	}
+
+	data = popEnemyData_[index];
+
+	for (size_t oi = 0; oi < data.size(); ++oi) {
+		Vector3 pos = data[oi].translate_;
+
+		Vector3 randomPos = data[oi].velocity_;
+
+		auto& newEnemy = popEnemies_.emplace_back(std::make_unique<Enemy>());
+		newEnemy->Init();
+		newEnemy->GetTransform()->SetTranslaion(pos);
+		newEnemy->SetFirstTranslate(pos);
+	}
+}
+
+
 void EnemyManager::Save() {
 	json root;
 

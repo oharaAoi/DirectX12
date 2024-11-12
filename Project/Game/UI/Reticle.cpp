@@ -16,6 +16,8 @@ void Reticle::Init() {
 	lenght_ = 30.0f;
 	offsetPos_ = { 0.0f, 0.0f };
 	reticleScreenPos_ = { 0.0f, 0.0f };
+
+	moveSpeed_ = 10.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,21 +65,21 @@ void Reticle::Draw() const {
 void Reticle::Move() {
 	Vector2 joyStick = Input::GetRightJoyStick();
 	joyStick.y *= -1;
-	offsetPos_ += joyStick * 5.0f;
+	offsetPos_ += joyStick * moveSpeed_;
 
 	if (Input::IsPressKey(DIK_LEFT)) {
-		offsetPos_.x -= 5.0f;
+		offsetPos_.x -= moveSpeed_;
 	}
 
 	if (Input::IsPressKey(DIK_RIGHT)) {
-		offsetPos_.x += 5.0f;
+		offsetPos_.x += moveSpeed_;
 	}
 
 	if (Input::IsPressKey(DIK_UP)) {
-		offsetPos_.y -= 5.0f;
+		offsetPos_.y -= moveSpeed_;
 	}
 
 	if (Input::IsPressKey(DIK_DOWN)) {
-		offsetPos_.y += 5.0f;
+		offsetPos_.y += moveSpeed_;
 	}
 }

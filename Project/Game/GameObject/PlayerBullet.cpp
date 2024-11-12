@@ -60,10 +60,15 @@ void PlayerBullet::Draw() const {
 // ↓　衝突時の処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void PlayerBullet::OnCollision(MeshCollider& other) {
-	if (other.GetTag() == "enemy") {
+	if (other.GetTag() == "star") {
 		isAlive_ = false;
 		Player::AddScore(40);
 		KnockDownEnemy::SetObj("star.obj", 40);
+
+	} else if(other.GetTag() == "balloon") {
+		isAlive_ = false;
+		Player::AddScore(20);
+		KnockDownEnemy::SetObj("balloon.obj", 20);
 	}
 }
 

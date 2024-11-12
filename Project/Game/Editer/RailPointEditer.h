@@ -79,7 +79,7 @@ public:
 
 	void SetGameScene(GameScene* gameScene) { pGameScene_ = gameScene; }
 
-	uint32_t GetPointsSize() const { return points_.size(); }
+	uint32_t GetPointsSize() const { return (uint32_t)points_.size(); }
 
 private:
 

@@ -50,18 +50,13 @@ void RailPointEditer::Init() {
 	newRail_->Init();
 	newRail_->SetObject("rail.obj");
 
-	newRail_->SetObjectAxis();
+	//newRail_->SetObjectAxis();
 }
 
 void RailPointEditer::Update() {
 	points_.clear();
 	pointsRotateZ_.clear();
 	railIndexPoints_.clear();
-
-	std::vector<Vector3> copyPos;
-	for (uint32_t oi = 0; oi < railPoints.size(); ++oi) {
-		copyPos.push_back(railPoints[oi].pos);
-	}
 
 	std::vector<Quaternion> copyRotate;
 	for (uint32_t oi = 0; oi < railPoints.size(); ++oi) {
@@ -83,7 +78,7 @@ void RailPointEditer::Update() {
 	//	railIndexPointsRotateZ_.push_back(Quaternion::GetYawFromQuaternion(rotate));
 	//}
 
-	const uint32_t lerpNum = 6; // 補完するオブジェクトの個数
+	const uint32_t lerpNum = 5; // 補完するオブジェクトの個数
 	for (uint32_t oi = 0; oi < railPoints.size() - 1; ++oi) {
 		for (uint32_t index = 0; index < lerpNum; ++index) {
 			float t = (float)index / (float)lerpNum;
@@ -99,11 +94,16 @@ void RailPointEditer::Update() {
 		pointsRotateZ_[oi] = Quaternion::Slerp(pointsRotateZ_[oi], pointsRotateZ_[oi + 1], CallEasingFunc(easeType_, 0.9f));
 	}
 
+	std::vector<Vector3> copyPos;
+	for (uint32_t oi = 0; oi < railPoints.size(); ++oi) {
+		copyPos.push_back(railPoints[oi].pos);
+	}
+
 	const size_t segmentCount = points_.size();
 	// 点からSpline曲線を引く
 	for (uint32_t oi = 0; oi < segmentCount; ++oi) {
 		float t = (1.0f / static_cast<float>(segmentCount)) * oi;
-		Vector3 pos = CatmullRomPosition(points_, t);
+		Vector3 pos = CatmullRomPosition(copyPos, t);
 		railIndexPoints_.push_back(pos);
 	}
 }

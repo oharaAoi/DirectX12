@@ -129,7 +129,7 @@ void GameScene::Update() {
 
 	for (size_t index = 0; index < (size_t)railPointEditer_->GetPointsSize(); ++index) {
 
-		rail_->Update(railPointEditer_->GetPoints(index), railPointEditer_->GetPointsRotate(index), viewMat_, projectionMat_, index);
+		rail_->Update(railPointEditer_->GetPoints(index), railPointEditer_->GetPointsRotate(index), viewMat_, projectionMat_, (uint32_t)index);
 	}
 
 	// -------------------------------------------------
@@ -168,7 +168,7 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	enemyManager_->SetPlayerForward(player_->GetForward());
 	enemyManager_->SetPlayerPos(player_->GetWorldPos());
-	//enemyManager_->Update();
+	enemyManager_->Update(mainCamera_->GetEyeIndex());
 
 	collisionManager_->Reset();
 
@@ -209,8 +209,8 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ worldObjectの描画
 	// -------------------------------------------------
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
-	railPointEditer_->Draw(viewMat_ * projectionMat_);
+	/*Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	railPointEditer_->Draw(viewMat_ * projectionMat_);*/
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 #ifdef _DEBUG

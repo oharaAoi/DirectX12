@@ -23,6 +23,7 @@ void GameResource::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Cart/", "cart.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Board/", "board.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Ground/", "ground.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Balloon/", "balloon.obj");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "rail_plane.png");

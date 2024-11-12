@@ -16,7 +16,7 @@ public:
 	~EnemyManager();
 
 	void Init();
-	void Update();
+	void Update(uint32_t eyeIndex);
 	void Draw() const;
 
 	void AddList(const Vector3& popPos);
@@ -25,12 +25,15 @@ public:
 
 	void LoadAllFile();
 
+	void Pop(uint32_t index);
+
 #ifdef _DEBUG
 	void Debug_Gui();
 
 	void Edit();
 
 	void Edit_Pop();
+	void Debug_Pop(uint32_t index);
 
 	void Save();
 #endif
@@ -60,6 +63,8 @@ private:
 	// enemyの出現をまとめたファイル
 	std::map<uint32_t, std::vector<NewEnmeyData>> popEnemyData_;
 
+	std::vector<uint32_t> popData_;
+
 	// --- playerの情報 ----------------------------- //
 	// playerの座標
 	Vector3 playerPos_;
@@ -86,6 +91,8 @@ private:
 	EnemyType newEnemyType_;
 
 	std::list<std::unique_ptr<Enemy>> popEnemies_;
+
+	uint32_t debugPopIndex_;
 
 };
 

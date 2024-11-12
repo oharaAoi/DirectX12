@@ -28,7 +28,6 @@ void Enemy::Init() {
 	isAlive_ = true;
 
 	speed_ = 2.0f;
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +37,7 @@ void Enemy::Init() {
 void Enemy::Update() {
 	if (isMove_) {
 		Vector3 translate = transform_->GetTranslation();
-		translate += velocity_ * speed_;
+		translate += (velocity_ * speed_) * GameTimer::DeltaTime();
 		transform_->SetTranslaion(translate);
 	}
 
@@ -70,16 +69,66 @@ void Enemy::OnCollision(MeshCollider& other) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Enemy::ChangeModel() {
+	std::string tag;
 	switch (enemyType_) {
 	case EnemyType::STAR:
 		SetObject("star.obj");
+		SetColor(Vector4(1,1,1,1));
+		tag = "star";
 		break;
 	case EnemyType::JET:
 		SetObject("star.obj");
+		SetColor(Vector4(1, 1, 1, 1));
+		tag = "jet";
+		break;
+	case EnemyType::BALLOON:
+		SetObject("balloon.obj");
+		Vector4 color = Vector4(RandomFloat(0.0f, 1.0f), RandomFloat(0.0f, 1.0f), RandomFloat(0.0f, 1.0f), 1.0f);
+		SetColor(color);
+		tag = "balloon";
 		break;
 	default:
 		break;
 	}
+
+	meshCollider_->Init(model_->GetMesh(0));
+
+	meshCollider_->SetTag(tag);
+	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
+		this->OnCollision(other);
+										  });
+}
+
+void Enemy::SetModel(EnemyType type) {
+	std::string tag;
+
+	switch (type) {
+	case EnemyType::STAR:
+		SetObject("star.obj");
+		SetColor(Vector4(1, 1, 1, 1));
+		tag = "star";
+		break;
+	case EnemyType::JET:
+		SetObject("star.obj");
+		SetColor(Vector4(1, 1, 1, 1));
+		tag = "jet";
+		break;
+	case EnemyType::BALLOON:
+		SetObject("balloon.obj");
+		Vector4 color = Vector4(RandomFloat(0.0f, 1.0f), RandomFloat(0.0f, 1.0f), RandomFloat(0.0f, 1.0f), 1.0f);
+		SetColor(color);
+		tag = "balloon";
+		break;
+	default:
+		break;
+	}
+
+	meshCollider_->Init(model_->GetMesh(0));
+
+	meshCollider_->SetTag(tag);
+	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
+		this->OnCollision(other);
+										  });
 }
 
 #ifdef _DEBUG
@@ -95,6 +144,10 @@ void Enemy::Debug_Gui() {
 	ImGui::SameLine();
 	if (ImGui::RadioButton("JET", enemyType_ == EnemyType::JET)) {
 		enemyType_ = EnemyType::JET;
+	}
+	ImGui::SameLine();
+	if (ImGui::RadioButton("BALLOON", enemyType_ == EnemyType::BALLOON)) {
+		enemyType_ = EnemyType::BALLOON;
 	}
 
 	// 前のtypeを取得

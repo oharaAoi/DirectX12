@@ -2,10 +2,12 @@
 #include <memory>
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Collider/MeshCollider.h"
+#include "Engine/Math/MyRandom.h"
 
 enum class EnemyType {
 	STAR,
-	JET
+	JET,
+	BALLOON,
 };
 
 class Enemy
@@ -24,6 +26,8 @@ public:
 
 	void ChangeModel();
 
+	void SetModel(EnemyType type);
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
@@ -35,6 +39,9 @@ public:
 
 	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
 	const Vector3 GetVelocity() const { return velocity_; }
+
+	const Vector3 GetFirstTranslate() const { return firstTranslate_; }
+	void SetFirstTranslate(const Vector3& translate) { firstTranslate_ = translate; }
 
 	const bool GetIsAlive() const { return isAlive_; }
 
@@ -52,6 +59,8 @@ private:
 	EnemyType preEnemyType_;
 
 	Vector3 velocity_;
+
+	Vector3 firstTranslate_;
 
 	bool isAlive_;
 	bool isMove_;

@@ -149,35 +149,33 @@ Vector3 CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vect
 /// <returns>座標</returns>
 Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t) {
     assert(points.size() >= 4 && "制御点は4以上必要です");
-    // 区間数は制御点の数の-1
-    size_t division = points.size() - 1;
-    // 1区間の長さ(全体を1.0とした割合)
-    float areaWidth = 1.0f / division;
+    // 累積距離を計算
+    std::vector<float> distances(points.size(), 0.0f);
+    for (size_t i = 1; i < points.size(); ++i) {
+        distances[i] = distances[i - 1] + (points[i] - points[i - 1]).Length();
+    }
 
-    // 区間の始点を0.0f, 終点を1.0fとしたときの現在の位置
-    float t2 = std::fmod(t, areaWidth) * division;
-    // 下限(0.0f)と上限(1.0f)の範囲に収める
-    t2 = std::clamp(t2, 0.0f, 1.0f);
+    float totalLength = distances.back();
 
-    // 区間番号
-    size_t index = static_cast<size_t>(t / areaWidth);
-    // 区間番号が上限を超えないように収める
-    index = std::clamp(static_cast<int>(index), 0, static_cast<int>(division) - 1);
+    // 正規化された t を累積距離に変換
+    float distanceAlongCurve = t * totalLength;
 
-    // 4点分のインデックス
-    size_t index0 = index - 1;
+    // 累積距離から区間を見つける
+    size_t index = 0;
+    for (; index < distances.size() - 1; ++index) {
+        if (distanceAlongCurve <= distances[index + 1]) {
+            break;
+        }
+    }
+
+    // ローカル t を計算
+    float localT = (distanceAlongCurve - distances[index]) / (distances[index + 1] - distances[index]);
+
+    // 4点のインデックスを求める
+    size_t index0 = (index == 0) ? index : index - 1;
     size_t index1 = index;
-    size_t index2 = index + 1;
-    size_t index3 = index + 2;
-
-    // 始点の場合はp0とp1は同じ
-    if (index == 0) {
-        index0 = index1;
-    }
-    // 最後の区間はp3とp2は同じ
-    if (index3 >= points.size()) {
-        index3 = index2;
-    }
+    size_t index2 = std::min(index + 1, points.size() - 1);
+    size_t index3 = std::min(index + 2, points.size() - 1);
 
     // 4点の座標
     const Vector3& p0 = points[index0];
@@ -185,7 +183,8 @@ Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t) {
     const Vector3& p2 = points[index2];
     const Vector3& p3 = points[index3];
 
-    return CatmullRomInterpolation(p0, p1, p2, p3, t2);
+    // Catmull-Rom補間
+    return CatmullRomInterpolation(p0, p1, p2, p3, localT);
 }
 
 /// <summary>

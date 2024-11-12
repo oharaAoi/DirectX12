@@ -32,5 +32,7 @@ private:
 	Vector2 reticleScreenPos_;
 	Vector3 reticleWorldPos_;
 	float lenght_;
+
+	float moveSpeed_;
 };
 
