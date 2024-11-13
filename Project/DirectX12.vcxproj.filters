@@ -927,6 +927,7 @@
     </FxCompile>
     <FxCompile Include="Engine\HLSL\GpuParticleInit.CS.hlsl" />
     <FxCompile Include="Engine\HLSL\EmitParticle.CS.hlsl" />
+    <FxCompile Include="Engine\HLSL\GpuParticleUpdate.CS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">

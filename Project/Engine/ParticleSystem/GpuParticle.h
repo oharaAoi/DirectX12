@@ -27,6 +27,11 @@ public:	// メンバ構造体
 		Matrix4x4 billboardMat;
 	};
 
+	struct PerFrame {
+		float time;
+		float deltaTime;
+	};
+
 public:
 
 	GpuParticle();
@@ -57,6 +62,9 @@ private:
 
 	ComPtr<ID3D12Resource> perViewBuffer_;
 	PerView* perView_;
+
+	ComPtr<ID3D12Resource> perFrameBuffer_;
+	PerFrame* perFrame_;
 
 };
 

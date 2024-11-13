@@ -28,6 +28,7 @@ public:
 		Result,
 
 		GpuParticleInit,
+		GpuParticleUpdate,
 		EmitGpuParticle,
 	};
 

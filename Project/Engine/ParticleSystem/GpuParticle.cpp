@@ -22,6 +22,9 @@ void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
 	perViewBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerView));
 	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
 
+	perFrameBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerFrame));
+	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
+
 	particleBuffer_ = CreateUAVResource(Engine::GetDevice(), sizeof(Particle) * kInstanceNum_);
 	// UAVとSRVの作成
 	// ------------------------------------------------------------
@@ -94,8 +97,25 @@ void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
 }
 
 void GpuParticle::Update() {
+	perFrame_->deltaTime = GameTimer::DeltaTime();
+	perFrame_->time = GameTimer::TotalTime();
+
 	perView_->viewProjection = Render::GetViewport3D() * Render::GetProjection3D();
 	perView_->billboardMat = Matrix4x4::MakeUnit();
+
+	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
+	Engine::SetCsPipeline(CsPipelineType::GpuParticleUpdate);
+	commandList->SetComputeRootDescriptorTable(0, uav_.handleGPU);
+	commandList->SetComputeRootConstantBufferView(1, perFrameBuffer_->GetGPUVirtualAddress());
+	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
+
+	// UAVの変更
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.UAV.pResource = particleBuffer_.Get();
+	commandList->ResourceBarrier(1, &barrier);
+
 }
 
 void GpuParticle::Draw(ID3D12GraphicsCommandList* commandList) {

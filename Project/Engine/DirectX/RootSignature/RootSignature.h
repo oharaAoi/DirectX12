@@ -18,6 +18,7 @@ enum class RootSignatureType {
 	CSReultRenderBlend,
 
 	GpuParticleInit,
+	GpuParticleUpdate,
 	EmitGpuParticle,
 };
 
@@ -43,6 +44,7 @@ public:
 	ComPtr<ID3D12RootSignature> CreateResultRenderRootSignature();
 
 	ComPtr<ID3D12RootSignature> CreateGpuParticleInit();
+	ComPtr<ID3D12RootSignature> CreateGpuParticleUpdate();
 	ComPtr<ID3D12RootSignature> CreateEmitGpuParticle();
 
 public:
@@ -63,6 +65,7 @@ public:
 		{RootSignatureType::CSReultRenderBlend, &RootSignature::CreateResultRenderRootSignature},
 		// Particle
 		{RootSignatureType::GpuParticleInit, &RootSignature::CreateGpuParticleInit},
+		{RootSignatureType::GpuParticleUpdate, &RootSignature::CreateGpuParticleUpdate},
 		{RootSignatureType::EmitGpuParticle, &RootSignature::CreateEmitGpuParticle},
 	};
 
