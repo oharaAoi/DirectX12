@@ -477,6 +477,12 @@
     <ClCompile Include="Engine\ParticleSystem\GpuParticle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\GpuEmitter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\GpuEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -854,6 +860,12 @@
     <ClInclude Include="Engine\ParticleSystem\GpuParticle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\GpuEmitter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\GpuEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
@@ -914,6 +926,7 @@
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\GpuParticleInit.CS.hlsl" />
+    <FxCompile Include="Engine\HLSL\EmitParticle.CS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">

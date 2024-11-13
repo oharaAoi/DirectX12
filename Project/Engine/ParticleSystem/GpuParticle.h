@@ -15,7 +15,7 @@ public:	// メンバ構造体
 
 	struct Particle {
 		Vector3 scale;		// 拡縮
-		Vector3 translate;	// 座標	
+		Vector3 translate;	// 座標
 		Vector3 velocity;	// 速度
 		float lifeTime;		// 生存時間
 		float currentTime;	// 現在の時間
@@ -36,6 +36,8 @@ public:
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
+	void BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
+
 private:
 
 	uint32_t kInstanceNum_;
@@ -49,7 +51,12 @@ private:
 	DescriptorHeap::DescriptorHandles uav_;
 	DescriptorHeap::DescriptorHandles srv_;
 
+	ComPtr<ID3D12Resource> particleCounter_;
+	DescriptorHeap::DescriptorHandles counterUav_;
+	DescriptorHeap::DescriptorHandles counterSrv_;
+
 	ComPtr<ID3D12Resource> perViewBuffer_;
 	PerView* perView_;
+
 };
 

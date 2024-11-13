@@ -27,7 +27,8 @@ public:
 		Blend,
 		Result,
 
-		GpuParticleInit
+		GpuParticleInit,
+		EmitGpuParticle,
 	};
 
 	// 構造体

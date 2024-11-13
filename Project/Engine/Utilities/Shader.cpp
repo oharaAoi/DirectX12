@@ -26,6 +26,7 @@ void Shader::Init() {
 	Load("Engine/HLSL/ResultRender.CS.hlsl", CsShaderName::Result);
 
 	Load("Engine/HLSL/GpuParticleInit.CS.hlsl", CsShaderName::GpuParticleInit);
+	Load("Engine/HLSL/EmitParticle.CS.hlsl", CsShaderName::EmitGpuParticle);
 }
 
 void Shader::Load(const std::string& vsPath, const std::string& psPath, const ShaderName& type) {

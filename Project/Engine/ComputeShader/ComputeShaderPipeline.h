@@ -21,7 +21,8 @@ enum class CsPipelineType {
 	Blend_Pipeline,
 	Result_Pipeline,
 
-	GpuParticleInit
+	GpuParticleInit,
+	EmitGpuParticle,
 };
 
 class ComputeShaderPipeline {
