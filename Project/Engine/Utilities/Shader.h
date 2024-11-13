@@ -25,7 +25,9 @@ public:
 		DepthOfField,
 		SkinningCS,
 		Blend,
-		Result
+		Result,
+
+		GpuParticleInit
 	};
 
 	// 構造体

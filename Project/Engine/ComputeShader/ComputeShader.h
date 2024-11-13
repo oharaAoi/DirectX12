@@ -39,7 +39,7 @@ public:
 			  DescriptorHeap* dxHeap, DescriptorHeap::DescriptorHandles resourceAddress, 
 			  Shader* shader);
 
-	void SetSkinningPipeline(const CsPipelineType& type, ID3D12GraphicsCommandList* commandList);
+	void SetCsPipeline(const CsPipelineType& type, ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// 行うCsをセットする

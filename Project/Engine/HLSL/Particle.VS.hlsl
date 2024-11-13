@@ -1,15 +1,22 @@
 #include "Particle.hlsli"
 
-struct ParticleForGPU{
-	float4x4 world;
-	float4x4 view;
-	float4x4 projection;
-	float4x4 worldInverseTranspose;
+struct Particle {
+	float3 scale;
+	float3 translate;
+	float3 velocity;
+	float lifeTime;
+	float currentTime;
 	float4 color;
 };
 
-//ConstantBuffer<TransformationMatrix> gTransformationMatrix : register(b0);
-StructuredBuffer<ParticleForGPU> gParticleForGPU : register(t0);
+struct PerView {
+	float4x4 viewProjection;
+	float4x4 billboardMat;
+};
+
+StructuredBuffer<Particle> gParticles : register(t0);
+ConstantBuffer<PerView> gPerView : register(b0);
+
 struct VertexShaderInput{
 	float4 position : POSITION0;
 	float2 texcoord : TEXCOORD0;
@@ -18,10 +25,17 @@ struct VertexShaderInput{
 
 VertexShaderOutput main(VertexShaderInput input, uint instanceId : SV_InstanceID){
 	VertexShaderOutput output;
-	// WVPの生成
-	float4x4 WVP = mul(gParticleForGPU[instanceId].world, mul(gParticleForGPU[instanceId].view, gParticleForGPU[instanceId].projection));
-	output.position = mul(input.position, WVP);
+	
+	Particle particle = gParticles[instanceId];
+	float4x4 worldMat = gPerView.billboardMat;
+	worldMat[0] *= particle.scale.x;
+	worldMat[1] *= particle.scale.y;
+	worldMat[2] *= particle.scale.z;
+	worldMat[3].xyz = particle.translate;
+	
+	output.position = mul(input.position, mul(worldMat, gPerView.viewProjection));
 	output.texcoord = input.texcoord;
-	output.color = gParticleForGPU[instanceId].color;
+	output.color = particle.color;
+	
 	return output;
 }

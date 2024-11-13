@@ -13,6 +13,8 @@
 #include "Engine/Collider/MeshCollider.h"
 #include "Engine/Math/Easing.h"
 
+#include "Engine/ParticleSystem/GpuParticle.h"
+
 class TestScene 
 : public BaseScene {
 public:
@@ -41,6 +43,8 @@ private:
 	// ゲームオブジェクト ------------------------------------
 	std::unique_ptr<BaseGameObject> test_animationCS_;
 	MeshCollider meshCollider_;
+
+	std::unique_ptr<GpuParticle> gpuParticle_;
 
 	int easeIndex_ = 0;
 

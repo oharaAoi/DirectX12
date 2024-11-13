@@ -111,6 +111,12 @@ public:
 	static void SetPipeline(const PipelineType& kind);
 
 	/// <summary>
+	/// パイプラインの設定
+	/// </summary>
+	/// <param name="kind">設定するパイプライン</param>
+	static void SetCsPipeline(const CsPipelineType& kind);
+
+	/// <summary>
 	/// 行いたいCSを設定する
 	/// </summary>
 	/// <param name="kind"></param>
@@ -177,6 +183,7 @@ public:
 
 	static ID3D12Device* GetDevice();
 	static ID3D12GraphicsCommandList* GetCommandList();
+	static DescriptorHeap* GetDxHeap();
 
 private:
 

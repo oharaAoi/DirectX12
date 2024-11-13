@@ -18,7 +18,9 @@ void SceneManager::Init() {
 	// gameに必要なResourceの読み込み
 	resources_.Load();
 
-	scene_ = std::make_unique<GameScene>();
+	Render::Begin();
+
+	scene_ = std::make_unique<TestScene>();
 	scene_->Init();
 
 	effectSystem_ = EffectSystem::GetInstacne();

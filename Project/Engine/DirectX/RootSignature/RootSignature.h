@@ -8,7 +8,6 @@
 enum class RootSignatureType {
 	Normal,
 	TextureLess,
-	Skinnig,
 	Primitive,
 	Particle,
 	Sprite,
@@ -17,8 +16,8 @@ enum class RootSignatureType {
 	CsSkinning,
 	ComputeShaderBlend,
 	CSReultRenderBlend,
-	WaterSpace,
-	WaterLighting
+
+	GpuParticleInit,
 };
 
 class RootSignature {
@@ -33,7 +32,6 @@ public:
 
 	ComPtr<ID3D12RootSignature> CreateRootSignature();
 	ComPtr<ID3D12RootSignature> CreateTexturelessRootSignature();
-	ComPtr<ID3D12RootSignature> CreateSkinnigRootSignature();
 	ComPtr<ID3D12RootSignature> CreatePrimitiveRootSignature();
 	ComPtr<ID3D12RootSignature> CreateParticleRootSignature();
 	ComPtr<ID3D12RootSignature> CreateSpriteRootSignature();
@@ -43,6 +41,8 @@ public:
 	ComPtr<ID3D12RootSignature> CreateBlendShaderRootSignature();
 	ComPtr<ID3D12RootSignature> CreateResultRenderRootSignature();
 
+	ComPtr<ID3D12RootSignature> CreateGpuParticleInit();
+
 public:
 
 	using FunctionPointer = ComPtr<ID3D12RootSignature>(RootSignature::*)();
@@ -50,7 +50,6 @@ public:
 		// graphics
 		{RootSignatureType::Normal, &RootSignature::CreateRootSignature},
 		{RootSignatureType::TextureLess, &RootSignature::CreateTexturelessRootSignature},
-		{RootSignatureType::Skinnig, &RootSignature::CreateSkinnigRootSignature},
 		{RootSignatureType::Primitive, &RootSignature::CreatePrimitiveRootSignature},
 		{RootSignatureType::Particle, &RootSignature::CreateParticleRootSignature},
 		{RootSignatureType::Sprite, &RootSignature::CreateSpriteRootSignature},
@@ -60,6 +59,8 @@ public:
 		{RootSignatureType::CsSkinning, &RootSignature::CreateCsSkinnigRootSignature},
 		{RootSignatureType::ComputeShaderBlend, &RootSignature::CreateBlendShaderRootSignature},
 		{RootSignatureType::CSReultRenderBlend, &RootSignature::CreateResultRenderRootSignature},
+		// Particle
+		{RootSignatureType::GpuParticleInit, &RootSignature::CreateGpuParticleInit},
 	};
 
 	ComPtr<ID3D12RootSignature> Create(const RootSignatureType& type);
