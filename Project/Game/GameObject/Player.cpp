@@ -138,8 +138,8 @@ void Player::Move() {
 		pos.y = 0.5f;
 	}
 
+	velocity_.x = 0.0f;
 	if (!isSnagged_) {
-		velocity_.x = 0.0f;
 		if (!isStretching_) {
 			float weight = 1.0f;
 			if (isPull_ && wireTip_->GetPull()) {
@@ -149,7 +149,7 @@ void Player::Move() {
 			if (Input::IsPressKey(DIK_A)) {
 				velocity_.x -= moveSpeed_ * GameTimer::DeltaTime();
 				targetRotate = leftRotate;
-
+				
 			}
 			if (Input::IsPressKey(DIK_D)) {
 				velocity_.x += moveSpeed_ * GameTimer::DeltaTime();
@@ -208,6 +208,10 @@ void Player::Clutch() {
 	if (wireTip_->GetHit() && isStretchClutch_) {
 		if (isStretching_) {
 			clutchEnd_ = wireTipPos;
+			if (wireTip_->GetPull()) {
+				maxClutchLength_ = wire_->GetTransform()->GetScale().y;
+				isSnagged_ = false;
+			}
 		}
 		if (wireTip_->GetSnagged()) {
 			isSnagged_ = true;
@@ -246,6 +250,7 @@ void Player::Clutch() {
 			if (wireTip_->GetCautch()) {
 				isStretchClutch_ = false;
 				isReturnClutch_ = true;
+				isSnagged_ = false;
 			}
 
 		}
@@ -285,6 +290,7 @@ void Player::BaseClutch() {
 			isReturnClutch_ = false;
 		}
 		wire_->GetTransform()->SetScale(nowScale);
+		maxClutchLength_ = 7.0f;
 	}
 
 }
