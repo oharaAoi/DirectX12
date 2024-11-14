@@ -14,7 +14,7 @@ void Player::Finalize() {
 
 void Player::Init() {
 	BaseGameObject::Init();
-	SetObject("cube.obj");
+	SetObject("skin.obj");
 	transform_->SetScale({ 1.0f, 1.0f, 1.0f });
 	transform_->SetTranslaion({ 0.0f, 0.0f, 0.0f });
 
@@ -125,9 +125,13 @@ void Player::Move() {
 
 			if (Input::IsPressKey(DIK_A)) {
 				velocity_.x -= moveSpeed_ * GameTimer::DeltaTime();
+				targetRotate = leftRotate;
+
 			}
 			if (Input::IsPressKey(DIK_D)) {
 				velocity_.x += moveSpeed_ * GameTimer::DeltaTime();
+				targetRotate = rightRotate;
+
 			}
 
 
@@ -160,6 +164,9 @@ void Player::Move() {
 			clutchLerpTime_ = 0.0f;
 		}
 	}
+
+	nowRotate = LerpShortAngle(nowRotate, targetRotate, 0.1f);
+	transform_->SetQuaternion(Quaternion::AngleAxis(nowRotate, Vector3::UP()));
 
 	pos += velocity_;
 	transform_->SetTranslaion(pos);
