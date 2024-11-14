@@ -30,7 +30,6 @@ void GraphicsPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, 
 	pipelineMap_[PipelineType::ParticlePipeline]		->Initialize(device_, dxCompiler_, shaders->GetShaderData(Shader::Particle), RootSignatureType::Particle, inputLayout_.CreateParticleInputLayout(), Blend::kBlendModeAdd, true, false);
 	pipelineMap_[PipelineType::SpritePipeline]			->Initialize(device_, dxCompiler_, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSpriteInputLayout(), Blend::kBlendModeNone, true, true);
 	pipelineMap_[PipelineType::PBRPipeline]				->Initialize(device_, dxCompiler_, shaders->GetShaderData(Shader::PBR), RootSignatureType::PBR, inputLayout_.CreateInputLayout(), Blend::kBlendModeNormal, true, true);
-	
 }
 
 void GraphicsPipelines::SetPipeline(const PipelineType& type, ID3D12GraphicsCommandList* commandList) {

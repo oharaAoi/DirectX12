@@ -16,6 +16,9 @@ void TestScene::Init() {
 
 	//test_animationCS_->SetObjectAxis();
 
+	gpuEffect_ = std::make_unique<GpuEffect>();
+	gpuEffect_->Init();
+
 	meshCollider_.Init(test_animationCS_->GetModel()->GetMesh(0));
 	
 }
@@ -45,6 +48,8 @@ void TestScene::Update() {
 
 	meshCollider_.Update(test_animationCS_->GetTransform(), Vector3::ZERO());
 
+	gpuEffect_->Update();
+
 	// -------------------------------------------------
 	// ↓ ParticleのViewを設定する
 	// -------------------------------------------------
@@ -59,6 +64,8 @@ void TestScene::Update() {
 void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	test_animationCS_->Draw();
+
+	gpuEffect_->Draw();
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	meshCollider_.Draw();

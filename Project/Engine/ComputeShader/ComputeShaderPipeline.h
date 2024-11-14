@@ -19,7 +19,11 @@ enum class CsPipelineType {
 	DepthOfField_Pipeline,
 	Skinning_Pipeline,
 	Blend_Pipeline,
-	Result_Pipeline
+	Result_Pipeline,
+
+	GpuParticleInit,
+	GpuParticleUpdate,
+	EmitGpuParticle,
 };
 
 class ComputeShaderPipeline {

@@ -24,6 +24,10 @@ void Shader::Init() {
 	Load("Engine/HLSL/Skinning.CS.hlsl", CsShaderName::SkinningCS);
 	Load("Engine/HLSL/Blend.CS.hlsl", CsShaderName::Blend);
 	Load("Engine/HLSL/ResultRender.CS.hlsl", CsShaderName::Result);
+
+	Load("Engine/HLSL/GpuParticleInit.CS.hlsl", CsShaderName::GpuParticleInit);
+	Load("Engine/HLSL/GpuParticleUpdate.CS.hlsl", CsShaderName::GpuParticleUpdate);
+	Load("Engine/HLSL/EmitParticle.CS.hlsl", CsShaderName::EmitGpuParticle);
 }
 
 void Shader::Load(const std::string& vsPath, const std::string& psPath, const ShaderName& type) {

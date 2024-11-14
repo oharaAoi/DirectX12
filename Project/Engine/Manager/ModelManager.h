@@ -36,10 +36,13 @@ public:
 	/// <returns></returns>
 	static Model* GetModel(const std::string& modelName);
 
+	static std::string GetModelPath(const std::string& modelName);
+
 private:
 
 	static std::unordered_map<std::string, std::unique_ptr<Model>> modelMap_;
 	static std::vector<std::string> modelNameList_;
 
+	static std::unordered_map<std::string, std::string> modelPathMap_;
 };
 

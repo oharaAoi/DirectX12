@@ -318,6 +318,14 @@ void Engine::SetPipeline(const PipelineType& kind) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　CSPipelineの設定
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Engine::SetCsPipeline(const CsPipelineType& kind) {
+	computeShader_->SetCsPipeline(kind, dxCommands_->GetCommandList());
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　CSの設定
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -326,7 +334,7 @@ void Engine::SetComputeShader(const CSKind& kind) {
 }
 
 void Engine::SetSkinning(Skinning* skinning, Mesh* mesh) {
-	computeShader_->SetSkinningPipeline(CsPipelineType::Skinning_Pipeline, dxCommands_->GetCommandList());
+	computeShader_->SetCsPipeline(CsPipelineType::Skinning_Pipeline, dxCommands_->GetCommandList());
 
 	mesh->SetInitVertex();
 	skinning->RunCs(dxCommands_->GetCommandList());
@@ -385,4 +393,8 @@ ID3D12Device* Engine::GetDevice() {
 ID3D12GraphicsCommandList* Engine::GetCommandList() {
 	// TODO: return ステートメントをここに挿入します
 	return dxCommands_->GetCommandList();
+}
+
+DescriptorHeap* Engine::GetDxHeap() {
+	return descriptorHeap_.get();
 }
