@@ -19,6 +19,13 @@ void WireTip::Init() {
 	transform_->SetScale({ 0.25f, 0.25f, 0.25f });
 	transform_->SetTranslaion({ 0.0f, 0.0f, 0.0f });
 	tag_ = "wireTip";
+
+	meshCollider_ = std::make_unique<MeshCollider>();
+	meshCollider_->Init(model_->GetMesh(0));
+	meshCollider_->SetTag("wireTip");
+	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
+		this->OnCollision(other);
+										  });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,6 +39,8 @@ void WireTip::Update() {
 	isPull_ = false;
 	weight_ = 0.0f;
 	BaseGameObject::Update();
+
+	meshCollider_->Update(transform_.get(), Vector3::ZERO());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,8 +52,9 @@ void WireTip::Draw() const {
 }
 
 
-
-
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　衝突判定処理
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WireTip::OnCollision(Collider* other) {
 
@@ -66,6 +76,13 @@ void WireTip::OnCollision(Collider* other) {
 		weight_ = 0.5f;
 	}
 
+}
+
+void WireTip::OnCollision(MeshCollider& other) {
+	if (other.GetTag() == "boss_core") {
+		isHit_ = true;
+		isSnagged_ = true;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

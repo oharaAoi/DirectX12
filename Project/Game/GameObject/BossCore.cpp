@@ -51,7 +51,7 @@ void BossCore::Draw() const {
 
 void BossCore::OnCollision(MeshCollider& other) {
 	if (other.GetTag() == "player") {
-		AdaptAdjustment();
+		//AdaptAdjustment();
 	}
 }
 

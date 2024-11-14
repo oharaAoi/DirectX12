@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Collider/Collider.h"
+#include "Engine/Collider/MeshCollider.h"
 
 
 class WireTip : public BaseGameObject,public Collider {
@@ -14,6 +15,15 @@ public:
 	void Draw() const override;
 
 	void OnCollision([[maybe_unused]] Collider* other)override;
+
+	void OnCollision(MeshCollider& other);
+
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
+
+	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
+
 	bool GetHit()const { return isHit_; }
 	void SetHit(bool is) { isHit_ = is; }
 	bool GetCautch()const { return isCautch_; }
@@ -31,10 +41,6 @@ public:
 	const Vector3 GetWorldPos() const override { return transform_->GetTranslation(); }
 	float GetWeight() { return weight_; }
 
-#ifdef _DEBUG
-	void Debug_Gui();
-#endif
-
 private:
 
 	bool isHit_ = false;
@@ -43,5 +49,7 @@ private:
 	bool isSnagged_ = false;
 	bool isPull_ = false;
 	float weight_ = 0.0f;
+
+	std::unique_ptr<MeshCollider> meshCollider_;
 
 };

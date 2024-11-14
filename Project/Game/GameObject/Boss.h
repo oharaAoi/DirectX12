@@ -44,6 +44,9 @@ public:
 	BossLeftHand* GetBossLeftHand() { return boss_leftHand_.get(); }
 	BossRightHand* GetBossRightHand() { return boss_rightHand_.get(); }
 
+	void SetBossHp(float newHp) { bossHp_ = newHp; };
+	const float GetBossHp() const { return bossHp_; }
+
 #ifdef _DEBUG
 	void Debug_Gui();
 
@@ -89,5 +92,7 @@ private:
 	// -------------------------------------------------
 
 	std::unique_ptr<BaseObjectState> state_;
+
+	float bossHp_ = 100;
 };
 

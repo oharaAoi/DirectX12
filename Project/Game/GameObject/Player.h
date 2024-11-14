@@ -26,12 +26,15 @@ public:
 
 	void OnCollision(MeshCollider& other);
 
+	/// <summary>
+	/// コアに攻撃した際の跳ね返り
+	/// </summary>
+	void KnockBack();
+
 	void SetInverMatrix(const Matrix4x4& inver);
 	void SetCameraZDis(float z);
 
 	WireTip* GetWireTip() { return wireTip_.get(); }
-
-
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -101,7 +104,8 @@ private:
 	float pullWeight_ = 0.0f;
 	Matrix4x4 inverMat_;
 
-
+	// knockBack処理
+	bool isKnockBack_;
 
 	// ワイヤー先端
 	std::unique_ptr<WireTip> wireTip_;
