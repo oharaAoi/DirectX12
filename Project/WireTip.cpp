@@ -90,6 +90,10 @@ void WireTip::OnCollision(MeshCollider& other) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
+	if (other.GetTag() == "boss_core") {
+		isHit_ = true;
+		isSnagged_ = true;
+	}
 }
 
 void WireTip::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
