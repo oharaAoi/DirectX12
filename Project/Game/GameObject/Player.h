@@ -3,6 +3,7 @@
 #include "Game/GameObject/ClutchWire.h"
 #include "WireTip.h"
 #include "Engine/Collider/MeshCollider.h"
+#include "Engine/Math/Easing.h"
 
 
 enum class PlayerState {
@@ -76,6 +77,10 @@ private:
 	Vector3 velocity_{};
 	float moveSpeed_ = 6.0f;
 	float gravity_ = -0.8f;
+	float rightRotate = 1.59f;
+	float leftRotate = -1.58f;
+	float targetRotate = 0.0f;
+	float nowRotate = 0.0f;
 
 	// クラッチ
 	std::unique_ptr<ClutchWire> wire_;
@@ -83,6 +88,9 @@ private:
 	float stretchSpeed_ = 30.0f;
 	float camerazDis_ = 0.0f;
 	Vector2 clutchEnd_{};
+	float clutchLerpTime_ = 0.0f;
+	int easingIndex_ = int(EasingType::Out::Cubic);
+
 	float returnSpeed_ = 0.3f;
 	bool isReturnClutch_ = false;// 最大まで伸びて戻るか
 	bool isStretchClutch_ = false;// 伸びてる状態か

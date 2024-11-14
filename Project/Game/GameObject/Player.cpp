@@ -14,7 +14,7 @@ void Player::Finalize() {
 
 void Player::Init() {
 	BaseGameObject::Init();
-	SetObject("cube.obj");
+	SetObject("skin.obj");
 	transform_->SetScale({ 1.0f, 1.0f, 1.0f });
 	transform_->SetTranslaion({ 0.0f, 0.0f, 0.0f });
 
@@ -97,6 +97,8 @@ void Player::Debug_Gui() {
 			ImGui::TreePop();
 		}
 
+		ShowEasingDebug(easingIndex_);
+
 		ImGui::End();
 		ImGui::TreePop();
 	}
@@ -146,9 +148,13 @@ void Player::Move() {
 
 			if (Input::IsPressKey(DIK_A)) {
 				velocity_.x -= moveSpeed_ * GameTimer::DeltaTime();
+				targetRotate = leftRotate;
+
 			}
 			if (Input::IsPressKey(DIK_D)) {
 				velocity_.x += moveSpeed_ * GameTimer::DeltaTime();
+				targetRotate = rightRotate;
+
 			}
 
 
@@ -169,14 +175,19 @@ void Player::Move() {
 		}
 	} else if (wireTip_->GetSnagged() && isStretchClutch_) {
 		velocity_.y = 0.0f;
-		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, 0.1f);
+		clutchLerpTime_ += GameTimer::DeltaTime();
+		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, CallEasingFunc(easingIndex_, powf(clutchLerpTime_, 2.0f)));
 
 		float errorLength = (clutchEnd_ - Vector2{ pos.x,pos.y }).Length();
 		if (errorLength < 0.2f) {
 			isStretchClutch_ = false;
 			isSnagged_ = false;
+			clutchLerpTime_ = 0.0f;
 		}
 	}
+
+	nowRotate = LerpShortAngle(nowRotate, targetRotate, 0.1f);
+	transform_->SetQuaternion(Quaternion::AngleAxis(nowRotate, Vector3::UP()));
 
 	pos += velocity_;
 	transform_->SetTranslaion(pos);
@@ -281,7 +292,17 @@ void Player::BaseClutch() {
 void Player::FirstClutch() {
 
 	if (!isStretchClutch_ && isRekey_) {
-		Vector3 end = ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
+		Vector2 mousePos = Input::GetMousePosition();
+
+		Vector3 end = ScreenToWorldCoordinate(mousePos, inverMat_, -camerazDis_);
+
+		if (end.x > transform_->GetTranslation().x) {
+			targetRotate = rightRotate;
+		}
+		else if (end.x < transform_->GetTranslation().x) {
+			targetRotate = leftRotate;
+		}
+
 		end -= transform_->GetTranslation();
 		end = end.Normalize() * maxClutchLength_;
 		end += transform_->GetTranslation();
