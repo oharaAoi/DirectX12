@@ -15,7 +15,8 @@ void BossRightHand::Finalize() {
 
 void BossRightHand::Init() {
 	BaseGameObject::Init();
-	SetObject("Right_Hand.obj");
+	SetObject("Right_Hand.gltf");
+	SetAnimater("./Game/Resources/Model/Right_Hand/", "Right_Hand.gltf", true);
 
 	meshCollider_ = std::make_unique<MeshCollider>();
 	meshCollider_->Init(model_->GetMesh(0));
@@ -185,6 +186,8 @@ void BossRightHand::Debug_Gui() {
 	Debug_Axis();
 	ImGui::DragFloat2("objectScreenPos", &objectScreenPos_.x, 1.0f);
 	ImGui::Unindent(20.0f);
+
+	BaseGameObject::Debug_Gui();
 
 	ImGui::End();
 }
