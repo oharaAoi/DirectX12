@@ -42,6 +42,7 @@ private:
 
 	// ゲームオブジェクト ------------------------------------
 	std::unique_ptr<BaseGameObject> test_animationCS_;
+	std::unique_ptr<BaseGameObject> testObj_;
 	MeshCollider meshCollider_;
 
 	std::unique_ptr<GpuEffect> gpuEffect_;
