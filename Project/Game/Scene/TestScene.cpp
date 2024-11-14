@@ -13,6 +13,13 @@ void TestScene::Init() {
 	test_animationCS_->Init();
 	test_animationCS_->SetObject("amimationCharacter.gltf");
 	test_animationCS_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true);
+	test_animationCS_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
+
+	testObj_ = std::make_unique<BaseGameObject>();
+	testObj_->Init();
+	testObj_->SetObject("skin.obj");
+	
+	test_animationCS_->GetTransform()->SetParentRotate(testObj_->GetTransform()->GetQuaternion());
 
 	//test_animationCS_->SetObjectAxis();
 
@@ -46,6 +53,8 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	test_animationCS_->Update();
 
+	testObj_->Update();
+
 	meshCollider_.Update(test_animationCS_->GetTransform(), Vector3::ZERO());
 
 	gpuEffect_->Update();
@@ -65,6 +74,8 @@ void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	test_animationCS_->Draw();
 
+	testObj_->Draw();
+
 	gpuEffect_->Draw();
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
@@ -75,7 +86,8 @@ void TestScene::Draw() const {
 void TestScene::ImGuiDraw() {
 	ImGui::Begin("TestScene");
 	ImGui::Checkbox("isDebug", &isDebugCamera_);
-	test_animationCS_->Debug_Gui();
+	//test_animationCS_->Debug_Gui();
+	testObj_->Debug_Gui();
 	camera_->Debug_Gui();
 	debugCamera_->Debug_Gui();
 

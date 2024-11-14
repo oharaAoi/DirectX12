@@ -38,6 +38,7 @@ public:
 
 	void SetParent(const Matrix4x4& parentMat);
 	void SetParentTranslation(const Vector3& parentTranslation);
+	void SetParentRotate(const Quaternion& parentQuaternion);
 
 	void SetMatrix(const Matrix4x4& mat);
 	void SetScale(const Vector3& scale) { scale_ = scale; }
@@ -63,6 +64,7 @@ private:
 
 	const Matrix4x4* parentMat_ = nullptr;
 	const Vector3* parentTransition_ = nullptr;
+	const Quaternion* parentRotate_ = nullptr;
 
 	ComPtr<ID3D12Resource> cBuffer_;
 	WorldTransformData* data_;

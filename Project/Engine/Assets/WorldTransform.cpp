@@ -6,6 +6,15 @@ WorldTransform::~WorldTransform() {
 	Finalize();
 }
 
+void WorldTransform::Finalize() {
+	cBuffer_.Reset();
+	data_ = nullptr;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　初期化処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void WorldTransform::Init(ID3D12Device* device) {
 	cBuffer_ = CreateBufferResource(device, sizeof(WorldTransformData));
 	// データをマップ
@@ -18,27 +27,60 @@ void WorldTransform::Init(ID3D12Device* device) {
 	worldMat_ = Matrix4x4::MakeUnit();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　更新処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void WorldTransform::Update(const Matrix4x4& mat) {
+	Vector3 worldTranslate = Vector3::ZERO();
+	Quaternion worldRotate = Quaternion();
+
 	rotation_ = (rotation_.Normalize() * moveQuaternion_.Normalize());
 	rotation_ = rotation_.Normalize();
 	moveQuaternion_ = Quaternion();
 
+	// -------------------------------------------------
+	// ↓ 平行成分の親子関係があるかを確認
+	// -------------------------------------------------
 	if (parentTransition_ != nullptr) {
-		translation_ += {parentTransition_->x, parentTransition_->y, parentTransition_->z};
+		worldTranslate = translation_ + *parentTransition_;
+	} else {
+		worldTranslate = translation_;
 	}
 
-	worldMat_ = mat * Matrix4x4::MakeAffine(scale_, rotation_, translation_);
+	// -------------------------------------------------
+	// ↓ 回転成分の親子関係があるかを確認
+	// -------------------------------------------------
+	if (parentRotate_ != nullptr) {
+		worldRotate = *parentRotate_ * rotation_;
+	} else {
+		worldRotate = rotation_;
+	}
+
+	// -------------------------------------------------
+	// ↓ world行列を生成
+	// -------------------------------------------------
+	worldMat_ = mat * Matrix4x4::MakeAffine(scale_, worldRotate, worldTranslate);
 	if (parentMat_ != nullptr) {
 		worldMat_ *= *parentMat_;
 	}
+
 	// GPUに送るデータを更新
 	data_->matWorld = worldMat_;
 	data_->worldInverseTranspose = (worldMat_).Inverse().Transpose();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　コマンドリストに送る
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void WorldTransform::Draw(ID3D12GraphicsCommandList* commandList) const {
 	commandList->SetGraphicsRootConstantBufferView(1, cBuffer_->GetGPUVirtualAddress());
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　編集
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
 void WorldTransform::Debug_Gui() {
@@ -70,10 +112,9 @@ void WorldTransform::Debug_Quaternion() {
 }
 #endif
 
-void WorldTransform::Finalize() {
-	cBuffer_.Reset();
-	data_ = nullptr;
-}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Setter系
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WorldTransform::SetParent(const Matrix4x4& parentMat) {
 	parentMat_ = &parentMat;
@@ -81,6 +122,10 @@ void WorldTransform::SetParent(const Matrix4x4& parentMat) {
 
 void WorldTransform::SetParentTranslation(const Vector3& parentTranslation) {
 	parentTransition_ = &parentTranslation;
+}
+
+void WorldTransform::SetParentRotate(const Quaternion& parentQuaternion) {
+	parentRotate_ = &parentQuaternion;
 }
 
 void WorldTransform::SetMatrix(const Matrix4x4& mat) {
