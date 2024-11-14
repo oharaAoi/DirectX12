@@ -69,6 +69,10 @@ void Player::Draw() const {
 void Player::OnCollision(MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
 		
+		if (playerState == int(PlayerState::Attack)) {
+			isHitAttack_ = true;
+		}
+
 	}
 }
 
@@ -137,7 +141,7 @@ void Player::Move() {
 	if (pos.y > 0.5f) {
 		velocity_.y += gravity_ * GameTimer::DeltaTime();
 	}
-	Vector3 testPrePos = pos + velocity_;
+	Vector3 testPrePos = pos + velocity_ * GameTimer::DeltaTime();
 	if (testPrePos.y <= 0.5f) {
 		pos.y = 0.5f;
 	}
@@ -155,12 +159,12 @@ void Player::Move() {
 			}
 
 			if (Input::IsPressKey(DIK_A)) {
-				velocity_.x -= moveSpeed_ * GameTimer::DeltaTime();
+				velocity_.x -= moveSpeed_;
 				targetRotate = leftRotate;
 				
 			}
 			if (Input::IsPressKey(DIK_D)) {
-				velocity_.x += moveSpeed_ * GameTimer::DeltaTime();
+				velocity_.x += moveSpeed_;
 				targetRotate = rightRotate;
 
 			}
@@ -182,22 +186,29 @@ void Player::Move() {
 
 		}
 	} else if (wireTip_->GetSnagged() && isStretchClutch_) {
+		playerState = int(PlayerState::Attack);
+
 		velocity_.y = 0.0f;
 		clutchLerpTime_ += GameTimer::DeltaTime();
 		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, CallEasingFunc(easingIndex_, powf(clutchLerpTime_, 2.0f)));
 
 		float errorLength = (clutchEnd_ - Vector2{ pos.x,pos.y }).Length();
-		if (errorLength < 0.2f) {
+		if (errorLength < 0.1f) {
 			isStretchClutch_ = false;
 			isSnagged_ = false;
 			clutchLerpTime_ = 0.0f;
+			playerState = int(PlayerState::Default);
+			if (isHitAttack_) {
+				velocity_.y = 4.0f;
+			}
+			isHitAttack_ = false;
 		}
 	}
 
 	nowRotate = LerpShortAngle(nowRotate, targetRotate, 0.1f);
 	transform_->SetQuaternion(Quaternion::AngleAxis(nowRotate, Vector3::UP()));
 
-	pos += velocity_;
+	pos += velocity_ * GameTimer::DeltaTime();
 	transform_->SetTranslaion(pos);
 }
 

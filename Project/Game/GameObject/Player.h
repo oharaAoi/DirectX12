@@ -76,10 +76,16 @@ private:
 	/// 変数
 	/// ==========================================
 
+
+	// プレイヤーの状態
+	int playerState = int(PlayerState::Default);
+	bool isHitAttack_ = false;
+
+
 	// 移動
 	Vector3 velocity_{};
 	float moveSpeed_ = 6.0f;
-	float gravity_ = -0.8f;
+	float gravity_ = -29.4f;
 	float rightRotate = 1.59f;
 	float leftRotate = -1.58f;
 	float targetRotate = 0.0f;
