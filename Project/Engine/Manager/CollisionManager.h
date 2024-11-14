@@ -74,6 +74,7 @@ private:
 
 	std::list<Collider*> colliders_;
 	std::list<MeshCollider*> meshColliders_;
+	std::list<MeshCollider*> preMeshColliders_;
 
 	Vector3 playerPosition_;
 	

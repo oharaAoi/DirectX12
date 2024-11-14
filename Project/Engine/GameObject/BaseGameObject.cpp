@@ -45,6 +45,10 @@ void BaseGameObject::Update() {
 	}
 #endif
 
+	if (meshCollider_ != nullptr) {
+		meshCollider_->Update(transform_.get());
+	}
+
 	worldPos_ = Vector3(0.0f, 0.0f, 0.0f) * transform_->GetWorldMatrix();
 }
 
@@ -61,6 +65,12 @@ void BaseGameObject::Draw() const {
 		objectAxis_->Draw();
 	}
 #endif
+}
+
+void BaseGameObject::SetMeshCollider(const std::string& tag) {
+	meshCollider_ = std::make_unique<MeshCollider>();
+	meshCollider_->Init(model_->GetMesh(0));
+	meshCollider_->SetTag(tag);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -60,6 +60,9 @@ void CollisionManager::CheckAllCollision() {
 			CheckCollisionPair(colliderA, colliderB);
 		}
 	}
+
+	// 次のフレームのために衝突したオブジェクトを保存しておく
+	preMeshColliders_ = meshColliders_;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,9 +176,9 @@ void CollisionManager::CheckCollisionPair(MeshCollider* colliderA, MeshCollider*
 	colliderA->SetIsHitting(false);
 	colliderB->SetIsHitting(false);
 
-	if (colliderA->GetTag() == colliderB->GetTag()) {
+	/*if (colliderA->GetTag() == colliderB->GetTag()) {
 		return;
-	}
+	}*/
 
 	Vector3 posA = colliderA->GetObbCenter();
 	Vector3 posB = colliderB->GetObbCenter();
@@ -183,15 +186,35 @@ void CollisionManager::CheckCollisionPair(MeshCollider* colliderA, MeshCollider*
 	Vector3 subtract = posB - posA;
 	// 座標AとBの距離を求める
 	float distance = subtract.Length();
-	// 球と球の交差判定
+	// obbとobbの交差判定
 	if (colliderA->GetRadius() + colliderB->GetRadius() > distance) {
 		if (CheckCollisonObb(colliderA, colliderB)) {
+			// Colliderの状態を変化させる
+			colliderA->SwitchCollision();
+			colliderB->SwitchCollision();
+
 			// それぞれの衝突時コールバック関数を呼び出す
 			colliderA->OnCollision(*colliderB);
 			colliderB->OnCollision(*colliderA);
 
 			colliderA->SetIsHitting(true);
 			colliderB->SetIsHitting(true);
+		}
+	} else {
+		// 衝突している状態だったら脱出した状態にする
+		if (colliderA->GetCollisionState() == CollisionFlags::STAY) {
+			colliderA->SetCollisionState(CollisionFlags::EXIT);
+			colliderA->OnCollision(*colliderB);
+		} else {
+			colliderA->SetCollisionState(CollisionFlags::NONE);
+		}
+
+		// 衝突している状態だったら脱出した状態にする
+		if (colliderB->GetCollisionState() == CollisionFlags::STAY) {
+			colliderB->SetCollisionState(CollisionFlags::EXIT);
+			colliderB->OnCollision(*colliderA);
+		} else {
+			colliderB->SetCollisionState(CollisionFlags::NONE);
 		}
 	}
 }

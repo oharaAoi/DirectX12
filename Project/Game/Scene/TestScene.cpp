@@ -9,25 +9,28 @@ void TestScene::Init() {
 	debugCamera_ = std::make_unique<DebugCamera>();
 
 	// GameObject -------------------------------------------------------------------
-	test_animationCS_ = std::make_unique<BaseGameObject>();
-	test_animationCS_->Init();
-	test_animationCS_->SetObject("amimationCharacter.gltf");
-	test_animationCS_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true);
-	test_animationCS_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
+	testObjA_ = std::make_unique<TestObject>();
+	testObjB_ = std::make_unique<TestObject>();
 
-	testObj_ = std::make_unique<BaseGameObject>();
-	testObj_->Init();
-	testObj_->SetObject("skin.obj");
-	
-	test_animationCS_->GetTransform()->SetParentRotate(testObj_->GetTransform()->GetQuaternion());
+	testObjA_->Init();
+	testObjB_->Init();
 
-	//test_animationCS_->SetObjectAxis();
+	testObjA_->SetObject("amimationCharacter.gltf");
+	testObjA_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true);
+	testObjA_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
 
+	testObjA_->GetTransform()->SetParentRotate(testObjA_->GetTransform()->GetQuaternion());
+	testObjB_->SetObject("skin.obj");
+
+	// Manager -------------------------------------------------------------------
+
+	collisionManager_ = std::make_unique<CollisionManager>();
+	collisionManager_->Init();
+
+	// Effect -------------------------------------------------------------------
 	gpuEffect_ = std::make_unique<GpuEffect>();
 	gpuEffect_->Init();
 
-	meshCollider_.Init(test_animationCS_->GetModel()->GetMesh(0));
-	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,13 +54,15 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
-	test_animationCS_->Update();
-
-	testObj_->Update();
-
-	meshCollider_.Update(test_animationCS_->GetTransform(), Vector3::ZERO());
+	testObjA_->Update();
+	testObjB_->Update();
 
 	gpuEffect_->Update();
+
+	collisionManager_->Reset();
+	collisionManager_->AddCollider(testObjA_->GetMeshCollider());
+	collisionManager_->AddCollider(testObjB_->GetMeshCollider());
+	collisionManager_->CheckAllCollision();
 
 	// -------------------------------------------------
 	// ↓ ParticleのViewを設定する
@@ -72,14 +77,14 @@ void TestScene::Update() {
 
 void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
-	test_animationCS_->Draw();
+	testObjA_->Draw();
 
-	testObj_->Draw();
+	testObjB_->Draw();
 
 	gpuEffect_->Draw();
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
-	meshCollider_.Draw();
+	
 }
 
 #ifdef _DEBUG
@@ -87,7 +92,7 @@ void TestScene::ImGuiDraw() {
 	ImGui::Begin("TestScene");
 	ImGui::Checkbox("isDebug", &isDebugCamera_);
 	//test_animationCS_->Debug_Gui();
-	testObj_->Debug_Gui();
+	testObjA_->Debug_Gui();
 	camera_->Debug_Gui();
 	debugCamera_->Debug_Gui();
 

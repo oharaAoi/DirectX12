@@ -12,8 +12,9 @@
 #include "Engine/ParticleSystem/EffectSystem.h"
 #include "Engine/Collider/MeshCollider.h"
 #include "Engine/Math/Easing.h"
-
 #include "Engine/ParticleSystem/GpuEffect.h"
+#include "Engine/Manager/CollisionManager.h"
+#include "Engine/GameObject/TestObject.h"
 
 class TestScene 
 : public BaseScene {
@@ -41,9 +42,14 @@ private:
 	bool isDebugCamera_ = true;
 
 	// ゲームオブジェクト ------------------------------------
-	std::unique_ptr<BaseGameObject> test_animationCS_;
-	std::unique_ptr<BaseGameObject> testObj_;
-	MeshCollider meshCollider_;
+	
+	std::unique_ptr<TestObject> testObjA_;
+	std::unique_ptr<TestObject> testObjB_;
+
+	std::unique_ptr<MeshCollider> meshColliderA_;
+	std::unique_ptr<MeshCollider> meshColliderB_;
+
+	std::unique_ptr<CollisionManager> collisionManager_;
 
 	std::unique_ptr<GpuEffect> gpuEffect_;
 

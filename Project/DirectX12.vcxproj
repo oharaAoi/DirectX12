@@ -152,6 +152,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\GameObject\Model.cpp" />
     <ClCompile Include="Engine\GameObject\ObjectAxis.cpp" />
     <ClCompile Include="Engine\GameObject\Sphere.cpp" />
+    <ClCompile Include="Engine\GameObject\TestObject.cpp" />
     <ClCompile Include="Engine\Input\Input.cpp" />
     <ClCompile Include="Engine\Lib\GameTimer.cpp" />
     <ClCompile Include="Engine\Lib\Transform.cpp" />
@@ -275,6 +276,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\GameObject\Model.h" />
     <ClInclude Include="Engine\GameObject\ObjectAxis.h" />
     <ClInclude Include="Engine\GameObject\Sphere.h" />
+    <ClInclude Include="Engine\GameObject\TestObject.h" />
     <ClInclude Include="Engine\Input\Input.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
     <ClInclude Include="Engine\Lib\Transform.h" />

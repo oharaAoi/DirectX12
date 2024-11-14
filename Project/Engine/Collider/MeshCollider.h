@@ -5,6 +5,13 @@
 #include "Engine/Utilities/DrawUtils.h"
 #include "Engine/Assets/WorldTransform.h"
 
+enum CollisionFlags {
+	NONE = 0b00,
+	ENTER = 0b01,
+	EXIT = 0b10,
+	STAY = 0b11,
+};
+
 class MeshCollider {
 public:
 
@@ -12,8 +19,18 @@ public:
 	~MeshCollider();
 
 	void Init(Mesh* mesh);
-	void Update(const WorldTransform* worldTransform, const Vector3& offset);
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="worldTransform">: 生成するOBBの元となるworldTransform</param>
+	/// <param name="offset">: offset座標(指定しなかったらZEROが入っている)</param>
+	void Update(const WorldTransform* worldTransform, const Vector3& offset = Vector3::ZERO());
 	void Draw() const;
+
+	/// <summary>
+	/// 状態の変更
+	/// </summary>
+	void SwitchCollision();
 
 	/// <summary>
 	/// 衝突時にコールバック関数を呼び出す
@@ -22,12 +39,50 @@ public:
 	void OnCollision(MeshCollider& other);
 
 	/// <summary>
-	/// 衝突時のコールバックを設定
+	/// 最初の衝突時に呼ばれる関数
+	/// </summary>
+	/// <param name="other">: 他の衝突物</param>
+	void OnCollisionEnter(MeshCollider& other);
+
+	/// <summary>
+	/// 衝突中に呼ばれる関数
+	/// </summary>
+	/// <param name="other">: 他の衝突物</param>
+	void OnCollisionStay(MeshCollider& other);
+
+	/// <summary>
+	/// 衝突しなくなったら呼ばれる関数
+	/// </summary>
+	/// <param name="other">: 他の衝突物</param>
+	void OnCollisionExit(MeshCollider& other);
+
+public:
+
+	/// <summary>
+	/// 最初の衝突時に呼ばれる関数の設定
 	/// </summary>
 	/// <param name="callback"></param>
-	void SetOnCollisionCallBack(std::function<void(MeshCollider&)> callback) {
-		onCollision_ = callback;
+	void SetCollisionEnter(std::function<void(MeshCollider&)> callback) {
+		onCollisionEnter_ = callback;
 	}
+
+	/// <summary>
+	/// 最初の衝突時に呼ばれる関数の設定
+	/// </summary>
+	/// <param name="callback"></param>
+	void SetCollisionStay(std::function<void(MeshCollider&)> callback) {
+		onCollisionStay_ = callback;
+	}
+
+	/// <summary>
+	/// 最初の衝突時に呼ばれる関数の設定
+	/// </summary>
+	/// <param name="callback"></param>
+	void SetCollisionExit(std::function<void(MeshCollider&)> callback) {
+		onCollisionExit_ = callback;
+	}
+
+public:
 
 	// ------------ 半径 ------------ // 
 	float GetRadius() const { return radius_; }
@@ -37,12 +92,13 @@ public:
 	void SetIsHitting(const bool& hit) { isHitting_ = hit; }
 	const bool GetIsHitting() const { return isHitting_; }
 
-	// --------------- オブジェクトの属性取得 -------------- //
-	int32_t GetObjectType() { return typeID_; }
-
 	// --------------- tagの取得 -------------- //
 	void SetTag(const std::string& tag) { tag_ = tag; }
 	const std::string GetTag() const { return tag_; }
+
+	// --------------- stateの取得 -------------- //
+	void SetCollisionState(int stateBit) { collisionState_ = stateBit; }
+	const int GetCollisionState() const { return collisionState_; }
 
 	const OBB& GetOBB() { return obb_; }
 
@@ -57,8 +113,7 @@ private:
 
 	// 半径
 	float radius_ = 1.0f;
-	// 種別ID
-	int32_t typeID_ = -1;
+	
 	// 当たり判定用
 	OBB obb_;
 	// タグ
@@ -67,9 +122,13 @@ private:
 	bool isHitting_;
 	Vector4 color_;
 
+	int collisionState_;
+
 	// 元となるmesh
 	Mesh* mesh_;
 
 	// 衝突用のコールバック
-	std::function<void(MeshCollider&)> onCollision_;
+	std::function<void(MeshCollider&)> onCollisionEnter_;
+	std::function<void(MeshCollider&)> onCollisionStay_;
+	std::function<void(MeshCollider&)> onCollisionExit_;
 };

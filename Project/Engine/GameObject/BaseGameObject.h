@@ -12,6 +12,7 @@
 #include "Engine/Collider/Collider.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Assets/AnimetionClip.h"
+#include "Engine/Collider/MeshCollider.h"
 
 class BaseGameObject {
 public:
@@ -23,6 +24,8 @@ public:
 	virtual void Init();
 	virtual void Update();
 	virtual void Draw() const;
+
+	void SetMeshCollider(const std::string& tag);
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -51,6 +54,8 @@ public:
 
 	Model* GetModel() { return model_; }
 
+	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
+
 protected:
 
 	Model* model_;
@@ -60,6 +65,8 @@ protected:
 	std::unique_ptr<Animetor> animetor_ = nullptr;
 
 	std::unique_ptr<ObjectAxis> objectAxis_; // objectの回転を可視化したもの
+
+	std::unique_ptr<MeshCollider> meshCollider_; // 当たり判定を行うクラス
 
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	Vector3 worldPos_;
