@@ -39,7 +39,8 @@ public:
 	void SetThrow(bool is) { isThrow_ = is; }
 
 
-
+	bool GetPull() { return isPull_; }
+	void SetPull(bool is) { isPull_ = is; }
 
 
 	Collider* GetWireTipCollider() { return wireTip_.get(); }
@@ -55,8 +56,9 @@ private:
 	void Move();
 	void Clutch();
 
-
-
+	void BaseClutch();
+	void FirstClutch();
+	void Stretching();
 
 
 	/// ==========================================
@@ -79,6 +81,9 @@ private:
 	bool isStretchClutch_ = false;// 伸びてる状態か
 	bool isStretching_ = false;
 	bool isRekey_ = true;// 一回ボタンから手離したかった
+	bool isSnagged_ = false;
+	bool isPull_ = false;
+	float pullWeight_ = 0.0f;
 	Matrix4x4 inverMat_;
 
 

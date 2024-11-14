@@ -43,6 +43,7 @@ private:
 
 
 	bool isfollowWire_ = false;
+	bool isPulling_ = false;
 	Player* player_ = nullptr;
 
 

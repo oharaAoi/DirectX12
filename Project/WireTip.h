@@ -16,8 +16,8 @@ public:
 	void OnCollision([[maybe_unused]] Collider* other)override;
 	bool GetHit()const { return isHit_; }
 	void SetHit(bool is) { isHit_ = is; }
-	bool GetPull()const { return isPull_; }
-	void SetPull(bool is) { isPull_ = is; }
+	bool GetCautch()const { return isCautch_; }
+	void SetCautch(bool is) { isCautch_ = is; }
 
 	bool GetFollow()const { return isFollow_; }
 	void SetFolllow(bool is) { isFollow_ = is; }
@@ -25,7 +25,11 @@ public:
 	bool GetSnagged()const { return isSnagged_; }
 	void SetSnagged(bool is) { isSnagged_ = is; }
 
+	bool GetPull()const { return isPull_; }
+	void SetPull(bool is) { isPull_ = is; }
+
 	const Vector3 GetWorldPos() const override { return transform_->GetTranslation(); }
+	float GetWeight() { return weight_; }
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -34,8 +38,10 @@ public:
 private:
 
 	bool isHit_ = false;
-	bool isPull_ = false;
+	bool isCautch_ = false;
 	bool isFollow_ = false;
 	bool isSnagged_ = false;
+	bool isPull_ = false;
+	float weight_ = 0.0f;
 
 };

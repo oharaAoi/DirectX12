@@ -113,15 +113,37 @@ void Player::Move() {
 		pos.y = 0.5f;
 	}
 
-	if (!wireTip_->GetSnagged()) {
+	if (!isSnagged_) {
 		velocity_.x = 0.0f;
 		if (!isStretching_) {
+			float weight = 1.0f;
+			if (isPull_&&wireTip_->GetPull()) {
+				weight = wireTip_->GetWeight();
+			}
+
 			if (Input::IsPressKey(DIK_A)) {
 				velocity_.x -= moveSpeed_ * GameTimer::DeltaTime();
 			}
 			if (Input::IsPressKey(DIK_D)) {
 				velocity_.x += moveSpeed_ * GameTimer::DeltaTime();
 			}
+
+
+			if (velocity_.x < 0) {
+
+				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
+				if (sab.x>0) {
+					velocity_ *= weight;
+				}
+			}
+			else if (velocity_.x > 0) {
+
+				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
+				if (sab.x < 0) {
+					velocity_ *= weight;
+				}
+			}
+
 		}
 	}
 	else if(wireTip_->GetSnagged() && isStretchClutch_) {
@@ -131,8 +153,8 @@ void Player::Move() {
 		float errorLength = (clutchEnd_ - Vector2{ pos.x,pos.y }).Length();
 		if (errorLength < 0.2f) {
 			isStretchClutch_ = false;
+			isSnagged_ = false;
 		}
-		
 	}
 
 	pos += velocity_;
@@ -143,51 +165,10 @@ void Player::Clutch() {
 
 	if (!Input::IsPressMouse(0)) {
 		isRekey_ = true;
+		isPull_ = false;
 	}
 
-	Vector2 start;
-	Vector2 clutchDirection;
-	if (!isReturnClutch_) {// 最大まで伸びて、戻る状態じゃない時
-		if (Input::IsPressMouse(0)) {
-			if (!wireTip_->GetFollow()) {
-
-				if (!isStretchClutch_ && isRekey_) {
-					Vector3 end = ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
-					end -= transform_->GetTranslation();
-					end = end.Normalize() * maxClutchLength_;
-					end += transform_->GetTranslation();
-					clutchEnd_ = { end.x,end.y };
-					isStretching_ = true;
-					isStretchClutch_ = true;
-					isRekey_ = false;
-				}
-				Vector3 screenPos = transform_->GetTranslation();
-
-				start = { screenPos.x,screenPos.y };
-				clutchDirection = (clutchEnd_ - start).Normalize();
-				float angle = std::atan2f(clutchDirection.x, clutchDirection.y);
-
-				Quaternion moveRotate = Quaternion::AngleAxis(-angle, Vector3::FORWARD());
-				Quaternion rotate = wire_->GetTransform()->GetQuaternion();
-				wire_->GetTransform()->SetQuaternion(moveRotate);
-			}
-			else if (isRekey_ && !isStretchClutch_ && wireTip_->GetFollow()) {
-				isThrow_ = true;
-				wireTip_->SetFolllow(false);
-			}
-		}
-	}
-	else {
-		Vector3 nowScale = wire_->GetTransform()->GetScale();
-
-		nowScale.y = std::lerp(nowScale.y, 0.0f, returnSpeed_);
-		if (nowScale.y < 0.1f) {
-			nowScale.y = 0.0f;
-			isReturnClutch_ = false;
-		}
-		wire_->GetTransform()->SetScale(nowScale);
-	}
-
+	BaseClutch();
 
 	Vector2 wireTipPos = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Normalize() * wire_->GetTransform()->GetScale().y;
 	wireTipPos += {transform_->GetTranslation().x, transform_->GetTranslation().y};
@@ -196,21 +177,14 @@ void Player::Clutch() {
 		if (isStretching_) {
 			clutchEnd_ = wireTipPos;
 		}
+		if (wireTip_->GetSnagged()) {
+			isSnagged_ = true;
+		}
 		isStretching_ = false;
 	}
 
 
-	if (isStretching_) {
-
-		Vector3 nowScale = wire_->GetTransform()->GetScale();
-		if (nowScale.y <= maxClutchLength_) {
-			nowScale.y += stretchSpeed_ * GameTimer::DeltaTime();
-			wire_->GetTransform()->SetScale(nowScale);
-		}
-		else {
-			isStretching_ = false;
-		}
-	}
+	Stretching();
 
 
 	if (isStretchClutch_) {
@@ -237,11 +211,81 @@ void Player::Clutch() {
 				isReturnClutch_ = true;
 			}
 
-			if (wireTip_->GetPull()) {
+			if (wireTip_->GetCautch()) {
 				isStretchClutch_ = false;
 				isReturnClutch_ = true;
 			}
 
 		}
 	}
+}
+
+void Player::BaseClutch() {
+
+	Vector2 start;
+	Vector2 clutchDirection;
+	if (!isReturnClutch_) {// 最大まで伸びて、戻る状態じゃない時
+		if (Input::IsPressMouse(0)) {
+			if (!wireTip_->GetFollow()) {
+				isPull_ = true;
+
+				FirstClutch();
+
+				Vector3 screenPos = transform_->GetTranslation();
+				start = { screenPos.x,screenPos.y };
+				clutchDirection = (clutchEnd_ - start).Normalize();
+				float angle = std::atan2f(clutchDirection.x, clutchDirection.y);
+
+				Quaternion moveRotate = Quaternion::AngleAxis(-angle, Vector3::FORWARD());
+				Quaternion rotate = wire_->GetTransform()->GetQuaternion();
+				wire_->GetTransform()->SetQuaternion(moveRotate);
+			}
+			else if (isRekey_ && !isStretchClutch_ && wireTip_->GetFollow()) {
+				isThrow_ = true;
+				wireTip_->SetFolllow(false);
+			}
+		}
+	}
+	else {
+		Vector3 nowScale = wire_->GetTransform()->GetScale();
+
+		nowScale.y = std::lerp(nowScale.y, 0.0f, returnSpeed_);
+		if (nowScale.y < 0.1f) {
+			nowScale.y = 0.0f;
+			isReturnClutch_ = false;
+		}
+		wire_->GetTransform()->SetScale(nowScale);
+	}
+
+}
+
+void Player::FirstClutch() {
+
+	if (!isStretchClutch_ && isRekey_) {
+		Vector3 end = ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
+		end -= transform_->GetTranslation();
+		end = end.Normalize() * maxClutchLength_;
+		end += transform_->GetTranslation();
+		clutchEnd_ = { end.x,end.y };
+		isStretching_ = true;
+		isStretchClutch_ = true;
+		isRekey_ = false;
+	}
+
+}
+
+void Player::Stretching() {
+
+	if (isStretching_) {
+
+		Vector3 nowScale = wire_->GetTransform()->GetScale();
+		if (nowScale.y <= maxClutchLength_) {
+			nowScale.y += stretchSpeed_ * GameTimer::DeltaTime();
+			wire_->GetTransform()->SetScale(nowScale);
+		}
+		else {
+			isStretching_ = false;
+		}
+	}
+
 }

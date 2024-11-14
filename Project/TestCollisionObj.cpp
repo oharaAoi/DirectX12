@@ -18,7 +18,7 @@ void TestCollisionObj::Init() {
 	BaseGameObject::Init();
 	SetObject("cube.obj");
 	transform_->SetScale({ 1.0f, 1.0f, 1.0f });
-	transform_->SetTranslaion({ 4.0f, 4.0f, 0.0f });
+	transform_->SetTranslaion({ 4.0f, 7.0f, 0.0f });
 
 	radius_ = 1.0f;
 	tag_ = "hook";
@@ -52,6 +52,14 @@ void TestCollisionObj::Update() {
 		transform_->SetTranslaion(position);
 	}
 
+	if (isPulling_&& player_->GetPull()) {
+		Vector3 position = player_->GetWireTip()->GetTransform()->GetTranslation();
+		transform_->SetTranslaion({ position.x,transform_->GetTranslation().y,position.z });
+	}
+	if (!player_->GetPull()) {
+		isPulling_ = false;
+	}
+
 	BaseGameObject::Update();
 }
 
@@ -66,11 +74,16 @@ void TestCollisionObj::Draw() const {
 void TestCollisionObj::OnCollision(Collider* other) {
 
 	if (other->GetTag() == "wireTip") {
-		if (tag_=="canPullObj") {
+		if (tag_=="canCatchObj") {
 			transform_->SetParent(player_->GetTransform()->GetWorldMatrix());
 			Vector3 position = transform_->GetTranslation() - player_->GetTransform()->GetTranslation();
 			transform_->SetTranslaion(position);
 			isfollowWire_ = true;
+		}
+
+		if (tag_ == "canPullObj") {
+			
+			isPulling_ = true;
 		}
 	}
 
