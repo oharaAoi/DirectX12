@@ -273,7 +273,17 @@ void Player::BaseClutch() {
 void Player::FirstClutch() {
 
 	if (!isStretchClutch_ && isRekey_) {
-		Vector3 end = ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
+		Vector2 mousePos = Input::GetMousePosition();
+
+		Vector3 end = ScreenToWorldCoordinate(mousePos, inverMat_, -camerazDis_);
+
+		if (end.x > transform_->GetTranslation().x) {
+			targetRotate = rightRotate;
+		}
+		else if (end.x < transform_->GetTranslation().x) {
+			targetRotate = leftRotate;
+		}
+
 		end -= transform_->GetTranslation();
 		end = end.Normalize() * maxClutchLength_;
 		end += transform_->GetTranslation();
