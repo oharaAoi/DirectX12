@@ -78,6 +78,8 @@ void Player::Debug_Gui() {
 			ImGui::TreePop();
 		}
 
+		ShowEasingDebug(easingIndex_);
+
 		ImGui::End();
 		ImGui::TreePop();
 	}
@@ -148,12 +150,14 @@ void Player::Move() {
 	}
 	else if(wireTip_->GetSnagged() && isStretchClutch_) {
 		velocity_.y = 0.0f;
-		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, 0.1f);
+		clutchLerpTime_ += GameTimer::DeltaTime();
+		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, CallEasingFunc(easingIndex_, powf(clutchLerpTime_, 2.0f)));
 
 		float errorLength = (clutchEnd_ - Vector2{ pos.x,pos.y }).Length();
 		if (errorLength < 0.2f) {
 			isStretchClutch_ = false;
 			isSnagged_ = false;
+			clutchLerpTime_ = 0.0f;
 		}
 	}
 

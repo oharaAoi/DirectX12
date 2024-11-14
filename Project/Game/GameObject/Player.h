@@ -2,6 +2,7 @@
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Game/GameObject/ClutchWire.h"
 #include "WireTip.h"
+#include "Engine/Math/Easing.h"
 
 
 enum class PlayerState {
@@ -76,6 +77,9 @@ private:
 	float stretchSpeed_ = 30.0f;
 	float camerazDis_ = 0.0f;
 	Vector2 clutchEnd_{};
+	float clutchLerpTime_ = 0.0f;
+	int easingIndex_ = int(EasingType::Out::Cubic);
+
 	float returnSpeed_ = 0.3f;
 	bool isReturnClutch_ = false;// 最大まで伸びて戻るか
 	bool isStretchClutch_ = false;// 伸びてる状態か
