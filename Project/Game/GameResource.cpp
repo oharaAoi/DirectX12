@@ -28,6 +28,7 @@ void GameResource::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Boss_Body/", "boss_body.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Left_Hand/", "Left_Hand.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Right_Hand/", "Right_Hand.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Right_Hand/", "Right_Hand.gltf");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "rail_plane.png");
