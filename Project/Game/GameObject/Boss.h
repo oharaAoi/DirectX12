@@ -40,8 +40,14 @@ public:
 		boss_rightHand_->LoadAllFile();
 	}
 
+	BossCore* GetBossCore() { return boss_core_.get(); }
+	BossLeftHand* GetBossLeftHand() { return boss_leftHand_.get(); }
+	BossRightHand* GetBossRightHand() { return boss_rightHand_.get(); }
+
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	void Debug_Draw();
 
 	void Save();
 private:

@@ -127,6 +127,10 @@ void GameScene::Update() {
 	collisionManager_->AddCollider(testCollisionObj_.get());
 	collisionManager_->AddCollider(testCollisionObj2_.get());
 	collisionManager_->AddCollider(testCollisionObj3_.get());
+
+	collisionManager_->AddCollider(player_->GetMeshCollider());
+	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
+
 	collisionManager_->CheckAllCollision();
 
 
@@ -185,6 +189,10 @@ void GameScene::Draw() const {
 
 	bossLeftAttackEditer_->Draw();
 	bossRightAttackEditer_->Draw();
+
+	player_->Debug_Draw();
+	boss_->Debug_Draw();
+
 #endif
 	
 	// -------------------------------------------------

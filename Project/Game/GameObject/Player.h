@@ -2,6 +2,7 @@
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Game/GameObject/ClutchWire.h"
 #include "WireTip.h"
+#include "Engine/Collider/MeshCollider.h"
 
 
 enum class PlayerState {
@@ -22,6 +23,8 @@ public:
 	void Update() override;
 	void Draw() const override;
 
+	void OnCollision(MeshCollider& other);
+
 	void SetInverMatrix(const Matrix4x4& inver);
 	void SetCameraZDis(float z);
 
@@ -31,7 +34,11 @@ public:
 
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	void Debug_Draw();
 #endif
+
+	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
 
 	// objectを投げるように
 	Vector3 GetThrowVelo()const;
@@ -96,5 +103,10 @@ private:
 	bool isThrow_ = false;
 
 
+	/// ==========================================
+	/// Collider
+	/// ==========================================
+
+	std::unique_ptr<MeshCollider> meshCollider_;
 };
 

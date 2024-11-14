@@ -25,6 +25,13 @@ void Player::Init() {
 	wireTip_ = std::make_unique<WireTip>();
 	wireTip_->Init();
 
+	// Colliderの生成
+	meshCollider_ = std::make_unique<MeshCollider>();
+	meshCollider_->Init(model_->GetMesh(0));
+	meshCollider_->SetTag("player");
+	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
+		this->OnCollision(other);
+	});
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,6 +46,8 @@ void Player::Update() {
 
 	BaseGameObject::Update();
 
+	meshCollider_->Update(transform_.get(), Vector3::ZERO());
+
 	wire_->Update();
 	wireTip_->Update();
 }
@@ -51,6 +60,16 @@ void Player::Draw() const {
 	BaseGameObject::Draw();
 	wire_->Draw();
 	wireTip_->Draw();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　衝突判定処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::OnCollision(MeshCollider& other) {
+	if (other.GetTag() == "boss_core") {
+		transform_->GetTranslation();
+	}
 }
 
 void Player::SetInverMatrix(const Matrix4x4& inver) {
@@ -86,6 +105,10 @@ void Player::Debug_Gui() {
 		ImGui::TreePop();
 	}
 }
+void Player::Debug_Draw() {
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	meshCollider_->Draw();
+}
 #endif
 
 Vector3 Player::GetThrowVelo() const {
@@ -117,7 +140,7 @@ void Player::Move() {
 		velocity_.x = 0.0f;
 		if (!isStretching_) {
 			float weight = 1.0f;
-			if (isPull_&&wireTip_->GetPull()) {
+			if (isPull_ && wireTip_->GetPull()) {
 				weight = wireTip_->GetWeight();
 			}
 
@@ -132,11 +155,10 @@ void Player::Move() {
 			if (velocity_.x < 0) {
 
 				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
-				if (sab.x>0) {
+				if (sab.x > 0) {
 					velocity_ *= weight;
 				}
-			}
-			else if (velocity_.x > 0) {
+			} else if (velocity_.x > 0) {
 
 				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
 				if (sab.x < 0) {
@@ -145,8 +167,7 @@ void Player::Move() {
 			}
 
 		}
-	}
-	else if(wireTip_->GetSnagged() && isStretchClutch_) {
+	} else if (wireTip_->GetSnagged() && isStretchClutch_) {
 		velocity_.y = 0.0f;
 		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, 0.1f);
 
@@ -239,14 +260,12 @@ void Player::BaseClutch() {
 				Quaternion moveRotate = Quaternion::AngleAxis(-angle, Vector3::FORWARD());
 				Quaternion rotate = wire_->GetTransform()->GetQuaternion();
 				wire_->GetTransform()->SetQuaternion(moveRotate);
-			}
-			else if (isRekey_ && !isStretchClutch_ && wireTip_->GetFollow()) {
+			} else if (isRekey_ && !isStretchClutch_ && wireTip_->GetFollow()) {
 				isThrow_ = true;
 				wireTip_->SetFolllow(false);
 			}
 		}
-	}
-	else {
+	} else {
 		Vector3 nowScale = wire_->GetTransform()->GetScale();
 
 		nowScale.y = std::lerp(nowScale.y, 0.0f, returnSpeed_);
@@ -282,8 +301,7 @@ void Player::Stretching() {
 		if (nowScale.y <= maxClutchLength_) {
 			nowScale.y += stretchSpeed_ * GameTimer::DeltaTime();
 			wire_->GetTransform()->SetScale(nowScale);
-		}
-		else {
+		} else {
 			isStretching_ = false;
 		}
 	}

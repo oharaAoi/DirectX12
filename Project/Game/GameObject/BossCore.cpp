@@ -17,6 +17,13 @@ void BossCore::Init() {
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
 
+	meshCollider_ = std::make_unique<MeshCollider>();
+	meshCollider_->Init(model_->GetMesh(0));
+	meshCollider_->SetTag("boss_core");
+	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
+		this->OnCollision(other);
+										  });
+
 	// 調整項目の適応
 	AdaptAdjustment();
 }
@@ -27,6 +34,7 @@ void BossCore::Init() {
 
 void BossCore::Update() {
 	BaseGameObject::Update();
+	meshCollider_->Update(transform_.get(), Vector3::ZERO());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +43,16 @@ void BossCore::Update() {
 
 void BossCore::Draw() const {
 	BaseGameObject::Draw();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　衝突判定処理
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossCore::OnCollision(MeshCollider& other) {
+	if (other.GetTag() == "player") {
+		AdaptAdjustment();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,5 +73,10 @@ void BossCore::Debug_Gui() {
 	ImGui::Begin("Boss_Core");
 	transform_->Debug_Gui();
 	ImGui::End();
+}
+
+void BossCore::Debug_Draw() {
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	meshCollider_->Draw();
 }
 #endif
