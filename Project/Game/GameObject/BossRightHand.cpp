@@ -18,9 +18,8 @@ void BossRightHand::Init() {
 	SetObject("Right_Hand.gltf");
 	SetAnimater("./Game/Resources/Model/Right_Hand/", "Right_Hand.gltf", true);
 
-	meshCollider_ = std::make_unique<MeshCollider>();
-	meshCollider_->Init(model_->GetMesh(0));
-
+	SetMeshCollider("right_hand");
+	
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
 
@@ -51,8 +50,6 @@ void BossRightHand::Update() {
 	}
 
 	BaseGameObject::Update();
-
-	meshCollider_->Update(transform_.get(), Vector3::ZERO());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

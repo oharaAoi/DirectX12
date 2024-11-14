@@ -33,10 +33,13 @@ public:
 
 private:
 
-	std::string groupName_ = "BossCore";
+	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
+	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
+	void OnCollisionExit([[maybe_unused]] MeshCollider& other);
 
-	// Collider
-	std::unique_ptr<MeshCollider> meshCollider_;
+private:
+
+	std::string groupName_ = "BossCore";
 
 };
 

@@ -18,6 +18,14 @@ public:
 
 	void OnCollision(MeshCollider& other);
 
+private:
+
+	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
+	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
+	void OnCollisionExit([[maybe_unused]] MeshCollider& other);
+
+public:
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
@@ -49,7 +57,5 @@ private:
 	bool isSnagged_ = false;
 	bool isPull_ = false;
 	float weight_ = 0.0f;
-
-	std::unique_ptr<MeshCollider> meshCollider_;
 
 };

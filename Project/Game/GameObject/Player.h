@@ -71,6 +71,9 @@ private:
 	void FirstClutch();
 	void Stretching();
 
+	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
+	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
+	void OnCollisionExit([[maybe_unused]] MeshCollider& other);
 
 	/// ==========================================
 	/// 変数
@@ -119,12 +122,5 @@ private:
 
 	// 投げる
 	bool isThrow_ = false;
-
-
-	/// ==========================================
-	/// Collider
-	/// ==========================================
-
-	std::unique_ptr<MeshCollider> meshCollider_;
 };
 

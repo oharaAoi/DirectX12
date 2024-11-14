@@ -17,12 +17,11 @@ void BossCore::Init() {
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
 
-	meshCollider_ = std::make_unique<MeshCollider>();
-	meshCollider_->Init(model_->GetMesh(0));
-	meshCollider_->SetTag("boss_core");
-	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
-		this->OnCollision(other);
-										  });
+	// colliderの設定
+	SetMeshCollider("boss_core");
+	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other); });
+	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
+	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
 
 	// 調整項目の適応
 	AdaptAdjustment();
@@ -34,7 +33,6 @@ void BossCore::Init() {
 
 void BossCore::Update() {
 	BaseGameObject::Update();
-	meshCollider_->Update(transform_.get(), Vector3::ZERO());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +60,17 @@ void BossCore::OnCollision(MeshCollider& other) {
 void BossCore::AdaptAdjustment() {
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	transform_->SetTranslaion(adjust->GetValue<Vector3>(groupName_, "pos"));
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossCore::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
+}
+void BossCore::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
+}
+void BossCore::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

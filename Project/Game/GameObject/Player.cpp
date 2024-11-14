@@ -26,12 +26,10 @@ void Player::Init() {
 	wireTip_->Init();
 
 	// Colliderの生成
-	meshCollider_ = std::make_unique<MeshCollider>();
-	meshCollider_->Init(model_->GetMesh(0));
-	meshCollider_->SetTag("player");
-	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
-		this->OnCollision(other);
-	});
+	SetMeshCollider("player");
+	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other); });
+	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
+	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,8 +43,6 @@ void Player::Update() {
 
 
 	BaseGameObject::Update();
-
-	meshCollider_->Update(transform_.get(), Vector3::ZERO());
 
 	wire_->Update();
 	wireTip_->Update();
@@ -352,4 +348,17 @@ void Player::Stretching() {
 		}
 	}
 
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
+}
+
+void Player::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
+}
+
+void Player::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 }

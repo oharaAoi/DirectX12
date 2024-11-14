@@ -20,12 +20,12 @@ void WireTip::Init() {
 	transform_->SetTranslaion({ 0.0f, 0.0f, 0.0f });
 	tag_ = "wireTip";
 
-	meshCollider_ = std::make_unique<MeshCollider>();
-	meshCollider_->Init(model_->GetMesh(0));
-	meshCollider_->SetTag("wireTip");
-	meshCollider_->SetOnCollisionCallBack([this](MeshCollider& other) {
-		this->OnCollision(other);
-										  });
+	
+	// Colliderの生成
+	SetMeshCollider("wireTip");
+	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other); });
+	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
+	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,6 +83,19 @@ void WireTip::OnCollision(MeshCollider& other) {
 		isHit_ = true;
 		isSnagged_ = true;
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　当たり判定
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
+}
+
+void WireTip::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
+}
+
+void WireTip::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

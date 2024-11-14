@@ -45,8 +45,6 @@ private:
 	std::string groupName_ = "BossRightHand";
 	std::string attackDirectoryPath = "./Game/Resources/GameData/BossAttack/RightHand/";
 
-	std::unique_ptr<MeshCollider> meshCollider_;
-
 	Vector2 objectScreenPos_;
 
 	uint32_t moveIndex_;
