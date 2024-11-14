@@ -483,6 +483,9 @@
     <ClCompile Include="Engine\ParticleSystem\GpuEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\GameObject\TestObject.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Game\GameObject\BossCore.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -867,6 +870,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\GpuEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObject\TestObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameObject\BossCore.h">

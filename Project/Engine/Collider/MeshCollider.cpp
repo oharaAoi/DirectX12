@@ -3,12 +3,18 @@
 MeshCollider::MeshCollider() {}
 MeshCollider::~MeshCollider() {}
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　初期化処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
 void MeshCollider::Init(Mesh* mesh) {
 	mesh_ = mesh;
 
 	size_ = Vector3::ZERO();
 	maxSize_ = { -9999.0f, -9999.0f, -9999.0f };
 	minSize_ = { 9999.0f, 9999.0f, 9999.0f };
+
+	collisionState_ = 0b00;
+
 	// meshのVertexから各軸での最大の値を取り出す
 	Mesh::VertexData* vertices = mesh_->GetOutputVertexData();
 	for (uint32_t index = 0; index < mesh_->GetVertexSize(); ++index) {
@@ -55,6 +61,10 @@ void MeshCollider::Init(Mesh* mesh) {
 
 	size_ = { xRadius, yRadius, zRadius };
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　更新処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void MeshCollider::Update(const WorldTransform* worldTransform, const Vector3& offset) {
 	maxSize_ = { -9999.0f, -9999.0f, -9999.0f };
@@ -122,12 +132,76 @@ void MeshCollider::Update(const WorldTransform* worldTransform, const Vector3& o
 	obb_.MakeOBBAxis(worldTransform->GetQuaternion());
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　描画
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void MeshCollider::Draw() const {
 	DrawOBB(obb_, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　状態の変更
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void MeshCollider::SwitchCollision() {
+	switch (collisionState_) {
+	case 0b00:	// 衝突していない
+		collisionState_ = CollisionFlags::ENTER;	// NONE → ENTER
+		break;
+	case 0b01:	// 初衝突
+		collisionState_ = CollisionFlags::STAY;		// ENTER → STAY
+		break;
+	case 0b10:	// 衝突しなくなった直後
+		collisionState_ = CollisionFlags::NONE;		// EXIT → NONE
+		break;
+	case 0b11:	// 連続衝突時
+		break;
+	default:
+		break;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　collision判定
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void MeshCollider::OnCollision(MeshCollider& other) {
-	if (onCollision_) {
-		onCollision_(other);
+	switch (collisionState_) {
+	case 0b00:	// 衝突していない
+		break;
+	case 0b01:	// 初衝突
+		OnCollisionEnter(other);
+		break;
+	case 0b10:	// 衝突しなくなった直後
+		OnCollisionExit(other);
+		break;
+	case 0b11:	// 連続衝突時
+		OnCollisionStay(other);
+		break;
+	default:
+		break;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　collisionの内容
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void MeshCollider::OnCollisionEnter(MeshCollider& other) {
+	if (onCollisionEnter_) {
+		onCollisionEnter_(other);
+	}
+}
+
+void MeshCollider::OnCollisionStay(MeshCollider& other) {
+	if (onCollisionStay_) {
+		onCollisionStay_(other);
+	}
+}
+
+void MeshCollider::OnCollisionExit(MeshCollider& other) {
+	if (onCollisionExit_) {
+		onCollisionExit_(other);
 	}
 }

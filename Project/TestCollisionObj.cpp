@@ -72,7 +72,6 @@ void TestCollisionObj::Draw() const {
 }
 
 void TestCollisionObj::OnCollision(Collider* other) {
-
 	if (other->GetTag() == "wireTip") {
 		if (tag_=="canCatchObj") {
 			transform_->SetParent(player_->GetTransform()->GetWorldMatrix());
