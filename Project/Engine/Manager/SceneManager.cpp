@@ -20,7 +20,7 @@ void SceneManager::Init() {
 
 	Render::Begin();
 
-	scene_ = std::make_unique<TestScene>();
+	scene_ = std::make_unique<GameScene>();
 	scene_->Init();
 
 	effectSystem_ = EffectSystem::GetInstacne();
