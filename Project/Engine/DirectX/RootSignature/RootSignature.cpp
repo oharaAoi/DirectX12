@@ -300,16 +300,22 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateGpuParticleInit() {
 	descriptorRangeUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
 	descriptorRangeUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
-	// 出力のストラクチャードバッファ
-	D3D12_DESCRIPTOR_RANGE counterUAV[1] = {};
-	counterUAV[0].BaseShaderRegister = 1;
-	counterUAV[0].NumDescriptors = 1;
-	counterUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
-	counterUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	D3D12_DESCRIPTOR_RANGE freeListIndexUAV[1] = {};
+	freeListIndexUAV[0].BaseShaderRegister = 1;
+	freeListIndexUAV[0].NumDescriptors = 1;
+	freeListIndexUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
+	freeListIndexUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	D3D12_DESCRIPTOR_RANGE freeListUAV[1] = {};
+	freeListUAV[0].BaseShaderRegister = 2;
+	freeListUAV[0].NumDescriptors = 1;
+	freeListUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
+	freeListUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	return builder_
 		.AddDescriptorTable(descriptorRangeUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // particles
-		.AddDescriptorTable(counterUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // counter
+		.AddDescriptorTable(freeListIndexUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // freeListIndex
+		.AddDescriptorTable(freeListUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // freeList
 		.Build(device_);
 }
 
@@ -321,8 +327,15 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateGpuParticleUpdate() {
 	descriptorRangeUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
 	descriptorRangeUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
+	D3D12_DESCRIPTOR_RANGE freeListIndexUAV[1] = {};
+	freeListIndexUAV[0].BaseShaderRegister = 1;
+	freeListIndexUAV[0].NumDescriptors = 1;
+	freeListIndexUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
+	freeListIndexUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
 	return builder_
 		.AddDescriptorTable(descriptorRangeUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // particles
+		.AddDescriptorTable(freeListIndexUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // freeListIndex
 		.AddCBV(0, D3D12_SHADER_VISIBILITY_ALL)// frame
 		.Build(device_);
 }
