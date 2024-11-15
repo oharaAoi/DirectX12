@@ -2,6 +2,18 @@
 #include <vector>
 #include "Engine.h"
 #include "Game/Scene/BaseScene.h"
+#include "Game/Camera/Camera.h"
+#include "Game/Camera/FollowCamera.h"
+#include "Game/Camera/DebugCamera.h"
+#include "Game/WorldObject/Skydome.h"
+#include "Game/GameObject/Player.h"
+#include "Game/GameObject/Boss.h"
+#include "Game/Manager/EnemyManager.h"
+#include "Game/WorldObject/Field.h"
+#include "Engine/Manager/CollisionManager.h"
+#include "Engine/Utilities/AdjustmentItem.h"
+#include "Game/Editer/BossAttackEditer.h"
+#include "TestCollisionObj.h"
 
 class GameScene 
 	: public BaseScene {
@@ -20,8 +32,9 @@ public:
 
 private:
 
+	// --- 調整項目 ----------------------------------- //
+	AdjustmentItem* adjustmentItem_;
 
-<<<<<<< HEAD
 	// --- eyePos/view/Projection ------------------- //
 	Vector3 eyePos_;
 	Matrix4x4 viewMat_;
@@ -55,6 +68,4 @@ private:
 	std::unique_ptr<BossAttackEditer> bossLeftAttackEditer_;
 	std::unique_ptr<BossAttackEditer> bossRightAttackEditer_;
 	
-=======
->>>>>>> main
 };

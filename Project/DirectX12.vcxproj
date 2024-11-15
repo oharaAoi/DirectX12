@@ -208,11 +208,29 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Camera\BaseCamera.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
+    <ClCompile Include="Game\Camera\FollowCamera.cpp" />
+    <ClCompile Include="Game\Editer\BossAttackEditer.cpp" />
+    <ClCompile Include="Game\GameObject\Boss.cpp" />
+    <ClCompile Include="Game\GameObject\BossBody.cpp" />
+    <ClCompile Include="Game\GameObject\BossCore.cpp" />
+    <ClCompile Include="Game\GameObject\BossLeftHand.cpp" />
+    <ClCompile Include="Game\GameObject\BossRightHand.cpp" />
+    <ClCompile Include="Game\GameObject\ClutchWire.cpp" />
+    <ClCompile Include="Game\GameObject\Enemy.cpp" />
+    <ClCompile Include="Game\GameObject\Player.cpp" />
+    <ClCompile Include="Game\GameObject\State\BaseObjectState.cpp" />
+    <ClCompile Include="Game\GameObject\State\BossAttackState.cpp" />
+    <ClCompile Include="Game\GameObject\State\BossRootState.cpp" />
     <ClCompile Include="Game\GameResource.cpp" />
+    <ClCompile Include="Game\Manager\EnemyManager.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
+    <ClCompile Include="Game\WorldObject\Field.cpp" />
+    <ClCompile Include="Game\WorldObject\Skydome.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TestCollisionObj.cpp" />
+    <ClCompile Include="WireTip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2d\PrimitiveDrawer.h" />
@@ -321,10 +339,28 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Camera\BaseCamera.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\Camera\DebugCamera.h" />
+    <ClInclude Include="Game\Camera\FollowCamera.h" />
+    <ClInclude Include="Game\Editer\BossAttackEditer.h" />
+    <ClInclude Include="Game\GameObject\Boss.h" />
+    <ClInclude Include="Game\GameObject\BossBody.h" />
+    <ClInclude Include="Game\GameObject\BossCore.h" />
+    <ClInclude Include="Game\GameObject\BossLeftHand.h" />
+    <ClInclude Include="Game\GameObject\BossRightHand.h" />
+    <ClInclude Include="Game\GameObject\ClutchWire.h" />
+    <ClInclude Include="Game\GameObject\Enemy.h" />
+    <ClInclude Include="Game\GameObject\Player.h" />
+    <ClInclude Include="Game\GameObject\State\BaseObjectState.h" />
+    <ClInclude Include="Game\GameObject\State\BossAttackState.h" />
+    <ClInclude Include="Game\GameObject\State\BossRootState.h" />
     <ClInclude Include="Game\GameResource.h" />
+    <ClInclude Include="Game\Manager\EnemyManager.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
+    <ClInclude Include="Game\WorldObject\Field.h" />
+    <ClInclude Include="Game\WorldObject\Skydome.h" />
+    <ClInclude Include="TestCollisionObj.h" />
+    <ClInclude Include="WireTip.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Blend.CS.hlsl">
@@ -447,6 +483,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <None Include="Engine\HLSL\Sprite.2d.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="Game\Resources\Model\Right_Hand\Right_Hand.bin" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

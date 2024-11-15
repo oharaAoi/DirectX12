@@ -7,7 +7,6 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Init() {
-<<<<<<< HEAD
 	adjustmentItem_ = AdjustmentItem::GetInstance();
 	adjustmentItem_->Init("gameScene");
 
@@ -78,13 +77,19 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	// ↓ UI初期化
 	// -------------------------------------------------
-=======
->>>>>>> main
 	
+	// -------------------------------------------------
+	// ↓ 初期化時にやりたい処理を行う
+	// -------------------------------------------------
+
+	isDebugCamera_ = true;
+	followCamera_->SetTarget(player_->GetTransform());
+
+	boss_->SetEditer(bossLeftAttackEditer_.get(), bossRightAttackEditer_.get());
+
 }
 
 void GameScene::Update() {
-<<<<<<< HEAD
 	// -------------------------------------------------
 	// ↓ worldObjectの更新
 	// -------------------------------------------------
@@ -171,16 +176,12 @@ void GameScene::Update() {
 	Render::SetEyePos(eyePos_);
 	Render::SetViewProjection(viewMat_, projectionMat_);
 
-=======
-	
->>>>>>> main
 #ifdef _DEBUG
 	Debug_Gui();
 #endif
 }
 
 void GameScene::Draw() const {
-<<<<<<< HEAD
 	// -------------------------------------------------
 	// ↓ Debugの描画
 	// -------------------------------------------------
@@ -219,8 +220,6 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ UIの描画
 	// -------------------------------------------------
-=======
->>>>>>> main
 	
 }
 
@@ -231,7 +230,71 @@ void GameScene::Draw() const {
 #ifdef _DEBUG
 void GameScene::Debug_Gui() {
 	ImGui::Begin("GameScene");
+	{
+		if (ImGui::TreeNode("Camera")) {
+			ImGui::Checkbox("isDebug", &isDebugCamera_);
+			
+			debugCamera_->Debug_Gui();
+			followCamera_->Debug_Gui();
+			ImGui::TreePop();
+		}
+
+		if (Input::IsTriggerKey(DIK_1)) {
+			isDebugCamera_ = !isDebugCamera_;
+		}
+	}
+
+	{
+		if (ImGui::TreeNode("GameObject")) {
+			player_->Debug_Gui();
+			boss_->Debug_Gui();
+			ImGui::TreePop();
+		}
+	}
+
+	{
+		if (ImGui::TreeNode("WorldObject")) {
+			field_->Debug_Gui();
+			ImGui::TreePop();
+		}
+	}
+
+	{
+		if (ImGui::TreeNode("Manager")) {
+			enemyManager_->Debug_Gui();
+			ImGui::TreePop();
+		}
+	}
+
+	{
+		if (ImGui::TreeNode("AdjustmentItem")) {
+			// Updateだが実質Gui表示なためここで更新
+			adjustmentItem_->Update();
+			ImGui::TreePop();
+		}
+	}
+
 	
+	boss_->CheckMouseCursolCollision(debugCamera_->GetVpvpMatrix());
+	bossLeftAttackEditer_->Update();
+	bossRightAttackEditer_->Update();
+	{
+		if (ImGui::TreeNode("BossAttackEditer")) {
+			ImGui::Begin("BossAttackEditer");
+			if (ImGui::TreeNode("Left")) {
+				bossRightAttackEditer_->AddPoint();
+				bossRightAttackEditer_->DeletePoint(debugCamera_->GetVpvpMatrix());
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Right")) {
+				bossRightAttackEditer_->AddPoint();
+				bossRightAttackEditer_->DeletePoint(debugCamera_->GetVpvpMatrix());
+				ImGui::TreePop();
+			}
+			ImGui::End();
+			ImGui::TreePop();
+		}
+	}
 	ImGui::End();
 }
 
