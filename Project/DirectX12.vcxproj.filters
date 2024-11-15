@@ -399,9 +399,6 @@
     <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameResources.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Collider\Collider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -489,7 +486,13 @@
     <ClCompile Include="Game\WorldObject\Skydome.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameResource.cpp">
+    <ClCompile Include="Engine\Audio\AudioPlayer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Manager\AudioManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameResources.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -791,9 +794,6 @@
     <ClInclude Include="Engine\ParticleSystem\BaseParticle.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameResources.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Collider\Collider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -881,13 +881,13 @@
     <ClInclude Include="Game\WorldObject\Skydome.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameResource.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Manager\AudioManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Audio\AudioPlayer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameResources.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
