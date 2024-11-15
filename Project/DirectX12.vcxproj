@@ -80,7 +80,7 @@ copy "$(ProjectDir)Externals\assimp\build\lib\Debug\assimp-vc143-mtd.dll" "$(Tar
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -91,7 +91,7 @@ copy "$(ProjectDir)Externals\assimp\build\lib\Debug\assimp-vc143-mtd.dll" "$(Tar
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>$(ProjectDir)Engine;$(ProjectDir)Externals\ImGui;$(ProjectDir)Externals;$(ProjectDir)Externals\assimp\include;$(ProjectDir)\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -18,6 +18,7 @@ void BossAttackEditer::Init() {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void BossAttackEditer::Update() {
+#ifdef _DEBUG
 	for (size_t index = 0; index < controlPointObjects_.size(); ++index) {
 		controlPointObjects_[index]->Update();
 
@@ -34,6 +35,7 @@ void BossAttackEditer::Update() {
 			movePoints_.push_back(pos);
 		}
 	}
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
