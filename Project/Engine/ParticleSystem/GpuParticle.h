@@ -43,6 +43,8 @@ public:
 
 	void BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
 
+	void EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
+
 private:
 
 	uint32_t kInstanceNum_;
@@ -56,9 +58,13 @@ private:
 	DescriptorHeap::DescriptorHandles uav_;
 	DescriptorHeap::DescriptorHandles srv_;
 
-	ComPtr<ID3D12Resource> particleCounter_;
-	DescriptorHeap::DescriptorHandles counterUav_;
-	DescriptorHeap::DescriptorHandles counterSrv_;
+	ComPtr<ID3D12Resource> freeListIndex_;
+	DescriptorHeap::DescriptorHandles freeListIndexUav_;
+	DescriptorHeap::DescriptorHandles freeListIndexSrv_;
+
+	ComPtr<ID3D12Resource> freeList_;
+	DescriptorHeap::DescriptorHandles freeListUav_;
+	DescriptorHeap::DescriptorHandles freeListSrv_;
 
 	ComPtr<ID3D12Resource> perViewBuffer_;
 	PerView* perView_;

@@ -25,9 +25,10 @@ void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
 	perFrameBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
 
+	// -------------------------------------------------
+	// ↓ 
+	// -------------------------------------------------
 	particleBuffer_ = CreateUAVResource(Engine::GetDevice(), sizeof(Particle) * kInstanceNum_);
-	// UAVとSRVの作成
-	// ------------------------------------------------------------
 	// UAVの設定
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
 	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
@@ -41,7 +42,6 @@ void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
 	// 生成
 	dxDevice->CreateUnorderedAccessView(particleBuffer_.Get(), nullptr, &uavDesc, uav_.handleCPU);
 
-	// ------------------------------------------------------------
 	// SRVの設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -56,12 +56,9 @@ void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
 	dxDevice->CreateShaderResourceView(particleBuffer_.Get(), &srvDesc, srv_.handleCPU);
 
 	// -------------------------------------------------
-	// ↓ Particleの初期化をGPUで行う
+	// ↓ freeListIndexの作成
 	// -------------------------------------------------
-	particleCounter_ = CreateUAVResource(Engine::GetDevice(), sizeof(int) * kInstanceNum_);
-
-	// UAVとSRVの作成
-	// ------------------------------------------------------------
+	freeListIndex_ = CreateUAVResource(Engine::GetDevice(), sizeof(uint32_t) * kInstanceNum_);
 	// UAVの設定
 	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
 	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
@@ -69,23 +66,50 @@ void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
 	uavDesc.Buffer.NumElements = kInstanceNum_;
 	uavDesc.Buffer.CounterOffsetInBytes = 0;
 	uavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
-	uavDesc.Buffer.StructureByteStride = sizeof(int);
-	counterUav_ = dxHeap->AllocateSRV();
+	uavDesc.Buffer.StructureByteStride = sizeof(uint32_t);
+	freeListIndexUav_ = dxHeap->AllocateSRV();
 	// 生成
-	dxDevice->CreateUnorderedAccessView(particleCounter_.Get(), nullptr, &uavDesc, counterUav_.handleCPU);
+	dxDevice->CreateUnorderedAccessView(freeListIndex_.Get(), nullptr, &uavDesc, freeListIndexUav_.handleCPU);
 
-	// ------------------------------------------------------------
 	// SRVの設定
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.Format = DXGI_FORMAT_UNKNOWN;  // 頂点データなのでフォーマットはUNKNOWN
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	srvDesc.Buffer.FirstElement = 0;
 	srvDesc.Buffer.NumElements = static_cast<UINT>(kInstanceNum_);  // 頂点の数
-	srvDesc.Buffer.StructureByteStride = sizeof(int);  // 頂点1つあたりのサイズ
+	srvDesc.Buffer.StructureByteStride = sizeof(uint32_t);  // 頂点1つあたりのサイズ
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	counterSrv_ = dxHeap->AllocateSRV();
+	freeListIndexSrv_ = dxHeap->AllocateSRV();
 	// 生成
-	dxDevice->CreateShaderResourceView(particleCounter_.Get(), &srvDesc, counterSrv_.handleCPU);
+	dxDevice->CreateShaderResourceView(freeListIndex_.Get(), &srvDesc, freeListIndexSrv_.handleCPU);
+
+	// -------------------------------------------------
+	// ↓ freeListの作成
+	// -------------------------------------------------
+	freeList_ = CreateUAVResource(Engine::GetDevice(), sizeof(uint32_t) * kInstanceNum_);
+	// UAVの設定
+	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	uavDesc.Buffer.FirstElement = 0;
+	uavDesc.Buffer.NumElements = kInstanceNum_;
+	uavDesc.Buffer.CounterOffsetInBytes = 0;
+	uavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	uavDesc.Buffer.StructureByteStride = sizeof(uint32_t);
+	freeListUav_ = dxHeap->AllocateSRV();
+	// 生成
+	dxDevice->CreateUnorderedAccessView(freeList_.Get(), nullptr, &uavDesc, freeListUav_.handleCPU);
+
+	// SRVの設定
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.Format = DXGI_FORMAT_UNKNOWN;  // 頂点データなのでフォーマットはUNKNOWN
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	srvDesc.Buffer.FirstElement = 0;
+	srvDesc.Buffer.NumElements = static_cast<UINT>(kInstanceNum_);  // 頂点の数
+	srvDesc.Buffer.StructureByteStride = sizeof(uint32_t);  // 頂点1つあたりのサイズ
+	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	freeListSrv_ = dxHeap->AllocateSRV();
+	// 生成
+	dxDevice->CreateShaderResourceView(freeList_.Get(), &srvDesc, freeListSrv_.handleCPU);
 
 	// -------------------------------------------------
 	// ↓ Particleの初期化をGPUで行う
@@ -106,7 +130,8 @@ void GpuParticle::Update() {
 	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
 	Engine::SetCsPipeline(CsPipelineType::GpuParticleUpdate);
 	commandList->SetComputeRootDescriptorTable(0, uav_.handleGPU);
-	commandList->SetComputeRootConstantBufferView(1, perFrameBuffer_->GetGPUVirtualAddress());
+	commandList->SetComputeRootDescriptorTable(1, freeListIndexUav_.handleGPU);
+	commandList->SetComputeRootConstantBufferView(2, perFrameBuffer_->GetGPUVirtualAddress());
 	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
 
 	// UAVの変更
@@ -136,5 +161,11 @@ void GpuParticle::Draw(ID3D12GraphicsCommandList* commandList) {
 
 void GpuParticle::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex, uav_.handleGPU);
-	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 1, counterUav_.handleGPU);
+	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 1, freeListIndexUav_.handleGPU);
+	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 2, freeListUav_.handleGPU);
+}
+
+void GpuParticle::EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
+	commandList->SetComputeRootDescriptorTable(rootParameterIndex, uav_.handleGPU);
+	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 1, freeListIndexUav_.handleGPU);
 }

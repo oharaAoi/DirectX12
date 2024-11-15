@@ -20,7 +20,7 @@ void GpuEffect::Update() {
 
 	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
 	Engine::SetCsPipeline(CsPipelineType::EmitGpuParticle);
-	gpuParticle_->BindCmdList(commandList, 0);
+	gpuParticle_->EmitBindCmdList(commandList, 0);
 	gpuEmitter_->BindCmdList(commandList, 2);
 	Dispatch(commandList, Vector3(1024 / 1024, 1, 1));
 }

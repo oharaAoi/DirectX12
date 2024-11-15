@@ -39,7 +39,7 @@ float3 rand3dTo3d(float3 value) {
 
 static const int kMaxParticles = 1024;
 RWStructuredBuffer<Particle> gParticles : register(u0);
-RWStructuredBuffer<int> gFreeCounter : register(u1);
+RWStructuredBuffer<int> gFreeListIndex : register(u1);
 ConstantBuffer<SphereEmitter> gEmitter : register(b0);
 ConstantBuffer<PerFrame> gPerFrame : register(b1);
 
@@ -62,11 +62,12 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 		RandomGenerator generator;
 		generator.seed = (DTid + gPerFrame.time) * gPerFrame.time;
 		for (int countIndex = 0; countIndex < gEmitter.count; ++countIndex) {
-			int particleIndex;
+			int freeListIndex;
 			// gFreeCounter[0]に1を足し、足す前の値をparticleIndexに格納
-			InterlockedAdd(gFreeCounter[0], 1, particleIndex);
-			if (particleIndex < kMaxParticles) {
-			// カウント分射出
+			InterlockedAdd(gFreeListIndex[0], -1, freeListIndex);
+			
+			if (0 <= freeListIndex && freeListIndex < kMaxParticles) {
+				int particleIndex = gFreeListIndex[freeListIndex];
 				gParticles[particleIndex] = (Particle) 0;
 				gParticles[particleIndex].scale = generator.Generated3d();
 				gParticles[particleIndex].translate = generator.Generated3d();
@@ -75,6 +76,12 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				gParticles[particleIndex].lifeTime = 5.0f;
 				gParticles[particleIndex].currentTime = 0.0f;
 				gParticles[particleIndex].velocity = generator.Generated3d();
+			}
+			else {
+				// 発生しなかったので減らした分を元に戻す
+				InterlockedAdd(gFreeListIndex[0], 1);
+				// これ以上発生しないのでループを抜ける
+				break;
 			}
 		}
 	}
