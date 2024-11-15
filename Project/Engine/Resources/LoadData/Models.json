@@ -1,0 +1,21 @@
+{
+    "models": [
+        {
+            "directory": "./Engine/Resources/Animation/",
+            "files": [
+                "amimationCharacter.gltf",
+                "walk.gltf",
+                "simpleSkin.gltf"
+            ]
+        },
+        {
+            "directory": "./Engine/Resources/Develop/",
+            "files": [
+                "skin.obj",
+                "cube.obj",
+                "axis.obj",
+                "plane.obj"
+            ]
+        }
+    ]
+}

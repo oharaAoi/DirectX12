@@ -8,7 +8,7 @@
 #include "Engine/ParticleSystem/EffectSystem.h"
 #include "Engine/Manager/ModelManager.h"
 #include "Engine/Input/Input.h"
-#include "Game/GameResource.h"
+#include "Game/GameResources.h"
 
 /// <summary>
 /// シーンを管理するクラス
@@ -34,7 +34,7 @@ private:
 
 	EffectSystem* effectSystem_ = nullptr;
 
-	GameResource resources_;
+	GameResources resources_;
 
 #ifdef _DEBUG
 	int selectSceneNum_ = 0;

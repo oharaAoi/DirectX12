@@ -123,6 +123,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Assets\ViewProjection.cpp" />
     <ClCompile Include="Engine\Assets\WorldTransform.cpp" />
     <ClCompile Include="Engine\Audio\Audio.cpp" />
+    <ClCompile Include="Engine\Audio\AudioPlayer.cpp" />
     <ClCompile Include="Engine\Collider\BoxCollider.cpp" />
     <ClCompile Include="Engine\Collider\Collider.cpp" />
     <ClCompile Include="Engine\Collider\MeshCollider.cpp" />
@@ -163,6 +164,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Light\PointLight.cpp" />
     <ClCompile Include="Engine\Light\SpotLight.cpp" />
     <ClCompile Include="Engine\Manager\AnimationManager.cpp" />
+    <ClCompile Include="Engine\Manager\AudioManager.cpp" />
     <ClCompile Include="Engine\Manager\CollisionManager.cpp" />
     <ClCompile Include="Engine\Manager\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Manager\MeshManager.cpp" />
@@ -223,6 +225,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameObject\State\BossRootState.cpp" />
     <ClCompile Include="Game\GameResource.cpp" />
     <ClCompile Include="Game\Manager\EnemyManager.cpp" />
+    <ClCompile Include="Game\GameResources.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
@@ -248,6 +251,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Assets\ViewProjection.h" />
     <ClInclude Include="Engine\Assets\WorldTransform.h" />
     <ClInclude Include="Engine\Audio\Audio.h" />
+    <ClInclude Include="Engine\Audio\AudioPlayer.h" />
     <ClInclude Include="Engine\Collider\BoxCollider.h" />
     <ClInclude Include="Engine\Collider\Collider.h" />
     <ClInclude Include="Engine\Collider\MeshCollider.h" />
@@ -289,6 +293,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Light\PointLight.h" />
     <ClInclude Include="Engine\Light\SpotLight.h" />
     <ClInclude Include="Engine\Manager\AnimationManager.h" />
+    <ClInclude Include="Engine\Manager\AudioManager.h" />
     <ClInclude Include="Engine\Manager\CollisionManager.h" />
     <ClInclude Include="Engine\Manager\ImGuiManager.h" />
     <ClInclude Include="Engine\Manager\MeshManager.h" />
@@ -354,6 +359,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\GameObject\State\BossRootState.h" />
     <ClInclude Include="Game\GameResource.h" />
     <ClInclude Include="Game\Manager\EnemyManager.h" />
+    <ClInclude Include="Game\GameResources.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />

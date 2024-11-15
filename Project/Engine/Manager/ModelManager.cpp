@@ -30,6 +30,7 @@ void ModelManager::LoadModel(const std::string& directoryPath, const std::string
 
 Model* ModelManager::GetModel(const std::string& modelName) {
 	if (auto it = modelMap_.find(modelName); it == modelMap_.end()) {
+		Log(std::string("Not Found : " + modelName + "\n"));
 		assert(false && "Model not found!");
 	}
 
@@ -38,6 +39,7 @@ Model* ModelManager::GetModel(const std::string& modelName) {
 
 std::string ModelManager::GetModelPath(const std::string& modelName) {
 	if (auto it = modelPathMap_.find(modelName); it == modelPathMap_.end()) {
+		Log(std::string("Not Found Path: " + modelName + "\n"));
 		assert(false && "Model not found Path!");
 	}
 
