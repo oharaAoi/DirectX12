@@ -93,6 +93,7 @@ private:
 	float leftRotate = -1.58f;
 	float targetRotate = 0.0f;
 	float nowRotate = 0.0f;
+	float groundLine_ = 1.2f;
 
 	// クラッチ
 	std::unique_ptr<ClutchWire> wire_;

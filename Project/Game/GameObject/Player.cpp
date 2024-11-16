@@ -14,7 +14,7 @@ void Player::Finalize() {
 
 void Player::Init() {
 	BaseGameObject::Init();
-	SetObject("skin.obj");
+	SetObject("Player.obj");
 	transform_->SetScale({ 1.0f, 1.0f, 1.0f });
 	transform_->SetTranslaion({ 0.0f, 0.0f, 0.0f });
 
@@ -134,16 +134,16 @@ Vector3 Player::GetThrowVelo() const {
 void Player::Move() {
 
 	Vector3 pos = transform_->GetTranslation();
-	if (pos.y > 0.5f) {
+	if (pos.y > groundLine_) {
 		velocity_.y += gravity_ * GameTimer::DeltaTime();
 	}
 	Vector3 testPrePos = pos + velocity_ * GameTimer::DeltaTime();
-	if (testPrePos.y <= 0.5f) {
-		pos.y = 0.5f;
+	if (testPrePos.y <= groundLine_) {
+		pos.y = groundLine_;
 	}
-	if (pos.y <= 0.5f) {
+	if (pos.y <= groundLine_) {
 		velocity_.y = 0.0f;
-		pos.y = 0.5f;
+		pos.y = groundLine_;
 	}
 
 	velocity_.x = 0.0f;
