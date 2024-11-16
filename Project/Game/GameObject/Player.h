@@ -82,7 +82,11 @@ private:
 
 	// プレイヤーの状態
 	int playerState = int(PlayerState::Default);
-	bool isHitAttack_ = false;
+	// knockBack処理
+	bool isKnockBack_;
+	float knockBackSpeed_ = 4.0f;
+	float knockBackTime_ = 0.0f;
+	int knockBack_LorR_ = 1;
 
 
 	// 移動
@@ -114,8 +118,6 @@ private:
 	float pullWeight_ = 0.0f;
 	Matrix4x4 inverMat_;
 
-	// knockBack処理
-	bool isKnockBack_;
 
 	// ワイヤー先端
 	std::unique_ptr<WireTip> wireTip_;

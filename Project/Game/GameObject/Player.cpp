@@ -66,7 +66,7 @@ void Player::OnCollision(MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
 		
 		if (playerState == int(PlayerState::Attack)) {
-			isHitAttack_ = true;
+			isKnockBack_ = true;
 		}
 
 	}
@@ -77,6 +77,20 @@ void Player::OnCollision(MeshCollider& other) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::KnockBack() {
+
+	if (knockBackTime_ == 0.0f) {
+		velocity_.y = 10.0f;
+	}
+
+	velocity_.x = knockBackSpeed_ * (float)knockBack_LorR_;
+
+	if (knockBackTime_ <= 0.8f) {
+		knockBackTime_ += GameTimer::DeltaTime();
+	}
+	else {
+		knockBackTime_ = 0.0f;
+		isKnockBack_ = false;
+	}
 
 }
 
@@ -181,6 +195,11 @@ void Player::Move() {
 			}
 
 		}
+
+		if (isKnockBack_) {
+			KnockBack();
+		}
+
 	} else if (wireTip_->GetSnagged() && isStretchClutch_) {
 		playerState = int(PlayerState::Attack);
 
@@ -189,18 +208,15 @@ void Player::Move() {
 		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, CallEasingFunc(easingIndex_, powf(clutchLerpTime_, 2.0f)));
 
 		float errorLength = (clutchEnd_ - Vector2{ pos.x,pos.y }).Length();
-		if (errorLength < 0.01f) {
+		if (errorLength < 0.1f) {
 			isStretchClutch_ = false;
 			isSnagged_ = false;
 			clutchLerpTime_ = 0.0f;
 			playerState = int(PlayerState::Default);
-			if (isHitAttack_) {
-				velocity_.y = 6.0f;
-			}
-			isHitAttack_ = false;
 			wireTip_->SetSnagged(false);
 		}
 	}
+
 
 	nowRotate = LerpShortAngle(nowRotate, targetRotate, 0.1f);
 	transform_->SetQuaternion(Quaternion::AngleAxis(nowRotate, Vector3::UP()));
@@ -216,7 +232,9 @@ void Player::Clutch() {
 		isPull_ = false;
 	}
 
-	BaseClutch();
+	if (!isKnockBack_) {
+		BaseClutch();
+	}
 
 	Vector2 wireTipPos = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Normalize() * wire_->GetTransform()->GetScale().y;
 	wireTipPos += {transform_->GetTranslation().x, transform_->GetTranslation().y};
@@ -365,7 +383,7 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
 
 		if (playerState == int(PlayerState::Attack)) {
-			isHitAttack_ = true;
+			isKnockBack_ = true;
 		}
 
 	}
@@ -375,7 +393,15 @@ void Player::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
 
 		if (playerState == int(PlayerState::Attack)) {
-			isHitAttack_ = true;
+			if (!isKnockBack_) {
+				if (other.GetObbCenter().x > transform_->GetTranslation().x) {
+					knockBack_LorR_ = -1;
+				}
+				else {
+					knockBack_LorR_ = 1;
+				}
+			}
+			isKnockBack_ = true;
 		}
 
 	}
