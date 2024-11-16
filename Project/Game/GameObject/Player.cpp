@@ -189,15 +189,16 @@ void Player::Move() {
 		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, CallEasingFunc(easingIndex_, powf(clutchLerpTime_, 2.0f)));
 
 		float errorLength = (clutchEnd_ - Vector2{ pos.x,pos.y }).Length();
-		if (errorLength < 0.1f) {
+		if (errorLength < 0.01f) {
 			isStretchClutch_ = false;
 			isSnagged_ = false;
 			clutchLerpTime_ = 0.0f;
 			playerState = int(PlayerState::Default);
 			if (isHitAttack_) {
-				velocity_.y = 4.0f;
+				velocity_.y = 6.0f;
 			}
 			isHitAttack_ = false;
+			wireTip_->SetSnagged(false);
 		}
 	}
 
@@ -258,8 +259,13 @@ void Player::Clutch() {
 			}
 
 			if (!wireTip_->GetHit()) {
+				
 				isStretchClutch_ = false;
+				isSnagged_ = false;
+				clutchLerpTime_ = 0.0f;
+				wireTip_->SetSnagged(false);
 				isReturnClutch_ = true;
+				
 			}
 
 			if (wireTip_->GetCautch()) {
@@ -291,7 +297,8 @@ void Player::BaseClutch() {
 				Quaternion moveRotate = Quaternion::AngleAxis(-angle, Vector3::FORWARD());
 				Quaternion rotate = wire_->GetTransform()->GetQuaternion();
 				wire_->GetTransform()->SetQuaternion(moveRotate);
-			} else if (isRekey_ && !isStretchClutch_ && wireTip_->GetFollow()) {
+			}
+			else if (isRekey_ && !isStretchClutch_ && wireTip_->GetFollow() && !isThrow_) {
 				isThrow_ = true;
 				wireTip_->SetFolllow(false);
 			}
@@ -300,7 +307,7 @@ void Player::BaseClutch() {
 		Vector3 nowScale = wire_->GetTransform()->GetScale();
 
 		nowScale.y = std::lerp(nowScale.y, 0.0f, returnSpeed_);
-		if (nowScale.y < 0.1f) {
+		if (nowScale.y < 0.05f) {
 			nowScale.y = 0.0f;
 			isReturnClutch_ = false;
 		}
@@ -355,9 +362,23 @@ void Player::Stretching() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
+	if (other.GetTag() == "boss_core") {
+
+		if (playerState == int(PlayerState::Attack)) {
+			isHitAttack_ = true;
+		}
+
+	}
 }
 
 void Player::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
+	if (other.GetTag() == "boss_core") {
+
+		if (playerState == int(PlayerState::Attack)) {
+			isHitAttack_ = true;
+		}
+
+	}
 }
 
 void Player::OnCollisionExit([[maybe_unused]] MeshCollider& other) {

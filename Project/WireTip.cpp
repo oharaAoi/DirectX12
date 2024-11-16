@@ -35,7 +35,6 @@ void WireTip::Init() {
 void WireTip::Update() {
 	isHit_ = false;
 	isCautch_ = false;
-	isSnagged_ = false;
 	isPull_ = false;
 	weight_ = 0.0f;
 	BaseGameObject::Update();
@@ -97,6 +96,10 @@ void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 }
 
 void WireTip::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
+	if (other.GetTag() == "boss_core") {
+		isHit_ = true;
+		isSnagged_ = true;
+	}
 }
 
 void WireTip::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
