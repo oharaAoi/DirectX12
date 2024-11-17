@@ -16,7 +16,7 @@ void BossRightHand::Finalize() {
 void BossRightHand::Init() {
 	BaseGameObject::Init();
 	SetObject("Right_Hand.gltf");
-	SetAnimater("./Game/Resources/Model/Right_Hand/", "Right_Hand.gltf", true, true, false);
+	SetAnimater("./Game/Resources/Model/Right_Hand/", "Right_Hand.gltf", true, true, true);
 
 	SetMeshCollider("right_hand");
 	
@@ -32,6 +32,14 @@ void BossRightHand::Init() {
 	if (!std::filesystem::exists(attackDirectoryPath)) {
 		std::filesystem::create_directories(attackDirectoryPath);
 	}
+
+	std::filesystem::path direAnimation(animationDirectoryPath);
+	if (!std::filesystem::exists(animationDirectoryPath)) {
+		std::filesystem::create_directories(animationDirectoryPath);
+	}
+
+	animationTime_ = 0.0f;
+	animationTransitionTime_ = 0.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,6 +55,14 @@ void BossRightHand::Update() {
 
 	if (isAttackMove_) {
 		AttackMove();
+	}
+
+	if (animetor_ != nullptr) {
+		if (!animetor_->GetIsAnimationChange()) {
+			animationTime_ += GameTimer::DeltaTime();
+		}
+		animetor_->UpdateScript(animationTime_, animationTransitionTime_);
+		animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
 	}
 
 	BaseGameObject::Update();
@@ -175,8 +191,18 @@ void BossRightHand::Debug_Gui() {
 			moveTime_ = 0;
 		}
 	}
-	ImGui::Unindent(20.0f);
 
+	// Animationの編集
+	pAttackEditer_->Debug_Animation();
+	if (ImGui::Button("test_play")) {
+		animetor_->SetTransitionAnimation(pAttackEditer_->GetAnimationTransitionData().preAnimation, pAttackEditer_->GetAnimationTransitionData().afterAnimation);
+		animationTransitionTime_ = pAttackEditer_->GetAnimationTransitionData().transitionTime;
+	}
+
+	pAttackEditer_->SaveLerpAnimation(animationDirectoryPath);
+
+	ImGui::Unindent(20.0f);
+	// Parameter
 	ImGui::Separator();
 	ImGui::BulletText("Debug_Parameter");
 	ImGui::Indent(20.0f);

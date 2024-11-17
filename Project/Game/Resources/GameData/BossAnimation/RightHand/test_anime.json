@@ -1,0 +1,14 @@
+{
+    "test_anime": {
+        "LerpData0": {
+            "afterAnimation": "stand_by",
+            "beforeAnimation": "slam",
+            "transitionTime": 1.0
+        },
+        "LerpData1": {
+            "afterAnimation": "slam",
+            "beforeAnimation": "stand_by",
+            "transitionTime": 1.0
+        }
+    }
+}

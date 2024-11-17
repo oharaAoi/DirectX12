@@ -12,6 +12,10 @@ void BossAttackEditer::Init() {
 	controlPointObjects_.clear();
 
 	segmentCount_ = 50;
+
+	animationTransition_.afterAnimation = "";
+	animationTransition_.preAnimation = "";
+	animationTransition_.transitionTime = 1.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -240,6 +244,18 @@ void BossAttackEditer::Debug_Gui(const std::string& directoryPath) {
 	ImGui::Unindent(20.0f);
 }
 
+void BossAttackEditer::Debug_Animation() {
+	ImGui::Separator();
+	ImGui::BulletText("AnimationTransition");
+	ImGui::Indent(20.0f);
+	SelectAnimation();
+	ImGui::DragFloat("lerpTime", &animationTransition_.transitionTime, 0.1f);
+	if (ImGui::Button("pushVector")) {
+		animationTransitionData_.push_back(animationTransition_);
+	}
+	ImGui::SameLine();
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　攻撃に関するファイルを保存する
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -282,6 +298,46 @@ void BossAttackEditer::SaveAttack(const std::string& directoryPath) {
 	// 閉じる
 	ofs.close();
 }
+
+
+void BossAttackEditer::SaveLerpAnimation(const std::string& directoryPath) {
+	ImGui::InputText(".json##LerpAnimationfileName", &saveLerpAnimationFileName_[0], sizeof(char) * 64);
+	ImGui::Text("transitionNum : %d", (int)animationTransitionData_.size());
+
+	// Saveを行う
+	if (ImGui::Button("SaveAnimation")) {
+		json root;
+		// handTransformsの先頭から順でファイルに保存する
+		for (uint32_t index = 0; index < animationTransitionData_.size(); ++index) {
+			std::string id = "LerpData" + std::to_string(index);
+
+			root[saveLerpAnimationFileName_.c_str()][id] = {
+				{"beforeAnimation", animationTransitionData_[index].preAnimation} ,
+				{ "afterAnimation", animationTransitionData_[index].afterAnimation },
+				{"transitionTime", animationTransitionData_[index].transitionTime}
+			};
+		}
+
+		// 実際にファイルに保存する
+		std::string filePath = directoryPath + saveLerpAnimationFileName_.c_str() + ".json";
+
+		std::ofstream ofs;
+		// ファイルを書き込みように開く
+		ofs.open(filePath);
+
+		// ファイルオープンが出来ているか
+		if (!ofs.fail()) {
+			assert("not open File");
+		}
+
+		// ファイルにjson文字列を書き込む(インデント幅4)
+		ofs << std::setw(4) << root << std::endl; // rootにあるデータをjson文字列に変換してファイルへ
+		// 閉じる
+		ofs.close();
+	}
+}
+
+
 void BossAttackEditer::SelectAttack() {
 	if (!attackFileNames_.empty()) {
 		selectFileName_ = attackFileNames_[selectIndex_];
@@ -300,4 +356,53 @@ void BossAttackEditer::SelectAttack() {
 		ImGui::EndCombo();
 	}
 }
-#endif 
+void BossAttackEditer::SelectAnimation() {
+	if (!canUseAnimations_.empty()) {
+		// selectAnimationIndex_ の範囲を確認
+		if (selectBeforeAnimationIndex_ >= canUseAnimations_.size()) {
+			selectBeforeAnimationIndex_ = 0; // 初期化
+		}
+		animationTransition_.preAnimation = canUseAnimations_[selectBeforeAnimationIndex_];
+
+		// selectAnimationIndex_ の範囲を確認
+		if (selectAfterAnimationIndex_ >= canUseAnimations_.size()) {
+			selectAfterAnimationIndex_ = 0; // 初期化
+		}
+		animationTransition_.afterAnimation = canUseAnimations_[selectAfterAnimationIndex_];
+	}
+
+	ImGui::SetNextItemWidth(150);
+	if (ImGui::BeginCombo("BeforeAnimation##animation", animationTransition_.preAnimation.c_str(), ImGuiComboFlags_HeightLargest)) {
+		for (uint32_t i = 0; i < canUseAnimations_.size(); i++) {
+			const bool isSelected = (selectBeforeAnimationIndex_ == i);
+			// 選択肢の表示と選択処理
+			if (ImGui::Selectable(canUseAnimations_[i].c_str(), isSelected)) {
+				selectBeforeAnimationIndex_ = i;
+				animationTransition_.preAnimation = canUseAnimations_[i]; // 選択名を更新
+			}
+			if (isSelected) {
+				ImGui::SetItemDefaultFocus(); // デフォルトのフォーカス設定
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+	ImGui::SetNextItemWidth(150);
+	if (ImGui::BeginCombo("AfterAnimation##animation", animationTransition_.afterAnimation.c_str(), ImGuiComboFlags_HeightLargest)) {
+		for (uint32_t i = 0; i < canUseAnimations_.size(); i++) {
+			const bool isSelected = (selectAfterAnimationIndex_ == i);
+			// 選択肢の表示と選択処理
+			if (ImGui::Selectable(canUseAnimations_[i].c_str(), isSelected)) {
+				selectAfterAnimationIndex_ = i;
+				animationTransition_.afterAnimation = canUseAnimations_[i]; // 選択名を更新
+			}
+			if (isSelected) {
+				ImGui::SetItemDefaultFocus(); // デフォルトのフォーカス設定
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+
+}
+#endif

@@ -44,6 +44,7 @@ private:
 
 	std::string groupName_ = "BossRightHand";
 	std::string attackDirectoryPath = "./Game/Resources/GameData/BossAttack/RightHand/";
+	std::string animationDirectoryPath = "./Game/Resources/GameData/BossAnimation/RightHand/";
 
 	Vector2 objectScreenPos_;
 
@@ -59,5 +60,9 @@ private:
 	// フラグ
 	bool isAttackMove_;	// 攻撃の動きをするか
 	bool isClicked_;	// クリックされているか
+
+	// Animationに関する変数
+	float animationTime_;
+	float animationTransitionTime_;
 };
 

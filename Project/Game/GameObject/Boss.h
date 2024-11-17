@@ -38,6 +38,13 @@ public:
 
 		boss_leftHand_->LoadAllFile();
 		boss_rightHand_->LoadAllFile();
+
+		if (boss_leftHand_->GetAnimetor() != nullptr) {
+			leftHandEditer_->SetAnimations(boss_leftHand_->GetAnimetor()->GetAnimationNames());
+		}
+		if (boss_rightHand_->GetAnimetor() != nullptr) {
+			rightHandEditer_->SetAnimations(boss_rightHand_->GetAnimetor()->GetAnimationNames());
+		}
 	}
 
 	BossCore* GetBossCore() { return boss_core_.get(); }
