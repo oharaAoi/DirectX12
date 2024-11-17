@@ -16,7 +16,7 @@ void BossRightHand::Finalize() {
 void BossRightHand::Init() {
 	BaseGameObject::Init();
 	SetObject("Right_Hand.gltf");
-	SetAnimater("./Game/Resources/Model/Right_Hand/", "Right_Hand.gltf", true);
+	SetAnimater("./Game/Resources/Model/Right_Hand/", "Right_Hand.gltf", true, true, false);
 
 	SetMeshCollider("right_hand");
 	
