@@ -60,10 +60,14 @@ public:
 	const bool GetIsControlScript() const { return isControlScript_; }			// 取得
 	void SetIsControlScript(bool isControl) { isControlScript_ = isControl; }	// 設定
 
-	const bool GetIsAnimationFinish() const;
+	// skinningを行うかを取得
 	const bool GetIsSkinning() const { return isSkinning_; }
 
+	// Animationの切り替えがあるかを取得
 	const bool GetIsAnimationChange() const { return animetionClip_->GetIsChange(); }
+
+	// モデルに入っているAnimationの名前を取得
+	const std::vector<std::string>& GetAnimationNames() { return animetionClip_->GetAnimationNames(); }
 
 private:
 
