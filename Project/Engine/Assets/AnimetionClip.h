@@ -106,6 +106,9 @@ public:
 	const bool GetIsLoop() const { return isLoop_; }	// 取得
 	void SetIsLoop(bool isLoop) { isLoop_ = isLoop; }	// 設定
 
+	// モデルに入っているAnimationの名前を取得
+	const std::vector<std::string>& GetAnimationNames() { return animationNames_; }
+
 private:
 
 	AnimationManager* manager_;
