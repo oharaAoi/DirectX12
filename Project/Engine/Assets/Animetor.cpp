@@ -97,7 +97,3 @@ void Animetor::Debug_Gui() {
 	animetionClip_->Debug_Gui();
 }
 #endif
-
-const bool Animetor::GetIsAnimationFinish() const {
-	return animetionClip_->GetIsAnimationFinish();
-}

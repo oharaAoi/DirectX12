@@ -60,8 +60,6 @@ public:
 
 	Animetor* GetAnimetor() { return animetor_.get(); }
 
-	const bool GetIsAnimationFinish() const { return animetor_->GetIsAnimationFinish(); }
-
 	// -------------------------------------------------
 	// ↓ Collider関連
 	// -------------------------------------------------
