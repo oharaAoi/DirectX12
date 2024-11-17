@@ -27,6 +27,12 @@ void BossLeftHand::Init() {
 	if (!std::filesystem::exists(attackDirectoryPath)) {
 		std::filesystem::create_directories(attackDirectoryPath);
 	}
+
+	std::filesystem::path direAnimation(animationDirectoryPath);
+	if (!std::filesystem::exists(animationDirectoryPath)) {
+		std::filesystem::create_directories(animationDirectoryPath);
+	}
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,6 +48,14 @@ void BossLeftHand::Update() {
 
 	if (isAttackMove_) {
 		AttackMove();
+	}
+
+	if (animetor_ != nullptr) {
+		if (!animetor_->GetIsAnimationChange()) {
+			animationTime_ += GameTimer::DeltaTime();
+		}
+		animetor_->UpdateScript(animationTime_, animationTransitionTime_);
+		animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
 	}
 
 	BaseGameObject::Update();
@@ -170,6 +184,16 @@ void BossLeftHand::Debug_Gui() {
 			moveTime_ = 0;
 		}
 	}
+
+	// Animationの編集
+	pAttackEditer_->Debug_Animation();
+	if (ImGui::Button("test_play")) {
+		animetor_->SetTransitionAnimation(pAttackEditer_->GetAnimationTransitionData().preAnimation, pAttackEditer_->GetAnimationTransitionData().afterAnimation);
+		animationTransitionTime_ = pAttackEditer_->GetAnimationTransitionData().transitionTime;
+	}
+
+	pAttackEditer_->SaveLerpAnimation(animationDirectoryPath);
+
 	ImGui::Unindent(20.0f);
 
 	ImGui::Separator();
