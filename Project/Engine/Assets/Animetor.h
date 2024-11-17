@@ -20,7 +20,27 @@ public:
 	void Finalize();
 	void Update();
 
-	void LoadAnimation(const std::string& directoryPath, const std::string& fileName, Model* model, bool isSkinning);
+	void UpdateScript(float& animationTime, float transitionTime = 1.0f);
+
+	void UpdateSkinning();
+
+	/// <summary>
+	/// animationのデータを読み込みつつ設定を行う
+	/// </summary>
+	/// <param name="directoryPath">: animationファイルがあるディレクトリパス</param>
+	/// <param name="fileName">:animationファイルの名前</param>
+	/// <param name="model">: 対応するモデル</param>
+	/// <param name="isSkinning">: スキニングを行うか</param>
+	/// <param name="isLoop">: animationのloopを行うか</param>
+	/// <param name="isControlScript">: animationをスクリプトで制御するか</param>
+	void LoadAnimation(const std::string& directoryPath, const std::string& fileName, Model* model, bool isSkinning, bool isLoop, bool isControlScript);
+
+	/// <summary>
+	/// Animationを遷移させる
+	/// </summary>
+	/// <param name="preAnimation">: 遷移前アニメーション</param>
+	/// <param name="afterAnimation">: 遷移後アニメーション</param>
+	void SetTransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation);
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -30,12 +50,20 @@ public:
 
 	const Matrix4x4 GetAnimationMat() const { return animetionClip_->GetMatrix(); }
 
+	const float GetAnimationDuration() const { return animetionClip_->GetAnimationDuration(); }
+
+	// animationの時間を取得・設定
+	const float GetAnimationTime() const { return animetionClip_->GetAnimationTime(); }	// 取得
+	void SetAnimationTime(float time) { animetionClip_->SetAnimationTime(time); }		// 設定
+
+	// animationの制御をスクリプトで行うかの取得・設定
+	const bool GetIsControlScript() const { return isControlScript_; }			// 取得
+	void SetIsControlScript(bool isControl) { isControlScript_ = isControl; }	// 設定
+
 	const bool GetIsAnimationFinish() const;
-
-	float GetAnimationTime() const { return animetionClip_->GetAnimationTime(); }
-	void SetAnimationTime(float time) { animetionClip_->SetAnimationTime(time); }
-
 	const bool GetIsSkinning() const { return isSkinning_; }
+
+	const bool GetIsAnimationChange() const { return animetionClip_->GetIsChange(); }
 
 private:
 
@@ -46,5 +74,12 @@ private:
 	std::unique_ptr<Skinning> skinning_ = nullptr;
 
 	bool isSkinning_;
+
+	// -------------------------------------------------
+	// ↓ Animationの遷移に関する変数
+	// -------------------------------------------------
+	bool isControlScript_;
+
+	float transitionTime_;
 };
 

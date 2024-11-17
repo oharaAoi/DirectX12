@@ -24,33 +24,52 @@ void BaseGameObject::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::Update() {
-	if (animetor_ != nullptr) {
-		animetor_->Update();
-
-		if (!animetor_->GetIsSkinning()) {
-			transform_->Update(animetor_->GetAnimationMat());
-		} else {
-			Engine::SetSkinning(animetor_->GetSkinning(), model_->GetMesh(0));
-			transform_->Update();
-		}
-
-	} else {
+	// アニメーションが設定されていない場合はTransformのみ更新
+	if (animetor_ == nullptr) {
 		transform_->Update();
+		PostUpdate();
+		return;
 	}
 
+	// アニメーションの制御をスクリプトで行っていない場合
+	if (!animetor_->GetIsControlScript()) {
+		animetor_->Update();
+
+		if (animetor_->GetIsSkinning()) {
+			Engine::SetSkinning(animetor_->GetSkinning(), model_->GetMesh(0));
+		} else {
+			transform_->Update(animetor_->GetAnimationMat());
+			PostUpdate();
+			return;
+		}
+	} else {
+		if (animetor_->GetIsSkinning()) {
+			Engine::SetSkinning(animetor_->GetSkinning(), model_->GetMesh(0));
+		}
+	}
+
+	// デフォルトのTransform更新
+	transform_->Update();
+	PostUpdate();
+}
+
+void BaseGameObject::PostUpdate() {
+
 #ifdef _DEBUG
-	// Debug表示
+	// Debug軸の更新
 	if (objectAxis_ != nullptr) {
 		objectAxis_->Update(transform_->GetWorldMatrix());
 	}
 #endif
 
+	// Colliderの更新
 	if (meshCollider_ != nullptr) {
 		meshCollider_->Update(transform_.get());
 	}
 
 	worldPos_ = Vector3(0.0f, 0.0f, 0.0f) * transform_->GetWorldMatrix();
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　描画処理
@@ -91,9 +110,9 @@ void BaseGameObject::SetObject(const std::string& objName) {
 // ↓　アニメーションを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseGameObject::SetAnimater(const std::string& directoryPath, const std::string& objName, bool isSkinning) {
+void BaseGameObject::SetAnimater(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript) {
 	animetor_.reset(new Animetor);
-	animetor_->LoadAnimation(directoryPath, objName, model_, isSkinning);
+	animetor_->LoadAnimation(directoryPath, objName, model_, isSkinning, isLoop, isControlScript);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

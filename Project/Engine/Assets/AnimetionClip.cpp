@@ -19,12 +19,15 @@ void AnimetionClip::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AnimetionClip::Update() {
-	isAnimationFinish_ = false;
 	animationTime_ += GameTimer::DeltaTime();
+
 	// アニメーションが終了したら
 	if (animationTime_ >= animation_.duration) {
 		isAnimationFinish_ = true;
-		animationTime_ = std::fmod(animationTime_, animation_.duration);
+		if (isLoop_) {
+			isAnimationFinish_ = false;
+			animationTime_ = std::fmod(animationTime_, animation_.duration);
+		}
 	}
 	
 	// skinningを行わない場合アニメーションの行列を更新する
@@ -189,6 +192,44 @@ void AnimetionClip::LerpApplyAnimation(Skeleton* skelton) {
 	}
 
 	// 1以上になったら完全に遷移させる
+	if (blendFactor_ >= 1.0f) {
+		isAnimationChange_ = false;
+		animationTime_ = lerpAnimationTime_[1];
+		animation_ = lerpAnimetion_[1];
+	}
+}
+
+
+void AnimetionClip::AnimationTransition(Skeleton* skelton, float time) {
+	blendFactor_ += GameTimer::DeltaTime() / time;
+	lerpAnimationTime_[1] += GameTimer::DeltaTime();
+
+	for (Skeleton::Joint& joint : skelton->GetJoints()) {
+		auto itA = lerpAnimetion_[0].nodeAnimations.find(joint.name);
+		auto itB = lerpAnimetion_[1].nodeAnimations.find(joint.name);
+
+		if (itA != lerpAnimetion_[0].nodeAnimations.end() && itB != lerpAnimetion_[1].nodeAnimations.end()) {
+			const NodeAnimation& nodeAnimationA = itA->second;
+			const NodeAnimation& nodeAnimationB = itB->second;
+
+			// アニメーションAとBのそれぞれの変換を取得
+			Vector3 translateA = CalculateValue(nodeAnimationA.translate.keyframes, animationTime_);
+			Quaternion rotateA = CalculateQuaternion(nodeAnimationA.rotate.keyframes, animationTime_);
+			Vector3 scaleA = CalculateValue(nodeAnimationA.scale.keyframes, animationTime_);
+
+			Vector3 translateB = CalculateValue(nodeAnimationB.translate.keyframes, lerpAnimationTime_[1]);
+			Quaternion rotateB = CalculateQuaternion(nodeAnimationB.rotate.keyframes, lerpAnimationTime_[1]);
+			Vector3 scaleB = CalculateValue(nodeAnimationB.scale.keyframes, lerpAnimationTime_[1]);
+
+			// blendFactor（補間率）に基づいて補間
+			float t = blendFactor_ / 1.0f;
+			joint.transform.translate = Lerp(translateA, translateB, t);
+			joint.transform.rotate = Quaternion::Slerp(rotateA, rotateB, t);
+			joint.transform.scale = Lerp(scaleA, scaleB, t);
+		}
+	}
+
+	// 遷移が完了した場合の処理
 	if (blendFactor_ >= 1.0f) {
 		isAnimationChange_ = false;
 		animationTime_ = lerpAnimationTime_[1];
