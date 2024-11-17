@@ -17,13 +17,40 @@ Animetor::~Animetor() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Animetor::Update() {
-	animetionClip_->Update();
+	// scriptでanimationの時間を制御して入なかったら自動的に更新
+	if (!isControlScript_) {
+		animetionClip_->Update();
+	}
+
+	// animationの遷移がなかったらそのままanimationさせる
 	if (!animetionClip_->GetIsChange()) {
 		animetionClip_->ApplyAnimation(skeleton_.get());
 	} else {
 		animetionClip_->LerpApplyAnimation(skeleton_.get());
 	}
 
+	UpdateSkinning();
+}
+
+
+void Animetor::UpdateScript(float& animationTime, float transitionTime) {
+	if (!animetionClip_->GetIsChange()) {
+		// Animationの遷移がなかったらそのままタイムの更新を行う
+		animetionClip_->SetAnimationTime(animationTime);
+		animetionClip_->ApplyAnimation(skeleton_.get());
+	} else {
+		animetionClip_->AnimationTransition(skeleton_.get(), transitionTime);
+		// 更新を行ってAnimationが完全に切り替わったら遷移を終了しAnimationの時間を合うようにする
+		if (!animetionClip_->GetIsChange()) {
+			animationTime = animetionClip_->GetAnimationTime();
+		}
+	}
+
+	UpdateSkinning();
+}
+
+
+void Animetor::UpdateSkinning() {
 	// skinningをするなら
 	if (isSkinning_) {
 		skeleton_->Update();
@@ -35,8 +62,9 @@ void Animetor::Update() {
 // ↓　ファイル読み込み
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Animetor::LoadAnimation(const std::string& directoryPath, const std::string& fileName, Model* model, bool isSkinning) {
+void Animetor::LoadAnimation(const std::string& directoryPath, const std::string& fileName, Model* model, bool isSkinning, bool isLoop, bool isControlScript) {
 	isSkinning_ = isSkinning;
+	isControlScript_ = isControlScript;
 
 	// -------------------------------------------------
 	// ↓ animationのkeyframeを取得
@@ -47,6 +75,7 @@ void Animetor::LoadAnimation(const std::string& directoryPath, const std::string
 	} else {
 		animetionClip_->LoadAnimation(directoryPath, fileName, model->GetRootNodeName(), isSkinning_);
 	}
+	animetionClip_->SetIsLoop(isLoop);
 	
 	// -------------------------------------------------
 	// ↓ skinningするのに必要な情報の取得
@@ -57,6 +86,10 @@ void Animetor::LoadAnimation(const std::string& directoryPath, const std::string
 		skeleton_->Init();
 		skinning_ = Engine::CreateSkinning(skeleton_.get(), model, 0);
 	}
+}
+
+void Animetor::SetTransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation) {
+	animetionClip_->SetLerpAnimation(preAnimation, afterAnimation);
 }
 
 #ifdef _DEBUG

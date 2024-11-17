@@ -25,7 +25,7 @@ public:
 	virtual void Update();
 	virtual void Draw() const;
 
-	void SetMeshCollider(const std::string& tag);
+	void PostUpdate();
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -37,24 +37,38 @@ public:
 
 	void SetObject(const std::string& objName);
 
-	void SetAnimater(const std::string& directoryPath, const std::string& objName, bool isSkinning);
+	Model* GetModel() { return model_; }
 
 	WorldTransform* GetTransform() { return transform_.get(); }
 
-	const Vector4& GetColor()const{ return color_; }
+	// -------------------------------------------------
+	// ↓ Material関連
+	// -------------------------------------------------
+
+	const Vector4& GetColor()const { return color_; }
 	void SetColor(const Vector4& color);
 
 	void SetIsLighting(bool isLighting);
 
-	const bool GetIsAnimationFinish() const { return animetor_->GetIsAnimationFinish(); }
-
 	void SetTexture(const std::string& path);
+
+	// -------------------------------------------------
+	// ↓ Animation関連
+	// -------------------------------------------------
+
+	void SetAnimater(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript);
 
 	Animetor* GetAnimetor() { return animetor_.get(); }
 
-	Model* GetModel() { return model_; }
+	const bool GetIsAnimationFinish() const { return animetor_->GetIsAnimationFinish(); }
+
+	// -------------------------------------------------
+	// ↓ Collider関連
+	// -------------------------------------------------
 
 	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
+
+	void SetMeshCollider(const std::string& tag);
 
 protected:
 

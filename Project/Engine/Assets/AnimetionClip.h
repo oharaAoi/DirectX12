@@ -59,35 +59,64 @@ public:
 
 	void ApplyAnimation(Skeleton* skelton);
 
+	/// <summary>
+	/// animetionを遷移させる
+	/// </summary>
+	/// <param name="skelton">: skelton</param>
 	void LerpApplyAnimation(Skeleton* skelton);
+
+	/// <summary>
+	/// animetionを時間を指定して遷移させる
+	/// </summary>
+	/// <param name="skelton">: skelton</param>
+	/// <param name="time">: 遷移の時間</param>
+	void AnimationTransition(Skeleton* skelton, float time);
 
 	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, const float& time);
 	Quaternion CalculateQuaternion(const std::vector<KeyframeQuaternion>& keyframes, const float& time);
 
+	/// <summary>
+	/// animationを遷移させる設定をする
+	/// </summary>
+	/// <param name="preAnimation">: 遷移前アニメーション</param>
+	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
 	void SetLerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation);
 
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
 
-	float GetAnimationTime() const { return animationTime_; }
-	void SetAnimationTime(float time) { animationTime_ = time; }
+	// animationの時間を取得・設定
+	float GetAnimationTime() const { return animationTime_; }		// 取得
+	void SetAnimationTime(float time) { animationTime_ = time; }	// 設定
 
+	// animationの最大フレーム数を取得
+	const float GetAnimationDuration() const { return animation_.duration; }
+
+	// animationの行列を取得
 	const Matrix4x4 GetMatrix() const { return animationMat_; }
 
+	// animationが終了しているかを取得
 	const bool GetIsAnimationFinish() const { return isAnimationFinish_; }
 
+	// animatinoの切り替えがあるかを取得
 	const bool GetIsChange() const { return isAnimationChange_; }
+
+	// animationをloopさせるかを取得・設定
+	const bool GetIsLoop() const { return isLoop_; }	// 取得
+	void SetIsLoop(bool isLoop) { isLoop_ = isLoop; }	// 設定
 
 private:
 
 	AnimationManager* manager_;
 
-	// 実際にアウル動き
+	// 実際の動き
 	Animation animation_;
 	// アニメーションの時間
 	float animationTime_ = 0.0f;
 	bool isAnimationFinish_;
+	// アニメーションをループさせるか
+	bool isLoop_;
 
 	Matrix4x4 animationMat_;
 

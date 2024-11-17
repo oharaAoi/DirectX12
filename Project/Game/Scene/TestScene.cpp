@@ -16,7 +16,7 @@ void TestScene::Init() {
 	testObjB_->Init();
 
 	testObjA_->SetObject("amimationCharacter.gltf");
-	testObjA_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true);
+	testObjA_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, true);
 	testObjA_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
 
 	testObjA_->GetTransform()->SetParentRotate(testObjA_->GetTransform()->GetQuaternion());

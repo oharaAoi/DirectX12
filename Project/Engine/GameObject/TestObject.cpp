@@ -18,9 +18,14 @@ void TestObject::Init() {
 	SetObject("skin.obj");
 
 	SetMeshCollider("testObj");
+
 	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other);});
 	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other);});
 	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other);});
+
+	transitionAnimationTime_ = 0.0f;
+	transitionAnimationTimeLimit_ = 1.0f;
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,6 +33,14 @@ void TestObject::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TestObject::Update() {
+	if (animetor_ != nullptr) {
+		if (!animetor_->GetIsAnimationChange()) {
+			animationTime_ += GameTimer::DeltaTime();
+		}
+		animetor_->UpdateScript(animationTime_, transitionAnimationTimeLimit_);
+		animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
+	}
+
 	BaseGameObject::Update();
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,5 +74,22 @@ void TestObject::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 #ifdef _DEBUG
 void TestObject::Debug_Gui() {
 	BaseGameObject::Debug_Gui();
+
+	if (animetor_ != nullptr) {
+		ImGui::SliderFloat("animationTime", &animationTime_, 0.0, animetor_->GetAnimationDuration());
+		ImGui::SliderFloat("transitionAnimationTime", &transitionAnimationTime_, 0.0, transitionAnimationTimeLimit_);
+
+		ImGui::SliderFloat("transitionAnimationTimeLimit", &transitionAnimationTimeLimit_, 0.0, 10.0f);
+	}
+
+	if (ImGui::Button("lerp1")) {
+		isLerp_ = true;
+		animetor_->SetTransitionAnimation("walkRun", "jump");
+	}
+
+	if (ImGui::Button("lerp2")) {
+		isLerp_ = true;
+		animetor_->SetTransitionAnimation("jump", "walkRun");
+	}
 }
 #endif
