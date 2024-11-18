@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/GameObject/BaseGameObject.h"
+#include "Engine/Math/MyRandom.h"
 
 class DownEffect : public BaseGameObject {
 public:
@@ -25,5 +26,7 @@ private:
 	bool isAlive_;
 
 	float speed_ = 2.0f;
+
+	Vector3 rotateAxis_;
 };
 

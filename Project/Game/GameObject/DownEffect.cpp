@@ -27,6 +27,9 @@ void DownEffect::Update() {
 	pos += (velocity_ * speed_ * GameTimer::DeltaTime());
 	transform_->SetTranslaion(pos);
 
+	Quaternion rotate = Quaternion::AngleAxis(GameTimer::DeltaTime() * 6.0f, rotateAxis_);
+	transform_->SetQuaternion(rotate * transform_->GetQuaternion());
+
 	BaseGameObject::Update();
 }
 
@@ -40,4 +43,6 @@ void DownEffect::SetMove(const Vector3& pos, const Vector3& velocity, float life
 	isAlive_ = true;
 
 	transform_->SetTranslaion(pos);
+
+	rotateAxis_ = Vector3(RandomFloat(-1, 1), RandomFloat(-1, 1), RandomFloat(-1, 1));
 }
