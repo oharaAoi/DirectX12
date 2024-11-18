@@ -20,6 +20,8 @@ void SceneManager::Init() {
 
 	effectSystem_ = EffectSystem::GetInstacne();
 	effectSystem_->Init();
+
+	Render::Begin();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
