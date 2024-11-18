@@ -30,7 +30,7 @@ void RailCamera::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void RailCamera::Update() {
-	if (Input::IsTriggerKey(DIK_L)) {
+	if (Input::IsTriggerKey(DIK_T)) {
 		isMove_ = !isMove_;
 	}
 
@@ -98,13 +98,13 @@ void RailCamera::RailMove() {
 		frameCount_ = 0;
 	}
 
-	if (eyeIndex_ == 124) {
+	if (eyeIndex_ == 146) {
 		isBoss_ = true;
 	}
 
 	const size_t segmentCount = controlPoints_.size();
 	// 点からSpline曲線を引く
-	t += (1.0f / static_cast<float>(segmentCount)) * (GameTimer::DeltaTime() * 2.0f);
+	t += (1.0f / static_cast<float>(segmentCount)) * (GameTimer::DeltaTime() * 1.7f);
 	if (t >= 1.0f) {
 		t = 1.0f;
 		isFinish_ = true;

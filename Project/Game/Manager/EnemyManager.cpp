@@ -157,6 +157,7 @@ void EnemyManager::Pop(uint32_t index) {
 		newEnemy->SetVelocity(velocity);
 		newEnemy->SetIsMove(true);
 		newEnemy->SetModel(data[oi].enemyType_);
+		newEnemy->SetEnemyType(data[oi].enemyType_);
 	}
 
 	popEnemyData_[index].clear();

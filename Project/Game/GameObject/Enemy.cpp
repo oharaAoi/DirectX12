@@ -52,7 +52,12 @@ void Enemy::Update() {
 		transform_->SetQuaternion(rotate.Normalize());
 	}
 
-	if (lifeTime_ > 10.0f) {
+	if (enemyType_ == EnemyType::STAR) {
+		Quaternion rotate = Quaternion::AngleAxis(GameTimer::DeltaTime() * 4.0f, Vector3::UP());
+		transform_->SetQuaternion(rotate * transform_->GetQuaternion());
+	}
+
+	if (lifeTime_ > 18.0f) {
 		isAlive_ = false;
 	}
 

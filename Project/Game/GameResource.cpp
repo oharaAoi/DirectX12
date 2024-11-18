@@ -27,6 +27,7 @@ void GameResource::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Balloon/", "balloon.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Jet/", "jet.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Boss/", "boss.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Gate/", "gate.obj");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "rail_plane.png");
