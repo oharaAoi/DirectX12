@@ -97,4 +97,3 @@ void Animetor::Debug_Gui() {
 	animetionClip_->Debug_Gui();
 }
 #endif
-
