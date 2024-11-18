@@ -19,6 +19,14 @@ public:
 	void Debug_Gui();
 #endif
 
+	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
+
+private:
+
+	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
+	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
+	void OnCollisionExit([[maybe_unused]] MeshCollider& other);
+
 private:
 
 

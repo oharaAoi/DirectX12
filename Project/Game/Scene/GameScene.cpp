@@ -107,11 +107,10 @@ void GameScene::Update() {
 	boss_->SetPlayerPos(player_->GetWorldPos());
 	boss_->Update();
 
-	if (!isDebugCamera_) {
-		player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
-		player_->SetCameraZDis(followCamera_->GetTranslate().z);
-		player_->Update();
-	}
+	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
+	player_->SetCameraZDis(followCamera_->GetTranslate().z);
+	player_->Update();
+
 
 	testCollisionObj_->Update();
 	testCollisionObj2_->Update();
@@ -132,9 +131,13 @@ void GameScene::Update() {
 	collisionManager_->AddCollider(testCollisionObj2_.get());
 	collisionManager_->AddCollider(testCollisionObj3_.get());
 
+	// mesh
+	collisionManager_->AddCollider(field_->GetMeshCollider());
 	collisionManager_->AddCollider(player_->GetMeshCollider());
 	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
+	collisionManager_->AddCollider(boss_->GetBossRightHand()->GetMeshCollider());
 	collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
+
 	
 
 	collisionManager_->CheckAllCollision();

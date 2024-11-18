@@ -3,7 +3,6 @@
 #include <memory>
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/GameObject/BaseGameObject.h"
-#include "Engine/Collider/MeshCollider.h"
 #include "Engine/Math/Easing.h"
 #include "Game/Editer/BossAttackEditer.h"
 #include "Game/GameObject/BaseBossHand.h"
@@ -11,7 +10,7 @@
 /// <summary>
 /// Bossの右手
 /// </summary>
-class BossRightHand : public BaseGameObject, public BaseBossHand {
+class BossRightHand : public BaseBossHand {
 public:
 
 	BossRightHand();
@@ -27,6 +26,8 @@ public:
 	void LoadAllFile();
 
 	void AnimationTimeIncrement(bool isLoop) { AnimeTimeIncrement(isLoop, animetor_->GetAnimationDuration()); };
+
+public:
 
 #ifdef _DEBUG
 	void Debug_Gui();

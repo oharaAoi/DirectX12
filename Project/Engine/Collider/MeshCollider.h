@@ -27,6 +27,11 @@ public:
 	void Update(const WorldTransform* worldTransform, const Vector3& offset = Vector3::ZERO());
 	void Draw() const;
 
+	bool CheckCollisionList(MeshCollider* other);
+
+	void AddColliderList(MeshCollider* other) { collisionList_.push_back(other); }
+	void DeleteColliderList(MeshCollider* other) { collisionList_.remove(other); }
+
 	/// <summary>
 	/// 状態の変更
 	/// </summary>
@@ -36,7 +41,7 @@ public:
 	/// 衝突時にコールバック関数を呼び出す
 	/// </summary>
 	/// <param name="other"></param>
-	void OnCollision(MeshCollider& other);
+	void OnCollision(MeshCollider& other, int collisionFlag);
 
 	/// <summary>
 	/// 最初の衝突時に呼ばれる関数
@@ -126,6 +131,8 @@ private:
 
 	// 元となるmesh
 	Mesh* mesh_;
+	// 衝突相手のリスト
+	std::list<MeshCollider*> collisionList_;
 
 	// 衝突用のコールバック
 	std::function<void(MeshCollider&)> onCollisionEnter_;

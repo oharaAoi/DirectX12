@@ -8,7 +8,7 @@
 #include "Engine/Math/Easing.h"
 #include "Game/GameObject/BaseBossHand.h"
 
-class BossLeftHand : public BaseGameObject , public BaseBossHand {
+class BossLeftHand : public BaseBossHand {
 public:
 
 	BossLeftHand();

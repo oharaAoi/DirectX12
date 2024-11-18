@@ -14,6 +14,11 @@ void Field::Init() {
 	BaseGameObject::Init();
 	SetObject("kair_field.obj");
 	SetColor(Vector4(0.65f, 0.16f, 0.16f, 1.0f));
+
+	SetMeshCollider("field");
+	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other); });
+	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
+	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,6 +35,16 @@ void Field::Update() {
 
 void Field::Draw() const {
 	BaseGameObject::Draw();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　当たり判定系
+////////////////////////////////////////////////////////////////////////////////////////////
+void Field::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
+}
+void Field::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
+}
+void Field::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 }
 
 #ifdef _DEBUG

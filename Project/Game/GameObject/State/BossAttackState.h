@@ -1,5 +1,7 @@
 #pragma once
-#include "BaseObjectState.h"
+#include "Game/GameObject/State/BaseObjectState.h"
+#include "Game/GameObject/BossRightHand.h"
+#include "Game/GameObject/BossLeftHand.h"
 
 class Boss;
 
@@ -19,6 +21,9 @@ public:
 private:
 
 	Boss* pBoss_ = nullptr;
+
+	BossRightHand* rightHand_;
+	BossLeftHand* leftHand_;
 
 };
 

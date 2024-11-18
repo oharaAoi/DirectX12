@@ -66,6 +66,7 @@ public:
 	void SetBossHp(float newHp) { bossHp_ = newHp; };
 
 	// playerの座標を設定
+	const Vector3 GetPlayerPos() const { return playerPos_; }
 	void SetPlayerPos(const Vector3& playerPos) { playerPos_ = playerPos; }
 
 	// Behaviorの次の状態をリクエストする・状態を設定する

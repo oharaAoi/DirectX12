@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <memory>
-#include "Engine/Assets/WorldTransform.h"
+#include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Math/MyMatrix.h"
 #include "Engine/Math/Vector2.h"
 #include "Engine/Input/Input.h"
@@ -14,7 +14,7 @@ enum class AttackType {
 	ParSlap_Attack,
 };
 
-class BaseBossHand {
+class BaseBossHand : public BaseGameObject {
 public:
 
 	struct AttackWork {
@@ -30,6 +30,11 @@ public:
 
 	BaseBossHand();
 	virtual ~BaseBossHand();
+
+	virtual void Finalize() override;
+	virtual void Init() override;
+	virtual void Update() override;
+	virtual void Draw() const override;
 
 	/// <summary>
 	/// Animationの時間を増加させる
@@ -57,11 +62,26 @@ public:
 	void CheckMouseCursorCollision(WorldTransform* worldTransform, const Matrix4x4& vpvpMat);
 
 	/// <summary>
+	/// 攻撃をする準備
+	/// </summary>
+	/// <param name="handPos"></param>
+	void PrepareAttack(const Vector3& handPos);
+
+	/// <summary>
 	/// グーの状態でのたたきつけ
 	/// </summary>
-	void GooSlap(WorldTransform* worldTransform, const Vector3& playerPos);
+	void GooSlap(const Vector3& playerPos);
+
+
+private:
+
+	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
+	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
+	void OnCollisionExit([[maybe_unused]] MeshCollider& other);
 
 public:
+
+	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
 
 	const bool GetIsAttack() const { return isAttackMove_; }
 	void SetIsAttack(bool isAttack) { isAttackMove_ = isAttack; }
@@ -77,6 +97,8 @@ protected:
 	BossAttackEditer* pAttackEditer_ = nullptr;
 
 	Vector2 objectScreenPos_;
+
+	Vector3 initPos_;
 
 	uint32_t moveIndex_;
 	float moveTime_;
@@ -94,13 +116,16 @@ protected:
 	AttackWork attackWork_;
 
 	Vector3 beforeAttackPos_; // 攻撃する前の座標
-	int easingIndex_;		  // 攻撃をする際のイージング
+	Vector3 attackVeclocity_; // 攻撃を行う方向
+	float attackSpeed_ = 10.0f;		  // 攻撃を行う速度
+	int easingIndex_ = (int)EasingType::Out::Quart;		  // 攻撃をする際のイージング
 
 	// -------------------------------------------------
 	// ↓ フラグ
 	// -------------------------------------------------
 	bool isAttackMove_;	// 攻撃の動きをするか
 	bool isClicked_;	// クリックされているか
+	bool isGroundSlap_;	// 地面をたたいたか
 
 	// -------------------------------------------------
 	// ↓ Animationに関する変数

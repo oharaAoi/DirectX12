@@ -40,27 +40,7 @@ void BossLeftHand::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossLeftHand::Update() {
-#ifdef _DEBUG
-	if (isClicked_) {
-		SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
-	} else {
-		SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-	}
-#endif
-
-	if (isAttackMove_) {
-		AttackMove(transform_.get());
-	}
-
-	if (animetor_ != nullptr) {
-		if (!animetor_->GetIsAnimationChange()) {
-			animationTime_ += GameTimer::DeltaTime();
-		}
-		animetor_->UpdateScript(animationTime_, animationTransitionTime_);
-		animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
-	}
-
-	BaseGameObject::Update();
+	BaseBossHand::Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,13 +48,7 @@ void BossLeftHand::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossLeftHand::Draw() const {
-	Engine::SetPipeline(PipelineType::NormalPipeline);
-	BaseGameObject::Draw();
-
-#ifdef _DEBUG
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
-	meshCollider_->Draw();
-#endif
+	BaseBossHand::Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -54,6 +54,7 @@ void Boss::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
+	CheckBehaviorRequest();
 	state_->Update();
 
 	// -------------------------------------------------
@@ -143,6 +144,10 @@ void Boss::Debug_Gui() {
 
 		if (ImGui::Button("Save_Attack")) {
 			Save();
+		}
+
+		if (ImGui::Button("Attack")) {
+			behaviorRequest_ = Behavior::ATTACK;
 		}
 
 		ImGui::End();

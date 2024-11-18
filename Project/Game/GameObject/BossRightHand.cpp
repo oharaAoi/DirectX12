@@ -19,15 +19,11 @@ void BossRightHand::Init() {
 	SetAnimater("./Game/Resources/Model/Right_Hand/", "Right_Hand.gltf", true, true, true);
 
 	SetMeshCollider("right_hand");
+	BaseBossHand::Init();
 
-	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
-	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
-
-	// 調整項目の適応
-	AdaptAdjustment();
-
-	moveIndex_ = 0;
-
+	// -------------------------------------------------
+	// ↓ 攻撃に関するファイルのフォルダの生成
+	// -------------------------------------------------
 	std::filesystem::path dire(attackDirectoryPath);
 	if (!std::filesystem::exists(attackDirectoryPath)) {
 		std::filesystem::create_directories(attackDirectoryPath);
@@ -38,11 +34,23 @@ void BossRightHand::Init() {
 		std::filesystem::create_directories(animationDirectoryPath);
 	}
 
+	// -------------------------------------------------
+	// ↓ 調整項目系
+	// -------------------------------------------------
+	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
+	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
+
+	// 調整項目の適応
+	AdaptAdjustment();
+
+	initPos_ = transform_->GetTranslation();
+
 	transform_->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
 	transform_->SetScale(Vector3{ 0.5f, 0.5f, 0.5f });
 
 	animationTime_ = 0.0f;
 	animationTransitionTime_ = 0.0f;
+	moveIndex_ = 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,29 +58,7 @@ void BossRightHand::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossRightHand::Update() {
-	if (isClicked_) {
-		SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
-	} else {
-		SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-	}
-
-	if (isAttackMove_) {
-		AttackMove(transform_.get());
-	}
-
-	if (animetor_ != nullptr) {
-		animetor_->UpdateScript(animationTime_, animationTransitionTime_);
-	}
-
-	/*if (animetor_ != nullptr) {
-		if (!animetor_->GetIsAnimationChange()) {
-			animationTime_ += GameTimer::DeltaTime();
-		}
-		animetor_->UpdateScript(animationTime_, animationTransitionTime_);
-		animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
-	}*/
-
-	BaseGameObject::Update();
+	BaseBossHand::Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,13 +66,7 @@ void BossRightHand::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossRightHand::Draw() const {
-	Engine::SetPipeline(PipelineType::NormalPipeline);
-	BaseGameObject::Draw();
-
-#ifdef _DEBUG
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
-	meshCollider_->Draw();
-#endif
+	BaseBossHand::Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

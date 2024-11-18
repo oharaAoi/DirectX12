@@ -147,6 +147,16 @@ void MeshCollider::Draw() const {
 	DrawOBB(obb_, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 }
 
+bool MeshCollider::CheckCollisionList(MeshCollider* other) {
+	auto it = std::find(collisionList_.begin(), collisionList_.end(), other);
+
+	if (it != collisionList_.end()) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　状態の変更
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,8 +183,8 @@ void MeshCollider::SwitchCollision() {
 // ↓　collision判定
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MeshCollider::OnCollision(MeshCollider& other) {
-	switch (collisionState_) {
+void MeshCollider::OnCollision(MeshCollider& other, int collisionFlag) {
+	switch (collisionFlag) {
 	case 0b00:	// 衝突していない
 		break;
 	case 0b01:	// 初衝突

@@ -190,31 +190,38 @@ void CollisionManager::CheckCollisionPair(MeshCollider* colliderA, MeshCollider*
 	if (colliderA->GetRadius() + colliderB->GetRadius() > distance) {
 		if (CheckCollisonObb(colliderA, colliderB)) {
 			// Colliderの状態を変化させる
-			colliderA->SwitchCollision();
-			colliderB->SwitchCollision();
+			/*colliderA->SwitchCollision();
+			colliderB->SwitchCollision();*/
 
 			// それぞれの衝突時コールバック関数を呼び出す
-			colliderA->OnCollision(*colliderB);
-			colliderB->OnCollision(*colliderA);
+			if (colliderA->CheckCollisionList(colliderB)) {
+				colliderA->OnCollision(*colliderB, CollisionFlags::STAY);
+			} else {
+				colliderA->OnCollision(*colliderB, CollisionFlags::ENTER);
+			}
+
+			if (colliderB->CheckCollisionList(colliderA)) {
+				colliderB->OnCollision(*colliderA, CollisionFlags::STAY);
+			} else {
+				colliderB->OnCollision(*colliderA, CollisionFlags::ENTER);
+			}
+
+			colliderA->AddColliderList(colliderB);
+			colliderB->AddColliderList(colliderA);
 
 			colliderA->SetIsHitting(true);
 			colliderB->SetIsHitting(true);
 		}
 	} else {
-		// 衝突している状態だったら脱出した状態にする
-		if (colliderA->GetCollisionState() == CollisionFlags::STAY) {
-			colliderA->SetCollisionState(CollisionFlags::EXIT);
-			colliderA->OnCollision(*colliderB);
-		} else {
-			colliderA->SetCollisionState(CollisionFlags::NONE);
-		}
 
-		// 衝突している状態だったら脱出した状態にする
-		if (colliderB->GetCollisionState() == CollisionFlags::STAY) {
-			colliderB->SetCollisionState(CollisionFlags::EXIT);
-			colliderB->OnCollision(*colliderA);
-		} else {
-			colliderB->SetCollisionState(CollisionFlags::NONE);
+		if (colliderA->CheckCollisionList(colliderB)) {
+			colliderA->OnCollision(*colliderB, CollisionFlags::EXIT);
+			colliderA->DeleteColliderList(colliderB);
+		} 
+
+		if (colliderB->CheckCollisionList(colliderA)) {
+			colliderB->OnCollision(*colliderA, CollisionFlags::EXIT);
+			colliderB->DeleteColliderList(colliderA);
 		}
 	}
 }
