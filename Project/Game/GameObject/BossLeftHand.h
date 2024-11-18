@@ -6,8 +6,9 @@
 #include "Engine/Collider/MeshCollider.h"
 #include "Game/Editer/BossAttackEditer.h"
 #include "Engine/Math/Easing.h"
+#include "Game/GameObject/BaseBossHand.h"
 
-class BossLeftHand : public BaseGameObject {
+class BossLeftHand : public BaseGameObject , public BaseBossHand {
 public:
 
 	BossLeftHand();
@@ -22,9 +23,11 @@ public:
 
 	void LoadAllFile();
 
-	void AttackMove();
+private:
 
-	void CheckMouseCursorCollision(const Matrix4x4& vpvpMat);
+	void AnimationTimeIncrement(bool isLoop) { AnimeTimeIncrement(isLoop, animetor_->GetAnimationDuration()); };
+
+public:
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -34,28 +37,8 @@ public:
 
 private:
 
-	BossAttackEditer* pAttackEditer_ = nullptr;
-
 	std::string groupName_ = "BossLeftHand";
 	std::string attackDirectoryPath = "./Game/Resources/GameData/BossAttack/LeftHand/";
 	std::string animationDirectoryPath = "./Game/Resources/GameData/BossAnimation/LeftHand/";
-
-	Vector2 objectScreenPos_;
-
-	uint32_t moveIndex_;
-	float moveTime_;
-	float moveTimeLimit_;	// 動く時間
-	int easeType_;			// easingの種類
-
-	// 攻撃に使う変数
-
-	// フラグ
-	bool isAttackMove_;	// 攻撃の動きをするか
-	bool isClicked_;	// クリックされているか
-
-	// Animationに関する変数
-	float animationTime_;
-	float animationTransitionTime_;
-
 };
 

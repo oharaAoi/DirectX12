@@ -44,6 +44,9 @@ void Boss::Init() {
 	if (!std::filesystem::exists(attackDirectoryPath_)) {
 		std::filesystem::create_directories(attackDirectoryPath_);
 	}
+
+	behaviorRequest_ = Behavior::ROOT;
+	CheckBehaviorRequest();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,8 +109,8 @@ void Boss::CheckBehaviorRequest() {
 
 
 void Boss::CheckMouseCursolCollision(const Matrix4x4& vpvpMat) {
-	boss_rightHand_->CheckMouseCursorCollision(vpvpMat);
-	boss_leftHand_->CheckMouseCursorCollision(vpvpMat);
+	boss_rightHand_->CheckMouseCursorCollision(boss_rightHand_->GetTransform(), vpvpMat);
+	boss_leftHand_->CheckMouseCursorCollision(boss_leftHand_->GetTransform(), vpvpMat);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

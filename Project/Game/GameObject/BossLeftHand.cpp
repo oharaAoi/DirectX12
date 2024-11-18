@@ -40,14 +40,16 @@ void BossLeftHand::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossLeftHand::Update() {
+#ifdef _DEBUG
 	if (isClicked_) {
 		SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 	} else {
 		SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 	}
+#endif
 
 	if (isAttackMove_) {
-		AttackMove();
+		AttackMove(transform_.get());
 	}
 
 	if (animetor_ != nullptr) {
@@ -90,64 +92,6 @@ void BossLeftHand::AdaptAdjustment() {
 
 void BossLeftHand::LoadAllFile() {
 	pAttackEditer_->LoadAllFile(attackDirectoryPath);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossLeftHand::AttackMove() {
-	moveTime_ += GameTimer::DeltaTime();
-	if (pAttackEditer_->GetHandMoves().size() - 1 > moveIndex_) {
-		/*Vector3 scale = transform_->GetScale();
-		Quaternion rotate = transform_->GetQuaternion();
-		Vector3 translate = transform_->GetTranslation();*/
-
-		float t = moveTime_ / pAttackEditer_->GetHandMoves()[moveIndex_].moveTimeLimit;
-		int easeType = pAttackEditer_->GetHandMoves()[moveIndex_].easeType;
-
-		Vector3 scale = Vector3::Lerp(pAttackEditer_->GetHandMoves()[moveIndex_].scale, pAttackEditer_->GetHandMoves()[moveIndex_ + 1].scale,  CallEasingFunc(easeType, t));
-		Vector3 translate = Vector3::Lerp(pAttackEditer_->GetHandMoves()[moveIndex_].translate, pAttackEditer_->GetHandMoves()[moveIndex_ + 1].translate, CallEasingFunc(easeType, t));
-
-		transform_->SetScale(scale);
-		transform_->SetTranslaion(translate);
-	}
-
-	if (moveTime_ > 1.0f) {
-		if (pAttackEditer_->GetHandMoves().size() - 1 == moveIndex_) {
-			isAttackMove_ = false;
-		} else {
-			moveIndex_++;
-			moveTime_ = 0;
-		}
-	}
-}
-
-void BossLeftHand::CheckMouseCursorCollision(const Matrix4x4& vpvpMat) {
-	Vector2 mousePos = Input::GetMousePosition();
-
-	// objectのscreen座標を求める
-	Vector3 objectScreen = Transform(Vector3::ZERO(), transform_->GetWorldMatrix() * vpvpMat);
-	objectScreenPos_ = Vector2(objectScreen.x, objectScreen.y);
-
-	bool isNear = false;
-	// 長さを取って距離が近かったら
-	if ((mousePos - objectScreenPos_).Length() < 100.0f) {
-		isNear = true;
-	}
-
-	// カーソルと手が近い時はtrue
-	if (isNear) {
-		if (!isClicked_) {
-			if (Input::IsPressMouse(0)) {
-				isClicked_ = true;
-			}
-		} else {
-			if (Input::IsPressMouse(0)) {
-				isClicked_ = false;
-			}
-		}
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
