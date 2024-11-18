@@ -21,7 +21,8 @@ public:
 
 	void Finalize();
 	void Init();
-	void Run();
+	void Update();
+	void Draw();
 
 	void SetChange();
 	void GetScene();
