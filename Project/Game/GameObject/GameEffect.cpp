@@ -23,7 +23,9 @@ void GameEffect::Update() {
 		effect->Update();
 	}
 
-	downEffets_.remove_if([](auto& effect) {return !effect->GetIsAlive(); });
+	downEffets_.remove_if([](auto& effect) {
+		return !effect->GetIsAlive(); 
+						  });
 }
 
 void GameEffect::Draw() const {

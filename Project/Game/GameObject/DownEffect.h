@@ -23,5 +23,7 @@ private:
 	Vector3 velocity_;
 	float lifeTime_;
 	bool isAlive_;
+
+	float speed_ = 2.0f;
 };
 

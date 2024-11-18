@@ -65,18 +65,21 @@ void PlayerBullet::OnCollision(MeshCollider& other) {
 		Player::AddScore(40);
 		KnockDownEnemy::SetObj("star.obj", 40);
 		AudioPlayer::SinglShotPlay("hit.mp3", 0.3f);
+		GameEffect::NewPop(other.GetObbCenter());
 
 	} else if(other.GetTag() == "balloon") {
 		isAlive_ = false;
 		Player::AddScore(20);
 		KnockDownEnemy::SetObj("balloon.obj", 20);
 		AudioPlayer::SinglShotPlay("hit.mp3", 0.3f);
+		GameEffect::NewPop(other.GetObbCenter());
 
 	} else if (other.GetTag() == "jet") {
 		isAlive_ = false;
 		Player::AddScore(60);
 		KnockDownEnemy::SetObj("jet.obj", 60);
 		AudioPlayer::SinglShotPlay("hit.mp3", 0.3f);
+		GameEffect::NewPop(other.GetObbCenter());
 	}
 }
 

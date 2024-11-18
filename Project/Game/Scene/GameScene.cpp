@@ -329,9 +329,9 @@ void GameScene::Draw() const {
 
 	player_->Draw();
 
-	knockDownEnemy_->Draw();
-
 	gameEffecet_->Draw();
+
+	knockDownEnemy_->Draw();
 
 	//mainCamera_->Draw();
 	// -------------------------------------------------

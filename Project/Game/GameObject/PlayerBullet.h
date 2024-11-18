@@ -5,6 +5,7 @@
 #include "Game/UI/KnockDownEnemy.h"
 #include "Engine/Collider/MeshCollider.h"
 #include "Engine/Audio/AudioPlayer.h"
+#include "Game/GameObject/GameEffect.h"
 
 class PlayerBullet : public BaseGameObject {
 public:
