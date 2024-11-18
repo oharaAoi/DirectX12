@@ -53,6 +53,12 @@ void GameScene::Init() {
 	boss_->Init();
 
 	// -------------------------------------------------
+	// ↓ Effect初期化
+	// -------------------------------------------------
+	gameEffecet_ = std::make_unique<GameEffect>();
+	gameEffecet_->Init();
+
+	// -------------------------------------------------
 	// ↓ Editer初期化
 	// -------------------------------------------------
 	railPointEditer_ = std::make_unique<RailPointEditer>();
@@ -258,6 +264,12 @@ void GameScene::Update() {
 	collisionManager_->CheckAllCollision();
 
 	// -------------------------------------------------
+	// ↓ Managerの更新
+	// -------------------------------------------------
+
+	gameEffecet_->Update();
+
+	// -------------------------------------------------
 	// ↓ Renderの更新
 	// -------------------------------------------------
 	if (!isDebugCamera_) {
@@ -318,6 +330,8 @@ void GameScene::Draw() const {
 	player_->Draw();
 
 	knockDownEnemy_->Draw();
+
+	gameEffecet_->Draw();
 
 	//mainCamera_->Draw();
 	// -------------------------------------------------

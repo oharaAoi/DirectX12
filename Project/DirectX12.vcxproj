@@ -207,7 +207,9 @@ copy "$(ProjectDir)Externals\assimp\build\lib\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Camera\RailCamera.cpp" />
     <ClCompile Include="Game\Editer\RailPointEditer.cpp" />
     <ClCompile Include="Game\GameObject\Boss.cpp" />
+    <ClCompile Include="Game\GameObject\DownEffect.cpp" />
     <ClCompile Include="Game\GameObject\Enemy.cpp" />
+    <ClCompile Include="Game\GameObject\GameEffect.cpp" />
     <ClCompile Include="Game\GameObject\Player.cpp" />
     <ClCompile Include="Game\GameObject\PlayerBullet.cpp" />
     <ClCompile Include="Game\GameResource.cpp" />
@@ -333,7 +335,9 @@ copy "$(ProjectDir)Externals\assimp\build\lib\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Camera\RailCamera.h" />
     <ClInclude Include="Game\Editer\RailPointEditer.h" />
     <ClInclude Include="Game\GameObject\Boss.h" />
+    <ClInclude Include="Game\GameObject\DownEffect.h" />
     <ClInclude Include="Game\GameObject\Enemy.h" />
+    <ClInclude Include="Game\GameObject\GameEffect.h" />
     <ClInclude Include="Game\GameObject\Player.h" />
     <ClInclude Include="Game\GameObject\PlayerBullet.h" />
     <ClInclude Include="Game\GameResource.h" />

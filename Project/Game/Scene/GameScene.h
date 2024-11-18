@@ -19,6 +19,7 @@
 #include "Game/UI/TotalScore.h"
 #include "Game/UI/Energy.h"
 #include "Engine/Audio/AudioPlayer.h"
+#include "Game/GameObject/GameEffect.h"
 
 class GameScene 
 	: public BaseScene {
@@ -73,6 +74,9 @@ private:
 	// --- Manager --------------------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_;
 	std::unique_ptr<CollisionManager> collisionManager_;
+
+	// --- Effect ----------------------------------- //
+	std::unique_ptr<GameEffect> gameEffecet_;
 
 	// --- UI -------------------------------------- //
 	std::unique_ptr<Reticle> reticle_;
