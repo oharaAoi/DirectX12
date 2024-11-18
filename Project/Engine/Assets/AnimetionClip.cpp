@@ -64,6 +64,7 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 		std::string animationName = animationAssimp->mName.C_Str();										// animationの名前
 		Animation animationData;																		// animationのデータ
 		animationData.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	// 時間の単位を秒に変換
+		animationData.animationName = animationName;													// animatonの名前を取得
 
 		//animation_.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	// 時間の単位を秒に変換
 
@@ -138,6 +139,7 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 
 void AnimetionClip::LoadGetAnimation(const std::string& animationFile, bool isSkinning) {
 	animation_ = manager_->GetAnimation(animationFile, manager_->GetAnimationFirstName(animationFile));
+	nowAnimationName_ = animationFile;
 	isSkinnig_ = isSkinning;
 }
 

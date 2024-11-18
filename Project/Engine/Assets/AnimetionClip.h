@@ -44,6 +44,7 @@ public:
 		float duration;		// アニメーション全体の尺
 		// NodeAnimationの集合。Node名で引けるようにしておく
 		std::map<std::string, NodeAnimation> nodeAnimations;
+		std::string animationName;
 	};
 
 public:
@@ -93,6 +94,9 @@ public:
 	// animationの最大フレーム数を取得
 	const float GetAnimationDuration() const { return animation_.duration; }
 
+	// 今のAnimationの名前を取得する
+	const std::string& GetAnimationName() const { return animation_.animationName; }
+
 	// animationの行列を取得
 	const Matrix4x4 GetMatrix() const { return animationMat_; }
 
@@ -115,6 +119,7 @@ private:
 
 	// 実際の動き
 	Animation animation_;
+	std::string nowAnimationName_;
 	// アニメーションの時間
 	float animationTime_ = 0.0f;
 	bool isAnimationFinish_;
