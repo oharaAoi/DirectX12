@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine.h"
 #include "Engine/Utilities/Loader.h"
+#include "Game/Scene/SceneFactory.h"
 #include "Game/Scene/BaseScene.h"
 #include "Game/Scene/TestScene.h"
 #include "Game/Scene/GameScene.h"
@@ -24,14 +25,18 @@ public:
 	void Update();
 	void Draw();
 
-	void SetChange();
-	void GetScene();
+	void PostFrame();
+
+	void SetChange(const SceneType& type);
 
 private:
+
+	std::unique_ptr<SceneFactory> sceneFactory_;
 
 	GameTimer gameTimer_ = GameTimer(60);
 
 	std::unique_ptr<BaseScene> scene_ = nullptr;
+	std::unique_ptr<BaseScene> nextScene_ = nullptr;
 
 	EffectSystem* effectSystem_ = nullptr;
 
