@@ -101,6 +101,7 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
+	boss_->SetPlayerPos(player_->GetWorldPos());
 	boss_->Update();
 
 	if (!isDebugCamera_) {

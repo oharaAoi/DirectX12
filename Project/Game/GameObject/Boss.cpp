@@ -80,6 +80,30 @@ void Boss::Draw() const {
 	boss_rightHand_->Draw();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　状態を遷移させる
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::CheckBehaviorRequest() {
+	if (behaviorRequest_) {
+		behavior_ = behaviorRequest_.value();
+
+		switch (behavior_) {
+		case Behavior::ROOT:
+			SetBehaviorState(std::make_unique<BossRootState>(this));
+			break;
+		case Behavior::ATTACK:
+			SetBehaviorState(std::make_unique<BossAttackState>(this));
+			break;
+		default:
+			break;
+		}
+
+		// 振る舞いをリセット
+		behaviorRequest_ = std::nullopt;
+	}
+}
+
 
 void Boss::CheckMouseCursolCollision(const Matrix4x4& vpvpMat) {
 	boss_rightHand_->CheckMouseCursorCollision(vpvpMat);

@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <optional>
 #include "Game/GameObject/BossBody.h"
 #include "Game/GameObject/BossCore.h"
 #include "Game/GameObject/BossLeftHand.h"
@@ -11,6 +12,11 @@
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
+
+enum class Behavior{
+	ROOT,
+	ATTACK
+};
 
 /// <summary>
 /// Bossの大元となるクラス
@@ -26,7 +32,11 @@ public:
 	void Update();
 	void Draw() const;
 
+	void CheckBehaviorRequest();
+
 	void CheckMouseCursolCollision(const Matrix4x4& vpvpMat);
+
+public:
 
 	// ------------------- アクセッサ ------------------- //
 
@@ -51,8 +61,16 @@ public:
 	BossLeftHand* GetBossLeftHand() { return boss_leftHand_.get(); }
 	BossRightHand* GetBossRightHand() { return boss_rightHand_.get(); }
 
-	void SetBossHp(float newHp) { bossHp_ = newHp; };
+	// BossのHpの取得・設定
 	const float GetBossHp() const { return bossHp_; }
+	void SetBossHp(float newHp) { bossHp_ = newHp; };
+
+	// playerの座標を設定
+	void SetPlayerPos(const Vector3& playerPos) { playerPos_ = playerPos; }
+
+	// Behaviorの次の状態をリクエストする・状態を設定する
+	void SetBehaviorRequest(const Behavior& request) { behaviorRequest_ = request; }
+	void SetBehaviorState(std::unique_ptr<BaseObjectState> behaviorState) { state_ = std::move(behaviorState); }
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -99,7 +117,16 @@ private:
 	// -------------------------------------------------
 
 	std::unique_ptr<BaseObjectState> state_;
+	// stateパターンに関する変数
+	Behavior behavior_ = Behavior::ROOT;
+	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
 	float bossHp_ = 100;
+
+	// -------------------------------------------------
+	// ↓ Boss以外の情報
+	// -------------------------------------------------
+	Vector3 playerPos_;
+
 };
 

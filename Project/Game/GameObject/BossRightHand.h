@@ -64,5 +64,7 @@ private:
 	// Animationに関する変数
 	float animationTime_;
 	float animationTransitionTime_;
+
+	std::string nowAnimatonName_;
 };
 

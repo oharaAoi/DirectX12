@@ -8,4 +8,5 @@ void BossRootState::Init() {
 }
 
 void BossRootState::Update() {
+
 }

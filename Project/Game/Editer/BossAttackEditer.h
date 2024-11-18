@@ -79,14 +79,15 @@ public:
 	const std::string GetSelectFileName() const { return selectFileName_; }
 #endif 
 
+	// 手の動きの座標を取得
 	std::vector<Vector3>& GetMovePoints() { return movePoints_; }
-
+	// 手の動きの情報を取得(回転などを含めて)
 	std::vector<HandMoveData>& GetHandMoves() { return handMoves_; }
-
+	// 手の動きをファイルから取得
 	void SetHandMoves(const std::string& fileName);
-
+	// 使用できるアニメーションの名前をすべて配列に格納
 	void SetAnimations(const std::vector<std::string>& names) { canUseAnimations_ = names; }
-
+	// Debug用のアニメーションの情報を取得
 	const AnimationTransitionData& GetAnimationTransitionData() { return animationTransition_; }
 
 private:
