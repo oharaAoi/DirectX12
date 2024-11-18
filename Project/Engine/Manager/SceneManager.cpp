@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include <optional>
 
 SceneManager::SceneManager() {}
 
@@ -15,13 +16,12 @@ void SceneManager::Init() {
 	// gameに必要なResourceの読み込み
 	resources_.Load();
 
-	Render::Begin();
-
-	scene_ = std::make_unique<GameScene>();
-	scene_->Init();
+	sceneFactory_ = std::make_unique<SceneFactory>();
 
 	effectSystem_ = EffectSystem::GetInstacne();
 	effectSystem_->Init();
+
+	Render::Begin();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,6 +29,11 @@ void SceneManager::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SceneManager::Update() {
+	if (scene_->GetNextSceneType()) {
+		SetChange(scene_->GetNextSceneType().value());
+		scene_->SetNextSceneType(std::nullopt);
+	}
+
 	scene_->Update();
 	effectSystem_->Update();
 	Render::Update();
@@ -59,6 +64,9 @@ void SceneManager::Draw() {
 	}
 
 #endif
+}
+
+void SceneManager::PostFrame() {
 	gameTimer_.FPS();
 
 	// ------------------------------------ //
@@ -79,15 +87,19 @@ void SceneManager::Draw() {
 	gameTimer_.CalculationFrame();
 }
 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　シーンの切り替え
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void SceneManager::SetChange() {
-	GetScene();
-	scene_->Init();
-}
+void SceneManager::SetChange(const SceneType& type) {
+	assert(sceneFactory_);
+	assert(nextScene_ == nullptr);
+	nextScene_ = sceneFactory_->CreateScene(sceneFactory_->SceneTypeToString(type));
+	nextScene_->Init();
 
-void SceneManager::GetScene() {
-	
+	if (scene_ != nullptr) {
+		scene_->Finalize();
+	}
+	scene_ = std::move(nextScene_);
 }
