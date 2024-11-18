@@ -215,6 +215,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameResources.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
+    <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -268,6 +269,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\GameObject\Sphere.h" />
     <ClInclude Include="Engine\GameObject\TestObject.h" />
     <ClInclude Include="Engine\Input\Input.h" />
+    <ClInclude Include="Engine\Lib\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
     <ClInclude Include="Engine\Lib\Transform.h" />
     <ClInclude Include="Engine\Lib\VertexData.h" />
@@ -330,8 +332,11 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\Camera\DebugCamera.h" />
     <ClInclude Include="Game\GameResources.h" />
+    <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
+    <ClInclude Include="Game\Scene\SceneFactory.h" />
+    <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
   </ItemGroup>
   <ItemGroup>

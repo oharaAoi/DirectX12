@@ -6,6 +6,9 @@ GameScene::GameScene() {
 GameScene::~GameScene() {
 }
 
+void GameScene::Finalize() {
+}
+
 void GameScene::Init() {
 	
 }

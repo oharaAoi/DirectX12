@@ -22,6 +22,8 @@ void GameCore::Init() {
 
 	sceneManger_ = std::make_unique<SceneManager>();
 	sceneManger_->Init();
+
+	sceneManger_->SetChange(SceneType::TEST);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,4 +41,6 @@ void GameCore::Update() {
 
 void GameCore::Draw() {
 	sceneManger_->Draw();
+
+	sceneManger_->PostFrame();
 }

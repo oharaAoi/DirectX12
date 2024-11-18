@@ -10,6 +10,7 @@ public:
 	GameScene();
 	~GameScene();
 
+	void Finalize() override;
 	void Init() override;
 	void Update() override;
 	void Draw() const override;

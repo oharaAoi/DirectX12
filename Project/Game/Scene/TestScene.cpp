@@ -3,6 +3,9 @@
 TestScene::TestScene() {}
 TestScene::~TestScene() {}
 
+void TestScene::Finalize() {
+}
+
 void TestScene::Init() {
 	// カメラ -------------------------------------------------------------------
 	camera_ = std::make_unique<Camera>();
@@ -28,8 +31,8 @@ void TestScene::Init() {
 	collisionManager_->Init();
 
 	// Effect -------------------------------------------------------------------
-	gpuEffect_ = std::make_unique<GpuEffect>();
-	gpuEffect_->Init();
+	/*gpuEffect_ = std::make_unique<GpuEffect>();
+	gpuEffect_->Init();*/
 
 }
 
@@ -57,7 +60,7 @@ void TestScene::Update() {
 	testObjA_->Update();
 	testObjB_->Update();
 
-	gpuEffect_->Update();
+	//gpuEffect_->Update();
 
 	collisionManager_->Reset();
 	collisionManager_->AddCollider(testObjA_->GetMeshCollider());
@@ -81,7 +84,7 @@ void TestScene::Draw() const {
 
 	testObjB_->Draw();
 
-	gpuEffect_->Draw();
+	//gpuEffect_->Draw();
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	
