@@ -66,7 +66,6 @@ void WireTip::OnCollision(Collider* other) {
 
 	if (other->GetTag() == "hook" && !isPull_) {
 		isSnagged_ = true;
-	}
 
 	if (other->GetTag() == "canCatchObj" && !isPull_) {
 		if (!isFollow_) {
@@ -92,6 +91,16 @@ void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
 		isHit_ = true;
 		isSnagged_ = true;
+
+	} else if (other.GetTag() == "missile") {
+		if (!isCautchObject_) {
+			isCautchObject_ = true;
+			meshCollider_->SetIsnotCheckCollision(true);
+		}
+		// 衝突相手のポインタを保存(一番最初の衝突のみ)
+		if (pCollisionMesh_ == nullptr) {
+			pCollisionMesh_ = &other;
+		}
 	}
 }
 

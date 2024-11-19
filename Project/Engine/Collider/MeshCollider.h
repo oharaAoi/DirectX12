@@ -105,6 +105,13 @@ public:
 	void SetCollisionState(int stateBit) { collisionState_ = stateBit; }
 	const int GetCollisionState() const { return collisionState_; }
 
+	// --------------- 当たり判定をとるか -------------- //
+	const bool GetIsnotCheckCollision() const { return isnotCheckCollision_; }
+	void SetIsnotCheckCollision(bool isCollision) { isnotCheckCollision_ = isCollision; }
+
+	// --------------- 当たった相手のリスト -------------- //
+	std::list<MeshCollider*> GetMeshColliderList() { return collisionList_; }
+
 	const OBB& GetOBB() { return obb_; }
 
 	const Vector3 GetObbCenter() const { return obb_.center; }
@@ -115,17 +122,17 @@ private:
 	Vector3 size_;
 	Vector3 maxSize_;
 	Vector3 minSize_;
-
 	// 半径
 	float radius_ = 1.0f;
-	
 	// 当たり判定用
 	OBB obb_;
 	// タグ
 	std::string tag_;
+	// 
+	Vector4 color_;
 
 	bool isHitting_;
-	Vector4 color_;
+	bool isnotCheckCollision_;// このフラグがtrueの場合は当たり判定を行わない
 
 	int collisionState_;
 

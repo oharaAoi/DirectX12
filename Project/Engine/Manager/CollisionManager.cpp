@@ -173,6 +173,12 @@ bool CollisionManager::CheckCollisonObb(Collider* colliderA, Collider* colliderB
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void CollisionManager::CheckCollisionPair(MeshCollider* colliderA, MeshCollider* colliderB) {
+	
+	// どちらかが当たり判定を行わない場合は早期リターンする
+	if(colliderA->GetIsnotCheckCollision() || colliderB->GetIsnotCheckCollision()){
+		return;
+	}
+	
 	colliderA->SetIsHitting(false);
 	colliderB->SetIsHitting(false);
 

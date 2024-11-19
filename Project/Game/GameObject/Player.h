@@ -48,18 +48,18 @@ public:
 
 	// objectを投げるように
 	Vector3 GetThrowVelo()const;
-	bool GetThrow() { return isThrow_; }
+	const bool& GetThrow() const { return isThrow_; }
 	void SetThrow(bool is) { isThrow_ = is; }
 
-
-	bool GetPull() { return isPull_; }
+	const bool GetPull() const { return isPull_; }
 	void SetPull(bool is) { isPull_ = is; }
-
 
 	Collider* GetWireTipCollider() { return wireTip_.get(); }
 
 	const Vector3 GetForward() const { return TransformNormal(Vector3(0,0,1), transform_->GetWorldMatrix()); }
 	const Vector3 GetWorldPos() const { return Transform(Vector3(0, 0, 0), transform_->GetWorldMatrix()); }
+
+	void SetCautchObject(BaseGameObject* gameObject) { pCautchObject_ = gameObject; };
 
 private:
 
@@ -127,5 +127,12 @@ private:
 
 	// 投げる
 	bool isThrow_ = false;
+
+	/// ==========================================
+	/// 他クラスの情報
+	/// ==========================================
+	
+	BaseGameObject* pCautchObject_;
+
 };
 
