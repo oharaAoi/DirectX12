@@ -222,6 +222,12 @@ void Player::Move() {
 	transform_->SetQuaternion(Quaternion::AngleAxis(nowRotate, Vector3::UP()));
 
 	pos += velocity_ * GameTimer::DeltaTime();
+	if (isPull_ && wireTip_->GetPull()) {
+		float length = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Length();
+		if (length >= maxClutchLength_) {
+			clutchEnd_.x += velocity_.x * GameTimer::DeltaTime();
+		}
+	}
 	transform_->SetTranslaion(pos);
 }
 
