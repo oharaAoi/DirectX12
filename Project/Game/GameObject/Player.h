@@ -34,6 +34,8 @@ public:
 	void SetInverMatrix(const Matrix4x4& inver);
 	void SetCameraZDis(float z);
 
+	bool GetIsKnockBack() { return isKnockBack_; }
+
 	WireTip* GetWireTip() { return wireTip_.get(); }
 
 #ifdef _DEBUG

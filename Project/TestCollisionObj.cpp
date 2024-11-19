@@ -74,10 +74,16 @@ void TestCollisionObj::Draw() const {
 void TestCollisionObj::OnCollision(Collider* other) {
 	if (other->GetTag() == "wireTip") {
 		if (tag_=="canCatchObj") {
-			transform_->SetParentTranslation(player_->GetTransform()->GetTranslation());
-			Vector3 position = transform_->GetTranslation() - player_->GetTransform()->GetTranslation();
-			transform_->SetTranslaion(position);
-			isfollowWire_ = true;
+			if (!player_->GetIsKnockBack()) {
+				transform_->SetParentTranslation(player_->GetTransform()->GetTranslation());
+				Vector3 position = transform_->GetTranslation() - player_->GetTransform()->GetTranslation();
+				transform_->SetTranslaion(position);
+				isfollowWire_ = true;
+			}
+			else {
+				player_->GetWireTip()->SetFolllow(false);
+			}
+
 		}
 
 		if (tag_ == "canPullObj") {

@@ -59,20 +59,20 @@ void WireTip::OnCollision(Collider* other) {
 
 	isHit_ = true;
 
-	if (other->GetTag() == "hook") {
+	if (other->GetTag() == "canPullObj") {
+		isPull_ = true;
+		weight_ = 0.5f;
+	}
+
+	if (other->GetTag() == "hook" && !isPull_) {
 		isSnagged_ = true;
 	}
 
-	if (other->GetTag() == "canCatchObj") {
+	if (other->GetTag() == "canCatchObj" && !isPull_) {
 		if (!isFollow_) {
 			isCautch_ = true;
 			isFollow_ = true;
 		}
-	}
-
-	if (other->GetTag() == "canPullObj") {
-		isPull_ = true;
-		weight_ = 0.5f;
 	}
 
 }

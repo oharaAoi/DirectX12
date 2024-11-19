@@ -200,6 +200,8 @@ void Player::Move() {
 			KnockBack();
 		}
 
+		playerState = int(PlayerState::Default);
+
 	} else if (wireTip_->GetSnagged() && isStretchClutch_) {
 		playerState = int(PlayerState::Attack);
 
@@ -225,7 +227,22 @@ void Player::Move() {
 	if (isPull_ && wireTip_->GetPull()) {
 		float length = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Length();
 		if (length >= maxClutchLength_) {
-			clutchEnd_.x += velocity_.x * GameTimer::DeltaTime();
+
+			if (velocity_.x < 0) {
+
+				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
+				if (sab.x > 0) {
+					clutchEnd_.x += velocity_.x * GameTimer::DeltaTime();
+				}
+			}
+			else if (velocity_.x > 0) {
+
+				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
+				if (sab.x < 0) {
+					clutchEnd_.x += velocity_.x * GameTimer::DeltaTime();
+				}
+			}
+
 		}
 	}
 	transform_->SetTranslaion(pos);
@@ -389,6 +406,14 @@ void Player::Stretching() {
 void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
 		if (playerState == int(PlayerState::Attack)) {
+			if (!isKnockBack_) {
+				if (other.GetObbCenter().x > transform_->GetTranslation().x) {
+					knockBack_LorR_ = -1;
+				}
+				else {
+					knockBack_LorR_ = 1;
+				}
+			}
 			isKnockBack_ = true;
 		}
 	} else if (other.GetTag() == "missile") {
@@ -406,17 +431,7 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 void Player::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
 
-		if (playerState == int(PlayerState::Attack)) {
-			if (!isKnockBack_) {
-				if (other.GetObbCenter().x > transform_->GetTranslation().x) {
-					knockBack_LorR_ = -1;
-				}
-				else {
-					knockBack_LorR_ = 1;
-				}
-			}
-			isKnockBack_ = true;
-		}
+		
 	}
 }
 
