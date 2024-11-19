@@ -15,6 +15,8 @@ void MeshCollider::Init(Mesh* mesh) {
 
 	collisionState_ = 0b00;
 
+	isnotCheckCollision_ = false;
+
 	// meshのVertexから各軸での最大の値を取り出す
 	Mesh::VertexData* vertices = mesh_->GetOutputVertexData();
 	for (uint32_t index = 0; index < mesh_->GetVertexSize(); ++index) {

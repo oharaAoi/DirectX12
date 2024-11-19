@@ -19,9 +19,12 @@ void Missile::Init() {
 	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
 	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
 
+	isWireCaught_ = false;
 	isAlive_ = true;
+	isThrowed_ = false;
+
 	moveT_ = 0.0f;
-	speed_ = 10.0f;
+	speed_ = 5.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,14 +33,28 @@ void Missile::Init() {
 
 void Missile::Update() {
 
-	moveT_ += ((1.0f / static_cast<float>(kDivision_)) * speed_) * (GameTimer::DeltaTime());
-	if (moveT_ >= 1.0f) {
-		isAlive_ = false;
+	if (isThrowed_) {
+		Vector3 position = transform_->GetTranslation();
+		position += velocity_ * GameTimer::DeltaTime();
+		transform_->SetTranslaion(position);
+		BaseGameObject::Update();
 		return;
 	}
-	
-	Vector3 pos = CatmullRomPosition(movePoint_, moveT_);
-	transform_->SetTranslaion(pos);
+
+	// ワイヤーに捕まって入なかったら
+	if (!isWireCaught_) {
+		moveT_ += ((1.0f / static_cast<float>(kDivision_)) * speed_) * (GameTimer::DeltaTime());
+		if (moveT_ >= 1.0f) {
+			isAlive_ = false;
+			return;
+		}
+
+		Vector3 pos = CatmullRomPosition(movePoint_, moveT_);
+		transform_->SetTranslaion(pos);
+
+	} else {
+
+	}
 
 	BaseGameObject::Update();
 }
@@ -60,6 +77,7 @@ void Missile::Pop(const Vector3& targePos, const Vector3& firePos) {
 	controlPoint_[1] = (firePos - targePos);
 	controlPoint_[1].x = RandomFloat(-20.0f, 20.0f);
 	controlPoint_[1].y += RandomFloat(20.0f, 25.0f);
+	controlPoint_[1].z = targePos.z + 5.0f;
 	controlPoint_[2] = targePos;
 
 	// 制御点から動く座標を割り出す
@@ -92,7 +110,13 @@ void Missile::Pop(const Vector3& targePos, const Vector3& firePos) {
 
 void Missile::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "player") {
-		isAlive_ = false;
+		if (meshCollider_->GetTag() == "missile") {
+			isAlive_ = false;
+		}
+		// ワイヤーに当たった時
+	} else if (other.GetTag() == "wireTip") {
+		isWireCaught_ = true;
+		meshCollider_->SetTag("throwMissile");
 	}
 }
 

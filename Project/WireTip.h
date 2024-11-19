@@ -49,6 +49,13 @@ public:
 	const Vector3 GetWorldPos() const override { return transform_->GetTranslation(); }
 	float GetWeight() { return weight_; }
 
+	// Objectを捕まえているかのフラグ
+	const bool GetIsCautchObject() const { return isCautchObject_; }
+	void SetIsCautchObject(bool isCautch) { isCautchObject_ = isCautch; }
+
+	// 衝突相手のポインタ
+	MeshCollider* GetCollisionMesh() { return pCollisionMesh_; }
+
 private:
 
 	bool isHit_ = false;
@@ -57,5 +64,9 @@ private:
 	bool isSnagged_ = false;
 	bool isPull_ = false;
 	float weight_ = 0.0f;
+
+	bool isCautchObject_ = false;
+
+	MeshCollider* pCollisionMesh_ = nullptr;
 
 };
