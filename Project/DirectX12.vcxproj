@@ -222,6 +222,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameObject\BossRightHand.cpp" />
     <ClCompile Include="Game\GameObject\ClutchWire.cpp" />
     <ClCompile Include="Game\GameObject\Enemy.cpp" />
+    <ClCompile Include="Game\GameObject\Fall.cpp" />
     <ClCompile Include="Game\GameObject\Missile.cpp" />
     <ClCompile Include="Game\GameObject\Player.cpp" />
     <ClCompile Include="Game\GameObject\State\BaseObjectState.cpp" />
@@ -361,6 +362,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\GameObject\BossRightHand.h" />
     <ClInclude Include="Game\GameObject\ClutchWire.h" />
     <ClInclude Include="Game\GameObject\Enemy.h" />
+    <ClInclude Include="Game\GameObject\Fall.h" />
     <ClInclude Include="Game\GameObject\Missile.h" />
     <ClInclude Include="Game\GameObject\Player.h" />
     <ClInclude Include="Game\GameObject\State\BaseObjectState.h" />

@@ -58,6 +58,10 @@ void GameScene::Init() {
 	testCollisionObj3_->SetTag("canPullObj");
 	testCollisionObj3_->GetTransform()->SetTranslaion({ -6.0f,0.5f,0.0f });
 
+	fall_ = std::make_unique<Fall>();
+	fall_->Init();
+	fall_->GetTransform()->SetTranslaion({ 8.0f,8.0f,0.0f });
+
 
 	// -------------------------------------------------
 	// ↓ Managerの初期化
@@ -122,6 +126,8 @@ void GameScene::Update() {
 	testCollisionObj_->Update();
 	testCollisionObj2_->Update();
 	testCollisionObj3_->Update();
+
+	fall_->Update();
 
 	// -------------------------------------------------
 	// ↓ UIの更新
@@ -239,6 +245,8 @@ void GameScene::Draw() const {
 	testCollisionObj_->Draw();
 	testCollisionObj2_->Draw();
 	testCollisionObj3_->Draw();
+
+	fall_->Draw();
 
 	// -------------------------------------------------
 	// ↓ UIの描画
