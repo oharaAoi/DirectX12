@@ -89,6 +89,7 @@ void GameScene::Init() {
 	followCamera_->SetTarget(player_->GetTransform());
 
 	boss_->SetEditer(bossLeftAttackEditer_.get(), bossRightAttackEditer_.get());
+	boss_->SetGameScene(this);
 
 }
 
@@ -107,10 +108,16 @@ void GameScene::Update() {
 	boss_->SetPlayerPos(player_->GetWorldPos());
 	boss_->Update();
 
+	// playerの処理
 	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
 	player_->SetCameraZDis(followCamera_->GetTranslate().z);
 	player_->Update();
 
+	// missileの処理
+	missileList_.remove_if([](auto& enemy) {return !enemy->GetIsAlive(); });
+	for (auto& missile : missileList_) {
+		missile->Update();
+	}
 
 	testCollisionObj_->Update();
 	testCollisionObj2_->Update();
@@ -220,6 +227,11 @@ void GameScene::Draw() const {
 	boss_->Draw();
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
+	for (auto& missile : missileList_) {
+		missile->Draw();
+	}
+
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	player_->Draw();
 
 	testCollisionObj_->Draw();
@@ -230,6 +242,12 @@ void GameScene::Draw() const {
 	// ↓ UIの描画
 	// -------------------------------------------------
 	
+}
+
+void GameScene::AddMissile(const Vector3& targePos, const Vector3& firePos) {
+	auto& newMissile = missileList_.emplace_back(std::make_unique<Missile>());
+	newMissile->Init();
+	newMissile->Pop(targePos, firePos);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -304,6 +322,11 @@ void GameScene::Debug_Gui() {
 			ImGui::TreePop();
 		}
 	}
+
+	if (ImGui::Button("Fire")) {
+		AddMissile(player_->GetWorldPos(), boss_->GetBossBodyPos());
+	}
+
 	ImGui::End();
 }
 

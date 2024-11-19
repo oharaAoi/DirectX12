@@ -9,7 +9,6 @@ void BossAttackState::Init() {
 
 	rightHand_ = pBoss_->GetBossRightHand();
 	leftHand_ = pBoss_->GetBossLeftHand();
-
 }
 
 void BossAttackState::Update() {
@@ -19,6 +18,10 @@ void BossAttackState::Update() {
 
 	if (leftHand_->GetIsAttackMove()) {
 		leftHand_->Attack();
+	}
+
+	if (pBoss_->GetAttackType() == AttackType::Missile_Attack) {
+		pBoss_->MissileAttack();
 	}
 
 	// どちらの手も攻撃していなかったら

@@ -11,3 +11,7 @@ int RandomInt(int min, int max){
     int result = distribution(randomEngine);
     return result;
 }
+
+Vector3 RandomVector3(float min, float max) {
+    return Vector3(RandomFloat(min, max), RandomFloat(min, max), RandomFloat(min, max));
+}

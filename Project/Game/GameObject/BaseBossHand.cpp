@@ -191,6 +191,7 @@ void BaseBossHand::GooSlap() {
 		// 時間を過ぎたら攻撃を行う
 		if (moveTime_ > attackWork_.waitoTime) {
 			attackWork_.isAttack = true;
+			isGroundSlap_ = false;
 			moveTime_ = 0.0f;
 			easingIndex_ = (int)EasingType::In::Elastic;
 		}
@@ -208,6 +209,7 @@ void BaseBossHand::GooSlap() {
 		Vector3 movePos = transform_->GetTranslation();
 		movePos += (attackVeclocity_ * moveSpeed) * GameTimer::DeltaTime();
 		transform_->SetTranslaion(movePos);
+
 
 	} else if (isGroundSlap_) {
 		moveTime_ += GameTimer::DeltaTime();

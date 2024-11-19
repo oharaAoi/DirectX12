@@ -1,15 +1,17 @@
 #pragma once
 #include <vector>
+#include <list>
 #include "Engine.h"
 #include "Game/Scene/BaseScene.h"
 #include "Game/Camera/Camera.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Camera/DebugCamera.h"
 #include "Game/WorldObject/Skydome.h"
+#include "Game/WorldObject/Field.h"
 #include "Game/GameObject/Player.h"
 #include "Game/GameObject/Boss.h"
+#include "Game/GameObject/Missile.h"
 #include "Game/Manager/EnemyManager.h"
-#include "Game/WorldObject/Field.h"
 #include "Engine/Manager/CollisionManager.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Game/Editer/BossAttackEditer.h"
@@ -26,6 +28,8 @@ public:
 	void Init() override;
 	void Update() override;
 	void Draw() const override;
+
+	void AddMissile(const Vector3& targePos, const Vector3& firePos);
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -54,6 +58,8 @@ private:
 	// --- GameObject ------------------------------ //
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<Boss> boss_;
+
+	std::list<std::unique_ptr<Missile>> missileList_;
 	
 	std::unique_ptr<TestCollisionObj> testCollisionObj_;
 	std::unique_ptr<TestCollisionObj> testCollisionObj2_;

@@ -8,10 +8,11 @@
 #include "Game/Editer/BossAttackEditer.h"
 #include "Game/GameObject/State/BossRootState.h"
 #include "Game/GameObject/State/BossAttackState.h"
-
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
+
+class GameScene;
 
 enum class Behavior{
 	ROOT,
@@ -38,30 +39,19 @@ public:
 
 	void CheckAttackType(const AttackType& type);
 
+	void MissileAttack();
+
 public:
 
 	// ------------------- アクセッサ ------------------- //
 
-	void SetEditer(BossAttackEditer* left, BossAttackEditer* right) {
-		leftHandEditer_ = left;
-		rightHandEditer_ = right;
-		boss_leftHand_->SetAttackEditer(left);
-		boss_rightHand_->SetAttackEditer(right);
-
-		boss_leftHand_->LoadAllFile();
-		boss_rightHand_->LoadAllFile();
-
-		if (boss_leftHand_->GetAnimetor() != nullptr) {
-			leftHandEditer_->SetAnimations(boss_leftHand_->GetAnimetor()->GetAnimationNames());
-		}
-		if (boss_rightHand_->GetAnimetor() != nullptr) {
-			rightHandEditer_->SetAnimations(boss_rightHand_->GetAnimetor()->GetAnimationNames());
-		}
-	}
+	void SetEditer(BossAttackEditer* left, BossAttackEditer* right);
 
 	BossCore* GetBossCore() { return boss_core_.get(); }
 	BossLeftHand* GetBossLeftHand() { return boss_leftHand_.get(); }
 	BossRightHand* GetBossRightHand() { return boss_rightHand_.get(); }
+
+	const Vector3 GetBossBodyPos() const { return boss_body_->GetTransform()->GetTranslation(); }
 
 	// BossのHpの取得・設定
 	const float GetBossHp() const { return bossHp_; }
@@ -78,6 +68,12 @@ public:
 	// Behaviorの次の状態をリクエストする・状態を設定する
 	void SetBehaviorRequest(const Behavior& request) { behaviorRequest_ = request; }
 	void SetBehaviorState(std::unique_ptr<BaseObjectState> behaviorState) { state_ = std::move(behaviorState); }
+
+	// 攻撃する種類を取得
+	const AttackType GetAttackType() const { return attackType_; }
+
+	// gameSceneのセット
+	void SetGameScene(GameScene* gameScene) { pGameScene_ = gameScene; }
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -139,6 +135,8 @@ private:
 	Vector3 playerPos_;
 
 	std::string near_;
+
+	GameScene* pGameScene_;
 
 };
 

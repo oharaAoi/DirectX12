@@ -12,6 +12,7 @@
 enum class AttackType {
 	GooSlap_Attack,
 	ParSlap_Attack,
+	Missile_Attack,
 };
 
 class BaseBossHand : public BaseGameObject {

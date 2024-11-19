@@ -1,4 +1,5 @@
 #include "Boss.h"
+#include "Game/Scene/GameScene.h"
 
 Boss::Boss() {
 }
@@ -90,7 +91,7 @@ void Boss::Update() {
 	// ↓ Debug
 	// -------------------------------------------------
 #ifdef _DEBUG
-	
+
 #endif
 }
 
@@ -119,7 +120,7 @@ void Boss::CheckBehaviorRequest() {
 			break;
 		case Behavior::ATTACK:
 			SetBehaviorState(std::make_unique<BossAttackState>(this));
-			CheckAttackType(AttackType::GooSlap_Attack);
+			CheckAttackType(attackType_);
 			break;
 		default:
 			break;
@@ -163,7 +164,22 @@ void Boss::CheckAttackType(const AttackType& type) {
 			boss_leftHand_->SetIsAttackMove(false);
 		}
 		break;
+	case AttackType::Missile_Attack:
+		boss_rightHand_->SetIsAttackMove(false);
+		boss_leftHand_->SetIsAttackMove(false);
+		break;
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　ミサイル攻撃をする
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::MissileAttack() {
+	pGameScene_->AddMissile(playerPos_, boss_body_->GetTransform()->GetTranslation());
+	Vector3 randomPos = playerPos_;
+	randomPos.x += RandomFloat(-10.0f, 10.0f);
+	pGameScene_->AddMissile(randomPos, boss_body_->GetTransform()->GetTranslation());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -203,7 +219,7 @@ void Boss::Debug_Gui() {
 		}
 
 		ImGui::Text(near_.c_str());
-		ImGui::Combo("attackType##type", &attackTypeNum_, "Goo\0Par\0");
+		ImGui::Combo("attackType##type", &attackTypeNum_, "Goo\0Par\0Missile\0");
 		attackType_ = static_cast<AttackType>(attackTypeNum_);
 
 		ImGui::End();
@@ -244,3 +260,21 @@ void Boss::Save() {
 
 }
 #endif
+
+
+void Boss::SetEditer(BossAttackEditer* left, BossAttackEditer* right) {
+	leftHandEditer_ = left;
+	rightHandEditer_ = right;
+	boss_leftHand_->SetAttackEditer(left);
+	boss_rightHand_->SetAttackEditer(right);
+
+	boss_leftHand_->LoadAllFile();
+	boss_rightHand_->LoadAllFile();
+
+	if (boss_leftHand_->GetAnimetor() != nullptr) {
+		leftHandEditer_->SetAnimations(boss_leftHand_->GetAnimetor()->GetAnimationNames());
+	}
+	if (boss_rightHand_->GetAnimetor() != nullptr) {
+		rightHandEditer_->SetAnimations(boss_rightHand_->GetAnimetor()->GetAnimationNames());
+	}
+}
