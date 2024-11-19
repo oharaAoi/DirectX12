@@ -1,6 +1,6 @@
 #include "CanThrowObject.h"
 
-void CanThrowObject::SetThrow(const Vector3& velocity) {
+void CanThrowObject::ReadyToThrow(const Vector3& velocity) {
 	velocity_ = velocity;
 	isThrowed_ = true;
 }
