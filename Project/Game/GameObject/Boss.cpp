@@ -27,6 +27,9 @@ void Boss::Init() {
 	boss_rightHand_ = std::make_unique<BossRightHand>();
 	boss_rightHand_->Init();
 
+	boss_barrier_ = std::make_unique<BossBarrier>();
+	boss_barrier_->Init();
+
 	state_ = std::make_unique<BossRootState>(this);
 
 	// -------------------------------------------------
@@ -36,6 +39,7 @@ void Boss::Init() {
 	boss_core_->GetTransform()->SetParent(boss_body_->GetTransform()->GetWorldMatrix());
 	boss_leftHand_->GetTransform()->SetParent(boss_body_->GetTransform()->GetWorldMatrix());
 	boss_rightHand_->GetTransform()->SetParent(boss_body_->GetTransform()->GetWorldMatrix());
+	boss_barrier_->GetTransform()->SetParent(boss_body_->GetTransform()->GetWorldMatrix());
 
 	// -------------------------------------------------
 	// ↓ 攻撃の情報が入ったフォルダを作成
@@ -86,6 +90,7 @@ void Boss::Update() {
 	boss_core_->Update();
 	boss_leftHand_->Update();
 	boss_rightHand_->Update();
+	boss_barrier_->Update();
 
 	// -------------------------------------------------
 	// ↓ Debug
@@ -104,6 +109,8 @@ void Boss::Draw() const {
 	boss_core_->Draw();
 	boss_leftHand_->Draw();
 	boss_rightHand_->Draw();
+	Engine::SetPipeline(PipelineType::NormalPipeline);
+	boss_barrier_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -5,6 +5,7 @@
 #include "Game/GameObject/BossCore.h"
 #include "Game/GameObject/BossLeftHand.h"
 #include "Game/GameObject/BossRightHand.h"
+#include "Game/GameObject/BossBarrier.h"
 #include "Game/Editer/BossAttackEditer.h"
 #include "Game/GameObject/State/BossRootState.h"
 #include "Game/GameObject/State/BossAttackState.h"
@@ -101,6 +102,8 @@ private:
 	std::unique_ptr<BossLeftHand> boss_leftHand_;
 	// 右手
 	std::unique_ptr<BossRightHand> boss_rightHand_;
+	// バリア
+	std::unique_ptr<BossBarrier> boss_barrier_;
 
 	BossAttackEditer* leftHandEditer_ = nullptr;
 	BossAttackEditer* rightHandEditer_ = nullptr;

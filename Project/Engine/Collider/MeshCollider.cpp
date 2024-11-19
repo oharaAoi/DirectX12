@@ -1,4 +1,5 @@
 #include "MeshCollider.h"
+#include "Engine/GameObject/BaseGameObject.h"
 
 MeshCollider::MeshCollider() {}
 MeshCollider::~MeshCollider() {}

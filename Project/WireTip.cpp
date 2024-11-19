@@ -23,6 +23,7 @@ void WireTip::Init() {
 	
 	// Colliderの生成
 	SetMeshCollider("wireTip");
+	meshCollider_->SetOwner(this);
 	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other); });
 	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
 	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
@@ -96,10 +97,8 @@ void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		if (!isCautchObject_) {
 			isCautchObject_ = true;
 			meshCollider_->SetIsnotCheckCollision(true);
-		}
-		// 衝突相手のポインタを保存(一番最初の衝突のみ)
-		if (pCollisionMesh_ == nullptr) {
-			pCollisionMesh_ = &other;
+
+			catchObject_ = dynamic_cast<CanThrowObject*>(other.GetOwner());
 		}
 	}
 }

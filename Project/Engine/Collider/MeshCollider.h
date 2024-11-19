@@ -12,6 +12,8 @@ enum CollisionFlags {
 	STAY = 0b11,
 };
 
+class BaseGameObject;
+
 class MeshCollider {
 public:
 
@@ -60,6 +62,10 @@ public:
 	/// </summary>
 	/// <param name="other">: 他の衝突物</param>
 	void OnCollisionExit(MeshCollider& other);
+
+	// 所有者の設定・取得
+	void SetOwner(BaseGameObject* owner) { owner_ = owner; }
+	BaseGameObject* GetOwner() { return owner_; }
 
 public:
 
@@ -110,13 +116,15 @@ public:
 	void SetIsnotCheckCollision(bool isCollision) { isnotCheckCollision_ = isCollision; }
 
 	// --------------- 当たった相手のリスト -------------- //
-	std::list<MeshCollider*> GetMeshColliderList() { return collisionList_; }
+	std::list<MeshCollider*>& GetMeshColliderList() { return collisionList_; }
 
 	const OBB& GetOBB() { return obb_; }
 
 	const Vector3 GetObbCenter() const { return obb_.center; }
 
 private:
+
+	BaseGameObject* owner_ = nullptr;
 
 	// OBBのサイズ
 	Vector3 size_;
@@ -145,4 +153,5 @@ private:
 	std::function<void(MeshCollider&)> onCollisionEnter_;
 	std::function<void(MeshCollider&)> onCollisionStay_;
 	std::function<void(MeshCollider&)> onCollisionExit_;
+
 };

@@ -1,13 +1,12 @@
 #pragma once
-#include "Engine/GameObject/BaseGameObject.h"
+#include "Game/GameObject/CanThrowObject.h"
 #include "Engine/Math/MyRandom.h"
 #include "Engine/Math/MyMath.h"
-#include "Game/GameObject/Player.h"
 
 /// <summary>
 /// ミサイルオブジェクト
 /// </summary>
-class Missile : public BaseGameObject {
+class Missile : public CanThrowObject {
 public:
 
 	Missile();
@@ -36,10 +35,6 @@ public:
 	const bool GetIsAlive() const { return isAlive_; }
 	void SetIsAlive(bool isAlive) { isAlive_ = isAlive; }
 
-	// 捕まえられたかのフラグの取得・設定
-	const bool GetIsWireCaught() const { return isWireCaught_; }
-	void SetIsWireCaught(bool isWireCaught) { isWireCaught_ = isWireCaught; }
-
 private:
 
 	static const uint32_t kDivision_ = 50;
@@ -48,13 +43,9 @@ private:
 	std::vector<Vector3> movePoint_;
 
 	bool isAlive_;
-	bool isWireCaught_;	// ワイヤーに捕まえられたか
-	bool isThrowed_;	// 投げられたか
 
 	float moveT_;
 	float speed_;
-
-	Vector3 velocity_;
 
 	// -------------------------------------------------
 	// ↓ 他クラスの情報

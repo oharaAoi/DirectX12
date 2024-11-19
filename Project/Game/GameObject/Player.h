@@ -1,10 +1,10 @@
 #pragma once
+#include <memory>
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Game/GameObject/ClutchWire.h"
 #include "WireTip.h"
-#include "Engine/Collider/MeshCollider.h"
 #include "Engine/Math/Easing.h"
-
+#include "Game/GameObject/Missile.h"
 
 enum class PlayerState {
 	Default = 0,
@@ -59,8 +59,6 @@ public:
 	const Vector3 GetForward() const { return TransformNormal(Vector3(0,0,1), transform_->GetWorldMatrix()); }
 	const Vector3 GetWorldPos() const { return Transform(Vector3(0, 0, 0), transform_->GetWorldMatrix()); }
 
-	void SetCautchObject(BaseGameObject* gameObject) { pCautchObject_ = gameObject; };
-
 private:
 
 	/// ==========================================
@@ -68,6 +66,11 @@ private:
 	/// ==========================================
 	void Move();
 	void Clutch();
+
+	/// <summary>
+	/// 捕まえたオブジェクトを追従させる処理
+	/// </summary>
+	void CatchObjectFollow();
 
 	void BaseClutch();
 	void FirstClutch();
@@ -131,8 +134,6 @@ private:
 	/// ==========================================
 	/// 他クラスの情報
 	/// ==========================================
-	
-	BaseGameObject* pCautchObject_;
 
 };
 

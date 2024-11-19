@@ -27,6 +27,7 @@ void Player::Init() {
 
 	// Colliderの生成
 	SetMeshCollider("player");
+	meshCollider_->SetOwner(this);
 	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other); });
 	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
 	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
@@ -41,6 +42,7 @@ void Player::Update() {
 	Move();
 	Clutch();
 
+	CatchObjectFollow();
 
 	BaseGameObject::Update();
 
@@ -320,6 +322,30 @@ void Player::Clutch() {
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　捕まえたオブジェクトを追従させる処理/投げる処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::CatchObjectFollow() {
+	// 捕まえたオブジェクトがない場合は早期リターン
+	if (wireTip_->GetCatchObject() == nullptr) {
+		return;
+	}
+	
+	// プレイヤーの座標に合わせる
+	auto catchObj = wireTip_->GetCatchObject();
+	catchObj->GetTransform()->SetTranslaion(transform_->GetTranslation());
+
+	// 投げる処理
+	if (Input::IsTriggerMouse(0)) {
+		catchObj->ReadyToThrow(GetThrowVelo());
+		wireTip_->ReleseCathcObject();
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
 void Player::BaseClutch() {
 
 	Vector2 start;

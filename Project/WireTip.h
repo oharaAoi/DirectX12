@@ -1,8 +1,8 @@
 #pragma once
 #include "Engine/GameObject/BaseGameObject.h"
+#include "Game/GameObject/CanThrowObject.h"
 #include "Engine/Collider/Collider.h"
-#include "Engine/Collider/MeshCollider.h"
-
+#include "Game/GameObject/Missile.h"
 
 class WireTip : public BaseGameObject,public Collider {
 public:
@@ -53,8 +53,8 @@ public:
 	const bool GetIsCautchObject() const { return isCautchObject_; }
 	void SetIsCautchObject(bool isCautch) { isCautchObject_ = isCautch; }
 
-	// 衝突相手のポインタ
-	MeshCollider* GetCollisionMesh() { return pCollisionMesh_; }
+	CanThrowObject* GetCatchObject() { return catchObject_; }
+	void ReleseCathcObject() { catchObject_ = nullptr; }
 
 private:
 
@@ -66,7 +66,6 @@ private:
 	float weight_ = 0.0f;
 
 	bool isCautchObject_ = false;
-
-	MeshCollider* pCollisionMesh_ = nullptr;
+	CanThrowObject* catchObject_ = nullptr;
 
 };

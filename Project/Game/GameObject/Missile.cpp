@@ -15,6 +15,7 @@ void Missile::Init() {
 	SetObject("teapot.obj");
 
 	SetMeshCollider("missile");
+	meshCollider_->SetOwner(this);
 	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other); });
 	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
 	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
@@ -32,7 +33,6 @@ void Missile::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Missile::Update() {
-
 	if (isThrowed_) {
 		Vector3 position = transform_->GetTranslation();
 		position += velocity_ * GameTimer::DeltaTime();
@@ -51,9 +51,6 @@ void Missile::Update() {
 
 		Vector3 pos = CatmullRomPosition(movePoint_, moveT_);
 		transform_->SetTranslaion(pos);
-
-	} else {
-
 	}
 
 	BaseGameObject::Update();
