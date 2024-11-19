@@ -14,12 +14,15 @@ void BossLeftHand::Init() {
 	SetObject("Left_Hand.obj");
 
 	SetMeshCollider("left_hand");
+	BaseBossHand::Init();
 
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
 
 	// 調整項目の適応
 	AdaptAdjustment();
+
+	initPos_ = transform_->GetTranslation();
 
 	moveIndex_ = 0;
 

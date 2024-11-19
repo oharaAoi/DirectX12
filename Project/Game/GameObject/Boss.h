@@ -36,6 +36,8 @@ public:
 
 	void CheckMouseCursolCollision(const Matrix4x4& vpvpMat);
 
+	void CheckAttackType(const AttackType& type);
+
 public:
 
 	// ------------------- アクセッサ ------------------- //
@@ -67,7 +69,11 @@ public:
 
 	// playerの座標を設定
 	const Vector3 GetPlayerPos() const { return playerPos_; }
-	void SetPlayerPos(const Vector3& playerPos) { playerPos_ = playerPos; }
+	void SetPlayerPos(const Vector3& playerPos) {
+		playerPos_ = playerPos;
+		boss_leftHand_->SetPlayerPos(playerPos);
+		boss_rightHand_->SetPlayerPos(playerPos);
+	}
 
 	// Behaviorの次の状態をリクエストする・状態を設定する
 	void SetBehaviorRequest(const Behavior& request) { behaviorRequest_ = request; }
@@ -107,6 +113,9 @@ private:
 	// ↓ 攻撃に関する変数
 	// -------------------------------------------------
 
+	AttackType attackType_;
+	int attackTypeNum_;
+
 	std::string attackName_;
 	const std::string attackDirectoryPath_ = "./Game/Resources/GameData/BossAttack/Attacks/";
 
@@ -128,6 +137,8 @@ private:
 	// ↓ Boss以外の情報
 	// -------------------------------------------------
 	Vector3 playerPos_;
+
+	std::string near_;
 
 };
 

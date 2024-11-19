@@ -10,9 +10,19 @@ void BossAttackState::Init() {
 	rightHand_ = pBoss_->GetBossRightHand();
 	leftHand_ = pBoss_->GetBossLeftHand();
 
-	rightHand_->PrepareAttack(rightHand_->GetTransform()->GetTranslation());
 }
 
 void BossAttackState::Update() {
-	rightHand_->GooSlap(pBoss_->GetPlayerPos());
+	if (rightHand_->GetIsAttackMove()) {
+		rightHand_->Attack();
+	}
+
+	if (leftHand_->GetIsAttackMove()) {
+		leftHand_->Attack();
+	}
+
+	// どちらの手も攻撃していなかったら
+	if (!leftHand_->GetIsAttackMove() && !rightHand_->GetIsAttackMove()) {
+		pBoss_->SetBehaviorRequest(Behavior::ROOT);
+	}
 }

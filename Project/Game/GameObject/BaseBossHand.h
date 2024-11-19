@@ -18,12 +18,13 @@ class BaseBossHand : public BaseGameObject {
 public:
 
 	struct AttackWork {
-		float waitoTime = 2.0f;		// 攻撃までの時間
-		float attackTime = 1.0f;	// 攻撃の時間
-		Vector3 offset;				// 座標のoffset
+		float waitoTime = 2.0f;			// 攻撃までの時間
+		float attackTime = 1.0f;		// 攻撃の時間
+		float attackAfterTime = 1.0f;	// 攻撃後の動きの時間
+		Vector3 offset;					// 座標のoffset
 
-		bool isAttack;				// 攻撃を始めるか
-		bool isAttackFinsh_;		// 攻撃を終了するか
+		bool isAttack;					// 攻撃を始めるか
+		bool isAttackFinsh_;			// 攻撃を終了するか
 	};
 
 public:
@@ -65,13 +66,21 @@ public:
 	/// 攻撃をする準備
 	/// </summary>
 	/// <param name="handPos"></param>
-	void PrepareAttack(const Vector3& handPos);
+	void PrepareAttack(const AttackType& type);
 
 	/// <summary>
 	/// グーの状態でのたたきつけ
 	/// </summary>
-	void GooSlap(const Vector3& playerPos);
+	void GooSlap();
 
+	void Attack();
+
+public:
+
+	using FunctionPointer = void(BaseBossHand::*)();
+	std::unordered_map<AttackType, FunctionPointer> functionMap_ = {
+		{AttackType::GooSlap_Attack, &BaseBossHand::GooSlap},
+	};
 
 private:
 
@@ -83,14 +92,24 @@ public:
 
 	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
 
-	const bool GetIsAttack() const { return isAttackMove_; }
-	void SetIsAttack(bool isAttack) { isAttackMove_ = isAttack; }
+	const bool GetIsAttackMove() const { return isAttackMove_; }
+	void SetIsAttackMove(bool isAttack) { isAttackMove_ = isAttack; }
 
 	void SetAttackEditer(BossAttackEditer* pRightHandEditer) { pAttackEditer_ = pRightHandEditer; }
 
 	// Animationの時間の取得・設定
 	const float GetAnimationTime() const { return animationTime_; }
 	void SetAnimationTime(float animeTime) { animationTime_ = animeTime; }
+
+	// どちらの方が近いか
+	const bool GetIsNear() const { return isNear_; }
+	void SetIsNear(bool isNear) { isNear_ = isNear; }
+
+	// player座標の設定
+	void SetPlayerPos(const Vector3& playerPos) { playerPos_ = playerPos; }
+
+	// 親となる胴体の座標を持っておく
+	void SetBodyPos(const Vector3& bodyPos) { bodyPos_ = bodyPos; }
 
 protected:
 
@@ -117,7 +136,7 @@ protected:
 
 	Vector3 beforeAttackPos_; // 攻撃する前の座標
 	Vector3 attackVeclocity_; // 攻撃を行う方向
-	float attackSpeed_ = 10.0f;		  // 攻撃を行う速度
+	float attackSpeed_ = 20.0f;		  // 攻撃を行う速度
 	int easingIndex_ = (int)EasingType::Out::Quart;		  // 攻撃をする際のイージング
 
 	// -------------------------------------------------
@@ -127,6 +146,8 @@ protected:
 	bool isClicked_;	// クリックされているか
 	bool isGroundSlap_;	// 地面をたたいたか
 
+	bool isNear_;		// 右手と左手でどちらの方が近いかのフラグ
+
 	// -------------------------------------------------
 	// ↓ Animationに関する変数
 	// -------------------------------------------------
@@ -135,5 +156,13 @@ protected:
 
 	std::string nowAnimatonName_;// 今のanimationの名前
 	std::string waitAnimationName_;// 待機時のanimationの名前
+
+	// -------------------------------------------------
+	// ↓ 他クラスの情報
+	// -------------------------------------------------
+
+	Vector3 playerPos_;
+
+	Vector3 bodyPos_;
 
 };

@@ -58,8 +58,29 @@ void Boss::Update() {
 	state_->Update();
 
 	// -------------------------------------------------
+	// ↓ playerの座標から右手と左手でどちらが近いかを計算しておく
+	// -------------------------------------------------
+
+	float playerToLeft = (playerPos_ - boss_leftHand_->GetTransform()->GetTranslation()).Length();
+	float playerToRight = (playerPos_ - boss_rightHand_->GetTransform()->GetTranslation()).Length();
+
+	if (playerToLeft < playerToRight) {
+		boss_leftHand_->SetIsNear(true);
+		boss_rightHand_->SetIsNear(false);
+		near_ = "left";
+	} else {
+		boss_leftHand_->SetIsNear(false);
+		boss_rightHand_->SetIsNear(true);
+		near_ = "right";
+	}
+
+	// -------------------------------------------------
 	// ↓ 行列の更新
 	// -------------------------------------------------
+
+	boss_leftHand_->SetBodyPos(boss_body_->GetTransform()->GetTranslation());
+	boss_rightHand_->SetBodyPos(boss_body_->GetTransform()->GetTranslation());
+
 	boss_body_->Update();
 	boss_core_->Update();
 	boss_leftHand_->Update();
@@ -98,6 +119,7 @@ void Boss::CheckBehaviorRequest() {
 			break;
 		case Behavior::ATTACK:
 			SetBehaviorState(std::make_unique<BossAttackState>(this));
+			CheckAttackType(AttackType::GooSlap_Attack);
 			break;
 		default:
 			break;
@@ -112,6 +134,36 @@ void Boss::CheckBehaviorRequest() {
 void Boss::CheckMouseCursolCollision(const Matrix4x4& vpvpMat) {
 	boss_rightHand_->CheckMouseCursorCollision(boss_rightHand_->GetTransform(), vpvpMat);
 	boss_leftHand_->CheckMouseCursorCollision(boss_leftHand_->GetTransform(), vpvpMat);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　攻撃の種類を確認しそれに応じた初期化
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::CheckAttackType(const AttackType& type) {
+	switch (type) {
+	case AttackType::GooSlap_Attack:
+		// プレイヤーとの距離が近い方のみ攻撃
+		if (near_ == "left") {
+			boss_leftHand_->PrepareAttack(type);
+			boss_rightHand_->SetIsAttackMove(false);
+		} else {
+			boss_rightHand_->PrepareAttack(type);
+			boss_leftHand_->SetIsAttackMove(false);
+		}
+		break;
+
+	case AttackType::ParSlap_Attack:
+		// プレイヤーとの距離が近い方のみ攻撃
+		if (near_ == "left") {
+			boss_leftHand_->PrepareAttack(type);
+			boss_rightHand_->SetIsAttackMove(false);
+		} else {
+			boss_rightHand_->PrepareAttack(type);
+			boss_leftHand_->SetIsAttackMove(false);
+		}
+		break;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,6 +201,10 @@ void Boss::Debug_Gui() {
 		if (ImGui::Button("Attack")) {
 			behaviorRequest_ = Behavior::ATTACK;
 		}
+
+		ImGui::Text(near_.c_str());
+		ImGui::Combo("attackType##type", &attackTypeNum_, "Goo\0Par\0");
+		attackType_ = static_cast<AttackType>(attackTypeNum_);
 
 		ImGui::End();
 		ImGui::TreePop();

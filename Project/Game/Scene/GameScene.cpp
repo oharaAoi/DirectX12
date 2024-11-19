@@ -134,8 +134,10 @@ void GameScene::Update() {
 	// mesh
 	collisionManager_->AddCollider(field_->GetMeshCollider());
 	collisionManager_->AddCollider(player_->GetMeshCollider());
+
 	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
 	collisionManager_->AddCollider(boss_->GetBossRightHand()->GetMeshCollider());
+	collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
 	collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
 
 	

@@ -34,9 +34,9 @@ void BaseBossHand::Update() {
 	}
 #endif
 
-	if (isAttackMove_) {
+	/*if (isAttackMove_) {
 		AttackMove(transform_.get());
-	}
+	}*/
 
 	if (animetor_ != nullptr) {
 		animetor_->UpdateScript(animationTime_, animationTransitionTime_);
@@ -137,16 +137,39 @@ void BaseBossHand::CheckMouseCursorCollision(WorldTransform* worldTransform, con
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　攻撃の準備
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseBossHand::PrepareAttack(const Vector3& handPos) {
-	beforeAttackPos_ = handPos;
+void BaseBossHand::PrepareAttack(const AttackType& type) {
+	beforeAttackPos_ = transform_->GetTranslation();
+	attackType_ = type;
+	isAttackMove_ = true;
+	attackWork_.isAttack = false;
+	isGroundSlap_ = false;
+	moveTime_ = 0.0f;
+
+	easingIndex_ = (int)EasingType::Out::Quart;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　攻撃の分岐
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BaseBossHand::Attack() {
+	const auto& it = functionMap_.find(attackType_);
+	if (it == functionMap_.end()) {
+		assert("not find RootSignature");
+	}
+
+	return (this->*(it->second))(); // メンバー関数ポインタを使って関数を呼び出す
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　gooの攻撃
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseBossHand::GooSlap(const Vector3& playerPos) {
+void BaseBossHand::GooSlap() {
 	attackWork_.offset = { 0.0f, 10.0f, 0.0f };
 	Vector3 worldPos = transform_->GetTranslation();
 
@@ -160,7 +183,9 @@ void BaseBossHand::GooSlap(const Vector3& playerPos) {
 		
 		float t = moveTime_ / attackWork_.waitoTime;
 		// 手を現在の位置からoffestの位置まで移動させる
-		Vector3 movePos = Vector3::Lerp(beforeAttackPos_, playerPos + attackWork_.offset, CallEasingFunc(easingIndex_, t));
+		Vector3 targetPos = playerPos_ + attackWork_.offset;
+		targetPos.z -= bodyPos_.z;
+		Vector3 movePos = Vector3::Lerp(beforeAttackPos_, targetPos, CallEasingFunc(easingIndex_, t));
 		transform_->SetTranslaion(movePos);
 
 		// 時間を過ぎたら攻撃を行う
@@ -186,14 +211,20 @@ void BaseBossHand::GooSlap(const Vector3& playerPos) {
 
 	} else if (isGroundSlap_) {
 		moveTime_ += GameTimer::DeltaTime();
-		if (moveTime_ < attackWork_.waitoTime) {
-			float t = moveTime_ / attackWork_.waitoTime;
+		if (moveTime_ < attackWork_.attackAfterTime) {
+			float t = moveTime_ / attackWork_.attackAfterTime;
 			// 手を現在の位置からoffestの位置まで移動させる
-			Vector3 movePos = Vector3::Lerp(beforeAttackPos_, initPos_, Ease::In::Circ(t));
+			Vector3 movePos = Vector3::Lerp(beforeAttackPos_, initPos_, Ease::In::Sine(t));
 			transform_->SetTranslaion(movePos);
+		} else {
+			isAttackMove_ = false;
 		}
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　衝突判定
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "field") {
