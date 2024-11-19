@@ -147,7 +147,9 @@ void GameScene::Update() {
 	collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
 	collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
 
-	
+	for (auto& missile : missileList_) {
+		collisionManager_->AddCollider(missile->GetMeshCollider());
+	}
 
 	collisionManager_->CheckAllCollision();
 
@@ -266,7 +268,7 @@ void GameScene::Debug_Gui() {
 			ImGui::TreePop();
 		}
 
-		if (Input::IsTriggerKey(DIK_1)) {
+		if (Input::IsTriggerKey(DIK_C)) {
 			isDebugCamera_ = !isDebugCamera_;
 		}
 	}

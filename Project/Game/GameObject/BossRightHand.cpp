@@ -46,7 +46,7 @@ void BossRightHand::Init() {
 	initPos_ = transform_->GetTranslation();
 
 	transform_->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
-	transform_->SetScale(Vector3{ 0.5f, 0.5f, 0.5f });
+	transform_->SetScale(Vector3(0.5f, 0.5f, 0.5f));
 
 	animationTime_ = 0.0f;
 	animationTransitionTime_ = 0.0f;
@@ -141,11 +141,6 @@ void BossRightHand::Debug_Gui() {
 		Debug_Axis();
 		ImGui::DragFloat2("objectScreenPos", &objectScreenPos_.x, 1.0f);
 		ImGui::Unindent(20.0f);
-	}
-
-	ImGui::Separator();
-	if (ImGui::CollapsingHeader("Object")) {
-		BaseGameObject::Debug_Gui();
 	}
 
 	ImGui::End();

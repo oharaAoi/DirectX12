@@ -15,8 +15,8 @@ void FollowCamera::Init() {
 
 	transform_ = {
 		{1.0f, 1.0f, 1.0f},
-		{0 , 0, 0.0f},
-		{0.0f, 4.0f, -30.0f}
+		{-0.1f , 0, 0.0f},
+		{0.0f, 2.0f, -30.0f}
 	};
 
 	offset_ = transform_.translate;

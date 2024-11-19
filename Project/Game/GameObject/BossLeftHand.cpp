@@ -78,51 +78,57 @@ void BossLeftHand::LoadAllFile() {
 #ifdef _DEBUG
 void BossLeftHand::Debug_Gui() {
 	ImGui::Begin("Boss_LeftHand");
-	ImGui::BulletText("Set_Parameter");
-	ImGui::Indent(20.0f);
-	transform_->Debug_Gui();
+	if (ImGui::CollapsingHeader("SetParameter")) {
+		ImGui::BulletText("Set_Parameter");
+		ImGui::Indent(20.0f);
+		transform_->Debug_Gui();
 
-	ShowEasingDebug(easeType_);	// easingを決める
-	ImGui::DragFloat("moveTimeLimit", &moveTimeLimit_, 0.1f);	// 移動時間を決める
+		ShowEasingDebug(easeType_);	// easingを決める
+		ImGui::DragFloat("moveTimeLimit", &moveTimeLimit_, 0.1f);	// 移動時間を決める
 
-	// 決定する
-	if (isClicked_) {
-		if (Input::IsTriggerKey(DIK_SPACE)) {
-			pAttackEditer_->AddPoint(transform_->GetScale(), transform_->GetQuaternion(), transform_->GetTranslation(), easeType_, moveTimeLimit_);
+		// 決定する
+		if (isClicked_) {
+			if (Input::IsTriggerKey(DIK_SPACE)) {
+				pAttackEditer_->AddPoint(transform_->GetScale(), transform_->GetQuaternion(), transform_->GetTranslation(), easeType_, moveTimeLimit_);
+			}
 		}
+		ImGui::Unindent(20.0f);
 	}
-	ImGui::Unindent(20.0f);
 
 	ImGui::Separator();
-	ImGui::BulletText("Editer_Files");
-	ImGui::Indent(20.0f);
-	pAttackEditer_->Debug_Gui(attackDirectoryPath);
+	if (ImGui::CollapsingHeader("Editer")) {
+		ImGui::BulletText("Editer_Files");
+		ImGui::Indent(20.0f);
+		pAttackEditer_->Debug_Gui(attackDirectoryPath);
 
-	if (pAttackEditer_->GetHandMoves().size() != 0) {
-		if (ImGui::Button("attackMove")) {
-			isAttackMove_ = true;
-			moveIndex_ = 0;
-			moveTime_ = 0;
+		if (pAttackEditer_->GetHandMoves().size() != 0) {
+			if (ImGui::Button("attackMove")) {
+				isAttackMove_ = true;
+				moveIndex_ = 0;
+				moveTime_ = 0;
+			}
 		}
+
+		// Animationの編集
+		pAttackEditer_->Debug_Animation();
+		if (ImGui::Button("test_play")) {
+			animetor_->SetTransitionAnimation(pAttackEditer_->GetAnimationTransitionData().preAnimation, pAttackEditer_->GetAnimationTransitionData().afterAnimation);
+			animationTransitionTime_ = pAttackEditer_->GetAnimationTransitionData().transitionTime;
+		}
+
+		pAttackEditer_->SaveLerpAnimation(animationDirectoryPath);
+
+		ImGui::Unindent(20.0f);
 	}
-
-	// Animationの編集
-	pAttackEditer_->Debug_Animation();
-	if (ImGui::Button("test_play")) {
-		animetor_->SetTransitionAnimation(pAttackEditer_->GetAnimationTransitionData().preAnimation, pAttackEditer_->GetAnimationTransitionData().afterAnimation);
-		animationTransitionTime_ = pAttackEditer_->GetAnimationTransitionData().transitionTime;
-	}
-
-	pAttackEditer_->SaveLerpAnimation(animationDirectoryPath);
-
-	ImGui::Unindent(20.0f);
 
 	ImGui::Separator();
-	ImGui::BulletText("Debug_Parameter");
-	ImGui::Indent(20.0f);
-	Debug_Axis();
-	ImGui::DragFloat2("objectScreenPos", &objectScreenPos_.x, 1.0f);
-	ImGui::Unindent(20.0f);
+	if (ImGui::CollapsingHeader("Debug_Parameter")) {
+		ImGui::BulletText("Debug_Parameter");
+		ImGui::Indent(20.0f);
+		Debug_Axis();
+		ImGui::DragFloat2("objectScreenPos", &objectScreenPos_.x, 1.0f);
+		ImGui::Unindent(20.0f);
+	}
 
 	ImGui::End();
 }
