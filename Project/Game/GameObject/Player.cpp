@@ -20,7 +20,7 @@ void Player::Init() {
 
 	wire_ = std::make_unique<ClutchWire>();
 	wire_->Init();
-	wire_->GetTransform()->SetParent(transform_->GetWorldMatrix());
+	wire_->GetTransform()->SetParentTranslation(transform_->GetTranslation());
 
 	wireTip_ = std::make_unique<WireTip>();
 	wireTip_->Init();
@@ -245,6 +245,7 @@ void Player::Clutch() {
 			if (wireTip_->GetPull()) {
 				maxClutchLength_ = wire_->GetTransform()->GetScale().y;
 				isSnagged_ = false;
+				wireTip_->SetSnagged(false);
 			}
 		}
 		if (wireTip_->GetSnagged()) {

@@ -36,8 +36,8 @@ void TestCollisionObj::Update() {
 		transform_->SetTranslaion(position);
 		if (player_->GetThrow()) {
 			tag_ = "throwObj";
-			Matrix4x4* parentMat = nullptr;
-			transform_->SetParent(*parentMat);
+			Vector3* parentVec = nullptr;
+			transform_->SetParentTranslation(*parentVec);
 			isfollowWire_ = false;
 			player_->SetThrow(false);
 			velocity_ = player_->GetThrowVelo();
@@ -74,7 +74,7 @@ void TestCollisionObj::Draw() const {
 void TestCollisionObj::OnCollision(Collider* other) {
 	if (other->GetTag() == "wireTip") {
 		if (tag_=="canCatchObj") {
-			transform_->SetParent(player_->GetTransform()->GetWorldMatrix());
+			transform_->SetParentTranslation(player_->GetTransform()->GetTranslation());
 			Vector3 position = transform_->GetTranslation() - player_->GetTransform()->GetTranslation();
 			transform_->SetTranslaion(position);
 			isfollowWire_ = true;
