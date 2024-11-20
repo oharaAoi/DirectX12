@@ -333,7 +333,7 @@ void Player::DefaultMove(Vector3& pos) {
 		playerState = int(PlayerState::Default);
 
 	}
-	else if (wireTip_->GetSnagged() && isStretchClutch_) {
+	else if (isSnagged_ && wireTip_->GetSnagged() && isStretchClutch_) {
 		playerState = int(PlayerState::Attack);
 
 		velocity_.y = 0.0f;
@@ -384,6 +384,10 @@ void Player::Clutch() {
 		}
 		if (wireTip_->GetSnagged()) {
 			isSnagged_ = true;
+			if (wireTip_->GetPull()) {
+				isSnagged_ = false;
+				wireTip_->SetSnagged(false);
+			}
 		}
 		isStretching_ = false;
 	}
