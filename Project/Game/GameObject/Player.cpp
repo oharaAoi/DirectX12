@@ -214,6 +214,9 @@ void Player::Move() {
 	if (!isPullBackObj_) {
 		DefaultMove(pos);
 	}
+	else {
+		PullBackMove(pos);
+	}
 
 
 	nowRotate = LerpShortAngle(nowRotate, targetRotate, 0.1f);
@@ -242,6 +245,9 @@ void Player::Move() {
 		}
 	}
 	transform_->SetTranslaion(pos);
+	if (!isPullBackObj_) {
+		beforePosition_ = pos;
+	}
 }
 
 void Player::DefaultMove(Vector3& pos) {
@@ -306,6 +312,14 @@ void Player::DefaultMove(Vector3& pos) {
 			wireTip_->SetSnagged(false);
 		}
 	}
+}
+
+void Player::PullBackMove(Vector3& pos) {
+	pos.x = beforePosition_.x;
+	if (Input::IsPressKey(DIK_A) || Input::IsPressKey(DIK_D)) {
+		pos.x += RandomFloat(-4.0f, 4.0f) * GameTimer::DeltaTime();
+	}
+
 }
 
 void Player::Clutch() {

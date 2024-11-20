@@ -75,6 +75,7 @@ private:
 	/// ==========================================
 	void Move();
 	void DefaultMove(Vector3& pos);
+	void PullBackMove(Vector3& pos);
 
 	void Clutch();
 
@@ -150,6 +151,7 @@ private:
 	// 奥のオブジェクト
 	bool isPullBackObj_ = false;
 	bool isNearBack_ = false;
+	Vector3 beforePosition_{};
 
 	/// ==========================================
 	/// 攻撃に扱う情報
