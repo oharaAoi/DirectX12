@@ -147,6 +147,10 @@ void Player::Debug_Gui() {
 			ImGui::DragFloat("MoveSpeed", &moveSpeed_, 0.01f, 0.0f, 20.0f);
 			Vector3 pos = transform_->GetTranslation();
 			ImGui::DragFloat3("Trans", &pos.x);
+			if (isNearBack_) {
+				ImGui::Text("True");
+			}
+
 
 			ImGui::TreePop();
 		}
@@ -176,6 +180,11 @@ Vector3 Player::GetThrowVelo() const {
 	return theow;
 }
 
+void Player::SetFalsePullBack() {
+	isPullBackObj_ = false;
+	isStretching_ = false;
+	isReturnClutch_ = true;
+}
 
 void Player::Move() {
 
@@ -310,7 +319,12 @@ void Player::Clutch() {
 	}
 
 
-	Stretching();
+	if (!isPullBackObj_) {
+		Stretching();
+	}
+	else {
+		BackPullStretch();
+	}
 
 
 	if (isStretchClutch_) {
@@ -424,22 +438,17 @@ void Player::BaseClutch() {
 
 void Player::FirstClutch() {
 
-	if (!isStretchClutch_ && isRekey_) {
-		Vector2 mousePos = Input::GetMousePosition();
+	if (isNearBack_&& isRekey_) {
 
-		Vector3 end = ScreenToWorldCoordinate(mousePos, inverMat_, -camerazDis_);
-
-		if (end.x > transform_->GetTranslation().x) {
-			targetRotate = rightRotate;
-		}
-		else if (end.x < transform_->GetTranslation().x) {
-			targetRotate = leftRotate;
-		}
-
-		end -= transform_->GetTranslation();
-		end = end.Normalize() * maxClutchLength_;
-		end += transform_->GetTranslation();
-		clutchEnd_ = { end.x,end.y };
+		ClutchEndCalculation();
+		float length = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Length();
+		maxClutchLength_ = length;
+		isStretching_ = true;
+		isPullBackObj_ = true;
+		isRekey_ = false;
+	}
+	else if (!isStretchClutch_ && isRekey_ && !isPullBackObj_) {
+		ClutchEndCalculation();
 		isStretching_ = true;
 		isStretchClutch_ = true;
 		isRekey_ = false;
@@ -460,6 +469,44 @@ void Player::Stretching() {
 		}
 	}
 
+}
+
+void Player::BackPullStretch() {
+	if (isStretching_) {
+
+		Vector3 nowScale = wire_->GetTransform()->GetScale();
+		if (nowScale.y <= maxClutchLength_) {
+			nowScale.y += stretchSpeed_ * GameTimer::DeltaTime();
+			wire_->GetTransform()->SetScale(nowScale);
+		}
+		else {
+			isStretching_ = false;
+		}
+	}
+	else {
+		if (!Input::IsPressMouse(0)) {
+			isReturnClutch_ = true;
+			isPullBackObj_ = false;
+		}
+	}
+}
+
+void Player::ClutchEndCalculation() {
+	Vector2 mousePos = Input::GetMousePosition();
+
+	Vector3 end = ScreenToWorldCoordinate(mousePos, inverMat_, -camerazDis_);
+
+	if (end.x > transform_->GetTranslation().x) {
+		targetRotate = rightRotate;
+	}
+	else if (end.x < transform_->GetTranslation().x) {
+		targetRotate = leftRotate;
+	}
+
+	end -= transform_->GetTranslation();
+	end = end.Normalize() * maxClutchLength_;
+	end += transform_->GetTranslation();
+	clutchEnd_ = { end.x,end.y };
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

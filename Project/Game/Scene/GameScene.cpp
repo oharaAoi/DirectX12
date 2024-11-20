@@ -60,8 +60,9 @@ void GameScene::Init() {
 
 	fall_ = std::make_unique<Fall>();
 	fall_->Init();
+	fall_->SetPlayer(player_.get());
 	fall_->GetTransform()->SetTranslaion({ 8.0f,8.0f,0.0f });
-
+	
 
 	// -------------------------------------------------
 	// ↓ Managerの初期化
@@ -167,6 +168,7 @@ void GameScene::Update() {
 	}
 
 	collisionManager_->CheckAllCollision();
+	fall_->CheckMouseNear(followCamera_->GetVpvpMatrix());
 
 	// -------------------------------------------------
 	// ↓ Cameraの更新
@@ -294,6 +296,7 @@ void GameScene::Debug_Gui() {
 		if (ImGui::TreeNode("GameObject")) {
 			player_->Debug_Gui();
 			boss_->Debug_Gui();
+			fall_->Debug_Gui();
 			ImGui::TreePop();
 		}
 	}
