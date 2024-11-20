@@ -56,12 +56,13 @@ void BaseBossHand::Update() {
 void BaseBossHand::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	BaseGameObject::Draw();
+}
 
 #ifdef _DEBUG
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+void BaseBossHand::Debug_Draw() {
 	meshCollider_->Draw();
-#endif
 }
+#endif
 
 void BaseBossHand::AnimeTimeIncrement(bool isLoop, float limitTime) {
 	animationTime_ += GameTimer::DeltaTime();
@@ -150,6 +151,20 @@ void BaseBossHand::PrepareAttack(const AttackType& type) {
 	moveTime_ = 0.0f;
 
 	easingIndex_ = (int)EasingType::Out::Quart;
+
+	animationTransitionTime_ = 1.0f;
+
+	switch (type) {
+	case AttackType::GooSlap_Attack:
+		//animetor_->SetTransitionAnimation("stand_by", "slap");
+		break;
+	case AttackType::ParSlap_Attack:
+		break;
+	case AttackType::Missile_Attack:
+		break;
+	default:
+		break;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,7 +185,7 @@ void BaseBossHand::Attack() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseBossHand::GooSlap() {
-	attackWork_.offset = { 0.0f, 10.0f, 0.0f };
+	attackWork_.offset = { 0.0f, 12.0f, 0.0f };
 	Vector3 worldPos = transform_->GetTranslation();
 
 	// 攻撃を溜める時間
@@ -209,8 +224,7 @@ void BaseBossHand::GooSlap() {
 		Vector3 movePos = transform_->GetTranslation();
 		movePos += (attackVeclocity_ * moveSpeed) * GameTimer::DeltaTime();
 		transform_->SetTranslaion(movePos);
-
-
+		
 	} else if (isGroundSlap_) {
 		moveTime_ += GameTimer::DeltaTime();
 		if (moveTime_ < attackWork_.attackAfterTime) {
@@ -233,6 +247,13 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		isGroundSlap_ = true;
 		moveTime_ = 0.0f;
 		beforeAttackPos_ = transform_->GetTranslation();
+
+		if(attackType_ == AttackType::GooSlap_Attack){
+			if (animetor_ != nullptr) {
+				animetor_->SetTransitionAnimation("slam", "stand_by");
+				animationTransitionTime_ = 1.0f;
+			}
+		}
 	}
 }
 

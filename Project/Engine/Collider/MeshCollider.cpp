@@ -126,6 +126,8 @@ void MeshCollider::Update(const WorldTransform* worldTransform, const Vector3& o
 	
 	if (xRadius < yRadius) {
 		radius_ = yRadius;
+	} else {
+		radius_ = xRadius;
 	}
 
 	if (radius_ < zRadius) {
@@ -136,9 +138,8 @@ void MeshCollider::Update(const WorldTransform* worldTransform, const Vector3& o
 	// ↓ OBBの更新
 	// -------------------------------------------------
 	obb_.size = size_;
-	Vector3 local = (maxSize_ + minSize_) * 0.5f;
-	obb_.center = Transform(Vector3::ZERO() + (offset - offset), worldMat);
-	obb_.center += diff + local;
+	obb_.center = (maxSize_ + minSize_) * 0.5f;
+	obb_.center = obb_.center + Transform(offset, worldTransform->GetWorldMatrix());
 	obb_.MakeOBBAxis(worldTransform->GetQuaternion());
 }
 

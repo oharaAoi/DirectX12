@@ -13,6 +13,8 @@ enum class AttackType {
 	GooSlap_Attack,
 	ParSlap_Attack,
 	Missile_Attack,
+
+	TOTAL
 };
 
 class BaseBossHand : public BaseGameObject {
@@ -76,11 +78,16 @@ public:
 
 	void Attack();
 
+#ifdef _DEBUG
+	void Debug_Draw();
+#endif
+
 public:
 
 	using FunctionPointer = void(BaseBossHand::*)();
 	std::unordered_map<AttackType, FunctionPointer> functionMap_ = {
 		{AttackType::GooSlap_Attack, &BaseBossHand::GooSlap},
+		{AttackType::ParSlap_Attack, &BaseBossHand::GooSlap},
 	};
 
 private:
@@ -153,10 +160,12 @@ protected:
 	// ↓ Animationに関する変数
 	// -------------------------------------------------
 	float animationTime_;
-	float animationTransitionTime_;
+	float animationTransitionTime_ = 1.0f;
 
 	std::string nowAnimatonName_;// 今のanimationの名前
 	std::string waitAnimationName_;// 待機時のanimationの名前
+
+	bool isIncrement_ = false;
 
 	// -------------------------------------------------
 	// ↓ 他クラスの情報

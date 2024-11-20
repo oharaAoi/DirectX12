@@ -29,3 +29,9 @@ void BossAttackState::Update() {
 		pBoss_->SetBehaviorRequest(Behavior::ROOT);
 	}
 }
+
+#ifdef _DEBUG
+void BossAttackState::Debug_Gui() {
+	ImGui::Text(stateName_.c_str());
+}
+#endif // _DEBUG

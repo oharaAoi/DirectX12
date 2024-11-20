@@ -56,4 +56,7 @@ void Field::Debug_Gui() {
 		ImGui::TreePop();
 	}
 }
+void Field::Debug_Draw() {
+	meshCollider_->Draw();
+}
 #endif
