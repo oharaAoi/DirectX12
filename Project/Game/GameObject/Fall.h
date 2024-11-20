@@ -45,7 +45,7 @@ private:
 
 	Player* player_ = nullptr;
 	float energy_ = 0.0f;
-	float canFallEnergy = 100.0f;
+	float canFallEnergy = 50.0f;
 
 	bool isFalling = false;
 
