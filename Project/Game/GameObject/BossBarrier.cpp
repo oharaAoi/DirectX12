@@ -41,7 +41,8 @@ void BossBarrier::Init() {
 	
 	break_.isAct = false;
 	break_.time = 0.0f;
-	
+
+	hp_ = Durability_;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,6 +112,7 @@ void BossBarrier::Expand() {
 
 	if (expand_.time >= expand_.timeLimit) {
 		expand_.isAct = false;
+		hp_ = Durability_;
 	}
 }
 
@@ -138,6 +140,13 @@ void BossBarrier::Break() {
 // ↓　当たり判定処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void BossBarrier::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
+	if (other.GetTag() == "throwMissile") {
+		hp_--;
+		// hpが0になったら
+		if (hp_ == 0) {
+			break_.isAct = true;
+		}
+	}
 }
 
 void BossBarrier::OnCollisionStay([[maybe_unused]] MeshCollider& other) {

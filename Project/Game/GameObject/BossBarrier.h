@@ -61,6 +61,9 @@ public:
 
 	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
 
+	// バリアを貼る
+	void SetBarrier() { expand_.isAct = true; }
+
 private:
 
 	std::string groupName_ = "boss_barrier";
@@ -70,5 +73,9 @@ private:
 
 	BarrierAction expand_;
 	BarrierAction break_;
+
+	uint32_t hp_;
+	const uint32_t Durability_ = 3; // 耐久度
+
 };
 

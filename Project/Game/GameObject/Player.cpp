@@ -39,6 +39,8 @@ void Player::Init() {
 	// -------------------------------------------------
 	animeTime_ = 0.0f;
 	canBossAttack_ = false;
+
+	throwSpeed_ = 4.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,6 +169,8 @@ void Player::Debug_Gui() {
 
 		ShowEasingDebug(easingIndex_);
 
+		ImGui::DragFloat("throwSpeed", &throwSpeed_, 1.0f);
+
 		ImGui::End();
 		ImGui::TreePop();
 	}
@@ -175,6 +179,11 @@ void Player::Debug_Gui() {
 		ImGui::TreePop();
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Debug描画
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Player::Debug_Draw() {
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	meshCollider_->Draw();
@@ -194,6 +203,34 @@ void Player::SetFalsePullBack() {
 	isPullBackObj_ = false;
 	isStretching_ = false;
 	isReturnClutch_ = true;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　捕まえたオブジェクトを追従させる処理/投げる処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::CatchObjectFollow() {
+	// 捕まえたオブジェクトがない場合は早期リターン
+	if (wireTip_->GetCatchObject() == nullptr) {
+		return;
+	}
+
+	// プレイヤーの座標に合わせる
+	auto catchObj = wireTip_->GetCatchObject();
+	catchObj->GetTransform()->SetTranslaion(transform_->GetTranslation());
+
+	// 投げる処理
+	if (Input::IsTriggerMouse(0)) {
+		if (canBossAttack_) {
+			catchObj->ReadyToThrow(bossDire_.Normalize() * throwSpeed_);
+			wireTip_->SetIsCautchObject(false);
+			wireTip_->ReleseCathcObject();
+		} else {
+			catchObj->ReadyToThrow(GetThrowVelo() * throwSpeed_);
+			wireTip_->SetIsCautchObject(false);
+			wireTip_->ReleseCathcObject();
+		}
+	}
 }
 
 void Player::Move() {
@@ -381,34 +418,6 @@ void Player::Clutch() {
 				isSnagged_ = false;
 			}
 
-		}
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　捕まえたオブジェクトを追従させる処理/投げる処理
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Player::CatchObjectFollow() {
-	// 捕まえたオブジェクトがない場合は早期リターン
-	if (wireTip_->GetCatchObject() == nullptr) {
-		return;
-	}
-	
-	// プレイヤーの座標に合わせる
-	auto catchObj = wireTip_->GetCatchObject();
-	catchObj->GetTransform()->SetTranslaion(transform_->GetTranslation());
-
-	// 投げる処理
-	if (Input::IsTriggerMouse(0)) {
-		if (canBossAttack_) {
-			catchObj->ReadyToThrow(bossDire_);
-			wireTip_->SetIsCautchObject(false);
-			wireTip_->ReleseCathcObject();
-		} else {
-			catchObj->ReadyToThrow(GetThrowVelo());
-			wireTip_->SetIsCautchObject(false);
-			wireTip_->ReleseCathcObject();
 		}
 	}
 }

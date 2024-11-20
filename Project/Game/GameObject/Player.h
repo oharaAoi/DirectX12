@@ -145,7 +145,7 @@ private:
 
 	// 投げる
 	bool isThrow_ = false;
-
+	float throwSpeed_;
 
 	// 奥のオブジェクト
 	bool isPullBackObj_ = false;
