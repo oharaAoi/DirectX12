@@ -21,6 +21,7 @@ public:
 
 	ComPtr<IDxcBlob> VsShaderCompile(const std::string& shader);
 	ComPtr<IDxcBlob> PsShaderCompile(const std::string& shader);
+	ComPtr<IDxcBlob> GsCompile(const std::string& shader);
 	ComPtr<IDxcBlob> CsShaderCompile(const std::string& shader);
 
 private:

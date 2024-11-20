@@ -15,6 +15,7 @@ void Shader::Init() {
 	Load("Engine/HLSL/PBR.VS.hlsl", "Engine/HLSL/PBR.PS.hlsl", Shader::PBR);
 	Load("Engine/HLSL/Particle.VS.hlsl", "Engine/HLSL/Particle.PS.hlsl", Shader::Particle);
 	Load("Engine/HLSL/Sprite.VS.hlsl", "Engine/HLSL/Sprite.PS.hlsl", Shader::Sprite);
+	Load("Engine/HLSL/Object3dSimple.VS.hlsl", "Engine/HLSL/Object3d.PS.hlsl", Shader::LocalVertexOutput);
 
 	// CS
 	Load("Engine/HLSL/GrayScale.CS.hlsl", CsShaderName::GrayScale);
@@ -28,6 +29,9 @@ void Shader::Init() {
 	Load("Engine/HLSL/GpuParticleInit.CS.hlsl", CsShaderName::GpuParticleInit);
 	Load("Engine/HLSL/GpuParticleUpdate.CS.hlsl", CsShaderName::GpuParticleUpdate);
 	Load("Engine/HLSL/EmitParticle.CS.hlsl", CsShaderName::EmitGpuParticle);
+
+	// GS
+	Load("Engine/HLSL/TriangleSeparation.GS.hlsl", GeometoryShaderName::TriangleSeparation);
 }
 
 void Shader::Load(const std::string& vsPath, const std::string& psPath, const ShaderName& type) {
@@ -40,4 +44,8 @@ void Shader::Load(const std::string& vsPath, const std::string& psPath, const Sh
 
 void Shader::Load(const std::string& csPath, const CsShaderName& type) {
 	csShaderData_[type] = csPath;
+}
+
+void Shader::Load(const std::string& gsPath, const GeometoryShaderName& type) {
+	gsData_[type] = gsPath;
 }

@@ -362,3 +362,23 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateEmitGpuParticle() {
 		.AddCBV(1, D3D12_SHADER_VISIBILITY_ALL)// perFrame(emitter)
 		.Build(device_);
 }
+
+ComPtr<ID3D12RootSignature> RootSignature::CreateTriangleSeparation() {
+	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
+	spriteDescriptorRange[0].BaseShaderRegister = 0;
+	spriteDescriptorRange[0].NumDescriptors = 1;
+	spriteDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	spriteDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	return builder_
+		.AddCBV(0, D3D12_SHADER_VISIBILITY_PIXEL)  // Material用0
+		.AddCBV(0, D3D12_SHADER_VISIBILITY_GEOMETRY) // Transform用1
+		.AddCBV(1, D3D12_SHADER_VISIBILITY_GEOMETRY) // viewProjection用2
+		.AddDescriptorTable(spriteDescriptorRange, 1, D3D12_SHADER_VISIBILITY_PIXEL) // Texture用3
+		.AddCBV(1, D3D12_SHADER_VISIBILITY_PIXEL)  // directionalLight用4
+		.AddCBV(2, D3D12_SHADER_VISIBILITY_PIXEL)  // pointLight用5
+		.AddCBV(3, D3D12_SHADER_VISIBILITY_PIXEL)  // spotLight用,6
+		.AddCBV(2, D3D12_SHADER_VISIBILITY_GEOMETRY)	// time用7
+		.AddSampler(CreateSampler(D3D12_TEXTURE_ADDRESS_MODE_WRAP))
+		.Build(device_);
+}

@@ -33,6 +33,8 @@ public:
 	static void Begin();
 	static void SetRenderTarget(const RenderTargetType& type);
 
+	static void Draw(ID3D12GraphicsCommandList* commandList);
+
 public:
 
 	/// <summary>
@@ -117,6 +119,7 @@ public:
 	static float GetFarClip2D();
 
 	static void SetEyePos(const Vector3& eyePos);
+	static Vector3 GetEyePos();
 
 	static const ViewProjection* GetViewProjection();
 
@@ -139,4 +142,6 @@ namespace {
 	float farClip_;
 	float nearClip2D_;
 	float farClip2D_;
+
+	Vector3 cameraPos_;
 }

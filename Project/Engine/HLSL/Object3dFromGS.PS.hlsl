@@ -1,15 +1,13 @@
 #include "Object3d.hlsli"
 
-struct Material
-{
+struct Material {
 	float4 color;
 	int enableLighting;
 	float4x4 uvTransform;
 	float shininess; // 光沢度
 };
 
-struct DirectionalLight
-{
+struct DirectionalLight {
 	float4 color;
 	float3 direction;
 	float3 eyePos; // 視点の位置
@@ -17,8 +15,7 @@ struct DirectionalLight
 	float limPower;
 };
 
-struct PointLight
-{
+struct PointLight {
 	float4 color; // ライトの色
 	float3 position; // ライトの位置
 	float3 eyePos;
@@ -27,8 +24,7 @@ struct PointLight
 	float decay; // 減衰率
 };
 
-struct SpotLight
-{
+struct SpotLight {
 	float4 color; // ライトの色
 	float3 position; // ライトの位置
 	float3 eyePos; // 視点の位置
@@ -46,16 +42,14 @@ ConstantBuffer<PointLight> gPointLight : register(b2);
 ConstantBuffer<SpotLight> gSpotLight : register(b3);
 Texture2D<float4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
-struct PixelShaderOutput
-{
+struct PixelShaderOutput {
 	float4 color : SV_TARGET0;
 };
 
 //==========================================
 // Lambert
 //==========================================
-float3 Lambert(float NdotL, float3 textureColor)
-{
+float3 Lambert(float NdotL, float3 textureColor) {
 	float3 resultColor = textureColor * NdotL;
 	return resultColor;
 }
@@ -63,8 +57,7 @@ float3 Lambert(float NdotL, float3 textureColor)
 //==========================================
 // HalfLambert
 //==========================================
-float3 HalfLambert(float NdotL, float3 lightColor)
-{
+float3 HalfLambert(float NdotL, float3 lightColor) {
 	float cos = (pow(NdotL * 0.5f + 0.5f, 2.0f)) / 3.1415f;
 	float3 diffuse = lightColor * cos;
 	
@@ -74,8 +67,7 @@ float3 HalfLambert(float NdotL, float3 lightColor)
 //==========================================
 //　phong
 //==========================================
-float3 Phong(float RDotE, float3 lightColor)
-{
+float3 Phong(float RDotE, float3 lightColor) {
 	// 反射強度
 	float specularPow = pow(saturate(RDotE), gMaterial.shininess);
 	// 鏡面反射
@@ -87,8 +79,7 @@ float3 Phong(float RDotE, float3 lightColor)
 //==========================================
 //　BlinnPhong
 //==========================================
-float3 BlinnPhong(float NDotH, float3 lightColor)
-{
+float3 BlinnPhong(float NDotH, float3 lightColor) {
 	// 反射強度
 	float specularPow = pow(saturate(NDotH), gMaterial.shininess);
 	// 鏡面反射
@@ -105,7 +96,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	
-	if (gMaterial.enableLighting == 0){
+	if (gMaterial.enableLighting == 0) {
 		output.color = gMaterial.color * textureColor;
 		if (output.color.a <= 0.1f) {
 			discard;
@@ -127,16 +118,17 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float distance = length(gPointLight.position - input.worldPos.xyz);
 	float factor = pow(saturate(-distance / gPointLight.radius + 1.0f), gPointLight.decay);
 	
-	if (textureColor.a <= 0.5f){
+	if (textureColor.a <= 0.5f) {
 		discard;
 	}
 	
 	// --------------------- directional --------------------- //
 	// lambert
 	float3 directionalDiffuse;
-	if (gMaterial.enableLighting == 1){
+	if (gMaterial.enableLighting == 1) {
 		directionalDiffuse = Lambert(NdotL, gDirectionalLight.color.rgb) * gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.intensity;
-	}else{
+	}
+	else {
 		directionalDiffuse = HalfLambert(NdotL, gDirectionalLight.color.rgb) * gMaterial.color.rgb * textureColor.rgb * gDirectionalLight.intensity;
 	}
 	
@@ -145,9 +137,10 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	
 	// --------------------- point --------------------- //
 	float3 pointDiffuse;
-	if (gMaterial.enableLighting == 1){
+	if (gMaterial.enableLighting == 1) {
 		pointDiffuse = HalfLambert(NdotL, gPointLight.color.rgb * factor) * gMaterial.color.rgb * textureColor.rgb * gPointLight.intensity;
-	} else {
+	}
+	else {
 		pointDiffuse = Lambert(NdotL, gPointLight.color.rgb * factor) * gMaterial.color.rgb * textureColor.rgb * gPointLight.intensity;
 	}
 	// phong
@@ -190,7 +183,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	
 	output.color = clamp(output.color, 0.0f, 1.0f);
 	
-	if (output.color.a <= 0.1f){
+	if (output.color.a <= 0.1f) {
 		discard;
 	}
 	

@@ -20,6 +20,8 @@ enum class RootSignatureType {
 	GpuParticleInit,
 	GpuParticleUpdate,
 	EmitGpuParticle,
+
+	TriangleSeparation,
 };
 
 class RootSignature {
@@ -43,9 +45,13 @@ public:
 	ComPtr<ID3D12RootSignature> CreateBlendShaderRootSignature();
 	ComPtr<ID3D12RootSignature> CreateResultRenderRootSignature();
 
+	// CS
 	ComPtr<ID3D12RootSignature> CreateGpuParticleInit();
 	ComPtr<ID3D12RootSignature> CreateGpuParticleUpdate();
 	ComPtr<ID3D12RootSignature> CreateEmitGpuParticle();
+
+	// GS
+	ComPtr<ID3D12RootSignature> CreateTriangleSeparation();
 
 public:
 
@@ -67,6 +73,8 @@ public:
 		{RootSignatureType::GpuParticleInit, &RootSignature::CreateGpuParticleInit},
 		{RootSignatureType::GpuParticleUpdate, &RootSignature::CreateGpuParticleUpdate},
 		{RootSignatureType::EmitGpuParticle, &RootSignature::CreateEmitGpuParticle},
+		// GS
+		{RootSignatureType::TriangleSeparation, &RootSignature::CreateTriangleSeparation},
 	};
 
 	ComPtr<ID3D12RootSignature> Create(const RootSignatureType& type);

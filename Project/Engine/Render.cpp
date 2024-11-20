@@ -55,6 +55,10 @@ void Render::SetRenderTarget(const RenderTargetType& type) {
 	GetInstacne()->renderTarget_->SetRenderTarget(commandList_, type);
 }
 
+void Render::Draw(ID3D12GraphicsCommandList* commandList) {
+	viewProjection_->Draw(commandList);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　三角形の描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,7 +116,7 @@ void Render::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color
 }
 
 void Render::DrawLightGroup(const int& startIndex) {
-	lightGroup_->DrawLi(commandList_, startIndex);
+	lightGroup_->Draw(commandList_, startIndex);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,6 +165,10 @@ float Render::GetFarClip2D() {
 
 void Render::SetEyePos(const Vector3& eyePos) {
 	lightGroup_->SetEyePos(eyePos);
+}
+
+Vector3 Render::GetEyePos() {
+	return lightGroup_->GetEyePos();
 }
 
 const ViewProjection* Render::GetViewProjection() {

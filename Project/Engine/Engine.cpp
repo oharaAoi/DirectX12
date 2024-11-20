@@ -320,6 +320,9 @@ void Engine::SetPipeline(const PipelineType& kind) {
 	case PipelineType::SpriteAddBlendPipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::SpriteAddBlendPipeline, dxCommands_->GetCommandList());
 		break;
+	case PipelineType::TriangleSeparation:
+		graphicsPipelines_->SetGsPipeline(PipelineType::TriangleSeparation, dxCommands_->GetCommandList());
+		break;
 	}
 }
 
