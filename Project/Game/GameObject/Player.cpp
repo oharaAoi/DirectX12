@@ -14,7 +14,9 @@ void Player::Finalize() {
 
 void Player::Init() {
 	BaseGameObject::Init();
-	SetObject("Player.obj");
+	SetObject("Player.gltf");
+	SetAnimater("./Game/Resources/Model/Player/", "Player.gltf", true, true, true);
+
 	transform_->SetScale({ 1.0f, 1.0f, 1.0f });
 	transform_->SetTranslaion({ 0.0f, 0.0f, 0.0f });
 
@@ -35,7 +37,7 @@ void Player::Init() {
 	// -------------------------------------------------
 	// ↓ 変数の初期化
 	// -------------------------------------------------
-
+	animeTime_ = 0.0f;
 	canBossAttack_ = false;
 }
 
@@ -52,6 +54,14 @@ void Player::Update() {
 
 	if (canBossAttack_) {
 		transform_->SetQuaternion(Quaternion());
+	}
+	
+	
+
+	if (animetor_) {
+		animeTime_ += GameTimer::DeltaTime();
+		animeTime_ = fmod(animeTime_, animetor_->GetAnimationDuration());
+		animetor_->UpdateScript(animeTime_);
 	}
 
 	BaseGameObject::Update();
@@ -202,7 +212,7 @@ void Player::Move() {
 	}
 
 	if (!isPullBackObj_) {
-		DefaultMove();
+		DefaultMove(pos);
 	}
 
 
@@ -234,8 +244,7 @@ void Player::Move() {
 	transform_->SetTranslaion(pos);
 }
 
-void Player::DefaultMove() {
-	Vector3 pos = transform_->GetTranslation();
+void Player::DefaultMove(Vector3& pos) {
 
 	velocity_.x = 0.0f;
 	if (!isSnagged_) {

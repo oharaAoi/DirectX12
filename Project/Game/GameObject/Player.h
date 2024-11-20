@@ -74,7 +74,7 @@ private:
 	/// プライベート関数
 	/// ==========================================
 	void Move();
-	void DefaultMove();
+	void DefaultMove(Vector3& pos);
 
 	void Clutch();
 
@@ -97,6 +97,8 @@ private:
 	/// 変数
 	/// ==========================================
 
+	//anime
+	float animeTime_ = 0.0f;
 
 	// プレイヤーの状態
 	int playerState = int(PlayerState::Default);
