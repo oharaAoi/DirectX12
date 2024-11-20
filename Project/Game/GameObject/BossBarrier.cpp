@@ -14,6 +14,11 @@ void BossBarrier::Init() {
 	BaseGameObject::Init();
 	SetObject("barrier.obj");
 	SetColor(Vector4(1.0f, 1.0f, 1.0f, 0.5f));
+
+	SetMeshCollider("boss_barrier");
+	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other); });
+	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
+	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,5 +56,10 @@ void BossBarrier::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 
 #ifdef _DEBUG
 void BossBarrier::Debug_Gui() {
+
+}
+void BossBarrier::Debug_Draw() {
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	meshCollider_->Draw();
 }
 #endif

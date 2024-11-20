@@ -12,7 +12,7 @@ void Missile::Finalize() {
 
 void Missile::Init() {
 	BaseGameObject::Init();
-	SetObject("teapot.obj");
+	SetObject("missile.obj");
 
 	SetMeshCollider("missile");
 	meshCollider_->SetOwner(this);
@@ -25,6 +25,7 @@ void Missile::Init() {
 	isThrowed_ = false;
 
 	moveT_ = 0.0f;
+	nextMoveT_ = 0.0f;
 	speed_ = 5.0f;
 }
 
@@ -44,13 +45,26 @@ void Missile::Update() {
 	// ワイヤーに捕まって入なかったら
 	if (!isWireCaught_) {
 		moveT_ += ((1.0f / static_cast<float>(kDivision_)) * speed_) * (GameTimer::DeltaTime());
-		if (moveT_ >= 1.0f) {
+		nextMoveT_ = moveT_ + (((1.0f / static_cast<float>(kDivision_)) * speed_) * (GameTimer::DeltaTime()));
+		if (nextMoveT_ >= 1.0f) {
 			isAlive_ = false;
 			return;
 		}
 
 		Vector3 pos = CatmullRomPosition(movePoint_, moveT_);
 		transform_->SetTranslaion(pos);
+
+		// 方向を合わせる
+		Vector3 nextPos = CatmullRomPosition(movePoint_, nextMoveT_);
+		Vector3 diff = (nextPos - pos).Normalize();
+		Vector3 rotate1 = Vector3::ZERO();
+		rotate1.y = -std::atan2f(diff.x, diff.z);
+		float xzLenght = Length({ diff.x, 0, diff.z });
+		rotate1.x = std::atan2f(-diff.y, xzLenght);
+
+		//Quaternion rotate = Quaternion::EulerToQuaternion(rotate1).Normalize();
+		Quaternion rotate = Quaternion::LookAt(pos, nextPos);
+		transform_->SetQuaternion(rotate);
 	}
 
 	BaseGameObject::Update();

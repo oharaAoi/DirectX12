@@ -89,7 +89,7 @@ void GameScene::Init() {
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
 
-	isDebugCamera_ = true;
+	isDebugCamera_ = false;
 	followCamera_->SetTarget(player_->GetTransform());
 
 	boss_->SetEditer(bossLeftAttackEditer_.get(), bossRightAttackEditer_.get());
@@ -115,7 +115,9 @@ void GameScene::Update() {
 	// playerの処理
 	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
 	player_->SetCameraZDis(followCamera_->GetTranslate().z);
-	player_->Update();
+	if (!isDebugCamera_) {
+		player_->Update();
+	}
 
 	// missileの処理
 	missileList_.remove_if([](auto& enemy) {return !enemy->GetIsAlive(); });
@@ -241,6 +243,8 @@ void GameScene::Draw() const {
 	testCollisionObj3_->Draw();
 
 	fall_->Draw();
+
+	boss_->PostDraw();
 
 	// -------------------------------------------------
 	// ↓ UIの描画

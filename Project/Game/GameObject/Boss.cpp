@@ -109,6 +109,9 @@ void Boss::Draw() const {
 	boss_core_->Draw();
 	boss_leftHand_->Draw();
 	boss_rightHand_->Draw();
+}
+
+void Boss::PostDraw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	boss_barrier_->Draw();
 }
@@ -236,6 +239,7 @@ void Boss::Debug_Gui() {
 
 void Boss::Debug_Draw() {
 	boss_core_->Debug_Draw();
+	boss_barrier_->Debug_Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

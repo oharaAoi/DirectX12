@@ -30,7 +30,7 @@ void GameResources::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Right_Hand/", "Right_Hand.gltf");
 	ModelManager::LoadModel("./Game/Resources/Model/Player/", "Player.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Barrier/", "barrier.obj");
-
+	ModelManager::LoadModel("./Game/Resources/Model/Missile/", "missile.obj");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "rail_plane.png");

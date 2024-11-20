@@ -21,8 +21,12 @@ private:
 	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
 	void OnCollisionExit([[maybe_unused]] MeshCollider& other);
 
+public:
+
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	void Debug_Draw();
 #endif
 
 	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }

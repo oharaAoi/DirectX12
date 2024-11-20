@@ -45,6 +45,7 @@ private:
 	bool isAlive_;
 
 	float moveT_;
+	float nextMoveT_;
 	float speed_;
 
 	// -------------------------------------------------

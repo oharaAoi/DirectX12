@@ -78,7 +78,7 @@ Quaternion Quaternion::EulerToQuaternion(const Vector3& euler) {
 	q.z = cosYaw * cosPitch * sinRoll - sinYaw * sinPitch * cosRoll;
 	q.w = cosYaw * cosPitch * cosRoll + sinYaw * sinPitch * sinRoll;
 
-	return q.Normalize();  // 正規化して返す
+	return q;
 }
 
 Quaternion Quaternion::FromToRotation(const Vector3& fromDire, const Vector3& toDire) {
@@ -117,9 +117,31 @@ Quaternion Quaternion::LookRotation(const Vector3& forward, const Vector3& upVec
 	return modifyRotation * lookRotation;
 }
 
-Quaternion Quaternion::LookAt(const Vector3& from, const Vector3& to, const Vector3& up) {
-	Vector3 forward = (to - from).Normalize();
-	return LookRotation(forward, up);
+Quaternion Quaternion::LookAt(const Vector3& from, const Vector3& to) {
+	// ターゲットまでの方向ベクトルを計算
+	Vector3 direction = (to - from).Normalize();
+
+	// 上方向または下方向を向いている特殊ケースを処理
+	if (std::abs(direction.y) > 0.9999f) {
+		// 真上または真下を向いている場合
+		return Quaternion::AngleAxis(direction.y > 0.0f ? -PI / 2 : PI / 2, Vector3(1.0f, 0.0f, 0.0f));
+	}
+
+	// XZ平面でのヨー回転
+	Vector3 forwardXZ(direction.x, 0.0f, direction.z);
+	forwardXZ = forwardXZ.Normalize();
+	float yawAngle = std::atan2(forwardXZ.x, forwardXZ.z);
+
+	// YZ平面でのピッチ回転
+	float pitchAngle = std::asin(-direction.y);
+
+	// ヨー回転（XZ平面）
+	Quaternion yawQuat = Quaternion::AngleAxis(yawAngle, Vector3(0.0f, 1.0f, 0.0f)); // Y軸周りの回転
+	// ピッチ回転（YZ平面）
+	Quaternion pitchQuat = Quaternion::AngleAxis(pitchAngle, Vector3(1.0f, 0.0f, 0.0f)); // X軸周りの回転
+
+	// ヨーとピッチの回転を組み合わせたクォータニオン
+	return yawQuat * pitchQuat;
 }
 
 float Quaternion::Dot(const Quaternion& q1, const Quaternion& q2) {

@@ -33,6 +33,7 @@ public:
 	void Init();
 	void Update();
 	void Draw() const;
+	void PostDraw() const;
 
 	void CheckBehaviorRequest();
 
