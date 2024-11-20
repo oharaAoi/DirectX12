@@ -15,7 +15,7 @@ void ClutchWire::Finalize() {
 
 void ClutchWire::Init() {
 	BaseGameObject::Init();
-	SetObject("cube.obj");
+	SetObject("wire.obj");
 	transform_->SetScale({ 0.2f, 0.0f, 0.2f });
 	transform_->SetTranslaion({ 0.0f, 0.0f, 0.0f });
 }
