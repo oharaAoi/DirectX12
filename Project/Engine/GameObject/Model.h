@@ -93,6 +93,8 @@ public:
 	Mesh* GetMesh(const uint32_t& index);
 	size_t GetMeshsNum() const { return meshArray_.size(); }
 
+	std::vector<std::shared_ptr<Mesh>>& GetMeshs() { return meshArray_; }
+
 	const ModelMaterialData GetMaterialData(const std::string& name)const {return materialData_.at(name);}
 	const size_t GetMaterialsSize() const { return materialData_.size(); }
 

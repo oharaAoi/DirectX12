@@ -203,6 +203,9 @@ void Boss::Debug_Gui() {
 		boss_core_->Debug_Gui();
 		boss_leftHand_->Debug_Gui();
 		boss_rightHand_->Debug_Gui();
+		if (boss_barrier_ != nullptr) {
+			boss_barrier_->Debug_Gui();
+		}
 
 		ImGui::Begin("Boss");
 		std::string stateName = "nowState : " + state_->GetStateName();

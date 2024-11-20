@@ -519,6 +519,9 @@
     <ClCompile Include="Game\GameObject\CanThrowObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\GeometryPipeline.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -947,6 +950,9 @@
     <ClInclude Include="Game\GameObject\CanThrowObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\GeometryPipeline.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
@@ -1009,6 +1015,9 @@
     <FxCompile Include="Engine\HLSL\GpuParticleInit.CS.hlsl" />
     <FxCompile Include="Engine\HLSL\EmitParticle.CS.hlsl" />
     <FxCompile Include="Engine\HLSL\GpuParticleUpdate.CS.hlsl" />
+    <FxCompile Include="Engine\HLSL\TriangleSeparation.GS.hlsl" />
+    <FxCompile Include="Engine\HLSL\Object3dFromGS.PS.hlsl" />
+    <FxCompile Include="Engine\HLSL\Object3dSimple.VS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">

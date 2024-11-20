@@ -1,0 +1,8 @@
+{
+    "boss_barrier": {
+        "break_.easingType": 13,
+        "break_.timeLimit": 2.0,
+        "expand_.easingType": 25,
+        "expand_.timeLimit": 2.0
+    }
+}

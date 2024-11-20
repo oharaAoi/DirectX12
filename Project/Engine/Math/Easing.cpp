@@ -295,5 +295,8 @@ void ShowEasingDebug(int& easeKind) {
 
 	result += easeType;
 	easeKind = result;
+
+	ImGui::SameLine();
+	ImGui::Text("number : %d", result);
 }
 #endif

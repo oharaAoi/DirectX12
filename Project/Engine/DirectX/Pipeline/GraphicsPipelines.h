@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include "Pipeline.h"
+#include "Engine/DirectX/Pipeline/GeometryPipeline.h"
 
 enum class PipelineType{
 	NormalPipeline,
@@ -13,6 +14,8 @@ enum class PipelineType{
 	SpriteNormalBlendPipeline,
 	SpriteAddBlendPipeline,
 	PrimitivePipeline,
+
+	TriangleSeparation,
 };
 
 class GraphicsPipelines {
@@ -38,9 +41,12 @@ public:
 	/// <param name="commandList"></param>
 	void SetPipeline(const PipelineType& type, ID3D12GraphicsCommandList* commandList);
 
+	void SetGsPipeline(const PipelineType& type, ID3D12GraphicsCommandList* commandList);
+
 private:
 
 	std::unordered_map<PipelineType, std::unique_ptr<Pipeline>> pipelineMap_;
+	std::unordered_map<PipelineType, std::unique_ptr<GeometryPipeline>> gsPipelineMap_;
 
 	// inputLayout
 	InputLayout inputLayout_;

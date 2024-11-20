@@ -16,6 +16,8 @@ public:
 		PBR,
 		Particle,
 		Sprite,
+
+		LocalVertexOutput
 	};
 
 	enum CsShaderName {
@@ -30,6 +32,10 @@ public:
 		GpuParticleInit,
 		GpuParticleUpdate,
 		EmitGpuParticle,
+	};
+
+	enum GeometoryShaderName {
+		TriangleSeparation,
 	};
 
 	// 構造体
@@ -52,6 +58,8 @@ public:
 
 	void Load(const std::string& csPath, const CsShaderName& type);
 
+	void Load(const std::string& gsPath, const GeometoryShaderName& type);
+
 	const ShaderData GetShaderData(const ShaderName& name){
 		return shaderData_[name];
 	}
@@ -60,12 +68,18 @@ public:
 		return csShaderData_[name];
 	}
 
+	const std::string GetGSData(const GeometoryShaderName& name) {
+		return gsData_[name];
+	}
+
 private:
 
 	// 名前を保存
 	std::map<ShaderName, ShaderData> shaderData_;
 
 	std::map<CsShaderName, std::string> csShaderData_;
+
+	std::map<GeometoryShaderName, std::string> gsData_;
 
 };
 
