@@ -74,6 +74,8 @@ private:
 	/// プライベート関数
 	/// ==========================================
 	void Move();
+	void DefaultMove();
+
 	void Clutch();
 
 	/// <summary>

@@ -201,63 +201,8 @@ void Player::Move() {
 		pos.y = groundLine_;
 	}
 
-	velocity_.x = 0.0f;
-	if (!isSnagged_) {
-		if (!isStretching_) {
-			float weight = 1.0f;
-			if (isPull_ && wireTip_->GetPull()) {
-				weight = wireTip_->GetWeight();
-			}
-
-			if (Input::IsPressKey(DIK_A)) {
-				velocity_.x -= moveSpeed_;
-				targetRotate = leftRotate;
-				
-			}
-			if (Input::IsPressKey(DIK_D)) {
-				velocity_.x += moveSpeed_;
-				targetRotate = rightRotate;
-
-			}
-
-
-			if (velocity_.x < 0) {
-
-				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
-				if (sab.x > 0) {
-					velocity_ *= weight;
-				}
-			} else if (velocity_.x > 0) {
-
-				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
-				if (sab.x < 0) {
-					velocity_ *= weight;
-				}
-			}
-
-		}
-
-		if (isKnockBack_) {
-			KnockBack();
-		}
-
-		playerState = int(PlayerState::Default);
-
-	} else if (wireTip_->GetSnagged() && isStretchClutch_) {
-		playerState = int(PlayerState::Attack);
-
-		velocity_.y = 0.0f;
-		clutchLerpTime_ += GameTimer::DeltaTime();
-		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, CallEasingFunc(easingIndex_, powf(clutchLerpTime_, 2.0f)));
-
-		float errorLength = (clutchEnd_ - Vector2{ pos.x,pos.y }).Length();
-		if (errorLength < 0.1f) {
-			isStretchClutch_ = false;
-			isSnagged_ = false;
-			clutchLerpTime_ = 0.0f;
-			playerState = int(PlayerState::Default);
-			wireTip_->SetSnagged(false);
-		}
+	if (!isPullBackObj_) {
+		DefaultMove();
 	}
 
 
@@ -287,6 +232,71 @@ void Player::Move() {
 		}
 	}
 	transform_->SetTranslaion(pos);
+}
+
+void Player::DefaultMove() {
+	Vector3 pos = transform_->GetTranslation();
+
+	velocity_.x = 0.0f;
+	if (!isSnagged_) {
+		if (!isStretching_) {
+			float weight = 1.0f;
+			if (isPull_ && wireTip_->GetPull()) {
+				weight = wireTip_->GetWeight();
+			}
+
+			if (Input::IsPressKey(DIK_A)) {
+				velocity_.x -= moveSpeed_;
+				targetRotate = leftRotate;
+
+			}
+			if (Input::IsPressKey(DIK_D)) {
+				velocity_.x += moveSpeed_;
+				targetRotate = rightRotate;
+
+			}
+
+
+			if (velocity_.x < 0) {
+
+				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
+				if (sab.x > 0) {
+					velocity_ *= weight;
+				}
+			}
+			else if (velocity_.x > 0) {
+
+				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
+				if (sab.x < 0) {
+					velocity_ *= weight;
+				}
+			}
+
+		}
+
+		if (isKnockBack_) {
+			KnockBack();
+		}
+
+		playerState = int(PlayerState::Default);
+
+	}
+	else if (wireTip_->GetSnagged() && isStretchClutch_) {
+		playerState = int(PlayerState::Attack);
+
+		velocity_.y = 0.0f;
+		clutchLerpTime_ += GameTimer::DeltaTime();
+		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, CallEasingFunc(easingIndex_, powf(clutchLerpTime_, 2.0f)));
+
+		float errorLength = (clutchEnd_ - Vector2{ pos.x,pos.y }).Length();
+		if (errorLength < 0.1f) {
+			isStretchClutch_ = false;
+			isSnagged_ = false;
+			clutchLerpTime_ = 0.0f;
+			playerState = int(PlayerState::Default);
+			wireTip_->SetSnagged(false);
+		}
+	}
 }
 
 void Player::Clutch() {
