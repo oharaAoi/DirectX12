@@ -41,6 +41,11 @@ public:
 	/// <param name="rectRange">: 描画する範囲</param>
 	/// <param name="leftTop">: 左上座標</param>
 	void Update();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="isBackGround">: バックグラウンド描画を行うか</param>
 	void Draw(bool isBackGround = false);
 
 	/// <summary>
@@ -59,28 +64,28 @@ public:
 	/// Textureをセットする
 	/// </summary>
 	/// <param name="fileName">: セットするTexture名</param>
-	void SetTexture(const std::string& fileName);
+	void ReSetTexture(const std::string& fileName);
 
 	/// <summary>
 	/// Textureの中心位置を変える(Screen座標系)
 	/// </summary>
 	/// <param name="centerPos">: position</param>
-	void SetTextureCenterPos(const Vector2& centerPos);
+	void SetTranslate(const Vector2& centerPos);
 
 	/// <summary>
 	/// Textureのサイズを再設計する
 	/// </summary>
 	/// <param name="size"></param>
-	void SetTextureSize(const Vector2& size);
+	void ReSetTextureSize(const Vector2& size);
 
 	// 描画する範囲の設定
-	void SetRectRange(const Vector2& rectRange) { rectRange_ = rectRange; };
+	void SetDrawRange(const Vector2& rectRange) { drawRange_ = rectRange; };
 	// 描画する範囲の設定
 	void SetLeftTop(const Vector2& leftTop) { leftTop_ = leftTop; }
 	// Pivotの位置を変更する
 	void SetAnchorPoint(const Vector2& point) { anchorPoint_ = point; }
 
-	void SetCenterPos(const Vector2 pos) { transform_.translate.x = pos.x, transform_.translate.y = pos.y; }
+	void SetTranslate(const Vector2 pos) { transform_.translate.x = pos.x, transform_.translate.y = pos.y; }
 	void SetScale(const Vector2 scale) { transform_.scale.x = scale.x, transform_.scale.y = scale.y, transform_.scale.z = 1.0f; }
 	void SetRotate(float rotate) { transform_.rotate.z = rotate; }
 
@@ -94,7 +99,7 @@ public:
 	/// <param name="range"></param>
 	void SetUvDrawRange(const Vector2& range) { materialData_->uvDrawRange = range; }
 
-	const Vector2 GetCenterPos() const { return Vector2{ transform_.translate.x, transform_.translate.y}; }
+	const Vector2 GetTranslate() const { return Vector2{ transform_.translate.x, transform_.translate.y}; }
 	const Vector2 GetScale() const { return Vector2(transform_.scale.x, transform_.scale.y); }
 	const float GetRotate() const { return transform_.rotate.z; }
 	const Vector2 GetTextureSize() const { return textureSize_; }
@@ -127,7 +132,7 @@ private:
 	std::string textureName_;
 
 	// 描画する範囲
-	Vector2 rectRange_ = { 0.0f, 0.0f };
+	Vector2 drawRange_ = { 0.0f, 0.0f };
 	// 左上座標
 	Vector2 leftTop_ = { 0.0f, 0.0f };
 	Vector2 centerPos_; 
