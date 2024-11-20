@@ -54,6 +54,10 @@ public:
 	const bool GetPull() const { return isPull_; }
 	void SetPull(bool is) { isPull_ = is; }
 
+	void SetNearBack(bool is) { isNearBack_ = is; }
+	bool GetPullBack()const { return isPullBackObj_; }
+	void SetFalsePullBack();
+
 	Collider* GetWireTipCollider() { return wireTip_.get(); }
 
 	const Vector3 GetForward() const { return TransformNormal(Vector3(0,0,1), transform_->GetWorldMatrix()); }
@@ -72,6 +76,8 @@ private:
 	void BaseClutch();
 	void FirstClutch();
 	void Stretching();
+	void BackPullStretch();
+	void ClutchEndCalculation();
 
 	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
 	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
@@ -127,6 +133,11 @@ private:
 
 	// 投げる
 	bool isThrow_ = false;
+
+
+	// 奥のオブジェクト
+	bool isPullBackObj_ = false;
+	bool isNearBack_ = false;
 
 	/// ==========================================
 	/// 他クラスの情報
