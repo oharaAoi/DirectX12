@@ -160,6 +160,13 @@ bool MeshCollider::CheckCollisionList(MeshCollider* other) {
 	}
 }
 
+void MeshCollider::AddColliderList(MeshCollider* other) {
+	// リストに存在しない場合のみ追加
+	if (std::find(collisionList_.begin(), collisionList_.end(), other) == collisionList_.end()) {
+		collisionList_.push_back(other);
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　状態の変更
 //////////////////////////////////////////////////////////////////////////////////////////////////

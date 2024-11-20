@@ -21,6 +21,10 @@ public:
 
 	void Pop(const Vector3& targePos, const Vector3& firePos);
 
+#ifdef _DEBUG
+	void Debug_Draw();
+#endif
+
 private:
 
 	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);

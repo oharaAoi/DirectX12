@@ -31,6 +31,11 @@ public:
 	/// </summary>
 	void KnockBack();
 
+	/// <summary>
+	/// Bossとの距離を判定する
+	/// </summary>
+	void CheckBossToLength(const Vector3& bossPos);
+
 	void SetInverMatrix(const Matrix4x4& inver);
 	void SetCameraZDis(float z);
 
@@ -130,6 +135,15 @@ private:
 
 	// 投げる
 	bool isThrow_ = false;
+
+	/// ==========================================
+	/// 攻撃に扱う情報
+	/// ==========================================
+	float bossAttackRange_ = 4.0f;
+
+	bool canBossAttack_ = false;
+
+	Vector3 bossDire_;
 
 	/// ==========================================
 	/// 他クラスの情報

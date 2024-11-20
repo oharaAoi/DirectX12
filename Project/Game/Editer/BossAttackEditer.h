@@ -105,6 +105,8 @@ private:
 	std::unordered_map<std::string, std::vector<HandMoveData>> attackMoveMap_;
 	std::vector<std::string> attackFileNames_;
 
+	uint32_t selectIndex_ = 0;
+
 	// 新しく生成する座標
 	Vector3 newPoint_;
 
@@ -119,13 +121,13 @@ private:
 	uint32_t selectAfterAnimationIndex_;
 	std::vector<AnimationTransitionData> animationTransitionData_;
 
+	std::vector<std::string> canUseAnimations_;
+
 #ifdef _DEBUG
-	uint32_t selectIndex_ = 0;
 	std::string selectFileName_;
 
 	std::string saveLerpAnimationFileName_;
 
-	std::vector<std::string> canUseAnimations_;
 #endif 
 };
 

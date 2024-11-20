@@ -31,6 +31,12 @@ void Player::Init() {
 	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other); });
 	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
 	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
+
+	// -------------------------------------------------
+	// ↓ 変数の初期化
+	// -------------------------------------------------
+
+	canBossAttack_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,6 +49,10 @@ void Player::Update() {
 	Clutch();
 
 	CatchObjectFollow();
+
+	if (canBossAttack_) {
+		transform_->SetQuaternion(Quaternion());
+	}
 
 	BaseGameObject::Update();
 
@@ -94,6 +104,26 @@ void Player::KnockBack() {
 		isKnockBack_ = false;
 	}
 
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Bossとの距離を判定する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::CheckBossToLength(const Vector3& bossPos) {
+	bossDire_ = bossPos - transform_->GetTranslation();
+	bossDire_.y = 2.0f;
+	bossDire_ = bossDire_.Normalize();
+
+	float lengthX = std::abs(transform_->GetTranslation().x - bossPos.x);
+	if (lengthX < bossAttackRange_) {
+		canBossAttack_ = true;
+	} else {
+		canBossAttack_ = false;
+	}
+
+	/*Quaternion rotate = Quaternion::AngleAxis(0.44f, Vector3{1.0f, 1.0f, 1.0f});
+	Matrix4x4 mat = rotate.MakeMatrix();*/
 }
 
 void Player::SetInverMatrix(const Matrix4x4& inver) {
@@ -338,8 +368,15 @@ void Player::CatchObjectFollow() {
 
 	// 投げる処理
 	if (Input::IsTriggerMouse(0)) {
-		catchObj->ReadyToThrow(GetThrowVelo());
-		wireTip_->ReleseCathcObject();
+		if (canBossAttack_) {
+			catchObj->ReadyToThrow(bossDire_);
+			wireTip_->SetIsCautchObject(false);
+			wireTip_->ReleseCathcObject();
+		} else {
+			catchObj->ReadyToThrow(GetThrowVelo());
+			wireTip_->SetIsCautchObject(false);
+			wireTip_->ReleseCathcObject();
+		}
 	}
 }
 

@@ -217,18 +217,11 @@ void CollisionManager::CheckCollisionPair(MeshCollider* colliderA, MeshCollider*
 
 			colliderA->SetIsHitting(true);
 			colliderB->SetIsHitting(true);
+		} else {
+			ReleaseCollider(colliderA, colliderB);
 		}
 	} else {
-
-		if (colliderA->CheckCollisionList(colliderB)) {
-			colliderA->OnCollision(*colliderB, CollisionFlags::EXIT);
-			colliderA->DeleteColliderList(colliderB);
-		} 
-
-		if (colliderB->CheckCollisionList(colliderA)) {
-			colliderB->OnCollision(*colliderA, CollisionFlags::EXIT);
-			colliderB->DeleteColliderList(colliderA);
-		}
+		ReleaseCollider(colliderA, colliderB);
 	}
 }
 
@@ -301,5 +294,17 @@ bool CollisionManager::CheckCollisonObb(MeshCollider* colliderA, MeshCollider* c
 	}
 
 	return true;
+}
+
+void CollisionManager::ReleaseCollider(MeshCollider* colliderA, MeshCollider* colliderB) {
+	if (colliderA->CheckCollisionList(colliderB)) {
+		colliderA->OnCollision(*colliderB, CollisionFlags::EXIT);
+		colliderA->DeleteColliderList(colliderB);
+	}
+
+	if (colliderB->CheckCollisionList(colliderA)) {
+		colliderB->OnCollision(*colliderA, CollisionFlags::EXIT);
+		colliderB->DeleteColliderList(colliderA);
+	}
 }
 

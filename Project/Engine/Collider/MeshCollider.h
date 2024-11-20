@@ -31,7 +31,7 @@ public:
 
 	bool CheckCollisionList(MeshCollider* other);
 
-	void AddColliderList(MeshCollider* other) { collisionList_.push_back(other); }
+	void AddColliderList(MeshCollider* other);
 	void DeleteColliderList(MeshCollider* other) { collisionList_.remove(other); }
 
 	/// <summary>

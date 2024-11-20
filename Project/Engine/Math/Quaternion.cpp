@@ -144,6 +144,43 @@ Quaternion Quaternion::LookAt(const Vector3& from, const Vector3& to) {
 	return yawQuat * pitchQuat;
 }
 
+Quaternion Quaternion::FromDirection(const Vector3& direction, const Vector3& up) {
+	Vector3 forward = direction.Normalize();
+	Vector3 right = Vector3::Cross(up, forward).Normalize();
+	Vector3 correctedUp = Vector3::Cross(forward, right).Normalize();;
+
+	float trace = right.x + correctedUp.y + forward.z;
+	Quaternion q;
+
+	if (trace > 0.0f) {
+		float s = std::sqrt(trace + 1.0f) * 2.0f;
+		q.w = 0.25f * s;
+		q.x = (correctedUp.z - forward.y) / s;
+		q.y = (forward.x - right.z) / s;
+		q.z = (right.y - correctedUp.x) / s;
+	} else if ((right.x > correctedUp.y) && (right.x > forward.z)) {
+		float s = std::sqrt(1.0f + right.x - correctedUp.y - forward.z) * 2.0f;
+		q.w = (correctedUp.z - forward.y) / s;
+		q.x = 0.25f * s;
+		q.y = (correctedUp.x + right.y) / s;
+		q.z = (forward.x + right.z) / s;
+	} else if (correctedUp.y > forward.z) {
+		float s = std::sqrt(1.0f + correctedUp.y - right.x - forward.z) * 2.0f;
+		q.w = (forward.x - right.z) / s;
+		q.x = (correctedUp.x + right.y) / s;
+		q.y = 0.25f * s;
+		q.z = (forward.y + correctedUp.z) / s;
+	} else {
+		float s = std::sqrt(1.0f + forward.z - right.x - correctedUp.y) * 2.0f;
+		q.w = (right.y - correctedUp.x) / s;
+		q.x = (forward.x + right.z) / s;
+		q.y = (forward.y + correctedUp.z) / s;
+		q.z = 0.25f * s;
+	}
+
+	return q;
+}
+
 float Quaternion::Dot(const Quaternion& q1, const Quaternion& q2) {
 	return (q1.x * q2.x) + (q1.y * q2.y) + (q1.z * q2.z) + (q1.w * q2.w);
 }

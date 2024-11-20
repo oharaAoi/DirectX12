@@ -41,6 +41,11 @@ public:
 	/// <returns></returns>
 	static Quaternion AngleAxis(float angle, const Vector3& axis);
 
+	/// <summary>
+	/// オイラー角をクォータニオンに変換
+	/// </summary>
+	/// <param name="euler"></param>
+	/// <returns></returns>
 	static Quaternion EulerToQuaternion(const Vector3& euler);
 
 	/// <summary>
@@ -52,7 +57,7 @@ public:
 	static Quaternion FromToRotation(const Vector3& fromDire, const Vector3& toDire);
 
 	/// <summary>
-	/// 
+	/// 逆クォータニオンを生成
 	/// </summary>
 	/// <param name="rotation"></param>
 	/// <returns></returns>
@@ -66,7 +71,21 @@ public:
 	/// <returns></returns>
 	static Quaternion LookRotation(const Vector3& forward, const Vector3& upVector);
 
+	/// <summary>
+	/// fromから見たtoへの回転を生成する
+	/// </summary>
+	/// <param name="from"></param>
+	/// <param name="to"></param>
+	/// <returns></returns>
 	static Quaternion LookAt(const Vector3& from, const Vector3& to);
+
+	/// <summary>
+	/// 進行方向を向くクォータニオンを生成
+	/// </summary>
+	/// <param name="direction">: 方向</param>
+	/// <param name="up">: UP方向のベクトル</param>
+	/// <returns></returns>
+	static Quaternion FromDirection(const Vector3& direction, const Vector3& up = Vector3::UP());
 	
 	/// <summary>
 	/// 二つの回転の内積を返す

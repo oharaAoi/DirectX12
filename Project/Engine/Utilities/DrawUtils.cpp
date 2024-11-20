@@ -19,7 +19,7 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 			Render::DrawLine(stPos, endPos, { 0.0f, 0.0f, 1.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
 		} else {
 			// 他のグリッド線
-			Render::DrawLine(stPos, endPos, { 0.8f, 0.8f, 0.8f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+			Render::DrawLine(stPos, endPos, { 0.3f, 0.3f, 0.3f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
 		}
 	}
 
@@ -36,7 +36,7 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 			Render::DrawLine(stPos, endPos, { 1.0f, 0.0f, 0.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
 		} else {
 			// 他のグリッド線
-			Render::DrawLine(stPos, endPos, { 0.8f, 0.8f, 0.8f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+			Render::DrawLine(stPos, endPos, { 0.3f, 0.3f, 0.3f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
 		}
 	}
 }

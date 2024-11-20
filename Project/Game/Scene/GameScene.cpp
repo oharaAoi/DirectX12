@@ -115,6 +115,8 @@ void GameScene::Update() {
 	// playerの処理
 	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
 	player_->SetCameraZDis(followCamera_->GetTranslate().z);
+
+	player_->CheckBossToLength(boss_->GetBossBodyPos());
 	if (!isDebugCamera_) {
 		player_->Update();
 	}
@@ -154,6 +156,11 @@ void GameScene::Update() {
 	collisionManager_->AddCollider(boss_->GetBossRightHand()->GetMeshCollider());
 	collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
 	collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
+	
+	// バリアがあったらコリジョンのリストに追加
+	if (boss_->GetBossBarrier() != nullptr) {
+		collisionManager_->AddCollider(boss_->GetBossBarrier()->GetMeshCollider());
+	}
 
 	for (auto& missile : missileList_) {
 		collisionManager_->AddCollider(missile->GetMeshCollider());
@@ -214,6 +221,10 @@ void GameScene::Draw() const {
 
 	player_->Debug_Draw();
 	boss_->Debug_Draw();
+	for (auto& missile : missileList_) {
+		missile->Debug_Draw();
+	}
+
 
 #endif
 	

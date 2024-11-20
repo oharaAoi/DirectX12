@@ -62,6 +62,8 @@ public:
 	/// <param name="collider"></param>
 	void AddCollider(MeshCollider* collider) { meshColliders_.push_back(collider); };
 
+	void ReleaseCollider(MeshCollider* colliderA, MeshCollider* colliderB);
+
 	// リストを空にする
 	void Reset() { 
 		colliders_.clear();

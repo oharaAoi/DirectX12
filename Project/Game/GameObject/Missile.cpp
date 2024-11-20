@@ -35,9 +35,14 @@ void Missile::Init() {
 
 void Missile::Update() {
 	if (isThrowed_) {
+		// 位置の更新
 		Vector3 position = transform_->GetTranslation();
 		position += velocity_ * GameTimer::DeltaTime();
 		transform_->SetTranslaion(position);
+		// 回転の更新
+		Quaternion rotate = Quaternion::FromDirection(velocity_.Normalize());
+		transform_->SetQuaternion(rotate.Normalize());
+
 		BaseGameObject::Update();
 		return;
 	}
@@ -56,13 +61,6 @@ void Missile::Update() {
 
 		// 方向を合わせる
 		Vector3 nextPos = CatmullRomPosition(movePoint_, nextMoveT_);
-		Vector3 diff = (nextPos - pos).Normalize();
-		Vector3 rotate1 = Vector3::ZERO();
-		rotate1.y = -std::atan2f(diff.x, diff.z);
-		float xzLenght = Length({ diff.x, 0, diff.z });
-		rotate1.x = std::atan2f(-diff.y, xzLenght);
-
-		//Quaternion rotate = Quaternion::EulerToQuaternion(rotate1).Normalize();
 		Quaternion rotate = Quaternion::LookAt(pos, nextPos);
 		transform_->SetQuaternion(rotate);
 	}
@@ -115,6 +113,10 @@ void Missile::Pop(const Vector3& targePos, const Vector3& firePos) {
 	movePoint_[49] = controlPoint_[2];
 }
 
+void Missile::Debug_Draw() {
+	meshCollider_->Draw();
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　当たり判定の処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -128,6 +130,12 @@ void Missile::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	} else if (other.GetTag() == "wireTip") {
 		isWireCaught_ = true;
 		meshCollider_->SetTag("throwMissile");
+
+		// Bossのバリアにぶつかった時
+	} else if (other.GetTag() == "boss_barrier") {
+		if (meshCollider_->GetTag() == "throwMissile") {
+			isAlive_ = false;
+		}
 	}
 }
 

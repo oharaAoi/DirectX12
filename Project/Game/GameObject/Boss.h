@@ -52,6 +52,7 @@ public:
 	BossCore* GetBossCore() { return boss_core_.get(); }
 	BossLeftHand* GetBossLeftHand() { return boss_leftHand_.get(); }
 	BossRightHand* GetBossRightHand() { return boss_rightHand_.get(); }
+	BossBarrier* GetBossBarrier() { return boss_barrier_.get(); }
 
 	const Vector3 GetBossBodyPos() const { return boss_body_->GetTransform()->GetTranslation(); }
 
