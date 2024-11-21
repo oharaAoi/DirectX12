@@ -23,6 +23,12 @@ public:
 
 	void AdaptAdjustment();
 
+
+	bool CheckMouseNear(const Matrix4x4& vpvpMat);
+	void SetPlayerPullBack(bool is) { isPlayerPullBack_ = is; }
+	bool SetFalsePlayerPullBack();
+	bool GetNear()const { return isNear_; }
+
 #ifdef _DEBUG
 	void Debug_Gui();
 
@@ -40,6 +46,14 @@ private:
 private:
 
 	std::string groupName_ = "BossCore";
+	bool isPlayerPullBack_ = false;
+
+	Vector3 defaultPosition{};
+	float energy_ = 0.0f;
+	float canFallEnergy = 50.0f;
+	bool isNear_ = false;
+	bool isFalling_ = false;
+	bool isFalsePullBack_ = false;
 
 };
 

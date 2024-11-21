@@ -30,7 +30,7 @@ void Fall::Init() {
 
 void Fall::Update() {
 
-	if (player_->GetPullBack()) {
+	if (isNear_) {
 		SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 
 		if (Input::IsPressKey(DIK_A)||Input::IsPressKey(DIK_D)) {
@@ -38,7 +38,7 @@ void Fall::Update() {
 		}
 		if (energy_ >= canFallEnergy) {
 			player_->SetFalsePullBack();
-			isFalling = true;
+			isFalling_ = true;
 		}
 
 	}
@@ -46,7 +46,7 @@ void Fall::Update() {
 		SetColor(Vector4(1.0f, 1.0f, 1.0f,1.0f));
 	}
 
-	if (isFalling) {
+	if (isFalling_) {
 		float fallPos = transform_->GetTranslation().y - 5.0f * GameTimer::DeltaTime();
 		transform_->SetTranslationY(fallPos);
 	}
@@ -87,19 +87,25 @@ void Fall::OnCollision([[maybe_unused]] Collider* other) {
 
 }
 
-void Fall::CheckMouseNear(const Matrix4x4& vpvpMat) {
+bool Fall::CheckMouseNear(const Matrix4x4& vpvpMat) {
 	Vector2 mousePos = Input::GetMousePosition();
 
 	// objectのscreen座標を求める
 	Vector3 objectScreen = Transform(Vector3::ZERO(), transform_->GetWorldMatrix() * vpvpMat);
 	Vector2 objectScreenPos_ = Vector2(objectScreen.x, objectScreen.y);
 
-	bool isNear = false;
+	if (player_->GetPullBack()) {
+		if (isNear_) {
+			return isNear_;
+		}
+	}
+
+	isNear_ = false;
 	// 長さを取って距離が近かったら
 	if ((mousePos - objectScreenPos_).Length() < 40.0f) {
-		isNear = true;
+		isNear_ = true;
 	}
-	player_->SetNearBack(isNear);
+	return isNear_;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +120,7 @@ void Fall::Debug_Gui() {
 		ImGui::Text("Energy:%f", energy_);
 		if (ImGui::Button("energy reset")) {
 			energy_ = 0.0f;
-			isFalling = false;
+			isFalling_ = false;
 		}
 		if (ImGui::Button("position reset")) {
 			transform_->SetTranslaion({ 8.0f, 9.0f, 0.0f });

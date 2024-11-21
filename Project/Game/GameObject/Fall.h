@@ -18,7 +18,8 @@ public:
 
 	void OnCollision([[maybe_unused]] Collider* other)override;
 	void SetPlayer(Player* player) { player_ = player; }
-	void CheckMouseNear(const Matrix4x4& vpvpMat);
+	bool CheckMouseNear(const Matrix4x4& vpvpMat);
+	bool GetNear()const { return isNear_; }
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -46,8 +47,8 @@ private:
 	Player* player_ = nullptr;
 	float energy_ = 0.0f;
 	float canFallEnergy = 50.0f;
-
-	bool isFalling = false;
+	bool isNear_ = false;
+	bool isFalling_ = false;
 
 };
 

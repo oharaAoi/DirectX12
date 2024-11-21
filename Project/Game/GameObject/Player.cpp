@@ -202,6 +202,7 @@ Vector3 Player::GetThrowVelo() const {
 void Player::SetFalsePullBack() {
 	isPullBackObj_ = false;
 	isStretching_ = false;
+	isNearBack_ = false;
 	isReturnClutch_ = true;
 }
 
@@ -549,10 +550,16 @@ void Player::ClutchEndCalculation() {
 		targetRotate = leftRotate;
 	}
 
-	end -= transform_->GetTranslation();
-	end = end.Normalize() * maxClutchLength_;
-	end += transform_->GetTranslation();
-	clutchEnd_ = { end.x,end.y };
+	if (isNearBack_) {
+		clutchEnd_ = { end.x,end.y };
+	}
+	else {
+		end -= transform_->GetTranslation();
+		end = end.Normalize() * maxClutchLength_;
+		end += transform_->GetTranslation();
+		clutchEnd_ = { end.x,end.y };
+	}
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

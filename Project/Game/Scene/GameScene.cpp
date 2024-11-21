@@ -111,7 +111,11 @@ void GameScene::Update() {
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
 	boss_->SetPlayerPos(player_->GetWorldPos());
+	boss_->GetBossCore()->SetPlayerPullBack(player_->GetPullBack());
 	boss_->Update();
+	if (boss_->GetBossCore()->SetFalsePlayerPullBack()) {
+		player_->SetFalsePullBack();
+	}
 
 	// playerの処理
 	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
@@ -167,7 +171,22 @@ void GameScene::Update() {
 	}
 
 	collisionManager_->CheckAllCollision();
-	fall_->CheckMouseNear(followCamera_->GetVpvpMatrix());
+
+	bool isFallNear_ = fall_->GetNear();
+	bool isCoreNear_ = boss_->GetBossCore()->GetNear();
+	if (!isCoreNear_) {
+		isFallNear_ = fall_->CheckMouseNear(followCamera_->GetVpvpMatrix());
+	}
+	if (!isFallNear_) {
+		isCoreNear_ = boss_->GetBossCore()->CheckMouseNear(followCamera_->GetVpvpMatrix());
+	}
+
+	if (isFallNear_ || isCoreNear_) {
+		player_->SetNearBack(true);
+	}
+	else {
+		player_->SetNearBack(false);
+	}
 
 	// -------------------------------------------------
 	// ↓ Cameraの更新

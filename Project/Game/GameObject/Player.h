@@ -60,6 +60,7 @@ public:
 	void SetPull(bool is) { isPull_ = is; }
 
 	void SetNearBack(bool is) { isNearBack_ = is; }
+	bool GetNearBack()const { return isNearBack_; }
 	bool GetPullBack()const { return isPullBackObj_; }
 	void SetFalsePullBack();
 
