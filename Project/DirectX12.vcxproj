@@ -231,6 +231,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameObject\State\BaseObjectState.cpp" />
     <ClCompile Include="Game\GameObject\State\BossAttackState.cpp" />
     <ClCompile Include="Game\GameObject\State\BossRootState.cpp" />
+    <ClCompile Include="Game\GameObject\State\PlayerBeAttackedState.cpp" />
+    <ClCompile Include="Game\GameObject\State\PlayerRootState.cpp" />
     <ClCompile Include="Game\GameResources.cpp" />
     <ClCompile Include="Game\Manager\EnemyManager.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
@@ -374,6 +376,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\GameObject\State\BaseObjectState.h" />
     <ClInclude Include="Game\GameObject\State\BossAttackState.h" />
     <ClInclude Include="Game\GameObject\State\BossRootState.h" />
+    <ClInclude Include="Game\GameObject\State\PlayerBeAttackedState.h" />
+    <ClInclude Include="Game\GameObject\State\PlayerRootState.h" />
     <ClInclude Include="Game\GameResources.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Manager\EnemyManager.h" />

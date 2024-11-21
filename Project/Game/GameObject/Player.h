@@ -1,14 +1,18 @@
 #pragma once
 #include <memory>
+#include <optional>
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Game/GameObject/ClutchWire.h"
 #include "WireTip.h"
 #include "Engine/Math/Easing.h"
 #include "Game/GameObject/Missile.h"
+#include "Game/GameObject/State/PlayerRootState.h"
+#include "Game/GameObject/State/PlayerBeAttackedState.h"
 
 enum class PlayerState {
 	Default = 0,
 	Attack = 1,
+	BeAttacked,		// 攻撃を受けた状態
 };
 
 
@@ -23,6 +27,11 @@ public:
 	void Init() override;
 	void Update() override;
 	void Draw() const override;
+
+	/// <summary>
+	/// 状態を遷移させる
+	/// </summary>
+	void CheckBehaviorRequest();
 
 	void OnCollision(MeshCollider& other);
 
@@ -65,6 +74,8 @@ public:
 	// 最大まで伸びて戻るかを取得
 	const bool GetIsReturnClutch() const { return isReturnClutch_; }
 
+	const float GetTargetRotate() const { return targetRotate; }
+
 	void SetNearBack(bool is) { isNearBack_ = is; }
 	bool GetNearBack()const { return isNearBack_; }
 	bool GetPullBack()const { return isPullBackObj_; }
@@ -74,6 +85,10 @@ public:
 
 	const Vector3 GetForward() const { return TransformNormal(Vector3(0,0,1), transform_->GetWorldMatrix()); }
 	const Vector3 GetWorldPos() const { return Transform(Vector3(0, 0, 0), transform_->GetWorldMatrix()); }
+
+	// playerの状態の変更
+	void SetBehaviorRequest(const PlayerState& request) { behaviorRequest_ = request; }
+	void SetBehaviorState(std::unique_ptr<BaseObjectState> behaviorState) { state_ = std::move(behaviorState); }
 
 private:
 
@@ -172,6 +187,15 @@ private:
 	bool canBossAttack_ = false;
 
 	Vector3 bossDire_;
+
+	/// ==========================================
+	/// 状態に関する情報
+	/// ==========================================
+	
+	std::unique_ptr<BaseObjectState> state_;
+	// stateパターンに関する変数
+	PlayerState behavior_ = PlayerState::Default;
+	std::optional<PlayerState> behaviorRequest_ = std::nullopt;
 
 	/// ==========================================
 	/// 他クラスの情報
