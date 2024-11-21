@@ -2,14 +2,12 @@
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Collider/Collider.h"
 
-class Player;
-
-class Fall
+class FallStone
 	: public BaseGameObject, public Collider {
 public:
 
-	Fall();
-	~Fall();
+	FallStone();
+	~FallStone();
 
 	void Finalize() override;
 	void Init() override;
@@ -17,10 +15,8 @@ public:
 	void Draw() const override;
 
 	void OnCollision([[maybe_unused]] Collider* other)override;
-	void SetPlayer(Player* player) { player_ = player; }
-	bool CheckMouseNear(const Matrix4x4& vpvpMat);
-	bool GetNear()const { return isNear_; }
-	bool GetFalling()const { return isFalling_; }
+
+	void SetFalling(bool is) { isFalling_ = is; }
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -45,10 +41,6 @@ private:
 	/// 変数
 	/// ==========================================
 
-	Player* player_ = nullptr;
-	float energy_ = 0.0f;
-	float canFallEnergy = 50.0f;
-	bool isNear_ = false;
 	bool isFalling_ = false;
 
 };

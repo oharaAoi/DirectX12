@@ -43,6 +43,7 @@ void BossBarrier::Init() {
 	break_.time = 0.0f;
 
 	hp_ = Durability_;
+	transform_->SetTranslationY(-3.2f);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,6 +147,9 @@ void BossBarrier::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		if (hp_ == 0) {
 			break_.isAct = true;
 		}
+	}
+	if (other.GetTag() == "fallStone") {
+		break_.isAct = true;
 	}
 }
 

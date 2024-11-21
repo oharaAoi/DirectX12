@@ -17,6 +17,7 @@
 #include "Game/Editer/BossAttackEditer.h"
 #include "TestCollisionObj.h"
 #include "Game/GameObject/Fall.h"
+#include "Game/GameObject/FallStone.h"
 
 class GameScene 
 	: public BaseScene {
@@ -66,7 +67,8 @@ private:
 	std::unique_ptr<TestCollisionObj> testCollisionObj3_;
 
 	std::unique_ptr<Fall> fall_;
-	
+	std::unique_ptr<FallStone> fallStone_;
+
 	// --- Manager --------------------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_;
 	std::unique_ptr<CollisionManager> collisionManager_;
