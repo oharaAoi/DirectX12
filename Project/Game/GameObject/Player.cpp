@@ -64,7 +64,7 @@ void Player::Update() {
 	if (canBossAttack_) {
 		transform_->SetQuaternion(Quaternion());
 	}
-
+	
 	if (animetor_) {
 		animeTime_ += GameTimer::DeltaTime();
 		animeTime_ = fmod(animeTime_, animetor_->GetAnimationDuration());
@@ -260,10 +260,12 @@ void Player::CatchObjectFollow() {
 			catchObj->ReadyToThrow(bossDire_.Normalize() * throwSpeed_);
 			wireTip_->SetIsCautchObject(false);
 			wireTip_->ReleseCathcObject();
+			isRekey_ = false;
 		} else {
 			catchObj->ReadyToThrow(GetThrowVelo() * throwSpeed_);
 			wireTip_->SetIsCautchObject(false);
 			wireTip_->ReleseCathcObject();
+			isRekey_ = false;
 		}
 	}
 }
@@ -484,7 +486,7 @@ void Player::BaseClutch() {
 	Vector2 clutchDirection;
 	if (!isReturnClutch_) {// 最大まで伸びて、戻る状態じゃない時
 		if (Input::IsPressMouse(0)) {
-			if (!wireTip_->GetFollow() && !canBossAttack_) {
+			if (!wireTip_->GetFollow() && !wireTip_->GetIsCautchObject()) {
 				isPull_ = true;
 
 				FirstClutch();
