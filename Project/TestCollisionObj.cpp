@@ -72,7 +72,7 @@ void TestCollisionObj::Draw() const {
 }
 
 void TestCollisionObj::OnCollision(Collider* other) {
-	if (other->GetTag() == "wireTip") {
+	if (other->GetTag() == "notCatchWireTip") {
 		if (tag_=="canCatchObj") {
 			if (!player_->GetIsKnockBack()) {
 				transform_->SetParentTranslation(player_->GetTransform()->GetTranslation());

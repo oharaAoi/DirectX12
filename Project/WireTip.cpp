@@ -18,11 +18,11 @@ void WireTip::Init() {
 	SetObject("cube.obj");
 	transform_->SetScale({ 0.25f, 0.25f, 0.25f });
 	transform_->SetTranslaion({ 0.0f, 0.0f, 0.0f });
-	tag_ = "wireTip";
+	tag_ = "notCatchWireTip";
 
 	
 	// Colliderの生成
-	SetMeshCollider("wireTip");
+	SetMeshCollider(notCatchStateTag_);
 	meshCollider_->SetOwner(this);
 	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other); });
 	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
@@ -99,6 +99,7 @@ void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			//meshCollider_->SetIsnotCheckCollision(true);
 
 			catchObject_ = dynamic_cast<CanThrowObject*>(other.GetOwner());
+			meshCollider_->SetTag(catchStateTag_);
 		}
 	}
 }
@@ -107,6 +108,12 @@ void WireTip::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
 		isHit_ = true;
 		isSnagged_ = true;
+
+	} else if (other.GetTag() == "right_hand" || other.GetTag() == "left_hand") {
+		isHit_ = true;
+		isSnagged_ = true;
+
+		isBossAttack_ = true;
 	}
 }
 
