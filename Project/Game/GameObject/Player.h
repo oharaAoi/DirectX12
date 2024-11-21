@@ -15,7 +15,6 @@ enum class PlayerState {
 	BeAttacked,		// 攻撃を受けた状態
 };
 
-
 class Player
 	: public BaseGameObject {
 public:
@@ -89,6 +88,11 @@ public:
 	// playerの状態の変更
 	void SetBehaviorRequest(const PlayerState& request) { behaviorRequest_ = request; }
 	void SetBehaviorState(std::unique_ptr<BaseObjectState> behaviorState) { state_ = std::move(behaviorState); }
+
+	// 受けた攻撃の種類の取得・設定
+	const BeAttackedType GetBeAttackedType() const { return beAttackedType_; }
+	void SetBeAttackedType(const BeAttackedType& beAttackedType) { beAttackedType_ = beAttackedType;}
+
 
 private:
 
@@ -196,6 +200,9 @@ private:
 	// stateパターンに関する変数
 	PlayerState behavior_ = PlayerState::Default;
 	std::optional<PlayerState> behaviorRequest_ = std::nullopt;
+
+	// 攻撃を受けた時の敵の攻撃の種類
+	BeAttackedType beAttackedType_;
 
 	/// ==========================================
 	/// 他クラスの情報
