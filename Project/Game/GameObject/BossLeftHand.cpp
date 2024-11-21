@@ -23,6 +23,7 @@ void BossLeftHand::Init() {
 	AdaptAdjustment();
 
 	initPos_ = transform_->GetTranslation();
+	transform_->SetScale(Vector3(0.5f, 0.5f, 0.5f));
 
 	moveIndex_ = 0;
 

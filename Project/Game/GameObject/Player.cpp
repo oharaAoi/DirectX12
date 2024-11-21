@@ -34,6 +34,10 @@ void Player::Init() {
 	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
 	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
 
+	// 状態の定義
+	state_ = std::make_unique<PlayerRootState>(this);
+	behaviorRequest_ = PlayerState::Default;
+
 	// -------------------------------------------------
 	// ↓ 変数の初期化
 	// -------------------------------------------------
@@ -49,6 +53,9 @@ void Player::Init() {
 
 void Player::Update() {
 
+	CheckBehaviorRequest();
+	state_->Update();
+
 	Move();
 	Clutch();
 
@@ -57,8 +64,6 @@ void Player::Update() {
 	if (canBossAttack_) {
 		transform_->SetQuaternion(Quaternion());
 	}
-	
-	
 
 	if (animetor_) {
 		animeTime_ += GameTimer::DeltaTime();
@@ -83,8 +88,35 @@ void Player::Draw() const {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　衝突判定処理
+// ↓　状態の遷移
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::CheckBehaviorRequest() {
+	if (behaviorRequest_) {
+		behavior_ = behaviorRequest_.value();
+
+		switch (behavior_) {
+		case PlayerState::Default:
+			SetBehaviorState(std::make_unique<PlayerRootState>(this));
+			break;
+		case PlayerState::Attack:
+			
+			break;
+		case PlayerState::BeAttacked:
+			SetBehaviorState(std::make_unique<PlayerBeAttackedState>(this));
+			break;
+		default:
+			break;
+		}
+
+		// 振る舞いをリセット
+		behaviorRequest_ = std::nullopt;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　衝突判定処理
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::OnCollision(MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
@@ -607,6 +639,8 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			}
 			isKnockBack_ = true;
 			wireTip_->SetIsBossAttack(false);
+		}else{
+			behaviorRequest_ = PlayerState::BeAttacked;
 		}
 	}
 }
