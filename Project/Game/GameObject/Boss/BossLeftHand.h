@@ -6,7 +6,7 @@
 #include "Engine/Collider/MeshCollider.h"
 #include "Game/Editer/BossAttackEditer.h"
 #include "Engine/Math/Easing.h"
-#include "Game/GameObject/BaseBossHand.h"
+#include "Game/GameObject/Boss/BaseBossHand.h"
 
 class BossLeftHand : public BaseBossHand {
 public:

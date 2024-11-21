@@ -1,7 +1,7 @@
 #pragma once
 #include "Game/GameObject/State/BaseObjectState.h"
-#include "Game/GameObject/BossRightHand.h"
-#include "Game/GameObject/BossLeftHand.h"
+#include "Game/GameObject/Boss/BossRightHand.h"
+#include "Game/GameObject/Boss/BossLeftHand.h"
 
 class Boss;
 

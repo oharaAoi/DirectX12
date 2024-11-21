@@ -2,8 +2,8 @@
 #include <memory>
 #include <optional>
 #include "Engine/GameObject/BaseGameObject.h"
-#include "Game/GameObject/ClutchWire.h"
-#include "WireTip.h"
+#include "Game/GameObject/Clutch/ClutchWire.h"
+#include "Game/GameObject/Clutch/WireTip.h"
 #include "Engine/Math/Easing.h"
 #include "Game/GameObject/Missile.h"
 #include "Game/GameObject/State/PlayerRootState.h"

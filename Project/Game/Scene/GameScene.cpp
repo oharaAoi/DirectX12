@@ -61,8 +61,6 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	// ↓ Managerの初期化
 	// -------------------------------------------------
-	enemyManager_ = std::make_unique<EnemyManager>();
-	enemyManager_->Init();
 
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
@@ -326,7 +324,7 @@ void GameScene::Debug_Gui() {
 
 	{
 		if (ImGui::TreeNode("Manager")) {
-			enemyManager_->Debug_Gui();
+			
 			ImGui::TreePop();
 		}
 	}

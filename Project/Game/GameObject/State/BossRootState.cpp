@@ -1,5 +1,5 @@
 #include "BossRootState.h"
-#include "Game/GameObject/Boss.h"
+#include "Game/GameObject/Boss/Boss.h"
 
 BossRootState::~BossRootState() {
 }

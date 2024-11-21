@@ -8,10 +8,9 @@
 #include "Game/Camera/DebugCamera.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/WorldObject/Field.h"
-#include "Game/GameObject/Player.h"
-#include "Game/GameObject/Boss.h"
+#include "Game/GameObject/Player/Player.h"
+#include "Game/GameObject/Boss/Boss.h"
 #include "Game/GameObject/Missile.h"
-#include "Game/Manager/EnemyManager.h"
 #include "Engine/Manager/CollisionManager.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Game/Editer/BossAttackEditer.h"
@@ -70,7 +69,6 @@ private:
 	std::unique_ptr<FallStone> fallStone_;
 
 	// --- Manager --------------------------------- //
-	std::unique_ptr<EnemyManager> enemyManager_;
 	std::unique_ptr<CollisionManager> collisionManager_;
 
 	// --- UI -------------------------------------- //
