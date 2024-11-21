@@ -73,9 +73,6 @@ public:
 	/// <param name="time">: 遷移の時間</param>
 	void AnimationTransition(Skeleton* skelton, float time);
 
-	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, const float& time);
-	Quaternion CalculateQuaternion(const std::vector<KeyframeQuaternion>& keyframes, const float& time);
-
 	/// <summary>
 	/// animationを遷移させる設定をする
 	/// </summary>
@@ -83,8 +80,19 @@ public:
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
 	void SetLerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation);
 
+private:
+
+	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, const float& time);
+	Quaternion CalculateQuaternion(const std::vector<KeyframeQuaternion>& keyframes, const float& time);
+
+public:
+
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	void Debug_Select();
+
+	void Debug_Transition();
 #endif
 
 	// animationの時間を取得・設定
@@ -95,7 +103,7 @@ public:
 	const float GetAnimationDuration() const { return animation_.duration; }
 
 	// 今のAnimationの名前を取得する
-	const std::string& GetAnimationName() const { return animation_.animationName; }
+	const std::string& GetNowAnimationName() const { return animation_.animationName; }
 
 	// animationの行列を取得
 	const Matrix4x4 GetMatrix() const { return animationMat_; }
@@ -109,6 +117,9 @@ public:
 	// animationをloopさせるかを取得・設定
 	const bool GetIsLoop() const { return isLoop_; }	// 取得
 	void SetIsLoop(bool isLoop) { isLoop_ = isLoop; }	// 設定
+
+	// 選択されているAnimationを取得
+	const std::string& GetSelectAnimationName() const { return animationNames_[selectedAnimationIndex]; }
 
 	// モデルに入っているAnimationの名前を取得
 	const std::vector<std::string>& GetAnimationNames() { return animationNames_; }

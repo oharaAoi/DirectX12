@@ -38,6 +38,9 @@ void Player::Init() {
 	state_ = std::make_unique<PlayerRootState>(this);
 	behaviorRequest_ = PlayerState::Default;
 
+	// animatorの生成
+	playerAnimator_ = std::make_unique<PlayerAnimator>(this);
+
 	// -------------------------------------------------
 	// ↓ 変数の初期化
 	// -------------------------------------------------
@@ -194,8 +197,6 @@ void Player::Debug_Gui() {
 			if (isNearBack_) {
 				ImGui::Text("True");
 			}
-
-
 			ImGui::TreePop();
 		}
 
@@ -204,6 +205,8 @@ void Player::Debug_Gui() {
 		ImGui::DragFloat("throwSpeed", &throwSpeed_, 1.0f);
 
 		BaseGameObject::Debug_Gui();
+
+		playerAnimator_->Debug_Gui();
 
 		ImGui::End();
 		ImGui::TreePop();

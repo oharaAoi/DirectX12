@@ -8,6 +8,7 @@
 #include "Game/GameObject/Missile.h"
 #include "Game/GameObject/State/PlayerRootState.h"
 #include "Game/GameObject/State/PlayerBeAttackedState.h"
+#include "Game/GameObject/Player/PlayerAnimator.h"
 
 enum class PlayerState {
 	Default = 0,
@@ -208,6 +209,8 @@ private:
 	/// ==========================================
 	/// 他クラスの情報
 	/// ==========================================
+	
+	std::unique_ptr<PlayerAnimator> playerAnimator_ = nullptr;
 
 };
 

@@ -52,9 +52,6 @@ public:
 
 	const float GetAnimationDuration() const { return animetionClip_->GetAnimationDuration(); }
 
-	// 今のanimationの名前を取得
-	const std::string& GetAnimationName() const { return animetionClip_->GetAnimationName(); }
-
 	// animationの時間を取得・設定
 	const float GetAnimationTime() const { return animetionClip_->GetAnimationTime(); }	// 取得
 	void SetAnimationTime(float time) { animetionClip_->SetAnimationTime(time); }		// 設定
@@ -71,6 +68,12 @@ public:
 
 	// モデルに入っているAnimationの名前を取得
 	const std::vector<std::string>& GetAnimationNames() { return animetionClip_->GetAnimationNames(); }
+
+	// 今のanimationの名前を取得
+	const std::string& GetAnimationName() const { return animetionClip_->GetNowAnimationName(); }
+
+	// ImGuiで選択されているAnimationの名前を取得する
+	const std::string& GetDebugAnimationName() const { return animetionClip_->GetSelectAnimationName(); }
 
 private:
 
