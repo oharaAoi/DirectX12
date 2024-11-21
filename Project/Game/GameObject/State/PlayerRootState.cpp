@@ -1,4 +1,5 @@
 #include "PlayerRootState.h"
+#include "Game/GameObject/Player/Player.h"
 
 PlayerRootState::~PlayerRootState() {
 }
@@ -8,6 +9,9 @@ PlayerRootState::~PlayerRootState() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void PlayerRootState::Init() {
 	stateName_ = "rootState";
+
+	PlayerAnimator* animator = pPlayer_->GetPlayerAnimater();
+	animator->NowToAfterTransition("defalut");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

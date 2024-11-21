@@ -19,8 +19,13 @@ GameTimer::~GameTimer() {
 
 void GameTimer::CalculationFrame() {
 	auto currentTime = std::chrono::steady_clock::now();
-	
 	deletaTime_ = std::chrono::duration<float>(currentTime - preFrameTime_).count();
+	/*if (IsDebuggerPresent()) {
+		deletaTime_ = std::chrono::duration<float>(currentTime - preFrameTime_).count();
+	} else {
+	
+		deletaTime_ = 1.0f / 60.0f;
+	}*/
 	timeRate_ = deletaTime_ / kDeltaTime_;
 	totalTime_ += deletaTime_;
 	preFrameTime_ = currentTime;

@@ -113,9 +113,11 @@ void Missile::Pop(const Vector3& targePos, const Vector3& firePos) {
 	movePoint_[49] = controlPoint_[2];
 }
 
+#ifdef _DEBUG
 void Missile::Debug_Draw() {
 	meshCollider_->Draw();
 }
+#endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　当たり判定の処理

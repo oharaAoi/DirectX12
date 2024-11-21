@@ -27,6 +27,9 @@ void Player::Init() {
 	wireTip_ = std::make_unique<WireTip>();
 	wireTip_->Init();
 
+	// animatorの生成
+	playerAnimator_ = std::make_unique<PlayerAnimator>(this);
+
 	// Colliderの生成
 	SetMeshCollider("player");
 	meshCollider_->SetOwner(this);
@@ -38,13 +41,9 @@ void Player::Init() {
 	state_ = std::make_unique<PlayerRootState>(this);
 	behaviorRequest_ = PlayerState::Default;
 
-	// animatorの生成
-	playerAnimator_ = std::make_unique<PlayerAnimator>(this);
-
 	// -------------------------------------------------
 	// ↓ 変数の初期化
 	// -------------------------------------------------
-	animeTime_ = 0.0f;
 	canBossAttack_ = false;
 
 	throwSpeed_ = 4.0f;
@@ -68,11 +67,7 @@ void Player::Update() {
 		transform_->SetQuaternion(Quaternion());
 	}
 	
-	if (animetor_) {
-		animeTime_ += GameTimer::DeltaTime();
-		animeTime_ = fmod(animeTime_, animetor_->GetAnimationDuration());
-		animetor_->UpdateScript(animeTime_);
-	}
+	playerAnimator_->Update();
 
 	BaseGameObject::Update();
 
@@ -340,12 +335,13 @@ void Player::DefaultMove(Vector3& pos) {
 			if (Input::IsPressKey(DIK_A)) {
 				velocity_.x -= moveSpeed_;
 				targetRotate = leftRotate;
+				playerAnimator_->NowToAfterTransition("move");
 
-			}
+			} 
 			if (Input::IsPressKey(DIK_D)) {
 				velocity_.x += moveSpeed_;
 				targetRotate = rightRotate;
-
+				playerAnimator_->NowToAfterTransition("move");
 			}
 
 
@@ -372,9 +368,14 @@ void Player::DefaultMove(Vector3& pos) {
 
 		playerState = int(PlayerState::Default);
 
+		// 速度がないのならキーが押されていないのでdefalutのanimationにする
+		if (velocity_.x == 0) {
+			playerAnimator_->NowToAfterTransition("defalut");
+		}
 	}
 	else if (isSnagged_ && wireTip_->GetSnagged() && isStretchClutch_) {
 		playerState = int(PlayerState::Attack);
+		playerAnimator_->NowToAfterTransition("attack");
 
 		velocity_.y = 0.0f;
 		clutchLerpTime_ += GameTimer::DeltaTime();
@@ -387,6 +388,7 @@ void Player::DefaultMove(Vector3& pos) {
 			clutchLerpTime_ = 0.0f;
 			playerState = int(PlayerState::Default);
 			wireTip_->SetSnagged(false);
+			playerAnimator_->NowToAfterTransition("defalut");
 		}
 	}
 }
@@ -638,6 +640,7 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			}
 			isKnockBack_ = true;
 			wireTip_->SetIsBossAttack(false);
+
 		}else{
 			behaviorRequest_ = PlayerState::BeAttacked;
 

@@ -22,6 +22,7 @@ void BossRootState::Init() {
 
 void BossRootState::Update() {
 	pBoss_->GetBossRightHand()->AnimationTimeIncrement(true);
+	pBoss_->GetBossLeftHand()->AnimationTimeIncrement(true);
 
 #ifdef _DEBUG
 	if (isStop_) {
@@ -32,10 +33,10 @@ void BossRootState::Update() {
 	// 待機時間を減らす
 	work_.waitTime -= GameTimer::DeltaTime();
 	
-	if (work_.waitTime < 0.0f) {
+	/*if (work_.waitTime < 0.0f) {
 		pBoss_->SetBehaviorRequest(Behavior::ATTACK);
 		pBoss_->SetAttackType(static_cast<AttackType>(RandomInt(0, (static_cast<int>(AttackType::TOTAL) - 1))));
-	}
+	}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

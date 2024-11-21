@@ -1,0 +1,8 @@
+{
+    "player": {
+        "attack": "air",
+        "defalut": "standby",
+        "move": "move",
+        "pull": "pull"
+    }
+}

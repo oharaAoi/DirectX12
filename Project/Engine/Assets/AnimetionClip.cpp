@@ -6,6 +6,7 @@ AnimetionClip::AnimetionClip() {
 
 	isAnimationChange_ = false;
 	blendFactor_ = 0.0f;
+	animationTime_ = 0.0f;
 }
 
 AnimetionClip ::~AnimetionClip() {
@@ -281,7 +282,7 @@ Quaternion AnimetionClip::CalculateQuaternion(const std::vector<KeyframeQuaterni
 	}
 
 	//　ここまで来たら一番後の時刻よりも後ろなので最後の値を返す
-	return (*keyframes.rbegin()).value;
+	return (*keyframes.rbegin()).value.Normalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

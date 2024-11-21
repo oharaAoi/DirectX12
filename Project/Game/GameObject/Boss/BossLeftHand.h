@@ -23,9 +23,9 @@ public:
 
 	void LoadAllFile();
 
-private:
-
 	void AnimationTimeIncrement(bool isLoop) { AnimeTimeIncrement(isLoop, animetor_->GetAnimationDuration()); };
+
+private:
 
 public:
 

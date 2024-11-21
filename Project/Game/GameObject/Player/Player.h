@@ -14,6 +14,7 @@ enum class PlayerState {
 	Default = 0,
 	Attack = 1,
 	BeAttacked,		// 攻撃を受けた状態
+	Pull,			// 物を引っ張ってる状態
 };
 
 class Player
@@ -59,6 +60,8 @@ public:
 #endif
 
 	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
+
+	PlayerAnimator* GetPlayerAnimater() { return playerAnimator_.get(); }
 
 	// objectを投げるように
 	Vector3 GetThrowVelo()const;
@@ -124,9 +127,6 @@ private:
 	/// ==========================================
 	/// 変数
 	/// ==========================================
-
-	//anime
-	float animeTime_ = 0.0f;
 
 	// プレイヤーの状態
 	int playerState = int(PlayerState::Default);

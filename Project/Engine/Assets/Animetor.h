@@ -75,6 +75,8 @@ public:
 	// ImGuiで選択されているAnimationの名前を取得する
 	const std::string& GetDebugAnimationName() const { return animetionClip_->GetSelectAnimationName(); }
 
+	AnimetionClip* GetAnimationClip() { return animetionClip_.get(); }
+
 private:
 
 	AnimationManager* manager_;
