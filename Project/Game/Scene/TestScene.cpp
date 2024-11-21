@@ -18,8 +18,8 @@ void TestScene::Init() {
 	testObjA_->Init();
 	testObjB_->Init();
 
-	testObjA_->SetObject("amimationCharacter.gltf");
-	testObjA_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, true);
+	testObjA_->SetObject("simpleSkin.gltf");
+	testObjA_->SetAnimater("./Engine/Resources/Animation/", "simpleSkin.gltf", true, true, false);
 	testObjA_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
 
 	testObjA_->GetTransform()->SetParentRotate(testObjA_->GetTransform()->GetQuaternion());
@@ -84,7 +84,7 @@ void TestScene::Draw() const {
 
 	testObjB_->Draw();
 
-	gpuEffect_->Draw();
+	//gpuEffect_->Draw();
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	

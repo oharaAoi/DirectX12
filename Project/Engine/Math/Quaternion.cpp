@@ -1,40 +1,45 @@
 #include "Quaternion.h"
 
 Quaternion Quaternion::Normalize() const {
-	float num = std::sqrtf(Dot(*this, *this));
-	if (num < kEpsilon) {
-		return Quaternion();
+	float length = std::sqrt(x * x + y * y + z * z + w * w);
+	if (length < 1e-6f) { // 長さが非常に小さい場合
+		return Quaternion(0, 0, 0, 1); // デフォルト値を返す
 	}
-	return Quaternion(this->x / num, this->y / num, this->z / num, this->w / num);
+	float invLength = 1.0f / length;
+	return Quaternion(x * invLength, y * invLength, z * invLength, w * invLength);
 }
 
 Matrix4x4 Quaternion::MakeMatrix() const {
-	// クォータニオンの各成分
 	Matrix4x4 result;
-	float xx = x * x;
-	float yy = y * y;
-	float zz = z * z;
-	float ww = w * w;
-	float xy = x * y;
-	float xz = x * z;
-	float yz = y * z;
-	float wx = w * x;
-	float wy = w * y;
-	float wz = w * z;
 
-	result.m[0][0] = ww + xx - yy - zz;
-	result.m[0][1] = 2.0f * (xy + wz);
-	result.m[0][2] = 2.0f * (xz - wy);
+	// 冗長な計算を減らすための中間変数
+	float x2 = x + x;
+	float y2 = y + y;
+	float z2 = z + z;
+
+	float xx = x * x2;
+	float yy = y * y2;
+	float zz = z * z2;
+	float xy = x * y2;
+	float xz = x * z2;
+	float yz = y * z2;
+	float wx = w * x2;
+	float wy = w * y2;
+	float wz = w * z2;
+
+	result.m[0][0] = 1.0f - yy - zz;
+	result.m[0][1] = xy + wz;
+	result.m[0][2] = xz - wy;
 	result.m[0][3] = 0.0f;
 
-	result.m[1][0] = 2.0f * (xy - wz);
-	result.m[1][1] = ww - xx + yy - zz;
-	result.m[1][2] = 2.0f * (yz + wx);
+	result.m[1][0] = xy - wz;
+	result.m[1][1] = 1.0f - xx - zz;
+	result.m[1][2] = yz + wx;
 	result.m[1][3] = 0.0f;
 
-	result.m[2][0] = 2.0f * (xz + wy);
-	result.m[2][1] = 2.0f * (yz - wx);
-	result.m[2][2] = ww - xx - yy + zz;
+	result.m[2][0] = xz + wy;
+	result.m[2][1] = yz - wx;
+	result.m[2][2] = 1.0f - xx - yy;
 	result.m[2][3] = 0.0f;
 
 	result.m[3][0] = 0.0f;
@@ -186,30 +191,37 @@ float Quaternion::Dot(const Quaternion& q1, const Quaternion& q2) {
 }
 
 Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const float& t) {
-	// 2つの回転の内積を求める
 	float dot = Dot(q1, q2);
 	dot = std::clamp(dot, -1.0f, 1.0f);
 
 	Quaternion newQ2 = q2;
-	// 内積が負の時最短距離で補完を得るため片方の回転を負にして内積を正にする
-	if (dot < 0) {
-		/*newQ2 = Quaternion(-q2.x, -q2.y, -q2.z, -q2.w);*/
+	if (dot < 0.0f) {
+		newQ2 = Quaternion(-q2.x, -q2.y, -q2.z, -q2.w);
 		dot = -dot;
 	}
 
-	// 角度が0に近い場合は線形補間
-	if (dot > 0.9995f) {
-		return Quaternion(
+	if (dot > 0.9995f) { // 線形補間 (Lerp) を使用
+		Quaternion lerpResult = Quaternion(
 			q1.x + t * (newQ2.x - q1.x),
 			q1.y + t * (newQ2.y - q1.y),
 			q1.z + t * (newQ2.z - q1.z),
 			q1.w + t * (newQ2.w - q1.w)
 		);
+		return lerpResult.Normalize(); // 正規化
 	}
 
-	// 二つの回転の角度を求める
-	float rad = std::acos(dot);
-	float bottom = std::sin(rad);
+	float rad = std::acos(dot); // 内積に基づいて角度を取得
+	float bottom = std::sin(rad); // sinθ
+	if (std::fabs(bottom) < 1e-6f) {
+		// bottomがほぼ0の場合、Lerpにフォールバック
+		return Quaternion(
+			q1.x + t * (newQ2.x - q1.x),
+			q1.y + t * (newQ2.y - q1.y),
+			q1.z + t * (newQ2.z - q1.z),
+			q1.w + t * (newQ2.w - q1.w)
+		).Normalize();
+	}
+
 	float a_rotate = std::sin((1.0f - t) * rad) / bottom;
 	float b_rotate = std::sin(t * rad) / bottom;
 
@@ -220,7 +232,7 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const f
 		(q1.w * a_rotate) + (newQ2.w * b_rotate)
 	);
 
-	return result;
+	return result.Normalize();
 }
 
 Vector3 Quaternion::MakeForward() const {

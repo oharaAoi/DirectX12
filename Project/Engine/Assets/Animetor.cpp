@@ -38,6 +38,7 @@ void Animetor::UpdateScript(float& animationTime, float transitionTime) {
 		// Animationの遷移がなかったらそのままタイムの更新を行う
 		animetionClip_->SetAnimationTime(animationTime);
 		animetionClip_->ApplyAnimation(skeleton_.get());
+
 	} else {
 		animetionClip_->AnimationTransition(skeleton_.get(), transitionTime);
 		// 更新を行ってAnimationが完全に切り替わったら遷移を終了しAnimationの時間を合うようにする

@@ -85,13 +85,13 @@ private:
 	std::unique_ptr<Skeleton> skeleton_ = nullptr;
 	std::unique_ptr<Skinning> skinning_ = nullptr;
 
-	bool isSkinning_;
+	bool isSkinning_ = true;
 
 	// -------------------------------------------------
 	// ↓ Animationの遷移に関する変数
 	// -------------------------------------------------
-	bool isControlScript_;
+	bool isControlScript_ = false;
 
-	float transitionTime_;
+	float transitionTime_ = 1.0f;
 };
 

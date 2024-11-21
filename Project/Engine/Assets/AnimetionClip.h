@@ -5,6 +5,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include "Engine/Lib/GameTimer.h"
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/Quaternion.h"
 #include "Engine/Assets/Skeleton.h"
@@ -133,9 +134,9 @@ private:
 	std::string nowAnimationName_;
 	// アニメーションの時間
 	float animationTime_ = 0.0f;
-	bool isAnimationFinish_;
+	bool isAnimationFinish_ = false;
 	// アニメーションをループさせるか
-	bool isLoop_;
+	bool isLoop_ = true;
 
 	Matrix4x4 animationMat_;
 
@@ -146,15 +147,15 @@ private:
 	// アニメーションの名前の配列
 	std::vector<std::string> animationNames_;
 	// skinningを行うか
-	bool isSkinnig_;
+	bool isSkinnig_ = true;
 
 	int selectedAnimationIndex = 0;
 
 	// -------------------------------------------------
 	// ↓ アニメーションの遷移に関する変数
 	// -------------------------------------------------
-	bool isAnimationChange_;			// アニメーションの遷移を行うか
-	float blendFactor_;					// 補完の線形代数
+	bool isAnimationChange_ = false;			// アニメーションの遷移を行うか
+	float blendFactor_ = 0.0f;					// 補完の線形代数
 	Animation lerpAnimetion_[2];		// 補完させるアニメーション
 	float lerpAnimationTime_[2];		// アニメーションさせるkeyTime
 	int lerpAnimationNamesIndex_[2];	// 
