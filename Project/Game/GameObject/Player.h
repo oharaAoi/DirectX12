@@ -148,7 +148,8 @@ private:
 
 	// クラッチ
 	std::unique_ptr<ClutchWire> wire_;
-	float maxClutchLength_ = 7.0f;
+	const float defaultMaxClutchLength_ = 7.0f;
+	float maxClutchLength_ = defaultMaxClutchLength_;
 	float stretchSpeed_ = 30.0f;
 	float camerazDis_ = 0.0f;
 	Vector2 clutchEnd_{};

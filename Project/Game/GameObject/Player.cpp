@@ -246,7 +246,7 @@ void Player::SetFalsePullBack() {
 
 void Player::CatchObjectFollow() {
 	// 捕まえたオブジェクトがない場合は早期リターン
-	if (wireTip_->GetCatchObject() == nullptr) {
+	if (wireTip_->GetCatchObject() == nullptr || !wireTip_->GetIsCautchObject()) {
 		return;
 	}
 
@@ -510,9 +510,10 @@ void Player::BaseClutch() {
 		if (nowScale.y < 0.05f) {
 			nowScale.y = 0.0f;
 			isReturnClutch_ = false;
+			maxClutchLength_ = defaultMaxClutchLength_;
 		}
 		wire_->GetTransform()->SetScale(nowScale);
-		maxClutchLength_ = 7.0f;
+		wireTip_->SetNeglect(true);
 	}
 
 }
@@ -526,9 +527,11 @@ void Player::FirstClutch() {
 		maxClutchLength_ = length;
 		isStretching_ = true;
 		isPullBackObj_ = true;
+		wireTip_->SetNeglect(true);
 		isRekey_ = false;
 	}
 	else if (!isStretchClutch_ && isRekey_ && !isPullBackObj_) {
+		wireTip_->SetNeglect(false);
 		ClutchEndCalculation();
 		isStretching_ = true;
 		isStretchClutch_ = true;
@@ -568,6 +571,7 @@ void Player::BackPullStretch() {
 		if (!Input::IsPressMouse(0)) {
 			isReturnClutch_ = true;
 			isPullBackObj_ = false;
+			wireTip_->SetNeglect(false);
 		}
 	}
 }

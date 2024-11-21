@@ -18,6 +18,10 @@ public:
 
 	void OnCollision(MeshCollider& other);
 
+	bool GetNeglect()const { return isNeglect_; }
+	void SetNeglect(bool is) { isNeglect_ = is; }
+
+
 private:
 
 	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
@@ -60,10 +64,13 @@ public:
 	CanThrowObject* GetCatchObject() { return catchObject_; }
 	void ReleseCathcObject() { 
 		catchObject_ = nullptr;
+		isCautchObject_ = false;
 		meshCollider_->SetTag(notCatchStateTag_);
 	}
 
 private:
+
+	bool isNeglect_ = false;
 
 	bool isHit_ = false;
 	bool isCautch_ = false;

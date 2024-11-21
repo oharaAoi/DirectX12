@@ -128,8 +128,7 @@ void Missile::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		if (other.GetTag() == "player") {
 			isAlive_ = false;
 		} else if (other.GetTag() == "notCatchWireTip") {
-			isWireCaught_ = true;
-			meshCollider_->SetTag("throwMissile");
+			// この時点でワイヤーのタグが変わっているためここで処理をする必要がない
 		}
 
 		// 捕まれた後のミサイル
@@ -137,7 +136,7 @@ void Missile::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		if (other.GetTag() == "boss_barrier") {
 			isAlive_ = false;
 		} else if (other.GetTag() == "right_hand" || other.GetTag() == "left_hand") {
-			isAlive_ = false;
+			//isAlive_ = false;
 		}
 	}
 }
