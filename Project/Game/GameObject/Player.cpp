@@ -478,7 +478,7 @@ void Player::BaseClutch() {
 		if (nowScale.y < 0.05f) {
 			nowScale.y = 0.0f;
 			isReturnClutch_ = false;
-			maxClutchLength_ = 7.0f;
+			maxClutchLength_ = defaultMaxClutchLength_;
 		}
 		wire_->GetTransform()->SetScale(nowScale);
 		wireTip_->SetNeglect(true);
