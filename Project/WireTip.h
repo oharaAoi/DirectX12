@@ -64,6 +64,7 @@ public:
 	CanThrowObject* GetCatchObject() { return catchObject_; }
 	void ReleseCathcObject() { 
 		catchObject_ = nullptr;
+		isCautchObject_ = false;
 		meshCollider_->SetTag(notCatchStateTag_);
 	}
 

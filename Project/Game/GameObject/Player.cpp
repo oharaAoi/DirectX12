@@ -246,7 +246,7 @@ void Player::SetFalsePullBack() {
 
 void Player::CatchObjectFollow() {
 	// 捕まえたオブジェクトがない場合は早期リターン
-	if (wireTip_->GetCatchObject() == nullptr) {
+	if (wireTip_->GetCatchObject() == nullptr || !wireTip_->GetIsCautchObject()) {
 		return;
 	}
 

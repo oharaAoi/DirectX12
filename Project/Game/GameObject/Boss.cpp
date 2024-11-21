@@ -130,8 +130,8 @@ void Boss::CheckBehaviorRequest() {
 			break;
 		case Behavior::ATTACK:
 			SetBehaviorState(std::make_unique<BossAttackState>(this));
-			CheckAttackType(AttackType::GooSlap_Attack);
-			attackType_ = AttackType::GooSlap_Attack;
+			CheckAttackType(attackType_);
+			//attackType_ = AttackType::GooSlap_Attack;
 			break;
 		default:
 			break;
