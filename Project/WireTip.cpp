@@ -97,13 +97,16 @@ void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			isSnagged_ = true;
 		}
 
-	} else if (other.GetTag() == "missile" && !isPull_) {
+	} else if (other.GetTag() == "missile") {
 		if (!isCautchObject_) {
 			isCautchObject_ = true;
-			//meshCollider_->SetIsnotCheckCollision(true);
 
 			catchObject_ = dynamic_cast<CanThrowObject*>(other.GetOwner());
 			meshCollider_->SetTag(catchStateTag_);
+
+			// この時点でミサイルのタグをフラグを投げる用にする
+			catchObject_->SetIsWireCaught(true);
+			catchObject_->GetMeshCollider()->SetTag("throwMissile")
 		}
 	}
 }
