@@ -18,6 +18,10 @@ public:
 
 	void OnCollision(MeshCollider& other);
 
+	bool GetNeglect()const { return isNeglect_; }
+	void SetNeglect(bool is) { isNeglect_ = is; }
+
+
 private:
 
 	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
@@ -64,6 +68,8 @@ public:
 	}
 
 private:
+
+	bool isNeglect_ = false;
 
 	bool isHit_ = false;
 	bool isCautch_ = false;

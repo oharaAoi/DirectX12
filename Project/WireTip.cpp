@@ -59,28 +59,30 @@ void WireTip::Draw() const {
 void WireTip::OnCollision(Collider* other) {
 
 	isHit_ = true;
+	if (!isNeglect_) {
+		if (other->GetTag() == "canPullObj") {
+			isPull_ = true;
+			weight_ = 0.5f;
+		}
 
-	if (other->GetTag() == "canPullObj") {
-		isPull_ = true;
-		weight_ = 0.5f;
-	}
-
-	if (other->GetTag() == "hook" && !isPull_) {
-		isSnagged_ = true;
-	}
-	if (other->GetTag() == "canCatchObj" && !isPull_) {
-		if (!isFollow_) {
-			isCautch_ = true;
-			isFollow_ = true;
+		if (other->GetTag() == "hook" && !isPull_) {
+			isSnagged_ = true;
+		}
+		if (other->GetTag() == "canCatchObj" && !isPull_) {
+			if (!isFollow_) {
+				isCautch_ = true;
+				isFollow_ = true;
+			}
 		}
 	}
-
 }
 
 void WireTip::OnCollision(MeshCollider& other) {
-	if (other.GetTag() == "boss_core") {
+	if (other.GetTag() == "boss_core" && !isPull_) {
 		isHit_ = true;
-		isSnagged_ = true;
+		if (!isNeglect_) {
+			isSnagged_ = true;
+		}
 	}
 }
 
@@ -91,9 +93,11 @@ void WireTip::OnCollision(MeshCollider& other) {
 void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
 		isHit_ = true;
-		isSnagged_ = true;
+		if (!isNeglect_ && !isPull_) {
+			isSnagged_ = true;
+		}
 
-	} else if (other.GetTag() == "missile") {
+	} else if (other.GetTag() == "missile" && !isPull_) {
 		if (!isCautchObject_) {
 			isCautchObject_ = true;
 			//meshCollider_->SetIsnotCheckCollision(true);
@@ -107,9 +111,11 @@ void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 void WireTip::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
 		isHit_ = true;
-		isSnagged_ = true;
+		if (!isNeglect_ && !isPull_) {
+			isSnagged_ = true;
+		}
 
-	} else if (other.GetTag() == "right_hand" || other.GetTag() == "left_hand") {
+	} else if (other.GetTag() == "right_hand" && !isPull_ || other.GetTag() == "left_hand" && !isPull_) {
 		isHit_ = true;
 		isSnagged_ = true;
 
