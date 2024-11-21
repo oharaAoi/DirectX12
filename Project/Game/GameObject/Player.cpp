@@ -484,7 +484,7 @@ void Player::BaseClutch() {
 	Vector2 clutchDirection;
 	if (!isReturnClutch_) {// 最大まで伸びて、戻る状態じゃない時
 		if (Input::IsPressMouse(0)) {
-			if (!wireTip_->GetFollow()) {
+			if (!wireTip_->GetFollow() && !canBossAttack_) {
 				isPull_ = true;
 
 				FirstClutch();
