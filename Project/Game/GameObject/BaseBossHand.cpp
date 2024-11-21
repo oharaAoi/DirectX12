@@ -22,7 +22,9 @@ void BaseBossHand::Init() {
 	// -------------------------------------------------
 	isGroundSlap_ = false;
 
+	isAlive_ = true;
 
+	hp_ = kDurability_;
 }
 
 void BaseBossHand::Update() {
@@ -253,6 +255,13 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 				animetor_->SetTransitionAnimation("slam", "stand_by");
 				animationTransitionTime_ = 1.0f;
 			}
+		}
+
+
+	} else if (other.GetTag() =="throwMissile") {
+		--hp_;
+		if (hp_ <= 0) {
+			isAlive_ = false;
 		}
 	}
 }

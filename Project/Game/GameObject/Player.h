@@ -59,6 +59,12 @@ public:
 	const bool GetPull() const { return isPull_; }
 	void SetPull(bool is) { isPull_ = is; }
 
+	// 伸びている状態かを取得
+	const bool GetIsStretchClutch() const { return isStretchClutch_; }
+
+	// 最大まで伸びて戻るかを取得
+	const bool GetIsReturnClutch() const { return isReturnClutch_; }
+
 	void SetNearBack(bool is) { isNearBack_ = is; }
 	bool GetNearBack()const { return isNearBack_; }
 	bool GetPullBack()const { return isPullBackObj_; }
@@ -131,10 +137,14 @@ private:
 	int easingIndex_ = int(EasingType::Out::Cubic);
 
 	float returnSpeed_ = 0.3f;
+
+	bool isRekey_ = true;// 一回ボタンから手離したかった
+
 	bool isReturnClutch_ = false;// 最大まで伸びて戻るか
 	bool isStretchClutch_ = false;// 伸びてる状態か
+
 	bool isStretching_ = false;
-	bool isRekey_ = true;// 一回ボタンから手離したかった
+
 	bool isSnagged_ = false;
 	bool isPull_ = false;
 	float pullWeight_ = 0.0f;

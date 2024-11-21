@@ -45,13 +45,6 @@ void GameScene::Init() {
 	testCollisionObj_->Init();
 	testCollisionObj_->SetPlayer(player_.get());
 
-	testCollisionObj2_ = std::make_unique<TestCollisionObj>();
-	testCollisionObj2_->Init();
-	testCollisionObj2_->SetPlayer(player_.get());
-	testCollisionObj2_->SetTag("canCatchObj");
-	testCollisionObj2_->GetTransform()->SetTranslaion({ -3.0f,4.0f,0.0f });
-
-
 	testCollisionObj3_ = std::make_unique<TestCollisionObj>();
 	testCollisionObj3_->Init();
 	testCollisionObj3_->SetPlayer(player_.get());
@@ -133,7 +126,6 @@ void GameScene::Update() {
 	}
 
 	testCollisionObj_->Update();
-	testCollisionObj2_->Update();
 	testCollisionObj3_->Update();
 
 	fall_->Update();
@@ -150,7 +142,6 @@ void GameScene::Update() {
 	collisionManager_->Reset();
 	collisionManager_->AddCollider(player_->GetWireTipCollider());
 	collisionManager_->AddCollider(testCollisionObj_.get());
-	collisionManager_->AddCollider(testCollisionObj2_.get());
 	collisionManager_->AddCollider(testCollisionObj3_.get());
 
 	// mesh
@@ -159,7 +150,10 @@ void GameScene::Update() {
 	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
 	collisionManager_->AddCollider(boss_->GetBossRightHand()->GetMeshCollider());
 	collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
-	collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
+
+	if (!(!player_->GetIsStretchClutch() && !player_->GetIsReturnClutch())) {
+		collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
+	}
 	
 	// バリアがあったらコリジョンのリストに追加
 	if (boss_->GetBossBarrier() != nullptr) {
@@ -270,7 +264,6 @@ void GameScene::Draw() const {
 	player_->Draw();
 
 	testCollisionObj_->Draw();
-	testCollisionObj2_->Draw();
 	testCollisionObj3_->Draw();
 
 	fall_->Draw();

@@ -46,6 +46,10 @@ public:
 	bool GetPull()const { return isPull_; }
 	void SetPull(bool is) { isPull_ = is; }
 
+	// ボスを攻撃中かのフラグの取得・設定
+	const bool GetIsBossAttack() const { return isBossAttack_; }
+	void SetIsBossAttack(bool isBossAttack) { isBossAttack_ = isBossAttack; }
+
 	const Vector3 GetWorldPos() const override { return transform_->GetTranslation(); }
 	float GetWeight() { return weight_; }
 
@@ -54,7 +58,10 @@ public:
 	void SetIsCautchObject(bool isCautch) { isCautchObject_ = isCautch; }
 
 	CanThrowObject* GetCatchObject() { return catchObject_; }
-	void ReleseCathcObject() { catchObject_ = nullptr; }
+	void ReleseCathcObject() { 
+		catchObject_ = nullptr;
+		meshCollider_->SetTag(notCatchStateTag_);
+	}
 
 private:
 
@@ -65,7 +72,12 @@ private:
 	bool isPull_ = false;
 	float weight_ = 0.0f;
 
+	bool isBossAttack_ = false;	// ボスの手などを攻撃中か
+
 	bool isCautchObject_ = false;
 	CanThrowObject* catchObject_ = nullptr;
+
+	const std::string notCatchStateTag_ = "notCatchWireTip";
+	const std::string catchStateTag_ = "catchWireTip";
 
 };

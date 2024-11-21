@@ -122,18 +122,21 @@ void Missile::Debug_Draw() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Missile::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
-	if (other.GetTag() == "player") {
-		if (meshCollider_->GetTag() == "missile") {
-			isAlive_ = false;
-		}
-		// ワイヤーに当たった時
-	} else if (other.GetTag() == "wireTip") {
-		isWireCaught_ = true;
-		meshCollider_->SetTag("throwMissile");
 
-		// Bossのバリアにぶつかった時
-	} else if (other.GetTag() == "boss_barrier") {
-		if (meshCollider_->GetTag() == "throwMissile") {
+	// 捕まれる前状態のミサイル
+	if (meshCollider_->GetTag() == "missile") {
+		if (other.GetTag() == "player") {
+			isAlive_ = false;
+		} else if (other.GetTag() == "notCatchWireTip") {
+			isWireCaught_ = true;
+			meshCollider_->SetTag("throwMissile");
+		}
+
+		// 捕まれた後のミサイル
+	} else if (meshCollider_->GetTag() == "throwMissile") {
+		if (other.GetTag() == "boss_barrier") {
+			isAlive_ = false;
+		} else if (other.GetTag() == "right_hand" || other.GetTag() == "left_hand") {
 			isAlive_ = false;
 		}
 	}
