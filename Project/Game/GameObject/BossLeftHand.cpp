@@ -11,7 +11,8 @@ void BossLeftHand::Finalize() {}
 
 void BossLeftHand::Init() {
 	BaseGameObject::Init();
-	SetObject("Left_Hand.obj");
+	SetObject("Left_Hand.gltf");
+	SetAnimater("./Game/Resources/Model/Left_Hand/", "Left_Hand.gltf", true, true, true);
 
 	SetMeshCollider("left_hand");
 	BaseBossHand::Init();
@@ -23,7 +24,7 @@ void BossLeftHand::Init() {
 	AdaptAdjustment();
 
 	initPos_ = transform_->GetTranslation();
-	transform_->SetScale(Vector3(0.5f, 0.5f, 0.5f));
+	//transform_->SetScale(Vector3(0.5f, 0.5f, 0.5f));
 
 	moveIndex_ = 0;
 
@@ -82,7 +83,8 @@ void BossLeftHand::Debug_Gui() {
 	if (ImGui::CollapsingHeader("SetParameter")) {
 		ImGui::BulletText("Set_Parameter");
 		ImGui::Indent(20.0f);
-		transform_->Debug_Gui();
+		
+		BaseGameObject::Debug_Gui();
 
 		ShowEasingDebug(easeType_);	// easingを決める
 		ImGui::DragFloat("moveTimeLimit", &moveTimeLimit_, 0.1f);	// 移動時間を決める
