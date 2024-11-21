@@ -55,6 +55,9 @@ void GameScene::Init() {
 	fall_->Init();
 	fall_->SetPlayer(player_.get());
 
+	fallStone_ = std::make_unique<FallStone>();
+	fallStone_->Init();
+
 	// -------------------------------------------------
 	// ↓ Managerの初期化
 	// -------------------------------------------------
@@ -125,6 +128,8 @@ void GameScene::Update() {
 	testCollisionObj3_->Update();
 
 	fall_->Update();
+	fallStone_->SetFalling(fall_->GetFalling());
+	fallStone_->Update();
 
 	// -------------------------------------------------
 	// ↓ UIの更新
@@ -146,6 +151,7 @@ void GameScene::Update() {
 	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
 	collisionManager_->AddCollider(boss_->GetBossRightHand()->GetMeshCollider());
 	collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
+	collisionManager_->AddCollider(fallStone_->GetMeshCollider());
 
 	if (!(!player_->GetIsStretchClutch() && !player_->GetIsReturnClutch())) {
 		collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
@@ -263,6 +269,7 @@ void GameScene::Draw() const {
 	testCollisionObj3_->Draw();
 
 	fall_->Draw();
+	fallStone_->Draw();
 
 	boss_->PostDraw();
 

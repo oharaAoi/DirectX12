@@ -17,8 +17,8 @@ void Fall::Finalize() {
 void Fall::Init() {
 	BaseGameObject::Init();
 	SetObject("cube.obj");
-	transform_->SetScale({ 1.0f, 1.0f, 1.0f });
-	transform_->SetTranslaion({ 0.0f, 12.0f, 3.0f });
+	transform_->SetScale({ 1.0f, 2.0f, 1.0f });
+	transform_->SetTranslaion({ 0.0f, 16.0f, 12.0f });
 
 	radius_ = 1.0f;
 	tag_ = "fallObj";
