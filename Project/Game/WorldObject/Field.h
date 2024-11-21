@@ -17,6 +17,8 @@ public:
 
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	void Debug_Draw();
 #endif
 
 	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }

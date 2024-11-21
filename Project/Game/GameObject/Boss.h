@@ -49,12 +49,12 @@ public:
 
 	void SetEditer(BossAttackEditer* left, BossAttackEditer* right);
 
-	BossCore* GetBossCore() { return boss_core_.get(); }
-	BossLeftHand* GetBossLeftHand() { return boss_leftHand_.get(); }
-	BossRightHand* GetBossRightHand() { return boss_rightHand_.get(); }
-	BossBarrier* GetBossBarrier() { return boss_barrier_.get(); }
+	BossCore* GetBossCore() { return core_.get(); }
+	BossLeftHand* GetBossLeftHand() { return leftHand_.get(); }
+	BossRightHand* GetBossRightHand() { return rightHand_.get(); }
+	BossBarrier* GetBossBarrier() { return barrier_.get(); }
 
-	const Vector3 GetBossBodyPos() const { return boss_body_->GetTransform()->GetTranslation(); }
+	const Vector3 GetBossBodyPos() const { return body_->GetTransform()->GetTranslation(); }
 
 	// BossのHpの取得・設定
 	const float GetBossHp() const { return bossHp_; }
@@ -64,8 +64,8 @@ public:
 	const Vector3 GetPlayerPos() const { return playerPos_; }
 	void SetPlayerPos(const Vector3& playerPos) {
 		playerPos_ = playerPos;
-		boss_leftHand_->SetPlayerPos(playerPos);
-		boss_rightHand_->SetPlayerPos(playerPos);
+		leftHand_->SetPlayerPos(playerPos);
+		rightHand_->SetPlayerPos(playerPos);
 	}
 
 	// Behaviorの次の状態をリクエストする・状態を設定する
@@ -74,6 +74,7 @@ public:
 
 	// 攻撃する種類を取得
 	const AttackType GetAttackType() const { return attackType_; }
+	void SetAttackType(const AttackType& type) { attackType_ = type; }
 
 	// gameSceneのセット
 	void SetGameScene(GameScene* gameScene) { pGameScene_ = gameScene; }
@@ -97,15 +98,15 @@ private:
 private:
 
 	// 体
-	std::unique_ptr<BossBody> boss_body_;
+	std::unique_ptr<BossBody> body_;
 	// コア部
-	std::unique_ptr<BossCore> boss_core_;
+	std::unique_ptr<BossCore> core_;
 	// 左手
-	std::unique_ptr<BossLeftHand> boss_leftHand_;
+	std::unique_ptr<BossLeftHand> leftHand_;
 	// 右手
-	std::unique_ptr<BossRightHand> boss_rightHand_;
+	std::unique_ptr<BossRightHand> rightHand_;
 	// バリア
-	std::unique_ptr<BossBarrier> boss_barrier_;
+	std::unique_ptr<BossBarrier> barrier_;
 
 	BossAttackEditer* leftHandEditer_ = nullptr;
 	BossAttackEditer* rightHandEditer_ = nullptr;

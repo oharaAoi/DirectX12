@@ -15,6 +15,11 @@ public:
 
 	const std::string GetStateName() const { return stateName_; }
 
+
+#ifdef _DEBUG
+	virtual void Debug_Gui() = 0;
+#endif // _DEBUG
+
 protected:
 
 	std::string stateName_;	// 状態の名前

@@ -152,7 +152,6 @@ void GameScene::Update() {
 	// mesh
 	collisionManager_->AddCollider(field_->GetMeshCollider());
 	collisionManager_->AddCollider(player_->GetMeshCollider());
-
 	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
 	collisionManager_->AddCollider(boss_->GetBossRightHand()->GetMeshCollider());
 	collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
@@ -218,16 +217,16 @@ void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	DrawGrid(viewMat_, projectionMat_);
 
+	field_->Debug_Draw();
 	bossLeftAttackEditer_->Draw();
 	bossRightAttackEditer_->Draw();
 
 	player_->Debug_Draw();
 	boss_->Debug_Draw();
+
 	for (auto& missile : missileList_) {
 		missile->Debug_Draw();
 	}
-
-
 #endif
 	
 	// -------------------------------------------------

@@ -581,6 +581,16 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			}
 		}
 		isKnockBack_ = true;
+
+	} else if (other.GetTag() == "right_hand" || other.GetTag() == "left_hand") {
+		if (!isKnockBack_) {
+			if (other.GetObbCenter().x > transform_->GetTranslation().x) {
+				knockBack_LorR_ = -1;
+			} else {
+				knockBack_LorR_ = 1;
+			}
+		}
+		isKnockBack_ = true;
 	}
 }
 

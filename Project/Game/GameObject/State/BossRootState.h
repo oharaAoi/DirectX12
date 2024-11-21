@@ -1,32 +1,41 @@
 #pragma once
-#include "BaseObjectState.h"
+#include "Game/GameObject/State/BaseObjectState.h"
+#include "Engine/Math/MyRandom.h"
 
 class Boss;
 
 class BossRootState :
-    public BaseObjectState {
+	public BaseObjectState {
 public: // メンバ構想体
 
-    /// <summary>
-    /// RootState状態の時に行う処理をまとめた構造体
-    /// </summary>
-    struct Work {
-        float waitTime;
-    };
+	/// <summary>
+	/// RootState状態の時に行う処理をまとめた構造体
+	/// </summary>
+	struct Work {
+		float waitTime;
+	};
 
 public:
 
-    BossRootState(Boss* pBoss) : pBoss_(pBoss) { Init(); };
-    ~BossRootState();
+	BossRootState(Boss* pBoss) : pBoss_(pBoss) { Init(); };
+	~BossRootState();
 
-    void Init() override;
-    void Update() override;
+	void Init() override;
+	void Update() override;
+
+#ifdef _DEBUG
+	void Debug_Gui() override;
+#endif // _DEBUG
+
 
 private:
 
-    Boss* pBoss_ = nullptr;
+	Boss* pBoss_ = nullptr;
 
-    Work work_;
+	Work work_;
 
+#ifdef _DEBUG
+	bool isStop_ = false;
+#endif // _DEBUG
 };
 
