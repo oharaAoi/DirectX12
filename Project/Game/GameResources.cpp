@@ -18,8 +18,7 @@ void GameResources::Load() {
 	// worldObject
 	ModelManager::LoadModel("./Game/Resources/Model/Skydome/", "skydome.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Field/", "kair_field.obj");
-	ModelManager::LoadModel("./Game/Resources/", "camera.obj");
-
+	
 	// gameObject
 	ModelManager::LoadModel("./Game/Resources/Model/Boss_Body/", "boss_body.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Boss_Core/", "boss_core.obj");

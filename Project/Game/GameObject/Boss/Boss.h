@@ -1,11 +1,11 @@
 #pragma once
 #include <memory>
 #include <optional>
-#include "Game/GameObject/BossBody.h"
-#include "Game/GameObject/BossCore.h"
-#include "Game/GameObject/BossLeftHand.h"
-#include "Game/GameObject/BossRightHand.h"
-#include "Game/GameObject/BossBarrier.h"
+#include "Game/GameObject/Boss/BossBody.h"
+#include "Game/GameObject/Boss/BossCore.h"
+#include "Game/GameObject/Boss/BossLeftHand.h"
+#include "Game/GameObject/Boss/BossRightHand.h"
+#include "Game/GameObject/Boss/BossBarrier.h"
 #include "Game/Editer/BossAttackEditer.h"
 #include "Game/GameObject/State/BossRootState.h"
 #include "Game/GameObject/State/BossAttackState.h"

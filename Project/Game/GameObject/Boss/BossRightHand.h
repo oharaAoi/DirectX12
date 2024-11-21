@@ -5,7 +5,7 @@
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Math/Easing.h"
 #include "Game/Editer/BossAttackEditer.h"
-#include "Game/GameObject/BaseBossHand.h"
+#include "Game/GameObject/Boss/BaseBossHand.h"
 
 /// <summary>
 /// Bossの右手

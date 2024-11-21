@@ -1,5 +1,5 @@
 #include "TestCollisionObj.h"
-#include "Game/GameObject/Player.h"
+#include "Game/GameObject/Player/Player.h"
 
 TestCollisionObj::TestCollisionObj() {
 }
