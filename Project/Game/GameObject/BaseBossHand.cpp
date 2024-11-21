@@ -159,8 +159,10 @@ void BaseBossHand::PrepareAttack(const AttackType& type) {
 	switch (type) {
 	case AttackType::GooSlap_Attack:
 		//animetor_->SetTransitionAnimation("stand_by", "slap");
+		meshCollider_->SetSubTag("slap_attack");
 		break;
 	case AttackType::ParSlap_Attack:
+		meshCollider_->SetSubTag("slap_attack");
 		break;
 	case AttackType::Missile_Attack:
 		break;
@@ -249,6 +251,7 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		isGroundSlap_ = true;
 		moveTime_ = 0.0f;
 		beforeAttackPos_ = transform_->GetTranslation();
+		meshCollider_->SetSubTag("attacked");
 
 		if(attackType_ == AttackType::GooSlap_Attack){
 			if (animetor_ != nullptr) {
