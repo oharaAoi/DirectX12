@@ -54,8 +54,6 @@ void GameScene::Init() {
 	fall_ = std::make_unique<Fall>();
 	fall_->Init();
 	fall_->SetPlayer(player_.get());
-	fall_->GetTransform()->SetTranslaion({ 8.0f,8.0f,0.0f });
-	
 
 	// -------------------------------------------------
 	// ↓ Managerの初期化
