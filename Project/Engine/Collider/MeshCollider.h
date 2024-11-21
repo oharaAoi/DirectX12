@@ -107,6 +107,10 @@ public:
 	void SetTag(const std::string& tag) { tag_ = tag; }
 	const std::string GetTag() const { return tag_; }
 
+	// --------------- サブの取得 -------------- //
+	void SetSubTag(const std::string& subTag) { subTag_ = subTag; }
+	const std::string& GetSubTag() const { return subTag_; }
+
 	// --------------- stateの取得 -------------- //
 	void SetCollisionState(int stateBit) { collisionState_ = stateBit; }
 	const int GetCollisionState() const { return collisionState_; }
@@ -136,6 +140,9 @@ private:
 	OBB obb_;
 	// タグ
 	std::string tag_;
+	// サブタグ
+	std::string subTag_;
+	
 	// 
 	Vector4 color_;
 

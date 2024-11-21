@@ -620,14 +620,8 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			isKnockBack_ = true;
 		}
 	} else if (other.GetTag() == "missile") {
-		if (!isKnockBack_) {
-			if (other.GetObbCenter().x > transform_->GetTranslation().x) {
-				knockBack_LorR_ = -1;
-			} else {
-				knockBack_LorR_ = 1;
-			}
-		}
-		isKnockBack_ = true;
+		behaviorRequest_ = PlayerState::BeAttacked;
+		beAttackedType_ = BeAttackedType::NORMAL_HITED;
 
 	} else if (other.GetTag() == "right_hand" || other.GetTag() == "left_hand") {
 
@@ -643,6 +637,13 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			wireTip_->SetIsBossAttack(false);
 		}else{
 			behaviorRequest_ = PlayerState::BeAttacked;
+
+			if (other.GetSubTag() == "attacked") {
+				beAttackedType_ = BeAttackedType::NORMAL_HITED;
+
+			}else if (other.GetSubTag() == "slap_attack") {
+				beAttackedType_ = BeAttackedType::SLAP_ATTACKED;
+			}
 		}
 	}
 }

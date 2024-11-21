@@ -11,7 +11,6 @@ PlayerBeAttackedState::~PlayerBeAttackedState() {
 void PlayerBeAttackedState::Init() {
 	stateName_ = "BeAttacked";
 
-	work_.knockBackTime = 0.3f;
 	knockBackSpeed_ = 14.0f;
 
 	// 左に飛ぶ
@@ -20,6 +19,22 @@ void PlayerBeAttackedState::Init() {
 	} else {
 		knockBackVelocity_ = { 1.0f, 0.0f, 0.0f };
 	}
+
+	switch (pPlayer_->GetBeAttackedType()) {
+	case BeAttackedType::NORMAL_HITED:
+		knockBackFunction_ = std::bind(&PlayerBeAttackedState::NormalKnockBack, this);
+		work_.knockBackTime = 0.0f;
+		work_.knockBackTimeLimit = 0.3f;
+		break;
+
+	case BeAttackedType::SLAP_ATTACKED:
+		knockBackFunction_ = std::bind(&PlayerBeAttackedState::SlapedKnockBack, this);
+		work_.knockBackTime = 0.0f;
+		work_.knockBackTimeLimit = 1.0f;
+		break;
+	default:
+		break;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,7 +42,26 @@ void PlayerBeAttackedState::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerBeAttackedState::Update() {
-	
+	Reaction();
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　リアクションをとる
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void PlayerBeAttackedState::TimeUpdate() {
+	// 時間の更新
+	work_.knockBackTime += GameTimer::DeltaTime();
+	if (work_.knockBackTime >= work_.knockBackTimeLimit) {
+		pPlayer_->SetBehaviorRequest(PlayerState::Default);
+	}
+}
+
+void PlayerBeAttackedState::Reaction() {
+	if (knockBackFunction_) {
+		knockBackFunction_();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,14 +75,27 @@ void PlayerBeAttackedState::NormalKnockBack() {
 	pPlayer_->GetTransform()->SetTranslaion(pos);
 
 	// speedを時間で変更する
-	knockBackSpeed_ = std::lerp(3.0f, 14.0f, Ease::Out::Expo(work_.knockBackTime / 0.3f));
+	knockBackSpeed_ = std::lerp(14.0f, 3.0f, Ease::Out::Expo(work_.knockBackTime / work_.knockBackTimeLimit));
 
-	// 時間の更新
-	work_.knockBackTime -= GameTimer::DeltaTime();
+	TimeUpdate();
+}
 
-	if (work_.knockBackTime <= 0.0f) {
-		pPlayer_->SetBehaviorRequest(PlayerState::Default);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　叩き潰された時
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void PlayerBeAttackedState::SlapedKnockBack() {
+	
+	Vector3 scale = pPlayer_->GetTransform()->GetScale();
+	float halfTime = (work_.knockBackTimeLimit / 2.0f);
+	if (work_.knockBackTime < halfTime) {
+		scale.y = std::lerp(1.0f, 0.2f, Ease::Out::Expo(work_.knockBackTime / halfTime));
+	} else {
+		scale.y = std::lerp(0.2f, 1.0f, Ease::Out::Elastic((work_.knockBackTime - halfTime) / halfTime));
 	}
+	pPlayer_->GetTransform()->SetScale(scale);
+
+	TimeUpdate();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
