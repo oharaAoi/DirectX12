@@ -3,7 +3,7 @@
 #include "Engine/Math/Quaternion.h"
 
 Matrix4x4 Matrix4x4::Transpose() const {
-	Matrix4x4 result;
+	Matrix4x4 result{};
 	for (int i = 0; i < 4; ++i) {
 		for (int j = 0; j < 4; ++j) {
 			// 行と列を入れ替える
@@ -14,7 +14,7 @@ Matrix4x4 Matrix4x4::Transpose() const {
 }
 
 Matrix4x4 Matrix4x4::MakeUnit() {
-	Matrix4x4 result;
+	Matrix4x4 result{};
 	for (int row = 0; row < 4; row++) {
 		for (int col = 0; col < 4; col++) {
 			if (row == col) {

@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include "Engine.h"
+#include "Engine/Engine.h"
 #include "Engine/Manager/ModelManager.h"
 #include "Engine/GameObject/Model.h"
 #include "Engine/Assets/WorldTransform.h"
@@ -70,18 +70,18 @@ public:
 
 protected:
 
-	Model* model_;
+	Model* model_ = nullptr;
 	std::vector<std::unique_ptr<Material>> materials;	// 後で変えたい
 
-	std::unique_ptr<WorldTransform> transform_;
+	std::unique_ptr<WorldTransform> transform_ = nullptr;
 	std::unique_ptr<Animetor> animetor_ = nullptr;
 
-	std::unique_ptr<ObjectAxis> objectAxis_; // objectの回転を可視化したもの
+	std::unique_ptr<ObjectAxis> objectAxis_ = nullptr; // objectの回転を可視化したもの
 
-	std::unique_ptr<MeshCollider> meshCollider_; // 当たり判定を行うクラス
+	std::unique_ptr<MeshCollider> meshCollider_ = nullptr; // 当たり判定を行うクラス
 
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
-	Vector3 worldPos_;
+	Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f};
 
 	bool isAnimation_ = false;
 

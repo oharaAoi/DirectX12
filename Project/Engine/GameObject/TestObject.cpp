@@ -26,6 +26,7 @@ void TestObject::Init() {
 	transitionAnimationTime_ = 0.0f;
 	transitionAnimationTimeLimit_ = 1.0f;
 
+	animationTime_ = 0.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,13 +34,13 @@ void TestObject::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TestObject::Update() {
-	if (animetor_ != nullptr) {
+	/*if (animetor_ != nullptr) {
 		if (!animetor_->GetIsAnimationChange()) {
 			animationTime_ += GameTimer::DeltaTime();
 		}
 		animetor_->UpdateScript(animationTime_, transitionAnimationTimeLimit_);
 		animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
-	}
+	}*/
 
 	BaseGameObject::Update();
 }
