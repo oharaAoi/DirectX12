@@ -84,16 +84,12 @@ void TestCollisionObj::OnCollision(Collider* other) {
 				else {
 					player_->GetWireTip()->SetFolllow(false);
 				}
-
 			}
-
 			if (tag_ == "canPullObj") {
-
 				isPulling_ = true;
 			}
 		}
 	}
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
