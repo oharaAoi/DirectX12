@@ -21,6 +21,7 @@ public:
 	bool CheckMouseNear(const Matrix4x4& vpvpMat);
 	bool GetNear()const { return isNear_; }
 	bool GetFalling()const { return isFalling_; }
+	void Reset();
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -50,6 +51,9 @@ private:
 	float canFallEnergy = 50.0f;
 	bool isNear_ = false;
 	bool isFalling_ = false;
+
+	Vector3 velocity_{};
+	float gravity_ = -29.4f;
 
 };
 

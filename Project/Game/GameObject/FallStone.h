@@ -16,6 +16,7 @@ public:
 
 	void OnCollision([[maybe_unused]] Collider* other)override;
 
+	void Reset();
 	void SetFalling(bool is) { isFalling_ = is; }
 
 #ifdef _DEBUG
@@ -42,6 +43,9 @@ private:
 	/// ==========================================
 
 	bool isFalling_ = false;
+
+	Vector3 velocity_{};
+	float gravity_ = -29.4f;
 
 };
 

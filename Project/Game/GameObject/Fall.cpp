@@ -47,7 +47,9 @@ void Fall::Update() {
 	}
 
 	if (isFalling_) {
-		float fallPos = transform_->GetTranslation().y - 5.0f * GameTimer::DeltaTime();
+		velocity_.y += gravity_ * GameTimer::DeltaTime();
+		float fallPos = transform_->GetTranslation().y;
+		fallPos += velocity_.y * GameTimer::DeltaTime();
 		transform_->SetTranslationY(fallPos);
 	}
 
@@ -106,6 +108,12 @@ bool Fall::CheckMouseNear(const Matrix4x4& vpvpMat) {
 		isNear_ = true;
 	}
 	return isNear_;
+}
+
+void Fall::Reset() {
+	velocity_.y = 0.0f;
+	transform_->SetTranslaion({ 0.0f, 16.0f, 12.0f });
+	isFalling_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
