@@ -297,8 +297,8 @@ void GameScene::UpdateManager() {
 		collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
 	}
 
-	// バリアがあったらコリジョンのリストに追加
-	if (boss_->GetBossBarrier() != nullptr) {
+	// バリアが機能していたらコリジョンのリストに追加
+	if (!boss_->GetBossBarrier()->GetEnableFunction()) {
 		collisionManager_->AddCollider(boss_->GetBossBarrier()->GetMeshCollider());
 	}
 
