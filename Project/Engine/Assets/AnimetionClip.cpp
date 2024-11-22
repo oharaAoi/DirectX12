@@ -47,7 +47,6 @@ void AnimetionClip::Update() {
 // ↓　読み込み
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-#pragma optimize("", off)
 void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::string& animationFile, const std::string& rootName, bool isSkinning) {
 	animationFileName_ = animationFile;
 	isSkinnig_ = isSkinning;
@@ -60,7 +59,7 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 		throw std::runtime_error("Failed to load animations or no animations present");
 	}
 	
-	Log("Start LoadAnimation[" + animationFile + "]\n");
+	Log("Start LoadAnimationFile [" + animationFile + "]\n");
 
 	std::unordered_map<std::string, Animation> animationMap{};
 
@@ -73,6 +72,8 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 		animationData.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	// 時間の単位を秒に変換
 		animationData.animationName = animationName;													// animatonの名前を取得
 
+		Log("LoadAnimation[" + animationName + "]\n");
+
 		// -------------------------------------------------
 		// ↓ アニメーションの解析
 		// -------------------------------------------------
@@ -84,34 +85,75 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 			// -------------------------------------------------
 			// ↓ Vector3の読み込み
 			// -------------------------------------------------
+			Log("\n");
+			Log("[animation Translate]\n");
+			Log("\n");
 			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex) {
 				aiVectorKey& keyAssimp = nodeAnimationAssimp->mPositionKeys[keyIndex];
 				KeyframeVector3 keyframe{};
 				keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
 				keyframe.value = { -keyAssimp.mValue.x,keyAssimp.mValue.y, keyAssimp.mValue.z };
 				nodeAnimation.translate.keyframes.push_back(keyframe);
+				/*Log("---------------------------------\n");
+				std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
+				Log(timeLog);
+
+				std::string valueXLog = "keyFrame.value X : " + std::to_string(keyframe.value.x) + "\n";
+				std::string valueYLog = "keyFrame.value Y : " + std::to_string(keyframe.value.y) + "\n";
+				std::string valueZLog = "keyFrame.value Z : " + std::to_string(keyframe.value.z) + "\n";
+				
+				Log(valueXLog);
+				Log(valueYLog);
+				Log(valueZLog);*/
 			}
 
 			// -------------------------------------------------
 			// ↓ Quaternionの読み込み
 			// -------------------------------------------------
+			Log("\n");
+			Log("[animation Rotate]\n");
+			Log("\n");
 			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumRotationKeys; ++keyIndex) {
+
 				aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
 				KeyframeQuaternion keyframe{};
 				keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
 				keyframe.value = { keyAssimp.mValue.x, -keyAssimp.mValue.y, -keyAssimp.mValue.z, keyAssimp.mValue.w };
 				nodeAnimation.rotate.keyframes.push_back(keyframe);
+				/*std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
+				Log(timeLog);*/
+				/*Log("--------------------------------------------------\n");
+				std::string timeLog = "TicksPerSecond : " + std::to_string(animationAssimp->mTicksPerSecond) + "\n";
+				Log(timeLog);
+				
+				Log("--------------------------------------------------\n");*/
+	
 			}
 
 			// -------------------------------------------------
 			// ↓ Scaleの読み込み
 			// -------------------------------------------------
+			Log("\n");
+			Log("[animation Scale]\n");
+			Log("\n");
 			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumScalingKeys; ++keyIndex) {
 				aiVectorKey& keyAssimp = nodeAnimationAssimp->mScalingKeys[keyIndex];
 				KeyframeVector3 keyframe{};
 				keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
 				keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y, keyAssimp.mValue.z };
 				nodeAnimation.scale.keyframes.push_back(keyframe);
+
+				Log("---------------------------------\n");
+				std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
+				Log(timeLog);
+
+				std::string valueXLog = "keyFrame.value X : " + std::to_string(keyframe.value.x) + "\n";
+				std::string valueYLog = "keyFrame.value Y : " + std::to_string(keyframe.value.y) + "\n";
+				std::string valueZLog = "keyFrame.value Z : " + std::to_string(keyframe.value.z) + "\n";
+
+				Log(valueXLog);
+				Log(valueYLog);
+				Log(valueZLog);
 			}
 		}
 
@@ -129,7 +171,6 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 	// すべてのanimationの名前を取得
 	animationNames_ = manager_->GetModelHaveAnimationNames(animationFileName_);
 }
-#pragma optimize("", on)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　animationの取得
