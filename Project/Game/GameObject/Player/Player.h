@@ -77,6 +77,9 @@ public:
 	// 最大まで伸びて戻るかを取得
 	const bool GetIsReturnClutch() const { return isReturnClutch_; }
 
+	const bool GetCanBossAttack() const { return canBossAttack_; }
+
+	// 右と左どちらを向いているか
 	const float GetTargetRotate() const { return targetRotate; }
 
 	void SetNearBack(bool is) { isNearBack_ = is; }

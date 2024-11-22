@@ -30,7 +30,8 @@ void GameResources::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Barrier/", "barrier.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Missile/", "missile.obj");
 
-	//TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "reticle.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "star.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "kari_bossHp.png");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

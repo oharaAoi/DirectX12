@@ -159,11 +159,13 @@ void Boss::CheckAttackType(const AttackType& type) {
 		if (near_ == "left") {
 			leftHand_->PrepareAttack(type);
 			rightHand_->SetIsAttackMove(false);
+
+			leftHand_->GetAnimetor()->SetTransitionAnimation("stand_by", "slam");
 		} else {
 			rightHand_->PrepareAttack(type);
 			leftHand_->SetIsAttackMove(false);
-			rightHand_->GetAnimetor()->SetTransitionAnimation("stand_by", "slam");
 
+			rightHand_->GetAnimetor()->SetTransitionAnimation("stand_by", "slam");
 		}
 		break;
 

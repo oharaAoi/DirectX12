@@ -77,6 +77,11 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	// ↓ UI初期化
 	// -------------------------------------------------
+	playerUI_ = std::make_unique<PlayerUI>();
+	playerUI_->Init();
+
+	bossUI_ = std::make_unique<BossUI>();
+	bossUI_->Init();
 	
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
@@ -134,7 +139,10 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	// ↓ UIの更新
 	// -------------------------------------------------
-	
+	playerUI_->SetPlayerScreenPos(player_->GetTransform()->GetWorldMatrix(), followCamera_->GetVpvpMatrix());
+	playerUI_->Update();
+
+	bossUI_->Update();
 
 	// -------------------------------------------------
 	// ↓ Managerの更新
@@ -276,6 +284,9 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ UIの描画
 	// -------------------------------------------------
+	Engine::SetPipeline(PipelineType::SpritePipeline);
+	playerUI_->Draw(player_->GetCanBossAttack());
+	bossUI_->Draw();
 	
 }
 
@@ -318,6 +329,13 @@ void GameScene::Debug_Gui() {
 	{
 		if (ImGui::TreeNode("WorldObject")) {
 			field_->Debug_Gui();
+			ImGui::TreePop();
+		}
+	}
+
+	{
+		if (ImGui::TreeNode("UI")) {
+			bossUI_->Debug_Gui();
 			ImGui::TreePop();
 		}
 	}

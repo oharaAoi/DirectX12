@@ -12,6 +12,7 @@ void BossRootState::Init() {
 	stateName_ = "rootState";
 
 	pBoss_->GetBossRightHand()->ChangeRootMove(pBoss_->GetBossRightHand());
+	pBoss_->GetBossRightHand()->ChangeRootMove(pBoss_->GetBossLeftHand());
 
 	work_.waitTime = 4.0f;
 }
@@ -33,10 +34,10 @@ void BossRootState::Update() {
 	// 待機時間を減らす
 	work_.waitTime -= GameTimer::DeltaTime();
 	
-	/*if (work_.waitTime < 0.0f) {
+	if (work_.waitTime < 0.0f) {
 		pBoss_->SetBehaviorRequest(Behavior::ATTACK);
 		pBoss_->SetAttackType(static_cast<AttackType>(RandomInt(0, (static_cast<int>(AttackType::TOTAL) - 1))));
-	}*/
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
