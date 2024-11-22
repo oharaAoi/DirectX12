@@ -107,6 +107,7 @@ void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			// この時点でミサイルのタグをフラグを投げる用にする
 			catchObject_->SetIsWireCaught(true);
 			catchObject_->GetMeshCollider()->SetTag("throwMissile");
+			catchObject_->GetTransform()->SetQuaternion(Quaternion());
 		}
 	}
 }

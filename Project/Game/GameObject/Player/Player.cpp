@@ -164,60 +164,6 @@ void Player::CheckBossToLength(const Vector3& bossPos) {
 	Matrix4x4 mat = rotate.MakeMatrix();*/
 }
 
-void Player::SetInverMatrix(const Matrix4x4& inver) {
-	inverMat_ = inver;
-}
-
-void Player::SetCameraZDis(float z) {
-	camerazDis_ = z;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　Debug表示
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-#ifdef _DEBUG
-void Player::Debug_Gui() {
-	if (ImGui::TreeNode("player")) {
-		ImGui::Begin("player");
-		if (ImGui::TreeNode("Move")) {
-
-			ImGui::DragFloat("MoveSpeed", &moveSpeed_, 0.01f, 0.0f, 20.0f);
-			Vector3 pos = transform_->GetTranslation();
-			ImGui::DragFloat3("Trans", &pos.x);
-			if (isNearBack_) {
-				ImGui::Text("True");
-			}
-			ImGui::TreePop();
-		}
-
-		ShowEasingDebug(easingIndex_);
-
-		ImGui::DragFloat("throwSpeed", &throwSpeed_, 1.0f);
-
-		BaseGameObject::Debug_Gui();
-
-		playerAnimator_->Debug_Gui();
-
-		ImGui::End();
-		ImGui::TreePop();
-	}
-	if (ImGui::TreeNode("Wire")) {
-		ImGui::DragFloat2("Wire", &clutchEnd_.x);
-		ImGui::TreePop();
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　Debug描画
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Player::Debug_Draw() {
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
-	meshCollider_->Draw();
-}
-#endif
-
 Vector3 Player::GetThrowVelo() const {
 
 	Vector3 theow = ScreenToWorldCoordinate(Input::GetMousePosition(), inverMat_, -camerazDis_);
@@ -225,13 +171,6 @@ Vector3 Player::GetThrowVelo() const {
 	theow = theow.Normalize();
 
 	return theow;
-}
-
-void Player::SetFalsePullBack() {
-	isPullBackObj_ = false;
-	isStretching_ = false;
-	isNearBack_ = false;
-	isReturnClutch_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -246,8 +185,11 @@ void Player::CatchObjectFollow() {
 
 	// プレイヤーの座標に合わせる
 	auto catchObj = wireTip_->GetCatchObject();
-	catchObj->GetTransform()->SetTranslaion(transform_->GetTranslation());
-
+	Vector3 playerPos = transform_->GetTranslation();
+	playerPos.y += 2.0f;
+	catchObj->GetTransform()->SetTranslaion(playerPos);
+	catchObj->GetTransform()->SetQuaternion(transform_->GetQuaternion());
+	
 	// 投げる処理
 	if (Input::IsTriggerMouse(0)) {
 		if (canBossAttack_) {
@@ -660,5 +602,74 @@ void Player::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 	}
 }
 
+
 void Player::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Setter系
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void Player::SetInverMatrix(const Matrix4x4& inver) {
+	inverMat_ = inver;
+}
+
+void Player::SetCameraZDis(float z) {
+	camerazDis_ = z;
+}
+
+
+void Player::SetFalsePullBack() {
+	isPullBackObj_ = false;
+	isStretching_ = false;
+	isNearBack_ = false;
+	isReturnClutch_ = true;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Debug表示
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef _DEBUG
+void Player::Debug_Gui() {
+	if (ImGui::TreeNode("player")) {
+		ImGui::Begin("player");
+		if (ImGui::TreeNode("Move")) {
+
+			ImGui::DragFloat("MoveSpeed", &moveSpeed_, 0.01f, 0.0f, 20.0f);
+			Vector3 pos = transform_->GetTranslation();
+			ImGui::DragFloat3("Trans", &pos.x);
+			if (isNearBack_) {
+				ImGui::Text("True");
+			}
+			ImGui::TreePop();
+		}
+
+		ShowEasingDebug(easingIndex_);
+
+		ImGui::DragFloat("throwSpeed", &throwSpeed_, 1.0f);
+
+		BaseGameObject::Debug_Gui();
+
+		playerAnimator_->Debug_Gui();
+
+		ImGui::End();
+		ImGui::TreePop();
+	}
+	if (ImGui::TreeNode("Wire")) {
+		ImGui::DragFloat2("Wire", &clutchEnd_.x);
+		ImGui::TreePop();
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Debug描画
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::Debug_Draw() {
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	meshCollider_->Draw();
+}
+#endif
