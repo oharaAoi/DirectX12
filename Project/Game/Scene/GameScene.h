@@ -32,6 +32,23 @@ public:
 	void Update() override;
 	void Draw() const override;
 
+private:
+
+	void UpdateWorldObject();
+
+	void UpdateGameObject();
+
+	void UpdateUI();
+
+	void UpdateManager();
+
+	/// <summary>
+	/// ボスの状態を変化させる
+	/// </summary>
+	void BossFormTransition();
+
+public:
+
 	void AddMissile(const Vector3& targePos, const Vector3& firePos);
 
 #ifdef _DEBUG
@@ -81,4 +98,12 @@ private:
 	std::unique_ptr<BossAttackEditer> bossLeftAttackEditer_;
 	std::unique_ptr<BossAttackEditer> bossRightAttackEditer_;
 	
+
+	//=============================
+	// ↓　パラメータ
+	//=============================
+
+	float bossFormTransitionTime_ = 0.0f;
+	float bossFormTransitionTimeLimit_ = 5.0f;
+
 };

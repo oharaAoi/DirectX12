@@ -19,10 +19,7 @@ public:
 	void Update() override;
 	void Draw() const override;
 
-	void OnCollision(MeshCollider& other);
-
 	void AdaptAdjustment();
-
 
 	bool CheckMouseNear(const Matrix4x4& vpvpMat);
 	void SetPlayerPullBack(bool is) { isPlayerPullBack_ = is; }
@@ -36,6 +33,10 @@ public:
 #endif
 
 	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
+
+	// BossのHpの取得・設定
+	const float GetHp() const { return hp_; }
+	void SetHp(float newHp) { hp_ = newHp; };
 
 private:
 
@@ -54,6 +55,9 @@ private:
 	bool isNear_ = false;
 	bool isFalling_ = false;
 	bool isFalsePullBack_ = false;
+
+	float hp_ = 100.0f;
+	float decrementHp_ = 10.0f;
 
 };
 

@@ -26,8 +26,9 @@ void BossCore::Init() {
 	// 調整項目の適応
 	AdaptAdjustment();
 
-
 	defaultPosition = transform_->GetTranslation();
+
+	hp_ = 100.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,16 +68,6 @@ void BossCore::Update() {
 
 void BossCore::Draw() const {
 	BaseGameObject::Draw();
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　衝突判定処理
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossCore::OnCollision(MeshCollider& other) {
-	if (other.GetTag() == "player") {
-		//AdaptAdjustment();
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +117,12 @@ bool BossCore::SetFalsePlayerPullBack() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossCore::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
+	if (other.GetTag() == "player") {
+		hp_ -= decrementHp_;
+	}
 }
+
+
 void BossCore::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 }
 void BossCore::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
@@ -149,6 +145,8 @@ void BossCore::Debug_Gui() {
 	if (ImGui::Button("position reset")) {
 		transform_->SetTranslationZ(defaultPosition.z);
 	}
+
+	ImGui::SliderFloat("hp", &hp_, 0.0f, 100.0f);
 
 	ImGui::End();
 }

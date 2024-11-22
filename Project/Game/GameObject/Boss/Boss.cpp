@@ -1,5 +1,8 @@
 #include "Boss.h"
 #include "Game/Scene/GameScene.h"
+#include "Game/GameObject/State/BossRootState.h"
+#include "Game/GameObject/State/BossAttackState.h"
+#include "Game/GameObject/State/BossTransitionState.h"
 
 Boss::Boss() {
 }
@@ -52,6 +55,8 @@ void Boss::Init() {
 
 	behaviorRequest_ = Behavior::ROOT;
 	CheckBehaviorRequest();
+
+	form_ = BossForm::FIRST;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,6 +66,16 @@ void Boss::Init() {
 void Boss::Update() {
 	CheckBehaviorRequest();
 	state_->Update();
+
+	bossHp_ = core_->GetHp();
+	if (bossHp_ <= 0.0f) {
+		if (form_ == BossForm::FIRST) {
+			if (behavior_ != Behavior::ATTACK) {
+				behaviorRequest_ = Behavior::TRANSITION;
+				isTransitionForm_ = true;
+			}
+		}
+	}
 
 	// -------------------------------------------------
 	// ↓ playerの座標から右手と左手でどちらが近いかを計算しておく
@@ -131,7 +146,9 @@ void Boss::CheckBehaviorRequest() {
 		case Behavior::ATTACK:
 			SetBehaviorState(std::make_unique<BossAttackState>(this));
 			CheckAttackType(attackType_);
-			//attackType_ = AttackType::GooSlap_Attack;
+			break;
+		case Behavior::TRANSITION:
+			SetBehaviorState(std::make_unique<BossTransitionState>(this));
 			break;
 		default:
 			break;

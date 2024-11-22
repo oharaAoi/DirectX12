@@ -11,7 +11,7 @@ public:
 	~BossUI();
 
 	void Init();
-	void Update();
+	void Update(float bossHp);
 	void Draw();
 
 	void AdaptAdjustment();
