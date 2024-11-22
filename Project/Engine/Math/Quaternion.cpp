@@ -194,18 +194,18 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const f
 	float dot = Dot(q1, q2);
 	dot = std::clamp(dot, -1.0f, 1.0f);
 
-	Quaternion newQ2 = q2;
+	Quaternion newQ1 = q1;
 	if (dot < 0.0f) {
-		newQ2 = Quaternion(-q2.x, -q2.y, -q2.z, -q2.w);
+		newQ1 = Quaternion(-q1.x, -q1.y, -q1.z, -q1.w);
 		dot = -dot;
 	}
 
 	if (dot > 0.9995f) { // 線形補間 (Lerp) を使用
 		Quaternion lerpResult = Quaternion(
-			q1.x + t * (newQ2.x - q1.x),
-			q1.y + t * (newQ2.y - q1.y),
-			q1.z + t * (newQ2.z - q1.z),
-			q1.w + t * (newQ2.w - q1.w)
+			newQ1.x + t * (q2.x - newQ1.x),
+			newQ1.y + t * (q2.y - newQ1.y),
+			newQ1.z + t * (q2.z - newQ1.z),
+			newQ1.w + t * (q2.w - newQ1.w)
 		);
 		return lerpResult.Normalize(); // 正規化
 	}
@@ -215,10 +215,10 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const f
 	if (std::fabs(bottom) < 1e-6f) {
 		// bottomがほぼ0の場合、Lerpにフォールバック
 		return Quaternion(
-			q1.x + t * (newQ2.x - q1.x),
-			q1.y + t * (newQ2.y - q1.y),
-			q1.z + t * (newQ2.z - q1.z),
-			q1.w + t * (newQ2.w - q1.w)
+			newQ1.x + t * (q2.x - newQ1.x),
+			newQ1.y + t * (q2.y - newQ1.y),
+			newQ1.z + t * (q2.z - newQ1.z),
+			newQ1.w + t * (q2.w - newQ1.w)
 		).Normalize();
 	}
 
@@ -226,10 +226,10 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const f
 	float b_rotate = std::sin(t * rad) / bottom;
 
 	Quaternion result = Quaternion(
-		(q1.x * a_rotate) + (newQ2.x * b_rotate),
-		(q1.y * a_rotate) + (newQ2.y * b_rotate),
-		(q1.z * a_rotate) + (newQ2.z * b_rotate),
-		(q1.w * a_rotate) + (newQ2.w * b_rotate)
+		(newQ1.x * a_rotate) + (q2.x * b_rotate),
+		(newQ1.y * a_rotate) + (q2.y * b_rotate),
+		(newQ1.z * a_rotate) + (q2.z * b_rotate),
+		(newQ1.w * a_rotate) + (q2.w * b_rotate)
 	);
 
 	return result.Normalize();

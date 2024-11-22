@@ -311,3 +311,12 @@ D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(ID3D12DescriptorHeap* descrip
 void Log(const std::string& message) {
 	OutputDebugStringA(message.c_str());
 }
+
+void LogVector3(const std::string& messageTag, const Vector3& vec) {
+	std::string messageX = messageTag + " : x = " + std::to_string(vec.x) + "\n";
+	std::string messageY = messageTag + " : y = " + std::to_string(vec.y) + "\n";
+	std::string messageZ = messageTag + " : z = " + std::to_string(vec.z) + "\n";
+	OutputDebugStringA(messageX.c_str());
+	OutputDebugStringA(messageY.c_str());
+	OutputDebugStringA(messageZ.c_str());
+}

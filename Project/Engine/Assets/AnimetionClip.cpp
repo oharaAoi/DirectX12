@@ -49,25 +49,31 @@ void AnimetionClip::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::string& animationFile, const std::string& rootName, bool isSkinning) {
+	animationFileName_ = animationFile;
+	isSkinnig_ = isSkinning;
+	rootName_ = rootName;
+	
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + animationFile;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
-	assert(scene->mNumAnimations != 0);		// アニメーションがない
+	if (!scene || scene->mNumAnimations == 0) {
+		throw std::runtime_error("Failed to load animations or no animations present");
+	}
 	
-	Log("Start LoadAnimation[" + animationFile + "]\n");
+	Log("Start LoadAnimationFile [" + animationFile + "]\n");
 
-	std::unordered_map<std::string, Animation> animationMap;
+	std::unordered_map<std::string, Animation> animationMap{};
 
 	for (uint32_t animationIndex = 0; animationIndex < scene->mNumAnimations; ++animationIndex) {
 		// sceneからanimationの情報を取得する
 		aiAnimation* animationAssimp = scene->mAnimations[animationIndex];
 
 		std::string animationName = animationAssimp->mName.C_Str();										// animationの名前
-		Animation animationData;																		// animationのデータ
+		Animation animationData{};																		// animationのデータ
 		animationData.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	// 時間の単位を秒に変換
 		animationData.animationName = animationName;													// animatonの名前を取得
 
-		//animation_.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	// 時間の単位を秒に変換
+		Log("LoadAnimation[" + animationName + "]\n");
 
 		// -------------------------------------------------
 		// ↓ アニメーションの解析
@@ -77,39 +83,78 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 			aiNodeAnim* nodeAnimationAssimp = animationAssimp->mChannels[channelIndex];
 			NodeAnimation& nodeAnimation = animationData.nodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
 
-			rootName_ = nodeAnimationAssimp->mNodeName.C_Str();
-
 			// -------------------------------------------------
 			// ↓ Vector3の読み込み
 			// -------------------------------------------------
+			Log("\n");
+			Log("[animation Translate]\n");
+			Log("\n");
 			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex) {
 				aiVectorKey& keyAssimp = nodeAnimationAssimp->mPositionKeys[keyIndex];
-				KeyframeVector3 keyframe;
+				KeyframeVector3 keyframe{};
 				keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
 				keyframe.value = { -keyAssimp.mValue.x,keyAssimp.mValue.y, keyAssimp.mValue.z };
 				nodeAnimation.translate.keyframes.push_back(keyframe);
+				/*Log("---------------------------------\n");
+				std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
+				Log(timeLog);
+
+				std::string valueXLog = "keyFrame.value X : " + std::to_string(keyframe.value.x) + "\n";
+				std::string valueYLog = "keyFrame.value Y : " + std::to_string(keyframe.value.y) + "\n";
+				std::string valueZLog = "keyFrame.value Z : " + std::to_string(keyframe.value.z) + "\n";
+				
+				Log(valueXLog);
+				Log(valueYLog);
+				Log(valueZLog);*/
 			}
 
 			// -------------------------------------------------
 			// ↓ Quaternionの読み込み
 			// -------------------------------------------------
+			Log("\n");
+			Log("[animation Rotate]\n");
+			Log("\n");
 			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumRotationKeys; ++keyIndex) {
+
 				aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
-				KeyframeQuaternion keyframe;
+				KeyframeQuaternion keyframe{};
 				keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
 				keyframe.value = { keyAssimp.mValue.x, -keyAssimp.mValue.y, -keyAssimp.mValue.z, keyAssimp.mValue.w };
 				nodeAnimation.rotate.keyframes.push_back(keyframe);
+				/*std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
+				Log(timeLog);*/
+				/*Log("--------------------------------------------------\n");
+				std::string timeLog = "TicksPerSecond : " + std::to_string(animationAssimp->mTicksPerSecond) + "\n";
+				Log(timeLog);
+				
+				Log("--------------------------------------------------\n");*/
+	
 			}
 
 			// -------------------------------------------------
 			// ↓ Scaleの読み込み
 			// -------------------------------------------------
+			Log("\n");
+			Log("[animation Scale]\n");
+			Log("\n");
 			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumScalingKeys; ++keyIndex) {
 				aiVectorKey& keyAssimp = nodeAnimationAssimp->mScalingKeys[keyIndex];
-				KeyframeVector3 keyframe;
+				KeyframeVector3 keyframe{};
 				keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
 				keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y, keyAssimp.mValue.z };
 				nodeAnimation.scale.keyframes.push_back(keyframe);
+
+				Log("---------------------------------\n");
+				std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
+				Log(timeLog);
+
+				std::string valueXLog = "keyFrame.value X : " + std::to_string(keyframe.value.x) + "\n";
+				std::string valueYLog = "keyFrame.value Y : " + std::to_string(keyframe.value.y) + "\n";
+				std::string valueZLog = "keyFrame.value Z : " + std::to_string(keyframe.value.z) + "\n";
+
+				Log(valueXLog);
+				Log(valueYLog);
+				Log(valueZLog);
 			}
 		}
 
@@ -120,18 +165,12 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 
 	Log("End LoadAnimation[" + animationFile + "]\n");
 
+	// managerにanimationデータを追加
 	manager_->AddMap(animationMap, animationFile);
-
-	animationFileName_ = animationFile;
-
-	isSkinnig_ = isSkinning;
-
 	// 先頭のアニメーションを追加しておく
 	animation_ = manager_->GetAnimation(animationFile, manager_->GetAnimationFirstName(animationFile));
-
+	// すべてのanimationの名前を取得
 	animationNames_ = manager_->GetModelHaveAnimationNames(animationFileName_);
-
-	rootName_ = rootName;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

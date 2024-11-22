@@ -79,9 +79,9 @@ public:
 
 private:
 
-	AnimationManager* manager_;
+	AnimationManager* manager_ = nullptr;
 
-	std::unique_ptr<AnimetionClip> animetionClip_;
+	std::unique_ptr<AnimetionClip> animetionClip_ = nullptr;
 	std::unique_ptr<Skeleton> skeleton_ = nullptr;
 	std::unique_ptr<Skinning> skinning_ = nullptr;
 

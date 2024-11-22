@@ -26,6 +26,7 @@ void TestObject::Init() {
 	transitionAnimationTime_ = 0.0f;
 	transitionAnimationTimeLimit_ = 1.0f;
 
+	animationTime_ = 0.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

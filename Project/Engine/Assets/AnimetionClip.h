@@ -98,7 +98,7 @@ public:
 
 	// animationの時間を取得・設定
 	float GetAnimationTime() const { return animationTime_; }		// 取得
-	void SetAnimationTime(float time) { animationTime_ = time; }	// 設定
+	void SetAnimationTime(const float& time) { animationTime_ = time; }	// 設定
 
 	// animationの最大フレーム数を取得
 	const float GetAnimationDuration() const { return animation_.duration; }
@@ -136,9 +136,9 @@ private:
 	float animationTime_ = 0.0f;
 	bool isAnimationFinish_ = false;
 	// アニメーションをループさせるか
-	bool isLoop_ = true;
+	bool isLoop_ = false;
 
-	Matrix4x4 animationMat_;
+	Matrix4x4 animationMat_ = Matrix4x4::MakeUnit();
 
 	std::string rootName_;
 

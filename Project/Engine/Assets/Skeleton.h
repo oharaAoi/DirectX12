@@ -7,6 +7,7 @@
 #include "Engine/Math/MyMatrix.h"
 #include "Engine/Lib/Transform.h"
 #include "Engine/GameObject/Model.h"
+#include "Engine/Math/Matrix4x4.h"
 
 class BaseGameObject;
 
@@ -47,7 +48,7 @@ public:
 
 private:
 
-	int32_t root_;	// RootJointのIndex
+	int32_t root_ = 0;	// RootJointのIndex
 	std::map<std::string, int32_t> jointMap_;	// Joint名とIndexの辞書
 	std::vector<Joint> joints_;	// 所属しているジョイント
 };
