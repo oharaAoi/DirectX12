@@ -1,16 +1,17 @@
 #include "Quaternion.h"
 
 Quaternion Quaternion::Normalize() const {
-	float num = std::sqrtf(Dot(*this, *this));
-	if (num < kEpsilon) {
-		return Quaternion();
+	float length = std::sqrt(x * x + y * y + z * z + w * w);
+	if (length < 1e-6f) { // 長さが非常に小さい場合
+		return Quaternion(0, 0, 0, 1); // デフォルト値を返す
 	}
-	return Quaternion(this->x / num, this->y / num, this->z / num, this->w / num);
+	float invLength = 1.0f / length;
+	return Quaternion(x * invLength, y * invLength, z * invLength, w * invLength);
 }
 
 Matrix4x4 Quaternion::MakeMatrix() const {
 	// クォータニオンの各成分
-	Matrix4x4 result;
+	Matrix4x4 result = Matrix4x4::MakeUnit();
 	float xx = x * x;
 	float yy = y * y;
 	float zz = z * z;
@@ -127,41 +128,48 @@ float Quaternion::Dot(const Quaternion& q1, const Quaternion& q2) {
 }
 
 Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const float& t) {
-	// 2つの回転の内積を求める
 	float dot = Dot(q1, q2);
 	dot = std::clamp(dot, -1.0f, 1.0f);
 
-	Quaternion newQ2 = q2;
-	// 内積が負の時最短距離で補完を得るため片方の回転を負にして内積を正にする
-	if (dot < 0) {
-		/*newQ2 = Quaternion(-q2.x, -q2.y, -q2.z, -q2.w);*/
+	Quaternion newQ1 = q1;
+	if (dot < 0.0f) {
+		newQ1 = Quaternion(-q1.x, -q1.y, -q1.z, -q1.w);
 		dot = -dot;
 	}
 
-	// 角度が0に近い場合は線形補間
-	if (dot > 0.9995f) {
-		return Quaternion(
-			q1.x + t * (newQ2.x - q1.x),
-			q1.y + t * (newQ2.y - q1.y),
-			q1.z + t * (newQ2.z - q1.z),
-			q1.w + t * (newQ2.w - q1.w)
+	if (dot > 0.9995f) { // 線形補間 (Lerp) を使用
+		Quaternion lerpResult = Quaternion(
+			(1.0f - t) * newQ1.x + t * q2.x,
+			(1.0f - t) * newQ1.y + t * q2.y,
+			(1.0f - t) * newQ1.z + t * q2.z,
+			(1.0f - t) * newQ1.w + t * q2.w
 		);
+		return lerpResult.Normalize(); // 正規化
 	}
 
-	// 二つの回転の角度を求める
-	float rad = std::acos(dot);
-	float bottom = std::sin(rad);
+	float rad = std::acos(dot); // 内積に基づいて角度を取得
+	float bottom = std::sin(rad); // sinθ
+	if (std::fabs(bottom) < 1e-6f) {
+		Quaternion lerpResult = Quaternion(
+			(1.0f - t) * newQ1.x + t * q2.x,
+			(1.0f - t) * newQ1.y + t * q2.y,
+			(1.0f - t) * newQ1.z + t * q2.z,
+			(1.0f - t) * newQ1.w + t * q2.w
+		);
+		return lerpResult.Normalize(); // 正規化
+	}
+
 	float a_rotate = std::sin((1.0f - t) * rad) / bottom;
 	float b_rotate = std::sin(t * rad) / bottom;
 
 	Quaternion result = Quaternion(
-		(q1.x * a_rotate) + (newQ2.x * b_rotate),
-		(q1.y * a_rotate) + (newQ2.y * b_rotate),
-		(q1.z * a_rotate) + (newQ2.z * b_rotate),
-		(q1.w * a_rotate) + (newQ2.w * b_rotate)
+		(newQ1.x * a_rotate) + (q2.x * b_rotate),
+		(newQ1.y * a_rotate) + (q2.y * b_rotate),
+		(newQ1.z * a_rotate) + (q2.z * b_rotate),
+		(newQ1.w * a_rotate) + (q2.w * b_rotate)
 	);
 
-	return result;
+	return result.Normalize();
 }
 
 Vector3 Quaternion::MakeForward() const {
@@ -225,7 +233,7 @@ Quaternion Quaternion::operator*(const Quaternion& q2) const {
 	float dot = Vector3::Dot(v1, v2);
 	float newW = (this->w * q2.w) - dot;
 
-	Vector3 cross{};
+	Vector3 cross = Vector3::ZERO();
 	cross.x = v1.y * v2.z - v1.z * v2.y;
 	cross.y = v1.z * v2.x - v1.x * v2.z;
 	cross.z = v1.x * v2.y - v1.y * v2.x;

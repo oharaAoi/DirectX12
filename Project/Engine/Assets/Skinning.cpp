@@ -201,7 +201,7 @@ void Skinning::EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh) {
 	mesh->SetVBV(vertexBufferView_);
 
 	// マップしてデータを取得
-	Mesh::VertexData* pVertexDataBegin;
+	Mesh::VertexData* pVertexDataBegin = nullptr;
 	copyResource_->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin));
 
 	// skinningされた後のlocal頂点座標を取得する

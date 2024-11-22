@@ -44,15 +44,12 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 		skinned.tangent = input.tangent;
 		skinned.worldPos = input.worldPos;
 		
-		// weightの合計を求める
-		float totalWeight = influence.weight.x + influence.weight.y + influence.weight.z + influence.weight.w;
-		
 		skinned.position = mul(input.position, gMatrixPalette[influence.index.x].skeletonSpaceMatrix) * influence.weight.x;
 		skinned.position += mul(input.position, gMatrixPalette[influence.index.y].skeletonSpaceMatrix) * influence.weight.y;
 		skinned.position += mul(input.position, gMatrixPalette[influence.index.z].skeletonSpaceMatrix) * influence.weight.z;
 		skinned.position += mul(input.position, gMatrixPalette[influence.index.w].skeletonSpaceMatrix) * influence.weight.w;
 		skinned.position.w = 1.0f;
-	
+		
 		// 法線の変換
 		skinned.normal = mul(input.normal, (float3x3) gMatrixPalette[influence.index.x].skeletonSpaceInverseTransposeMatrix) * influence.weight.x;
 		skinned.normal += mul(input.normal, (float3x3) gMatrixPalette[influence.index.y].skeletonSpaceInverseTransposeMatrix) * influence.weight.y;
