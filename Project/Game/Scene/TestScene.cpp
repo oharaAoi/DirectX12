@@ -18,8 +18,8 @@ void TestScene::Init() {
 	testObjA_->Init();
 	testObjB_->Init();
 
-	testObjA_->SetObject("simpleSkin.gltf");
-	testObjA_->SetAnimater("./Engine/Resources/Animation/", "simpleSkin.gltf", true, true, false);
+	testObjA_->SetObject("amimationCharacter.gltf");
+	testObjA_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, false);
 	testObjA_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
 	testObjA_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
 
@@ -31,20 +31,8 @@ void TestScene::Init() {
 	collisionManager_->Init();
 
 	// Effect -------------------------------------------------------------------
-	/*gpuEffect_ = std::make_unique<GpuEffect>();
-	gpuEffect_->Init();*/
-	Quaternion rotate0 = Quaternion::AngleAxis(0.45f, { 1.0f, 0.4f, -0.2f });
-	Quaternion rotate1 = { -rotate0.x,  -rotate0.y, -rotate0.z, -rotate0.w };
-	//Quaternion rotate1 = Quaternion::AngleAxis(PI, { 0.71f, 0.0f, 0.71f });
-
-	/*Quaternion q1 = Quaternion::Slerp(rotate0, rotate1, 0.0f);
-	Quaternion q2 = Quaternion::Slerp(rotate0, rotate1, 0.3f);
-	Quaternion q3 = Quaternion::Slerp(rotate0, rotate1, 0.5f);
-	Quaternion q4 = Quaternion::Slerp(rotate0, rotate1, 0.7f);
-	Quaternion q5 = Quaternion::Slerp(rotate0, rotate1, 1.0f);*/
-
-	Matrix4x4 mat = rotate0.MakeMatrix();
-
+	gpuEffect_ = std::make_unique<GpuEffect>();
+	gpuEffect_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +59,7 @@ void TestScene::Update() {
 	testObjA_->Update();
 	testObjB_->Update();
 
-	//gpuEffect_->Update();
+	gpuEffect_->Update();
 
 	collisionManager_->Reset();
 	collisionManager_->AddCollider(testObjA_->GetMeshCollider());
@@ -95,7 +83,7 @@ void TestScene::Draw() const {
 
 	testObjB_->Draw();
 
-	//gpuEffect_->Draw();
+	gpuEffect_->Draw();
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	

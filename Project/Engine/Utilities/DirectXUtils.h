@@ -5,13 +5,12 @@
 #include <cassert>
 #include <dxgidebug.h>
 #include <wrl.h>
-// dxc
 #include <dxcapi.h>
 #include <vector>
-
+#include <string>
 #include "Utilities/Convert.h"
-
 #include "Enviroment.h"
+#include "Engine/Math/Vector3.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
@@ -99,3 +98,5 @@ D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(ID3D12DescriptorHeap* descrip
 /// </summary>
 /// <param name="message"></param>
 void Log(const std::string& message);
+
+void LogVector3(const std::string& messageTag, const Vector3& vec);
