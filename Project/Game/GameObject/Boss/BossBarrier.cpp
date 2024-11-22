@@ -44,6 +44,8 @@ void BossBarrier::Init() {
 
 	hp_ = Durability_;
 	transform_->SetTranslationY(-3.2f);
+
+	enableFunction_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +53,10 @@ void BossBarrier::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossBarrier::Update() {
+	if (!enableFunction_) {
+		return;
+	}
+
 	timeData_->totalTime += GameTimer::DeltaTime() * 10.0f;
 	timeData_->cameraPos = Render::GetEyePos();
 
@@ -68,6 +74,10 @@ void BossBarrier::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossBarrier::Draw() const {
+	if (!enableFunction_) {
+		return;
+	}
+
 	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
 	Engine::SetPipeline(PipelineType::TriangleSeparation);
 	Render::DrawLightGroup(4);

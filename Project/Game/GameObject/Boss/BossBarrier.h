@@ -64,6 +64,10 @@ public:
 	// バリアを貼る
 	void SetBarrier() { expand_.isAct = true; }
 
+	// バリアを機能させる
+	void SetEnableFunction(bool isWork) { enableFunction_ = isWork; }
+	const bool GetEnableFunction() const { return enableFunction_; }
+
 private:
 
 	std::string groupName_ = "boss_barrier";
@@ -76,6 +80,8 @@ private:
 
 	uint32_t hp_;
 	const uint32_t Durability_ = 3; // 耐久度
+
+	bool enableFunction_ = false;
 
 };
 

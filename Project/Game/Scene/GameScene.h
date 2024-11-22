@@ -17,6 +17,8 @@
 #include "TestCollisionObj.h"
 #include "Game/GameObject/Fall.h"
 #include "Game/GameObject/FallStone.h"
+#include "Game/UI/Player/PlayerUI.h"
+#include "Game/UI/Boss/BossUI.h"
 
 class GameScene 
 	: public BaseScene {
@@ -29,6 +31,23 @@ public:
 	void Init() override;
 	void Update() override;
 	void Draw() const override;
+
+private:
+
+	void UpdateWorldObject();
+
+	void UpdateGameObject();
+
+	void UpdateUI();
+
+	void UpdateManager();
+
+	/// <summary>
+	/// ボスの状態を変化させる
+	/// </summary>
+	void BossFormTransition();
+
+public:
 
 	void AddMissile(const Vector3& targePos, const Vector3& firePos);
 
@@ -72,9 +91,19 @@ private:
 	std::unique_ptr<CollisionManager> collisionManager_;
 
 	// --- UI -------------------------------------- //
+	std::unique_ptr<PlayerUI> playerUI_;
+	std::unique_ptr<BossUI> bossUI_;
 	
 	// --- Edier ----------------------------------- //
 	std::unique_ptr<BossAttackEditer> bossLeftAttackEditer_;
 	std::unique_ptr<BossAttackEditer> bossRightAttackEditer_;
 	
+
+	//=============================
+	// ↓　パラメータ
+	//=============================
+
+	float bossFormTransitionTime_ = 0.0f;
+	float bossFormTransitionTimeLimit_ = 5.0f;
+
 };

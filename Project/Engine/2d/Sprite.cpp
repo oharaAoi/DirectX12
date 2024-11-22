@@ -230,26 +230,28 @@ void Sprite::ReSetTextureSize(const Vector2& size) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
-void Sprite::Debug_Gui() {
-	if (ImGui::TreeNode("transform")) {
-		ImGui::DragFloat3("translation", &transform_.translate.x, 0.1f);
-		ImGui::DragFloat2("scale", &transform_.scale.x, 0.01f);
-		ImGui::SliderAngle("rotation", &transform_.rotate.z);
+void Sprite::Debug_Gui(const std::string& tag) {
+	if (ImGui::TreeNode(tag.c_str())) {
+		if (ImGui::TreeNode("transform")) {
+			ImGui::DragFloat3("translation", &transform_.translate.x, 0.1f);
+			ImGui::DragFloat2("scale", &transform_.scale.x, 0.01f);
+			ImGui::SliderAngle("rotation", &transform_.rotate.z);
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("uv")) {
+			ImGui::DragFloat2("uvTranslation", &uvTransform_.translate.x, 0.01f);
+			ImGui::DragFloat2("uvScale", &uvTransform_.scale.x, 0.01f);
+			ImGui::SliderAngle("uvRotation", &uvTransform_.rotate.z);
+			ImGui::TreePop();
+		}
+		ImGui::DragFloat2("anchorPoint", &anchorPoint_.x, 0.01f, 0.0f, 1.0f);
+		ImGui::DragFloat2("textureSize", &textureSize_.x, 1.0f);
+		ImGui::DragFloat2("drawRange", &drawRange_.x, 1.0f);
+		ImGui::DragFloat2("leftTop", &leftTop_.x, 1.0f);
+		ImGui::DragFloat2("uvDrawRange", &materialData_->uvDrawRange.x, 0.01f);
+
 		ImGui::TreePop();
 	}
-
-	if (ImGui::TreeNode("uv")) {
-		ImGui::DragFloat2("uvTranslation", &uvTransform_.translate.x, 0.01f);
-		ImGui::DragFloat2("uvScale", &uvTransform_.scale.x, 0.01f);
-		ImGui::SliderAngle("uvRotation", &uvTransform_.rotate.z);
-		ImGui::TreePop();
-	}
-	ImGui::DragFloat2("anchorPoint", &anchorPoint_.x, 0.01f, 0.0f, 1.0f);
-	ImGui::DragFloat2("textureSize", &textureSize_.x, 1.0f);
-	ImGui::DragFloat2("drawRange", &drawRange_.x, 1.0f);
-	ImGui::DragFloat2("leftTop", &leftTop_.x, 1.0f);
-	ImGui::DragFloat2("uvDrawRange", &materialData_->uvDrawRange.x, 0.01f);
-
-
 }
 #endif

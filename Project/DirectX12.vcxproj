@@ -233,6 +233,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameObject\State\BaseObjectState.cpp" />
     <ClCompile Include="Game\GameObject\State\BossAttackState.cpp" />
     <ClCompile Include="Game\GameObject\State\BossRootState.cpp" />
+    <ClCompile Include="Game\GameObject\State\BossTransitionState.cpp" />
     <ClCompile Include="Game\GameObject\State\PlayerBeAttackedState.cpp" />
     <ClCompile Include="Game\GameObject\State\PlayerRootState.cpp" />
     <ClCompile Include="Game\GameResources.cpp" />
@@ -240,6 +241,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
+    <ClCompile Include="Game\UI\Boss\BossUI.cpp" />
+    <ClCompile Include="Game\UI\Player\PlayerUI.cpp" />
     <ClCompile Include="Game\WorldObject\Field.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
     <ClCompile Include="main.cpp" />
@@ -378,6 +381,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\GameObject\State\BaseObjectState.h" />
     <ClInclude Include="Game\GameObject\State\BossAttackState.h" />
     <ClInclude Include="Game\GameObject\State\BossRootState.h" />
+    <ClInclude Include="Game\GameObject\State\BossTransitionState.h" />
     <ClInclude Include="Game\GameObject\State\PlayerBeAttackedState.h" />
     <ClInclude Include="Game\GameObject\State\PlayerRootState.h" />
     <ClInclude Include="Game\GameResources.h" />
@@ -387,6 +391,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Scene\SceneFactory.h" />
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
+    <ClInclude Include="Game\UI\Boss\BossUI.h" />
+    <ClInclude Include="Game\UI\Player\PlayerUI.h" />
     <ClInclude Include="Game\WorldObject\Field.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />
     <ClInclude Include="TestCollisionObj.h" />

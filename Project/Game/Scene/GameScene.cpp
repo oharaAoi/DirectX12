@@ -77,6 +77,11 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	// ↓ UI初期化
 	// -------------------------------------------------
+	playerUI_ = std::make_unique<PlayerUI>();
+	playerUI_->Init();
+
+	bossUI_ = std::make_unique<BossUI>();
+	bossUI_->Init();
 	
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
@@ -94,96 +99,27 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	// ↓ worldObjectの更新
 	// -------------------------------------------------
-
-	skydome_->Update();
-
-	field_->Update();
-
+	UpdateWorldObject();	
+	
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
-	boss_->SetPlayerPos(player_->GetWorldPos());
-	boss_->GetBossCore()->SetPlayerPullBack(player_->GetPullBack());
-	boss_->Update();
-	if (boss_->GetBossCore()->SetFalsePlayerPullBack()) {
-		player_->SetFalsePullBack();
+	if (!boss_->GetIsTransitionForm()) {
+		UpdateGameObject();
+	} else {
+		BossFormTransition();
 	}
-
-	// playerの処理
-	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
-	player_->SetCameraZDis(followCamera_->GetTranslate().z);
-
-	player_->CheckBossToLength(boss_->GetBossBodyPos());
-	if (!isDebugCamera_) {
-		player_->Update();
-	}
-
-	// missileの処理
-	missileList_.remove_if([](auto& enemy) {return !enemy->GetIsAlive(); });
-	for (auto& missile : missileList_) {
-		missile->Update();
-	}
-
-	testCollisionObj_->Update();
-	testCollisionObj3_->Update();
-
-	fall_->Update();
-	fallStone_->SetFalling(fall_->GetFalling());
-	fallStone_->Update();
 
 	// -------------------------------------------------
 	// ↓ UIの更新
 	// -------------------------------------------------
-	
+	UpdateUI();
 
 	// -------------------------------------------------
 	// ↓ Managerの更新
 	// -------------------------------------------------
+	UpdateManager();
 	
-	collisionManager_->Reset();
-	collisionManager_->AddCollider(player_->GetWireTipCollider());
-	collisionManager_->AddCollider(testCollisionObj_.get());
-	collisionManager_->AddCollider(testCollisionObj3_.get());
-
-	// mesh
-	collisionManager_->AddCollider(field_->GetMeshCollider());
-	collisionManager_->AddCollider(player_->GetMeshCollider());
-	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
-	collisionManager_->AddCollider(boss_->GetBossRightHand()->GetMeshCollider());
-	collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
-	collisionManager_->AddCollider(fallStone_->GetMeshCollider());
-
-	if (!(!player_->GetIsStretchClutch() && !player_->GetIsReturnClutch())) {
-		collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
-	}
-	
-	// バリアがあったらコリジョンのリストに追加
-	if (boss_->GetBossBarrier() != nullptr) {
-		collisionManager_->AddCollider(boss_->GetBossBarrier()->GetMeshCollider());
-	}
-
-	for (auto& missile : missileList_) {
-		collisionManager_->AddCollider(missile->GetMeshCollider());
-	}
-
-	collisionManager_->CheckAllCollision();
-
-	bool isFallNear_ = fall_->GetNear();
-	bool isCoreNear_ = boss_->GetBossCore()->GetNear();
-	if (!isCoreNear_) {
-		isFallNear_ = fall_->CheckMouseNear(followCamera_->GetVpvpMatrix());
-	}
-	if (!isFallNear_) {
-		isCoreNear_ = boss_->GetBossCore()->CheckMouseNear(followCamera_->GetVpvpMatrix());
-	}
-
-	if (isFallNear_ || isCoreNear_) {
-		player_->SetNearBack(true);
-	}
-	else {
-		player_->SetNearBack(false);
-	}
-
 	// -------------------------------------------------
 	// ↓ Cameraの更新
 	// -------------------------------------------------
@@ -276,8 +212,136 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ UIの描画
 	// -------------------------------------------------
+	Engine::SetPipeline(PipelineType::SpritePipeline);
+	playerUI_->Draw(player_->GetCanBossAttack());
+	bossUI_->Draw();
 	
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　worldObjectの更新
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameScene::UpdateWorldObject() {
+	skydome_->Update();
+
+	field_->Update();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　GameObjectの更新
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameScene::UpdateGameObject() {
+	boss_->SetPlayerPos(player_->GetWorldPos());
+	boss_->GetBossCore()->SetPlayerPullBack(player_->GetPullBack());
+	boss_->Update();
+	if (boss_->GetBossCore()->SetFalsePlayerPullBack()) {
+		player_->SetFalsePullBack();
+	}
+
+	// playerの処理
+	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
+	player_->SetCameraZDis(followCamera_->GetTranslate().z);
+
+	player_->CheckBossToLength(boss_->GetBossBodyPos());
+	if (!isDebugCamera_) {
+		player_->Update();
+	}
+
+	// missileの処理
+	missileList_.remove_if([](auto& enemy) {return !enemy->GetIsAlive(); });
+	for (auto& missile : missileList_) {
+		missile->Update();
+	}
+
+	testCollisionObj_->Update();
+	testCollisionObj3_->Update();
+
+	fall_->Update();
+	fallStone_->SetFalling(fall_->GetFalling());
+	fallStone_->Update();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　UIの更新
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameScene::UpdateUI() {
+	playerUI_->SetPlayerScreenPos(player_->GetTransform()->GetWorldMatrix(), followCamera_->GetVpvpMatrix());
+	playerUI_->Update();
+
+	bossUI_->Update(boss_->GetBossHp());
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Managerの更新
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameScene::UpdateManager() {
+	collisionManager_->Reset();
+	collisionManager_->AddCollider(player_->GetWireTipCollider());
+	collisionManager_->AddCollider(testCollisionObj_.get());
+	collisionManager_->AddCollider(testCollisionObj3_.get());
+
+	// mesh
+	collisionManager_->AddCollider(field_->GetMeshCollider());
+	collisionManager_->AddCollider(player_->GetMeshCollider());
+	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
+	collisionManager_->AddCollider(boss_->GetBossRightHand()->GetMeshCollider());
+	collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
+	collisionManager_->AddCollider(fallStone_->GetMeshCollider());
+
+	if (!(!player_->GetIsStretchClutch() && !player_->GetIsReturnClutch())) {
+		collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
+	}
+
+	// バリアがあったらコリジョンのリストに追加
+	if (boss_->GetBossBarrier() != nullptr) {
+		collisionManager_->AddCollider(boss_->GetBossBarrier()->GetMeshCollider());
+	}
+
+	for (auto& missile : missileList_) {
+		collisionManager_->AddCollider(missile->GetMeshCollider());
+	}
+
+	collisionManager_->CheckAllCollision();
+
+	bool isFallNear_ = fall_->GetNear();
+	bool isCoreNear_ = boss_->GetBossCore()->GetNear();
+	if (!isCoreNear_) {
+		isFallNear_ = fall_->CheckMouseNear(followCamera_->GetVpvpMatrix());
+	}
+	if (!isFallNear_) {
+		isCoreNear_ = boss_->GetBossCore()->CheckMouseNear(followCamera_->GetVpvpMatrix());
+	}
+
+	if (isFallNear_ || isCoreNear_) {
+		player_->SetNearBack(true);
+	} else {
+		player_->SetNearBack(false);
+	}
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　ボスの状態を遷移させる
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameScene::BossFormTransition() {
+	bossFormTransitionTime_ += GameTimer::DeltaTime();
+
+	boss_->Update();
+	
+	if (bossFormTransitionTime_ >= bossFormTransitionTimeLimit_) {
+		boss_->SetIsTransitionForm(false);
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　missileの追加
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::AddMissile(const Vector3& targePos, const Vector3& firePos) {
 	auto& newMissile = missileList_.emplace_back(std::make_unique<Missile>());
@@ -323,6 +387,13 @@ void GameScene::Debug_Gui() {
 	}
 
 	{
+		if (ImGui::TreeNode("UI")) {
+			bossUI_->Debug_Gui();
+			ImGui::TreePop();
+		}
+	}
+
+	{
 		if (ImGui::TreeNode("Manager")) {
 			
 			ImGui::TreePop();
@@ -337,7 +408,6 @@ void GameScene::Debug_Gui() {
 		}
 	}
 
-	
 	boss_->CheckMouseCursolCollision(debugCamera_->GetVpvpMatrix());
 	bossLeftAttackEditer_->Update();
 	bossRightAttackEditer_->Update();
@@ -362,6 +432,9 @@ void GameScene::Debug_Gui() {
 	if (ImGui::Button("Fire")) {
 		AddMissile(player_->GetWorldPos(), boss_->GetBossBodyPos());
 	}
+
+	ImGui::SliderFloat("transitionTime", &bossFormTransitionTime_, 0.0f, bossFormTransitionTimeLimit_);
+	ImGui::SliderFloat("transitionTimeLmit", &bossFormTransitionTimeLimit_, 0.0f, 30.0f);
 
 	ImGui::End();
 }

@@ -7,8 +7,7 @@
 #include "Game/GameObject/Boss/BossRightHand.h"
 #include "Game/GameObject/Boss/BossBarrier.h"
 #include "Game/Editer/BossAttackEditer.h"
-#include "Game/GameObject/State/BossRootState.h"
-#include "Game/GameObject/State/BossAttackState.h"
+#include "Game/GameObject/State/BaseObjectState.h"
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
@@ -16,8 +15,14 @@ using json = nlohmann::json;
 class GameScene;
 
 enum class Behavior{
-	ROOT,
-	ATTACK
+	ROOT,		// 待機状態
+	ATTACK,		// 攻撃状態
+	TRANSITION	// 遷移状態
+};
+
+enum BossForm {
+	FIRST,
+	SECOND
 };
 
 /// <summary>
@@ -50,6 +55,7 @@ public:
 	void SetEditer(BossAttackEditer* left, BossAttackEditer* right);
 
 	BossCore* GetBossCore() { return core_.get(); }
+	BossBody* GetBossBody() { return body_.get(); }
 	BossLeftHand* GetBossLeftHand() { return leftHand_.get(); }
 	BossRightHand* GetBossRightHand() { return rightHand_.get(); }
 	BossBarrier* GetBossBarrier() { return barrier_.get(); }
@@ -59,6 +65,14 @@ public:
 	// BossのHpの取得・設定
 	const float GetBossHp() const { return bossHp_; }
 	void SetBossHp(float newHp) { bossHp_ = newHp; };
+
+	// 第二形態に遷移するフラグの取得設定
+	const bool GetIsTransitionForm() const { return isTransitionForm_; }
+	void SetIsTransitionForm(bool isTransition) { isTransitionForm_ = isTransition; }
+
+	// 今の形態
+	const BossForm GetBossForm() const { return form_; }
+	void SetBossForm(BossForm form) { form_ = form; }
 
 	// playerの座標を設定
 	const Vector3 GetPlayerPos() const { return playerPos_; }
@@ -134,6 +148,10 @@ private:
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
 	float bossHp_ = 100;
+
+	// 第二形態に遷移する
+	bool isTransitionForm_;
+	BossForm form_;
 
 	// -------------------------------------------------
 	// ↓ Boss以外の情報
