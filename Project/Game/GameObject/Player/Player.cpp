@@ -62,10 +62,6 @@ void Player::Update() {
 	Clutch();
 
 	CatchObjectFollow();
-
-	if (canBossAttack_) {
-		transform_->SetQuaternion(Quaternion());
-	}
 	
 	playerAnimator_->Update();
 
@@ -290,6 +286,9 @@ void Player::Move() {
 		PullBackMove(pos);
 	}
 
+	if (velocity_.x == 0 && canBossAttack_) {
+		targetRotate = 0.0f;
+	}
 
 	nowRotate = LerpShortAngle(nowRotate, targetRotate, 0.1f);
 	transform_->SetQuaternion(Quaternion::AngleAxis(nowRotate, Vector3::UP()));
