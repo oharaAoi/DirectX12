@@ -25,5 +25,6 @@ struct OBB {
 	Matrix4x4 matRotate;
 
 	void MakeOBBAxis(const Quaternion& rotate);
+	void MakeOBBAxis(const Matrix4x4& rotate);
 	std::vector<Vector3> MakeIndex() const;
 };

@@ -210,6 +210,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Externals\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Game\Action\BossGooAttack.cpp" />
+    <ClCompile Include="Game\Action\BossMowDownAttack.cpp" />
+    <ClCompile Include="Game\Action\BossParAttack.cpp" />
+    <ClCompile Include="Game\Action\IAttack.cpp" />
     <ClCompile Include="Game\Camera\BaseCamera.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
@@ -358,6 +362,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Externals\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Game\Action\BossGooAttack.h" />
+    <ClInclude Include="Game\Action\BossMowDownAttack.h" />
+    <ClInclude Include="Game\Action\BossParAttack.h" />
+    <ClInclude Include="Game\Action\IAttack.h" />
     <ClInclude Include="Game\Camera\BaseCamera.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\Camera\DebugCamera.h" />

@@ -107,6 +107,8 @@ private:
 	uint32_t leftImportIndex_;
 	uint32_t rightImportIndex_;
 
+	bool isSetAttack_ = false;
+
 #endif
 
 private:

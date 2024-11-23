@@ -200,6 +200,17 @@ void Boss::CheckAttackType(const AttackType& type) {
 		rightHand_->SetIsAttackMove(false);
 		leftHand_->SetIsAttackMove(false);
 		break;
+
+	case AttackType::MowDown_Attack:
+		// プレイヤーとの距離が近い方のみ攻撃
+		if (near_ == "left") {
+			leftHand_->PrepareAttack(type);
+			rightHand_->SetIsAttackMove(false);
+
+		} else {
+			rightHand_->PrepareAttack(type);
+			leftHand_->SetIsAttackMove(false);
+		}
 	}
 }
 
@@ -238,16 +249,26 @@ void Boss::Debug_Gui() {
 		// 攻撃
 		ImGui::BulletText("Attack");
 		ImGui::Text(near_.c_str());
-		ImGui::Combo("attackType##type", &attackTypeNum_, "Goo\0Par\0Missile\0");
-		attackType_ = static_cast<AttackType>(attackTypeNum_);
+		ImGui::Combo("attackType##type", &attackTypeNum_, "Goo\0Par\0Missile\0MowDown\0");
+		if (ImGui::Button("Set")) {
+			isSetAttack_ = true;
+			attackType_ = static_cast<AttackType>(attackTypeNum_);
+			leftHand_->PrepareAttack(attackType_);
+		}
+		ImGui::SameLine();
 		if (ImGui::Button("Attack")) {
 			behaviorRequest_ = Behavior::ATTACK;
+			isSetAttack_ = false;
+		}
+
+		if (isSetAttack_) {
+			leftHand_->GetIAttack()->Debug_Gui();
 		}
 
 		// eidterからファイル名を選ぶ
 		ImGui::BulletText("HandAttackSave");
 		if (ImGui::TreeNode("Left")) {
-			leftHandEditer_->SelectAttack();
+			
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("Right")) {

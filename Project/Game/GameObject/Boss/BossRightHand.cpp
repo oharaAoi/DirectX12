@@ -21,6 +21,8 @@ void BossRightHand::Init() {
 	SetMeshCollider("right_hand");
 	BaseBossHand::Init();
 
+	handType_ = HandType::RIGHT_HAND;
+
 	// -------------------------------------------------
 	// ↓ 攻撃に関するファイルのフォルダの生成
 	// -------------------------------------------------
@@ -45,7 +47,8 @@ void BossRightHand::Init() {
 
 	initPos_ = transform_->GetTranslation();
 
-	transform_->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
+	localRotate_ = Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP());
+	transform_->SetQuaternion(localRotate_);
 	transform_->SetScale(Vector3(0.5f, 0.5f, 0.5f));
 
 	animationTime_ = 0.0f;
@@ -117,7 +120,7 @@ void BossRightHand::Debug_Gui() {
 			if (ImGui::Button("attackMove")) {
 				isAttackMove_ = true;
 				moveIndex_ = 0;
-				moveTime_ = 0;
+				//moveTime_ = 0;
 			}
 		}
 

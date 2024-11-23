@@ -8,17 +8,30 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Math/Easing.h"
 #include "Game/Editer/BossAttackEditer.h"
+#include "Game/Action/IAttack.h"
+
+class BossGooAttack;
 
 enum class AttackType {
 	GooSlap_Attack,
 	ParSlap_Attack,
 	Missile_Attack,
-
+	// 2形態以降
+	MowDown_Attack,
 	TOTAL
+};
+
+enum class HandType {
+	LEFT_HAND,
+	RIGHT_HAND,
 };
 
 class BaseBossHand : public BaseGameObject {
 public:
+
+	friend class BossGooAttack;
+	friend class BossParAttack;
+	friend class BossMowDownAttack;
 
 	struct AttackWork {
 		float waitoTime = 2.0f;			// 攻撃までの時間
@@ -28,6 +41,8 @@ public:
 
 		bool isAttack;					// 攻撃を始めるか
 		bool isAttackFinsh_;			// 攻撃を終了するか
+
+		int easeFunction;				// イージングの種類
 	};
 
 public:
@@ -59,36 +74,25 @@ public:
 	void ChangeRootMove(BaseGameObject* object);
 
 	/// <summary>
+	/// 攻撃をする準備
+	/// </summary>
+	/// <param name="handPos"></param>
+	void PrepareAttack(const AttackType& type);
+
+	// 攻撃する
+	void Attack();
+
+	/// <summary>
 	/// 手とマウスカーソルが当たっているかを確認する
 	/// </summary>
 	/// <param name="worldTransform"></param>
 	/// <param name="vpvpMat"></param>
 	void CheckMouseCursorCollision(WorldTransform* worldTransform, const Matrix4x4& vpvpMat);
 
-	/// <summary>
-	/// 攻撃をする準備
-	/// </summary>
-	/// <param name="handPos"></param>
-	void PrepareAttack(const AttackType& type);
-
-	/// <summary>
-	/// グーの状態でのたたきつけ
-	/// </summary>
-	void GooSlap();
-
-	void Attack();
 
 #ifdef _DEBUG
 	void Debug_Draw();
 #endif
-
-public:
-
-	using FunctionPointer = void(BaseBossHand::*)();
-	std::unordered_map<AttackType, FunctionPointer> functionMap_ = {
-		{AttackType::GooSlap_Attack, &BaseBossHand::GooSlap},
-		{AttackType::ParSlap_Attack, &BaseBossHand::GooSlap},
-	};
 
 private:
 
@@ -99,6 +103,8 @@ private:
 public:
 
 	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
+
+	IAttack* GetIAttack() { return attackAction_.get(); }
 
 	const bool GetIsAttackMove() const { return isAttackMove_; }
 	void SetIsAttackMove(bool isAttack) { isAttackMove_ = isAttack; }
@@ -127,9 +133,12 @@ protected:
 
 	Vector3 initPos_;
 
-	uint32_t moveIndex_;
-	float moveTime_;
+	Quaternion localRotate_;
 
+	uint32_t moveIndex_;
+
+	HandType handType_;
+	
 	// -------------------------------------------------
 	// ↓ 状態に関する変数
 	// -------------------------------------------------
@@ -155,6 +164,8 @@ protected:
 	Vector3 attackVeclocity_; // 攻撃を行う方向
 	float attackSpeed_ = 20.0f;		  // 攻撃を行う速度
 	int easingIndex_ = (int)EasingType::Out::Quart;		  // 攻撃をする際のイージング
+
+	std::unique_ptr<IAttack> attackAction_;
 
 	// -------------------------------------------------
 	// ↓ フラグ
