@@ -250,9 +250,9 @@ void Boss::Debug_Gui() {
 		ImGui::BulletText("Attack");
 		ImGui::Text(near_.c_str());
 		ImGui::Combo("attackType##type", &attackTypeNum_, "Goo\0Par\0Missile\0MowDown\0");
-		attackType_ = static_cast<AttackType>(attackTypeNum_);
 		if (ImGui::Button("Set")) {
 			isSetAttack_ = true;
+			attackType_ = static_cast<AttackType>(attackTypeNum_);
 			leftHand_->PrepareAttack(attackType_);
 		}
 		ImGui::SameLine();

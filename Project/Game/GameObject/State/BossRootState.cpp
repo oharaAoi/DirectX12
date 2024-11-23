@@ -34,10 +34,22 @@ void BossRootState::Update() {
 	// 待機時間を減らす
 	work_.waitTime -= GameTimer::DeltaTime();
 	
-	/*if (work_.waitTime < 0.0f) {
+	if (work_.waitTime < 0.0f) {
 		pBoss_->SetBehaviorRequest(Behavior::ATTACK);
-		pBoss_->SetAttackType(static_cast<AttackType>(RandomInt(0, (static_cast<int>(AttackType::TOTAL) - 1))));
-	}*/
+		// 形態によって上限を決める
+		if (pBoss_->GetBossForm() == BossForm::FIRST) {
+			pBoss_->SetAttackType(static_cast<AttackType>(RandomInt(
+				0,
+				(static_cast<int>(AttackType::Missile_Attack))
+			)));
+
+		} else {
+			pBoss_->SetAttackType(static_cast<AttackType>(RandomInt(
+				0,
+				(static_cast<int>(AttackType::TOTAL) - 1)
+			)));
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -16,6 +16,7 @@ enum class AttackType {
 	GooSlap_Attack,
 	ParSlap_Attack,
 	Missile_Attack,
+	// 2形態以降
 	MowDown_Attack,
 	TOTAL
 };
