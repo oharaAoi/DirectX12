@@ -49,7 +49,7 @@ void GameScene::Init() {
 	testCollisionObj3_->Init();
 	testCollisionObj3_->SetPlayer(player_.get());
 	testCollisionObj3_->SetTag("canPullObj");
-	testCollisionObj3_->GetTransform()->SetTranslaion({ -6.0f,0.5f,0.0f });
+	testCollisionObj3_->GetTransform()->SetTranslaion({ -12.0f,0.5f,0.0f });
 
 	fall_ = std::make_unique<Fall>();
 	fall_->Init();
@@ -293,7 +293,7 @@ void GameScene::UpdateManager() {
 	collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
 	collisionManager_->AddCollider(fallStone_->GetMeshCollider());
 
-	if (!(!player_->GetIsStretchClutch() && !player_->GetIsReturnClutch())) {
+	if ((player_->GetIsStretchClutch() && !player_->GetIsReturnClutch())) {
 		collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
 	}
 

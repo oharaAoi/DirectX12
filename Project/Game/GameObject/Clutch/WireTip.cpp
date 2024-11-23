@@ -40,7 +40,7 @@ void WireTip::Update() {
 	weight_ = 0.0f;
 	BaseGameObject::Update();
 
-	meshCollider_->Update(transform_.get(), Vector3::ZERO());
+	meshCollider_->Update(transform_.get(), Vector3{ 1.0f,1.0f,1.0f });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

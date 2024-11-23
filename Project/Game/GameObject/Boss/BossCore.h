@@ -82,7 +82,7 @@ private:
 
 	std::unique_ptr<BaseObjectState> state_;
 	// stateパターンに関する変数
-	CoreState behavior_ = CoreState::Hide;
+	CoreState behavior_ = CoreState::Default;
 	std::optional<CoreState> behaviorRequest_ = std::nullopt;
 
 };
