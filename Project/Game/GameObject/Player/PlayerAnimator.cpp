@@ -15,6 +15,8 @@ void PlayerAnimator::Init() {
 	if (pPlayer_->GetAnimetor() != nullptr) {
 		pPlayerAnimator_ = pPlayer_->GetAnimetor();
 	}
+
+	nowState_ = "defalut";
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
