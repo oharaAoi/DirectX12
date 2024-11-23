@@ -120,7 +120,9 @@ void Boss::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Draw() const {
+	Engine::SetPipeline(PipelineType::NoCullingNormalPipeline);
 	body_->Draw();
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	core_->Draw();
 	leftHand_->Draw();
 	rightHand_->Draw();

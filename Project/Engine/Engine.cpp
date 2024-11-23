@@ -323,6 +323,9 @@ void Engine::SetPipeline(const PipelineType& kind) {
 	case PipelineType::TriangleSeparation:
 		graphicsPipelines_->SetGsPipeline(PipelineType::TriangleSeparation, dxCommands_->GetCommandList());
 		break;
+	case PipelineType::NoCullingNormalPipeline:
+		graphicsPipelines_->SetPipeline(PipelineType::NoCullingNormalPipeline, dxCommands_->GetCommandList());
+		break;
 	}
 }
 

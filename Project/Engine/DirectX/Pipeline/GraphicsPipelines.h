@@ -15,6 +15,8 @@ enum class PipelineType{
 	SpriteAddBlendPipeline,
 	PrimitivePipeline,
 
+	NoCullingNormalPipeline,
+
 	TriangleSeparation,
 };
 
