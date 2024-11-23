@@ -26,7 +26,9 @@ void BossCore::Init() {
 	// 調整項目の適応
 	AdaptAdjustment();
 
-	defaultPosition = transform_->GetTranslation();
+	defaultPosition_ = transform_->GetTranslation();
+	middlePosition_ = { 0.0f,13.0f,-9.0f };
+	endPosition_ = { 0.0f,7.0f, - 18.0f };
 
 	hp_ = 100.0f;
 }
@@ -55,7 +57,13 @@ void BossCore::Update() {
 	}
 
 	if (isFalling_) {
-		transform_->SetTranslationZ(-18.7f);
+		if (1.0f > moveTime_) {
+			moveTime_ += GameTimer::DeltaTime();
+		}
+
+		float t = (1 - moveTime_);
+		Vector3 pos = t * t * defaultPosition_ + 2.0f * t * moveTime_ * middlePosition_ + moveTime_ * moveTime_ * endPosition_;
+		transform_->SetTranslaion(pos);
 	}
 
 
@@ -143,7 +151,7 @@ void BossCore::Debug_Gui() {
 		isFalling_ = false;
 	}
 	if (ImGui::Button("position reset")) {
-		transform_->SetTranslationZ(defaultPosition.z);
+		transform_->SetTranslationZ(defaultPosition_.z);
 	}
 
 	ImGui::SliderFloat("hp", &hp_, 0.0f, 100.0f);

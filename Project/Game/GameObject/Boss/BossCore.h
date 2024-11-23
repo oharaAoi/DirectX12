@@ -49,7 +49,11 @@ private:
 	std::string groupName_ = "BossCore";
 	bool isPlayerPullBack_ = false;
 
-	Vector3 defaultPosition{};
+	Vector3 defaultPosition_{};
+	Vector3 middlePosition_{};
+	Vector3 endPosition_{};
+	float moveTime_ = 0.0f;
+
 	float energy_ = 0.0f;
 	float canFallEnergy = 50.0f;
 	bool isNear_ = false;
