@@ -4,6 +4,9 @@
 #include "Game/Scene/SceneType.h"
 #include "Game/Scene/GameScene.h"
 #include "Game/Scene/TestScene.h"
+#include "Game/Scene/TitleScene.h"
+#include "Game/Scene/GameClearScene.h"
+#include "Game/Scene/GameOverScene.h"
 
 /// <summary>
 /// シーン工場
@@ -39,6 +42,8 @@ private:
 	const std::unordered_map<SceneType, std::string> sceneTypeToStringMap_ = {
 	{SceneType::TITLE, "TITLE"},
 	{SceneType::GAME, "GAME"},
+	{SceneType::GAMECLEAR, "GAMECLEAR"},
+	{SceneType::GAMEOVER, "GAMEOVER"},
 	{SceneType::TEST, "TEST"},
 	};
 

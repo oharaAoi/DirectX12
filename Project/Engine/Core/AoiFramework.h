@@ -16,6 +16,8 @@ public:
 	virtual void Update();
 	virtual void Draw() = 0;
 
+	virtual void SceneChange() = 0;
+
 	void Run();
 
 	virtual bool isEndRequest() { return endRequest_; }

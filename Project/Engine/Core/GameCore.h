@@ -17,6 +17,17 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void SceneChange() override;
+
+#ifdef _DEBUG
+	void Debug_Gui();
+
+private:
+
+	SceneType sceneType_;
+
+#endif
+
 private:
 
 	std::unique_ptr<SceneManager> sceneManger_;

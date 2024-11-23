@@ -28,6 +28,8 @@ void BaseBossHand::Init() {
 	isAlive_ = true;
 
 	hp_ = kDurability_;
+
+	nowAnimatonName_ = "stand_by";
 }
 
 void BaseBossHand::Update() {

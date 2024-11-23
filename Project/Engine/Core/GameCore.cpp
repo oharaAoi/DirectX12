@@ -3,7 +3,6 @@
 GameCore::GameCore() {}
 GameCore::~GameCore() {}
 
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　終了処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,7 +22,7 @@ void GameCore::Init() {
 	sceneManger_ = std::make_unique<SceneManager>();
 	sceneManger_->Init();
 
-	sceneManger_->SetChange(SceneType::GAME);
+	sceneManger_->SetChange(SceneType::TITLE);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +31,13 @@ void GameCore::Init() {
 
 void GameCore::Update() {
 	AoiFramework::Update();
+
+	SceneChange();
+
 	sceneManger_->Update();
+#ifdef _DEBUG
+	Debug_Gui();
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,3 +49,24 @@ void GameCore::Draw() {
 
 	sceneManger_->PostFrame();
 }
+
+void GameCore::SceneChange() {
+	if (sceneManger_->GetIsChange()) {
+		sceneManger_->SetChange(sceneType_);
+		sceneManger_->SetIsChange(false);
+	}
+}
+
+#ifdef _DEBUG
+#include "Engine/Manager/ImGuiManager.h"
+void GameCore::Debug_Gui() {
+	ImGui::Begin("Scene");
+	int type = (int)sceneType_;
+	ImGui::Combo("attackType##type", &type, "TITLE\0GAME\0GAMECLEAR\0GAMEOVER\0TEST\0");
+	sceneType_ = (SceneType)type;
+	if (ImGui::Button("Change")) {
+		sceneManger_->SetIsChange(true);
+	}
+	ImGui::End();
+}
+#endif

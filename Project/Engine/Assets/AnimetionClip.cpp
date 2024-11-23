@@ -180,6 +180,7 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 void AnimetionClip::LoadGetAnimation(const std::string& animationFile, bool isSkinning) {
 	animation_ = manager_->GetAnimation(animationFile, manager_->GetAnimationFirstName(animationFile));
 	nowAnimationName_ = animationFile;
+	animationFileName_ = animationFile;
 	isSkinnig_ = isSkinning;
 }
 

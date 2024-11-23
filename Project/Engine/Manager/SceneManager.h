@@ -29,6 +29,9 @@ public:
 
 	void SetChange(const SceneType& type);
 
+	const bool GetIsChange() const { return isChange_; }
+	void SetIsChange(bool isChange) { isChange_ = isChange; }
+
 private:
 
 	std::unique_ptr<SceneFactory> sceneFactory_;
@@ -41,6 +44,8 @@ private:
 	EffectSystem* effectSystem_ = nullptr;
 
 	GameResources resources_;
+
+	bool isChange_;
 
 #ifdef _DEBUG
 	int selectSceneNum_ = 0;
