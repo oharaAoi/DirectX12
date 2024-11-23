@@ -293,7 +293,7 @@ void GameScene::UpdateManager() {
 	collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
 	collisionManager_->AddCollider(fallStone_->GetMeshCollider());
 
-	if ((player_->GetIsStretchClutch() && !player_->GetIsReturnClutch())) {
+	if (!(!player_->GetIsStretchClutch() && !player_->GetIsReturnClutch())) {
 		collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
 	}
 
