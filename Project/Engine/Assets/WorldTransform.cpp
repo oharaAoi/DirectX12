@@ -105,7 +105,7 @@ void WorldTransform::Debug_Gui() {
 
 void WorldTransform::Debug_Quaternion() {
 	ImGui::DragFloat4("rotation", &rotation_.x, 0.1f);
-	ImGui::DragFloat4("moveQuaternion", &moveQuaternion_.x, 0.1f);
+	ImGui::DragFloat4("moveQuaternion", &moveQuaternion_.x, 0.01f);
 	if (ImGui::Button("Reset")) {
 		rotation_ = Quaternion();
 	}

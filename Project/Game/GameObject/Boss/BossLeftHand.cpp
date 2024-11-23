@@ -17,12 +17,15 @@ void BossLeftHand::Init() {
 	SetMeshCollider("left_hand");
 	BaseBossHand::Init();
 
+	handType_ = HandType::LEFT_HAND;
+
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
 
 	// 調整項目の適応
 	AdaptAdjustment();
 
+	localRotate_ = Quaternion();
 	initPos_ = transform_->GetTranslation();
 	transform_->SetScale(Vector3(0.5f, 0.5f, 0.5f));
 
@@ -108,7 +111,7 @@ void BossLeftHand::Debug_Gui() {
 			if (ImGui::Button("attackMove")) {
 				isAttackMove_ = true;
 				moveIndex_ = 0;
-				moveTime_ = 0;
+				//moveTime_ = 0;
 			}
 		}
 

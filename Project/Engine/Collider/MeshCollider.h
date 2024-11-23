@@ -26,7 +26,7 @@ public:
 	/// </summary>
 	/// <param name="worldTransform">: 生成するOBBの元となるworldTransform</param>
 	/// <param name="offset">: offset座標(指定しなかったらZEROが入っている)</param>
-	void Update(const WorldTransform* worldTransform, const Vector3& offset = Vector3::ZERO());
+	void Update(const WorldTransform* worldTransform, const Vector3& scale, const Vector3& offset = Vector3::ZERO());
 	void Draw() const;
 
 	bool CheckCollisionList(MeshCollider* other);

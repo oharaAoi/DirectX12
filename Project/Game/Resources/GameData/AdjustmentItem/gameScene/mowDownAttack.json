@@ -1,0 +1,30 @@
+{
+    "mowDownAttack": {
+        "aimEasing": 0,
+        "aimPos_left": [
+            22.5,
+            8.0,
+            -25.0
+        ],
+        "aimPos_right": [
+            -22.0,
+            8.0,
+            -24.5
+        ],
+        "aimTime": 1.0,
+        "returnEasing": 0,
+        "returnTime": 1.0,
+        "swingEasing": 0,
+        "swingTime": 1.0,
+        "targetPos_left": [
+            -20.0,
+            8.0,
+            -25.0
+        ],
+        "targetPos_right": [
+            22.0,
+            8.0,
+            -24.5
+        ]
+    }
+}

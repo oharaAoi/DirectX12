@@ -1,4 +1,7 @@
 #include "BaseBossHand.h"
+#include "Game/Action/BossGooAttack.h"
+#include "Game/Action/BossParAttack.h"
+#include "Game/Action/BossMowDownAttack.h"
 
 BaseBossHand::BaseBossHand() {
 }
@@ -79,24 +82,27 @@ void BaseBossHand::AnimeTimeIncrement(bool isLoop, float limitTime) {
 // ↓　攻撃の動きをする
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void BaseBossHand::AttackMove(WorldTransform* worldTransform) {
-	moveTime_ += GameTimer::DeltaTime();
 	if (pAttackEditer_->GetHandMoves().size() - 1 > moveIndex_) {
-		float t = moveTime_ / pAttackEditer_->GetHandMoves()[moveIndex_].moveTimeLimit;
+		float t = 0.1f / pAttackEditer_->GetHandMoves()[moveIndex_].moveTimeLimit;
 		int easeType = pAttackEditer_->GetHandMoves()[moveIndex_].easeType;
 
 		Vector3 scale = Vector3::Lerp(pAttackEditer_->GetHandMoves()[moveIndex_].scale, pAttackEditer_->GetHandMoves()[moveIndex_ + 1].scale, CallEasingFunc(easeType, t));
 		Vector3 translate = Vector3::Lerp(pAttackEditer_->GetHandMoves()[moveIndex_].translate, pAttackEditer_->GetHandMoves()[moveIndex_ + 1].translate, CallEasingFunc(easeType, t));
 
+		Quaternion rotate = Quaternion::Slerp(pAttackEditer_->GetHandMoves()[moveIndex_].rotate,
+											  pAttackEditer_->GetHandMoves()[moveIndex_ + 1].rotate,
+											  CallEasingFunc(easeType, t));
+
 		worldTransform->SetScale(scale);
 		worldTransform->SetTranslaion(translate);
+		worldTransform->SetQuaternion(rotate);
 	}
 
-	if (moveTime_ > 1.0f) {
+	if (0.1f > 1.0f) {
 		if (pAttackEditer_->GetHandMoves().size() - 1 == moveIndex_) {
 			isAttackMove_ = false;
 		} else {
 			moveIndex_++;
-			moveTime_ = 0;
 		}
 	}
 }
@@ -107,6 +113,99 @@ void BaseBossHand::AttackMove(WorldTransform* worldTransform) {
 
 void BaseBossHand::ChangeRootMove(BaseGameObject* object) {
 	object->GetAnimetor()->SetTransitionAnimation(nowAnimatonName_, "stand_by");
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　攻撃の準備
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BaseBossHand::PrepareAttack(const AttackType& type) {
+	beforeAttackPos_ = transform_->GetTranslation();
+	attackType_ = type;
+	isAttackMove_ = true;
+	attackWork_.isAttack = false;
+	isGroundSlap_ = false;
+
+	easingIndex_ = (int)EasingType::Out::Quart;
+
+	animationTransitionTime_ = 1.0f;
+
+	switch (type) {
+	case AttackType::GooSlap_Attack:
+		//animetor_->SetTransitionAnimation("stand_by", "slap");
+
+		meshCollider_->SetSubTag("slap_attack");
+		attackAction_ = std::make_unique<BossGooAttack>(this);
+		attackAction_->Init();
+		attackType_ = AttackType::GooSlap_Attack;
+
+		break;
+	case AttackType::ParSlap_Attack:
+		meshCollider_->SetSubTag("slap_attack");
+		attackAction_ = std::make_unique<BossParAttack>(this);
+		attackAction_->Init();
+		attackType_ = AttackType::ParSlap_Attack;
+		break;
+	case AttackType::Missile_Attack:
+		attackType_ = AttackType::Missile_Attack;
+		break;
+
+	case AttackType::MowDown_Attack:
+		attackAction_ = std::make_unique<BossMowDownAttack>(this);
+		attackAction_->Init();
+
+		BossMowDownAttack* attack = dynamic_cast<BossMowDownAttack*>(attackAction_.get());
+		attack->AdaptAdjustment(handType_);
+		attackType_ = AttackType::MowDown_Attack;
+		break;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　攻撃の分岐
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BaseBossHand::Attack() {
+	attackAction_->Attack();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　衝突判定
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
+	if (other.GetTag() == "field") {
+		isGroundSlap_ = true;
+		beforeAttackPos_ = transform_->GetTranslation();
+
+		meshCollider_->SetSubTag("attacked");
+
+		if (attackAction_ != nullptr) {
+			if (attackType_ != AttackType::MowDown_Attack) {
+				attackAction_->SetMoveTime(0.0f);
+			}
+		}
+
+		if (attackType_ == AttackType::GooSlap_Attack) {
+			if (animetor_ != nullptr) {
+				animetor_->SetTransitionAnimation("slam", "stand_by");
+				animationTransitionTime_ = 1.0f;
+			}
+		}
+
+
+	} else if (other.GetTag() == "throwMissile") {
+		--hp_;
+		if (hp_ <= 0) {
+			isAlive_ = false;
+		}
+	}
+}
+
+void BaseBossHand::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
+}
+
+void BaseBossHand::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,139 +237,4 @@ void BaseBossHand::CheckMouseCursorCollision(WorldTransform* worldTransform, con
 			}
 		}
 	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　攻撃の準備
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void BaseBossHand::PrepareAttack(const AttackType& type) {
-	beforeAttackPos_ = transform_->GetTranslation();
-	attackType_ = type;
-	isAttackMove_ = true;
-	attackWork_.isAttack = false;
-	isGroundSlap_ = false;
-	moveTime_ = 0.0f;
-
-	easingIndex_ = (int)EasingType::Out::Quart;
-
-	animationTransitionTime_ = 1.0f;
-
-	switch (type) {
-	case AttackType::GooSlap_Attack:
-		//animetor_->SetTransitionAnimation("stand_by", "slap");
-		meshCollider_->SetSubTag("slap_attack");
-		break;
-	case AttackType::ParSlap_Attack:
-		meshCollider_->SetSubTag("slap_attack");
-		break;
-	case AttackType::Missile_Attack:
-		break;
-	default:
-		break;
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　攻撃の分岐
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void BaseBossHand::Attack() {
-	const auto& it = functionMap_.find(attackType_);
-	if (it == functionMap_.end()) {
-		assert("not find RootSignature");
-	}
-
-	return (this->*(it->second))(); // メンバー関数ポインタを使って関数を呼び出す
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　gooの攻撃
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void BaseBossHand::GooSlap() {
-	attackWork_.offset = { 0.0f, 12.0f, 0.0f };
-	Vector3 worldPos = transform_->GetTranslation();
-
-	// 攻撃を溜める時間
-	if (!attackWork_.isAttack) {
-		if (animationTime_ > 0.7f) {
-			animationTime_ += GameTimer::DeltaTime();
-		}
-
-		moveTime_ += GameTimer::DeltaTime();
-		
-		float t = moveTime_ / attackWork_.waitoTime;
-		// 手を現在の位置からoffestの位置まで移動させる
-		Vector3 targetPos = playerPos_ + attackWork_.offset;
-		targetPos.z -= bodyPos_.z;
-		Vector3 movePos = Vector3::Lerp(beforeAttackPos_, targetPos, CallEasingFunc(easingIndex_, t));
-		transform_->SetTranslaion(movePos);
-
-		// 時間を過ぎたら攻撃を行う
-		if (moveTime_ > attackWork_.waitoTime) {
-			attackWork_.isAttack = true;
-			isGroundSlap_ = false;
-			moveTime_ = 0.0f;
-			easingIndex_ = (int)EasingType::In::Elastic;
-		}
-
-	} else if(!isGroundSlap_) { // 攻撃をする時間
-		attackVeclocity_ = { 0.0f, -1.0f, 0.0f };
-		// 時間ないだったら時間を増やす
-		if (moveTime_ < attackWork_.attackTime) {
-			moveTime_ += GameTimer::DeltaTime();
-		}
-		// tで溜め時間を作る
-		float t = moveTime_ / attackWork_.attackTime;
-		float moveSpeed = std::lerp(0.0f, attackSpeed_, Ease::In::Elastic(t));
-
-		Vector3 movePos = transform_->GetTranslation();
-		movePos += (attackVeclocity_ * moveSpeed) * GameTimer::DeltaTime();
-		transform_->SetTranslaion(movePos);
-		
-	} else if (isGroundSlap_) {
-		moveTime_ += GameTimer::DeltaTime();
-		if (moveTime_ < attackWork_.attackAfterTime) {
-			float t = moveTime_ / attackWork_.attackAfterTime;
-			// 手を現在の位置からoffestの位置まで移動させる
-			Vector3 movePos = Vector3::Lerp(beforeAttackPos_, initPos_, Ease::In::Sine(t));
-			transform_->SetTranslaion(movePos);
-		} else {
-			isAttackMove_ = false;
-		}
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　衝突判定
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
-	if (other.GetTag() == "field") {
-		isGroundSlap_ = true;
-		moveTime_ = 0.0f;
-		beforeAttackPos_ = transform_->GetTranslation();
-		meshCollider_->SetSubTag("attacked");
-
-		if(attackType_ == AttackType::GooSlap_Attack){
-			if (animetor_ != nullptr) {
-				animetor_->SetTransitionAnimation("slam", "stand_by");
-				animationTransitionTime_ = 1.0f;
-			}
-		}
-
-
-	} else if (other.GetTag() =="throwMissile") {
-		--hp_;
-		if (hp_ <= 0) {
-			isAlive_ = false;
-		}
-	}
-}
-
-void BaseBossHand::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
-}
-
-void BaseBossHand::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 }

@@ -24,6 +24,23 @@ void OBB::MakeOBBAxis(const Quaternion& rotate) {
 	matRotate = rotateMatrix;
 }
 
+void OBB::MakeOBBAxis(const Matrix4x4& rotate) {
+	// 回転行列から軸を抽出
+	orientations[0].x = rotate.m[0][0];
+	orientations[0].y = rotate.m[0][1];
+	orientations[0].z = rotate.m[0][2];
+
+	orientations[1].x = rotate.m[1][0];
+	orientations[1].y = rotate.m[1][1];
+	orientations[1].z = rotate.m[1][2];
+
+	orientations[2].x = rotate.m[2][0];
+	orientations[2].y = rotate.m[2][1];
+	orientations[2].z = rotate.m[2][2];
+
+	matRotate = rotate;
+}
+
 std::vector<Vector3> OBB::MakeIndex() const {
 	std::vector<Vector3> vertices;
 	for (uint8_t x = 0; x < 2; ++x) {
