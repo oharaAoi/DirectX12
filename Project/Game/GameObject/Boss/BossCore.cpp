@@ -26,6 +26,11 @@ void BossCore::Init() {
 	// 調整項目の適応
 	AdaptAdjustment();
 
+
+	state_ = std::make_unique<BossCoreDefaultState>(this);
+	behaviorRequest_ = CoreState::Default;
+
+
 	defaultPosition_ = transform_->GetTranslation();
 	middlePosition_ = { 0.0f,13.0f,-9.0f };
 	endPosition_ = { 0.0f,7.0f, - 18.0f };
@@ -39,6 +44,7 @@ void BossCore::Init() {
 
 void BossCore::Update() {
 
+	CheckRequest();
 
 	if (isNear_) {
 		SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
@@ -49,6 +55,7 @@ void BossCore::Update() {
 		if (energy_ >= canFallEnergy) {
 			isFalsePullBack_ = true;
 			isFalling_ = true;
+			behaviorRequest_ = CoreState::Appear;
 		}
 
 	}
@@ -56,16 +63,7 @@ void BossCore::Update() {
 		SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 	}
 
-	if (isFalling_) {
-		if (1.0f > moveTime_) {
-			moveTime_ += GameTimer::DeltaTime();
-		}
-
-		float t = (1 - moveTime_);
-		Vector3 pos = t * t * defaultPosition_ + 2.0f * t * moveTime_ * middlePosition_ + moveTime_ * moveTime_ * endPosition_;
-		transform_->SetTranslaion(pos);
-	}
-
+	state_->Update();
 
 	BaseGameObject::Update();
 }
@@ -85,6 +83,36 @@ void BossCore::Draw() const {
 void BossCore::AdaptAdjustment() {
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	transform_->SetTranslaion(adjust->GetValue<Vector3>(groupName_, "pos"));
+}
+
+void BossCore::CheckRequest() {
+	if (behaviorRequest_) {
+		behavior_ = behaviorRequest_.value();
+
+		switch (behavior_) {
+		case CoreState::Default:
+			SetBehaviorState(std::make_unique<BossCoreDefaultState>(this));
+
+			break;
+		case CoreState::Hide:
+			SetBehaviorState(std::make_unique<BossCoreHideState>(this));
+			break;
+		case CoreState::Appear:
+			SetBehaviorState(std::make_unique<BossCoreAppearState>(this));
+			break;
+		default:
+			break;
+		}
+
+		// 振る舞いをリセット
+		behaviorRequest_ = std::nullopt;
+	}
+}
+
+void BossCore::ChangeHide() {
+	isFalling_ = false;
+	energy_ = 0.0f;
+	behaviorRequest_ = CoreState::Hide;
 }
 
 bool BossCore::CheckMouseNear(const Matrix4x4& vpvpMat) {
