@@ -133,6 +133,12 @@ void Player::KnockBack() {
 	}
 
 	velocity_.x = knockBackSpeed_ * (float)knockBack_LorR_;
+	if (knockBack_LorR_ < 0) {
+		targetRotate = rightRotate;
+	}
+	else if (knockBack_LorR_ > 0) {
+		targetRotate = leftRotate;
+	}
 
 	if (knockBackTime_ <= 0.8f) {
 		knockBackTime_ += GameTimer::DeltaTime();
@@ -228,8 +234,9 @@ void Player::Move() {
 		PullBackMove(pos);
 	}
 
-	if (velocity_.x == 0 && canBossAttack_) {
+	if (groundLine_ >= pos.y && velocity_.x == 0 && canBossAttack_ && behavior_ != PlayerState::Attack) {
 		targetRotate = 0.0f;
+		playerAnimator_->NowToAfterTransition("defalut");
 	}
 
 	nowRotate = LerpShortAngle(nowRotate, targetRotate, 0.1f);
@@ -329,7 +336,6 @@ void Player::DefaultMove(Vector3& pos) {
 			clutchLerpTime_ = 0.0f;
 			playerState = int(PlayerState::Default);
 			wireTip_->SetSnagged(false);
-			playerAnimator_->NowToAfterTransition("defalut");
 		}
 	}
 }
