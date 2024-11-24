@@ -24,7 +24,7 @@ void MissileHitPoint::Update(const Matrix4x4& missileMat, const Matrix4x4& vpvpM
 	hitPoint_->SetTranslate(hitPos_);
 	hitPointGauge_->SetTranslate(hitPos_);
 
-	hitPointGauge_->SetUvDrawRange(Vector2(1.0f, 1.0f - t));
+	hitPointGauge_->SetUvMinSize(Vector2(0.0f, 1.0f - t));
 
 	hitPoint_->Update();
 	hitPointGauge_->Update();

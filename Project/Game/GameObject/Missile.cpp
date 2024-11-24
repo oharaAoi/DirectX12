@@ -25,7 +25,7 @@ void Missile::Init() {
 	isAlive_ = true;
 	isThrowed_ = false;
 
-	lifeTime_ = 15.0f;
+	lifeTime_ = 10.0f;
 
 	moveT_ = 0.0f;
 	nextMoveT_ = 0.0f;
@@ -172,9 +172,13 @@ void Missile::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Missile::UpdateUI(const Matrix4x4& vpvpMat) {
-	hitPoint_->Update(movePoint_[49].MakeTranslateMat(), vpvpMat, moveT_);
+	if (!isThrowed_ && !isWireCaught_) {
+		hitPoint_->Update(movePoint_[49].MakeTranslateMat(), vpvpMat, moveT_);
+	}
 }
 
 void Missile::DrawUI() const {
-	hitPoint_->Draw();
+	if (!isThrowed_ && !isWireCaught_) {
+		hitPoint_->Draw();
+	}
 }
