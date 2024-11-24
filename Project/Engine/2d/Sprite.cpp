@@ -239,6 +239,7 @@ void Sprite::Debug_Gui(const std::string& tag) {
 			ImGui::SliderAngle("rotation", &transform_.rotate.z);
 			ImGui::TreePop();
 		}
+	}
 
 	if (ImGui::TreeNode("uv")) {
 		ImGui::DragFloat2("uvTranslation", &uvTransform_.translate.x, 0.01f);

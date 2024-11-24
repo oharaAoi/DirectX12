@@ -30,7 +30,7 @@ void BossUI::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossUI::Update(float bossHp) {
-	sprites_["bossHp"]->SetUvDrawRange(Vector2(std::clamp(bossHp / 100.0f, 0.0f, 1.0f), 1.0f));
+	sprites_["bossHp"]->SetUvMaxSize(Vector2(std::clamp(bossHp / 100.0f, 0.0f, 1.0f), 1.0f));
 
 	sprites_["bossHp"]->Update();
 }
