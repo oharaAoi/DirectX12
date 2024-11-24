@@ -474,7 +474,7 @@ void Player::BaseClutch() {
 
 void Player::FirstClutch() {
 
-	if (isNearBack_&& isRekey_) {
+	if (isNearBack_ && isRekey_) {
 
 		ClutchEndCalculation();
 		float length = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Length();
@@ -593,9 +593,17 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 
 			if (other.GetSubTag() == "attacked") {
 				beAttackedType_ = BeAttackedType::NORMAL_HITED;
+				isReturnClutch_ = true;
+				isStretching_ = false;
+				isPullBackObj_ = false;
+				wireTip_->SetNeglect(false);
 
 			}else if (other.GetSubTag() == "slap_attack") {
 				beAttackedType_ = BeAttackedType::SLAP_ATTACKED;
+				isReturnClutch_ = true;
+				isStretching_ = false;
+				isPullBackObj_ = false;
+				wireTip_->SetNeglect(false);
 			}
 		}
 	}
