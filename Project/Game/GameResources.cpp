@@ -18,6 +18,8 @@ void GameResources::Load() {
 	// worldObject
 	ModelManager::LoadModel("./Game/Resources/Model/Skydome/", "skydome.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Field/", "kair_field.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Field/", "kari_tutorialField.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Field/", "wall.obj");
 	
 	// gameObject
 	ModelManager::LoadModel("./Game/Resources/Model/Boss_Body/", "boss_body.obj");
@@ -34,6 +36,7 @@ void GameResources::Load() {
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "star.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "kari_bossHp.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "kari_fallUI.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "blackPanel.png");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPoint.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPointGauge.png");

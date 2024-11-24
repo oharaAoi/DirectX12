@@ -98,9 +98,17 @@ void SceneManager::SetChange(const SceneType& type) {
 	assert(nextScene_ == nullptr);
 	nextScene_ = sceneFactory_->CreateScene(sceneFactory_->SceneTypeToString(type));
 	nextScene_->Init();
+	nowSceneType_ = type;
 
 	if (scene_ != nullptr) {
 		scene_->Finalize();
 	}
 	scene_ = std::move(nextScene_);
 }
+
+#ifdef _DEBUG
+void SceneManager::Show_Gui() {
+	nowSceneTypeString_ = sceneFactory_->SceneTypeToString(nowSceneType_);
+	ImGui::Text(nowSceneTypeString_.c_str());
+}
+#endif

@@ -1,14 +1,9 @@
 #pragma once
 #include "Engine.h"
-#include "Engine/Utilities/Loader.h"
 #include "Game/Scene/SceneFactory.h"
 #include "Game/Scene/BaseScene.h"
-#include "Game/Scene/TestScene.h"
-#include "Game/Scene/GameScene.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/ParticleSystem/EffectSystem.h"
-#include "Engine/Manager/ModelManager.h"
-#include "Engine/Input/Input.h"
 #include "Game/GameResources.h"
 
 /// <summary>
@@ -32,6 +27,12 @@ public:
 	const bool GetIsChange() const { return isChange_; }
 	void SetIsChange(bool isChange) { isChange_ = isChange; }
 
+	const SceneType GetNowSceneType() const { return nowSceneType_; }
+
+#ifdef _DEBUG
+	void Show_Gui();
+#endif // _DEBUG
+
 private:
 
 	std::unique_ptr<SceneFactory> sceneFactory_;
@@ -44,6 +45,9 @@ private:
 	EffectSystem* effectSystem_ = nullptr;
 
 	GameResources resources_;
+
+	SceneType nowSceneType_;
+	std::string nowSceneTypeString_;
 
 	bool isChange_;
 

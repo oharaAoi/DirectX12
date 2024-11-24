@@ -1,4 +1,5 @@
 #include "TitleScene.h"
+#include "Engine/Input/Input.h"
 
 TitleScene::TitleScene() {}
 TitleScene::~TitleScene() {}
@@ -18,6 +19,9 @@ void TitleScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TitleScene::Update() {
+	if (Input::IsTriggerKey(DIK_SPACE)) {
+		nextSceneType_ = SceneType::TUTORIAL;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
