@@ -22,7 +22,7 @@ void GameCore::Init() {
 	sceneManger_ = std::make_unique<SceneManager>();
 	sceneManger_->Init();
 
-	sceneManger_->SetChange(SceneType::TITLE);
+	sceneManger_->SetChange(SceneType::GAME);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,10 +51,12 @@ void GameCore::Draw() {
 }
 
 void GameCore::SceneChange() {
+#ifdef _DEBUG
 	if (sceneManger_->GetIsChange()) {
 		sceneManger_->SetChange(sceneType_);
 		sceneManger_->SetIsChange(false);
 	}
+#endif
 }
 
 #ifdef _DEBUG

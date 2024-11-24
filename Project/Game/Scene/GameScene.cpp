@@ -166,7 +166,7 @@ void GameScene::Draw() const {
 	// ↓ Debugの描画
 	// -------------------------------------------------
 #ifdef _DEBUG
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	/*Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	DrawGrid(viewMat_, projectionMat_);
 
 	field_->Debug_Draw();
@@ -178,7 +178,7 @@ void GameScene::Draw() const {
 
 	for (auto& missile : missileList_) {
 		missile->Debug_Draw();
-	}
+	}*/
 #endif
 	
 	// -------------------------------------------------
