@@ -574,6 +574,10 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	} else if (other.GetTag() == "missile") {
 		behaviorRequest_ = PlayerState::BeAttacked;
 		beAttackedType_ = BeAttackedType::NORMAL_HITED;
+		isReturnClutch_ = true;
+		isStretching_ = false;
+		isPullBackObj_ = false;
+		wireTip_->SetNeglect(false);
 
 	} else if (other.GetTag() == "right_hand" || other.GetTag() == "left_hand") {
 
