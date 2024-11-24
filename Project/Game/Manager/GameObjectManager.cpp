@@ -52,18 +52,18 @@ void GameObjectManager::DrawUI() const {
 // ↓　
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameObjectManager::PopBomb(const Vector3& popPos) {
-	GetInstance()->AddBomb(popPos);
+void GameObjectManager::PopBomb(const Vector3& popPos, const Vector3& acceleration) {
+	GetInstance()->AddBomb(popPos, acceleration);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameObjectManager::AddBomb(const Vector3& popPos) {
+void GameObjectManager::AddBomb(const Vector3& popPos, const Vector3& acceleration) {
 	auto& newBomb = bombList_.emplace_back(std::make_unique<Bomb>());
 	newBomb->Init();
-	newBomb->Pop(popPos);
+	newBomb->Pop(popPos, acceleration);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,10 +1,7 @@
 #include "Bomb.h"
 
-Bomb::Bomb() {
-}
-
-Bomb::~Bomb() {
-}
+Bomb::Bomb() {}
+Bomb::~Bomb() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了処理
@@ -28,6 +25,8 @@ void Bomb::Init() {
 	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
 
 	isAlive_ = true;
+
+	acceleration_ = Vector3::ZERO();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +34,11 @@ void Bomb::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Bomb::Update() {
+	velocity_ += acceleration_ * GameTimer::DeltaTime();
+	Vector3 pos = transform_->GetTranslation();
+	pos += velocity_;
+	transform_->SetTranslaion(pos);
+
 	BaseGameObject::Update();
 }
 
@@ -50,8 +54,10 @@ void Bomb::Draw() const {
 // ↓　出現させる
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Bomb::Pop(const Vector3& pos) {
+void Bomb::Pop(const Vector3& pos, const Vector3& acceleration) {
 	transform_->SetTranslaion(pos);
+	acceleration_ = acceleration;
+	velocity_ = Vector3::ZERO();
 }
 
 #ifdef _DEBUG
@@ -69,6 +75,9 @@ void Bomb::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		if (other.GetSubTag() != "wait_attack") {
 			isAlive_ = false;
 		}
+	} else if (other.GetTag() == "field") {
+		acceleration_ = Vector3::ZERO();
+		velocity_ = Vector3::ZERO();
 	}
 }
 

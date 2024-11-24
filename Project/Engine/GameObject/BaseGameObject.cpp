@@ -67,7 +67,7 @@ void BaseGameObject::PostUpdate() {
 		meshCollider_->Update(transform_.get(), transform_->GetScale());
 	}
 
-	worldPos_ = Vector3(0.0f, 0.0f, 0.0f) * transform_->GetWorldMatrix();
+	worldPos_ = Transform(Vector3::ZERO(), transform_->GetWorldMatrix());
 }
 
 

@@ -24,11 +24,11 @@ public:
 
 	void DrawUI() const;
 
-	static void PopBomb(const Vector3& popPos);
+	static void PopBomb(const Vector3& popPos, const Vector3& acceleration = Vector3::ZERO());
 
 private:
 
-	void AddBomb(const Vector3& popPos);
+	void AddBomb(const Vector3& popPos, const Vector3& acceleration = Vector3::ZERO());
 
 public:
 

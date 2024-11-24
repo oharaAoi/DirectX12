@@ -2,6 +2,7 @@
 #include "Game/Action/BossGooAttack.h"
 #include "Game/Action/BossParAttack.h"
 #include "Game/Action/BossMowDownAttack.h"
+#include "Game/Manager/GameObjectManager.h"
 
 BaseBossHand::BaseBossHand() {
 }
@@ -185,6 +186,9 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		if (attackAction_ != nullptr) {
 			if (attackType_ != AttackType::MowDown_Attack) {
 				attackAction_->SetMoveTime(0.0f);
+				Vector3 pos = worldPos_;
+				pos.y += 10.0f;
+				GameObjectManager::PopBomb(pos, Vector3(0.0f, -0.5f, 0.0f));
 			}
 		}
 

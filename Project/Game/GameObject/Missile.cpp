@@ -155,7 +155,7 @@ void Missile::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		if (other.GetTag() == "boss_barrier") {
 			isAlive_ = false;
 		} else if (other.GetTag() == "right_hand" || other.GetTag() == "left_hand") {
-			//isAlive_ = false;
+			isAlive_ = false;
 		}
 	}
 }

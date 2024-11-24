@@ -12,7 +12,7 @@ public:
 	void Update() override;
 	void Draw() const override;
 
-	void Pop(const Vector3& pos);
+	void Pop(const Vector3& pos, const Vector3& acceleration = Vector3::ZERO());
 
 #ifdef _DEBUG
 	void Debug_Draw();
@@ -35,6 +35,7 @@ private:
 
 	bool isAlive_ = false;
 
-
+	Vector3 velocity_;
+	Vector3 acceleration_;
 };
 
