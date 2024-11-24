@@ -187,8 +187,8 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			if (attackType_ != AttackType::MowDown_Attack) {
 				attackAction_->SetMoveTime(0.0f);
 				Vector3 pos = worldPos_;
-				pos.y += 10.0f;
-				GameObjectManager::PopBomb(pos, Vector3(0.0f, -0.5f, 0.0f));
+				pos.y += 14.0f;
+				GameObjectManager::PopBomb(pos, Vector3(0.0f, -0.4f, 0.0f));
 			}
 		}
 
