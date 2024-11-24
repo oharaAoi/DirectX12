@@ -40,6 +40,7 @@ public:
 	bool CheckMouseNear(const Matrix4x4& vpvpMat);
 	void SetPlayerPullBack(bool is) { isPlayerPullBack_ = is; }
 	bool SetFalsePlayerPullBack();
+	void SetNear(bool is) { isNear_ = is; }
 	bool GetNear()const { return isNear_; }
 
 #ifdef _DEBUG

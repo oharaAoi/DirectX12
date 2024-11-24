@@ -298,7 +298,7 @@ void GameScene::UpdateManager() {
 	}
 
 	// バリアが機能していたらコリジョンのリストに追加
-	if (!boss_->GetBossBarrier()->GetEnableFunction()) {
+	if (boss_->GetBossBarrier()->GetEnableFunction()) {
 		collisionManager_->AddCollider(boss_->GetBossBarrier()->GetMeshCollider());
 	}
 
@@ -316,6 +316,11 @@ void GameScene::UpdateManager() {
 	if (!isFallNear_) {
 		isCoreNear_ = boss_->GetBossCore()->CheckMouseNear(followCamera_->GetVpvpMatrix());
 	}
+	if (boss_->GetBossBarrier()->GetEnableFunction() && !boss_->GetBossBarrier()->GetBreakBarrier()) {
+		boss_->GetBossCore()->SetNear(false);
+		isCoreNear_ = false;
+	}
+
 
 	if (isFallNear_ || isCoreNear_) {
 		player_->SetNearBack(true);

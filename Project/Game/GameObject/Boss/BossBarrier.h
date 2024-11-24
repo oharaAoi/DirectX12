@@ -67,6 +67,7 @@ public:
 	// バリアを機能させる
 	void SetEnableFunction(bool isWork) { enableFunction_ = isWork; }
 	const bool GetEnableFunction() const { return enableFunction_; }
+	const bool GetBreakBarrier()const { return break_.isAct; }
 
 private:
 
