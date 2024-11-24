@@ -154,6 +154,7 @@ void GameScene::Update() {
 
 	Render::SetEyePos(eyePos_);
 	Render::SetViewProjection(viewMat_, projectionMat_);
+	Render::SetVpvpMat(followCamera_->GetVPVMatrix());
 
 #ifdef _DEBUG
 	Debug_Gui();
@@ -216,12 +217,14 @@ void GameScene::Draw() const {
 	// ↓ UIの描画
 	// -------------------------------------------------
 	Engine::SetPipeline(PipelineType::SpritePipeline);
-	playerUI_->Draw(player_->GetCanBossAttack());
+	playerUI_->Draw();
 	bossUI_->Draw();
 
 	for (const auto& missile : missileList_) {
 		missile->DrawUI();
 	}
+
+	fall_->DrawUI();
 	
 }
 
