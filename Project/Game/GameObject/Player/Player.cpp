@@ -355,9 +355,7 @@ void Player::Clutch() {
 		isPull_ = false;
 	}
 
-	if (!isKnockBack_) {
-		BaseClutch();
-	}
+	BaseClutch();
 
 	Vector2 wireTipPos = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Normalize() * wire_->GetTransform()->GetScale().y;
 	wireTipPos += {transform_->GetTranslation().x, transform_->GetTranslation().y};
@@ -437,27 +435,30 @@ void Player::BaseClutch() {
 	Vector2 start;
 	Vector2 clutchDirection;
 	if (!isReturnClutch_) {// 最大まで伸びて、戻る状態じゃない時
-		if (Input::IsPressMouse(0)) {
-			if (!wireTip_->GetFollow() && !wireTip_->GetIsCautchObject()) {
-				isPull_ = true;
+		if (!isKnockBack_) {
+			if (Input::IsPressMouse(0)) {
+				if (!wireTip_->GetFollow() && !wireTip_->GetIsCautchObject()) {
+					isPull_ = true;
 
-				FirstClutch();
+					FirstClutch();
 
-				Vector3 screenPos = transform_->GetTranslation();
-				start = { screenPos.x,screenPos.y };
-				clutchDirection = (clutchEnd_ - start).Normalize();
-				float angle = std::atan2f(clutchDirection.x, clutchDirection.y);
+					Vector3 screenPos = transform_->GetTranslation();
+					start = { screenPos.x,screenPos.y };
+					clutchDirection = (clutchEnd_ - start).Normalize();
+					float angle = std::atan2f(clutchDirection.x, clutchDirection.y);
 
-				Quaternion moveRotate = Quaternion::AngleAxis(-angle, Vector3::FORWARD());
-				Quaternion rotate = wire_->GetTransform()->GetQuaternion();
-				wire_->GetTransform()->SetQuaternion(moveRotate);
-			}
-			else if (isRekey_ && !isStretchClutch_ && wireTip_->GetFollow() && !isThrow_) {
-				isThrow_ = true;
-				wireTip_->SetFolllow(false);
+					Quaternion moveRotate = Quaternion::AngleAxis(-angle, Vector3::FORWARD());
+					Quaternion rotate = wire_->GetTransform()->GetQuaternion();
+					wire_->GetTransform()->SetQuaternion(moveRotate);
+				}
+				else if (isRekey_ && !isStretchClutch_ && wireTip_->GetFollow() && !isThrow_) {
+					isThrow_ = true;
+					wireTip_->SetFolllow(false);
+				}
 			}
 		}
-	} else {
+	}
+	else {
 		Vector3 nowScale = wire_->GetTransform()->GetScale();
 
 		nowScale.y = std::lerp(nowScale.y, 0.0f, returnSpeed_);
@@ -590,6 +591,10 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 				}
 			}
 			isKnockBack_ = true;
+			isReturnClutch_ = true;
+			isStretching_ = false;
+			isPullBackObj_ = false;
+			wireTip_->SetNeglect(false);
 			wireTip_->SetIsBossAttack(false);
 
 		}else{
