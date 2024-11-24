@@ -5,7 +5,7 @@
 #include "Engine/Manager/ImGuiManager.h"
 #endif
 
-BossUI::BossUI() {}
+BossUI::BossUI(Boss* pBoss) { pBoss_ = pBoss; }
 BossUI::~BossUI() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,6 +14,17 @@ BossUI::~BossUI() {}
 
 void BossUI::Init() {
 	sprites_["bossHp"] = Engine::CreateSprite("kari_bossHp.png");
+	sprites_["bossHp"] = Engine::CreateSprite("kari_bossHp.png");
+
+	sprites_["coreClutch"] = Engine::CreateSprite("star.png");
+	sprites_["coreClutch"]->SetScale(Vector2{ 0.4f, 0.4f });
+
+	planes_["coreClutch"] = std::make_unique<BaseGameObject>();
+	planes_["coreClutch"]->Init();
+	planes_["coreClutch"]->SetObject("plane.obj");
+	planes_["coreClutch"]->SetTexture("star.png");
+	planes_["coreClutch"]->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
+	planes_["coreClutch"]->GetTransform()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 
 	// -------------------------------------------------
 	// ↓ 調整項目系
@@ -29,10 +40,18 @@ void BossUI::Init() {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossUI::Update(float bossHp) {
+void BossUI::Update(float bossHp, const Matrix4x4& vpvpMat) {
 	sprites_["bossHp"]->SetUvMaxSize(Vector2(std::clamp(bossHp / 100.0f, 0.0f, 1.0f), 1.0f));
 
+	Vector3 pos = Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix() * vpvpMat);
+	Vector2 coreScreenPos = { pos.x, pos.y };
+	sprites_["coreClutch"]->SetTranslate(coreScreenPos);
+
 	sprites_["bossHp"]->Update();
+	sprites_["coreClutch"]->Update();
+
+	planes_["coreClutch"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix()));
+	planes_["coreClutch"]->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +60,12 @@ void BossUI::Update(float bossHp) {
 
 void BossUI::Draw() {
 	sprites_["bossHp"]->Draw();
+}
+
+void BossUI::Draw3dObject(bool canAttackBoss){
+	if (canAttackBoss) {
+		planes_["coreClutch"]->Draw();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

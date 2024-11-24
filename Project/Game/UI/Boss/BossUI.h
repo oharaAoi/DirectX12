@@ -3,16 +3,20 @@
 #include <unordered_map>
 #include <string>
 #include "Engine/2d/Sprite.h"
+#include "Engine/GameObject/BaseGameObject.h"
+#include "Game/GameObject/Boss/Boss.h"
 
 class BossUI {
 public:
 
-	BossUI();
+	BossUI(Boss* pBoss);
 	~BossUI();
 
 	void Init();
-	void Update(float bossHp);
+	void Update(float bossHp, const Matrix4x4& vpvpMat);
 	void Draw();
+
+	void Draw3dObject(bool canAttackBoss);
 
 	void AdaptAdjustment();
 
@@ -24,7 +28,11 @@ private:
 
 	std::string groupName_ = "BossUI";
 
+	Boss* pBoss_;
+
 	std::unordered_map<std::string, std::unique_ptr<Sprite>> sprites_;
+
+	std::unordered_map<std::string, std::unique_ptr<BaseGameObject>> planes_;
 
 
 };

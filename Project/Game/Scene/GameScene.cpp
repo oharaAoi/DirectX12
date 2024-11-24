@@ -80,7 +80,7 @@ void GameScene::Init() {
 	playerUI_ = std::make_unique<PlayerUI>();
 	playerUI_->Init();
 
-	bossUI_ = std::make_unique<BossUI>();
+	bossUI_ = std::make_unique<BossUI>(boss_.get());
 	bossUI_->Init();
 	
 	// -------------------------------------------------
@@ -194,6 +194,9 @@ void GameScene::Draw() const {
 	boss_->Draw();
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
+	bossUI_->Draw3dObject(player_->GetCanBossAttack());
+
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	for (auto& missile : missileList_) {
 		missile->Draw();
 	}
@@ -275,7 +278,7 @@ void GameScene::UpdateUI() {
 	playerUI_->SetPlayerScreenPos(player_->GetTransform()->GetWorldMatrix(), followCamera_->GetVpvpMatrix());
 	playerUI_->Update();
 
-	bossUI_->Update(boss_->GetBossHp());
+	bossUI_->Update(boss_->GetBossHp(), followCamera_->GetVpvpMatrix());
 
 	for (auto& missile : missileList_) {
 		missile->UpdateUI(followCamera_->GetVpvpMatrix());
