@@ -76,8 +76,9 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 	materialData_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	materialData_->uvTransform = Matrix4x4::MakeUnit();
-	materialData_->uvDrawRange = { 1.0f, 1.0f };
-	
+	materialData_->uvMinSize = { 0.0f, 0.0f };
+	materialData_->uvMaxSize = { 1.0f, 1.0f };
+
 	// ----------------------------------------------------------------------------------
 	transformBuffer_ = CreateBufferResource(device, sizeof(TextureTransformData));
 	transformBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&transformData_));
@@ -248,8 +249,8 @@ void Sprite::Debug_Gui() {
 	ImGui::DragFloat2("textureSize", &textureSize_.x, 1.0f);
 	ImGui::DragFloat2("drawRange", &drawRange_.x, 1.0f);
 	ImGui::DragFloat2("leftTop", &leftTop_.x, 1.0f);
-	ImGui::DragFloat2("uvDrawRange", &materialData_->uvDrawRange.x, 0.01f);
-
+	ImGui::DragFloat2("uvMin", &materialData_->uvMinSize.x, 0.01f);
+	ImGui::DragFloat2("uvMax", &materialData_->uvMaxSize.x, 0.01f);
 
 }
 #endif

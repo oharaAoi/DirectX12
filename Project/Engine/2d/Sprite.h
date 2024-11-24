@@ -21,8 +21,8 @@ public:
 	struct TextureMaterial {
 		Vector4 color;
 		Matrix4x4 uvTransform;
-		Vector2 uvDrawRange;		// 0~1の範囲で指定
-		float padding[2];
+		Vector2 uvMinSize;		// 0~1の範囲で指定
+		Vector2 uvMaxSize;		// 0~1の範囲で指定
 	};
 
 	struct TextureTransformData {
@@ -97,7 +97,9 @@ public:
 	/// UVを直接する
 	/// </summary>
 	/// <param name="range"></param>
-	void SetUvDrawRange(const Vector2& range) { materialData_->uvDrawRange = range; }
+	void SetUvMinSize(const Vector2& range) { materialData_->uvMinSize = range; }
+
+	void SetUvMaxSize(const Vector2& range) { materialData_->uvMaxSize = range; }
 
 	const Vector2 GetTranslate() const { return Vector2{ transform_.translate.x, transform_.translate.y}; }
 	const Vector2 GetScale() const { return Vector2(transform_.scale.x, transform_.scale.y); }
@@ -105,8 +107,7 @@ public:
 	const Vector2 GetTextureSize() const { return textureSize_; }
 	const bool GetIsFlipX() const { return isFlipX_; }
 	const bool GetIsFlipY() const { return isFlipY_; }
-	const Vector2 GetUvRangeDraw() const { return materialData_->uvDrawRange; }
-
+	
 private:
 
 	// 定数バッファ

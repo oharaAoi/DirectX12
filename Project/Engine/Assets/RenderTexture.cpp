@@ -59,7 +59,8 @@ void RenderTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 	materialData_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	materialData_->uvTransform = Matrix4x4::MakeUnit();
-	materialData_->uvDrawRange = { 1.0f, 1.0f };
+	materialData_->uvMinSize = { 0.0f, 0.0f };
+	materialData_->uvMaxSize = { 1.0f, 1.0f };
 	
 	// ----------------------------------------------------------------------------------
 	transformBuffer_ = CreateBufferResource(device, sizeof(TextureTransformData));
