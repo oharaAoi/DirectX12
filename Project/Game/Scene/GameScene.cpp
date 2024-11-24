@@ -216,7 +216,7 @@ void GameScene::Draw() const {
 	// ↓ UIの描画
 	// -------------------------------------------------
 	Engine::SetPipeline(PipelineType::SpritePipeline);
-	playerUI_->Draw(player_->GetCanBossAttack());
+	playerUI_->Draw();
 	bossUI_->Draw();
 
 	for (const auto& missile : missileList_) {

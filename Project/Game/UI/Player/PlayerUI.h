@@ -12,7 +12,7 @@ public:
 	
 	void Init();
 	void Update();
-	void Draw(bool canAttackBoss);
+	void Draw();
 
 #ifdef _DEBUG
 	void Debug_Gui();
