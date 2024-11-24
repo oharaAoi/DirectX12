@@ -154,6 +154,8 @@ void BaseGameObject::Debug_Gui() {
 	transform_->Debug_Gui();
 	model_->Debug_Gui("Test");
 
+	materials[0]->ImGuiDraw();
+
 	Debug_Axis();
 
 	if (animetor_ != nullptr) {

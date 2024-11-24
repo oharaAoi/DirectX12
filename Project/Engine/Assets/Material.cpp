@@ -23,7 +23,7 @@ void Material::Init(ID3D12Device* device) {
 	material_->enableLighting = false;
 	material_->uvTransform = Matrix4x4::MakeUnit();
 	material_->shininess = 0;
-
+	
 	uvTranslation_ = { 0,0,0 };
 	uvScale_ = { 1,1,1 };
 	uvRotation_ = { 0,0,0 };

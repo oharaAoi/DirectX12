@@ -215,6 +215,10 @@ void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::SpritePipeline);
 	playerUI_->Draw(player_->GetCanBossAttack());
 	bossUI_->Draw();
+
+	for (const auto& missile : missileList_) {
+		missile->DrawUI();
+	}
 	
 }
 
@@ -272,6 +276,10 @@ void GameScene::UpdateUI() {
 	playerUI_->Update();
 
 	bossUI_->Update(boss_->GetBossHp());
+
+	for (auto& missile : missileList_) {
+		missile->UpdateUI(followCamera_->GetVpvpMatrix());
+	}
 
 }
 

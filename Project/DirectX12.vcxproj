@@ -249,6 +249,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Scene\TitleScene.cpp" />
     <ClCompile Include="Game\UI\Boss\BossUI.cpp" />
+    <ClCompile Include="Game\UI\Missile\MissileHitPoint.cpp" />
     <ClCompile Include="Game\UI\Player\PlayerUI.cpp" />
     <ClCompile Include="Game\WorldObject\Field.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
@@ -406,6 +407,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\Scene\TitleScene.h" />
     <ClInclude Include="Game\UI\Boss\BossUI.h" />
+    <ClInclude Include="Game\UI\Missile\MissileHitPoint.h" />
     <ClInclude Include="Game\UI\Player\PlayerUI.h" />
     <ClInclude Include="Game\WorldObject\Field.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />

@@ -1,7 +1,7 @@
 #pragma once
 #include "Game/GameObject/CanThrowObject.h"
-#include "Engine/Math/MyRandom.h"
 #include "Engine/Math/MyMath.h"
+#include "Game/UI/Missile/MissileHitPoint.h"
 
 /// <summary>
 /// ミサイルオブジェクト
@@ -16,6 +16,9 @@ public:
 	void Init() override;
 	void Update() override;
 	void Draw() const override;
+
+	void UpdateUI(const Matrix4x4& vpvpMat);
+	void DrawUI() const;
 
 public:
 
@@ -47,6 +50,7 @@ private:
 	std::vector<Vector3> movePoint_;
 
 	bool isAlive_;
+	float lifeTime_;
 
 	float moveT_;
 	float nextMoveT_;
@@ -55,5 +59,7 @@ private:
 	// -------------------------------------------------
 	// ↓ 他クラスの情報
 	// -------------------------------------------------
+
+	std::unique_ptr<MissileHitPoint> hitPoint_;
 };
 

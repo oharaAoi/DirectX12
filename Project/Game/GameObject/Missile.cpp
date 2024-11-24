@@ -1,4 +1,5 @@
 #include "Missile.h"
+#include "Engine/Math/MyRandom.h"
 
 Missile::Missile() {}
 Missile::~Missile() {}
@@ -24,17 +25,33 @@ void Missile::Init() {
 	isAlive_ = true;
 	isThrowed_ = false;
 
+	lifeTime_ = 15.0f;
+
 	moveT_ = 0.0f;
 	nextMoveT_ = 0.0f;
 	speed_ = 5.0f;
+
+	// -------------------------------------------------
+	// ↓ 着弾点にUI
+	// -------------------------------------------------
+	hitPoint_ = std::make_unique<MissileHitPoint>();
+	hitPoint_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
-
+;
 void Missile::Update() {
 	if (isThrowed_) {
+		// lifeTimeの更新をしておく
+		// ずっとミサイルが残っているのを防ぐため
+		lifeTime_ -= GameTimer::DeltaTime();
+		if (lifeTime_ <= 0) {
+			isAlive_ = false;
+			return;
+		}
+
 		// 位置の更新
 		Vector3 position = transform_->GetTranslation();
 		position += velocity_ * GameTimer::DeltaTime();
@@ -147,4 +164,17 @@ void Missile::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 }
 
 void Missile::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　UI関連
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Missile::UpdateUI(const Matrix4x4& vpvpMat) {
+	hitPoint_->Update(movePoint_[49].MakeTranslateMat(), vpvpMat, moveT_);
+}
+
+void Missile::DrawUI() const {
+	hitPoint_->Draw();
 }

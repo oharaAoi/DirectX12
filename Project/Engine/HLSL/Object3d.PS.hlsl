@@ -130,6 +130,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	if (textureColor.a <= 0.5f){
 		discard;
 	}
+
 	
 	// --------------------- directional --------------------- //
 	// lambert
