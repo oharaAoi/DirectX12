@@ -174,3 +174,11 @@ Vector3 Render::GetEyePos() {
 const ViewProjection* Render::GetViewProjection() {
 	return viewProjection_.get();
 }
+
+void Render::SetVpvpMat(const Matrix4x4& vpvpMat) {
+	vpvpMat_ = vpvpMat;
+}
+
+Matrix4x4 Render::GetVpvpMat() {
+	return vpvpMat_;
+}

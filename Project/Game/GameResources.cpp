@@ -32,9 +32,13 @@ void GameResources::Load() {
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "star.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "kari_bossHp.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "kari_fallUI.png");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPoint.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPointGauge.png");
+
+
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

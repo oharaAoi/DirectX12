@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Collider/Collider.h"
+#include "Engine/2d/Sprite.h"
 
 class Player;
 
@@ -15,6 +16,8 @@ public:
 	void Init() override;
 	void Update() override;
 	void Draw() const override;
+
+	void DrawUI() const ;
 
 	void OnCollision([[maybe_unused]] Collider* other)override;
 	void SetPlayer(Player* player) { player_ = player; }
@@ -54,6 +57,12 @@ private:
 
 	Vector3 velocity_{};
 	float gravity_ = -29.4f;
+
+	/// ==========================================
+	/// UI
+	/// ==========================================
+	
+	std::unique_ptr<Sprite> fallGuideUI_;
 
 };
 

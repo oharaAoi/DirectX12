@@ -123,6 +123,9 @@ public:
 
 	static const ViewProjection* GetViewProjection();
 
+	static void SetVpvpMat(const Matrix4x4& vpvpMat);
+	static Matrix4x4 GetVpvpMat();
+
 private:
 
 	RenderTarget* renderTarget_ = nullptr;
@@ -144,4 +147,6 @@ namespace {
 	float farClip2D_;
 
 	Vector3 cameraPos_;
+
+	Matrix4x4 vpvpMat_;
 }

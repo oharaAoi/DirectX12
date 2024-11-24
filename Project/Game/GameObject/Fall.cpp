@@ -1,5 +1,6 @@
 #include "Fall.h"
 #include "Game/GameObject/Player/Player.h"
+#include "Engine/Engine.h"
 
 Fall::Fall() {
 }
@@ -22,6 +23,13 @@ void Fall::Init() {
 
 	radius_ = 1.0f;
 	tag_ = "fallObj";
+
+	// -------------------------------------------------
+	// ↓ Uiの初期化
+	// -------------------------------------------------
+
+	fallGuideUI_ = Engine::CreateSprite("kari_fallUI.png");
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,8 +61,12 @@ void Fall::Update() {
 		transform_->SetTranslationY(fallPos);
 	}
 
-
 	BaseGameObject::Update();
+
+	Vector3 worldPos = Transform(Vector3::ZERO(), transform_->GetWorldMatrix() * Render::GetVpvpMat());
+	Vector2 scrennPos = Vector2(worldPos.x + 100, worldPos.y + 50);
+	fallGuideUI_->SetTranslate(scrennPos);
+	fallGuideUI_->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,6 +76,10 @@ void Fall::Update() {
 void Fall::Draw() const {
 
 	BaseGameObject::Draw();
+}
+
+void Fall::DrawUI() const {
+	fallGuideUI_->Draw();
 }
 
 void Fall::OnCollision([[maybe_unused]] Collider* other) {

@@ -154,6 +154,7 @@ void GameScene::Update() {
 
 	Render::SetEyePos(eyePos_);
 	Render::SetViewProjection(viewMat_, projectionMat_);
+	Render::SetVpvpMat(followCamera_->GetVPVMatrix());
 
 #ifdef _DEBUG
 	Debug_Gui();
@@ -222,6 +223,8 @@ void GameScene::Draw() const {
 	for (const auto& missile : missileList_) {
 		missile->DrawUI();
 	}
+
+	fall_->DrawUI();
 	
 }
 
