@@ -19,8 +19,8 @@ public:
 	struct TextureMaterial {
 		Vector4 color;
 		Matrix4x4 uvTransform;
-		Vector2 uvDrawRange;		// 0~1の範囲で指定する
-		float padding[2];
+		Vector2 uvMinSize;		// 0~1の範囲で指定
+		Vector2 uvMaxSize;		// 0~1の範囲で指定
 	};
 
 	struct TextureTransformData {

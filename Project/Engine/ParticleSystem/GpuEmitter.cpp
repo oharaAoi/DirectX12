@@ -1,10 +1,10 @@
 #include "GpuEmitter.h"
+#ifdef _DEBUG
+#include "Engine/Manager/ImGuiManager.h"
+#endif
 
-GpuEmitter::GpuEmitter() {
-}
-
-GpuEmitter::~GpuEmitter() {
-}
+GpuEmitter::GpuEmitter() {}
+GpuEmitter::~GpuEmitter() {}
 
 void GpuEmitter::Init() {
 	// gpuに送るResourceの作成
