@@ -59,6 +59,8 @@ void BossParAttack::Aim() {
 		pBossHand_->isGroundSlap_ = false;
 		pBossHand_->easingIndex_ = (int)EasingType::In::Elastic;
 	}
+
+	pBossHand_->meshCollider_->SetSubTag("wait_hand");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,4 +102,6 @@ void BossParAttack::Return() {
 	} else {
 		pBossHand_->isAttackMove_ = false;
 	}
+
+	pBossHand_->meshCollider_->SetSubTag("wait_hand");
 }

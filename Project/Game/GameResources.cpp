@@ -29,6 +29,7 @@ void GameResources::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Player/", "Player.gltf");
 	ModelManager::LoadModel("./Game/Resources/Model/Barrier/", "barrier.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Missile/", "missile.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Bomb/", "bomb.obj");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "star.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "kari_bossHp.png");

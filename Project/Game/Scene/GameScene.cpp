@@ -7,6 +7,7 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Finalize() {
+	gameObjectManager_->Finalize();
 }
 
 void GameScene::Init() {
@@ -64,6 +65,9 @@ void GameScene::Init() {
 
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
+
+	gameObjectManager_ = GameObjectManager::GetInstance();
+	gameObjectManager_->Init();
 
 	// -------------------------------------------------
 	// ↓ Editer初期化
@@ -166,7 +170,7 @@ void GameScene::Draw() const {
 	// ↓ Debugの描画
 	// -------------------------------------------------
 #ifdef _DEBUG
-	/*Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	DrawGrid(viewMat_, projectionMat_);
 
 	field_->Debug_Draw();
@@ -178,7 +182,10 @@ void GameScene::Draw() const {
 
 	for (auto& missile : missileList_) {
 		missile->Debug_Draw();
-	}*/
+	}
+
+	gameObjectManager_->Debug_Draw();
+
 #endif
 	
 	// -------------------------------------------------
@@ -204,6 +211,8 @@ void GameScene::Draw() const {
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	player_->Draw();
+
+	gameObjectManager_->Draw();
 
 	testCollisionObj_->Draw();
 	testCollisionObj3_->Draw();
@@ -258,6 +267,8 @@ void GameScene::UpdateGameObject() {
 	if (!isDebugCamera_) {
 		player_->Update();
 	}
+
+	gameObjectManager_->Update();
 
 	// missileの処理
 	missileList_.remove_if([](auto& enemy) {return !enemy->GetIsAlive(); });
@@ -316,8 +327,14 @@ void GameScene::UpdateManager() {
 		collisionManager_->AddCollider(boss_->GetBossBarrier()->GetMeshCollider());
 	}
 
+	// ミサイルを追加
 	for (auto& missile : missileList_) {
 		collisionManager_->AddCollider(missile->GetMeshCollider());
+	}
+
+	// ボムの追加
+	for (auto& bomb : gameObjectManager_->GetBombList()) {
+		collisionManager_->AddCollider(bomb->GetMeshCollider());
 	}
 
 	collisionManager_->CheckAllCollision();
@@ -454,6 +471,12 @@ void GameScene::Debug_Gui() {
 
 	ImGui::SliderFloat("transitionTime", &bossFormTransitionTime_, 0.0f, bossFormTransitionTimeLimit_);
 	ImGui::SliderFloat("transitionTimeLmit", &bossFormTransitionTimeLimit_, 0.0f, 30.0f);
+
+	ImGui::Separator();
+	ImGui::DragFloat3("bombPopPos", &bombPopPos_.x, 0.1f);
+	if (ImGui::Button("popBomb")) {
+		gameObjectManager_->PopBomb(bombPopPos_);
+	}
 
 	ImGui::End();
 }

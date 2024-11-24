@@ -73,6 +73,8 @@ void BossMowDownAttack::Aim() {
 		work_.attackTime = adjust->GetValue<float>(groupName_, "swingTime");
 		work_.easeFunction = (int)adjust->GetValue<uint32_t>(groupName_, "swingEasing");
 	}
+
+	pBossHand_->meshCollider_->SetSubTag("wait_hand");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,6 +100,8 @@ void BossMowDownAttack::MowDown() {
 		work_.attackTime = adjust->GetValue<float>(groupName_, "returnTime");
 		work_.easeFunction = (int)adjust->GetValue<uint32_t>(groupName_, "returnEasing");
 	}
+
+	pBossHand_->meshCollider_->SetSubTag("swing_hand");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,6 +123,8 @@ void BossMowDownAttack::Return() {
 	if (moveTime_ > work_.attackTime) {
 		pBossHand_->isAttackMove_ = false;
 	}
+
+	pBossHand_->meshCollider_->SetSubTag("wait_hand");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

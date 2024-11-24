@@ -60,6 +60,8 @@ void BossGooAttack::Aim() {
 		pBossHand_->isGroundSlap_ = false;
 		pBossHand_->easingIndex_ = (int)EasingType::In::Elastic;
 	}
+
+	pBossHand_->meshCollider_->SetSubTag("wait_hand");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,6 +82,8 @@ void BossGooAttack::Slap() {
 
 	movePos += (pBossHand_->attackVeclocity_ * moveSpeed) * GameTimer::DeltaTime();
 	pBossHand_->transform_->SetTranslaion(movePos);
+
+	pBossHand_->meshCollider_->SetSubTag("slap_attack");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,4 +104,6 @@ void BossGooAttack::Return() {
 	} else {
 		pBossHand_->isAttackMove_ = false;
 	}
+
+	pBossHand_->meshCollider_->SetSubTag("wait_hand");
 }

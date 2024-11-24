@@ -245,6 +245,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameObject\State\PlayerBeAttackedState.cpp" />
     <ClCompile Include="Game\GameObject\State\PlayerRootState.cpp" />
     <ClCompile Include="Game\GameResources.cpp" />
+    <ClCompile Include="Game\Manager\GameObjectManager.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameClearScene.cpp" />
     <ClCompile Include="Game\Scene\GameOverScene.cpp" />
@@ -405,6 +406,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\GameObject\State\PlayerBeAttackedState.h" />
     <ClInclude Include="Game\GameObject\State\PlayerRootState.h" />
     <ClInclude Include="Game\GameResources.h" />
+    <ClInclude Include="Game\Manager\GameObjectManager.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\GameClearScene.h" />

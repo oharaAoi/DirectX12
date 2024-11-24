@@ -19,6 +19,7 @@
 #include "Game/GameObject/FallStone.h"
 #include "Game/UI/Player/PlayerUI.h"
 #include "Game/UI/Boss/BossUI.h"
+#include "Game/Manager/GameObjectManager.h"
 
 class GameScene 
 	: public BaseScene {
@@ -51,6 +52,7 @@ public:
 
 	void AddMissile(const Vector3& targePos, const Vector3& firePos);
 
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
@@ -80,7 +82,7 @@ private:
 	std::unique_ptr<Boss> boss_;
 
 	std::list<std::unique_ptr<Missile>> missileList_;
-	
+
 	std::unique_ptr<TestCollisionObj> testCollisionObj_;
 	std::unique_ptr<TestCollisionObj> testCollisionObj3_;
 
@@ -89,6 +91,8 @@ private:
 
 	// --- Manager --------------------------------- //
 	std::unique_ptr<CollisionManager> collisionManager_;
+
+	GameObjectManager* gameObjectManager_;
 
 	// --- UI -------------------------------------- //
 	std::unique_ptr<PlayerUI> playerUI_;
@@ -105,5 +109,9 @@ private:
 
 	float bossFormTransitionTime_ = 0.0f;
 	float bossFormTransitionTimeLimit_ = 5.0f;
+
+#ifdef _DEBUG
+	Vector3 bombPopPos_;
+#endif
 
 };
