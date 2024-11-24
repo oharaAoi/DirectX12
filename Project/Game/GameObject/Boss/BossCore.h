@@ -4,6 +4,17 @@
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Collider/MeshCollider.h"
+#include "BossCoreDefaultState.h"
+#include "BossCoreHideState.h"
+#include "BossCoreAppearState.h"
+
+
+enum class CoreState {
+	Default,
+	Hide,
+	Appear,
+};
+
 
 /// <summary>
 /// Bossの攻撃をする本体
@@ -21,9 +32,15 @@ public:
 
 	void AdaptAdjustment();
 
+	void CheckRequest();
+	void SetBehaviorRequest(const CoreState& request) { behaviorRequest_ = request; }
+	void SetBehaviorState(std::unique_ptr<BaseObjectState> behaviorState) { state_ = std::move(behaviorState); }
+	void ChangeHide();
+
 	bool CheckMouseNear(const Matrix4x4& vpvpMat);
 	void SetPlayerPullBack(bool is) { isPlayerPullBack_ = is; }
 	bool SetFalsePlayerPullBack();
+	void SetNear(bool is) { isNear_ = is; }
 	bool GetNear()const { return isNear_; }
 
 #ifdef _DEBUG
@@ -62,6 +79,12 @@ private:
 
 	float hp_ = 100.0f;
 	float decrementHp_ = 10.0f;
+
+
+	std::unique_ptr<BaseObjectState> state_;
+	// stateパターンに関する変数
+	CoreState behavior_ = CoreState::Default;
+	std::optional<CoreState> behaviorRequest_ = std::nullopt;
 
 };
 
