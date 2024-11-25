@@ -89,7 +89,7 @@ void GameScene::Init() {
 
 	panel_ = std::make_unique<Panel>();
 	panel_->Init();
-	panel_->SetBlackOutOpen();
+	panel_->SetBlackOutOpen(2.5f);
 
 	// -------------------------------------------------
 	// ↓ ライト初期化
@@ -102,6 +102,7 @@ void GameScene::Init() {
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
 
+	isPlayerAutoMove_ = true;
 	finishAppear_ = false;
 	Input::SetNotAccepted(false);
 
@@ -410,6 +411,15 @@ void GameScene::BossFormTransition() {
 void GameScene::AppearUpdate() {
 	panel_->Update();
 
+	// 自動で動かす
+	if (isPlayerAutoMove_) {
+		if (player_->GetTransform()->GetTranslation().x <= -17.0f) {
+			player_->AutoMove(Vector3{ 4.0f, 0.0f, 0.0f });
+		} else {
+			isPlayerAutoMove_ = false;
+		}
+	}
+
 	if (boss_->GetIsAppear()) {
 		finishAppear_ = true;
 	}
@@ -519,6 +529,8 @@ void GameScene::Debug_Gui() {
 	}
 
 	ImGui::Checkbox("finishAppear", &finishAppear_);
+
+	panel_->Debug_Gui();
 
 	ImGui::End();
 }

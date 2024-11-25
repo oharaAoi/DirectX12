@@ -52,6 +52,8 @@ public:
 	/// </summary>
 	void AdaptAdjustment();
 
+	void AutoMove(const Vector3& velocity);
+
 	void SetInverMatrix(const Matrix4x4& inver);
 	void SetCameraZDis(float z);
 

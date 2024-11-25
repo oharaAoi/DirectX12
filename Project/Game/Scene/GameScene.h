@@ -120,6 +120,8 @@ private:
 
 	bool finishAppear_ = false;
 
+	bool isPlayerAutoMove_ = true;
+
 #ifdef _DEBUG
 	Vector3 bombPopPos_;
 #endif

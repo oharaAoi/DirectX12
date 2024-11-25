@@ -645,6 +645,12 @@ void Player::AdaptAdjustment() {
 	 transform_->SetTranslaion(adjustItem_->GetValue<Vector3>(groupName_, "pos"));
 }
 
+void Player::AutoMove(const Vector3& velocity) {
+	Vector3 pos = transform_->GetTranslation();
+	pos += velocity * GameTimer::DeltaTime();
+	transform_->SetTranslaion(pos);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Setter系
 //////////////////////////////////////////////////////////////////////////////////////////////////
