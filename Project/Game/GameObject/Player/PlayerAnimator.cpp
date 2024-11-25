@@ -16,7 +16,8 @@ void PlayerAnimator::Init() {
 		pPlayerAnimator_ = pPlayer_->GetAnimetor();
 	}
 
-	nowState_ = "defalut";
+	nowState_ = "attack";
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

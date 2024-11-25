@@ -16,7 +16,6 @@ void Player::Init() {
 	BaseGameObject::Init();
 	SetObject("Player.gltf");
 	SetAnimater("./Game/Resources/Model/Player/", "Player.gltf", true, true, true);
-
 	transform_->SetScale({ 1.0f, 1.0f, 1.0f });
 	transform_->SetTranslaion({ 0.0f, 0.0f, 0.0f });
 
@@ -29,7 +28,7 @@ void Player::Init() {
 
 	// animatorの生成
 	playerAnimator_ = std::make_unique<PlayerAnimator>(this);
-
+	
 	// Colliderの生成
 	SetMeshCollider("player");
 	meshCollider_->SetOwner(this);
@@ -55,6 +54,9 @@ void Player::Init() {
 	canBossAttack_ = false;
 
 	throwSpeed_ = 6.0f;
+
+	playerAnimator_->NowToAfterTransition("defalut");
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,17 +68,21 @@ void Player::Update() {
 	CheckBehaviorRequest();
 	state_->Update();
 
-	Move();
+	if (!isAutoMove_) {
+		Move();
+	}
 	Clutch();
 
 	CatchObjectFollow();
-	
+
 	playerAnimator_->Update();
 
 	BaseGameObject::Update();
 
 	wire_->Update();
 	wireTip_->Update();
+
+	isAutoMove_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,7 +108,7 @@ void Player::CheckBehaviorRequest() {
 			SetBehaviorState(std::make_unique<PlayerRootState>(this));
 			break;
 		case PlayerState::Attack:
-			
+
 			break;
 		case PlayerState::BeAttacked:
 			SetBehaviorState(std::make_unique<PlayerBeAttackedState>(this));
@@ -122,7 +128,7 @@ void Player::CheckBehaviorRequest() {
 
 void Player::OnCollision(MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
-		
+
 		if (playerState == int(PlayerState::Attack)) {
 			isKnockBack_ = true;
 		}
@@ -143,15 +149,13 @@ void Player::KnockBack() {
 	velocity_.x = knockBackSpeed_ * (float)knockBack_LorR_;
 	if (knockBack_LorR_ < 0) {
 		targetRotate = rightRotate;
-	}
-	else if (knockBack_LorR_ > 0) {
+	} else if (knockBack_LorR_ > 0) {
 		targetRotate = leftRotate;
 	}
 
 	if (knockBackTime_ <= 0.8f) {
 		knockBackTime_ += GameTimer::DeltaTime();
-	}
-	else {
+	} else {
 		knockBackTime_ = 0.0f;
 		isKnockBack_ = false;
 	}
@@ -203,7 +207,7 @@ void Player::CatchObjectFollow() {
 	playerPos.y += 2.0f;
 	catchObj->GetTransform()->SetTranslaion(playerPos);
 	catchObj->GetTransform()->SetQuaternion(transform_->GetQuaternion());
-	
+
 	// 投げる処理
 	if (Input::IsTriggerMouse(0)) {
 		if (canBossAttack_) {
@@ -237,8 +241,7 @@ void Player::Move() {
 
 	if (!isPullBackObj_) {
 		DefaultMove(pos);
-	}
-	else {
+	} else {
 		PullBackMove(pos);
 	}
 
@@ -261,8 +264,7 @@ void Player::Move() {
 				if (sab.x > 0) {
 					clutchEnd_.x += velocity_.x * GameTimer::DeltaTime();
 				}
-			}
-			else if (velocity_.x > 0) {
+			} else if (velocity_.x > 0) {
 
 				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
 				if (sab.x < 0) {
@@ -293,7 +295,7 @@ void Player::DefaultMove(Vector3& pos) {
 				targetRotate = leftRotate;
 				playerAnimator_->NowToAfterTransition("move");
 
-			} 
+			}
 			if (Input::IsPressKey(DIK_D)) {
 				velocity_.x += moveSpeed_;
 				targetRotate = rightRotate;
@@ -307,8 +309,7 @@ void Player::DefaultMove(Vector3& pos) {
 				if (sab.x > 0) {
 					velocity_ *= weight;
 				}
-			}
-			else if (velocity_.x > 0) {
+			} else if (velocity_.x > 0) {
 
 				Vector2 sab = clutchEnd_ - Vector2{ pos.x,pos.y };
 				if (sab.x < 0) {
@@ -328,8 +329,7 @@ void Player::DefaultMove(Vector3& pos) {
 		if (velocity_.x == 0) {
 			playerAnimator_->NowToAfterTransition("defalut");
 		}
-	}
-	else if (isSnagged_ && wireTip_->GetSnagged() && isStretchClutch_) {
+	} else if (isSnagged_ && wireTip_->GetSnagged() && isStretchClutch_) {
 		playerState = int(PlayerState::Attack);
 		playerAnimator_->NowToAfterTransition("attack");
 
@@ -390,8 +390,7 @@ void Player::Clutch() {
 
 	if (!isPullBackObj_) {
 		Stretching();
-	}
-	else {
+	} else {
 		BackPullStretch();
 	}
 
@@ -416,7 +415,7 @@ void Player::Clutch() {
 			}
 
 			if (!wireTip_->GetHit()) {
-				
+
 				isStretchClutch_ = false;
 				isSnagged_ = false;
 				clutchLerpTime_ = 0.0f;
@@ -457,15 +456,13 @@ void Player::BaseClutch() {
 					Quaternion moveRotate = Quaternion::AngleAxis(-angle, Vector3::FORWARD());
 					Quaternion rotate = wire_->GetTransform()->GetQuaternion();
 					wire_->GetTransform()->SetQuaternion(moveRotate);
-				}
-				else if (isRekey_ && !isStretchClutch_ && wireTip_->GetFollow() && !isThrow_) {
+				} else if (isRekey_ && !isStretchClutch_ && wireTip_->GetFollow() && !isThrow_) {
 					isThrow_ = true;
 					wireTip_->SetFolllow(false);
 				}
 			}
 		}
-	}
-	else {
+	} else {
 		Vector3 nowScale = wire_->GetTransform()->GetScale();
 
 		nowScale.y = std::lerp(nowScale.y, 0.0f, returnSpeed_);
@@ -491,8 +488,7 @@ void Player::FirstClutch() {
 		isPullBackObj_ = true;
 		wireTip_->SetNeglect(true);
 		isRekey_ = false;
-	}
-	else if (!isStretchClutch_ && isRekey_ && !isPullBackObj_) {
+	} else if (!isStretchClutch_ && isRekey_ && !isPullBackObj_) {
 		wireTip_->SetNeglect(false);
 		ClutchEndCalculation();
 		isStretching_ = true;
@@ -524,12 +520,10 @@ void Player::BackPullStretch() {
 		if (nowScale.y <= maxClutchLength_) {
 			nowScale.y += stretchSpeed_ * GameTimer::DeltaTime();
 			wire_->GetTransform()->SetScale(nowScale);
-		}
-		else {
+		} else {
 			isStretching_ = false;
 		}
-	}
-	else {
+	} else {
 		if (!Input::IsPressMouse(0)) {
 			isReturnClutch_ = true;
 			isPullBackObj_ = false;
@@ -545,21 +539,19 @@ void Player::ClutchEndCalculation() {
 
 	if (end.x > transform_->GetTranslation().x) {
 		targetRotate = rightRotate;
-	}
-	else if (end.x < transform_->GetTranslation().x) {
+	} else if (end.x < transform_->GetTranslation().x) {
 		targetRotate = leftRotate;
 	}
 
 	if (isNearBack_) {
 		clutchEnd_ = { end.x,end.y };
-	}
-	else {
+	} else {
 		end -= transform_->GetTranslation();
 		end = end.Normalize() * maxClutchLength_;
 		end += transform_->GetTranslation();
 		clutchEnd_ = { end.x,end.y };
 	}
-	
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -572,8 +564,7 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			if (!isKnockBack_) {
 				if (other.GetObbCenter().x > transform_->GetTranslation().x) {
 					knockBack_LorR_ = -1;
-				}
-				else {
+				} else {
 					knockBack_LorR_ = 1;
 				}
 			}
@@ -604,17 +595,26 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			wireTip_->SetNeglect(false);
 			wireTip_->SetIsBossAttack(false);
 
-		}else{
-			behaviorRequest_ = PlayerState::BeAttacked;
-
+		} else {
 			if (other.GetSubTag() == "attacked") {
-				beAttackedType_ = BeAttackedType::NORMAL_HITED;
+				if (other.GetSubTag() != "wait_hand") {
+					behaviorRequest_ = PlayerState::BeAttacked;
+					beAttackedType_ = BeAttackedType::NORMAL_HITED;
+					isReturnClutch_ = true;
+					isStretching_ = false;
+					isPullBackObj_ = false;
+					wireTip_->SetNeglect(false);
+				}
+
+			} else if (other.GetSubTag() == "slap_attack") {
+				behaviorRequest_ = PlayerState::BeAttacked;
+				beAttackedType_ = BeAttackedType::SLAP_ATTACKED;
 				isReturnClutch_ = true;
 				isStretching_ = false;
 				isPullBackObj_ = false;
 				wireTip_->SetNeglect(false);
-
-			}else if (other.GetSubTag() == "slap_attack") {
+			} else if (other.GetSubTag() == "swing_hand") {
+				behaviorRequest_ = PlayerState::BeAttacked;
 				beAttackedType_ = BeAttackedType::SLAP_ATTACKED;
 				isReturnClutch_ = true;
 				isStretching_ = false;
@@ -628,7 +628,7 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 void Player::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
 
-		
+
 	}
 }
 
@@ -642,13 +642,20 @@ void Player::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 
 
 void Player::AdaptAdjustment() {
-	 transform_->SetTranslaion(adjustItem_->GetValue<Vector3>(groupName_, "pos"));
+	transform_->SetTranslaion(adjustItem_->GetValue<Vector3>(groupName_, "pos"));
 }
 
 void Player::AutoMove(const Vector3& velocity) {
+	velocity_ = velocity;
 	Vector3 pos = transform_->GetTranslation();
-	pos += velocity * GameTimer::DeltaTime();
+	pos += velocity_ * GameTimer::DeltaTime();
 	transform_->SetTranslaion(pos);
+	playerAnimator_->NowToAfterTransition("move");
+	isAutoMove_ = true;
+	targetRotate = rightRotate;
+	nowRotate = LerpShortAngle(nowRotate, targetRotate, 0.1f);
+
+	transform_->SetQuaternion(Quaternion::AngleAxis(90.0f * toRadian, Vector3::UP()));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

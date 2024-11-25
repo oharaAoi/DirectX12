@@ -82,6 +82,8 @@ void BossParAttack::Slap() {
 
 	movePos += (pBossHand_->attackVeclocity_ * moveSpeed) * GameTimer::DeltaTime();
 	pBossHand_->transform_->SetTranslaion(movePos);
+
+	pBossHand_->meshCollider_->SetSubTag("slap_attack");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
