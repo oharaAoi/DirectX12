@@ -26,6 +26,8 @@ public:
 
 	static void PopBomb(const Vector3& popPos, const Vector3& acceleration = Vector3::ZERO());
 
+	void SetBombPara(bool isNeglect, bool isPull, const Vector3& wireTipPos);
+
 private:
 
 	void AddBomb(const Vector3& popPos, const Vector3& acceleration = Vector3::ZERO());

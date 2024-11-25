@@ -110,6 +110,13 @@ void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			catchObject_->GetTransform()->SetQuaternion(Quaternion());
 		}
 	}
+	if (other.GetTag() == "bomb") {
+		if (!isNeglect_ && !isPull_) {
+			isHit_ = true;
+			isPull_ = true;
+			weight_ = 0.5f;
+		}
+	}
 }
 
 void WireTip::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
@@ -124,6 +131,13 @@ void WireTip::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 		isSnagged_ = true;
 
 		isBossAttack_ = true;
+	}
+	if (other.GetTag() == "bomb") {
+		if (!isNeglect_ && !isPull_) {
+			isHit_ = true;
+			isPull_ = true;
+			weight_ = 0.5f;
+		}
 	}
 }
 
