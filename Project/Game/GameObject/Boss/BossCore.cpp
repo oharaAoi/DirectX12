@@ -1,4 +1,9 @@
 #include "BossCore.h"
+#include "Game/GameObject/Boss/BossCoreDefaultState.h"
+#include "Game/GameObject/Boss/BossCoreHideState.h"
+#include "Game/GameObject/Boss/BossCoreAppearState.h"
+#include "Game/GameObject/Boss/BossCoreGameStartState.h"
+#include "Engine/Utilities/AdjustmentItem.h"
 
 BossCore::BossCore() {}
 BossCore::~BossCore() {}
@@ -26,16 +31,17 @@ void BossCore::Init() {
 	// 調整項目の適応
 	AdaptAdjustment();
 
-
 	state_ = std::make_unique<BossCoreDefaultState>(this);
-	behaviorRequest_ = CoreState::Default;
-
+	behaviorRequest_ = CoreState::GameStart;
+	CheckRequest();
 
 	defaultPosition_ = transform_->GetTranslation();
 	middlePosition_ = { 0.0f,13.0f,-9.0f };
 	endPosition_ = { 0.0f,7.0f, - 18.0f };
 
 	hp_ = 100.0f;
+
+	isFirstHit_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,6 +106,9 @@ void BossCore::CheckRequest() {
 		case CoreState::Appear:
 			SetBehaviorState(std::make_unique<BossCoreAppearState>(this));
 			break;
+		case CoreState::GameStart:
+			SetBehaviorState(std::make_unique<BossCoreGameStartState>(this));
+			break;
 		default:
 			break;
 		}
@@ -152,8 +161,14 @@ bool BossCore::SetFalsePlayerPullBack() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossCore::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
-	if (other.GetTag() == "player") {
-		hp_ -= decrementHp_;
+	if (behavior_ != CoreState::GameStart) {
+		if (other.GetTag() == "player") {
+			hp_ -= decrementHp_;
+		}
+	} else {
+		if (other.GetTag() == "player") {
+			isFirstHit_ = true;
+		}
 	}
 }
 
@@ -182,6 +197,8 @@ void BossCore::Debug_Gui() {
 	}
 
 	ImGui::SliderFloat("hp", &hp_, 0.0f, 100.0f);
+
+	state_->Debug_Gui();
 
 	ImGui::End();
 }

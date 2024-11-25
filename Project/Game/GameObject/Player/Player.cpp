@@ -42,6 +42,14 @@ void Player::Init() {
 	behaviorRequest_ = PlayerState::Default;
 
 	// -------------------------------------------------
+	// ↓ 調整項目の適応
+	// -------------------------------------------------
+	adjustItem_ = AdjustmentItem::GetInstance();
+	adjustItem_->AddItem(groupName_, "pos", transform_->GetTranslation());
+
+	AdaptAdjustment();
+
+	// -------------------------------------------------
 	// ↓ 変数の初期化
 	// -------------------------------------------------
 	canBossAttack_ = false;
@@ -629,9 +637,23 @@ void Player::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　Setter系
+// ↓　調整項目の適応
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+void Player::AdaptAdjustment() {
+	 transform_->SetTranslaion(adjustItem_->GetValue<Vector3>(groupName_, "pos"));
+}
+
+void Player::AutoMove(const Vector3& velocity) {
+	Vector3 pos = transform_->GetTranslation();
+	pos += velocity * GameTimer::DeltaTime();
+	transform_->SetTranslaion(pos);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Setter系
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::SetInverMatrix(const Matrix4x4& inver) {
 	inverMat_ = inver;

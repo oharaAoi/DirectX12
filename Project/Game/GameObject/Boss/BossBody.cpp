@@ -14,10 +14,13 @@ void BossBody::Init() {
 	SetObject("boss_body.obj");
 
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
-	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
+	adjust->AddItem(groupName_, "pos", defalutPos_);
+	adjust->AddItem(groupName_, "startPos", startPos_);
 
 	// 調整項目の適応
 	AdaptAdjustment();
+
+	transform_->SetTranslaion(startPos_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +45,8 @@ void BossBody::Draw() const {
 
 void BossBody::AdaptAdjustment() {
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
-	transform_->SetTranslaion(adjust->GetValue<Vector3>(groupName_, "pos"));
+	defalutPos_ = adjust->GetValue<Vector3>(groupName_, "pos");
+	startPos_ = adjust->GetValue<Vector3>(groupName_, "startPos");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

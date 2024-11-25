@@ -1,6 +1,7 @@
 {
-    "BossBody": {
-        "pos": [
+    "BossAppearState": {
+        "appearEasing": 1,
+        "endPos": [
             0.0,
             -5.0,
             18.0

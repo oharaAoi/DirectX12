@@ -116,6 +116,13 @@ void MeshCollider::Update(const WorldTransform* worldTransform, const Vector3& s
 		}
 	}
 
+	if (maxSize_.x == -9999.0f && maxSize_.y == -9999.0f && maxSize_.z == -9999.0f) {
+		maxSize_ = Vector3::ZERO();
+	}
+	if (minSize_.x == 9999.0f && minSize_.y == 9999.0f && minSize_.z == 9999.0f) {
+		minSize_ = Vector3::ZERO();
+	}
+	
 	// -------------------------------------------------
 	// ↓ 最大値と最小の値から物体の半径を求める
 	// -------------------------------------------------

@@ -18,12 +18,12 @@ public:
 	/// <summary>
 	/// ブラックアウトをセットする
 	/// </summary>
-	void SetBlackOut();
+	void SetBlackOut(float timeLimit = 1.0f);
 
 	/// <summary>
 	/// ブラックアウトから開けさせる
 	/// </summary>
-	void SetBlackOutOpen();
+	void SetBlackOutOpen(float timeLimit = 1.0f);
 
 #ifdef _DEBUG
 	void Debug_Gui();

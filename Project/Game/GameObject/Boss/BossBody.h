@@ -27,5 +27,9 @@ private:
 
 	std::string groupName_ = "BossBody";
 
+	Vector3 startPos_;
+
+	Vector3 defalutPos_;
+
 };
 
