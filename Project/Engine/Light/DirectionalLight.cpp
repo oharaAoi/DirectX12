@@ -11,7 +11,7 @@ void DirectionalLight::Init(ID3D12Device* device, const size_t& size) {
 	lightBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData_));
 	directionalLightData_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	directionalLightData_->direction = { -0.1f, -0.9f, 0.3f };
-	directionalLightData_->intensity = 1.0f;
+	directionalLightData_->intensity = 0.0f;
 	directionalLightData_->limPower = 10.0f;
 }
 

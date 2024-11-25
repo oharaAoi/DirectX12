@@ -59,6 +59,12 @@ void Render::Draw(ID3D12GraphicsCommandList* commandList) {
 	viewProjection_->Draw(commandList);
 }
 
+#ifdef _DEBUG
+void Render::Debug_Gui() {
+	lightGroup_->Debug_Gui();
+}
+#endif
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　三角形の描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -181,4 +187,8 @@ void Render::SetVpvpMat(const Matrix4x4& vpvpMat) {
 
 Matrix4x4 Render::GetVpvpMat() {
 	return vpvpMat_;
+}
+
+SpotLight* Render::GetSporLight() {
+	return lightGroup_->GetSpotLight();
 }

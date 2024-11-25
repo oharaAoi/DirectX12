@@ -9,7 +9,6 @@ void Skydome::Init() {
 }
 
 void Skydome::Update() {
-	materials[0]->SetIsLighting(false);
 	BaseGameObject::Update();
 }
 

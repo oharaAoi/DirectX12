@@ -12,6 +12,8 @@ void TutorialScene::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TutorialScene::Init() {
+	adjustmentItem_ = AdjustmentItem::GetInstance();
+	adjustmentItem_->Init("tutorialScene");
 
 	// -------------------------------------------------
 	// ↓ Cameraの初期化
@@ -43,6 +45,20 @@ void TutorialScene::Init() {
 	player_->Init();
 
 	// -------------------------------------------------
+	// ↓ 2d系の初期化
+	// -------------------------------------------------
+
+	panel_ = std::make_unique<Panel>();
+	panel_->Init();
+
+	// -------------------------------------------------
+	// ↓ ライト初期化
+	// -------------------------------------------------
+	SpotLight* spotLight = Render::GetSporLight();
+	spotLight->AddAdjustment();
+	spotLight->AdaptAdjustment();
+
+	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
 
@@ -72,6 +88,12 @@ void TutorialScene::Update() {
 	} else {
 		TutorialUpdate();
 	}
+
+	// -------------------------------------------------
+	// ↓ GameObjectの更新
+	// -------------------------------------------------
+
+	panel_->Update();
 
 	// -------------------------------------------------
 	// ↓ Cameraの更新
@@ -108,6 +130,7 @@ void TutorialScene::Update() {
 	Render::SetVpvpMat(followCamera_->GetVPVMatrix());
 
 #ifdef _DEBUG
+	Render::Debug_Gui();
 	Debug_Gui();
 #endif
 }
@@ -131,13 +154,27 @@ void TutorialScene::Draw() const {
 	// -------------------------------------------------
 
 	player_->Draw();
+
+	// -------------------------------------------------
+	// ↓ UIの描画
+	// -------------------------------------------------
+	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
+	panel_->Draw();
+
 }
 
 void TutorialScene::AutoUpdate() {
+	if (panel_->GetIsFinished()) {
+		nextSceneType_ = SceneType::GAME;
+		return;
+	}
+
 	Vector3 playerPos = player_->GetTransform()->GetTranslation();
 	if (playerPos.x > 19.0f) {
 		// ここでブラックアウトさせる
-		nextSceneType_ = SceneType::GAME;
+		if (panel_->GetDoNoting()) {
+			panel_->SetBlackOut();
+		}
 	}
 }
 
@@ -152,6 +189,7 @@ void TutorialScene::TutorialUpdate() {
 	if (playerPos.x > 19.0f) {
 		// ここでブラックアウトさせる
 		isNextScene_ = true;
+		Input::SetNotAccepted(true);
 	}
 }
 
@@ -165,5 +203,16 @@ void TutorialScene::AutoMove() {
 
 #ifdef _DEBUG
 void TutorialScene::Debug_Gui() {
+	panel_->Debug_Gui();
+
+	ImGui::Begin("TutorialScene");
+
+	if (ImGui::TreeNode("AdjustmentItem")) {
+		// Updateだが実質Gui表示なためここで更新
+		adjustmentItem_->Update();
+		ImGui::TreePop();
+	}
+
+	ImGui::End();
 }
 #endif

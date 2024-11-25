@@ -17,7 +17,7 @@ class AdjustmentItem {
 public:
 
 	struct Items {
-		std::variant<uint32_t, float, bool, Vector2, Vector3> value;
+		std::variant<uint32_t, float, bool, Vector2, Vector3, Vector4> value;
 	};
 
 	struct Group {

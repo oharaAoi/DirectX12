@@ -35,6 +35,10 @@ public:
 
 	static void Draw(ID3D12GraphicsCommandList* commandList);
 
+#ifdef _DEBUG
+	static void Debug_Gui();
+#endif
+
 public:
 
 	/// <summary>
@@ -125,6 +129,12 @@ public:
 
 	static void SetVpvpMat(const Matrix4x4& vpvpMat);
 	static Matrix4x4 GetVpvpMat();
+
+	//==================================================================================
+	// ↓　Lightの貸出
+	//==================================================================================
+
+	static SpotLight* GetSporLight();
 
 private:
 

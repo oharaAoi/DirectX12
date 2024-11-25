@@ -30,10 +30,6 @@ void LightGroup::Update() {
 	directionalLight_->SetEyePos(eyePos_);
 	pointLight_->SetEyePos(eyePos_);
 	spotLight_->SetEyePos(eyePos_);
-
-	/*directionalLight_->ImGuiDraw();
-	pointLight_->ImGuiDraw();
-	spotLight_->ImGuiDraw();*/
 }
 
 void LightGroup::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
@@ -45,6 +41,15 @@ void LightGroup::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& ro
 void LightGroup::DrawLi(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
 	directionalLight_->Draw(commandList, rootParameterIndex);
 }
+
+
+#ifdef _DEBUG
+void LightGroup::Debug_Gui() {
+	directionalLight_->ImGuiDraw();
+	pointLight_->ImGuiDraw();
+	spotLight_->ImGuiDraw();
+}
+#endif
 
 void LightGroup::DrawPar(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
 	directionalLight_->Draw(commandList, rootParameterIndex);

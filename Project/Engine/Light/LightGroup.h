@@ -30,10 +30,16 @@ public:
 
 	void DrawLi(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
 
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
+
 public:
 
 	void SetEyePos(const Vector3& pos) { eyePos_ = pos; }
 	Vector3 GetEyePos() { return eyePos_; }
+
+	SpotLight* GetSpotLight() { return spotLight_.get(); }
 
 private:
 

@@ -80,6 +80,10 @@ void AdjustmentItem::Update() {
 				Vector3* ptr = std::get_if<Vector3>(&item.value);
 				ImGui::DragFloat3(itemName.c_str(), reinterpret_cast<float*>(ptr), -10.0f, 10.0f);
 
+			}else if(std::holds_alternative<Vector4>(item.value)){
+				Vector4* ptr = std::get_if<Vector4>(&item.value);
+				ImGui::DragFloat4(itemName.c_str(), reinterpret_cast<float*>(ptr), -10.0f, 10.0f);
+
 				// bool型の値を保持していれば
 			} else if (std::holds_alternative<bool>(item.value)) {
 				bool* ptr = reinterpret_cast<bool*>(std::get_if<bool>(&item.value));
@@ -181,7 +185,13 @@ void AdjustmentItem::Load(const std::string& fileName) {
 			// float型のjson配列登録
 			Vector2 value = { itItem->at(0), itItem->at(1) };
 			SetValue(fileName, itemName, value);
-			// bool
+			
+			// Vector4
+		} else if(itItem->is_array() && itItem->size() == 4) {
+			// float型のjson配列登録
+			Vector4 value = { itItem->at(0), itItem->at(1), itItem->at(2), itItem->at(3) };
+			SetValue(fileName, itemName, value);
+
 		} else if (itItem->is_boolean()) {
 			bool flag = itItem->get<bool>();
 			SetValue(fileName, itemName, flag);
@@ -233,6 +243,11 @@ void AdjustmentItem::Save(const std::string& fileName) {
 			// Vector3型の値を登録
 			Vector2 value = std::get<Vector2>(item.value);
 			root[fileName][itemName] = json::array({ value.x, value.y });
+
+		} else if(std::holds_alternative<Vector4>(item.value)){
+			// Vector3型の値を登録
+			Vector4 value = std::get<Vector4>(item.value);
+			root[fileName][itemName] = json::array({ value.x, value.y, value.z, value.w });
 
 			// bool
 		} else if (std::holds_alternative<bool>(item.value)) {

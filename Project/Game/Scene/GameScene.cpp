@@ -86,10 +86,24 @@ void GameScene::Init() {
 
 	bossUI_ = std::make_unique<BossUI>(boss_.get());
 	bossUI_->Init();
-	
+
+	panel_ = std::make_unique<Panel>();
+	panel_->Init();
+	panel_->SetBlackOutOpen();
+
+	// -------------------------------------------------
+	// ↓ ライト初期化
+	// -------------------------------------------------
+	SpotLight* spotLight = Render::GetSporLight();
+	spotLight->AddAdjustment();
+	spotLight->AdaptAdjustment();
+
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
+
+	finishAppear_ = true;
+	Input::SetNotAccepted(false);
 
 	isDebugCamera_ = false;
 	followCamera_->SetTarget(player_->GetTransform());
@@ -100,11 +114,16 @@ void GameScene::Init() {
 }
 
 void GameScene::Update() {
+
+	if (!finishAppear_) {
+		AppearUpdate();
+	}
+
 	// -------------------------------------------------
 	// ↓ worldObjectの更新
 	// -------------------------------------------------
-	UpdateWorldObject();	
-	
+	UpdateWorldObject();
+
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
@@ -123,7 +142,7 @@ void GameScene::Update() {
 	// ↓ Managerの更新
 	// -------------------------------------------------
 	UpdateManager();
-	
+
 	// -------------------------------------------------
 	// ↓ Cameraの更新
 	// -------------------------------------------------
@@ -135,8 +154,7 @@ void GameScene::Update() {
 		Render::SetEyePos(followCamera_->GetWorldTranslate());
 		Render::SetViewProjection(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
 		Render::SetViewProjection2D(followCamera_->GetViewMatrix2D(), followCamera_->GetProjectionMatrix2D());
-	}
-	else {
+	} else {
 		Render::SetEyePos(debugCamera_->GetWorldTranslate());
 		Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
 		Render::SetViewProjection2D(debugCamera_->GetViewMatrix2D(), debugCamera_->GetProjectionMatrix2D());
@@ -161,6 +179,7 @@ void GameScene::Update() {
 	Render::SetVpvpMat(followCamera_->GetVPVMatrix());
 
 #ifdef _DEBUG
+	Render::Debug_Gui();
 	Debug_Gui();
 #endif
 }
@@ -187,7 +206,7 @@ void GameScene::Draw() const {
 	gameObjectManager_->Debug_Draw();
 
 #endif
-	
+
 	// -------------------------------------------------
 	// ↓ worldObjectの描画
 	// -------------------------------------------------
@@ -225,7 +244,7 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ UIの描画
 	// -------------------------------------------------
-	Engine::SetPipeline(PipelineType::SpritePipeline);
+	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
 	playerUI_->Draw();
 	bossUI_->Draw();
 
@@ -234,7 +253,8 @@ void GameScene::Draw() const {
 	}
 
 	fall_->DrawUI();
-	
+
+	panel_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -301,7 +321,6 @@ void GameScene::UpdateUI() {
 	for (auto& missile : missileList_) {
 		missile->UpdateUI(followCamera_->GetVpvpMatrix());
 	}
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -373,10 +392,18 @@ void GameScene::BossFormTransition() {
 	bossFormTransitionTime_ += GameTimer::DeltaTime();
 
 	boss_->Update();
-	
+
 	if (bossFormTransitionTime_ >= bossFormTransitionTimeLimit_) {
 		boss_->SetIsTransitionForm(false);
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　ゲーム開始時の更新処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameScene::AppearUpdate() {
+	panel_->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -399,7 +426,7 @@ void GameScene::Debug_Gui() {
 	{
 		if (ImGui::TreeNode("Camera")) {
 			ImGui::Checkbox("isDebug", &isDebugCamera_);
-			
+
 			debugCamera_->Debug_Gui();
 			followCamera_->Debug_Gui();
 			ImGui::TreePop();
@@ -435,7 +462,7 @@ void GameScene::Debug_Gui() {
 
 	{
 		if (ImGui::TreeNode("Manager")) {
-			
+
 			ImGui::TreePop();
 		}
 	}
