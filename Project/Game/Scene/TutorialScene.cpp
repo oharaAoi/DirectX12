@@ -43,6 +43,13 @@ void TutorialScene::Init() {
 	player_->Init();
 
 	// -------------------------------------------------
+	// ↓ 2d系の初期化
+	// -------------------------------------------------
+
+	panel_ = std::make_unique<Panel>();
+	panel_->Init();
+
+	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
 
@@ -72,6 +79,12 @@ void TutorialScene::Update() {
 	} else {
 		TutorialUpdate();
 	}
+
+	// -------------------------------------------------
+	// ↓ GameObjectの更新
+	// -------------------------------------------------
+
+	panel_->Update();
 
 	// -------------------------------------------------
 	// ↓ Cameraの更新
@@ -131,13 +144,28 @@ void TutorialScene::Draw() const {
 	// -------------------------------------------------
 
 	player_->Draw();
+
+	// -------------------------------------------------
+	// ↓ UIの描画
+	// -------------------------------------------------
+	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
+	panel_->Draw();
+
 }
 
 void TutorialScene::AutoUpdate() {
+	if (panel_->GetIsFinished()) {
+		nextSceneType_ = SceneType::GAME;
+		Input::SetNotAccepted(false);
+		return;
+	}
+
 	Vector3 playerPos = player_->GetTransform()->GetTranslation();
 	if (playerPos.x > 19.0f) {
 		// ここでブラックアウトさせる
-		nextSceneType_ = SceneType::GAME;
+		if (panel_->GetDoNoting()) {
+			panel_->SetBlackOut();
+		}
 	}
 }
 
@@ -152,6 +180,7 @@ void TutorialScene::TutorialUpdate() {
 	if (playerPos.x > 19.0f) {
 		// ここでブラックアウトさせる
 		isNextScene_ = true;
+		Input::SetNotAccepted(true);
 	}
 }
 
@@ -165,5 +194,6 @@ void TutorialScene::AutoMove() {
 
 #ifdef _DEBUG
 void TutorialScene::Debug_Gui() {
+	panel_->Debug_Gui();
 }
 #endif

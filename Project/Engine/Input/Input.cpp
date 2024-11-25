@@ -11,6 +11,8 @@ POINT Input::mousePoint_;
 XINPUT_STATE Input::gamepadState_;
 XINPUT_STATE Input::preGamepadState_;
 
+bool Input::notAccepted_ = false;
+
 Input* Input::GetInstance() {
 	static Input instance;
 	return &instance;
@@ -38,12 +40,22 @@ void Input::Init(WNDCLASS wCalss, HWND hwnd) {
 	KeyboardInitialize(hwnd);
 	// -------------------------- mouseデバイスの初期化 -------------------------- //
 	MouseInitialize();
+
+	notAccepted_ = false;
 }
 
 //=================================================================================================================
 //	↓　更新
 //=================================================================================================================
 void Input::Update() {
+
+	if (notAccepted_) {
+		ZeroMemory(key_, sizeof(key_));
+		ZeroMemory(&currentMouse_, sizeof(currentMouse_));
+		ZeroMemory(&gamepadState_, sizeof(XINPUT_STATE));
+		return;
+	}
+
 	// keyboard情報の取得開始
 	keyboard_->Acquire();
 	mouse_->Acquire();
@@ -52,7 +64,6 @@ void Input::Update() {
 	std::memcpy(preKey_, key_, sizeof(key_));
 	preMouse_ = currentMouse_;
 
-	ZeroMemory(key_, sizeof(key_));
 	ZeroMemory(key_, sizeof(key_));
 	// 全キーの入力状況を取得
 	HRESULT hr = keyboard_->GetDeviceState(sizeof(key_), key_);
