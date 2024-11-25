@@ -143,6 +143,10 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	UpdateManager();
 
+	if (!finishAppear_) {
+		player_->SetNearBack(false);
+	}
+
 	// -------------------------------------------------
 	// ↓ Cameraの更新
 	// -------------------------------------------------
@@ -509,6 +513,8 @@ void GameScene::Debug_Gui() {
 	if (ImGui::Button("popBomb")) {
 		gameObjectManager_->PopBomb(bombPopPos_);
 	}
+
+	ImGui::Checkbox("finishAppear", &finishAppear_);
 
 	ImGui::End();
 }

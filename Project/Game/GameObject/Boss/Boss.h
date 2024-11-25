@@ -18,7 +18,8 @@ class GameScene;
 enum class Behavior{
 	ROOT,		// 待機状態
 	ATTACK,		// 攻撃状態
-	TRANSITION	// 遷移状態
+	TRANSITION,	// 遷移状態
+	APPEAR,		// 登場状態
 };
 
 enum BossForm {
@@ -59,6 +60,7 @@ public:
 	BossBody* GetBossBody() { return body_.get(); }
 	BossLeftHand* GetBossLeftHand() { return leftHand_.get(); }
 	BossRightHand* GetBossRightHand() { return rightHand_.get(); }
+	BossEye* GetBossEye() { return eye_.get(); }
 	BossBarrier* GetBossBarrier() { return barrier_.get(); }
 
 	const Vector3 GetBossBodyPos() const { return body_->GetTransform()->GetTranslation(); }

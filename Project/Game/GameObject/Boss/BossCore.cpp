@@ -31,10 +31,9 @@ void BossCore::Init() {
 	// 調整項目の適応
 	AdaptAdjustment();
 
-
 	state_ = std::make_unique<BossCoreDefaultState>(this);
 	behaviorRequest_ = CoreState::GameStart;
-
+	CheckRequest();
 
 	defaultPosition_ = transform_->GetTranslation();
 	middlePosition_ = { 0.0f,13.0f,-9.0f };
@@ -199,6 +198,8 @@ void BossCore::Debug_Gui() {
 	}
 
 	ImGui::SliderFloat("hp", &hp_, 0.0f, 100.0f);
+
+	state_->Debug_Gui();
 
 	ImGui::End();
 }

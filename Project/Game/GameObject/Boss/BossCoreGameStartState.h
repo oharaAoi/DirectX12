@@ -20,14 +20,15 @@ public:
 
 private:
 
+	std::string groupName_ = "BossCoreGameStartState";
+
 	BossCore* pCore_ = nullptr;
 	float moveTime_ = 0.0f;
-	float appearTime_ = 10.0f;
 
+	bool isMove_ = false;
+	
 	Vector3 defaultPosition_{};
 	Vector3 middlePosition_{};
 	Vector3 endPosition_{};
-
-
 };
 

@@ -3,6 +3,7 @@
 #include "Game/GameObject/State/BossRootState.h"
 #include "Game/GameObject/State/BossAttackState.h"
 #include "Game/GameObject/State/BossTransitionState.h"
+#include "Game/GameObject/State/BossAppearState.h"
 
 Boss::Boss() {
 }
@@ -57,7 +58,7 @@ void Boss::Init() {
 		std::filesystem::create_directories(attackDirectoryPath_);
 	}
 
-	behaviorRequest_ = Behavior::ROOT;
+	behaviorRequest_ = Behavior::APPEAR;
 	CheckBehaviorRequest();
 
 	form_ = BossForm::FIRST;
@@ -103,7 +104,8 @@ void Boss::Update() {
 
 
 	} else {	// 登場していない
-
+		CheckBehaviorRequest();
+		state_->Update();
 	}
 
 	// -------------------------------------------------
@@ -165,6 +167,9 @@ void Boss::CheckBehaviorRequest() {
 			break;
 		case Behavior::TRANSITION:
 			SetBehaviorState(std::make_unique<BossTransitionState>(this));
+			break;
+		case Behavior::APPEAR:
+			SetBehaviorState(std::make_unique<BossAppearState>(this));
 			break;
 		default:
 			break;

@@ -9,6 +9,7 @@
 #include "Game/GameObject/State/PlayerRootState.h"
 #include "Game/GameObject/State/PlayerBeAttackedState.h"
 #include "Game/GameObject/Player/PlayerAnimator.h"
+#include "Engine/Utilities/AdjustmentItem.h"
 
 enum class PlayerState {
 	Default = 0,
@@ -45,6 +46,11 @@ public:
 	/// Bossとの距離を判定する
 	/// </summary>
 	void CheckBossToLength(const Vector3& bossPos);
+
+	/// <summary>
+	/// 調整項目の適応
+	/// </summary>
+	void AdaptAdjustment();
 
 	void SetInverMatrix(const Matrix4x4& inver);
 	void SetCameraZDis(float z);
@@ -128,9 +134,13 @@ private:
 	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
 	void OnCollisionExit([[maybe_unused]] MeshCollider& other);
 
+private:
+
 	/// ==========================================
 	/// 変数
 	/// ==========================================
+	
+	const std::string groupName_ = "player";
 
 	// プレイヤーの状態
 	int playerState = int(PlayerState::Default);
@@ -139,7 +149,6 @@ private:
 	float knockBackSpeed_ = 4.0f;
 	float knockBackTime_ = 0.0f;
 	int knockBack_LorR_ = 1;
-
 
 	// 移動
 	Vector3 velocity_{};
@@ -215,6 +224,8 @@ private:
 	/// ==========================================
 	
 	std::unique_ptr<PlayerAnimator> playerAnimator_ = nullptr;
+
+	AdjustmentItem* adjustItem_;
 
 };
 

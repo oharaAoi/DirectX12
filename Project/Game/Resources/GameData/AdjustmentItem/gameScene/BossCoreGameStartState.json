@@ -1,0 +1,19 @@
+{
+    "BossCoreGameStartState": {
+        "defaultPosition": [
+            0.0,
+            7.0,
+            -55.0
+        ],
+        "endPosition": [
+            0.0,
+            7.0,
+            -8.0
+        ],
+        "middlePosition": [
+            0.0,
+            20.0,
+            -30.0
+        ]
+    }
+}

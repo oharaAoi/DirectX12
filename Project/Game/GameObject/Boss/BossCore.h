@@ -57,6 +57,8 @@ public:
 	const bool GetIsFirstHit() const { return isFirstHit_; }
 	void SetIsFirstHit(bool isFirstHit) { isFirstHit_ = isFirstHit; }
 
+	const CoreState GetCoreState() const { return behavior_; }
+
 private:
 
 	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
