@@ -12,6 +12,8 @@ void TutorialScene::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TutorialScene::Init() {
+	adjustmentItem_ = AdjustmentItem::GetInstance();
+	adjustmentItem_->Init("tutorialScene");
 
 	// -------------------------------------------------
 	// ↓ Cameraの初期化
@@ -48,6 +50,13 @@ void TutorialScene::Init() {
 
 	panel_ = std::make_unique<Panel>();
 	panel_->Init();
+
+	// -------------------------------------------------
+	// ↓ ライト初期化
+	// -------------------------------------------------
+	SpotLight* spotLight = Render::GetSporLight();
+	spotLight->AddAdjustment();
+	spotLight->AdaptAdjustment();
 
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
@@ -121,6 +130,7 @@ void TutorialScene::Update() {
 	Render::SetVpvpMat(followCamera_->GetVPVMatrix());
 
 #ifdef _DEBUG
+	Render::Debug_Gui();
 	Debug_Gui();
 #endif
 }
@@ -156,7 +166,6 @@ void TutorialScene::Draw() const {
 void TutorialScene::AutoUpdate() {
 	if (panel_->GetIsFinished()) {
 		nextSceneType_ = SceneType::GAME;
-		Input::SetNotAccepted(false);
 		return;
 	}
 
@@ -195,5 +204,15 @@ void TutorialScene::AutoMove() {
 #ifdef _DEBUG
 void TutorialScene::Debug_Gui() {
 	panel_->Debug_Gui();
+
+	ImGui::Begin("TutorialScene");
+
+	if (ImGui::TreeNode("AdjustmentItem")) {
+		// Updateだが実質Gui表示なためここで更新
+		adjustmentItem_->Update();
+		ImGui::TreePop();
+	}
+
+	ImGui::End();
 }
 #endif

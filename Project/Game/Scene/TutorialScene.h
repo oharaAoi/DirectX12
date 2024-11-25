@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "Game/Scene/BaseScene.h"
+#include "Engine/Utilities/AdjustmentItem.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Camera/DebugCamera.h"
 #include "Game/WorldObject/Skydome.h"
@@ -34,6 +35,9 @@ public:
 #endif
 
 private:
+
+	// --- 調整項目 ----------------------------------- //
+	AdjustmentItem* adjustmentItem_;
 
 	// --- eyePos/view/Projection ------------------- //
 	Vector3 eyePos_;

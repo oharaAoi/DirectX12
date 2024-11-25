@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseLight.h"
+#include <string>
 
 class SpotLight
 : public BaseLight {
@@ -32,6 +33,13 @@ public :
 
 	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) override;
 
+	void AddAdjustment();
+
+	/// <summary>
+	/// 調整項目の適応
+	/// </summary>
+	void AdaptAdjustment();
+
 public:
 
 	void ImGuiDraw();
@@ -41,6 +49,8 @@ public:
 private:
 
 	SpotLightData* spotLightData_ = nullptr;
+
+	std::string groupName_ = "spotLight";
 
 	float cosDegree_;
 	float falloffDegree_;

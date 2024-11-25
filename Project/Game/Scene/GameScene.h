@@ -19,6 +19,7 @@
 #include "Game/GameObject/FallStone.h"
 #include "Game/UI/Player/PlayerUI.h"
 #include "Game/UI/Boss/BossUI.h"
+#include "Game/UI/Panel.h"
 #include "Game/Manager/GameObjectManager.h"
 
 class GameScene 
@@ -47,6 +48,11 @@ private:
 	/// ボスの状態を変化させる
 	/// </summary>
 	void BossFormTransition();
+
+	/// <summary>
+	/// ゲーム開始時のの更新処理
+	/// </summary>
+	void AppearUpdate();
 
 public:
 
@@ -97,6 +103,8 @@ private:
 	// --- UI -------------------------------------- //
 	std::unique_ptr<PlayerUI> playerUI_;
 	std::unique_ptr<BossUI> bossUI_;
+
+	std::unique_ptr<Panel> panel_;
 	
 	// --- Edier ----------------------------------- //
 	std::unique_ptr<BossAttackEditer> bossLeftAttackEditer_;
@@ -109,6 +117,8 @@ private:
 
 	float bossFormTransitionTime_ = 0.0f;
 	float bossFormTransitionTimeLimit_ = 5.0f;
+
+	bool finishAppear_ = false;
 
 #ifdef _DEBUG
 	Vector3 bombPopPos_;
