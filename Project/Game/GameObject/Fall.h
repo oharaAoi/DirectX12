@@ -26,6 +26,8 @@ public:
 	bool GetFalling()const { return isFalling_; }
 	void Reset();
 
+	void SetAppear(bool is) { isAppear_ = is; }
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
@@ -57,6 +59,11 @@ private:
 
 	Vector3 velocity_{};
 	float gravity_ = -29.4f;
+
+	bool isAppear_ = false;
+	float appearTime_ = 0.0f;
+	Vector3 start_{};
+	Vector3 end_{};
 
 	/// ==========================================
 	/// UI

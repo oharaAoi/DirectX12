@@ -279,6 +279,10 @@ void GameScene::UpdateGameObject() {
 	testCollisionObj_->Update();
 	testCollisionObj3_->Update();
 
+	if (boss_->GetBossForm() == BossForm::SECOND && (boss_->GetBossLeftHand()->GetIsGroundSlap() || boss_->GetBossRightHand()->GetIsGroundSlap())) {
+		fall_->SetAppear(true);
+	}
+
 	fall_->Update();
 	fallStone_->SetFalling(fall_->GetFalling());
 	fallStone_->Update();

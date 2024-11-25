@@ -89,6 +89,8 @@ public:
 	/// <param name="vpvpMat"></param>
 	void CheckMouseCursorCollision(WorldTransform* worldTransform, const Matrix4x4& vpvpMat);
 
+	const bool GetIsGroundSlap() const { return isGroundSlap_; }
+
 
 #ifdef _DEBUG
 	void Debug_Draw();

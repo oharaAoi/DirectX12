@@ -19,7 +19,10 @@ void Fall::Init() {
 	BaseGameObject::Init();
 	SetObject("cube.obj");
 	transform_->SetScale({ 1.0f, 2.0f, 1.0f });
-	transform_->SetTranslaion({ 0.0f, 16.0f, 12.0f });
+	transform_->SetTranslaion({ 0.0f, 19.0f, 12.0f });
+
+	start_ = { 0.0f, 19.0f, 12.0f };
+	end_ = { 0.0f, 16.0f, 12.0f };
 
 	radius_ = 1.0f;
 	tag_ = "fallObj";
@@ -37,6 +40,14 @@ void Fall::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Fall::Update() {
+
+	if (isAppear_) {
+		if (appearTime_ < 1.0f) {
+			appearTime_ += GameTimer::DeltaTime();
+			Vector3 pos = Lerp(start_, end_, appearTime_);
+			transform_->SetTranslaion(pos);
+		}
+	}
 
 	if (isNear_) {
 		SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
