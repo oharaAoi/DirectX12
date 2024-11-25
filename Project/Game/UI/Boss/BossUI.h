@@ -34,6 +34,9 @@ private:
 
 	std::unordered_map<std::string, std::unique_ptr<BaseGameObject>> planes_;
 
+	float uiTime_ = 0.0f;
+	float maxVal_ = 2.5f;
+	float minVal_ = 2.0f;
 
 };
 

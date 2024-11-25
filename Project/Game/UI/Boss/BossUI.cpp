@@ -26,6 +26,14 @@ void BossUI::Init() {
 	planes_["coreClutch"]->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
 	planes_["coreClutch"]->GetTransform()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 
+	planes_["canClutchUI"] = std::make_unique<BaseGameObject>();
+	planes_["canClutchUI"]->Init();
+	planes_["canClutchUI"]->SetObject("plane.obj");
+	planes_["canClutchUI"]->SetTexture("point.png");
+	planes_["canClutchUI"]->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
+	planes_["canClutchUI"]->GetTransform()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+
+
 	// -------------------------------------------------
 	// ↓ 調整項目系
 	// -------------------------------------------------
@@ -47,11 +55,19 @@ void BossUI::Update(float bossHp, const Matrix4x4& vpvpMat) {
 	Vector2 coreScreenPos = { pos.x, pos.y };
 	sprites_["coreClutch"]->SetTranslate(coreScreenPos);
 
+
 	sprites_["bossHp"]->Update();
 	sprites_["coreClutch"]->Update();
 
 	planes_["coreClutch"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix()));
 	planes_["coreClutch"]->Update();
+
+	uiTime_ += 9.0f * GameTimer::DeltaTime();
+	float sinSize = std::lerp(minVal_, maxVal_, (sinf(uiTime_) + 1.0f) * 0.5f);
+	planes_["canClutchUI"]->GetTransform()->SetScale({ sinSize,sinSize,1.0f });
+	planes_["canClutchUI"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix()));
+	planes_["canClutchUI"]->Update();
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,6 +82,7 @@ void BossUI::Draw3dObject(bool canAttackBoss){
 	if (canAttackBoss) {
 		planes_["coreClutch"]->Draw();
 	}
+	planes_["canClutchUI"]->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
