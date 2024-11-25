@@ -39,5 +39,6 @@ private:
 	float moveTimeLimit_ = 0.0f;
 
 	bool isAppear_;
+	bool isShine_;
 };
 

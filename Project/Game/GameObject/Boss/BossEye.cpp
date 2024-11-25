@@ -37,7 +37,9 @@ void BossEye::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossEye::Update() {
-	Shine();
+	if (isShine_) {
+		Shine();
+	}
 	BaseGameObject::Update();
 }
 
@@ -63,18 +65,21 @@ void BossEye::AdaptAdjustment() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossEye::Shine() {
-	if (isShine_) {
-		shineTime_ += GameTimer::DeltaTime();
-		float t = shineTime_ / shineTimeLimit_;
+	shineTime_ += GameTimer::DeltaTime();
+	float t = shineTime_ / shineTimeLimit_;
 
-		alpha_ = std::lerp(0.0f, 1.0f, CallEasingFunc(easingType_, t));
+	alpha_ = std::lerp(0.0f, 1.0f, CallEasingFunc(easingType_, t));
 
-		if (shineTime_ >= shineTimeLimit_) {
-			isShine_ = false;
-		}
-
-		SetColor(Vector4(1.0f, 1.0f, 1.0f, alpha_));
+	if (shineTime_ >= shineTimeLimit_) {
+		isShine_ = false;
 	}
+
+	SetColor(Vector4(1.0f, 1.0f, 1.0f, alpha_));
+}
+
+void BossEye::SetShine() {
+	isShine_ = true;
+	shineTime_ = 0.0f;
 }
 
 #ifdef _DEBUG

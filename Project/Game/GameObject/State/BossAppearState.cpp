@@ -10,6 +10,8 @@ void BossAppearState::Init() {
 	stateName_ = "AppearState";
 
 	isAppear_ = false;
+	isShine_ = false;
+
 	moveTime_ = 0.0f;
 	moveTimeLimit_ = 4.0f;
 
@@ -25,17 +27,18 @@ void BossAppearState::Update() {
 	// コアの状態が外に出ている状態だったら更新を行わない
 	if (pBoss_->GetBossCore()->GetCoreState() != CoreState::Default) {
 		return;
-	} else {
-		pBoss_->GetBossEye()->SetIsShine(true);
+	} else if(!isShine_) {
+		isShine_ = true;
+		pBoss_->GetBossEye()->SetShine();
 	}
 
 	// コアがしまわれたら目を光らせる
-	if (pBoss_->GetBossEye()->GetIsShine()) {
-		pBoss_->GetBossEye()->Shine();
-		// 上記の関数内で光るのをやめたら
-		if (!pBoss_->GetBossEye()->GetIsShine()) {
+	if (!pBoss_->GetBossEye()->GetIsShine()) {
+		if (!isAppear_) {
 			isAppear_ = true;
 		}
+	} else {
+		return;
 	}
 
 	// 登場する用になったら移動させる
@@ -48,14 +51,12 @@ void BossAppearState::Update() {
 
 		if (moveTime_ >= moveTimeLimit_) {
 			isAppear_ = false;
+			pBoss_->SetBehaviorRequest(Behavior::ROOT);
+			pBoss_->SetIsAppear(true);
 		}
 
 		pBoss_->GetBossBody()->GetTransform()->SetTranslaion(movePos_);
-
-	} else {
-
-	}
-	
+	} 
 }
 
 void BossAppearState::AdaptAdjustment() {

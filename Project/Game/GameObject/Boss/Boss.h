@@ -73,6 +73,10 @@ public:
 	const bool GetIsTransitionForm() const { return isTransitionForm_; }
 	void SetIsTransitionForm(bool isTransition) { isTransitionForm_ = isTransition; }
 
+	// 登場に関するフラグ
+	const bool GetIsAppear() const { return isAppear_; }
+	void SetIsAppear(bool isAppear) { isAppear_ = isAppear; }
+
 	// 今の形態
 	const BossForm GetBossForm() const { return form_; }
 	void SetBossForm(BossForm form) { form_ = form; }

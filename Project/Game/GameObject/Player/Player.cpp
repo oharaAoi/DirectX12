@@ -47,6 +47,8 @@ void Player::Init() {
 	adjustItem_ = AdjustmentItem::GetInstance();
 	adjustItem_->AddItem(groupName_, "pos", transform_->GetTranslation());
 
+	AdaptAdjustment();
+
 	// -------------------------------------------------
 	// ↓ 変数の初期化
 	// -------------------------------------------------

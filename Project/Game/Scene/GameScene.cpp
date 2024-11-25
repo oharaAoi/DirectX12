@@ -409,6 +409,10 @@ void GameScene::BossFormTransition() {
 
 void GameScene::AppearUpdate() {
 	panel_->Update();
+
+	if (boss_->GetIsAppear()) {
+		finishAppear_ = true;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -16,6 +16,8 @@ public:
 
 	void Shine();
 
+	void SetShine();
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
