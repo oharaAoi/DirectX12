@@ -288,6 +288,7 @@ void GameScene::UpdateGameObject() {
 		player_->Update();
 	}
 
+	gameObjectManager_->SetBombPara(player_->GetWireTip()->GetNeglect(), player_->GetPull(), player_->GetWireTip()->GetTransform()->GetTranslation());
 	gameObjectManager_->Update();
 
 	// missileの処理

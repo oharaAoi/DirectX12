@@ -14,6 +14,10 @@ public:
 
 	void Pop(const Vector3& pos, const Vector3& acceleration = Vector3::ZERO());
 
+	void ExecuteFunc(void (Bomb::* func)()) { (this->*func)(); }
+	void NormalMove();
+	void PullwMove();
+
 #ifdef _DEBUG
 	void Debug_Draw();
 #endif
@@ -25,6 +29,14 @@ public:
 	const bool GetIsAlive() const { return isAlive_; }
 	void SetIsAlive(bool isAlive) { isAlive_ = isAlive; }
 
+	/// <summary>
+	/// ボムが持つプレイヤーの情報を更新
+	/// </summary>
+	/// <param name="isNeglect">:Player->GetWireTip()->GetNeglect()で取得</param>
+	/// <param name="isPull">:Player->GetPull()で取得</param>
+	/// <param name="wireTipPos">:Player->GetWireTip()->GetTransform()->GetTranslation()で取得</param>
+	void SetPlayerInfoHeldByBomb(bool isNeglect, bool isPull, const Vector3& wireTipPos);
+
 private:
 
 	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
@@ -33,8 +45,14 @@ private:
 
 private:
 
-	bool isAlive_ = false;
+	void (Bomb::*pFunc_)();
 
+	bool isAlive_ = false;
+	bool isPulling_ = false;
+	bool playerNeglect_ = false;
+	bool isPlayerPull_ = false;
+
+	Vector3 wireTipPos_;
 	Vector3 velocity_;
 	Vector3 acceleration_;
 };

@@ -414,7 +414,6 @@ void Player::Clutch() {
 				clutchLerpTime_ = 0.0f;
 				wireTip_->SetSnagged(false);
 				isReturnClutch_ = true;
-				
 			}
 
 			if (wireTip_->GetCautch()) {

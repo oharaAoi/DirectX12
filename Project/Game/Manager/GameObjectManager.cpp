@@ -56,6 +56,12 @@ void GameObjectManager::PopBomb(const Vector3& popPos, const Vector3& accelerati
 	GetInstance()->AddBomb(popPos, acceleration);
 }
 
+void GameObjectManager::SetBombPara(bool isNeglect, bool isPull, const Vector3& wireTipPos) {
+	for (auto& bomb : bombList_) {
+		bomb->SetPlayerInfoHeldByBomb(isNeglect, isPull, wireTipPos);
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　
 /////////////////////////////////////////////////////////////////////////////////////////////////
