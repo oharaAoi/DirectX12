@@ -33,6 +33,9 @@ void Boss::Init() {
 	barrier_ = std::make_unique<BossBarrier>();
 	barrier_->Init();
 
+	eye_ = std::make_unique<BossEye>();
+	eye_->Init();
+
 	state_ = std::make_unique<BossRootState>(this);
 
 	// -------------------------------------------------
@@ -43,6 +46,7 @@ void Boss::Init() {
 	leftHand_->GetTransform()->SetParent(body_->GetTransform()->GetWorldMatrix());
 	rightHand_->GetTransform()->SetParent(body_->GetTransform()->GetWorldMatrix());
 	barrier_->GetTransform()->SetParent(body_->GetTransform()->GetWorldMatrix());
+	eye_->GetTransform()->SetParent(body_->GetTransform()->GetWorldMatrix());
 
 	// -------------------------------------------------
 	// ↓ 攻撃の情報が入ったフォルダを作成
@@ -64,34 +68,42 @@ void Boss::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
-	CheckBehaviorRequest();
-	state_->Update();
+	// 登場状態なら基本行動をする
+	if (isAppear_) {
+		CheckBehaviorRequest();
+		state_->Update();
 
-	bossHp_ = core_->GetHp();
-	if (bossHp_ <= 0.0f) {
-		if (form_ == BossForm::FIRST) {
-			if (behavior_ != Behavior::ATTACK) {
-				behaviorRequest_ = Behavior::TRANSITION;
-				isTransitionForm_ = true;
+		bossHp_ = core_->GetHp();
+		if (bossHp_ <= 0.0f) {
+			if (form_ == BossForm::FIRST) {
+				if (behavior_ != Behavior::ATTACK) {
+					behaviorRequest_ = Behavior::TRANSITION;
+					isTransitionForm_ = true;
+				}
 			}
 		}
-	}
 
-	// -------------------------------------------------
-	// ↓ playerの座標から右手と左手でどちらが近いかを計算しておく
-	// -------------------------------------------------
+		// -------------------------------------------------
+		// ↓ playerの座標から右手と左手でどちらが近いかを計算しておく
+		// -------------------------------------------------
 
-	float playerToLeft = (playerPos_ - leftHand_->GetTransform()->GetTranslation()).Length();
-	float playerToRight = (playerPos_ - rightHand_->GetTransform()->GetTranslation()).Length();
+		float playerToLeft = (playerPos_ - leftHand_->GetTransform()->GetTranslation()).Length();
+		float playerToRight = (playerPos_ - rightHand_->GetTransform()->GetTranslation()).Length();
 
-	if (playerToLeft < playerToRight) {
-		leftHand_->SetIsNear(true);
-		rightHand_->SetIsNear(false);
-		near_ = "left";
-	} else {
-		leftHand_->SetIsNear(false);
-		rightHand_->SetIsNear(true);
-		near_ = "right";
+		if (playerToLeft < playerToRight) {
+			leftHand_->SetIsNear(true);
+			rightHand_->SetIsNear(false);
+			near_ = "left";
+		} else {
+			leftHand_->SetIsNear(false);
+			rightHand_->SetIsNear(true);
+			near_ = "right";
+		}
+
+
+
+	} else {	// 登場していない
+
 	}
 
 	// -------------------------------------------------
@@ -103,6 +115,7 @@ void Boss::Update() {
 
 	body_->Update();
 	core_->Update();
+	eye_->Update();
 	leftHand_->Update();
 	rightHand_->Update();
 	barrier_->Update();
@@ -124,6 +137,7 @@ void Boss::Draw() const {
 	body_->Draw();
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	core_->Draw();
+	eye_->Draw();
 	leftHand_->Draw();
 	rightHand_->Draw();
 }
@@ -236,6 +250,7 @@ void Boss::Debug_Gui() {
 	if (ImGui::TreeNode("Boss")) {
 		body_->Debug_Gui();
 		core_->Debug_Gui();
+		eye_->Debug_Gui();
 		leftHand_->Debug_Gui();
 		rightHand_->Debug_Gui();
 		if (barrier_ != nullptr) {

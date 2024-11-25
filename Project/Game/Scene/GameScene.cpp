@@ -102,7 +102,7 @@ void GameScene::Init() {
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
 
-	finishAppear_ = true;
+	finishAppear_ = false;
 	Input::SetNotAccepted(false);
 
 	isDebugCamera_ = false;

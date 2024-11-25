@@ -1,33 +1,35 @@
-#include "BossBody.h"
+#include "BossEye.h"
+#include "Engine/Utilities/AdjustmentItem.h"
 
-BossBody::BossBody() {}
-BossBody::~BossBody() {}
+BossEye::BossEye() {
+}
 
-void BossBody::Finalize() {}
+BossEye::~BossEye() {
+}
+
+void BossEye::Finalize() {
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossBody::Init() {
+void BossEye::Init() {
 	BaseGameObject::Init();
-	SetObject("boss_body.obj");
+	SetObject("boss_eye.obj");
+	SetIsLighting(false);
 
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
-	adjust->AddItem(groupName_, "pos", defalutPos_);
-	adjust->AddItem(groupName_, "startPos", startPos_);
+	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
 
-	// 調整項目の適応
 	AdaptAdjustment();
-
-	transform_->SetTranslaion(startPos_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossBody::Update() {
+void BossEye::Update() {
 	BaseGameObject::Update();
 }
 
@@ -35,28 +37,26 @@ void BossBody::Update() {
 // ↓　描画処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossBody::Draw() const {
+void BossEye::Draw() const {
 	BaseGameObject::Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　調整項目を適応させる
+// ↓　調整項目の適応
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossBody::AdaptAdjustment() {
+void BossEye::AdaptAdjustment() {
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
-	defalutPos_ = adjust->GetValue<Vector3>(groupName_, "pos");
-	startPos_ = adjust->GetValue<Vector3>(groupName_, "startPos");
+	transform_->SetTranslaion(adjust->GetValue<Vector3>(groupName_, "pos"));
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　Debug表示
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
 #ifdef _DEBUG
-void BossBody::Debug_Gui() {
-	ImGui::Begin("Boss_Body");
+void BossEye::Debug_Gui() {
+	ImGui::Begin("Boss_Eye");
 	transform_->Debug_Gui();
+	for (size_t oi = 0; oi < materials.size(); ++oi) {
+		materials[oi]->ImGuiDraw();
+	}
 	ImGui::End();
 }
 #endif

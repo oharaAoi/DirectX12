@@ -6,6 +6,7 @@
 #include "Game/GameObject/Boss/BossLeftHand.h"
 #include "Game/GameObject/Boss/BossRightHand.h"
 #include "Game/GameObject/Boss/BossBarrier.h"
+#include "Game/GameObject/Boss/BossEye.h"
 #include "Game/Editer/BossAttackEditer.h"
 #include "Game/GameObject/State/BaseObjectState.h"
 #include <nlohmann/json.hpp>
@@ -123,6 +124,8 @@ private:
 	std::unique_ptr<BossRightHand> rightHand_;
 	// バリア
 	std::unique_ptr<BossBarrier> barrier_;
+	// 目
+	std::unique_ptr<BossEye> eye_;
 
 	BossAttackEditer* leftHandEditer_ = nullptr;
 	BossAttackEditer* rightHandEditer_ = nullptr;
@@ -154,6 +157,12 @@ private:
 	// 第二形態に遷移する
 	bool isTransitionForm_;
 	BossForm form_;
+
+	// -------------------------------------------------
+	// ↓ Game開始時に必要な情報
+	// -------------------------------------------------
+
+	bool isAppear_; // 登場する状態か
 
 	// -------------------------------------------------
 	// ↓ Boss以外の情報

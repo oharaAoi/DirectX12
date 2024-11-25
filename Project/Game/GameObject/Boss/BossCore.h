@@ -1,18 +1,16 @@
 #pragma once
 #include <string>
 #include <memory>
-#include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Collider/MeshCollider.h"
-#include "BossCoreDefaultState.h"
-#include "BossCoreHideState.h"
-#include "BossCoreAppearState.h"
+#include "Game/GameObject/State/BaseObjectState.h"
 
 
 enum class CoreState {
 	Default,
 	Hide,
 	Appear,
+	GameStart,
 };
 
 
@@ -55,6 +53,10 @@ public:
 	const float GetHp() const { return hp_; }
 	void SetHp(float newHp) { hp_ = newHp; };
 
+	// 一番最初に攻撃されてか
+	const bool GetIsFirstHit() const { return isFirstHit_; }
+	void SetIsFirstHit(bool isFirstHit) { isFirstHit_ = isFirstHit; }
+
 private:
 
 	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
@@ -79,6 +81,8 @@ private:
 
 	float hp_ = 100.0f;
 	float decrementHp_ = 10.0f;
+
+	bool isFirstHit_;
 
 
 	std::unique_ptr<BaseObjectState> state_;
