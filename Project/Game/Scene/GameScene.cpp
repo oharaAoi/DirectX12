@@ -221,7 +221,16 @@ void GameScene::Draw() const {
 	boss_->Draw();
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
-	bossUI_->Draw3dObject(player_->GetCanBossAttack());
+
+	bool isPullSign = false;
+	if (boss_->GetBossForm()==BossForm::SECOND) {
+		isPullSign = (!(boss_->GetBossCore()->GetFalling()) && (boss_->GetBossBarrier()->GetEnableFunction() && boss_->GetBossBarrier()->GetIsBreak()));
+	}
+	else if (boss_->GetBossForm() == BossForm::FIRST) {
+		isPullSign = !(boss_->GetBossCore()->GetFalling());
+	}
+	
+	bossUI_->Draw3dObject(player_->GetCanBossAttack(), isPullSign);
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	for (auto& missile : missileList_) {
@@ -371,7 +380,7 @@ void GameScene::UpdateManager() {
 	if (!isFallNear_) {
 		isCoreNear_ = boss_->GetBossCore()->CheckMouseNear(followCamera_->GetVpvpMatrix());
 	}
-	if (boss_->GetBossBarrier()->GetEnableFunction() && !boss_->GetBossBarrier()->GetBreakBarrier()) {
+	if (boss_->GetBossBarrier()->GetEnableFunction() && !boss_->GetBossBarrier()->GetIsBreak()) {
 		boss_->GetBossCore()->SetNear(false);
 		isCoreNear_ = false;
 	}

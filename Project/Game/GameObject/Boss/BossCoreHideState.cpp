@@ -18,6 +18,7 @@ void BossCoreHideState::Update() {
 	}
 	else if (moveTime_ <= 0.0f) {
 		pCore_->SetBehaviorRequest(CoreState::Default);
+		pCore_->SetFalling(false);
 	}
 
 	float t = (1 - moveTime_);

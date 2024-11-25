@@ -78,11 +78,13 @@ void BossUI::Draw() {
 	sprites_["bossHp"]->Draw();
 }
 
-void BossUI::Draw3dObject(bool canAttackBoss){
+void BossUI::Draw3dObject(bool canAttackBoss,bool isPullSign){
 	if (canAttackBoss) {
 		planes_["coreClutch"]->Draw();
 	}
-	planes_["canClutchUI"]->Draw();
+	if (isPullSign) {
+		planes_["canClutchUI"]->Draw();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

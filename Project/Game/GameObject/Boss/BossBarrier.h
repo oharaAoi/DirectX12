@@ -68,6 +68,7 @@ public:
 	void SetEnableFunction(bool isWork) { enableFunction_ = isWork; }
 	const bool GetEnableFunction() const { return enableFunction_; }
 	const bool GetBreakBarrier()const { return break_.isAct; }
+	const bool GetIsBreak()const { return isBreak_; }
 
 private:
 
@@ -83,6 +84,6 @@ private:
 	const uint32_t Durability_ = 3; // 耐久度
 
 	bool enableFunction_ = false;
-
+	bool isBreak_ = false;
 };
 

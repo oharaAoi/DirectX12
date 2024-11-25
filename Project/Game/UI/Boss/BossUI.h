@@ -16,7 +16,7 @@ public:
 	void Update(float bossHp, const Matrix4x4& vpvpMat);
 	void Draw();
 
-	void Draw3dObject(bool canAttackBoss);
+	void Draw3dObject(bool canAttackBoss,bool isPullSign);
 
 	void AdaptAdjustment();
 

@@ -41,6 +41,8 @@ public:
 	void SetPlayerPullBack(bool is) { isPlayerPullBack_ = is; }
 	bool SetFalsePlayerPullBack();
 	void SetNear(bool is) { isNear_ = is; }
+	void SetFalling(bool is) { isFalling_ = is; }
+	bool GetFalling()const { return isFalling_; }
 	bool GetNear()const { return isNear_; }
 
 #ifdef _DEBUG
@@ -76,6 +78,7 @@ private:
 	bool isNear_ = false;
 	bool isFalling_ = false;
 	bool isFalsePullBack_ = false;
+	bool isPullSign_ = false;
 
 	float hp_ = 100.0f;
 	float decrementHp_ = 10.0f;

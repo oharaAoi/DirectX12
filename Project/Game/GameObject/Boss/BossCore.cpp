@@ -110,7 +110,6 @@ void BossCore::CheckRequest() {
 }
 
 void BossCore::ChangeHide() {
-	isFalling_ = false;
 	energy_ = 0.0f;
 	behaviorRequest_ = CoreState::Hide;
 }

@@ -115,6 +115,7 @@ void BossBarrier::Expand() {
 	float t = expand_.time / expand_.timeLimit;
 	t = std::clamp(t, 0.0f, 1.0f);
 	timeData_->time = std::lerp(6.0f, 0.0f, CallEasingFunc(expand_.easingType, t));
+	isBreak_ = false;
 
 	for (uint32_t oi = 0; oi < materials.size(); oi++) {
 		t = std::clamp(t, 0.0f, 1.0f);
@@ -136,6 +137,7 @@ void BossBarrier::Break() {
 	float t = break_.time / break_.timeLimit;
 	t = std::clamp(t, 0.0f, 1.0f);
 	timeData_->time = std::lerp(0.0f, 6.0f, CallEasingFunc(break_.easingType, t));
+	isBreak_ = true;
 
 	for (uint32_t oi = 0; oi < materials.size(); oi++) {
 		t = std::clamp(t, 0.0f, 1.0f);
