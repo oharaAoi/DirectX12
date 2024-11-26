@@ -649,6 +649,21 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 
 void Player::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
+		if (playerState == int(PlayerState::Attack)) {
+			float length = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Length();
+			if (length <= 0.2f) {
+				if (!isKnockBack_) {
+					if (other.GetObbCenter().x > transform_->GetTranslation().x) {
+						knockBack_LorR_ = -1;
+					}
+					else {
+						knockBack_LorR_ = 1;
+					}
+				}
+				isKnockBack_ = true;
+				playerState = int(PlayerState::Default);
+			}
+		}
 	}
 }
 
