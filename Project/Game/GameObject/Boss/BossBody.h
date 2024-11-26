@@ -19,9 +19,20 @@ public:
 
 	void AdaptAdjustment();
 
+	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
+	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
+	void OnCollisionExit([[maybe_unused]] MeshCollider& other);
+
+	void Debug_Draw();
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
+
+	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
+
+	const bool GetIsDecrementHp() const { return isDecrementHp_; }
+	void SetIsDecrementHp(bool isDecrement) { isDecrementHp_ = isDecrement; }
 
 private:
 
@@ -31,5 +42,6 @@ private:
 
 	Vector3 defalutPos_;
 
+	bool isDecrementHp_;
 };
 

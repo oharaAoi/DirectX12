@@ -43,13 +43,25 @@ void BossParAttack::Aim() {
 
 	float t = moveTime_ / work_.waitoTime;
 
-	// 手を現在の位置からoffestの位置まで移動させる
-	Vector3 targetPos = pBossHand_->playerPos_ + work_.offset;
-	targetPos.z -= pBossHand_->bodyPos_.z;
-	Vector3 movePos = Vector3::Lerp(pBossHand_->beforeAttackPos_,
-									targetPos,
-									CallEasingFunc(pBossHand_->easingIndex_, t));
-	pBossHand_->transform_->SetTranslaion(movePos);
+	if (moveTime_ > work_.waitoTime - 0.2f) {
+		// 手を現在の位置からoffestの位置まで移動させる
+		Vector3 targetPos = playerPos_ + work_.offset;
+		targetPos.z -= pBossHand_->bodyPos_.z;
+		Vector3 movePos = Vector3::Lerp(pBossHand_->beforeAttackPos_,
+										targetPos,
+										CallEasingFunc(pBossHand_->easingIndex_, t));
+		pBossHand_->transform_->SetTranslaion(movePos);
+
+	} else {
+		// 手を現在の位置からoffestの位置まで移動させる
+		Vector3 targetPos = pBossHand_->playerPos_ + work_.offset;
+		targetPos.z -= pBossHand_->bodyPos_.z;
+		Vector3 movePos = Vector3::Lerp(pBossHand_->beforeAttackPos_,
+										targetPos,
+										CallEasingFunc(pBossHand_->easingIndex_, t));
+		pBossHand_->transform_->SetTranslaion(movePos);
+		playerPos_ = pBossHand_->playerPos_;
+	}
 
 	// 時間を過ぎたら攻撃を行う
 	if (moveTime_ > work_.waitoTime) {
@@ -68,8 +80,6 @@ void BossParAttack::Aim() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossParAttack::Slap() {
-	pBossHand_->attackVeclocity_ = { 0.0f, -1.0f, 0.0f };
-
 	// 時間ないだったら時間を増やす
 	if (moveTime_ < work_.attackTime) {
 		moveTime_ += GameTimer::DeltaTime();
@@ -78,9 +88,12 @@ void BossParAttack::Slap() {
 	float t = moveTime_ / work_.attackTime;
 	float moveSpeed = std::lerp(0.0f, pBossHand_->attackSpeed_, Ease::In::Elastic(t));
 
+	swingUpY_ = std::lerp(2.0f, -2.0f, Ease::Out::Expo(t));
+	pBossHand_->attackVeclocity_ = { 0.0f, swingUpY_, 0.0f };
+
 	Vector3 movePos = pBossHand_->transform_->GetTranslation();
 
-	movePos += (pBossHand_->attackVeclocity_ * moveSpeed) * GameTimer::DeltaTime();
+	movePos += (pBossHand_->attackVeclocity_ * moveSpeed * 2.0f) * GameTimer::DeltaTime();
 	pBossHand_->transform_->SetTranslaion(movePos);
 
 	pBossHand_->meshCollider_->SetSubTag("slap_attack");

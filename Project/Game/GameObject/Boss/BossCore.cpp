@@ -91,6 +91,14 @@ void BossCore::AdaptAdjustment() {
 	transform_->SetTranslaion(adjust->GetValue<Vector3>(groupName_, "pos"));
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Hpを減らす
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossCore::DecrementHp(float raito) {
+	hp_ -= decrementHp_ * raito;
+}
+
 void BossCore::CheckRequest() {
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
@@ -164,7 +172,7 @@ void BossCore::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (behavior_ != CoreState::GameStart) {
 		if (other.GetTag() == "player") {
 			if (nowPlayerState_ == 1) {
-				hp_ -= decrementHp_;
+				DecrementHp();
 			}
 
 		}

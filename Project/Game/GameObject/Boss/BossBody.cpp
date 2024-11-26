@@ -13,6 +13,12 @@ void BossBody::Init() {
 	BaseGameObject::Init();
 	SetObject("boss_Body.gltf");
 
+	// colliderの設定
+	SetMeshCollider("boss_body");
+	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other); });
+	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other); });
+	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
+
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	adjust->AddItem(groupName_, "pos", defalutPos_);
 	adjust->AddItem(groupName_, "startPos", startPos_);
@@ -47,6 +53,27 @@ void BossBody::AdaptAdjustment() {
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	defalutPos_ = adjust->GetValue<Vector3>(groupName_, "pos");
 	startPos_ = adjust->GetValue<Vector3>(groupName_, "startPos");
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　当たり判定の追加
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossBody::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
+	if (other.GetTag() == "throwMissile") {
+		isDecrementHp_ = true;
+	}
+}
+
+void BossBody::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
+}
+
+void BossBody::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
+}
+
+void BossBody::Debug_Draw() {
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	meshCollider_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

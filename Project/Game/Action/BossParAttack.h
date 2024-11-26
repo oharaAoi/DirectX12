@@ -37,5 +37,9 @@ private:
 
 	BaseBossHand::AttackWork work_;
 
+	float swingUpY_;
+
+	Vector3 playerPos_;
+
 };
 

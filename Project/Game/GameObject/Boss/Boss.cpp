@@ -108,7 +108,15 @@ void Boss::Update() {
 		state_->Update();
 	}
 
+	// hpの回復
 	RecoveryHp();
+
+	// ミサイルが当たって時にhpを減らす
+	if (body_->GetIsDecrementHp()) {
+		core_->DecrementHp(0.5f);
+		body_->SetIsDecrementHp(false);
+	}
+
 
 	// -------------------------------------------------
 	// ↓ 行列の更新
@@ -327,6 +335,7 @@ void Boss::Debug_Gui() {
 
 void Boss::Debug_Draw() {
 	core_->Debug_Draw();
+	body_->Debug_Draw();
 	barrier_->Debug_Draw();
 	rightHand_->Debug_Draw();
 	leftHand_->Debug_Draw();
