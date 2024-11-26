@@ -110,6 +110,7 @@ public:
 	void SetBeAttackedType(const BeAttackedType& beAttackedType) { beAttackedType_ = beAttackedType;}
 
 	int GetPlayerState()const { return int(playerState); }
+	const bool GetIsShake()const { return isShakeBook_; }
 
 private:
 
@@ -162,6 +163,7 @@ private:
 	float targetRotate = 0.0f;
 	float nowRotate = 0.0f;
 	float groundLine_ = 1.2f;
+	bool isShakeBook_ = false;
 
 	// クラッチ
 	std::unique_ptr<ClutchWire> wire_;

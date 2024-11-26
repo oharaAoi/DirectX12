@@ -155,6 +155,9 @@ void GameScene::Update() {
 	// -------------------------------------------------
 
 	debugCamera_->Update();
+	if (player_->GetIsShake()) {
+		followCamera_->SetShakeTime(0.3f);
+	}
 	if ((boss_->GetBossLeftHand()->GetIsGroundSlap() || boss_->GetBossRightHand()->GetIsGroundSlap())) {
 		followCamera_->SetShakeTime(0.8f);
 	}
@@ -321,6 +324,10 @@ void GameScene::UpdateGameObject() {
 	testCollisionObj_->Update();
 	testCollisionObj3_->Update();
 
+	if (boss_->GetBossBarrier()->GetIsExpand() && (boss_->GetBossCore()->GetNowState() == CoreState::Appear)) {
+		fall_->Reset();
+		fallStone_->Reset();
+	}
 	if (boss_->GetBossForm() == BossForm::SECOND && (boss_->GetBossLeftHand()->GetIsGroundSlap() || boss_->GetBossRightHand()->GetIsGroundSlap())) {
 		fall_->SetAppear(true);
 	}

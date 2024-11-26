@@ -139,8 +139,11 @@ bool Fall::CheckMouseNear(const Matrix4x4& vpvpMat) {
 
 void Fall::Reset() {
 	velocity_.y = 0.0f;
-	transform_->SetTranslaion({ 0.0f, 16.0f, 12.0f });
+	transform_->SetTranslaion({ 0.0f, 19.0f, 12.0f });
 	isFalling_ = false;
+	energy_ = 0.0f;
+	isAppear_ = false;
+	appearTime_ = 0.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

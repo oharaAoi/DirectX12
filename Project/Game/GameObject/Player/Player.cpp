@@ -243,6 +243,7 @@ void Player::Move() {
 		pos.y = groundLine_;
 	}
 
+	isShakeBook_ = false;
 	if (!isPullBackObj_) {
 		DefaultMove(pos);
 	} else {
@@ -355,7 +356,7 @@ void Player::DefaultMove(Vector3& pos) {
 void Player::PullBackMove(Vector3& pos) {
 	pos.x = beforePosition_.x;
 	if (Input::IsPressKey(DIK_A) || Input::IsPressKey(DIK_D)) {
-		pos.x += RandomFloat(-4.0f, 4.0f) * GameTimer::DeltaTime();
+		isShakeBook_ = true;
 	}
 
 }
