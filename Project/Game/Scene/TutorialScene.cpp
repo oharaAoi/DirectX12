@@ -170,7 +170,7 @@ void TutorialScene::AutoUpdate() {
 	}
 
 	Vector3 playerPos = player_->GetTransform()->GetTranslation();
-	if (playerPos.x > 19.0f) {
+	if (playerPos.x >= 18.0f) {
 		// ここでブラックアウトさせる
 		if (panel_->GetDoNoting()) {
 			panel_->SetBlackOut();
@@ -186,7 +186,7 @@ void TutorialScene::TutorialUpdate() {
 	}
 
 	Vector3 playerPos = player_->GetTransform()->GetTranslation();
-	if (playerPos.x > 19.0f) {
+	if (playerPos.x >= 18.0f) {
 		// ここでブラックアウトさせる
 		isNextScene_ = true;
 		Input::SetNotAccepted(true);
