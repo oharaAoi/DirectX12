@@ -87,14 +87,29 @@ void Fall::Update() {
 	fallGuideUI_->Update();
 
 
-	uiTime_ += 9.0f * GameTimer::DeltaTime();
-	float sinSize = std::lerp(minVal_, maxVal_, (sinf(uiTime_) + 1.0f) * 0.5f);
-	planes_["fallUI"]->GetTransform()->SetScale({ sinSize,sinSize,1.0f });
-	Vector3 uiPos = Transform(Vector3::ZERO(), transform_->GetWorldMatrix());
-	uiPos.y -= 2.0f;
-	uiPos.z -= 2.0f;
-	planes_["fallUI"]->GetTransform()->SetTranslaion(uiPos);
-	planes_["fallUI"]->Update();
+	if (appearTime_ >= 1.0f) {
+		if (uiTime_ > 0.0f) {
+			uiTime_ += 9.0f * GameTimer::DeltaTime();
+			float sinSize = std::lerp(minVal_, maxVal_, (sinf(uiTime_) + 1.0f) * 0.5f);
+			planes_["fallUI"]->GetTransform()->SetScale({ sinSize,sinSize,1.0f });
+			Vector3 uiPos = Transform(Vector3::ZERO(), transform_->GetWorldMatrix());
+			uiPos.y -= 2.0f;
+			uiPos.z -= 2.0f;
+			planes_["fallUI"]->GetTransform()->SetTranslaion(uiPos);
+			planes_["fallUI"]->Update();
+		}
+		else if (uiTime_ <= 0.0f) {
+			uiTime_ += 2.0f * GameTimer::DeltaTime();
+			float t = uiTime_ + 1.0f;
+			float uiSize = std::lerp(25.0f, 2.5f, t);
+			planes_["fallUI"]->GetTransform()->SetScale({ uiSize,uiSize,1.0f });
+			Vector3 uiPos = Transform(Vector3::ZERO(), transform_->GetWorldMatrix());
+			uiPos.y -= 2.0f;
+			uiPos.z -= 2.0f;
+			planes_["fallUI"]->GetTransform()->SetTranslaion(uiPos);
+			planes_["fallUI"]->Update();
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,6 +182,7 @@ void Fall::Reset() {
 	energy_ = 0.0f;
 	isAppear_ = false;
 	appearTime_ = 0.0f;
+	uiTime_ = -1.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -64,7 +64,7 @@ void BossUI::Update(float bossHp, const Matrix4x4& vpvpMat) {
 		obj3d_["canClutchUI"]->Update();
 	}
 	else if (uiTime_ <= 0.0f) {
-		uiTime_ += 3.0f * GameTimer::DeltaTime();
+		uiTime_ += 2.0f * GameTimer::DeltaTime();
 		float t = uiTime_ + 1.0f;
 		float uiSize = std::lerp(20.0f, 2.5f, t);
 		obj3d_["canClutchUI"]->GetTransform()->SetScale({ uiSize,uiSize,1.0f });
