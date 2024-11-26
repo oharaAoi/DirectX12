@@ -30,6 +30,16 @@ void BossAttackState::Update() {
 	}
 }
 
+void BossAttackState::CheckAlive() {
+	if (!leftHand_->GetIsAlive()) {
+		leftHand_->SetIsAttackMove(false);
+	}
+
+	if (!rightHand_->GetIsAlive()) {
+		rightHand_->SetIsAttackMove(false);
+	}
+}
+
 #ifdef _DEBUG
 void BossAttackState::Debug_Gui() {
 	ImGui::Text(stateName_.c_str());

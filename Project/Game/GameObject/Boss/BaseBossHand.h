@@ -9,6 +9,8 @@
 #include "Engine/Math/Easing.h"
 #include "Game/Editer/BossAttackEditer.h"
 #include "Game/Action/IAttack.h"
+#include "Engine/2d/Sprite.h"
+#include "Game/GameObject/Player/Player.h"
 
 class BossGooAttack;
 
@@ -54,6 +56,8 @@ public:
 	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Draw() const override;
+
+	void DrawUI() const;
 
 	/// <summary>
 	/// Animationの時間を増加させる
@@ -122,6 +126,9 @@ public:
 	const bool GetIsNear() const { return isNear_; }
 	void SetIsNear(bool isNear) { isNear_ = isNear; }
 
+	const bool GetIsAlive() const { return isAlive_; }
+	void SetIsAlive(bool isAlive) { isAlive_ = isAlive; }
+
 	// player座標の設定
 	void SetPlayerPos(const Vector3& playerPos) { playerPos_ = playerPos; }
 
@@ -141,15 +148,24 @@ protected:
 	uint32_t moveIndex_;
 
 	HandType handType_;
-	
+
+	// Hp表記
+	std::unique_ptr<Sprite> hpSprite_;
+	float hpSpriteDisplayTime_;
+	const float hpSpriteDisplayTimeLimit_ = 2.0f;
+
 	// -------------------------------------------------
 	// ↓ 状態に関する変数
 	// -------------------------------------------------
 
 	uint32_t hp_;
-	const uint32_t kDurability_ = 5;	// 耐久度
+	uint32_t preHp_;
+	const uint32_t kDurability_ = 1;	// 耐久度
 
 	bool isAlive_;
+	bool isExplosion_;
+	Vector3 fallVelocity_;
+	Vector3 fallAcceleration_ = Vector3(0.0f, -1.0f, 0.0f);
 
 	// -------------------------------------------------
 	// ↓ ファイルに保存する変数

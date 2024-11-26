@@ -146,6 +146,11 @@ void Boss::PostDraw() const {
 // ↓　状態を遷移させる
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+void Boss::DrawUI() const {
+	rightHand_->DrawUI();
+	leftHand_->DrawUI();
+}
+
 void Boss::CheckBehaviorRequest() {
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
