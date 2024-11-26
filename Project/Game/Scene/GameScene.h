@@ -20,6 +20,7 @@
 #include "Game/GameObject/FallStone.h"
 #include "Game/UI/Player/PlayerUI.h"
 #include "Game/UI/Boss/BossUI.h"
+#include "Game/UI/Boss/BossHpUI.h"
 #include "Game/UI/Panel.h"
 #include "Game/Manager/GameObjectManager.h"
 
@@ -92,8 +93,7 @@ private:
 	std::list<std::unique_ptr<Missile>> missileList_;
 
 	std::unique_ptr<TestCollisionObj> testCollisionObj_;
-	std::unique_ptr<TestCollisionObj> testCollisionObj3_;
-
+	
 	std::unique_ptr<Fall> fall_;
 	std::unique_ptr<FallStone> fallStone_;
 
@@ -107,6 +107,8 @@ private:
 	std::unique_ptr<BossUI> bossUI_;
 
 	std::unique_ptr<Panel> panel_;
+
+	std::unique_ptr<BossHpUI> bossHpUI_;
 	
 	// --- Edier ----------------------------------- //
 	std::unique_ptr<BossAttackEditer> bossLeftAttackEditer_;

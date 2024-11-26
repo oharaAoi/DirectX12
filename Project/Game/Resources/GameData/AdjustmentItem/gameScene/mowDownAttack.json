@@ -3,12 +3,12 @@
         "aimEasing": 0,
         "aimPos_left": [
             22.5,
-            8.0,
+            6.0,
             -25.0
         ],
         "aimPos_right": [
             -22.0,
-            8.0,
+            6.0,
             -24.5
         ],
         "aimTime": 1.0,
@@ -18,12 +18,12 @@
         "swingTime": 2.0,
         "targetPos_left": [
             -20.0,
-            8.0,
+            6.0,
             -25.0
         ],
         "targetPos_right": [
             22.0,
-            8.0,
+            6.0,
             -24.5
         ]
     }

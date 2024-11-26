@@ -108,6 +108,8 @@ void Boss::Update() {
 		state_->Update();
 	}
 
+	RecoveryHp();
+
 	// -------------------------------------------------
 	// ↓ 行列の更新
 	// -------------------------------------------------
@@ -245,6 +247,19 @@ void Boss::MissileAttack() {
 	Vector3 randomPos = playerPos_;
 	randomPos.x += RandomFloat(-10.0f, 10.0f);
 	pGameScene_->AddMissile(randomPos, body_->GetTransform()->GetTranslation());
+}
+
+void Boss::RecoveryHp() {
+	if (isRecovery_) {
+		float hp = core_->GetHp();
+		hp += GameTimer::DeltaTime() * 55.0f;
+		core_->SetHp(hp);
+
+		if (hp >= 100.0f) {
+			isRecovery_ = false;
+			hp = 100.0f;
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

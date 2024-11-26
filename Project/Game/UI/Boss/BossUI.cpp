@@ -13,35 +13,33 @@ BossUI::~BossUI() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossUI::Init() {
-	sprites_["bossHp"] = Engine::CreateSprite("kari_bossHp.png");
-	sprites_["bossHp"] = Engine::CreateSprite("kari_bossHp.png");
-
 	sprites_["coreClutch"] = Engine::CreateSprite("star.png");
 	sprites_["coreClutch"]->SetScale(Vector2{ 0.4f, 0.4f });
 
-	planes_["coreClutch"] = std::make_unique<BaseGameObject>();
-	planes_["coreClutch"]->Init();
-	planes_["coreClutch"]->SetObject("plane.obj");
-	planes_["coreClutch"]->SetTexture("star.png");
-	planes_["coreClutch"]->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
-	planes_["coreClutch"]->GetTransform()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+	obj3d_["coreClutch"] = std::make_unique<BaseGameObject>();
+	obj3d_["coreClutch"]->Init();
+	obj3d_["coreClutch"]->SetObject("plane.obj");
+	obj3d_["coreClutch"]->SetTexture("star.png");
+	obj3d_["coreClutch"]->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
+	obj3d_["coreClutch"]->GetTransform()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 
-	planes_["canClutchUI"] = std::make_unique<BaseGameObject>();
-	planes_["canClutchUI"]->Init();
-	planes_["canClutchUI"]->SetObject("plane.obj");
-	planes_["canClutchUI"]->SetTexture("point.png");
-	planes_["canClutchUI"]->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
-	planes_["canClutchUI"]->GetTransform()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
-
+	obj3d_["canClutchUI"] = std::make_unique<BaseGameObject>();
+	obj3d_["canClutchUI"]->Init();
+	obj3d_["canClutchUI"]->SetObject("plane.obj");
+	obj3d_["canClutchUI"]->SetTexture("point.png");
+	obj3d_["canClutchUI"]->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
+	obj3d_["canClutchUI"]->GetTransform()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 
 	// -------------------------------------------------
 	// ↓ 調整項目系
 	// -------------------------------------------------
-	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
-	adjust->AddItem(groupName_, "hp_pos", sprites_["bossHp"]->GetTranslate());
-
+	
 	// 調整項目の適応
-	AdaptAdjustment();
+	
+	// -------------------------------------------------
+	// ↓ 変数の定義
+	// -------------------------------------------------
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,24 +47,20 @@ void BossUI::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossUI::Update(float bossHp, const Matrix4x4& vpvpMat) {
-	sprites_["bossHp"]->SetUvMaxSize(Vector2(std::clamp(bossHp / 100.0f, 0.0f, 1.0f), 1.0f));
-
+	bossHp = bossHp;
 	Vector3 pos = Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix() * vpvpMat);
 	Vector2 coreScreenPos = { pos.x, pos.y };
 	sprites_["coreClutch"]->SetTranslate(coreScreenPos);
-
-
-	sprites_["bossHp"]->Update();
 	sprites_["coreClutch"]->Update();
 
-	planes_["coreClutch"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix()));
-	planes_["coreClutch"]->Update();
+	obj3d_["coreClutch"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix()));
+	obj3d_["coreClutch"]->Update();
 
 	uiTime_ += 9.0f * GameTimer::DeltaTime();
 	float sinSize = std::lerp(minVal_, maxVal_, (sinf(uiTime_) + 1.0f) * 0.5f);
-	planes_["canClutchUI"]->GetTransform()->SetScale({ sinSize,sinSize,1.0f });
-	planes_["canClutchUI"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix()));
-	planes_["canClutchUI"]->Update();
+	obj3d_["canClutchUI"]->GetTransform()->SetScale({ sinSize,sinSize,1.0f });
+	obj3d_["canClutchUI"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix()));
+	obj3d_["canClutchUI"]->Update();
 
 }
 
@@ -75,25 +69,22 @@ void BossUI::Update(float bossHp, const Matrix4x4& vpvpMat) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossUI::Draw() {
-	sprites_["bossHp"]->Draw();
+
 }
 
 void BossUI::Draw3dObject(bool canAttackBoss,bool isPullSign){
 	if (canAttackBoss) {
-		planes_["coreClutch"]->Draw();
+		obj3d_["coreClutch"]->Draw();
 	}
 	if (isPullSign) {
-		planes_["canClutchUI"]->Draw();
+		obj3d_["canClutchUI"]->Draw();
 	}
 }
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　調整項目の適応
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossUI::AdaptAdjustment() {
-	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
-	sprites_["bossHp"]->SetTranslate(adjust->GetValue<Vector2>(groupName_, "hp_pos"));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,8 +94,11 @@ void BossUI::AdaptAdjustment() {
 #ifdef _DEBUG
 void BossUI::Debug_Gui() {
 	if (ImGui::TreeNode("BossUI")) {
+		ImGui::Begin("BossUI");
 		sprites_["bossHp"]->Debug_Gui("bossHp");
+
 		ImGui::TreePop();
+		ImGui::End();
 	}
 }
 #endif

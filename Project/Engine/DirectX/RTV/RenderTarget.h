@@ -45,6 +45,8 @@ public:
 	/// </summary>
 	void CreateRenderTarget();
 
+	void ClearRenderTarget(ID3D12GraphicsCommandList* commandList);
+
 	void TransitionResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
 public:

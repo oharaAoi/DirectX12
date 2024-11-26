@@ -35,6 +35,13 @@ void GameResources::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Missile/", "missile.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Bomb/", "bomb.obj");
 
+	// UI3D
+	ModelManager::LoadModel("./Game/Resources/Model/BossHP/", "bossGauge.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/BossHP/", "bossHpOutSide.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/BossHP/", "bossGaugeOrigin.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/BossHP/", "bossHpOutSideOrigin.obj");
+
+
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "star.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "kari_bossHp.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "kari_fallUI.png");

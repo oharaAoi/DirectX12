@@ -49,12 +49,7 @@ void GameScene::Init() {
 	testCollisionObj_->Init();
 	testCollisionObj_->SetPlayer(player_.get());
 
-	testCollisionObj3_ = std::make_unique<TestCollisionObj>();
-	testCollisionObj3_->Init();
-	testCollisionObj3_->SetPlayer(player_.get());
-	testCollisionObj3_->SetTag("canPullObj");
-	testCollisionObj3_->GetTransform()->SetTranslaion({ -12.0f,0.5f,0.0f });
-
+	
 	fall_ = std::make_unique<Fall>();
 	fall_->Init();
 	fall_->SetPlayer(player_.get());
@@ -93,6 +88,9 @@ void GameScene::Init() {
 	panel_ = std::make_unique<Panel>();
 	panel_->Init();
 	panel_->SetBlackOutOpen(2.5f);
+
+	bossHpUI_ = std::make_unique<BossHpUI>(boss_.get());
+	bossHpUI_->Init();
 
 	// -------------------------------------------------
 	// ↓ ライト初期化
@@ -241,8 +239,6 @@ void GameScene::Draw() const {
 		isPullSign = !(boss_->GetBossCore()->GetFalling());
 	}
 	
-	bossUI_->Draw3dObject(player_->GetCanBossAttack(), isPullSign);
-
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	for (auto& missile : missileList_) {
 		missile->Draw();
@@ -254,8 +250,7 @@ void GameScene::Draw() const {
 	gameObjectManager_->Draw();
 
 	testCollisionObj_->Draw();
-	testCollisionObj3_->Draw();
-
+	
 	fall_->Draw();
 	fallStone_->Draw();
 
@@ -277,6 +272,15 @@ void GameScene::Draw() const {
 	fall_->DrawUI();
 
 	panel_->Draw();
+
+	// -------------------------------------------------
+	// ↓ 3dUIの描画
+	// -------------------------------------------------
+	Engine::ClearRenderTarget();
+	Engine::SetPipeline(PipelineType::NormalPipeline);
+	if (finishAppear_) {
+		bossHpUI_->Draw();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -320,8 +324,7 @@ void GameScene::UpdateGameObject() {
 	}
 
 	testCollisionObj_->Update();
-	testCollisionObj3_->Update();
-
+	
 	if (boss_->GetBossForm() == BossForm::SECOND && (boss_->GetBossLeftHand()->GetIsGroundSlap() || boss_->GetBossRightHand()->GetIsGroundSlap())) {
 		fall_->SetAppear(true);
 	}
@@ -341,6 +344,10 @@ void GameScene::UpdateUI() {
 
 	bossUI_->Update(boss_->GetBossHp(), followCamera_->GetVpvpMatrix());
 
+	if (finishAppear_) {
+		bossHpUI_->Update(boss_->GetBossHp());
+	}
+
 	for (auto& missile : missileList_) {
 		missile->UpdateUI(followCamera_->GetVpvpMatrix());
 	}
@@ -354,7 +361,6 @@ void GameScene::UpdateManager() {
 	collisionManager_->Reset();
 	collisionManager_->AddCollider(player_->GetWireTipCollider());
 	collisionManager_->AddCollider(testCollisionObj_.get());
-	collisionManager_->AddCollider(testCollisionObj3_.get());
 
 	// mesh
 	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
@@ -498,6 +504,7 @@ void GameScene::Debug_Gui() {
 	{
 		if (ImGui::TreeNode("UI")) {
 			bossUI_->Debug_Gui();
+			bossHpUI_->Debug_Gui();
 			ImGui::TreePop();
 		}
 	}
