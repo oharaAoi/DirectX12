@@ -73,6 +73,10 @@ void Player::Update() {
 	}
 	Clutch();
 
+	if (!isStretchClutch_&&!isReturnClutch_) {
+		wireTip_->SetIsBossAttack(false);
+	}
+
 	CatchObjectFollow();
 
 	playerAnimator_->Update();
