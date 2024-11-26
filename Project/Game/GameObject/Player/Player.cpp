@@ -87,6 +87,10 @@ void Player::Update() {
 	wireTip_->Update();
 
 	isAutoMove_ = false;
+
+	if (hp_ <= 0.0f) {
+		isAlive_ = false;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -578,6 +582,8 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		isPullBackObj_ = false;
 		wireTip_->SetNeglect(false);
 
+		DecrementHp();
+
 	} else if (other.GetTag() == "right_hand" || other.GetTag() == "left_hand") {
 
 		if (wireTip_->GetIsBossAttack()) {
@@ -615,6 +621,8 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 				isPullBackObj_ = false;
 				wireTip_->SetNeglect(false);
 
+				DecrementHp();
+
 			} else if (other.GetSubTag() == "swing_hand") {
 				behaviorRequest_ = PlayerState::BeAttacked;
 				beAttackedType_ = BeAttackedType::SLAP_ATTACKED;
@@ -622,6 +630,8 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 				isStretching_ = false;
 				isPullBackObj_ = false;
 				wireTip_->SetNeglect(false);
+
+				DecrementHp();
 			}
 		}
 	}
@@ -634,6 +644,14 @@ void Player::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 
 
 void Player::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
+}
+
+void Player::DecrementHp() {
+	hp_ -= hpDecrement_;
+
+	if (hp_ <= 0.0f) {
+		isAlive_ = false;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -709,6 +727,8 @@ void Player::Debug_Gui() {
 		BaseGameObject::Debug_Gui();
 
 		playerAnimator_->Debug_Gui();
+
+		ImGui::SliderFloat("hp", &hp_, 0.0f, hpLimit_);
 
 		ImGui::End();
 		ImGui::TreePop();

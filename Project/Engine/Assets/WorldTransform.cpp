@@ -78,6 +78,11 @@ void WorldTransform::Draw(ID3D12GraphicsCommandList* commandList) const {
 	commandList->SetGraphicsRootConstantBufferView(1, cBuffer_->GetGPUVirtualAddress());
 }
 
+void WorldTransform::SetBillBorad(const Matrix4x4& mat) {
+	data_->matWorld = worldMat_ * mat;
+	data_->worldInverseTranspose = (worldMat_).Inverse().Transpose();
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　編集
 //////////////////////////////////////////////////////////////////////////////////////////////////

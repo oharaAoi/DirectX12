@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include <string>
 #include "Engine/2d/Sprite.h"
+#include "Engine/GameObject/BaseGameObject.h"
+#include "Game/GameObject/Player/Player.h"
 
 class PlayerUI {
 public:
@@ -10,8 +12,8 @@ public:
 	PlayerUI();
 	~PlayerUI();
 	
-	void Init();
-	void Update();
+	void Init(Player* player);
+	void Update(float hp, float hpLimit);
 	void Draw();
 
 #ifdef _DEBUG
@@ -24,6 +26,7 @@ public:
 private:
 
 	std::unordered_map<std::string, std::unique_ptr<Sprite>> sprites_;
+	std::unordered_map<std::string, std::unique_ptr<BaseGameObject>> objs3d_;
 
 	Vector2 playerScreenPos_;
 

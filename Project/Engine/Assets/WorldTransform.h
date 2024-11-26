@@ -29,6 +29,8 @@ public:
 	void Update(const Matrix4x4& mat = Matrix4x4::MakeUnit());
 	void Draw(ID3D12GraphicsCommandList* commandList) const;
 
+	void SetBillBorad(const Matrix4x4& mat);
+
 #ifdef _DEBUG
 	void Debug_Gui();
 	void Debug_Quaternion();

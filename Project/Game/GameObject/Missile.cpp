@@ -31,6 +31,13 @@ void Missile::Init() {
 	nextMoveT_ = 0.0f;
 	speed_ = 5.0f;
 
+	reticleObj_ = std::make_unique<BaseGameObject>();
+	reticleObj_->Init();
+	reticleObj_->SetObject("plane.obj");
+	reticleObj_->SetTexture("missileLockOn.png");
+	reticleObj_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
+	reticleObj_->GetTransform()->SetScale(Vector3(2.0f, 2.0f, 2.0f));
+
 	// -------------------------------------------------
 	// ↓ 着弾点にUI
 	// -------------------------------------------------
@@ -80,6 +87,22 @@ void Missile::Update() {
 		Vector3 nextPos = CatmullRomPosition(movePoint_, nextMoveT_);
 		Quaternion rotate = Quaternion::LookAt(pos, nextPos);
 		transform_->SetQuaternion(rotate);
+
+		// 色変える
+		if (pos.z <= 2.5f) {
+			reticleObj_->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+		}
+
+		time += GameTimer::DeltaTime();
+		float scaleMultiplier = 1.0f + amplitude * std::sin(time * frequency * 2.0f * PI);
+		scaleMultiplier += 0.2f * std::sin(time * 1.2f * 2.0f * PI);
+		scaleMultiplier += 0.1f * std::sin(time * 0.8f * 2.0f * PI); // 0.5倍速の波
+		Vector3 scale = Vector3(1.5f, 1.5f, 1.5f) * scaleMultiplier;
+		reticleObj_->GetTransform()->SetScale(scale);
+
+		reticleObj_->GetTransform()->SetTranslaion(transform_->GetTranslation());
+		reticleObj_->Update();
+		//reticleObj_->GetTransform()->SetBillBorad(cameraMat_);
 	}
 
 	BaseGameObject::Update();
@@ -91,6 +114,12 @@ void Missile::Update() {
 
 void Missile::Draw() const {
 	BaseGameObject::Draw();
+}
+
+void Missile::DrawReticle() {
+	if (!isWireCaught_) {
+		reticleObj_->Draw();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +134,7 @@ void Missile::Pop(const Vector3& targePos, const Vector3& firePos) {
 	controlPoint_[1].y += RandomFloat(20.0f, 25.0f);
 	controlPoint_[1].z = targePos.z + 5.0f;
 	controlPoint_[2] = targePos;
+	controlPoint_[2].y = 1.0f;
 
 	// 制御点から動く座標を割り出す
 	movePoint_.resize(kDivision_);
@@ -185,4 +215,11 @@ void Missile::DrawUI() const {
 	if (!isThrowed_ && !isWireCaught_) {
 		hitPoint_->Draw();
 	}
+}
+
+void Missile::SetCameraMat(const Matrix4x4& cameraMat) {
+	cameraMat_ = cameraMat;
+	cameraMat_.m[3][0] = 0.0f;
+	cameraMat_.m[3][1] = 0.0f;
+	cameraMat_.m[3][2] = 0.0f;
 }

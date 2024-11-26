@@ -88,6 +88,8 @@ public:
 	const BossForm GetBossForm() const { return form_; }
 	void SetBossForm(BossForm form) { form_ = form; }
 
+	const bool GetIsAlive() const { return isAlive_; }
+
 	void SetIsRecovery() { isRecovery_ = true; }
 
 	// playerの座標を設定
@@ -167,6 +169,7 @@ private:
 	Behavior behavior_ = Behavior::ROOT;
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
+	bool isAlive_ = true;
 	float bossHp_ = 100;
 
 	// 第二形態に遷移する

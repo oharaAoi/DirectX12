@@ -109,6 +109,14 @@ public:
 	const BeAttackedType GetBeAttackedType() const { return beAttackedType_; }
 	void SetBeAttackedType(const BeAttackedType& beAttackedType) { beAttackedType_ = beAttackedType;}
 
+	// hpの取得・設定
+	const float GetHp() const { return hp_; }
+	void SetHp(float hp) { hp_ = hp; }
+
+	const float GetHpLimit() const { return hpLimit_; }
+
+	const bool GetIsAlive() const { return isAlive_; }
+
 	int GetPlayerState()const { return int(playerState); }
 	const bool GetIsShake()const { return isShakeBook_; }
 
@@ -137,6 +145,8 @@ private:
 	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
 	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
 	void OnCollisionExit([[maybe_unused]] MeshCollider& other);
+
+	void DecrementHp();
 
 private:
 
@@ -224,7 +234,13 @@ private:
 	// 攻撃を受けた時の敵の攻撃の種類
 	BeAttackedType beAttackedType_;
 
+	bool isAlive_ = true;
 	bool isAutoMove_;
+
+	float hp_ = 10.0f;
+	float hpLimit_ = 10.0f;
+
+	const float hpDecrement_ = 1.0f;
 
 	/// ==========================================
 	/// 他クラスの情報

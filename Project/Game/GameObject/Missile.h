@@ -17,8 +17,12 @@ public:
 	void Update() override;
 	void Draw() const override;
 
+	void DrawReticle();
+
 	void UpdateUI(const Matrix4x4& vpvpMat);
 	void DrawUI() const;
+
+	void SetCameraMat(const Matrix4x4& cameraMat);
 
 public:
 
@@ -55,6 +59,12 @@ private:
 	float moveT_;
 	float nextMoveT_;
 	float speed_;
+
+	std::unique_ptr<BaseGameObject> reticleObj_;
+	Matrix4x4 cameraMat_;
+	float time = 0.0f;
+	float frequency = 0.8f;
+	float amplitude = 0.1f;
 
 	// -------------------------------------------------
 	// ↓ 他クラスの情報

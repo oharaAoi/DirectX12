@@ -62,6 +62,8 @@ void Boss::Init() {
 	CheckBehaviorRequest();
 
 	form_ = BossForm::FIRST;
+
+	isAlive_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,6 +119,13 @@ void Boss::Update() {
 		body_->SetIsDecrementHp(false);
 	}
 
+	if (form_ == BossForm::SECOND) {
+		if (!isRecovery_) {
+			if (bossHp_ <= 0.0f) {
+				isAlive_ = false;
+			}
+		}
+	}
 
 	// -------------------------------------------------
 	// ↓ 行列の更新

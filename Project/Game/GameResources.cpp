@@ -41,6 +41,9 @@ void GameResources::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/BossHP/", "bossGaugeOrigin.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/BossHP/", "bossHpOutSideOrigin.obj");
 
+	ModelManager::LoadModel("./Game/Resources/Model/PlayerHp/", "playerHpGauge.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/PlayerHp/", "playerHpOutSide.obj");
+
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "star.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "kari_bossHp.png");
@@ -50,6 +53,7 @@ void GameResources::Load() {
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPoint.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPointGauge.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileLockOn.png");
 
 
 

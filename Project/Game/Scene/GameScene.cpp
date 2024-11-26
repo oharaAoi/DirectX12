@@ -49,7 +49,7 @@ void GameScene::Init() {
 	testCollisionObj_->Init();
 	testCollisionObj_->SetPlayer(player_.get());
 
-	
+
 	fall_ = std::make_unique<Fall>();
 	fall_->Init();
 	fall_->SetPlayer(player_.get());
@@ -80,7 +80,7 @@ void GameScene::Init() {
 	// ↓ UI初期化
 	// -------------------------------------------------
 	playerUI_ = std::make_unique<PlayerUI>();
-	playerUI_->Init();
+	playerUI_->Init(player_.get());
 
 	bossUI_ = std::make_unique<BossUI>(boss_.get());
 	bossUI_->Init();
@@ -116,6 +116,15 @@ void GameScene::Init() {
 }
 
 void GameScene::Update() {
+	if (!player_->GetIsAlive()) {
+		nextSceneType_ = SceneType::GAMEOVER;
+		return;
+	}
+
+	if (!boss_->GetIsAlive()) {
+		nextSceneType_ = SceneType::GAMECLEAR;
+		return;
+	}
 
 	if (!finishAppear_) {
 		AppearUpdate();
@@ -235,15 +244,11 @@ void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 
 	bool isPullSign = false;
-	if (boss_->GetBossForm()==BossForm::SECOND) {
+	if (boss_->GetBossForm() == BossForm::SECOND) {
 		isPullSign = (!(boss_->GetBossCore()->GetFalling()) && (boss_->GetBossBarrier()->GetEnableFunction() && boss_->GetBossBarrier()->GetIsBreak()));
-	}
-	else if (boss_->GetBossForm() == BossForm::FIRST) {
+	} else if (boss_->GetBossForm() == BossForm::FIRST) {
 		isPullSign = !(boss_->GetBossCore()->GetFalling());
 	}
-	
-	bossUI_->Draw3dObject(player_->GetCanBossAttack(), isPullSign);
-	fall_->DrawUI3D();
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	for (auto& missile : missileList_) {
@@ -256,7 +261,7 @@ void GameScene::Draw() const {
 	gameObjectManager_->Draw();
 
 	testCollisionObj_->Draw();
-	
+
 	fall_->Draw();
 	fallStone_->Draw();
 
@@ -266,7 +271,6 @@ void GameScene::Draw() const {
 	// ↓ UIの描画
 	// -------------------------------------------------
 	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
-	playerUI_->Draw();
 	bossUI_->Draw();
 
 	boss_->DrawUI();
@@ -282,11 +286,21 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ 3dUIの描画
 	// -------------------------------------------------
+	Engine::SetPipeline(PipelineType::NormalPipeline);
+	bossUI_->Draw3dObject(player_->GetCanBossAttack(), isPullSign);
+	fall_->DrawUI3D();
+
 	Engine::ClearRenderTarget();
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	if (finishAppear_) {
 		bossHpUI_->Draw();
 	}
+
+	for (const auto& missile : missileList_) {
+		missile->DrawReticle();
+	}
+
+	playerUI_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -326,6 +340,7 @@ void GameScene::UpdateGameObject() {
 	// missileの処理
 	missileList_.remove_if([](auto& enemy) {return !enemy->GetIsAlive(); });
 	for (auto& missile : missileList_) {
+		missile->SetCameraMat(followCamera_->GetCameraMatrix());
 		missile->Update();
 	}
 
@@ -350,7 +365,7 @@ void GameScene::UpdateGameObject() {
 
 void GameScene::UpdateUI() {
 	playerUI_->SetPlayerScreenPos(player_->GetTransform()->GetWorldMatrix(), followCamera_->GetVpvpMatrix());
-	playerUI_->Update();
+	playerUI_->Update(player_->GetHp(), player_->GetHpLimit());
 
 	bossUI_->Update(boss_->GetBossHp(), followCamera_->GetVpvpMatrix());
 
@@ -518,6 +533,7 @@ void GameScene::Debug_Gui() {
 		if (ImGui::TreeNode("UI")) {
 			bossUI_->Debug_Gui();
 			bossHpUI_->Debug_Gui();
+			playerUI_->Debug_Gui();
 			ImGui::TreePop();
 		}
 	}
