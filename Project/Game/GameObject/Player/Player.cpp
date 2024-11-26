@@ -28,7 +28,7 @@ void Player::Init() {
 
 	// animatorの生成
 	playerAnimator_ = std::make_unique<PlayerAnimator>(this);
-	
+
 	// Colliderの生成
 	SetMeshCollider("player");
 	meshCollider_->SetOwner(this);
@@ -73,7 +73,7 @@ void Player::Update() {
 	}
 	Clutch();
 
-	if (!isStretchClutch_&&!isReturnClutch_) {
+	if (!isStretchClutch_ && !isReturnClutch_) {
 		wireTip_->SetIsBossAttack(false);
 	}
 
@@ -214,17 +214,11 @@ void Player::CatchObjectFollow() {
 
 	// 投げる処理
 	if (Input::IsTriggerMouse(0)) {
-		if (canBossAttack_) {
-			catchObj->ReadyToThrow(bossDire_.Normalize() * throwSpeed_);
-			wireTip_->SetIsCautchObject(false);
-			wireTip_->ReleseCathcObject();
-			isRekey_ = false;
-		} else {
-			catchObj->ReadyToThrow(GetThrowVelo() * throwSpeed_);
-			wireTip_->SetIsCautchObject(false);
-			wireTip_->ReleseCathcObject();
-			isRekey_ = false;
-		}
+		catchObj->ReadyToThrow(Vector3(0.0f, 0.01f, 1.0f).Normalize() * throwSpeed_);
+		wireTip_->SetIsCautchObject(false);
+		wireTip_->ReleseCathcObject();
+		targetRotate = 0.0f;
+		isRekey_ = false;
 	}
 }
 
