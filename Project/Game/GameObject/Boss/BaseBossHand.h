@@ -92,6 +92,13 @@ public:
 	void Explosion();
 
 	/// <summary>
+	/// 復活
+	/// </summary>
+	void Revival();
+
+	void SetDeth();
+
+	/// <summary>
 	/// 手とマウスカーソルが当たっているかを確認する
 	/// </summary>
 	/// <param name="worldTransform"></param>
@@ -169,8 +176,15 @@ protected:
 
 	bool isAlive_;
 	bool isExplosion_;
+	bool isRevival_;
+
 	Vector3 fallVelocity_;
 	Vector3 fallAcceleration_ = Vector3(0.0f, -2.0f, 0.0f);
+
+	float revivalTime_ = 0.0f;
+	const float revivalTimeLimit_ = 15.0f;
+
+	float revivalMoveTime_ = 0.0f;
 
 	// -------------------------------------------------
 	// ↓ ファイルに保存する変数

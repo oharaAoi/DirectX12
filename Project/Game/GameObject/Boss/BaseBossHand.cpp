@@ -1,4 +1,5 @@
 #include "BaseBossHand.h"
+#include "Engine/Math/Easing.h"
 #include "Game/Action/BossGooAttack.h"
 #include "Game/Action/BossParAttack.h"
 #include "Game/Action/BossMowDownAttack.h"
@@ -32,7 +33,11 @@ void BaseBossHand::Init() {
 	// -------------------------------------------------
 	hpSpriteDisplayTime_ = 0.0f;
 
+	revivalTime_ = 0.0f;
+	revivalMoveTime_ = 0.0f;
+	
 	isGroundSlap_ = false;
+	isRevival_ = false;
 
 	isAlive_ = true;
 
@@ -43,15 +48,16 @@ void BaseBossHand::Init() {
 }
 
 void BaseBossHand::Update() {
-	if (!isAlive_) {
-		isExplosion_ = true;
-	} else {
-		fallVelocity_ = Vector3::ZERO();
+	if (!isAlive_ && !isExplosion_) {
+		Revival();
+		return;
 	}
 
 	// 爆発していたら
 	if (isExplosion_) {
 		Explosion();
+		revivalTime_ = 0.0f;
+		revivalMoveTime_ = 0.0f;
 		return;
 	}
 
@@ -93,7 +99,7 @@ void BaseBossHand::Update() {
 }
 
 void BaseBossHand::Draw() const {
-	if (isAlive_ || isExplosion_) {
+	if (isAlive_ || isExplosion_ || isRevival_) {
 		Engine::SetPipeline(PipelineType::NormalPipeline);
 		BaseGameObject::Draw();
 	}
@@ -225,7 +231,46 @@ void BaseBossHand::Explosion() {
 
 	if (handPos.y <= -8.0f) {
 		isExplosion_ = false;
+		animetor_->SetTransitionAnimation(nowAnimatonName_, "stand_by");
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　復活
+//////////////////////////////////////////////////////////////////////////////////////////////////
+void BaseBossHand::Revival() {
+	isRevival_ = true;
+	if (revivalTime_ < revivalTimeLimit_) {
+		revivalTime_ += GameTimer::DeltaTime();
+	} else {
+		revivalMoveTime_ += GameTimer::DeltaTime();
+		float t = revivalMoveTime_ / 3.0f;
+
+		Vector3 initRevaival = initPos_;
+		initRevaival.y -= 10.0f;
+		Vector3 handPos = Vector3::Lerp(initRevaival, initPos_, Ease::InOut::Back(t));
+		transform_->SetTranslaion(handPos);
+
+		if (t >= 1.0f) {
+			isAlive_ = true;
+			isRevival_ = false;
+			hp_ = kDurability_;
+			preHp_ = hp_;
+		}
+
+		if (animetor_ != nullptr) {
+			animetor_->UpdateScript(animationTime_, animationTransitionTime_);
+		}
+
+		BaseGameObject::Update();
+	}
+}
+
+void BaseBossHand::SetDeth() {
+	isGroundSlap_ = false;
+	isAlive_ = false;
+	isExplosion_ = true;
+	fallVelocity_ = { 0.0f, 3.0f, 0.0f };
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -243,7 +288,7 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			if (attackType_ != AttackType::MowDown_Attack) {
 				attackAction_->SetMoveTime(0.0f);
 				Vector3 pos = worldPos_;
-				pos.y += 14.0f;
+				pos.y += 18.0f;
 				GameObjectManager::PopBomb(pos, Vector3(0.0f, -0.4f, 0.0f));
 			}
 		}
@@ -259,8 +304,7 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	} else if (other.GetTag() == "throwMissile") {
 		--hp_;
 		if (hp_ <= 0) {
-			isAlive_ = false;
-			fallVelocity_ = { 0.0f, 3.0f, 0.0f };
+			SetDeth();
 		}
 
 
@@ -269,8 +313,7 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		if (player->GetWireTip()->GetIsBossAttack()) {
 			--hp_;
 			if (hp_ <= 0) {
-				isAlive_ = false;
-				fallVelocity_ = { 0.0f, 3.0f, 0.0f };
+				SetDeth();
 			}
 		}
 
@@ -278,8 +321,7 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		if (meshCollider_->GetSubTag() != "wait_hand") {
 			--hp_;
 			if (hp_ <= 0) {
-				isAlive_ = false;
-				fallVelocity_ = { 0.0f, 3.0f, 0.0f };
+				SetDeth();
 			}
 		}
 	}

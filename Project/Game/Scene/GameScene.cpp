@@ -355,8 +355,8 @@ void GameScene::UpdateManager() {
 
 	// mesh
 	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
-	boss_->GetBossRightHand()->SetIsGroundSlap(false);
-	boss_->GetBossLeftHand()->SetIsGroundSlap(false);
+	/*boss_->GetBossRightHand()->SetIsGroundSlap(false);
+	boss_->GetBossLeftHand()->SetIsGroundSlap(false);*/
 	if (boss_->GetBossRightHand()->GetIsAlive()) {
 		collisionManager_->AddCollider(boss_->GetBossRightHand()->GetMeshCollider());
 	}

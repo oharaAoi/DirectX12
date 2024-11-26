@@ -103,6 +103,7 @@ void BossGooAttack::Return() {
 		pBossHand_->transform_->SetTranslaion(movePos);
 	} else {
 		pBossHand_->isAttackMove_ = false;
+		pBossHand_->isGroundSlap_ = false;
 	}
 
 	pBossHand_->meshCollider_->SetSubTag("wait_hand");
