@@ -324,7 +324,7 @@ void GameScene::UpdateGameObject() {
 	testCollisionObj_->Update();
 	testCollisionObj3_->Update();
 
-	if (boss_->GetBossBarrier()->GetIsExpand() && (boss_->GetBossCore()->GetNowState() == CoreState::Appear)) {
+	if (boss_->GetBossBarrier()->GetIsExpand()) {
 		fall_->Reset();
 		fallStone_->Reset();
 	}
