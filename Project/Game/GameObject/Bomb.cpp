@@ -40,6 +40,7 @@ void Bomb::Update() {
 	ExecuteFunc(pFunc_);
 
 	BaseGameObject::Update();
+	meshCollider_->Update(transform_.get(), Vector3{ 0.75f,0.75f,0.75f });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
