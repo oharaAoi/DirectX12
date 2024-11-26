@@ -1,7 +1,7 @@
-# Blender 4.3.0 MTL File: 'None'
+# Blender 4.1.1 MTL File: 'boss.blend'
 # www.blender.org
 
-newmtl マテリアル.002
+newmtl マテリアル
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
