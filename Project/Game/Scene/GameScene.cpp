@@ -30,6 +30,9 @@ void GameScene::Init() {
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Init();
 
+	backGround_ = std::make_unique<BackGround>();
+	backGround_->Init();
+
 	field_ = std::make_unique<Field>();
 	field_->Init();
 
@@ -220,7 +223,7 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
-
+	backGround_->Draw();
 	field_->Draw();
 
 	// -------------------------------------------------
@@ -282,7 +285,7 @@ void GameScene::Draw() const {
 
 void GameScene::UpdateWorldObject() {
 	skydome_->Update();
-
+	backGround_->Update();
 	field_->Update();
 }
 
@@ -551,6 +554,8 @@ void GameScene::Debug_Gui() {
 	ImGui::Checkbox("finishAppear", &finishAppear_);
 
 	panel_->Debug_Gui();
+
+	backGround_->Debug_Gui();
 
 	ImGui::End();
 }

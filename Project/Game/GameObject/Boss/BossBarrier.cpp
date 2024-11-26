@@ -24,6 +24,8 @@ void BossBarrier::Init() {
 	timeBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(TimeCount));
 	timeBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&timeData_));
 
+	SetIsLighting(false);
+
 	// -------------------------------------------------
 	// ↓ 調整項目系
 	// -------------------------------------------------

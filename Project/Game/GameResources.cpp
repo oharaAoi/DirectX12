@@ -17,12 +17,13 @@ void GameResources::Load() {
 
 	// worldObject
 	ModelManager::LoadModel("./Game/Resources/Model/Skydome/", "skydome.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/BackGround/", "BackGround.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Field/", "kair_field.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Field/", "kari_tutorialField.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Field/", "wall.obj");
 	
 	// gameObject
-	ModelManager::LoadModel("./Game/Resources/Model/Boss_Body/", "boss_body.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Boss_Body/", "boss_Body.gltf");
 	ModelManager::LoadModel("./Game/Resources/Model/Boss_Core/", "boss_core.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Boss_Eye/", "boss_eye.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Left_Hand/", "Left_Hand.gltf");
