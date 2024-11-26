@@ -464,6 +464,9 @@ void GameScene::BossFormTransition() {
 
 	boss_->Update();
 
+	if (bossFormTransitionTime_ <= 1.0f) {
+		boss_->GetBossCore()->SetIsAppearReset(true);
+	}
 	if (bossFormTransitionTime_ >= bossFormTransitionTimeLimit_) {
 		boss_->SetIsTransitionForm(false);
 	}

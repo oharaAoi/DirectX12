@@ -68,6 +68,9 @@ public:
 
 	const CoreState GetCoreState() const { return behavior_; }
 
+	const bool GetIsAppearReset() { return isAppearReset_; }
+	void SetIsAppearReset(bool is) { isAppearReset_ = is; }
+
 private:
 
 	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
@@ -98,6 +101,7 @@ private:
 	bool isFirstHit_;
 
 	bool isBarrierSet_ = false;
+	bool isAppearReset_ = false;
 
 	std::unique_ptr<BaseObjectState> state_;
 	// stateパターンに関する変数

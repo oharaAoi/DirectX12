@@ -13,6 +13,11 @@ void BossCoreAppearState::Init() {
 }
 
 void BossCoreAppearState::Update() {
+	if (pCore_->GetIsAppearReset()) {
+		appearTime_ = 3.0f;
+		pCore_->SetIsAppearReset(false);
+	}
+
 	if (1.0f > moveTime_) {
 		moveTime_ += GameTimer::DeltaTime();
 	}

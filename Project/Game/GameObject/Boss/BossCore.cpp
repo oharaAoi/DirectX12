@@ -178,7 +178,9 @@ void BossCore::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		}
 	} else {
 		if (other.GetTag() == "player") {
-			isFirstHit_ = true;
+			if (nowPlayerState_ == 1) {
+				isFirstHit_ = true;
+			}
 		} else if (other.GetTag() == "throwMissile") {
 			DecrementHp();
 		}
