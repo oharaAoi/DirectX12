@@ -30,7 +30,7 @@ void TestCollisionObj::Init() {
 
 void TestCollisionObj::Update() {
 
-	if (isfollowWire_) {
+	/*if (isfollowWire_) {
 		Vector3 position = player_->GetWireTip()->GetTransform()->GetTranslation();
 		position -= player_->GetTransform()->GetTranslation();
 		transform_->SetTranslaion(position);
@@ -58,7 +58,7 @@ void TestCollisionObj::Update() {
 	}
 	if (!player_->GetPull()) {
 		isPulling_ = false;
-	}
+	}*/
 
 	BaseGameObject::Update();
 }

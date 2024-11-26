@@ -49,6 +49,11 @@ void GameScene::Init() {
 	testCollisionObj_->Init();
 	testCollisionObj_->SetPlayer(player_.get());
 
+	testCollisionObj2_ = std::make_unique<TestCollisionObj>();
+	testCollisionObj2_->Init();
+	testCollisionObj2_->SetPlayer(player_.get());
+	testCollisionObj2_->GetTransform()->SetTranslaion({ -8.0f,7.0f,0.0f });
+
 
 	fall_ = std::make_unique<Fall>();
 	fall_->Init();
@@ -261,6 +266,7 @@ void GameScene::Draw() const {
 	gameObjectManager_->Draw();
 
 	testCollisionObj_->Draw();
+	testCollisionObj2_->Draw();
 
 	fall_->Draw();
 	fallStone_->Draw();
@@ -345,6 +351,7 @@ void GameScene::UpdateGameObject() {
 	}
 
 	testCollisionObj_->Update();
+	testCollisionObj2_->Update();
 
 	if (boss_->GetBossBarrier()->GetIsExpand()) {
 		fall_->Reset();
@@ -386,6 +393,7 @@ void GameScene::UpdateManager() {
 	collisionManager_->Reset();
 	collisionManager_->AddCollider(player_->GetWireTipCollider());
 	collisionManager_->AddCollider(testCollisionObj_.get());
+	collisionManager_->AddCollider(testCollisionObj2_.get());
 
 	// mesh
 	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
