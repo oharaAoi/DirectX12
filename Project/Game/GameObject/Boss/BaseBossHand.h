@@ -9,8 +9,8 @@
 #include "Engine/Math/Easing.h"
 #include "Game/Editer/BossAttackEditer.h"
 #include "Game/Action/IAttack.h"
-#include "Engine/2d/Sprite.h"
 #include "Game/GameObject/Player/Player.h"
+#include "Game/UI/Boss/BossHandHpUI.h"
 
 class BossGooAttack;
 
@@ -162,9 +162,9 @@ protected:
 	HandType handType_;
 
 	// Hp表記
-	std::unique_ptr<Sprite> hpSprite_;
+	std::unique_ptr<BossHandHpUI> bossHandHpUI_;
 	float hpSpriteDisplayTime_;
-	const float hpSpriteDisplayTimeLimit_ = 2.0f;
+	const float hpSpriteDisplayTimeLimit_ = 3.0f;
 
 	// -------------------------------------------------
 	// ↓ 状態に関する変数

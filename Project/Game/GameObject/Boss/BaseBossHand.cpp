@@ -26,7 +26,8 @@ void BaseBossHand::Init() {
 	// ↓ Spriteの初期化
 	// -------------------------------------------------
 
-	hpSprite_ = Engine::CreateSprite("kari_bossHp.png");
+	bossHandHpUI_ = std::make_unique<BossHandHpUI>();
+	bossHandHpUI_->Init(this);
 
 	// -------------------------------------------------
 	// ↓ メンバ変数の初期化
@@ -77,12 +78,7 @@ void BaseBossHand::Update() {
 	hpSpriteDisplayTime_ = std::clamp(hpSpriteDisplayTime_, 0.0f, hpSpriteDisplayTimeLimit_);
 	
 	// hpゲージを減らす
-	float hpRaito = hp_ / (float)kDurability_;
-	hpSprite_->SetUvMaxSize(Vector2(hpRaito, 1.0f));
-
-	Vector3 pos = Transform(Vector3::ZERO(), transform_->GetWorldMatrix() * Render::GetVpvpMat());
-	hpSprite_->SetTranslate(Vector2(pos.x, pos.y));
-	hpSprite_->Update();
+	bossHandHpUI_->Update((float)hp_, (float)kDurability_);
 
 	// -------------------------------------------------
 	// ↓ Objectの更新
@@ -107,7 +103,7 @@ void BaseBossHand::Draw() const {
 
 void BaseBossHand::DrawUI() const {
 	if(hpSpriteDisplayTime_ > 0.0f){
-		hpSprite_->Draw();
+		bossHandHpUI_->Draw();
 	}
 }
 

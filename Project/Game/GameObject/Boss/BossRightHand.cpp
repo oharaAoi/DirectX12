@@ -93,6 +93,8 @@ void BossRightHand::LoadAllFile() {
 void BossRightHand::Debug_Gui() {
 	ImGui::Begin("Boss_RightHand");
 
+	bossHandHpUI_->Debug_Gui();
+
 	if (ImGui::CollapsingHeader("SetParameter")) {
 		ImGui::BulletText("Set_Parameter");
 		ImGui::Indent(20.0f);

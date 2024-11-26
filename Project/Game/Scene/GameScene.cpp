@@ -279,8 +279,6 @@ void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
 	bossUI_->Draw();
 
-	boss_->DrawUI();
-
 	for (const auto& missile : missileList_) {
 		missile->DrawUI();
 	}
@@ -305,6 +303,8 @@ void GameScene::Draw() const {
 	for (const auto& missile : missileList_) {
 		missile->DrawReticle();
 	}
+
+	boss_->DrawUI();
 
 	playerUI_->Draw();
 }
