@@ -1,14 +1,17 @@
 #pragma once
 #include <memory>
 #include "Game/Scene/BaseScene.h"
+#include "TestCollisionObj.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Camera/DebugCamera.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/WorldObject/Field.h"
 #include "Game/GameObject/Player/Player.h"
-
+#include "Game/GameObject/Boss/BossCore.h"
+#include "Engine/Manager/CollisionManager.h"
 #include "Game/UI/Panel.h"
+#include "Engine/Manager/CollisionManager.h"
 
 class TutorialScene
 	: public BaseScene {
@@ -57,6 +60,13 @@ private:
 
 	// --- GameObject ------------------------------ //
 	std::unique_ptr<Player> player_;
+
+	std::unique_ptr<TestCollisionObj> leftSnaggeObj_;
+
+	std::unique_ptr<BossCore> bossCore_;
+
+	// --- Manager --------------------------------- //
+	std::unique_ptr<CollisionManager> collisionManager_;
 
 	// --- UI -------------------------------------- //
 	std::unique_ptr<Panel> panel_;

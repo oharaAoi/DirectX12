@@ -44,6 +44,21 @@ void TutorialScene::Init() {
 	player_ = std::make_unique<Player>();
 	player_->Init();
 
+	bossCore_ = std::make_unique<BossCore>();
+	bossCore_->Init();
+	bossCore_->SetBehaviorRequest(CoreState::Tutorial);
+
+	leftSnaggeObj_ = std::make_unique<TestCollisionObj>();
+	leftSnaggeObj_->Init();
+	leftSnaggeObj_->SetPlayer(player_.get());
+	leftSnaggeObj_->GetTransform()->SetTranslaion({ -6.0f,7.0f,0.0f });
+
+	// -------------------------------------------------
+	// ↓ Managerの初期化
+	// -------------------------------------------------
+	collisionManager_ = std::make_unique<CollisionManager>();
+	collisionManager_->Init();
+
 	// -------------------------------------------------
 	// ↓ 2d系の初期化
 	// -------------------------------------------------
@@ -94,6 +109,24 @@ void TutorialScene::Update() {
 	// -------------------------------------------------
 
 	panel_->Update();
+	bossCore_->Update();
+	leftSnaggeObj_->Update();
+
+	// -------------------------------------------------
+	// ↓ Managerの更新
+	// -------------------------------------------------
+
+	collisionManager_->Reset();
+	collisionManager_->AddCollider(player_->GetWireTipCollider());
+	collisionManager_->AddCollider(leftSnaggeObj_.get());
+
+	collisionManager_->AddCollider(player_->GetMeshCollider());
+	collisionManager_->AddCollider(bossCore_->GetMeshCollider());
+	if (!(!player_->GetIsStretchClutch() && !player_->GetIsReturnClutch())) {
+		collisionManager_->AddCollider(player_->GetWireTip()->GetMeshCollider());
+	}
+
+	collisionManager_->CheckAllCollision();
 
 	// -------------------------------------------------
 	// ↓ Cameraの更新
@@ -154,6 +187,8 @@ void TutorialScene::Draw() const {
 	// -------------------------------------------------
 
 	player_->Draw();
+	bossCore_->Draw();
+	leftSnaggeObj_->Draw();
 
 	// -------------------------------------------------
 	// ↓ UIの描画

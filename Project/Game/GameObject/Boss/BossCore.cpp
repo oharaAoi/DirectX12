@@ -3,6 +3,7 @@
 #include "Game/GameObject/Boss/BossCoreHideState.h"
 #include "Game/GameObject/Boss/BossCoreAppearState.h"
 #include "Game/GameObject/Boss/BossCoreGameStartState.h"
+#include "Game/GameObject/Boss/BossCoreTutorialState.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 
 BossCore::BossCore() {}
@@ -106,7 +107,6 @@ void BossCore::CheckRequest() {
 		switch (behavior_) {
 		case CoreState::Default:
 			SetBehaviorState(std::make_unique<BossCoreDefaultState>(this));
-
 			break;
 		case CoreState::Hide:
 			SetBehaviorState(std::make_unique<BossCoreHideState>(this));
@@ -116,6 +116,9 @@ void BossCore::CheckRequest() {
 			break;
 		case CoreState::GameStart:
 			SetBehaviorState(std::make_unique<BossCoreGameStartState>(this));
+			break;
+		case CoreState::Tutorial:
+			SetBehaviorState(std::make_unique<BossCoreTutorialState>(this));
 			break;
 		default:
 			break;
@@ -169,6 +172,10 @@ bool BossCore::SetFalsePlayerPullBack() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossCore::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
+	if (behavior_ == CoreState::Tutorial) {
+		return;
+	}
+
 	if (behavior_ != CoreState::GameStart) {
 		if (other.GetTag() == "player") {
 			if (nowPlayerState_ == 1) {

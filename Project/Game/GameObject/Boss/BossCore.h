@@ -11,6 +11,7 @@ enum class CoreState {
 	Hide,
 	Appear,
 	GameStart,
+	Tutorial,
 };
 
 
