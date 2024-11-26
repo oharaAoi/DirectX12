@@ -132,7 +132,7 @@ void WireTip::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 		isBossAttack_ = true;
 	}
 	if (other.GetTag() == "bomb") {
-		if (!isNeglect_ && !isPull_) {
+		if (!isNeglect_ && !isPull_ && !isSnagged_) {
 			isHit_ = true;
 			isPull_ = true;
 			weight_ = 0.5f;
