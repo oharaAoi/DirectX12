@@ -276,6 +276,9 @@ void Player::Move() {
 
 		}
 	}
+	if (!isAutoMove_) {
+		pos.x = std::clamp(pos.x , -18.0f, 18.0f);
+	}
 	transform_->SetTranslaion(pos);
 	if (!isPullBackObj_) {
 		beforePosition_ = pos;

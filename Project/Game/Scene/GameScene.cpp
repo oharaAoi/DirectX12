@@ -216,7 +216,7 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 #ifdef _DEBUG
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
-	DrawGrid(viewMat_, projectionMat_);
+	//DrawGrid(viewMat_, projectionMat_);
 
 	field_->Debug_Draw();
 	bossLeftAttackEditer_->Draw();
