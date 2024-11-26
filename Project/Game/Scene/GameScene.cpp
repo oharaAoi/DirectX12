@@ -244,6 +244,7 @@ void GameScene::Draw() const {
 	}
 	
 	bossUI_->Draw3dObject(player_->GetCanBossAttack(), isPullSign);
+	fall_->DrawUI3D();
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	for (auto& missile : missileList_) {

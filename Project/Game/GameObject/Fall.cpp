@@ -33,6 +33,13 @@ void Fall::Init() {
 
 	fallGuideUI_ = Engine::CreateSprite("kari_fallUI.png");
 
+	planes_["fallUI"] = std::make_unique<BaseGameObject>();
+	planes_["fallUI"]->Init();
+	planes_["fallUI"]->SetObject("plane.obj");
+	planes_["fallUI"]->SetTexture("point.png");
+	planes_["fallUI"]->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
+	planes_["fallUI"]->GetTransform()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,6 +85,13 @@ void Fall::Update() {
 	Vector2 scrennPos = Vector2(worldPos.x + 100, worldPos.y + 50);
 	fallGuideUI_->SetTranslate(scrennPos);
 	fallGuideUI_->Update();
+
+
+	uiTime_ += 9.0f * GameTimer::DeltaTime();
+	float sinSize = std::lerp(minVal_, maxVal_, (sinf(uiTime_) + 1.0f) * 0.5f);
+	planes_["fallUI"]->GetTransform()->SetScale({ sinSize,sinSize,1.0f });
+	planes_["fallUI"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), transform_->GetWorldMatrix()));
+	planes_["fallUI"]->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,6 +105,10 @@ void Fall::Draw() const {
 
 void Fall::DrawUI() const {
 	fallGuideUI_->Draw();
+}
+
+void Fall::DrawUI3D() {
+	planes_["fallUI"]->Draw();
 }
 
 void Fall::OnCollision([[maybe_unused]] Collider* other) {
