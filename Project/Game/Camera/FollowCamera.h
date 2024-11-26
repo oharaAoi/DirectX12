@@ -11,6 +11,8 @@ public:
 	void Init() override;
 	void Update() override;
 
+	void SetShakeTime(float t) { shakeTime_ = t; }
+
 #ifdef _DEBUG
 	void Debug_Gui() override;
 #endif
@@ -18,5 +20,6 @@ public:
 private:
 
 	Vector3 offset_;
+	float shakeTime_ = 0.0f;
 
 };

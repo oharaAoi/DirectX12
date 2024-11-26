@@ -1,4 +1,5 @@
 #include "FollowCamera.h"
+#include "Engine/Math/MyRandom.h"
 
 FollowCamera::FollowCamera() {
 	Init();
@@ -28,6 +29,19 @@ void FollowCamera::Update() {
 	// -------------------------------------------------
 	if (target_ != nullptr) {
 		transform_.translate.x = target_->GetTranslation().x + offset_.x;
+		transform_.translate.y = offset_.y;
+	}
+
+	if (shakeTime_ > 0.0f) {
+		shakeTime_ -= GameTimer::DeltaTime();
+		if (shakeTime_ < 0.0f) {
+			shakeTime_ = 0.0f;
+		}
+
+		float xRand = RandomFloat(-5.0f * shakeTime_, 5.0f * shakeTime_);
+		float yRand = RandomFloat(-5.0f * shakeTime_, 5.0f * shakeTime_);
+		transform_.translate.x += xRand * GameTimer::DeltaTime();
+		transform_.translate.y += yRand * GameTimer::DeltaTime();
 	}
 
 	BaseCamera::Update();

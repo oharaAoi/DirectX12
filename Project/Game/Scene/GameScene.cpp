@@ -153,6 +153,9 @@ void GameScene::Update() {
 	// -------------------------------------------------
 
 	debugCamera_->Update();
+	if ((boss_->GetBossLeftHand()->GetIsGroundSlap() || boss_->GetBossRightHand()->GetIsGroundSlap())) {
+		followCamera_->SetShakeTime(0.8f);
+	}
 	followCamera_->Update();
 
 	if (!isDebugCamera_) {
@@ -353,7 +356,9 @@ void GameScene::UpdateManager() {
 	collisionManager_->AddCollider(player_->GetMeshCollider());
 	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
 	collisionManager_->AddCollider(boss_->GetBossRightHand()->GetMeshCollider());
+	boss_->GetBossRightHand()->SetIsGroundSlap(false);
 	collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
+	boss_->GetBossLeftHand()->SetIsGroundSlap(false);
 	collisionManager_->AddCollider(fallStone_->GetMeshCollider());
 
 	if (!(!player_->GetIsStretchClutch() && !player_->GetIsReturnClutch())) {
