@@ -49,17 +49,9 @@ void BaseBossHand::Update() {
 		fallVelocity_ = Vector3::ZERO();
 	}
 
+	// 爆発していたら
 	if (isExplosion_) {
-		fallVelocity_ += fallAcceleration_ * GameTimer::DeltaTime();
-		Vector3 handPos = transform_->GetTranslation();
-		handPos += fallVelocity_ * GameTimer::DeltaTime();
-		transform_->SetTranslaion(handPos);
-
-		BaseGameObject::Update();
-
-		if (handPos.y <= -8.0f) {
-			isExplosion_ = false;
-		}
+		Explosion();
 		return;
 	}
 
@@ -217,6 +209,23 @@ void BaseBossHand::PrepareAttack(const AttackType& type) {
 
 void BaseBossHand::Attack() {
 	attackAction_->Attack();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　倒れる演出
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BaseBossHand::Explosion() {
+	fallVelocity_ += fallAcceleration_ * GameTimer::DeltaTime();
+	Vector3 handPos = transform_->GetTranslation();
+	handPos += fallVelocity_ * GameTimer::DeltaTime();
+	transform_->SetTranslaion(handPos);
+
+	BaseGameObject::Update();
+
+	if (handPos.y <= -8.0f) {
+		isExplosion_ = false;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

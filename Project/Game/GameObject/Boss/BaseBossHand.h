@@ -87,6 +87,11 @@ public:
 	void Attack();
 
 	/// <summary>
+	/// 倒れる演出
+	/// </summary>
+	void Explosion();
+
+	/// <summary>
 	/// 手とマウスカーソルが当たっているかを確認する
 	/// </summary>
 	/// <param name="worldTransform"></param>
@@ -165,7 +170,7 @@ protected:
 	bool isAlive_;
 	bool isExplosion_;
 	Vector3 fallVelocity_;
-	Vector3 fallAcceleration_ = Vector3(0.0f, -1.0f, 0.0f);
+	Vector3 fallAcceleration_ = Vector3(0.0f, -2.0f, 0.0f);
 
 	// -------------------------------------------------
 	// ↓ ファイルに保存する変数
