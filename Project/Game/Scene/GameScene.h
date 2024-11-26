@@ -92,8 +92,8 @@ private:
 
 	std::list<std::unique_ptr<Missile>> missileList_;
 
-	std::unique_ptr<TestCollisionObj> testCollisionObj_;
-	std::unique_ptr<TestCollisionObj> testCollisionObj2_;
+	std::unique_ptr<TestCollisionObj> rightSnaggeObj_;
+	std::unique_ptr<TestCollisionObj> leftSnaggeObj_;
 
 	
 	std::unique_ptr<Fall> fall_;

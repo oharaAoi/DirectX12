@@ -45,14 +45,14 @@ void GameScene::Init() {
 	boss_ = std::make_unique<Boss>();
 	boss_->Init();
 
-	testCollisionObj_ = std::make_unique<TestCollisionObj>();
-	testCollisionObj_->Init();
-	testCollisionObj_->SetPlayer(player_.get());
+	rightSnaggeObj_ = std::make_unique<TestCollisionObj>();
+	rightSnaggeObj_->Init();
+	rightSnaggeObj_->SetPlayer(player_.get());
 
-	testCollisionObj2_ = std::make_unique<TestCollisionObj>();
-	testCollisionObj2_->Init();
-	testCollisionObj2_->SetPlayer(player_.get());
-	testCollisionObj2_->GetTransform()->SetTranslaion({ -8.0f,7.0f,0.0f });
+	leftSnaggeObj_ = std::make_unique<TestCollisionObj>();
+	leftSnaggeObj_->Init();
+	leftSnaggeObj_->SetPlayer(player_.get());
+	leftSnaggeObj_->GetTransform()->SetTranslaion({ -8.0f,7.0f,0.0f });
 
 
 	fall_ = std::make_unique<Fall>();
@@ -265,8 +265,8 @@ void GameScene::Draw() const {
 
 	gameObjectManager_->Draw();
 
-	testCollisionObj_->Draw();
-	testCollisionObj2_->Draw();
+	rightSnaggeObj_->Draw();
+	leftSnaggeObj_->Draw();
 
 	fall_->Draw();
 	fallStone_->Draw();
@@ -350,8 +350,8 @@ void GameScene::UpdateGameObject() {
 		missile->Update();
 	}
 
-	testCollisionObj_->Update();
-	testCollisionObj2_->Update();
+	rightSnaggeObj_->Update();
+	leftSnaggeObj_->Update();
 
 	if (boss_->GetBossBarrier()->GetIsExpand()) {
 		fall_->Reset();
@@ -392,8 +392,8 @@ void GameScene::UpdateUI() {
 void GameScene::UpdateManager() {
 	collisionManager_->Reset();
 	collisionManager_->AddCollider(player_->GetWireTipCollider());
-	collisionManager_->AddCollider(testCollisionObj_.get());
-	collisionManager_->AddCollider(testCollisionObj2_.get());
+	collisionManager_->AddCollider(rightSnaggeObj_.get());
+	collisionManager_->AddCollider(leftSnaggeObj_.get());
 
 	// mesh
 	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
