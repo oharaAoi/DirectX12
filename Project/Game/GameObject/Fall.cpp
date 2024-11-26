@@ -18,10 +18,10 @@ void Fall::Finalize() {
 void Fall::Init() {
 	BaseGameObject::Init();
 	SetObject("cube.obj");
-	transform_->SetScale({ 1.0f, 2.0f, 1.0f });
-	transform_->SetTranslaion({ 0.0f, 19.0f, 12.0f });
+	transform_->SetScale({ 1.0f, 2.5f, 1.0f });
+	transform_->SetTranslaion({ 0.0f, 20.0f, 12.0f });
 
-	start_ = { 0.0f, 19.0f, 12.0f };
+	start_ = { 0.0f, 20.0f, 12.0f };
 	end_ = { 0.0f, 16.0f, 12.0f };
 
 	radius_ = 1.0f;
@@ -90,7 +90,10 @@ void Fall::Update() {
 	uiTime_ += 9.0f * GameTimer::DeltaTime();
 	float sinSize = std::lerp(minVal_, maxVal_, (sinf(uiTime_) + 1.0f) * 0.5f);
 	planes_["fallUI"]->GetTransform()->SetScale({ sinSize,sinSize,1.0f });
-	planes_["fallUI"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), transform_->GetWorldMatrix()));
+	Vector3 uiPos = Transform(Vector3::ZERO(), transform_->GetWorldMatrix());
+	uiPos.y -= 2.0f;
+	uiPos.z -= 2.0f;
+	planes_["fallUI"]->GetTransform()->SetTranslaion(uiPos);
 	planes_["fallUI"]->Update();
 }
 
@@ -108,7 +111,9 @@ void Fall::DrawUI() const {
 }
 
 void Fall::DrawUI3D() {
-	planes_["fallUI"]->Draw();
+	if (appearTime_ >= 1.0f && !isFalling_) {
+		planes_["fallUI"]->Draw();
+	}
 }
 
 void Fall::OnCollision([[maybe_unused]] Collider* other) {
@@ -149,7 +154,7 @@ bool Fall::CheckMouseNear(const Matrix4x4& vpvpMat) {
 
 	isNear_ = false;
 	// 長さを取って距離が近かったら
-	if ((mousePos - objectScreenPos_).Length() < 40.0f) {
+	if ((mousePos - objectScreenPos_).Length() < 70.0f) {
 		isNear_ = true;
 	}
 	return isNear_;
@@ -157,7 +162,7 @@ bool Fall::CheckMouseNear(const Matrix4x4& vpvpMat) {
 
 void Fall::Reset() {
 	velocity_.y = 0.0f;
-	transform_->SetTranslaion({ 0.0f, 19.0f, 12.0f });
+	transform_->SetTranslaion({ 0.0f, 20.0f, 12.0f });
 	isFalling_ = false;
 	energy_ = 0.0f;
 	isAppear_ = false;
