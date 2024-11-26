@@ -158,6 +158,8 @@ void Missile::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			if (isThrowed_) {
 				isAlive_ = false;
 			}
+		} else if (other.GetTag() == "boss_body") {
+			isAlive_ = false;
 		}
 	}
 }

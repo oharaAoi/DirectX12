@@ -30,6 +30,8 @@ public:
 
 	void AdaptAdjustment();
 
+	void DecrementHp(float raito = 1.0f);
+
 	void CheckRequest();
 	void SetBehaviorRequest(const CoreState& request) { behaviorRequest_ = request; }
 	void SetBehaviorState(std::unique_ptr<BaseObjectState> behaviorState) { state_ = std::move(behaviorState); }
