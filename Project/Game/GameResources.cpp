@@ -21,6 +21,7 @@ void GameResources::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Field/", "kair_field.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Field/", "kari_tutorialField.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Field/", "wall.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/Hook/", "hook.obj");
 	
 	// gameObject
 	ModelManager::LoadModel("./Game/Resources/Model/Boss_Body/", "boss_Body.gltf");

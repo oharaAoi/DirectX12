@@ -16,11 +16,12 @@ void TestCollisionObj::Finalize() {
 
 void TestCollisionObj::Init() {
 	BaseGameObject::Init();
-	SetObject("cube.obj");
+	SetObject("hook.obj");
 	transform_->SetScale({ 1.0f, 1.0f, 1.0f });
 	transform_->SetTranslaion({ 6.0f, 7.0f, 0.0f });
+	transform_->SetQuaternion(Quaternion::AngleAxis(90.0f * toRadian, Vector3::UP()));
 
-	radius_ = 1.0f;
+	radius_ = 0.4f;
 	tag_ = "hook";
 }
 
