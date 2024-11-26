@@ -20,6 +20,8 @@ void BossAttackState::Update() {
 		leftHand_->Attack();
 	}
 
+	CheckAlive();
+
 	if (pBoss_->GetAttackType() == AttackType::Missile_Attack) {
 		pBoss_->MissileAttack();
 	}
