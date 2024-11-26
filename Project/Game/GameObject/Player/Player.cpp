@@ -81,6 +81,12 @@ void Player::Update() {
 
 	playerAnimator_->Update();
 
+	// 画面外に行かない用に
+	Vector3 pos = transform_->GetTranslation();
+
+	if (!isAutoMove_) {
+		pos.x = std::clamp(pos.x, -18.0f, 18.0f);
+	}
 	BaseGameObject::Update();
 
 	wire_->Update();

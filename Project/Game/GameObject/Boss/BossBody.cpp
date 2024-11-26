@@ -12,6 +12,7 @@ void BossBody::Finalize() {}
 void BossBody::Init() {
 	BaseGameObject::Init();
 	SetObject("boss_Body.gltf");
+	SetAnimater("./Game/Resources/Model/Boss_Body/", "boss_Body.gltf", true, false, true);
 
 	// colliderの設定
 	SetMeshCollider("boss_body");
@@ -27,6 +28,14 @@ void BossBody::Init() {
 	AdaptAdjustment();
 
 	transform_->SetTranslaion(startPos_);
+
+	animationTime_ = 0.0f;
+	animationTransitionTime_ = 1.0f;
+
+	nowAnimatonName_ = "Stand_by";
+	waitAnimationName_ = "Stand_by";
+
+	animetor_->SetTransitionAnimation(nowAnimatonName_, "Stand_by");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +43,26 @@ void BossBody::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossBody::Update() {
+
+	animationTime_ += GameTimer::DeltaTime();
+	if (nowAnimatonName_ == waitAnimationName_) {
+		animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
+	} else if (animationTime_ >= animetor_->GetAnimationDuration()) {
+		if (!animetor_->GetIsAnimationChange()) {
+			ChangeAnimation(nowAnimatonName_, waitAnimationName_);
+		}
+	}
+
+	if (animetor_->GetIsAnimationChange()) {
+		if (preAnimatonName_ == waitAnimationName_) {
+			animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
+		}
+	}
+	
+	if (animetor_ != nullptr) {
+		animetor_->UpdateScript(animationTime_, animationTransitionTime_);
+	}
+
 	BaseGameObject::Update();
 }
 
@@ -62,6 +91,8 @@ void BossBody::AdaptAdjustment() {
 void BossBody::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "throwMissile") {
 		isDecrementHp_ = true;
+
+		ChangeAnimation(nowAnimatonName_, "Damage");
 	}
 }
 
@@ -71,9 +102,28 @@ void BossBody::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 void BossBody::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 }
 
-void BossBody::Debug_Draw() {
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
-	meshCollider_->Draw();
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Animationの変更
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossBody::ChangeAnimation(const std::string& preAnime, const std::string& afterAnime) {
+	if (nowAnimatonName_ == afterAnime) {
+		return;
+	}
+
+	animetor_->SetTransitionAnimation(preAnime, afterAnime);
+	preAnimatonName_ = preAnime;
+	nowAnimatonName_ = afterAnime;
+}
+
+void BossBody::NowToAfterAnimation(const std::string& afterAnime) {
+	if (nowAnimatonName_ == afterAnime) {
+		return;
+	}
+
+	animetor_->SetTransitionAnimation(nowAnimatonName_, afterAnime);
+	preAnimatonName_ = nowAnimatonName_;
+	nowAnimatonName_ = afterAnime;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,6 +131,11 @@ void BossBody::Debug_Draw() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
+void BossBody::Debug_Draw() {
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	meshCollider_->Draw();
+}
+
 void BossBody::Debug_Gui() {
 	ImGui::Begin("Boss_Body");
 	transform_->Debug_Gui();

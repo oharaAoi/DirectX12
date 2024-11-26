@@ -111,6 +111,7 @@ public:
 
 	// animationが終了しているかを取得
 	const bool GetIsAnimationFinish() const { return isAnimationFinish_; }
+	void SetIsAnimationFinish(bool isFinish) { isAnimationFinish_ = isFinish; }
 
 	// animatinoの切り替えがあるかを取得
 	const bool GetIsChange() const { return isAnimationChange_; }

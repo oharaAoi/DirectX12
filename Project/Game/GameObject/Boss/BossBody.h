@@ -23,9 +23,13 @@ public:
 	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
 	void OnCollisionExit([[maybe_unused]] MeshCollider& other);
 
-	void Debug_Draw();
+	void ChangeAnimation(const std::string& preAnime, const std::string& afterAnime);
+
+	void NowToAfterAnimation(const std::string& afterAnime);
 
 #ifdef _DEBUG
+	void Debug_Draw();
+
 	void Debug_Gui();
 #endif
 
@@ -43,5 +47,12 @@ private:
 	Vector3 defalutPos_;
 
 	bool isDecrementHp_;
+
+	float animationTime_;
+	float animationTransitionTime_ = 1.0f;
+
+	std::string nowAnimatonName_;// 今のanimationの名前
+	std::string preAnimatonName_;// 今のanimationの名前
+	std::string waitAnimationName_;// 待機時のanimationの名前
 };
 

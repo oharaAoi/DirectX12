@@ -241,6 +241,7 @@ void Boss::CheckAttackType(const AttackType& type) {
 	case AttackType::Missile_Attack:
 		rightHand_->SetIsAttackMove(false);
 		leftHand_->SetIsAttackMove(false);
+		body_->NowToAfterAnimation("Missail");
 		break;
 
 	case AttackType::MowDown_Attack:
@@ -254,6 +255,8 @@ void Boss::CheckAttackType(const AttackType& type) {
 			leftHand_->SetIsAttackMove(false);
 		}
 	}
+
+	attackType_ = type;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -309,7 +312,9 @@ void Boss::Debug_Gui() {
 		if (ImGui::Button("Set")) {
 			isSetAttack_ = true;
 			attackType_ = static_cast<AttackType>(attackTypeNum_);
-			leftHand_->PrepareAttack(attackType_);
+			if (attackType_ != AttackType::Missile_Attack) {
+				leftHand_->PrepareAttack(attackType_);
+			}
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Attack")) {
@@ -318,7 +323,9 @@ void Boss::Debug_Gui() {
 		}
 
 		if (isSetAttack_) {
-			leftHand_->GetIAttack()->Debug_Gui();
+			if (attackType_ != AttackType::Missile_Attack) {
+				leftHand_->GetIAttack()->Debug_Gui();
+			}
 		}
 
 		// eidterからファイル名を選ぶ

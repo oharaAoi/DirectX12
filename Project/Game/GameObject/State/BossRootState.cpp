@@ -38,16 +38,18 @@ void BossRootState::Update() {
 		pBoss_->SetBehaviorRequest(Behavior::ATTACK);
 		// 形態によって上限を決める
 		if (pBoss_->GetBossForm() == BossForm::FIRST) {
-			pBoss_->SetAttackType(static_cast<AttackType>(RandomInt(
-				0,
-				(static_cast<int>(AttackType::Missile_Attack))
-			)));
+			AttackType type = static_cast<AttackType>(RandomInt(0,(static_cast<int>(AttackType::Missile_Attack))));
+			while (type == pBoss_->GetAttackType()) {
+				type = static_cast<AttackType>(RandomInt(0, (static_cast<int>(AttackType::Missile_Attack))));
+			}
+			pBoss_->SetAttackType(type);
 
 		} else {
-			pBoss_->SetAttackType(static_cast<AttackType>(RandomInt(
-				0,
-				(static_cast<int>(AttackType::TOTAL) - 1)
-			)));
+			AttackType type = static_cast<AttackType>(RandomInt(0, (static_cast<int>(AttackType::TOTAL) - 1)));
+			while (type == pBoss_->GetAttackType()) {
+				type = static_cast<AttackType>(RandomInt(0, (static_cast<int>(AttackType::TOTAL) - 1)));
+			}
+			pBoss_->SetAttackType(type);
 		}
 	}
 }
