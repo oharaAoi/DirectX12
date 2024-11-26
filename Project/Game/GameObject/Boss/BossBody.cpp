@@ -11,7 +11,7 @@ void BossBody::Finalize() {}
 
 void BossBody::Init() {
 	BaseGameObject::Init();
-	SetObject("boss_body.obj");
+	SetObject("boss_Body.gltf");
 
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	adjust->AddItem(groupName_, "pos", defalutPos_);

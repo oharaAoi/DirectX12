@@ -172,7 +172,7 @@ protected:
 
 	uint32_t hp_;
 	uint32_t preHp_;
-	const uint32_t kDurability_ = 1;	// 耐久度
+	const uint32_t kDurability_ = 5;	// 耐久度
 
 	bool isAlive_;
 	bool isExplosion_;

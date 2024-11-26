@@ -7,6 +7,7 @@
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Camera/DebugCamera.h"
 #include "Game/WorldObject/Skydome.h"
+#include "Game/WorldObject/BackGround.h"
 #include "Game/WorldObject/Field.h"
 #include "Game/GameObject/Player/Player.h"
 #include "Game/GameObject/Boss/Boss.h"
@@ -81,6 +82,7 @@ private:
 
 	// --- WorldObject ----------------------------- //
 	std::unique_ptr<Skydome> skydome_;
+	std::unique_ptr<BackGround> backGround_;
 	std::unique_ptr<Field> field_;
 	
 	// --- GameObject ------------------------------ //

@@ -592,6 +592,7 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 					knockBack_LorR_ = 1;
 				}
 			}
+
 			isKnockBack_ = true;
 			isReturnClutch_ = true;
 			isStretching_ = false;
@@ -617,6 +618,7 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 				isStretching_ = false;
 				isPullBackObj_ = false;
 				wireTip_->SetNeglect(false);
+
 			} else if (other.GetSubTag() == "swing_hand") {
 				behaviorRequest_ = PlayerState::BeAttacked;
 				beAttackedType_ = BeAttackedType::SLAP_ATTACKED;

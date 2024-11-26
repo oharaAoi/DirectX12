@@ -261,6 +261,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\UI\Missile\MissileHitPoint.cpp" />
     <ClCompile Include="Game\UI\Panel.cpp" />
     <ClCompile Include="Game\UI\Player\PlayerUI.cpp" />
+    <ClCompile Include="Game\WorldObject\BackGround.cpp" />
     <ClCompile Include="Game\WorldObject\Field.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
     <ClCompile Include="main.cpp" />
@@ -429,6 +430,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\UI\Missile\MissileHitPoint.h" />
     <ClInclude Include="Game\UI\Panel.h" />
     <ClInclude Include="Game\UI\Player\PlayerUI.h" />
+    <ClInclude Include="Game\WorldObject\BackGround.h" />
     <ClInclude Include="Game\WorldObject\Field.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />
     <ClInclude Include="TestCollisionObj.h" />
