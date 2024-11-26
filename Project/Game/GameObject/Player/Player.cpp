@@ -342,7 +342,7 @@ void Player::DefaultMove(Vector3& pos) {
 		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, CallEasingFunc(easingIndex_, powf(clutchLerpTime_, 2.0f)));
 
 		float errorLength = (clutchEnd_ - Vector2{ pos.x,pos.y }).Length();
-		if (errorLength < 0.1f) {
+		if (errorLength < 0.05f) {
 			isStretchClutch_ = false;
 			isSnagged_ = false;
 			clutchLerpTime_ = 0.0f;
@@ -470,7 +470,7 @@ void Player::BaseClutch() {
 		Vector3 nowScale = wire_->GetTransform()->GetScale();
 
 		nowScale.y = std::lerp(nowScale.y, 0.0f, returnSpeed_);
-		if (nowScale.y < 0.05f) {
+		if (nowScale.y < 0.025f) {
 			nowScale.y = 0.0f;
 			isReturnClutch_ = false;
 			maxClutchLength_ = defaultMaxClutchLength_;
@@ -573,6 +573,7 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 				}
 			}
 			isKnockBack_ = true;
+			playerState = int(PlayerState::Default);
 		}
 	} else if (other.GetTag() == "missile") {
 		behaviorRequest_ = PlayerState::BeAttacked;

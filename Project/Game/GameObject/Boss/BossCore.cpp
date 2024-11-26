@@ -163,7 +163,10 @@ bool BossCore::SetFalsePlayerPullBack() {
 void BossCore::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (behavior_ != CoreState::GameStart) {
 		if (other.GetTag() == "player") {
-			hp_ -= decrementHp_;
+			if (nowPlayerState_ == 1) {
+				hp_ -= decrementHp_;
+			}
+
 		}
 	} else {
 		if (other.GetTag() == "player") {

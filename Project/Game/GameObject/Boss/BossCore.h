@@ -43,6 +43,7 @@ public:
 	bool GetFalling()const { return isFalling_; }
 	bool GetNear()const { return isNear_; }
 	const CoreState GetNowState()const { return behavior_; }
+	void SetPlayerState(int state) { nowPlayerState_ = state; }
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -87,6 +88,7 @@ private:
 
 	float hp_ = 100.0f;
 	float decrementHp_ = 10.0f;
+	int nowPlayerState_;
 
 	bool isFirstHit_;
 

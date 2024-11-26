@@ -109,6 +109,7 @@ public:
 	const BeAttackedType GetBeAttackedType() const { return beAttackedType_; }
 	void SetBeAttackedType(const BeAttackedType& beAttackedType) { beAttackedType_ = beAttackedType;}
 
+	int GetPlayerState()const { return int(playerState); }
 
 private:
 
