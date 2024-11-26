@@ -18,6 +18,7 @@ public:
 	void Init()override;
 	void Update() override;
 
+	void CheckAlive();
 
 #ifdef _DEBUG
 	void Debug_Gui() override;

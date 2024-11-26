@@ -262,6 +262,8 @@ void GameScene::Draw() const {
 	playerUI_->Draw();
 	bossUI_->Draw();
 
+	boss_->DrawUI();
+
 	for (const auto& missile : missileList_) {
 		missile->DrawUI();
 	}
@@ -349,11 +351,15 @@ void GameScene::UpdateManager() {
 	collisionManager_->AddCollider(testCollisionObj3_.get());
 
 	// mesh
+	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
+	if (boss_->GetBossRightHand()->GetIsAlive()) {
+		collisionManager_->AddCollider(boss_->GetBossRightHand()->GetMeshCollider());
+	}
+	if (boss_->GetBossLeftHand()->GetIsAlive()) {
+		collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
+	}
 	collisionManager_->AddCollider(field_->GetMeshCollider());
 	collisionManager_->AddCollider(player_->GetMeshCollider());
-	collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
-	collisionManager_->AddCollider(boss_->GetBossRightHand()->GetMeshCollider());
-	collisionManager_->AddCollider(boss_->GetBossLeftHand()->GetMeshCollider());
 	collisionManager_->AddCollider(fallStone_->GetMeshCollider());
 
 	if (!(!player_->GetIsStretchClutch() && !player_->GetIsReturnClutch())) {

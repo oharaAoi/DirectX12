@@ -22,25 +22,46 @@ void BaseBossHand::Init() {
 	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
 
 	// -------------------------------------------------
+	// ↓ Spriteの初期化
+	// -------------------------------------------------
+
+	hpSprite_ = Engine::CreateSprite("kari_bossHp.png");
+
+	// -------------------------------------------------
 	// ↓ メンバ変数の初期化
 	// -------------------------------------------------
+	hpSpriteDisplayTime_ = 0.0f;
+
 	isGroundSlap_ = false;
 
 	isAlive_ = true;
 
 	hp_ = kDurability_;
+	preHp_ = hp_;
 
 	nowAnimatonName_ = "stand_by";
 }
 
 void BaseBossHand::Update() {
-#ifdef _DEBUG
-	if (isClicked_) {
-		SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+	if (!isAlive_) {
+		isExplosion_ = true;
 	} else {
-		SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+		fallVelocity_ = Vector3::ZERO();
 	}
-#endif
+
+	if (isExplosion_) {
+		fallVelocity_ += fallAcceleration_ * GameTimer::DeltaTime();
+		Vector3 handPos = transform_->GetTranslation();
+		handPos += fallVelocity_ * GameTimer::DeltaTime();
+		transform_->SetTranslaion(handPos);
+
+		BaseGameObject::Update();
+
+		if (handPos.y <= -8.0f) {
+			isExplosion_ = false;
+		}
+		return;
+	}
 
 	/*if (isAttackMove_) {
 		AttackMove(transform_.get());
@@ -50,20 +71,46 @@ void BaseBossHand::Update() {
 		animetor_->UpdateScript(animationTime_, animationTransitionTime_);
 	}
 
-	/*if (animetor_ != nullptr) {
-		if (!animetor_->GetIsAnimationChange()) {
-			animationTime_ += GameTimer::DeltaTime();
-		}
-		animetor_->UpdateScript(animationTime_, animationTransitionTime_);
-		animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
-	}*/
+	// -------------------------------------------------
+	// ↓ Spriteの処理
+	// -------------------------------------------------
+	// Spriteの処理
+	hpSpriteDisplayTime_ -= GameTimer::DeltaTime();
+	hpSpriteDisplayTime_ = std::clamp(hpSpriteDisplayTime_, 0.0f, hpSpriteDisplayTimeLimit_);
+	
+	// hpゲージを減らす
+	float hpRaito = hp_ / (float)kDurability_;
+	hpSprite_->SetUvMaxSize(Vector2(hpRaito, 1.0f));
 
+	Vector3 pos = Transform(Vector3::ZERO(), transform_->GetWorldMatrix() * Render::GetVpvpMat());
+	hpSprite_->SetTranslate(Vector2(pos.x, pos.y));
+	hpSprite_->Update();
+
+	// -------------------------------------------------
+	// ↓ Objectの更新
+	// -------------------------------------------------
 	BaseGameObject::Update();
+
+	// -------------------------------------------------
+	// ↓ 更新後に行う処理
+	// -------------------------------------------------
+	if (hp_ != preHp_) {
+		hpSpriteDisplayTime_ = hpSpriteDisplayTimeLimit_;
+	}
+	preHp_ = hp_;
 }
 
 void BaseBossHand::Draw() const {
-	Engine::SetPipeline(PipelineType::NormalPipeline);
-	BaseGameObject::Draw();
+	if (isAlive_ || isExplosion_) {
+		Engine::SetPipeline(PipelineType::NormalPipeline);
+		BaseGameObject::Draw();
+	}
+}
+
+void BaseBossHand::DrawUI() const {
+	if(hpSpriteDisplayTime_ > 0.0f){
+		hpSprite_->Draw();
+	}
 }
 
 #ifdef _DEBUG
@@ -204,6 +251,27 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		--hp_;
 		if (hp_ <= 0) {
 			isAlive_ = false;
+			fallVelocity_ = { 0.0f, 3.0f, 0.0f };
+		}
+
+
+	} else if (other.GetTag() == "player") {
+		Player* player = dynamic_cast<Player*>(other.GetOwner());
+		if (player->GetWireTip()->GetIsBossAttack()) {
+			--hp_;
+			if (hp_ <= 0) {
+				isAlive_ = false;
+				fallVelocity_ = { 0.0f, 3.0f, 0.0f };
+			}
+		}
+
+	} else if (other.GetTag() == "bomb") {
+		if (meshCollider_->GetSubTag() != "wait_hand") {
+			--hp_;
+			if (hp_ <= 0) {
+				isAlive_ = false;
+				fallVelocity_ = { 0.0f, 3.0f, 0.0f };
+			}
 		}
 	}
 }

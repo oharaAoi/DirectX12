@@ -129,7 +129,6 @@ void WireTip::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 	} else if (other.GetTag() == "right_hand" && !isPull_ || other.GetTag() == "left_hand" && !isPull_) {
 		isHit_ = true;
 		isSnagged_ = true;
-
 		isBossAttack_ = true;
 	}
 	if (other.GetTag() == "bomb") {

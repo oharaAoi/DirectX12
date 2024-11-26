@@ -129,9 +129,9 @@ void Player::CheckBehaviorRequest() {
 void Player::OnCollision(MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
 
-		if (playerState == int(PlayerState::Attack)) {
-			isKnockBack_ = true;
-		}
+		//if (playerState == int(PlayerState::Attack)) {
+		//	isKnockBack_ = true;
+		//}
 
 	}
 }
@@ -627,8 +627,6 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 
 void Player::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "boss_core") {
-
-
 	}
 }
 
@@ -644,6 +642,10 @@ void Player::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 void Player::AdaptAdjustment() {
 	transform_->SetTranslaion(adjustItem_->GetValue<Vector3>(groupName_, "pos"));
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　自動で移動させる
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::AutoMove(const Vector3& velocity) {
 	velocity_ = velocity;
