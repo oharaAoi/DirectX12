@@ -203,4 +203,12 @@ void BossBarrier::Debug_Draw() {
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	meshCollider_->Draw();
 }
+
 #endif
+
+const bool BossBarrier::GetIsExpand() const {
+
+	bool is = (expand_.time < 0.1f) && expand_.isAct;
+
+	return is;
+}

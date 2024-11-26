@@ -116,6 +116,9 @@ void Boss::Update() {
 	rightHand_->SetBodyPos(body_->GetTransform()->GetTranslation());
 
 	body_->Update();
+	if (barrier_->GetIsExpand()) {
+		core_->SetBehaviorRequest(CoreState::Hide);
+	}
 	core_->Update();
 	eye_->Update();
 	leftHand_->Update();

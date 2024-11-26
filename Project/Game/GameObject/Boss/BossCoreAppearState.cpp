@@ -7,8 +7,8 @@ BossCoreAppearState::~BossCoreAppearState() {
 void BossCoreAppearState::Init() {
 	stateName_ = "appearState";
 
-	defaultPosition_ = { 0.0f,7.0f,-2.0f };
-	middlePosition_ = { 0.0f,13.0f,-9.0f };
+	defaultPosition_ = { 0.0f,7.0f,-8.0f };
+	middlePosition_ = { 0.0f,13.0f,-12.0f };
 	endPosition_ = { 0.0f,7.0f, -18.0f };
 }
 

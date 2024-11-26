@@ -69,6 +69,7 @@ public:
 	const bool GetEnableFunction() const { return enableFunction_; }
 	const bool GetBreakBarrier()const { return break_.isAct; }
 	const bool GetIsBreak()const { return isBreak_; }
+	const bool GetIsExpand()const;
 
 private:
 
