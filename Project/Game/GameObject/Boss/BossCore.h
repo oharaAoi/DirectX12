@@ -42,6 +42,7 @@ public:
 	void SetFalling(bool is) { isFalling_ = is; }
 	bool GetFalling()const { return isFalling_; }
 	bool GetNear()const { return isNear_; }
+	const CoreState GetNowState()const { return behavior_; }
 
 #ifdef _DEBUG
 	void Debug_Gui();
