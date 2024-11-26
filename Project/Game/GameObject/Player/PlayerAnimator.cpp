@@ -27,7 +27,7 @@ void PlayerAnimator::Init() {
 void PlayerAnimator::Update() {
 	if (pPlayerAnimator_ != nullptr) {
 		animtionTime_ += GameTimer::DeltaTime();
-		animtionTime_ = fmod(animtionTime_, pPlayerAnimator_->GetAnimationDuration());
+		animtionTime_ = std::fmod(animtionTime_, pPlayerAnimator_->GetAnimationDuration());
 		pPlayerAnimator_->UpdateScript(animtionTime_);
 	}
 }

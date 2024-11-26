@@ -185,9 +185,6 @@ void Player::CheckBossToLength(const Vector3& bossPos) {
 	} else {
 		canBossAttack_ = false;
 	}
-
-	/*Quaternion rotate = Quaternion::AngleAxis(0.44f, Vector3{1.0f, 1.0f, 1.0f});
-	Matrix4x4 mat = rotate.MakeMatrix();*/
 }
 
 Vector3 Player::GetThrowVelo() const {
@@ -250,7 +247,9 @@ void Player::Move() {
 
 	if (groundLine_ >= pos.y && velocity_.x == 0 && canBossAttack_ && behavior_ != PlayerState::Attack) {
 		targetRotate = 0.0f;
-		playerAnimator_->NowToAfterTransition("defalut");
+		if (!isPullBackObj_) {
+			playerAnimator_->NowToAfterTransition("defalut");
+		}
 	}
 
 	nowRotate = LerpShortAngle(nowRotate, targetRotate, 0.1f);
@@ -357,6 +356,8 @@ void Player::PullBackMove(Vector3& pos) {
 		isShakeBook_ = true;
 	}
 
+	targetRotate = 0.0f;
+	playerAnimator_->NowToAfterTransition("pull");
 }
 
 void Player::Clutch() {
