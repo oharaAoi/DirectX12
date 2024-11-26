@@ -18,6 +18,8 @@ void BossTransitionState::Update() {
 		pBoss_->SetBossForm(BossForm::SECOND);
 
 		pBoss_->GetBossBody()->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+		pBoss_->GetBossLeftHand()->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+		pBoss_->GetBossRightHand()->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 }
 
