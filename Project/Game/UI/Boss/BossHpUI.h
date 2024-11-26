@@ -6,19 +6,17 @@
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Game/GameObject/Boss/Boss.h"
 
-class BossUI {
+class BossHpUI {
 public:
 
-	BossUI(Boss* pBoss);
-	~BossUI();
+	BossHpUI(Boss* pBoss);
+	~BossHpUI();
 
 	void Init();
-	void Update(float bossHp, const Matrix4x4& vpvpMat);
+	void Update(float bossHp);
 	void Draw();
 
-	void Draw3dObject(bool canAttackBoss,bool isPullSign);
-
-	void AdaptAdjustment();
+	void ScaleUpBossHp();
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -26,16 +24,13 @@ public:
 
 private:
 
-	std::string groupName_ = "BossUI";
-
 	Boss* pBoss_;
-
-	std::unordered_map<std::string, std::unique_ptr<Sprite>> sprites_;
 
 	std::unordered_map<std::string, std::unique_ptr<BaseGameObject>> obj3d_;
 
-	float uiTime_ = 0.0f;
-	float maxVal_ = 2.5f;
-	float minVal_ = 2.0f;
+	bool isScaleUpBossHp_ = false;
+	float scaleUpTime_ = 0.0f;
+
+	float bossHp_;
 };
 

@@ -55,6 +55,8 @@ public:
 
 	void MissileAttack();
 
+	void RecoveryHp();
+
 public:
 
 	// ------------------- アクセッサ ------------------- //
@@ -85,6 +87,8 @@ public:
 	// 今の形態
 	const BossForm GetBossForm() const { return form_; }
 	void SetBossForm(BossForm form) { form_ = form; }
+
+	void SetIsRecovery() { isRecovery_ = true; }
 
 	// playerの座標を設定
 	const Vector3 GetPlayerPos() const { return playerPos_; }
@@ -168,6 +172,8 @@ private:
 	// 第二形態に遷移する
 	bool isTransitionForm_;
 	BossForm form_;
+
+	bool isRecovery_ = false;
 
 	// -------------------------------------------------
 	// ↓ Game開始時に必要な情報

@@ -46,6 +46,8 @@ void BossMowDownAttack::Attack() {
 	if (attackFunction_) {
 		attackFunction_();
 	}
+
+	pBossHand_->isGroundSlap_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -168,6 +168,11 @@ void RenderTarget::CreateRenderTarget() {
 	}
 }
 
+void RenderTarget::ClearRenderTarget(ID3D12GraphicsCommandList* commandList) {
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dxHeap_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
+	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　RenderTargetの状態を遷移させる
 //////////////////////////////////////////////////////////////////////////////////////////////////
