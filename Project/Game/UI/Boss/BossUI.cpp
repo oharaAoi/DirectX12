@@ -62,11 +62,21 @@ void BossUI::Update(float bossHp, const Matrix4x4& vpvpMat) {
 	planes_["coreClutch"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix()));
 	planes_["coreClutch"]->Update();
 
-	uiTime_ += 9.0f * GameTimer::DeltaTime();
-	float sinSize = std::lerp(minVal_, maxVal_, (sinf(uiTime_) + 1.0f) * 0.5f);
-	planes_["canClutchUI"]->GetTransform()->SetScale({ sinSize,sinSize,1.0f });
-	planes_["canClutchUI"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix()));
-	planes_["canClutchUI"]->Update();
+	if (uiTime_ > 0.0f) {
+		uiTime_ += 9.0f * GameTimer::DeltaTime();
+		float sinSize = std::lerp(minVal_, maxVal_, (sinf(uiTime_) + 1.0f) * 0.5f);
+		planes_["canClutchUI"]->GetTransform()->SetScale({ sinSize,sinSize,1.0f });
+		planes_["canClutchUI"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix()));
+		planes_["canClutchUI"]->Update();
+	}
+	else if (uiTime_ <= 0.0f) {
+		uiTime_ += 3.0f * GameTimer::DeltaTime();
+		float t = uiTime_ + 1.0f;
+		float uiSize = std::lerp(20.0f, 2.5f, t);
+		planes_["canClutchUI"]->GetTransform()->SetScale({ uiSize,uiSize,1.0f });
+		planes_["canClutchUI"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix()));
+		planes_["canClutchUI"]->Update();
+	}
 
 }
 
@@ -84,6 +94,9 @@ void BossUI::Draw3dObject(bool canAttackBoss,bool isPullSign){
 	}
 	if (isPullSign) {
 		planes_["canClutchUI"]->Draw();
+	}
+	else {
+		uiTime_ = -1.0f;
 	}
 }
 
