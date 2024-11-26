@@ -300,7 +300,6 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			}
 		}
 
-
 	} else if (other.GetTag() == "throwMissile") {
 		--hp_;
 		if (hp_ <= 0) {
