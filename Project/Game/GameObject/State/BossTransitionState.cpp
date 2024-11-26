@@ -13,7 +13,6 @@ void BossTransitionState::Update() {
 
 	} else {
 		pBoss_->GetBossBarrier()->SetEnableFunction(true);
-		pBoss_->GetBossBarrier()->SetBarrier();
 		pBoss_->SetBehaviorRequest(Behavior::ROOT);
 		pBoss_->SetBossForm(BossForm::SECOND);
 

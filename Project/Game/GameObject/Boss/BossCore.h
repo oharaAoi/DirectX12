@@ -63,6 +63,9 @@ public:
 	const bool GetIsFirstHit() const { return isFirstHit_; }
 	void SetIsFirstHit(bool isFirstHit) { isFirstHit_ = isFirstHit; }
 
+	const bool GetIsBarrierSet()const { return isBarrierSet_; }
+	void SetIsBarrierSet(bool is) { isBarrierSet_ = is; }
+
 	const CoreState GetCoreState() const { return behavior_; }
 
 private:
@@ -94,6 +97,7 @@ private:
 
 	bool isFirstHit_;
 
+	bool isBarrierSet_ = false;
 
 	std::unique_ptr<BaseObjectState> state_;
 	// stateパターンに関する変数

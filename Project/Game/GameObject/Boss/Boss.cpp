@@ -135,13 +135,14 @@ void Boss::Update() {
 	rightHand_->SetBodyPos(body_->GetTransform()->GetTranslation());
 
 	body_->Update();
-	if (barrier_->GetIsExpand() && (core_->GetNowState() == CoreState::Appear)) {
-		core_->SetBehaviorRequest(CoreState::Hide);
-	}
 	core_->Update();
 	eye_->Update();
 	leftHand_->Update();
 	rightHand_->Update();
+	if (form_ == BossForm::SECOND && core_->GetIsBarrierSet()) {
+		core_->SetIsBarrierSet(false);
+		barrier_->SetBarrier();
+	}
 	barrier_->Update();
 }
 
