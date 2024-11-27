@@ -31,6 +31,7 @@ void BossCoreGameStartState::Init() {
 void BossCoreGameStartState::Update() {
 	if (pCore_->GetIsFirstHit()) {
 		isMove_ = true;
+		pCore_->SetIsFirstHit(false);
 	}
 
 	if (isMove_) {

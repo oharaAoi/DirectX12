@@ -4,6 +4,7 @@ GameClearScene::GameClearScene() {}
 GameClearScene::~GameClearScene() {}
 
 void GameClearScene::Finalize() {
+	bgm_->Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +39,12 @@ void GameClearScene::Init() {
 	goTitle_->SetScale(Vector2{ 0.3f, 0.3f });
 	goTitle_->SetTranslate(Vector2{ 360.0f, 600.0f });
 
-
+	// -------------------------------------------------
+	// ↓ audio
+	// -------------------------------------------------
+	bgm_ = std::make_unique<AudioPlayer>();
+	bgm_->Init("gameClear.mp3");
+	bgm_->Play(true, 0.2f);
 
 	SpotLight* spotLight = Render::GetSporLight();
 	spotLight->AddAdjustment();

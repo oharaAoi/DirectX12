@@ -76,6 +76,13 @@ void GameResources::Load() {
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/TutorialScene/", "tutorial_03.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/TutorialScene/", "tutorial_04.png");
 
+	// BGM
+	AudioManager::LoadAudio("./Game/Resources/Audio/BGM/","FIRST_Buttle.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/BGM/","gameClear.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/BGM/","SECOND_Buttle.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/BGM/","title.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/BGM/","turorial.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/BGM/","gameOver.mp3");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

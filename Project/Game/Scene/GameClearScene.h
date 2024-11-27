@@ -9,6 +9,7 @@
 #include "Game/Camera/FollowCamera.h"
 #include "Game/GameObject/Player/TitlePlayer.h"
 #include "Game/UI/Panel.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 class GameClearScene 
 	: public BaseScene {
@@ -38,6 +39,9 @@ public:
 	Vector3 eyePos_;
 	Matrix4x4 viewMat_;
 	Matrix4x4 projectionMat_;
+
+	// --- audio -------------------------------------- //
+	std::unique_ptr<AudioPlayer> bgm_;
 
 
 	std::unique_ptr<FollowCamera> followCamera_;

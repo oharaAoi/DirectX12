@@ -5,6 +5,7 @@ TitleScene::TitleScene() {}
 TitleScene::~TitleScene() {}
 
 void TitleScene::Finalize() {
+	bgm_->Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +32,9 @@ void TitleScene::Init() {
 	panel_ = std::make_unique<Panel>();
 	panel_->Init();
 
+	bgm_ = std::make_unique<AudioPlayer>();
+	bgm_->Init("title.mp3");
+	bgm_->Play(true, 0.2f);
 
 	SpotLight* spotLight = Render::GetSporLight();
 	spotLight->AddAdjustment();
@@ -98,6 +102,7 @@ void TitleScene::Draw() const {
 void TitleScene::AutoUpdate() {
 	if (panel_->GetIsFinished()) {
 		nextSceneType_ = SceneType::TUTORIAL;
+		bgm_->Stop();
 		return;
 	}
 

@@ -4,7 +4,7 @@ TutorialScene::TutorialScene() {}
 TutorialScene::~TutorialScene() {}
 
 void TutorialScene::Finalize() {
-
+	bgm_->Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,6 +91,13 @@ void TutorialScene::Init() {
 	spotLight->AddAdjustment();
 	spotLight->AdaptAdjustment();
 	spotLight->Update();
+
+	// -------------------------------------------------
+	// ↓ audio
+	// -------------------------------------------------
+	bgm_ = std::make_unique<AudioPlayer>();
+	bgm_->Init("turorial.mp3");
+	bgm_->Play(true, 0.2f);
 
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う

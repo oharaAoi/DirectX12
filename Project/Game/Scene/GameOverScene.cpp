@@ -5,6 +5,7 @@ GameOverScene::GameOverScene() {}
 GameOverScene::~GameOverScene() {}
 
 void GameOverScene::Finalize() {
+	bgm_->Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +49,13 @@ void GameOverScene::Init() {
 
 	firstDistance_ = spotLight_->GetDistance();
 	targetDistance_ = 80.0f;
+
+	// -------------------------------------------------
+// ↓ audio
+// -------------------------------------------------
+	bgm_ = std::make_unique<AudioPlayer>();
+	bgm_->Init("gameOver.mp3");
+	bgm_->Play(false, 0.2f);
 
 	// -------------------------------------------------
 	// ↓ パラメータ初期化

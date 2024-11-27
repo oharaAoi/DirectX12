@@ -9,6 +9,7 @@ GameScene::~GameScene() {
 void GameScene::Finalize() {
 	gameObjectManager_->Finalize();
 	animationEffectManager_->Finalize();
+	bgm_->Finalize();
 }
 
 void GameScene::Init() {
@@ -109,6 +110,14 @@ void GameScene::Init() {
 	spotLight->AdaptAdjustment();
 
 	// -------------------------------------------------
+	// ↓ audio
+	// -------------------------------------------------
+	bgm_ = std::make_unique<AudioPlayer>();
+	bgm_->Init("turorial.mp3");
+	bgm_->Play(true, 0.2f);
+
+
+	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
 
@@ -127,11 +136,13 @@ void GameScene::Init() {
 void GameScene::Update() {
 	if (!player_->GetIsAlive()) {
 		nextSceneType_ = SceneType::GAMEOVER;
+		bgm_->Stop();
 		return;
 	}
 
 	if (!boss_->GetIsAlive()) {
 		nextSceneType_ = SceneType::GAMECLEAR;
+		bgm_->Stop();
 		return;
 	}
 
@@ -149,6 +160,12 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	if (!boss_->GetIsTransitionForm()) {
 		UpdateGameObject();
+
+		if (boss_->GetBossForm() == BossForm::FIRST) {
+			if (boss_->GetBossHp() <= 0.0f) {
+				bgm_->ReSet("SECOND_Buttle.mp3");
+			}
+		}
 	} else {
 		BossFormTransition();
 	}
@@ -165,6 +182,10 @@ void GameScene::Update() {
 
 	if (!finishAppear_) {
 		player_->SetNearBack(false);
+	}
+
+	if (boss_->GetBossCore()->GetIsFirstHit()) {
+		bgm_->ReSet("FIRST_Buttle.mp3");
 	}
 
 	// -------------------------------------------------
@@ -477,6 +498,7 @@ void GameScene::BossFormTransition() {
 		boss_->GetBossCore()->SetIsAppearReset(true);
 	}
 	if (bossFormTransitionTime_ >= bossFormTransitionTimeLimit_) {
+		bgm_->Play(true, 0.2f);
 		boss_->SetIsTransitionForm(false);
 	}
 }
@@ -498,6 +520,7 @@ void GameScene::AppearUpdate() {
 	}
 
 	if (boss_->GetIsAppear()) {
+		bgm_->Play(true, 0.2f);
 		finishAppear_ = true;
 	}
 }

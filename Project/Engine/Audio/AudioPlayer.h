@@ -48,6 +48,8 @@ public:
 
 	static void SinglShotPlay(const std::string& filePath, float volume);
 
+	void ReSet(const std::string& filePath);
+
 private:
 
 	AudioData audio_;

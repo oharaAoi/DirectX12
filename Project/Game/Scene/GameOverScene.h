@@ -7,6 +7,7 @@
 #include "Game/WorldObject/BackGround.h"
 #include "Game/GameObject/Boss/Boss.h"
 #include "Game/GameObject/Boss/BossController.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 class GameOverScene
 	: public BaseScene {
@@ -51,6 +52,9 @@ public:
 	SpotLight* spotLight_;
 	float firstDistance_;
 	float targetDistance_;
+
+	// --- audio -------------------------------------- //
+	std::unique_ptr<AudioPlayer> bgm_;
 
 	// パラメータ
 

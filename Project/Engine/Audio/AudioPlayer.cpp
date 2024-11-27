@@ -46,3 +46,13 @@ bool AudioPlayer::GetIsPlaying() {
 void AudioPlayer::SinglShotPlay(const std::string& filePath, float volume) {
 	Engine::SingleShotPlay(AudioManager::GetInstance()->GetAudioData(filePath), volume);
 }
+
+void AudioPlayer::ReSet(const std::string& filePath) {
+	if (audio_.pSourceVoice != nullptr) {
+		Engine::Stop(audio_);
+		audio_.pSourceVoice->DestroyVoice();
+		audio_.pSourceVoice = nullptr;
+	}
+
+	audio_ = Engine::LoadAudio(AudioManager::GetInstance()->GetAudioData(filePath));
+}

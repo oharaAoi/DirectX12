@@ -16,6 +16,8 @@
 #include "Game/UI/Panel.h"
 #include "Game/UI/Tutorial/TutorialUI.h"
 #include "Engine/Manager/CollisionManager.h"
+#include "Engine/Audio/AudioPlayer.h"
+
 
 class TutorialScene
 	: public BaseScene {
@@ -80,6 +82,9 @@ private:
 	// --- UI -------------------------------------- //
 	std::unique_ptr<Panel> panel_;
 	std::unique_ptr<TutorialUI> tutorialUI_;
+
+	// --- audio -------------------------------------- //
+	std::unique_ptr<AudioPlayer> bgm_;
 
 	bool isNextScene_ = false;
 };

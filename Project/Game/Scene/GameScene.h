@@ -24,6 +24,7 @@
 #include "Game/UI/Panel.h"
 #include "Game/Manager/AnimetionEffectManager.h"
 #include "Game/Manager/GameObjectManager.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 class GameScene 
 	: public BaseScene {
@@ -118,6 +119,9 @@ private:
 	// --- Edier ----------------------------------- //
 	std::unique_ptr<BossAttackEditer> bossLeftAttackEditer_;
 	std::unique_ptr<BossAttackEditer> bossRightAttackEditer_;
+
+	// --- audio -------------------------------------- //
+	std::unique_ptr<AudioPlayer> bgm_;
 	
 
 	//=============================
