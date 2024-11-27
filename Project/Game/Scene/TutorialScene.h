@@ -9,6 +9,8 @@
 #include "Game/WorldObject/Field.h"
 #include "Game/GameObject/Player/Player.h"
 #include "Game/GameObject/Boss/BossCore.h"
+#include "Game/GameObject/Fall.h"
+#include "Game/GameObject/FallStone.h"
 #include "Engine/Manager/CollisionManager.h"
 #include "Game/UI/Panel.h"
 #include "Engine/Manager/CollisionManager.h"
@@ -64,6 +66,9 @@ private:
 	std::unique_ptr<TestCollisionObj> leftSnaggeObj_;
 
 	std::unique_ptr<BossCore> bossCore_;
+
+	std::unique_ptr<Fall> fall_;
+	std::unique_ptr<FallStone> fallStone_;
 
 	// --- Manager --------------------------------- //
 	std::unique_ptr<CollisionManager> collisionManager_;

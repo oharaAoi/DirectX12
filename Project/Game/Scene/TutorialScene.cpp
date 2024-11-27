@@ -53,6 +53,15 @@ void TutorialScene::Init() {
 	leftSnaggeObj_->SetPlayer(player_.get());
 	leftSnaggeObj_->GetTransform()->SetTranslaion({ -6.0f,7.0f,0.0f });
 
+	fall_ = std::make_unique<Fall>();
+	fall_->Init();
+	fall_->SetAppear(true);
+	fall_->SetPlayer(player_.get());
+
+	fallStone_ = std::make_unique<FallStone>();
+	fallStone_->Init();
+
+
 	// -------------------------------------------------
 	// ↓ Managerの初期化
 	// -------------------------------------------------
@@ -112,6 +121,16 @@ void TutorialScene::Update() {
 	bossCore_->Update();
 	leftSnaggeObj_->Update();
 
+
+	if (fall_->GetTransform()->GetTranslation().y <= -10.0f) {
+		fall_->Reset();
+		fall_->SetAppear(true);
+		fallStone_->Reset();
+	}
+	fall_->Update();
+	fallStone_->SetFalling(fall_->GetFalling());
+	fallStone_->Update();
+
 	// -------------------------------------------------
 	// ↓ Managerの更新
 	// -------------------------------------------------
@@ -127,6 +146,24 @@ void TutorialScene::Update() {
 	}
 
 	collisionManager_->CheckAllCollision();
+
+
+	bool isFallNear_ = fall_->GetNear();
+	bool isCoreNear_ = bossCore_->GetNear();
+	if (!isCoreNear_) {
+		isFallNear_ = fall_->CheckMouseNear(followCamera_->GetVpvpMatrix());
+	}
+	if (!isFallNear_) {
+		isCoreNear_ = bossCore_->CheckMouseNear(followCamera_->GetVpvpMatrix());
+	}
+
+	if (isFallNear_ || isCoreNear_) {
+		player_->SetNearBack(true);
+	}
+	else {
+		player_->SetNearBack(false);
+	}
+
 
 	// -------------------------------------------------
 	// ↓ Cameraの更新
@@ -189,6 +226,8 @@ void TutorialScene::Draw() const {
 	player_->Draw();
 	bossCore_->Draw();
 	leftSnaggeObj_->Draw();
+	fall_->Draw();
+	fallStone_->Draw();
 
 	// -------------------------------------------------
 	// ↓ UIの描画
