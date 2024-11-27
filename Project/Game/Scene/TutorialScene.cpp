@@ -255,6 +255,7 @@ void TutorialScene::Draw() const {
 	fallStone_->Draw();
 
 	tutorialUI_->Draw();
+	fall_->DrawUI3D();
 
 	// -------------------------------------------------
 	// ↓ UIの描画

@@ -65,6 +65,7 @@ void Fall::Update() {
 
 		if (player_->GetPullBack()) {
 			energy_ += 10.0f * GameTimer::DeltaTime();
+			player_->EmitStone(transform_->GetTranslation());
 		}
 		if (energy_ >= canFallEnergy) {
 			player_->SetFalsePullBack();

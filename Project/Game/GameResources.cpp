@@ -39,6 +39,7 @@ void GameResources::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/TitlePlayer/", "TitlePlayer.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/FallRock/", "FallRock.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/PlaneSphere/", "planeSphere.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/miniStone/", "miniStone.obj");
 
 	// UI3D
 	ModelManager::LoadModel("./Game/Resources/Model/BossHP/", "bossGauge.obj");

@@ -35,9 +35,7 @@ void PlayerEffect::Init() {
 		newObj = std::make_unique<BaseGameObject>();
 		p->grain_ = std::move(newObj);
 		p->grain_->Init();
-		p->grain_->SetObject("minStone.obj");
-
-
+		p->grain_->SetObject("miniStone.obj");
 
 		stone_.push_back(std::move(p));
 	}
@@ -85,10 +83,53 @@ void PlayerEffect::Update() {
 
 	}
 
+	for (auto& p : stone_) {
+
+		if (!p->live_) {
+			continue;
+		}
+		if (p->lifeTime_ <= 0.0f) {
+			p->live_ = false;
+		}
+		else {
+			p->lifeTime_ -= GameTimer::DeltaTime();
+			if (p->lifeTime_ < 0.0f) {
+				p->lifeTime_ = 0.0f;
+			}
+		}
+
+
+		float u = p->lifeTime_ / p->maxLifeTime_;
+		float t = (1.0f - u);
+
+		Vector3 pos = p->grain_->GetTransform()->GetTranslation();
+		p->velocity_.x = std::lerp(p->startVelo_.x, p->endVelo_.x, Ease::Out::Quad(t));
+		p->velocity_.y = std::lerp(p->startVelo_.y, p->endVelo_.y, Ease::Out::Quad(t));
+		p->velocity_.z = std::lerp(p->startVelo_.z, p->endVelo_.z, Ease::Out::Quad(t));
+		pos += p->velocity_ * GameTimer::DeltaTime();
+		p->grain_->GetTransform()->SetTranslaion(pos);
+
+
+		float xSize = std::lerp(p->startSize_.x, p->endSize_.x, Ease::Out::Quad(t));
+		float ySize = std::lerp(p->startSize_.y, p->endSize_.y, Ease::Out::Quad(t));
+		float zSize = std::lerp(p->startSize_.z, p->endSize_.z, Ease::Out::Quad(t));
+		p->grain_->GetTransform()->SetScale({ xSize,ySize,zSize });
+
+		Vector4 co = p->grain_->GetColor();
+		p->grain_->SetColor({ co.x,co.y,co.z,Ease::In::Quad(u) });
+
+		p->grain_->Update();
+
+	}
 }
 
 void PlayerEffect::Draw() {
 	for (auto& p : fragument_) {
+		if (p->live_) {
+			p->grain_->Draw();
+		}
+	}
+	for (auto& p : stone_) {
 		if (p->live_) {
 			p->grain_->Draw();
 		}
@@ -191,12 +232,58 @@ void PlayerEffect::EmitDown(Vector3 pos, Vector2 dir) {
 		float angle = atan2(p->velocity_.y, p->velocity_.x);
 		p->grain_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(angle, Vector3::FORWARD()));
 		p->grain_->GetTransform()->SetTranslaion(pos);
-		p->grain_->SetColor({ 1.0f,0.8f,0.0f,1.0f });
 
 		p->grain_->Update();
 
 		count++;
 		if (count == 10) {
+			return;
+		}
+	}
+}
+
+void PlayerEffect::EmitStone(const Vector3& pos) {
+	if (fleshTime_>0.0f) {
+		fleshTime_ -= GameTimer::DeltaTime();
+		return;
+	}
+	int count = 0;
+	for (auto& p : stone_) {
+		if (p->live_) {
+			continue;
+		}
+
+		float yRand = RandomFloat(-8.0f, -6.0f);
+
+
+		p->maxLifeTime_ = 3.36f;
+		p->lifeTime_ = 3.36f;
+
+
+		p->velocity_ = { 0.0f,yRand,0.0f };
+		p->endVelo_ = { 0.0f,yRand * 2.0f,0.0f };
+
+		p->startVelo_ = { 0.0f,yRand,0.0f };
+
+
+		p->startSize_ = { 0.6f,0.6f,0.6f };
+		p->endSize_ = { 0.7f,0.7f,0.7f };
+		p->live_ = true;
+
+
+		float angle = atan2(p->velocity_.y, p->velocity_.x);
+		p->grain_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(angle, Vector3::FORWARD()));
+		p->grain_->GetTransform()->SetTranslaion(pos);
+		float xsub = RandomFloat(-15.0f, 15.0f);
+		p->grain_->GetTransform()->SetTranslationY(pos.y + 3.0f);
+		p->grain_->GetTransform()->SetTranslationX(pos.x + xsub);
+		p->grain_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
+
+		p->grain_->Update();
+
+		count++;
+		if (count == 2) {
+			fleshTime_ = 0.56f;
 			return;
 		}
 	}

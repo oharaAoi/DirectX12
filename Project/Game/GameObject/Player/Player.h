@@ -64,6 +64,7 @@ public:
 	bool GetIsKnockBack() { return isKnockBack_; }
 
 	WireTip* GetWireTip() { return wireTip_.get(); }
+	void EmitStone(const Vector3& pos) { fragment_->EmitStone(pos); }
 
 #ifdef _DEBUG
 	void Debug_Gui();

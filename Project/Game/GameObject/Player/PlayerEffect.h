@@ -29,11 +29,14 @@ public:
 	void EmitFragment(Vector3 pos, Vector2 dir);
 	void EmitDown(Vector3 pos, Vector2 dir);
 
+	void EmitStone(const Vector3& pos);
 
 private:
 
 	std::vector<std::unique_ptr<PlayersGrain>> fragument_;
 	std::vector<std::unique_ptr<PlayersGrain>> stone_;
 
+
+	float fleshTime_ = 0.0f;
 
 };
