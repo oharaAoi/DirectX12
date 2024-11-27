@@ -47,6 +47,8 @@ public:
 	/// </summary>
 	void DrawUI() const;
 
+	void Draw2dUI() const;
+
 	void CheckBehaviorRequest();
 
 	void CheckMouseCursolCollision(const Matrix4x4& vpvpMat);

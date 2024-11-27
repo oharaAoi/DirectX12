@@ -53,6 +53,8 @@ void GameResources::Load() {
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "kari_fallUI.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "blackPanel.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "point.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "danger.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "dangerGauge.png");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPoint.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPointGauge.png");

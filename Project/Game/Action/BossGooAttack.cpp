@@ -36,6 +36,8 @@ void BossGooAttack::Attack() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossGooAttack::Aim() {
+	pBossHand_->isDanderDraw_ = true;
+
 	if (pBossHand_->animationTime_ > 0.7f) {
 		pBossHand_->animationTime_ += GameTimer::DeltaTime();
 	}
@@ -75,6 +77,8 @@ void BossGooAttack::Aim() {
 		swingUpY_ = 0.0f;
 	}
 
+	pBossHand_->dangerGaugeUI_->SetUvMinSize(Vector2(0.0f, 1.0f - t));
+
 	pBossHand_->meshCollider_->SetSubTag("wait_hand");
 }
 
@@ -99,6 +103,8 @@ void BossGooAttack::Slap() {
 	pBossHand_->transform_->SetTranslaion(movePos);
 
 	pBossHand_->meshCollider_->SetSubTag("slap_attack");
+
+	pBossHand_->isDanderDraw_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,4 +128,5 @@ void BossGooAttack::Return() {
 	}
 
 	pBossHand_->meshCollider_->SetSubTag("wait_hand");
+	pBossHand_->isDanderDraw_ = false;
 }

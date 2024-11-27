@@ -73,6 +73,8 @@ void BossParAttack::Aim() {
 	}
 
 	pBossHand_->meshCollider_->SetSubTag("wait_hand");
+	pBossHand_->dangerGaugeUI_->SetUvMinSize(Vector2(0.0f, 1.0f - t));
+	pBossHand_->isDanderDraw_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +99,8 @@ void BossParAttack::Slap() {
 	pBossHand_->transform_->SetTranslaion(movePos);
 
 	pBossHand_->meshCollider_->SetSubTag("slap_attack");
+
+	pBossHand_->isDanderDraw_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,4 +124,6 @@ void BossParAttack::Return() {
 	}
 
 	pBossHand_->meshCollider_->SetSubTag("wait_hand");
+
+	pBossHand_->isDanderDraw_ = false;
 }

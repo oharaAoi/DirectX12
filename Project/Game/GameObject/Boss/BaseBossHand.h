@@ -58,6 +58,7 @@ public:
 	virtual void Draw() const override;
 
 	void DrawUI() const;
+	void Draw2dUI() const;
 
 	/// <summary>
 	/// Animationの時間を増加させる
@@ -147,6 +148,9 @@ public:
 	// 親となる胴体の座標を持っておく
 	void SetBodyPos(const Vector3& bodyPos) { bodyPos_ = bodyPos; }
 
+	const bool GetIsDangerDraw() { return isDanderDraw_; }
+	void SetIsDangerDraw(bool isDraw) { isDanderDraw_ = isDraw; }
+
 protected:
 
 	BossAttackEditer* pAttackEditer_ = nullptr;
@@ -224,6 +228,14 @@ protected:
 	std::string waitAnimationName_;// 待機時のanimationの名前
 
 	bool isIncrement_ = false;
+
+	// -------------------------------------------------
+	// ↓ dangerUI
+	// -------------------------------------------------
+
+	std::unique_ptr<Sprite> dangerUI_ = nullptr;
+	std::unique_ptr<Sprite> dangerGaugeUI_ = nullptr;
+	bool isDanderDraw_;
 
 	// -------------------------------------------------
 	// ↓ 他クラスの情報

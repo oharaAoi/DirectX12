@@ -174,6 +174,11 @@ void Boss::DrawUI() const {
 	leftHand_->DrawUI();
 }
 
+void Boss::Draw2dUI() const {
+	rightHand_->Draw2dUI();
+	leftHand_->Draw2dUI();
+}
+
 void Boss::CheckBehaviorRequest() {
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();

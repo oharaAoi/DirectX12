@@ -286,6 +286,7 @@ void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
 	bossUI_->Draw();
 
+	boss_->Draw2dUI();
 	for (const auto& missile : missileList_) {
 		missile->DrawUI();
 	}

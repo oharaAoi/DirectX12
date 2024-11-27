@@ -77,6 +77,8 @@ void BossMowDownAttack::Aim() {
 	}
 
 	pBossHand_->meshCollider_->SetSubTag("wait_hand");
+	pBossHand_->dangerGaugeUI_->SetUvMinSize(Vector2(0.0f, 1.0f - t));
+	pBossHand_->isDanderDraw_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,6 +106,8 @@ void BossMowDownAttack::MowDown() {
 	}
 
 	pBossHand_->meshCollider_->SetSubTag("swing_hand");
+
+	pBossHand_->isDanderDraw_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,6 +131,8 @@ void BossMowDownAttack::Return() {
 	}
 
 	pBossHand_->meshCollider_->SetSubTag("wait_hand");
+
+	pBossHand_->isDanderDraw_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -6,9 +6,7 @@
 #include "Game/Manager/GameObjectManager.h"
 #include "Game/Manager/AnimetionEffectManager.h"
 
-BaseBossHand::BaseBossHand() {
-}
-
+BaseBossHand::BaseBossHand() {}
 BaseBossHand::~BaseBossHand() {
 }
 
@@ -29,6 +27,9 @@ void BaseBossHand::Init() {
 
 	bossHandHpUI_ = std::make_unique<BossHandHpUI>();
 	bossHandHpUI_->Init(this);
+
+	dangerUI_ = Engine::CreateSprite("danger.png");
+	dangerGaugeUI_ = Engine::CreateSprite("dangerGauge.png");
 
 	// -------------------------------------------------
 	// ↓ メンバ変数の初期化
@@ -86,6 +87,28 @@ void BaseBossHand::Update() {
 	// -------------------------------------------------
 	BaseGameObject::Update();
 
+	// 危険マーク
+	if (isDanderDraw_) {
+		Vector3 dangerUIPos = worldPos_;
+		if (attackType_ == AttackType::GooSlap_Attack || attackType_ == AttackType::ParSlap_Attack) {
+			dangerUIPos.y = 1.0f;
+		} 
+		Vector3 handScrennPos = Transform(Vector3::ZERO(), dangerUIPos.MakeTranslateMat() * Render::GetVpvpMat());
+
+		if (attackType_ == AttackType::MowDown_Attack) {
+			if (handType_ == HandType::LEFT_HAND) {
+				handScrennPos.x = 1100.0f;
+			} else {
+				handScrennPos.x = 100.0f;
+			}
+		}
+		dangerUI_->SetTranslate(Vector2(handScrennPos.x, handScrennPos.y));
+		dangerGaugeUI_->SetTranslate(dangerUI_->GetTranslate());
+
+		dangerUI_->Update();
+		dangerGaugeUI_->Update();
+	}
+
 	// -------------------------------------------------
 	// ↓ 更新後に行う処理
 	// -------------------------------------------------
@@ -105,6 +128,13 @@ void BaseBossHand::Draw() const {
 void BaseBossHand::DrawUI() const {
 	if(hpSpriteDisplayTime_ > 0.0f){
 		bossHandHpUI_->Draw();
+	}
+}
+
+void BaseBossHand::Draw2dUI() const {
+	if (isDanderDraw_) {
+		dangerUI_->Draw();
+		dangerGaugeUI_->Draw();
 	}
 }
 
@@ -278,11 +308,14 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "field") {
 		isGroundSlap_ = true;
 		beforeAttackPos_ = transform_->GetTranslation();
+
 		// アニメーションを追加
-		Vector3 effectPos = worldPos_;
-		effectPos.y = 0.0f;
-		AnimetionEffectManager::AddListEffect("./Game/Resources/Model/Hand_Effect/", "Hand_Effect.gltf", 
-											  nullptr, false, Vector3(2.0f, 2.0f, 2.0f), Quaternion(), effectPos);
+		if (attackType_ == AttackType::GooSlap_Attack || attackType_ == AttackType::ParSlap_Attack) {
+			Vector3 effectPos = worldPos_;
+			effectPos.y = 0.0f;
+			AnimetionEffectManager::AddListEffect("./Game/Resources/Model/Hand_Effect/", "Hand_Effect.gltf",
+												  nullptr, false, Vector3(2.0f, 2.0f, 2.0f), Quaternion(), effectPos);
+		}
 
 		meshCollider_->SetSubTag("attacked");
 
