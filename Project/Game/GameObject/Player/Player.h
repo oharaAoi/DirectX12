@@ -124,6 +124,7 @@ public:
 
 	int GetPlayerState()const { return int(playerState); }
 	const bool GetIsShake()const { return isShakeBook_; }
+	const bool GetIsAttackShake()const { return isAttackShakeBook_; }
 
 private:
 
@@ -184,6 +185,7 @@ private:
 	float nowRotate = 0.0f;
 	float groundLine_ = 1.2f;
 	bool isShakeBook_ = false;
+	bool isAttackShakeBook_ = false;
 
 	// クラッチ
 	std::unique_ptr<ClutchWire> wire_;

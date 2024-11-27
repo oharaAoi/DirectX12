@@ -293,6 +293,7 @@ void Player::Move() {
 	}
 
 	isShakeBook_ = false;
+	isAttackShakeBook_ = false;
 	if (!isPullBackObj_) {
 		DefaultMove(pos);
 	} else {
@@ -685,7 +686,7 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 					knockBack_LorR_ = 1;
 				}
 			}
-			isShakeBook_ = true;
+			isAttackShakeBook_ = true;
 			isKnockBack_ = true;
 			fragment_->EmitFragment(other.GetObbCenter(), {float(knockBack_LorR_),0.0f});
 			playerState = int(PlayerState::Default);

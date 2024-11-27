@@ -212,9 +212,17 @@ void GameScene::Update() {
 	debugCamera_->Update();
 	if (player_->GetIsShake()) {
 		followCamera_->SetShakeTime(0.5f);
+		followCamera_->SetStrngth(5.0f);
+
+	}
+	if (player_->GetIsAttackShake()) {
+		followCamera_->SetShakeTime(0.7f);
+		followCamera_->SetStrngth(7.0f);
 	}
 	if ((boss_->GetBossLeftHand()->GetIsGroundSlap() || boss_->GetBossRightHand()->GetIsGroundSlap())) {
 		followCamera_->SetShakeTime(0.5f);
+		followCamera_->SetStrngth(5.0f);
+
 	}
 	followCamera_->Update();
 
