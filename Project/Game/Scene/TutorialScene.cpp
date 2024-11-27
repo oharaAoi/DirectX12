@@ -153,10 +153,7 @@ void TutorialScene::Update() {
 	if (!isCoreNear_) {
 		isFallNear_ = fall_->CheckMouseNear(followCamera_->GetVpvpMatrix());
 	}
-	if (!isFallNear_) {
-		isCoreNear_ = bossCore_->CheckMouseNear(followCamera_->GetVpvpMatrix());
-	}
-
+	
 	if (isFallNear_ || isCoreNear_) {
 		player_->SetNearBack(true);
 	}
