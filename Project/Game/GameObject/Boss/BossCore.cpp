@@ -170,7 +170,7 @@ bool BossCore::SetFalsePlayerPullBack() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　
-//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////da///////////////////////////////////////////////////////////////
 
 void BossCore::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (behavior_ == CoreState::Tutorial) {
@@ -181,9 +181,13 @@ void BossCore::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		if (other.GetTag() == "player") {
 			if (nowPlayerState_ == 1) {
 				DecrementHp();
+			} 
+		} else if (other.GetTag() == "right_hand" || other.GetTag() == "left_hand") {
+			if (other.GetSubTag() == "slap_attack" || other.GetSubTag() == "swing_hand") {
+				DecrementHp();
 			}
-
 		}
+
 	} else {
 		if (other.GetTag() == "player") {
 			if (nowPlayerState_ == 1) {
@@ -191,7 +195,7 @@ void BossCore::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			}
 		} else if (other.GetTag() == "throwMissile") {
 			DecrementHp();
-		}
+		} 
 	}
 }
 
