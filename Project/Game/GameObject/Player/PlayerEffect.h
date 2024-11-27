@@ -33,6 +33,7 @@ public:
 private:
 
 	std::vector<std::unique_ptr<PlayersGrain>> fragument_;
+	std::vector<std::unique_ptr<PlayersGrain>> stone_;
 
 
 };

@@ -26,6 +26,22 @@ void PlayerEffect::Init() {
 		fragument_.push_back(std::move(p));
 	}
 
+	for (int i = 0; i < 30; i++) {
+		std::unique_ptr<PlayersGrain> p;
+		p = std::make_unique<PlayersGrain>();
+
+		p->live_ = false;
+		std::unique_ptr<BaseGameObject> newObj;
+		newObj = std::make_unique<BaseGameObject>();
+		p->grain_ = std::move(newObj);
+		p->grain_->Init();
+		p->grain_->SetObject("minStone.obj");
+
+
+
+		stone_.push_back(std::move(p));
+	}
+
 }
 
 void PlayerEffect::Update() {
