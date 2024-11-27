@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "Game/Scene/BaseScene.h"
+#include "Game/WorldObject/BackGround.h"
 #include "TestCollisionObj.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Game/Camera/FollowCamera.h"
@@ -60,6 +61,8 @@ private:
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<Field> field_;
 	std::unique_ptr<BaseGameObject> wall_;
+
+	std::unique_ptr<BackGround> backGround_;
 
 	// --- GameObject ------------------------------ //
 	std::unique_ptr<Player> player_;

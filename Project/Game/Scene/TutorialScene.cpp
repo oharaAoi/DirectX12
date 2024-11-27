@@ -38,6 +38,9 @@ void TutorialScene::Init() {
 	wall_->Init();
 	wall_->SetObject("wall.obj");
 
+	backGround_ = std::make_unique<BackGround>();
+	backGround_->Init();
+
 	// -------------------------------------------------
 	// ↓ GameObjectの初期化
 	// -------------------------------------------------
@@ -110,6 +113,7 @@ void TutorialScene::Update() {
 	skydome_->Update();
 	field_->Update();
 	wall_->Update();
+	backGround_->Update();
 
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
@@ -231,6 +235,7 @@ void TutorialScene::Draw() const {
 
 	field_->Draw();
 	wall_->Draw();
+	backGround_->Draw();
 
 	// -------------------------------------------------
 	// ↓ GameObjectの描画
