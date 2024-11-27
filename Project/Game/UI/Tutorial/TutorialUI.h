@@ -26,6 +26,8 @@ private:
 
 	std::unique_ptr<BaseGameObject> gaide_[kGuideMax_];
 
+	std::unique_ptr<BaseGameObject> arrow_;
+
 	float popUpTime_ = 0.0f;
 	float popUpTimeLimit_ = 0.5f;
 

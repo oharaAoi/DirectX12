@@ -28,6 +28,14 @@ void TutorialUI::Init() {
 
 	gaide_[0]->GetTransform()->SetScale(Vector3(3.0f, 3.0f, 1.0f));
 
+	arrow_  = std::make_unique<BaseGameObject>();
+	arrow_ ->Init();
+	arrow_->SetObject("plane.obj");
+	arrow_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
+	arrow_->GetTransform()->SetScale(Vector3(4.0f, 1.4f, 1.4f));
+	arrow_->GetTransform()->SetTranslaion(Vector3(20.0f, 6.8f, -6.4f));
+	arrow_->SetTexture("Arrow.png");
+
 	AdaptItem();
 
 	nearIndex_ = 0;
@@ -57,12 +65,16 @@ void TutorialUI::Update(const Vector3& playerPos) {
 	} else {
 		preNearIndex = nearIndex_;
 	}
+
+	arrow_->Update();
 }
 
 void TutorialUI::Draw() const {
 	for (uint32_t oi = 0; oi < kGuideMax_; ++oi) {
 		gaide_[oi]->Draw();
 	}
+
+	arrow_->Draw();
 }
 
 void TutorialUI::AdaptItem() {
@@ -101,6 +113,8 @@ void TutorialUI::Debug_Gui() {
 		if (ImGui::Button("Adapt")) {
 			AdaptItem();
 		}
+
+		arrow_->Debug_Gui();
 	}
 	ImGui::End();
 }

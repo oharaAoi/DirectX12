@@ -1,6 +1,7 @@
 #pragma once
 #include "Game/Scene/BaseScene.h"
 #include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/2d/Sprite.h"
 #include "Game/Camera/Camera.h"
 #include "Game/Camera/DebugCamera.h"
 #include "Game/WorldObject/Skydome.h"
@@ -47,6 +48,11 @@ public:
 
 	std::unique_ptr<Boss> boss_;
 	std::unique_ptr<BossController> bossController_;
+
+	// --- 2d ------------------------------ //
+	std::unique_ptr<Sprite> A_sprite_;
+	std::unique_ptr<Sprite> D_sprite_;
+	std::unique_ptr<Sprite> Click_sprite_;
 
 	// --- Light ----------------------------------- //
 	SpotLight* spotLight_;
