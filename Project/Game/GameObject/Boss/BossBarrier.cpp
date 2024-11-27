@@ -1,4 +1,5 @@
 #include "BossBarrier.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 BossBarrier::BossBarrier() {}
 BossBarrier::~BossBarrier() {}
@@ -165,6 +166,7 @@ void BossBarrier::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	}
 	if (other.GetTag() == "fallStone") {
 		break_.isAct = true;
+		AudioPlayer::SinglShotPlay("barrierBreak.mp3", 0.3f);
 	}
 }
 

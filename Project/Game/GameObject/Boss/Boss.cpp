@@ -161,6 +161,7 @@ void Boss::Update() {
 	if (form_ == BossForm::SECOND && core_->GetIsBarrierSet()) {
 		core_->SetIsBarrierSet(false);
 		barrier_->SetBarrier();
+		AudioPlayer::SinglShotPlay("barrierExpand.mp3", 0.3f);
 	}
 	barrier_->Update();
 }
@@ -300,6 +301,8 @@ void Boss::MissileAttack() {
 	Vector3 randomPos = playerPos_;
 	randomPos.x += RandomFloat(-10.0f, 10.0f);
 	pGameScene_->AddMissile(randomPos, body_->GetTransform()->GetTranslation());
+
+	AudioPlayer::SinglShotPlay("fireMissile.mp3", 0.3f);
 }
 
 void Boss::RecoveryHp() {

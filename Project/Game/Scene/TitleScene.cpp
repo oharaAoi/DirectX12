@@ -122,6 +122,7 @@ void TitleScene::TitleUpdate() {
 	if (timeStep_ <= 0.0f) {
 		if (Input::IsTriggerKey(DIK_SPACE) || Input::IsTriggerMouse(0)) {
 			player_->TitleEnd();
+			AudioPlayer::SinglShotPlay("select.mp3", 0.3f);
 		}
 	}
 	else {

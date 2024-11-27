@@ -94,6 +94,7 @@ void GameOverScene::Update() {
 
 	if (Input::IsTriggerKey(DIK_A) || Input::IsTriggerKey(DIK_D)) {
 		goTitle_ = !goTitle_;
+		AudioPlayer::SinglShotPlay("select.mp3", 0.3f);
 	}
 
 	if (Input::IsTriggerKey(DIK_SPACE)) {
@@ -102,6 +103,7 @@ void GameOverScene::Update() {
 		} else {
 			nextSceneType_ = SceneType::GAME;
 		}
+		AudioPlayer::SinglShotPlay("select.mp3", 0.3f);
 	}
 
 	// -------------------------------------------------

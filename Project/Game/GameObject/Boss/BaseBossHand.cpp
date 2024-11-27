@@ -5,6 +5,7 @@
 #include "Game/Action/BossMowDownAttack.h"
 #include "Game/Manager/GameObjectManager.h"
 #include "Game/Manager/AnimetionEffectManager.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 BaseBossHand::BaseBossHand() {}
 BaseBossHand::~BaseBossHand() {
@@ -335,8 +336,10 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		isGroundSlap_ = true;
 		beforeAttackPos_ = transform_->GetTranslation();
 
-		// アニメーションを追加
+		// SE/アニメーションを追加
 		if (attackType_ == AttackType::GooSlap_Attack || attackType_ == AttackType::ParSlap_Attack) {
+			AudioPlayer::SinglShotPlay("slap.mp3", 0.4f);
+
 			Vector3 effectPos = worldPos_;
 			effectPos.y = 0.0f;
 			AnimetionEffectManager::AddListEffect("./Game/Resources/Model/Hand_Effect/", "Hand_Effect.gltf",
@@ -351,6 +354,8 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 				/*Vector3 pos = worldPos_;
 				pos.y += 18.0f;
 				GameObjectManager::PopBomb(pos, Vector3(0.0f, -0.4f, 0.0f));*/
+			} else {
+				AudioPlayer::SinglShotPlay("mowDown.mp3", 0.3f);
 			}
 		}
 

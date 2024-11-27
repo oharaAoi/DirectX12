@@ -114,7 +114,7 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	bgm_ = std::make_unique<AudioPlayer>();
 	bgm_->Init("turorial.mp3");
-	bgm_->Play(true, 0.2f);
+	bgm_->Play(true, 0.1f);
 
 
 	// -------------------------------------------------
@@ -498,7 +498,7 @@ void GameScene::BossFormTransition() {
 		boss_->GetBossCore()->SetIsAppearReset(true);
 	}
 	if (bossFormTransitionTime_ >= bossFormTransitionTimeLimit_) {
-		bgm_->Play(true, 0.2f);
+		bgm_->Play(true, 0.1f);
 		boss_->SetIsTransitionForm(false);
 	}
 }
@@ -520,7 +520,7 @@ void GameScene::AppearUpdate() {
 	}
 
 	if (boss_->GetIsAppear()) {
-		bgm_->Play(true, 0.2f);
+		bgm_->Play(true, 0.1f);
 		finishAppear_ = true;
 	}
 }

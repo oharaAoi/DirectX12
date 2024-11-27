@@ -3,9 +3,11 @@
 
 
 Player::Player() {}
-Player::~Player() {}
+Player::~Player() { Finalize(); }
 
 void Player::Finalize() {
+	pullSE_->Finalize();
+	strechWireSE_->Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,6 +58,15 @@ void Player::Init() {
 	AdaptAdjustment();
 
 	// -------------------------------------------------
+	// ↓ audio
+	// -------------------------------------------------
+	pullSE_ = std::make_unique<AudioPlayer>();
+	pullSE_->Init("objPull.mp3");
+	
+	strechWireSE_ = std::make_unique<AudioPlayer>();
+	strechWireSE_->Init("strechWire.mp3");
+	
+	// -------------------------------------------------
 	// ↓ 変数の初期化
 	// -------------------------------------------------
 	canBossAttack_ = false;
@@ -102,6 +113,16 @@ void Player::Update() {
 	predictionTip_->Update();
 
 	isAutoMove_ = false;
+
+	if (isPullBackObj_) {
+		pullSE_->Play(true, 0.3f, true);
+	} else {
+		pullSE_->Stop();
+	}
+
+	if (!isStretching_) {
+		strechWireSE_->Stop();
+	}
 
 	if (hp_ <= 0.0f) {
 		isAlive_ = false;
@@ -566,6 +587,11 @@ void Player::FirstClutch() {
 		isStretching_ = true;
 		isStretchClutch_ = true;
 		isRekey_ = false;
+
+		/*strechWireSE_->Play(false, 0.3f, true);
+		strechWireSE_->Play(false, 0.3f, true);*/
+		AudioPlayer::SinglShotPlay("strechWire.mp3", 0.3f);
+		
 	}
 
 }
@@ -643,6 +669,7 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			isShakeBook_ = true;
 			isKnockBack_ = true;
 			playerState = int(PlayerState::Default);
+			AudioPlayer::SinglShotPlay("bossCoreHited.mp3", 0.3f);
 		}
 	} else if (other.GetTag() == "missile") {
 		behaviorRequest_ = PlayerState::BeAttacked;
@@ -681,6 +708,8 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 					isStretching_ = false;
 					isPullBackObj_ = false;
 					wireTip_->SetNeglect(false);
+
+					AudioPlayer::SinglShotPlay("playerHited.mp3", 0.3f);
 				}
 
 			} else if (other.GetSubTag() == "slap_attack") {
@@ -733,6 +762,7 @@ void Player::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 
 void Player::DecrementHp() {
 	hp_ -= hpDecrement_;
+	AudioPlayer::SinglShotPlay("playerHited.mp3", 0.3f);
 
 	if (hp_ <= 0.0f) {
 		isAlive_ = false;

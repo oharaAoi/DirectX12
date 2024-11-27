@@ -83,6 +83,22 @@ void GameResources::Load() {
 	AudioManager::LoadAudio("./Game/Resources/Audio/BGM/","title.mp3");
 	AudioManager::LoadAudio("./Game/Resources/Audio/BGM/","turorial.mp3");
 	AudioManager::LoadAudio("./Game/Resources/Audio/BGM/","gameOver.mp3");
+
+	// SE
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "bossStartUp.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "bossMove.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "playerHited.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "bossCoreHited.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "slap.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "objPull.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "fireMissile.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "mowDown.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "missileHited.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "barrierExpand.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "barrierBreak.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "strechWire.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "select.mp3");
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

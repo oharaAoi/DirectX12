@@ -1,5 +1,6 @@
 #include "Missile.h"
 #include "Engine/Math/MyRandom.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 Missile::Missile() {}
 Missile::~Missile() {}
@@ -176,6 +177,7 @@ void Missile::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (meshCollider_->GetTag() == "missile") {
 		if (other.GetTag() == "player") {
 			isAlive_ = false;
+			AudioPlayer::SinglShotPlay("fireMissile.mp3", 0.3f);
 		} else if (other.GetTag() == "notCatchWireTip") {
 			// この時点でワイヤーのタグが変わっているためここで処理をする必要がない
 		}
@@ -184,12 +186,15 @@ void Missile::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	} else if (meshCollider_->GetTag() == "throwMissile") {
 		if (other.GetTag() == "boss_barrier") {
 			isAlive_ = false;
+			AudioPlayer::SinglShotPlay("fireMissile.mp3", 0.3f);
 		} else if (other.GetTag() == "right_hand" || other.GetTag() == "left_hand") {
 			if (isThrowed_) {
 				isAlive_ = false;
+				AudioPlayer::SinglShotPlay("fireMissile.mp3", 0.3f);
 			}
 		} else if (other.GetTag() == "boss_body") {
 			isAlive_ = false;
+			AudioPlayer::SinglShotPlay("fireMissile.mp3", 0.3f);
 		}
 	}
 }

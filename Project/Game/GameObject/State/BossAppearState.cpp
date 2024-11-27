@@ -2,6 +2,7 @@
 #include "Game/GameObject/Boss/Boss.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/Math/Easing.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 BossAppearState::~BossAppearState() {
 }
@@ -30,12 +31,14 @@ void BossAppearState::Update() {
 	} else if(!isShine_) {
 		isShine_ = true;
 		pBoss_->GetBossEye()->SetShine();
+		AudioPlayer::SinglShotPlay("bossStartUp.mp3", 0.3f);
 	}
 
 	// コアがしまわれたら目を光らせる
 	if (!pBoss_->GetBossEye()->GetIsShine()) {
 		if (!isAppear_) {
 			isAppear_ = true;
+			AudioPlayer::SinglShotPlay("bossMove.mp3", 0.3f);
 		}
 	} else {
 		return;

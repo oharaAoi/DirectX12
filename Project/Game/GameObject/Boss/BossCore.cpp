@@ -5,6 +5,7 @@
 #include "Game/GameObject/Boss/BossCoreGameStartState.h"
 #include "Game/GameObject/Boss/BossCoreTutorialState.h"
 #include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 BossCore::BossCore() {}
 BossCore::~BossCore() {}
@@ -99,6 +100,7 @@ void BossCore::AdaptAdjustment() {
 
 void BossCore::DecrementHp(float raito) {
 	hp_ -= decrementHp_ * raito;
+	AudioPlayer::SinglShotPlay("bossCoreHited.mp3", 0.3f);
 }
 
 void BossCore::CheckRequest() {
@@ -192,6 +194,7 @@ void BossCore::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		if (other.GetTag() == "player") {
 			if (nowPlayerState_ == 1) {
 				isFirstHit_ = true;
+				AudioPlayer::SinglShotPlay("bossCoreHited.mp3", 0.3f);
 			}
 		} else if (other.GetTag() == "throwMissile") {
 			DecrementHp();

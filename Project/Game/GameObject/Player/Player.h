@@ -10,6 +10,7 @@
 #include "Game/GameObject/State/PlayerBeAttackedState.h"
 #include "Game/GameObject/Player/PlayerAnimator.h"
 #include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 enum class PlayerState {
 	Default = 0,
@@ -248,6 +249,10 @@ private:
 	float hpLimit_ = 10.0f;
 
 	const float hpDecrement_ = 1.0f;
+
+	// --- audio -------------------------------------- //
+	std::unique_ptr<AudioPlayer> pullSE_;
+	std::unique_ptr<AudioPlayer> strechWireSE_;
 
 	/// ==========================================
 	/// 他クラスの情報

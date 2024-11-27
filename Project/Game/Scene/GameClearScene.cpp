@@ -142,6 +142,7 @@ void GameClearScene::ClearUpdate() {
 	if (Input::IsTriggerKey(DIK_SPACE) || Input::IsTriggerMouse(0)) {
 		isNextScene_ = true;
 		Input::SetNotAccepted(true);
+		AudioPlayer::SinglShotPlay("select.mp3", 0.3f);
 	}
 
 	player_->ClearUpdate();
