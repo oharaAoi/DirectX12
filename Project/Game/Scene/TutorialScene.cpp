@@ -58,12 +58,12 @@ void TutorialScene::Init() {
 	fall_->SetAppear(true);
 	fall_->SetPlayer(player_.get());
 	fall_->GetTransform()->SetTranslaion({ 10.0f, 20.0f, 12.0f });
-	fall_->SetInitPosX(10.0f);
+	fall_->SetInitPosX(12.0f);
 	
 	fallStone_ = std::make_unique<FallStone>();
 	fallStone_->Init();
 	fallStone_->SetAppear(true);
-	fallStone_->SetInitPosX(10.0f);
+	fallStone_->SetInitPosX(12.0f);
 
 	// -------------------------------------------------
 	// ↓ Managerの初期化

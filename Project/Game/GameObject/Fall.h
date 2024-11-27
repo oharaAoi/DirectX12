@@ -30,8 +30,8 @@ public:
 	void SetAppear(bool is) { isAppear_ = is; }
 
 	void SetInitPosX(float x) {
-		start_ = { x, 25.0f, 12.0f };
-		end_ = { x, 19.0f, 12.0f };
+		start_ = {x, 20.0f, 12.0f };
+		end_ = { x, 16.0f, 12.0f };
 	}
 
 #ifdef _DEBUG
