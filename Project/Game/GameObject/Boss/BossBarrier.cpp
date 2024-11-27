@@ -126,6 +126,7 @@ void BossBarrier::Expand() {
 
 	if (expand_.time >= expand_.timeLimit) {
 		expand_.isAct = false;
+		expand_.time = 0.0f;
 		hp_ = Durability_;
 	}
 }
