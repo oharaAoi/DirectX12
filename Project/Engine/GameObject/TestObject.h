@@ -2,8 +2,36 @@
 #include <memory>
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Engine/Collider/MeshCollider.h"
+#include "Engine/Lib/IJsonConverter.h"
 
 class TestObject : public BaseGameObject {
+public:
+
+	struct Test : IJsonConverter {
+		Vector3 pos;
+		float lifeTime;
+		float speed;
+		float hp;
+
+		json ToJson() const override {
+			return {
+				{"position", toJson(pos)},
+				{"lifeTime", lifeTime},
+				{"speed", speed},
+				{"hp", hp}
+			};
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "position", pos);
+			fromJson(jsonData, "lifeTime", lifeTime);
+			fromJson(jsonData, "speed", speed);
+			fromJson(jsonData, "hp", hp);
+		}
+
+		~Test() {};
+	};
+
 public:
 
 	TestObject();
@@ -17,7 +45,7 @@ public:
 	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
 	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
 	void OnCollisionExit([[maybe_unused]] MeshCollider& other);
-	
+
 
 #ifdef _DEBUG
 	void Debug_Gui();

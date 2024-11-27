@@ -158,6 +158,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\GameObject\TestObject.cpp" />
     <ClCompile Include="Engine\Input\Input.cpp" />
     <ClCompile Include="Engine\Lib\GameTimer.cpp" />
+    <ClCompile Include="Engine\Lib\IJsonConverter.cpp" />
     <ClCompile Include="Engine\Lib\Transform.cpp" />
     <ClCompile Include="Engine\Light\BaseLight.cpp" />
     <ClCompile Include="Engine\Light\DirectionalLight.cpp" />
@@ -271,6 +272,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Input\Input.h" />
     <ClInclude Include="Engine\Lib\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
+    <ClInclude Include="Engine\Lib\IJsonConverter.h" />
     <ClInclude Include="Engine\Lib\Transform.h" />
     <ClInclude Include="Engine\Lib\VertexData.h" />
     <ClInclude Include="Engine\Light\BaseLight.h" />
