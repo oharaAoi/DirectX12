@@ -22,6 +22,16 @@ void BaseBossHand::Init() {
 	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other); });
 
 	// -------------------------------------------------
+	// ↓ 影の初期化
+	// -------------------------------------------------
+	shadow_ = std::make_unique<BaseGameObject>();
+	shadow_->Init();
+	shadow_->SetObject("planeSphere.obj");
+	shadow_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(-180.0f * toRadian, Vector3::RIGHT()));
+	shadow_->GetTransform()->SetScale(Vector3(3.5f, 3.5f, 3.5f));
+	shadow_->SetColor(Vector4(0.0f, 0.0f, 0.0f, 1.0f));
+	
+	// -------------------------------------------------
 	// ↓ Spriteの初期化
 	// -------------------------------------------------
 
@@ -109,6 +119,13 @@ void BaseBossHand::Update() {
 		dangerGaugeUI_->Update();
 	}
 
+	Vector3 handPos = worldPos_;
+	handPos.y = 0.01f;
+	shadow_->GetTransform()->SetTranslaion(handPos);
+	shadow_->Update();
+
+	shadow_->Debug_Gui();
+
 	// -------------------------------------------------
 	// ↓ 更新後に行う処理
 	// -------------------------------------------------
@@ -122,6 +139,8 @@ void BaseBossHand::Draw() const {
 	if (isAlive_ || isExplosion_ || isRevival_) {
 		Engine::SetPipeline(PipelineType::NormalPipeline);
 		BaseGameObject::Draw();
+
+		shadow_->Draw();
 	}
 }
 
