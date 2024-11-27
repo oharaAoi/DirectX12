@@ -72,6 +72,7 @@ void Boss::Init() {
 
 void Boss::Update() {
 	// 登場状態なら基本行動をする
+
 	if (isAppear_) {
 		CheckBehaviorRequest();
 		state_->Update();
@@ -138,14 +139,6 @@ void Boss::Update() {
 		body_->SetIsDecrementHp(false);
 	}
 
-	if (form_ == BossForm::SECOND) {
-		if (!isRecovery_) {
-			if (bossHp_ <= 0.0f) {
-				isAlive_ = false;
-			}
-		}
-	}
-
 	// -------------------------------------------------
 	// ↓ 行列の更新
 	// -------------------------------------------------
@@ -164,6 +157,17 @@ void Boss::Update() {
 		AudioPlayer::SinglShotPlay("barrierExpand.mp3", 0.3f);
 	}
 	barrier_->Update();
+
+	if (form_ == BossForm::SECOND) {
+		if (!isRecovery_) {
+			if (bossHp_ <= 0.0f) {
+				body_->NowToAfterAnimation("Break");
+				if (body_->GetAnimationTime() >= body_->GetAnimetor()->GetAnimationClip()->GetAnimationDuration()) {
+					isAlive_ = false;
+				}
+			}
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -200,6 +204,14 @@ void Boss::Draw2dUI() const {
 }
 
 void Boss::CheckBehaviorRequest() {
+	if (form_ == BossForm::SECOND) {
+		if (!isRecovery_) {
+			if (bossHp_ <= 0.0f) {
+				return;
+			}
+		}
+	}
+
 	if (behaviorRequest_) {
 		behavior_ = behaviorRequest_.value();
 
@@ -240,7 +252,7 @@ void Boss::CheckAttackType(const AttackType& type) {
 	if (isHandBreak_) {
 		rightHand_->SetIsAttackMove(false);
 		leftHand_->SetIsAttackMove(false);
-		body_->NowToAfterAnimation("Missail");
+		body_->NowToAfterAnimation("Missile");
 		attackType_ = type;
 		return;
 	}
@@ -274,7 +286,7 @@ void Boss::CheckAttackType(const AttackType& type) {
 	case AttackType::Missile_Attack:
 		rightHand_->SetIsAttackMove(false);
 		leftHand_->SetIsAttackMove(false);
-		body_->NowToAfterAnimation("Missail");
+		body_->NowToAfterAnimation("Missile");
 		break;
 
 	case AttackType::MowDown_Attack:

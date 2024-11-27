@@ -129,11 +129,13 @@ private:
 	//=============================
 
 	float bossFormTransitionTime_ = 0.0f;
-	float bossFormTransitionTimeLimit_ = 5.0f;
+	float bossFormTransitionTimeLimit_ = 1.5f;
 
 	bool finishAppear_ = false;
 
 	bool isPlayerAutoMove_ = true;
+
+	bool isNextScene_ = false; 
 
 #ifdef _DEBUG
 	Vector3 bombPopPos_;

@@ -66,6 +66,7 @@ void GameResources::Load() {
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "clearUI.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "goTitle.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "dangerGauge.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "click.png");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPoint.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPointGauge.png");

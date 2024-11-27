@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/2d/Sprite.h"
 #include "Game/Scene/BaseScene.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/Camera/FollowCamera.h"
@@ -46,6 +47,8 @@ private:
 
 	// --- Title ------------------- //
 	std::unique_ptr<BaseGameObject> titleObj_;
+
+	std::unique_ptr<Sprite> click_;
 
 	std::unique_ptr<Panel> panel_;
 	bool isNextScene_ = false;

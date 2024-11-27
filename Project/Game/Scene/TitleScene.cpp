@@ -34,6 +34,10 @@ void TitleScene::Init() {
 	titleObj_->GetTransform()->SetScale(Vector3(0.35f, 0.35f, 0.35f));
 	titleObj_->GetTransform()->SetTranslaion(Vector3(-3.3f, 5.6f, 0.0f));
 
+	click_ = Engine::CreateSprite("click.png");
+	click_->SetTranslate(Vector2(500.0f, 560.0f));
+	click_->SetScale(Vector2(0.4f, 0.4f));
+
 	panel_ = std::make_unique<Panel>();
 	panel_->Init();
 
@@ -65,6 +69,7 @@ void TitleScene::Update() {
 		TitleUpdate();
 	}
 
+	click_->Update();
 	panel_->Update();
 	followCamera_->Update();
 
@@ -103,6 +108,7 @@ void TitleScene::Draw() const {
 	titleObj_->Draw();
 
 	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
+	click_->Draw();
 	panel_->Draw();
 
 }
@@ -127,7 +133,7 @@ void TitleScene::TitleUpdate() {
 	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
 	player_->SetCameraZDis(followCamera_->GetTranslate().z);
 
-	if (timeStep_ <= 0.0f) {
+	/*if (timeStep_ <= 0.0f) {
 		if (Input::IsTriggerKey(DIK_SPACE) || Input::IsTriggerMouse(0)) {
 			player_->TitleEnd();
 			AudioPlayer::SinglShotPlay("select.mp3", 0.3f);
@@ -135,7 +141,7 @@ void TitleScene::TitleUpdate() {
 	}
 	else {
 		timeStep_ -= GameTimer::DeltaTime();
-	}
+	}*/
 
 
 	player_->Update();
@@ -162,7 +168,7 @@ void TitleScene::ImGuiDraw() {
 		ImGui::TreePop();
 	}
 
-	titleObj_->Debug_Gui();
+	click_->Debug_Gui("click");
 
 	ImGui::End();
 }

@@ -38,6 +38,8 @@ public:
 	const bool GetIsDecrementHp() const { return isDecrementHp_; }
 	void SetIsDecrementHp(bool isDecrement) { isDecrementHp_ = isDecrement; }
 
+	const float GetAnimationTime() const { return animationTime_; }
+
 private:
 
 	std::string groupName_ = "BossBody";

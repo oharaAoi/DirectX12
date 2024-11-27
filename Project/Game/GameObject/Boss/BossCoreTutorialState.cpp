@@ -8,6 +8,8 @@ void BossCoreTutorialState::Init() {
 	stateName_ = "TutorialState";
 
 	pos_ = { 6.0f, 2.0f, 0.0f };
+
+
 }
 
 void BossCoreTutorialState::Update() {

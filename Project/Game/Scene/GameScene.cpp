@@ -120,7 +120,7 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
 	// -------------------------------------------------
-
+	isNextScene_ = false;
 	isPlayerAutoMove_ = true;
 	finishAppear_ = false;
 	Input::SetNotAccepted(false);
@@ -135,14 +135,31 @@ void GameScene::Init() {
 
 void GameScene::Update() {
 	if (!player_->GetIsAlive()) {
-		nextSceneType_ = SceneType::GAMEOVER;
-		bgm_->Stop();
-		return;
+		if (!isNextScene_) {
+			isNextScene_ = true;
+			panel_->SetBlackOut();
+			bgm_->Stop();
+			
+		} else if(panel_->GetIsFinished()) {
+			nextSceneType_ = SceneType::GAMEOVER;
+			return;
+		}
 	}
 
 	if (!boss_->GetIsAlive()) {
-		nextSceneType_ = SceneType::GAMECLEAR;
-		bgm_->Stop();
+		if (!isNextScene_) {
+			isNextScene_ = true;
+			panel_->SetBlackOut();
+			bgm_->Stop();
+
+		} else if (panel_->GetIsFinished()) {
+			nextSceneType_ = SceneType::GAMECLEAR;
+			return;
+		}
+	}
+
+	if (isNextScene_) {
+		panel_->Update();
 		return;
 	}
 

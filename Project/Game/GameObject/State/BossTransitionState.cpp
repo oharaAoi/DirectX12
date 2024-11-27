@@ -7,6 +7,8 @@ BossTransitionState::~BossTransitionState() {
 
 void BossTransitionState::Init() {
 	stateName_ = "TransitionState";
+
+	pBoss_->GetBossBody()->NowToAfterAnimation("Change");
 }
 
 void BossTransitionState::Update() {
