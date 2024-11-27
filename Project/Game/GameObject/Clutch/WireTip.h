@@ -3,6 +3,7 @@
 #include "Game/GameObject/CanThrowObject.h"
 #include "Engine/Collider/Collider.h"
 #include "Game/GameObject/Missile.h"
+#include "Game/GameObject/Player/PlayerEffect.h"
 
 class WireTip : public BaseGameObject,public Collider {
 public:
@@ -47,6 +48,9 @@ public:
 	bool GetSnagged()const { return isSnagged_; }
 	void SetSnagged(bool is) { isSnagged_ = is; }
 
+	bool GetNoAttack()const { return isNoAttack_; }
+	void SetNoAttack(bool is) { isNoAttack_ = is; }
+
 	bool GetPull()const { return isPull_; }
 	void SetPull(bool is) { isPull_ = is; }
 
@@ -76,6 +80,7 @@ private:
 	bool isCautch_ = false;
 	bool isFollow_ = false;
 	bool isSnagged_ = false;
+	bool isNoAttack_ = true;
 	bool isPull_ = false;
 	float weight_ = 0.0f;
 
@@ -86,5 +91,7 @@ private:
 
 	const std::string notCatchStateTag_ = "notCatchWireTip";
 	const std::string catchStateTag_ = "catchWireTip";
+
+
 
 };
