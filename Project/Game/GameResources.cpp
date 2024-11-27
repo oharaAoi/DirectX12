@@ -106,6 +106,7 @@ void GameResources::Load() {
 	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "fall.mp3");
 	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "missileGet.mp3");
 	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "throw.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "coreClutch.mp3");
 
 }
 

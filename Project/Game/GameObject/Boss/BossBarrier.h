@@ -62,7 +62,10 @@ public:
 	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
 
 	// バリアを貼る
-	void SetBarrier() { expand_.isAct = true; }
+	void SetBarrier() { 
+		expand_.isAct = true;
+		expand_.time = 0.0f;
+	}
 
 	// バリアを機能させる
 	void SetEnableFunction(bool isWork) { enableFunction_ = isWork; }

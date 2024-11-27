@@ -45,6 +45,8 @@ void BossCore::Init() {
 	hp_ = 100.0f;
 
 	isFirstHit_ = false;
+
+	isBarrierSet_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,6 +67,7 @@ void BossCore::Update() {
 			isFalsePullBack_ = true;
 			isFalling_ = true;
 			behaviorRequest_ = CoreState::Appear;
+			AudioPlayer::SinglShotPlay("coreClutch.mp3", 0.3f);
 		}
 
 	}
