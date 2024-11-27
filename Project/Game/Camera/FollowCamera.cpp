@@ -38,8 +38,8 @@ void FollowCamera::Update() {
 			shakeTime_ = 0.0f;
 		}
 
-		float xRand = RandomFloat(-5.0f * shakeTime_, 5.0f * shakeTime_);
-		float yRand = RandomFloat(-5.0f * shakeTime_, 5.0f * shakeTime_);
+		float xRand = RandomFloat(-5.0f + (1.0f - shakeTime_), 5.0f - (1.0f - shakeTime_));
+		float yRand = RandomFloat(-5.0f + (1.0f - shakeTime_), 5.0f - (1.0f - shakeTime_));
 		transform_.translate.x += xRand * GameTimer::DeltaTime();
 		transform_.translate.y += yRand * GameTimer::DeltaTime();
 	}

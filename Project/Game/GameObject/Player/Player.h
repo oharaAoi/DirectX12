@@ -30,6 +30,10 @@ public:
 	void Update() override;
 	void Draw() const override;
 
+	void TitleSet();
+	void TitleUpdate();
+	void TitleEnd();
+
 	/// <summary>
 	/// 状態を遷移させる
 	/// </summary>
@@ -249,6 +253,15 @@ private:
 	std::unique_ptr<PlayerAnimator> playerAnimator_ = nullptr;
 
 	AdjustmentItem* adjustItem_;
+
+
+
+	/// ==========================================
+	/// title用
+	/// ==========================================
+	float boundTime_ = 0.0f;
+	float minBound_ = -1.4f;
+	float maxBound_ = 0.7f;
 
 };
 

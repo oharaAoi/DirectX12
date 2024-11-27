@@ -109,6 +109,53 @@ void Player::Draw() const {
 	wireTip_->Draw();
 }
 
+
+void Player::TitleSet() {
+	clutchEnd_ = { 6.5f,20.0f };
+	maxClutchLength_ = 50.0f;
+	transform_->SetTranslaion(Vector3{ 6.5f,4.5f,0.0f });
+	isStretching_ = true;
+	isStretchClutch_ = true;
+	wire_->GetTransform()->SetTranslaion({ 1.0f,0.0f,0.0f });
+	wireTip_->GetTransform()->SetTranslaion({ 5.0f,16.0f,0.0f });
+}
+
+void Player::TitleUpdate() {
+
+	Vector3 pos = transform_->GetTranslation();
+	if (isSnagged_) {
+		clutchLerpTime_ += GameTimer::DeltaTime();
+		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, CallEasingFunc(easingIndex_, powf(clutchLerpTime_, 2.0f)));
+	}
+	else {
+		boundTime_ += 5.0f * GameTimer::DeltaTime();
+		float sinSize = std::lerp(minBound_, maxBound_, (sinf(boundTime_) + 1.0f) * 0.5f);
+		pos.y = 4.5f + sinSize;
+	}
+	transform_->SetTranslaion(pos);
+
+
+	Vector2 wireTipPos = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Normalize() * wire_->GetTransform()->GetScale().y;
+	wireTipPos += {transform_->GetTranslation().x, transform_->GetTranslation().y};
+	wireTip_->GetTransform()->SetTranslaion({ wireTipPos.x,wireTipPos.y, transform_->GetTranslation().z });
+
+	Stretching();
+
+
+
+	playerAnimator_->Update();
+
+	BaseGameObject::Update();
+
+	wire_->Update();
+	wireTip_->Update();
+}
+
+void Player::TitleEnd() {
+	isStretching_ = false;
+	isSnagged_ = true;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　状態の遷移
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -581,6 +628,7 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 					knockBack_LorR_ = 1;
 				}
 			}
+			isShakeBook_ = true;
 			isKnockBack_ = true;
 			playerState = int(PlayerState::Default);
 		}
