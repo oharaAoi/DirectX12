@@ -2,8 +2,9 @@
 #include <memory>
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Game/Scene/BaseScene.h"
+#include "Game/WorldObject/Skydome.h"
 #include "Game/Camera/FollowCamera.h"
-#include "Game/GameObject/Player/Player.h"
+#include "Game/GameObject/Player/TitlePlayer.h"
 #include "Game/UI/Panel.h"
 
 class TitleScene
@@ -38,8 +39,10 @@ private:
 
 	std::unique_ptr<FollowCamera> followCamera_;
 
+	std::unique_ptr<Skydome> skydome_;
 
-	std::unique_ptr<Player> player_;
+
+	std::unique_ptr<TitlePlayer> player_;
 
 
 	std::unique_ptr<Panel> panel_;

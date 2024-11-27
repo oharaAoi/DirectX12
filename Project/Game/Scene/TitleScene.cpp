@@ -19,12 +19,18 @@ void TitleScene::Init() {
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Init();
 
-	player_ = std::make_unique<Player>();
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Init();
+
+
+	player_ = std::make_unique<TitlePlayer>();
 	player_->Init();
 	player_->TitleSet();
 
+
 	panel_ = std::make_unique<Panel>();
 	panel_->Init();
+
 
 	SpotLight* spotLight = Render::GetSporLight();
 	spotLight->AddAdjustment();
@@ -37,6 +43,8 @@ void TitleScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TitleScene::Update() {
+
+	skydome_->Update();
 
 	if (isNextScene_) {
 		AutoUpdate();
@@ -79,6 +87,8 @@ void TitleScene::Update() {
 void TitleScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 
+	skydome_->Draw();
+
 	player_->Draw();
 
 
@@ -110,7 +120,7 @@ void TitleScene::TitleUpdate() {
 		player_->TitleEnd();
 	}
 
-	player_->TitleUpdate();
+	player_->Update();
 
 	Vector3 playerPos = player_->GetTransform()->GetTranslation();
 	if (playerPos.y >= 18.0f) {

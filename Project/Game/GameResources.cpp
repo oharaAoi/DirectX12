@@ -35,6 +35,7 @@ void GameResources::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Barrier/", "barrier.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Missile/", "missile.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Bomb/", "bomb.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/TitlePlayer/", "TitlePlayer.obj");
 
 	// UI3D
 	ModelManager::LoadModel("./Game/Resources/Model/BossHP/", "bossGauge.obj");
