@@ -99,10 +99,12 @@ void TitlePlayer::TitleEnd() {
 
 void TitlePlayer::ClearSet() {
 
-	SetObject("Player.obj");
+	SetObject("clearPlayerModel.obj");
 	maxClutchLength_ = 50.0f;
-	transform_->SetQuaternion(Quaternion::AngleAxis(3.4f, Vector3::UP()));
-	transform_->SetTranslaion(Vector3{ 3.0f,2.5f,-18.0f });
+	transform_->SetTranslaion(Vector3{ 4.5f,-0.8f,-8.2f });
+	transform_->SetQuaternion(Quaternion::AngleAxis(0.4f, Vector3::UP()));
+	transform_->SetScale({ 12.0f,12.0f,12.0f });
+	wireTip_->GetTransform()->SetScale({ 0.0f,0.0f,0.0f });
 
 }
 
@@ -183,7 +185,6 @@ void TitlePlayer::SetCameraZDis(float z) {
 
 #ifdef _DEBUG
 void TitlePlayer::Debug_Gui() {
-	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

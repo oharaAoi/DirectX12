@@ -35,8 +35,8 @@ void GameClearScene::Init() {
 	clearUI_->SetScale(Vector2{ 0.5f, 0.5f });
 	clearUI_->SetTranslate({ 400.0f,280.0f });
 
-	goTitle_= Engine::CreateSprite("goTitle.png");
-	goTitle_->SetScale(Vector2{ 0.3f, 0.3f });
+	goTitle_= Engine::CreateSprite("click.png");
+	goTitle_->SetScale(Vector2{ 0.4f, 0.4f });
 	goTitle_->SetTranslate(Vector2{ 360.0f, 600.0f });
 
 	// -------------------------------------------------
@@ -162,6 +162,8 @@ void GameClearScene::ClearUpdate() {
 #ifdef _DEBUG
 void GameClearScene::ImGuiDraw() {
 	ImGui::Begin("ClearScene");
+
+	player_->Debug_Gui();
 
 	if (ImGui::TreeNode("AdjustmentItem")) {
 		// Updateだが実質Gui表示なためここで更新
