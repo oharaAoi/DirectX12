@@ -104,19 +104,22 @@ void Boss::Update() {
 				rightHand_->SetIsNear(true);
 				near_ = "right";
 			}
+			isHandBreak_ = false;
 
 		} else if (leftHand_->GetIsAlive() && !rightHand_->GetIsAlive()) {
 			leftHand_->SetIsNear(true);
 			rightHand_->SetIsNear(false);
 			near_ = "left";
+			isHandBreak_ = false;
 
 		} else if (!leftHand_->GetIsAlive() && rightHand_->GetIsAlive()) {
 			leftHand_->SetIsNear(false);
 			rightHand_->SetIsNear(true);
 			near_ = "right";
+			isHandBreak_ = false;
 
 		} else if (!leftHand_->GetIsAlive() && !rightHand_->GetIsAlive()) {
-
+			isHandBreak_ = true;
 		}
 
 
@@ -232,7 +235,14 @@ void Boss::CheckMouseCursolCollision(const Matrix4x4& vpvpMat) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::CheckAttackType(const AttackType& type) {
-
+	// 手が両方壊されていた場合、ミサイルを撃つようにする
+	if (isHandBreak_) {
+		rightHand_->SetIsAttackMove(false);
+		leftHand_->SetIsAttackMove(false);
+		body_->NowToAfterAnimation("Missail");
+		attackType_ = type;
+		return;
+	}
 
 	switch (type) {
 	case AttackType::GooSlap_Attack:

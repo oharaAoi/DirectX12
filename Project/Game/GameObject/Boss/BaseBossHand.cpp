@@ -126,12 +126,20 @@ void BaseBossHand::Draw() const {
 }
 
 void BaseBossHand::DrawUI() const {
+	if (!isAlive_) {
+		return;
+	}
+
 	if(hpSpriteDisplayTime_ > 0.0f){
 		bossHandHpUI_->Draw();
 	}
 }
 
 void BaseBossHand::Draw2dUI() const {
+	if (!isAlive_) {
+		return;
+	}
+
 	if (isDanderDraw_) {
 		dangerUI_->Draw();
 		dangerGaugeUI_->Draw();
@@ -297,6 +305,7 @@ void BaseBossHand::SetDeth() {
 	isGroundSlap_ = false;
 	isAlive_ = false;
 	isExplosion_ = true;
+	isDanderDraw_ = false;
 	fallVelocity_ = { 0.0f, 3.0f, 0.0f };
 }
 
