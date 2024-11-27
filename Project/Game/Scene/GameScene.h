@@ -22,6 +22,7 @@
 #include "Game/UI/Boss/BossUI.h"
 #include "Game/UI/Boss/BossHpUI.h"
 #include "Game/UI/Panel.h"
+#include "Game/Manager/AnimetionEffectManager.h"
 #include "Game/Manager/GameObjectManager.h"
 
 class GameScene 
@@ -103,6 +104,8 @@ private:
 	std::unique_ptr<CollisionManager> collisionManager_;
 
 	GameObjectManager* gameObjectManager_;
+
+	AnimetionEffectManager* animationEffectManager_;
 
 	// --- UI -------------------------------------- //
 	std::unique_ptr<PlayerUI> playerUI_;

@@ -45,6 +45,8 @@ void GameResources::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/PlayerHp/", "playerHpGauge.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/PlayerHp/", "playerHpOutSide.obj");
 
+	// Effect
+	ModelManager::LoadModel("./Game/Resources/Model/Hand_Effect/", "Hand_Effect.gltf");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "star.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "kari_bossHp.png");

@@ -4,6 +4,7 @@
 #include "Game/Action/BossParAttack.h"
 #include "Game/Action/BossMowDownAttack.h"
 #include "Game/Manager/GameObjectManager.h"
+#include "Game/Manager/AnimetionEffectManager.h"
 
 BaseBossHand::BaseBossHand() {
 }
@@ -277,6 +278,11 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (other.GetTag() == "field") {
 		isGroundSlap_ = true;
 		beforeAttackPos_ = transform_->GetTranslation();
+		// アニメーションを追加
+		Vector3 effectPos = worldPos_;
+		effectPos.y = 0.0f;
+		AnimetionEffectManager::AddListEffect("./Game/Resources/Model/Hand_Effect/", "Hand_Effect.gltf", 
+											  nullptr, false, Vector3(2.0f, 2.0f, 2.0f), Quaternion(), effectPos);
 
 		meshCollider_->SetSubTag("attacked");
 
