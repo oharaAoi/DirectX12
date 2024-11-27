@@ -90,7 +90,8 @@ void TutorialScene::Init() {
 	isNextScene_ = false;
 
 	followCamera_->SetTarget(player_->GetTransform());
-
+	Input::SetNotAccepted(false);
+	panel_->SetBlackOutOpen();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

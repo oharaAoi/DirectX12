@@ -4,6 +4,7 @@
 #include "Game/Scene/BaseScene.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/GameObject/Player/Player.h"
+#include "Game/UI/Panel.h"
 
 class TitleScene
 	: public BaseScene {
@@ -16,6 +17,9 @@ public:
 	void Init() override;
 	void Update() override;
 	void Draw() const override;
+
+	void AutoUpdate();
+	void TitleUpdate();
 
 #ifdef _DEBUG
 	void ImGuiDraw();
@@ -38,5 +42,7 @@ private:
 	std::unique_ptr<Player> player_;
 
 
+	std::unique_ptr<Panel> panel_;
+	bool isNextScene_ = false;
 };
 

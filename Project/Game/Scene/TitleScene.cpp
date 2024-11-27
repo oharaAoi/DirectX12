@@ -23,6 +23,9 @@ void TitleScene::Init() {
 	player_->Init();
 	player_->TitleSet();
 
+	panel_ = std::make_unique<Panel>();
+	panel_->Init();
+
 	SpotLight* spotLight = Render::GetSporLight();
 	spotLight->AddAdjustment();
 	spotLight->AdaptAdjustment();
@@ -34,16 +37,16 @@ void TitleScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TitleScene::Update() {
-	if (Input::IsTriggerKey(DIK_SPACE)) {
-		player_->TitleEnd();
-	}
-	if (player_->GetTransform()->GetTranslation().y >= 18.0f) {
-		nextSceneType_ = SceneType::TUTORIAL;
-	}
-	player_->TitleUpdate();
 
+	if (isNextScene_) {
+		AutoUpdate();
+	}
+	else {
+		TitleUpdate();
+	}
+
+	panel_->Update();
 	followCamera_->Update();
-
 
 	Render::SetEyePos(followCamera_->GetWorldTranslate());
 	Render::SetViewProjection(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
@@ -77,6 +80,44 @@ void TitleScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 
 	player_->Draw();
+
+
+	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
+	panel_->Draw();
+
+}
+
+void TitleScene::AutoUpdate() {
+	if (panel_->GetIsFinished()) {
+		nextSceneType_ = SceneType::TUTORIAL;
+		return;
+	}
+
+	Vector3 playerPos = player_->GetTransform()->GetTranslation();
+	if (playerPos.y >= 18.0f) {
+		// ここでブラックアウトさせる
+		if (panel_->GetDoNoting()) {
+			panel_->SetBlackOut();
+		}
+	}
+}
+
+void TitleScene::TitleUpdate() {
+	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
+	player_->SetCameraZDis(followCamera_->GetTranslate().z);
+
+	if (Input::IsTriggerKey(DIK_SPACE)) {
+		player_->TitleEnd();
+	}
+
+	player_->TitleUpdate();
+
+	Vector3 playerPos = player_->GetTransform()->GetTranslation();
+	if (playerPos.y >= 18.0f) {
+		// ここでブラックアウトさせる
+		isNextScene_ = true;
+		Input::SetNotAccepted(true);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
