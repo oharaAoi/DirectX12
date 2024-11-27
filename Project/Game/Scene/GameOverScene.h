@@ -6,6 +6,7 @@
 #include "Game/WorldObject/Skydome.h"
 #include "Game/WorldObject/BackGround.h"
 #include "Game/GameObject/Boss/Boss.h"
+#include "Game/GameObject/Boss/BossController.h"
 
 class GameOverScene
 	: public BaseScene {
@@ -44,7 +45,18 @@ public:
 	// --- GameObject ------------------------------ //
 
 	std::unique_ptr<Boss> boss_;
+	std::unique_ptr<BossController> bossController_;
 
 	// --- Light ----------------------------------- //
 	SpotLight* spotLight_;
+	float firstDistance_;
+	float targetDistance_;
+
+	// パラメータ
+
+	bool isLight_ = false;
+	float lightUpTime_ = 0.0f;
+	float lightUpTimeLimit_ = 2.0f;
+
+	bool goTitle_ = false;
 };

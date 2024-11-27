@@ -1,5 +1,5 @@
 #include "GameOverScene.h"
-
+#include "Engine/Math/Easing.h"
 
 GameOverScene::GameOverScene() {}
 GameOverScene::~GameOverScene() {}
@@ -36,6 +36,9 @@ void GameOverScene::Init() {
 	boss_ = std::make_unique<Boss>();
 	boss_->Init();
 
+	bossController_ = std::make_unique<BossController>();
+	bossController_->Init(boss_.get());
+
 	// -------------------------------------------------
 	// ↓ ライト初期化
 	// -------------------------------------------------
@@ -43,6 +46,18 @@ void GameOverScene::Init() {
 	spotLight_->AddAdjustment();
 	spotLight_->AdaptAdjustment();
 
+	firstDistance_ = spotLight_->GetDistance();
+	targetDistance_ = 80.0f;
+
+	// -------------------------------------------------
+	// ↓ パラメータ初期化
+	// -------------------------------------------------
+	isLight_ = false;
+
+	lightUpTime_ = 0.0f;
+	lightUpTimeLimit_ = 3.5f;
+
+	goTitle_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +66,35 @@ void GameOverScene::Init() {
 
 void GameOverScene::Update() {
 
+	if (!isLight_) {
+		lightUpTime_ += GameTimer::DeltaTime();
+		float t = lightUpTime_ / lightUpTimeLimit_;
+		spotLight_->SetDistance(std::lerp(firstDistance_, targetDistance_, Ease::In::Quart(t)));
+
+		if (lightUpTime_ >= lightUpTimeLimit_) {
+			isLight_ = true;
+			goTitle_ = true;
+		}
+	}
+
 	boss_->Update();
+
+	if (isLight_) {
+		bossController_->Update(goTitle_);
+	}
+	bossController_->PostUpdate();
+
+	if (Input::IsTriggerKey(DIK_A) || Input::IsTriggerKey(DIK_D)) {
+		goTitle_ = !goTitle_;
+	}
+
+	if (Input::IsTriggerKey(DIK_SPACE)) {
+		if (!goTitle_) {
+			nextSceneType_ = SceneType::TITLE;
+		} else {
+			nextSceneType_ = SceneType::GAME;
+		}
+	}
 
 	// -------------------------------------------------
 	// ↓ worldObjの更新
@@ -112,6 +155,7 @@ void GameOverScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ GameObjectの描画
 	// -------------------------------------------------
+	bossController_->Draw();
 	boss_->Draw();
 
 	boss_->PostDraw();
@@ -144,6 +188,7 @@ void GameOverScene::Debug_Gui() {
 
 	if (ImGui::TreeNode("WorldObject")) {
 		backGround_->Debug_Gui();
+		bossController_->Debug_Gui();
 		ImGui::TreePop();
 	}
 

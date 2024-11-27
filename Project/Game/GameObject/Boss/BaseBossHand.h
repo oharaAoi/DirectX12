@@ -151,6 +151,8 @@ public:
 	const bool GetIsDangerDraw() { return isDanderDraw_; }
 	void SetIsDangerDraw(bool isDraw) { isDanderDraw_ = isDraw; }
 
+	const Quaternion GetLocalQuaternion() const { return localRotate_; }
+
 protected:
 
 	BossAttackEditer* pAttackEditer_ = nullptr;

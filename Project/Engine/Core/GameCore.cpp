@@ -65,7 +65,7 @@ void GameCore::Debug_Gui() {
 	ImGui::Begin("Scene");
 	sceneManger_->Show_Gui();
 	int type = (int)sceneType_;
-	ImGui::Combo("attackType##type", &type, "TITLE\0TUTORIAL\0GAME\0GAMECLEAR\0GAMEOVER\0TEST\0");
+	ImGui::Combo("attackType##type", &type, "TITLE\0TUTORIAL\0GAME\0GAMEOVER\0GAMECLEAR\0TEST\0");
 	sceneType_ = (SceneType)type;
 	if (ImGui::Button("Change")) {
 		sceneManger_->SetIsChange(true);
