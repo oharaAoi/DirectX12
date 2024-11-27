@@ -40,6 +40,17 @@ void GameOverScene::Init() {
 	bossController_ = std::make_unique<BossController>();
 	bossController_->Init(boss_.get());
 
+	A_sprite_ = Engine::CreateSprite("A.png");
+	D_sprite_ = Engine::CreateSprite("D.png");
+	Click_sprite_ = Engine::CreateSprite("click.png");
+
+	A_sprite_->SetTranslate(Vector2(508.0f, 60.0f));
+	A_sprite_->SetScale(Vector2(0.2f, 0.2f));
+	D_sprite_->SetTranslate(Vector2(776.0f, 60.0f));
+	D_sprite_->SetScale(Vector2(0.2f, 0.2f));
+	Click_sprite_->SetTranslate(Vector2(640.0f, 60.0f));
+	Click_sprite_->SetScale(Vector2(0.3f, 0.3f));
+
 	// -------------------------------------------------
 	// ↓ ライト初期化
 	// -------------------------------------------------
@@ -97,7 +108,7 @@ void GameOverScene::Update() {
 		AudioPlayer::SinglShotPlay("select.mp3", 0.3f);
 	}
 
-	if (Input::IsTriggerKey(DIK_SPACE)) {
+	if (Input::IsTriggerKey(DIK_SPACE) || Input::IsTriggerMouse(0)) {
 		if (!goTitle_) {
 			nextSceneType_ = SceneType::TITLE;
 		} else {
@@ -111,6 +122,10 @@ void GameOverScene::Update() {
 	// -------------------------------------------------
 	skydome_->Update();
 	backGround_->Update();
+
+	A_sprite_->Update();
+	D_sprite_->Update();
+	Click_sprite_->Update();
 
 	// -------------------------------------------------
 	// ↓ Cameraの更新
@@ -169,6 +184,11 @@ void GameOverScene::Draw() const {
 	boss_->Draw();
 
 	boss_->PostDraw();
+
+	Engine::SetPipeline(PipelineType::SpritePipeline);
+	A_sprite_->Draw();
+	D_sprite_->Draw();
+	Click_sprite_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -207,6 +227,10 @@ void GameOverScene::Debug_Gui() {
 		adjustmentItem_->Update();
 		ImGui::TreePop();
 	}
+
+	A_sprite_->Debug_Gui("A");
+	D_sprite_->Debug_Gui("D");
+	Click_sprite_->Debug_Gui("Click");
 
 	ImGui::End();
 }
