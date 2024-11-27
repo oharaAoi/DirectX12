@@ -15,10 +15,9 @@ void FallStone::Finalize() {
 
 void FallStone::Init() {
 	BaseGameObject::Init();
-	SetObject("cube.obj");
-	transform_->SetScale({ 4.0f, 3.0f, 3.0f });
+	SetObject("FallRock.obj");
+	transform_->SetScale({ 2.0f, 2.0f, 2.0f });
 	transform_->SetTranslaion({ 0.0f, 20.0f, 12.0f });
-
 
 	// Colliderの生成
 	SetMeshCollider("fallStone");

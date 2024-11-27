@@ -90,17 +90,33 @@ void Boss::Update() {
 		// ↓ playerの座標から右手と左手でどちらが近いかを計算しておく
 		// -------------------------------------------------
 
-		float playerToLeft = (playerPos_ - leftHand_->GetTransform()->GetTranslation()).Length();
-		float playerToRight = (playerPos_ - rightHand_->GetTransform()->GetTranslation()).Length();
+		
+		if (leftHand_->GetIsAlive() && rightHand_->GetIsAlive()) {
+			float playerToLeft = (playerPos_ - leftHand_->GetTransform()->GetTranslation()).Length();
+			float playerToRight = (playerPos_ - rightHand_->GetTransform()->GetTranslation()).Length();
 
-		if (playerToLeft < playerToRight) {
+			if (playerToLeft < playerToRight) {
+				leftHand_->SetIsNear(true);
+				rightHand_->SetIsNear(false);
+				near_ = "left";
+			} else {
+				leftHand_->SetIsNear(false);
+				rightHand_->SetIsNear(true);
+				near_ = "right";
+			}
+
+		} else if (leftHand_->GetIsAlive() && !rightHand_->GetIsAlive()) {
 			leftHand_->SetIsNear(true);
 			rightHand_->SetIsNear(false);
 			near_ = "left";
-		} else {
+
+		} else if (!leftHand_->GetIsAlive() && rightHand_->GetIsAlive()) {
 			leftHand_->SetIsNear(false);
 			rightHand_->SetIsNear(true);
 			near_ = "right";
+
+		} else if (!leftHand_->GetIsAlive() && !rightHand_->GetIsAlive()) {
+
 		}
 
 
@@ -200,7 +216,6 @@ void Boss::CheckBehaviorRequest() {
 		default:
 			break;
 		}
-
 		// 振る舞いをリセット
 		behaviorRequest_ = std::nullopt;
 	}
@@ -217,6 +232,8 @@ void Boss::CheckMouseCursolCollision(const Matrix4x4& vpvpMat) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::CheckAttackType(const AttackType& type) {
+
+
 	switch (type) {
 	case AttackType::GooSlap_Attack:
 		// プレイヤーとの距離が近い方のみ攻撃

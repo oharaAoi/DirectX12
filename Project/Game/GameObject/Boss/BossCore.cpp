@@ -19,7 +19,8 @@ void BossCore::Finalize() {
 void BossCore::Init() {
 	BaseGameObject::Init();
 	SetObject("boss_core.obj");
-
+	SetColor(Vector4(0.8f, 0.8f, 0.0f, 1.0f));
+	
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
 	adjust->AddItem(groupName_, "pos", transform_->GetTranslation());
 
@@ -67,7 +68,7 @@ void BossCore::Update() {
 
 	}
 	else {
-		SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+		SetColor(Vector4(0.8f, 0.8f, 0.0f, 1.0f));
 	}
 
 	state_->Update();

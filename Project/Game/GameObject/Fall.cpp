@@ -118,7 +118,7 @@ void Fall::Update() {
 
 void Fall::Draw() const {
 
-	BaseGameObject::Draw();
+	//BaseGameObject::Draw();
 }
 
 void Fall::DrawUI() const {
