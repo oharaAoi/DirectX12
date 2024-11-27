@@ -224,6 +224,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameObject\Boss\Boss.cpp" />
     <ClCompile Include="Game\GameObject\Boss\BossBarrier.cpp" />
     <ClCompile Include="Game\GameObject\Boss\BossBody.cpp" />
+    <ClCompile Include="Game\GameObject\Boss\BossController.cpp" />
     <ClCompile Include="Game\GameObject\Boss\BossCore.cpp" />
     <ClCompile Include="Game\GameObject\Boss\BossCoreAppearState.cpp" />
     <ClCompile Include="Game\GameObject\Boss\BossCoreDefaultState.cpp" />
@@ -395,6 +396,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\GameObject\Boss\Boss.h" />
     <ClInclude Include="Game\GameObject\Boss\BossBarrier.h" />
     <ClInclude Include="Game\GameObject\Boss\BossBody.h" />
+    <ClInclude Include="Game\GameObject\Boss\BossController.h" />
     <ClInclude Include="Game\GameObject\Boss\BossCore.h" />
     <ClInclude Include="Game\GameObject\Boss\BossCoreAppearState.h" />
     <ClInclude Include="Game\GameObject\Boss\BossCoreDefaultState.h" />
