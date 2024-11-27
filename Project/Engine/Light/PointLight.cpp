@@ -21,7 +21,7 @@ void PointLight::Finalize() {
 }
 
 void PointLight::Update() {
-	BaseLight::Update();
+
 }
 
 void PointLight::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {

@@ -19,8 +19,12 @@ void SpotLight::Init(ID3D12Device* device, const size_t& size) {
 	spotLightData_->cosAngle = std::cos(std::numbers::pi_v<float> / 3.0f);
 	spotLightData_->cosFalloffStart = std::cos(std::numbers::pi_v<float> / 4.0f);
 
+	cosDegree_ = 0.0f;
+	falloffDegree_ = 0.0f;
+
 	cosDegree_ = std::cos(std::numbers::pi_v<float> / 3.0f);
 	falloffDegree_ = std::cos(std::numbers::pi_v<float> / 4.0f);
+
 }
 
 void SpotLight::Finalize() {
@@ -28,15 +32,13 @@ void SpotLight::Finalize() {
 }
 
 void SpotLight::Update() {
-	spotLightData_->direction = Normalize(spotLightData_->direction);
+	spotLightData_->direction = spotLightData_->direction.Normalize();
 	spotLightData_->cosAngle = std::cos(cosDegree_);
 	spotLightData_->cosFalloffStart = std::cos(falloffDegree_);
 
 	if (spotLightData_->cosFalloffStart <= spotLightData_->cosAngle) {
 		spotLightData_->cosFalloffStart = spotLightData_->cosAngle + 0.01f;
 	}
-
-	BaseLight::Update();
 }
 
 void SpotLight::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
@@ -51,7 +53,7 @@ void SpotLight::AddAdjustment() {
 	adjust->AddItem(groupName_, "distance", spotLightData_->distance);				// 光の当たる距離
 	adjust->AddItem(groupName_, "intensity", spotLightData_->intensity);			// 輝度
 	adjust->AddItem(groupName_, "decay", spotLightData_->decay);					// 光の減衰
-	adjust->AddItem(groupName_, "cosAngle", spotLightData_->cosAngle);				// 光の余弦
+	adjust->AddItem(groupName_, "cosAngle", cosDegree_);				// 光の余弦
 	adjust->AddItem(groupName_, "cosFalloffStart", falloffDegree_);// 光の角度での減衰
 }
 

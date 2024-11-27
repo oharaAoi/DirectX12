@@ -81,6 +81,7 @@ void TutorialScene::Init() {
 	SpotLight* spotLight = Render::GetSporLight();
 	spotLight->AddAdjustment();
 	spotLight->AdaptAdjustment();
+	spotLight->Update();
 
 	// -------------------------------------------------
 	// ↓ 初期化時にやりたい処理を行う
@@ -196,6 +197,7 @@ void TutorialScene::Update() {
 	Render::SetEyePos(eyePos_);
 	Render::SetViewProjection(viewMat_, projectionMat_);
 	Render::SetVpvpMat(followCamera_->GetVPVMatrix());
+	Render::Update();
 
 #ifdef _DEBUG
 	Render::Debug_Gui();

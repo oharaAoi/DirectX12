@@ -124,8 +124,6 @@ void BaseBossHand::Update() {
 	shadow_->GetTransform()->SetTranslaion(handPos);
 	shadow_->Update();
 
-	shadow_->Debug_Gui();
-
 	// -------------------------------------------------
 	// ↓ 更新後に行う処理
 	// -------------------------------------------------

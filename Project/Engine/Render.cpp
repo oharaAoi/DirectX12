@@ -36,7 +36,7 @@ void Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, 
 
 
 	nearClip_ = 1.0f;
-	farClip_ = 10000.0f;
+	farClip_ = 100.0f;
 
 	nearClip2D_ = 0.0f;
 	farClip2D_ = 100.0f;

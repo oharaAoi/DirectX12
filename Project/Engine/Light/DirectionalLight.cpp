@@ -21,7 +21,6 @@ void DirectionalLight::Finalize() {
 
 void DirectionalLight::Update() {
 	directionalLightData_->direction = Normalize(directionalLightData_->direction);
-	BaseLight::Update();
 }
 
 void DirectionalLight::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {

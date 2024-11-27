@@ -55,8 +55,8 @@ private:
 
 	std::string groupName_ = "spotLight";
 
-	float cosDegree_;
-	float falloffDegree_;
+	float cosDegree_ = 0.0f;
+	float falloffDegree_ = 0.0f;
 	
 };
 

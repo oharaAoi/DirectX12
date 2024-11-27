@@ -44,7 +44,7 @@ void TitleScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TitleScene::Update() {
-
+	
 	skydome_->Update();
 
 	if (isNextScene_) {
@@ -60,9 +60,6 @@ void TitleScene::Update() {
 	Render::SetEyePos(followCamera_->GetWorldTranslate());
 	Render::SetViewProjection(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
 	Render::SetViewProjection2D(followCamera_->GetViewMatrix2D(), followCamera_->GetProjectionMatrix2D());
-	
-
-
 
 	// -------------------------------------------------
 	// ↓ Renderの更新

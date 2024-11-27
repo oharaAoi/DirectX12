@@ -19,7 +19,7 @@ public:
 
 	virtual void Finalize();
 
-	virtual void Update();
+	virtual void Update() = 0;
 
 	virtual void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
 
