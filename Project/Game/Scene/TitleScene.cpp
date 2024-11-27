@@ -31,6 +31,8 @@ void TitleScene::Init() {
 	titleObj_ = std::make_unique<BaseGameObject>();
 	titleObj_->Init();
 	titleObj_->SetObject("TitleModel.obj");
+	titleObj_->GetTransform()->SetScale(Vector3(0.35f, 0.35f, 0.35f));
+	titleObj_->GetTransform()->SetTranslaion(Vector3(-3.3f, 5.6f, 0.0f));
 
 	panel_ = std::make_unique<Panel>();
 	panel_->Init();
@@ -159,6 +161,8 @@ void TitleScene::ImGuiDraw() {
 		adjustmentItem_->Update();
 		ImGui::TreePop();
 	}
+
+	titleObj_->Debug_Gui();
 
 	ImGui::End();
 }
