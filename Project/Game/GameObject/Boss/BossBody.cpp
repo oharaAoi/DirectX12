@@ -12,7 +12,7 @@ void BossBody::Finalize() {}
 void BossBody::Init() {
 	BaseGameObject::Init();
 	SetObject("boss_Body.gltf");
-	SetAnimater("./Game/Resources/Model/Boss_Body/", "boss_Body.gltf", true, false, true);
+	//SetAnimater("./Game/Resources/Model/Boss_Body/", "boss_Body.gltf", true, false, true);
 
 	// colliderの設定
 	SetMeshCollider("boss_body");
@@ -32,10 +32,10 @@ void BossBody::Init() {
 	animationTime_ = 0.0f;
 	animationTransitionTime_ = 1.0f;
 
-	nowAnimatonName_ = "Stand_by";
+	nowAnimatonName_ = "Damage";
 	waitAnimationName_ = "Stand_by";
 
-	animetor_->SetTransitionAnimation(nowAnimatonName_, "Stand_by");
+	//animetor_->SetTransitionAnimation(nowAnimatonName_, "Stand_by");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,23 +43,21 @@ void BossBody::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossBody::Update() {
-
-	animationTime_ += GameTimer::DeltaTime();
-	if (nowAnimatonName_ == waitAnimationName_) {
-		animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
-	} else if (animationTime_ >= animetor_->GetAnimationDuration()) {
-		if (!animetor_->GetIsAnimationChange()) {
-			ChangeAnimation(nowAnimatonName_, waitAnimationName_);
-		}
-	}
-
-	if (animetor_->GetIsAnimationChange()) {
-		if (preAnimatonName_ == waitAnimationName_) {
-			animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
-		}
-	}
-	
 	if (animetor_ != nullptr) {
+		animationTime_ += GameTimer::DeltaTime();
+		if (nowAnimatonName_ == waitAnimationName_) {
+			animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
+		} else if (animationTime_ >= animetor_->GetAnimationDuration()) {
+			if (!animetor_->GetIsAnimationChange()) {
+				ChangeAnimation(nowAnimatonName_, waitAnimationName_);
+			}
+		}
+
+		if (animetor_->GetIsAnimationChange()) {
+			if (preAnimatonName_ == waitAnimationName_) {
+				animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
+			}
+		}
 		animetor_->UpdateScript(animationTime_, animationTransitionTime_);
 	}
 

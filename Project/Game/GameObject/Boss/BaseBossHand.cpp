@@ -138,9 +138,14 @@ void BaseBossHand::Draw() const {
 	if (isAlive_ || isExplosion_ || isRevival_) {
 		Engine::SetPipeline(PipelineType::NormalPipeline);
 		BaseGameObject::Draw();
-
-		shadow_->Draw();
 	}
+
+	if (isAlive_) {
+		if (isAttackMove_) {
+			shadow_->Draw();
+		}
+	}
+
 }
 
 void BaseBossHand::DrawUI() const {

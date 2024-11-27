@@ -473,7 +473,9 @@ void GameScene::UpdateManager() {
 
 	// ミサイルを追加
 	for (auto& missile : missileList_) {
-		collisionManager_->AddCollider(missile->GetMeshCollider());
+		if (missile->GetIsAlive()) {
+			collisionManager_->AddCollider(missile->GetMeshCollider());
+		}
 	}
 
 	// ボムの追加

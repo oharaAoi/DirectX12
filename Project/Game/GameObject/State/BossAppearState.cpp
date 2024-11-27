@@ -56,6 +56,9 @@ void BossAppearState::Update() {
 			isAppear_ = false;
 			pBoss_->SetBehaviorRequest(Behavior::ROOT);
 			pBoss_->SetIsAppear(true);
+
+			pBoss_->GetBossBody()->SetAnimater("./Game/Resources/Model/Boss_Body/", "boss_Body.gltf", true, false, true);
+			pBoss_->GetBossBody()->NowToAfterAnimation("Stand_by");
 		}
 
 		pBoss_->GetBossBody()->GetTransform()->SetTranslaion(movePos_);
