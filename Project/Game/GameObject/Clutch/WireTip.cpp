@@ -21,7 +21,7 @@ void WireTip::Init() {
 	transform_->SetTranslaion({ 0.0f, 0.0f, 0.0f });
 	tag_ = "notCatchWireTip";
 
-	
+
 	// Colliderの生成
 	SetMeshCollider(notCatchStateTag_);
 	meshCollider_->SetOwner(this);
@@ -67,7 +67,9 @@ void WireTip::OnCollision(Collider* other) {
 		}
 
 		if (other->GetTag() == "hook" && !isPull_) {
-			isSnagged_ = true;
+			if (!isSnagged_) {
+				isSnagged_ = true;
+			}
 		}
 		if (other->GetTag() == "canCatchObj" && !isPull_) {
 			if (!isFollow_) {
@@ -96,6 +98,7 @@ void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		isHit_ = true;
 		if (!isNeglect_ && !isPull_) {
 			isSnagged_ = true;
+			isNoAttack_ = false;
 		}
 
 	} else if (other.GetTag() == "missile" && !isPull_) {

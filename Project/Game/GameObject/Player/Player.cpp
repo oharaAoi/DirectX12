@@ -35,6 +35,9 @@ void Player::Init() {
 	predictionTip_->GetTransform()->SetParentTranslation(transform_->GetTranslation());
 
 
+	fragment_ = std::make_unique<PlayerEffect>();
+	fragment_->Init();
+
 	// animatorの生成
 	playerAnimator_ = std::make_unique<PlayerAnimator>(this);
 
@@ -75,6 +78,7 @@ void Player::Init() {
 
 	playerAnimator_->NowToAfterTransition("defalut");
 
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +116,10 @@ void Player::Update() {
 	wireTip_->Update();
 	predictionTip_->Update();
 
+
+	fragment_->Update();
+
+
 	isAutoMove_ = false;
 
 	if (isPullBackObj_) {
@@ -137,9 +145,14 @@ void Player::Draw() const {
 	BaseGameObject::Draw();
 	wire_->Draw();
 	wireTip_->Draw();
+	fragment_->Draw();
 	if (!isPullBackObj_) {
 		predictionTip_->Draw();
 	}
+}
+
+void Player::DrawParticle()const {
+	
 }
 
 
@@ -406,6 +419,10 @@ void Player::DefaultMove(Vector3& pos) {
 		playerAnimator_->NowToAfterTransition("attack");
 
 		velocity_.y = 0.0f;
+		if (clutchLerpTime_ == 0.0f && wireTip_->GetNoAttack()) {
+			fragment_->EmitDown(wireTip_->GetWorldPos(), {0.0f,-1.0f});
+		}
+		wireTip_->SetNoAttack(true);
 		clutchLerpTime_ += GameTimer::DeltaTime();
 		pos = Lerp(pos, { clutchEnd_.x,clutchEnd_.y,pos.z }, CallEasingFunc(easingIndex_, powf(clutchLerpTime_, 2.0f)));
 
@@ -509,12 +526,13 @@ void Player::Clutch() {
 			}
 
 			if (!wireTip_->GetHit()) {
-
-				isStretchClutch_ = false;
-				isSnagged_ = false;
-				clutchLerpTime_ = 0.0f;
-				wireTip_->SetSnagged(false);
-				isReturnClutch_ = true;
+				if (!isSnagged_) {
+					isStretchClutch_ = false;
+					isSnagged_ = false;
+					clutchLerpTime_ = 0.0f;
+					wireTip_->SetSnagged(false);
+					isReturnClutch_ = true;
+				}
 			}
 
 			if (wireTip_->GetCautch()) {
@@ -669,6 +687,7 @@ void Player::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			}
 			isShakeBook_ = true;
 			isKnockBack_ = true;
+			fragment_->EmitFragment(other.GetObbCenter(), {float(knockBack_LorR_),0.0f});
 			playerState = int(PlayerState::Default);
 			AudioPlayer::SinglShotPlay("bossCoreHited.mp3", 0.3f);
 		}

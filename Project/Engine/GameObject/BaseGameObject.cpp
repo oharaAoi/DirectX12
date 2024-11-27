@@ -123,6 +123,7 @@ void BaseGameObject::SetColor(const Vector4& color) {
 	for (size_t oi = 0; oi < materials.size(); ++oi) {
 		materials[oi]->SetColor(color);
 	}
+	color_ = color;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
