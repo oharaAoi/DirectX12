@@ -367,6 +367,7 @@ void GameScene::UpdateGameObject() {
 	}
 	if (boss_->GetBossForm() == BossForm::SECOND && (boss_->GetBossLeftHand()->GetIsGroundSlap() || boss_->GetBossRightHand()->GetIsGroundSlap())) {
 		fall_->SetAppear(true);
+		fallStone_->SetAppear(true);
 	}
 
 	fall_->Update();

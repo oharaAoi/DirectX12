@@ -60,6 +60,7 @@ void TutorialScene::Init() {
 
 	fallStone_ = std::make_unique<FallStone>();
 	fallStone_->Init();
+	fallStone_->SetAppear(true);
 
 
 	// -------------------------------------------------
@@ -128,6 +129,7 @@ void TutorialScene::Update() {
 		fall_->Reset();
 		fall_->SetAppear(true);
 		fallStone_->Reset();
+		fallStone_->SetAppear(true);
 	}
 	fall_->Update();
 	fallStone_->SetFalling(fall_->GetFalling());
@@ -168,6 +170,10 @@ void TutorialScene::Update() {
 	// ↓ Cameraの更新
 	// -------------------------------------------------
 	debugCamera_->Update();
+
+	if (player_->GetIsShake()) {
+		followCamera_->SetShakeTime(0.5f);
+	}
 	followCamera_->Update();
 
 	if (!isDebugCamera_) {

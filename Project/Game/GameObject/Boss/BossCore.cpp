@@ -57,7 +57,7 @@ void BossCore::Update() {
 	if (isNear_) {
 		SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 
-		if (isPlayerPullBack_ && (Input::IsPressKey(DIK_A) || Input::IsPressKey(DIK_D))) {
+		if (isPlayerPullBack_) {
 			energy_ += 10.0f * GameTimer::DeltaTime();
 		}
 		if (energy_ >= canFallEnergy) {

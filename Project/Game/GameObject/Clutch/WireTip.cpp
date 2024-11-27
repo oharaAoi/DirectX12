@@ -100,6 +100,7 @@ void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	} else if (other.GetTag() == "missile" && !isPull_) {
 		if (!isCautchObject_) {
 			isCautchObject_ = true;
+			isCautch_ = true;
 
 			catchObject_ = dynamic_cast<CanThrowObject*>(other.GetOwner());
 			meshCollider_->SetTag(catchStateTag_);

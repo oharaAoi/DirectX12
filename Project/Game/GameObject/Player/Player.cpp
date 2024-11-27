@@ -374,9 +374,8 @@ void Player::DefaultMove(Vector3& pos) {
 
 void Player::PullBackMove(Vector3& pos) {
 	pos.x = beforePosition_.x;
-	if (Input::IsPressKey(DIK_A) || Input::IsPressKey(DIK_D)) {
-		isShakeBook_ = true;
-	}
+
+	isShakeBook_ = true;
 
 	targetRotate = 0.0f;
 	playerAnimator_->NowToAfterTransition("pull");
@@ -388,7 +387,7 @@ void Player::CalPrediction() {
 	Vector3 end = ScreenToWorldCoordinate(mousePos, inverMat_, -camerazDis_);
 
 	Vector3 sub = end - transform_->GetTranslation();
-	sub = sub.Normalize() * maxClutchLength_;
+	sub = sub.Normalize() * defaulPredictLength_;
 
 	predictionTip_->GetTransform()->SetTranslaion(sub);
 
@@ -416,6 +415,12 @@ void Player::Clutch() {
 				maxClutchLength_ = wire_->GetTransform()->GetScale().y;
 				isSnagged_ = false;
 				wireTip_->SetSnagged(false);
+			}
+			if (wireTip_->GetCautch()) {
+				isStretchClutch_ = false;
+				isStretching_ = false;
+				isReturnClutch_ = true;
+				isSnagged_ = false;
 			}
 		}
 		if (wireTip_->GetSnagged()) {
@@ -588,7 +593,7 @@ void Player::ClutchEndCalculation() {
 		clutchEnd_ = { end.x,end.y };
 	} else {
 		end -= transform_->GetTranslation();
-		end = end.Normalize() * maxClutchLength_;
+		end = end.Normalize() * defaultMaxClutchLength_;
 		end += transform_->GetTranslation();
 		clutchEnd_ = { end.x,end.y };
 	}

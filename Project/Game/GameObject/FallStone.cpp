@@ -17,7 +17,10 @@ void FallStone::Init() {
 	BaseGameObject::Init();
 	SetObject("FallRock.obj");
 	transform_->SetScale({ 2.0f, 2.0f, 2.0f });
-	transform_->SetTranslaion({ 0.0f, 19.5f, 12.0f });
+	transform_->SetTranslaion({ 0.0f, 25.5f, 12.0f });
+
+	start_ = { 0.0f, 25.0f, 12.0f };
+	end_ = { 0.0f, 19.0f, 12.0f };
 
 	// Colliderの生成
 	SetMeshCollider("fallStone");
@@ -37,6 +40,15 @@ void FallStone::Init() {
 
 
 void FallStone::Update() {
+
+	if (isAppear_) {
+		if (appearTime_ < 1.0f) {
+			appearTime_ += GameTimer::DeltaTime();
+			Vector3 pos = Lerp(start_, end_, appearTime_);
+			transform_->SetTranslaion(pos);
+		}
+	}
+
 	if (isFalling_) {
 		velocity_.y += gravity_ * GameTimer::DeltaTime();
 		float fallPos = transform_->GetTranslation().y;
@@ -61,8 +73,10 @@ void FallStone::OnCollision([[maybe_unused]] Collider* other) {
 
 void FallStone::Reset() {
 	velocity_.y = 0.0f;
-	transform_->SetTranslaion({ 0.0f, 20.0f, 12.0f });
+	transform_->SetTranslaion({ 0.0f, 25.0f, 12.0f });
 	isFalling_ = false;
+	isAppear_ = false;
+	appearTime_ = 0.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
