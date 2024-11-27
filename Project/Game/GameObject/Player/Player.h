@@ -10,6 +10,7 @@
 #include "Game/GameObject/State/PlayerBeAttackedState.h"
 #include "Game/GameObject/Player/PlayerAnimator.h"
 #include "Engine/Utilities/AdjustmentItem.h"
+#include "Game/GameObject/Player/PlayerEffect.h"
 
 enum class PlayerState {
 	Default = 0,
@@ -29,6 +30,8 @@ public:
 	void Init() override;
 	void Update() override;
 	void Draw() const override;
+
+	void DrawParticle()const;
 
 	/// <summary>
 	/// 状態を遷移させる
@@ -248,6 +251,16 @@ private:
 	float hpLimit_ = 10.0f;
 
 	const float hpDecrement_ = 1.0f;
+
+
+
+	/// ==========================================
+	/// effect
+	/// ==========================================
+
+	std::unique_ptr<PlayerEffect> fragment_;
+
+
 
 	/// ==========================================
 	/// 他クラスの情報

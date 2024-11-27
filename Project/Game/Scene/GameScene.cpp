@@ -302,11 +302,14 @@ void GameScene::Draw() const {
 	bossUI_->Draw3dObject(player_->GetCanBossAttack(), isPullSign);
 	fall_->DrawUI3D();
 
+
 	Engine::ClearRenderTarget();
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	if (finishAppear_) {
 		bossHpUI_->Draw();
 	}
+
+
 
 	for (const auto& missile : missileList_) {
 		missile->DrawReticle();
