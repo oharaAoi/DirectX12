@@ -122,7 +122,7 @@ void BossBarrier::Expand() {
 
 	for (uint32_t oi = 0; oi < materials.size(); oi++) {
 		t = std::clamp(t, 0.0f, 1.0f);
-		materials[oi]->SetColor(Vector4(1, 1, 1, std::lerp(0.0f, 0.7f, CallEasingFunc(expand_.easingType, t))));
+		materials[oi]->SetColor(Vector4(1, 1, 1, std::lerp(0.0f, 0.6f, CallEasingFunc(expand_.easingType, t))));
 	}
 
 	if (expand_.time >= expand_.timeLimit) {
@@ -145,7 +145,7 @@ void BossBarrier::Break() {
 
 	for (uint32_t oi = 0; oi < materials.size(); oi++) {
 		t = std::clamp(t, 0.0f, 1.0f);
-		materials[oi]->SetColor(Vector4(1, 1, 1, std::lerp(0.7f, 0.0f, CallEasingFunc(break_.easingType, t))));
+		materials[oi]->SetColor(Vector4(1, 1, 1, std::lerp(0.6f, 0.0f, CallEasingFunc(break_.easingType, t))));
 	}
 
 	if (break_.time >= break_.timeLimit) {

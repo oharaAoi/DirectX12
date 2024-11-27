@@ -179,9 +179,11 @@ void Boss::Draw() const {
 	body_->Draw();
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	core_->Draw();
-	eye_->Draw();
 	leftHand_->Draw();
 	rightHand_->Draw();
+	if (behavior_ == Behavior::APPEAR) {
+		eye_->Draw();
+	}
 }
 
 void Boss::PostDraw() const {

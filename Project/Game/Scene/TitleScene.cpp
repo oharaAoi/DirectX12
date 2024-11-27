@@ -133,7 +133,7 @@ void TitleScene::TitleUpdate() {
 	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
 	player_->SetCameraZDis(followCamera_->GetTranslate().z);
 
-	/*if (timeStep_ <= 0.0f) {
+	if (timeStep_ <= 0.0f) {
 		if (Input::IsTriggerKey(DIK_SPACE) || Input::IsTriggerMouse(0)) {
 			player_->TitleEnd();
 			AudioPlayer::SinglShotPlay("select.mp3", 0.3f);
@@ -141,7 +141,7 @@ void TitleScene::TitleUpdate() {
 	}
 	else {
 		timeStep_ -= GameTimer::DeltaTime();
-	}*/
+	}
 
 
 	player_->Update();
