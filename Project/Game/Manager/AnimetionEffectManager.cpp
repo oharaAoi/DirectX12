@@ -25,12 +25,12 @@ void AnimetionEffectManager::Update() {
 			(*it).effect->GetTransform()->SetQuaternion(*(*it).pQuaternion);
 		}
 
-		(*it).effect->Update();
-
 		if ((*it).effect->GetAnimetor()->GetAnimationClip()->GetIsAnimationFinish()) {
 			it = effectList_.erase(it);
 			continue;
 		}
+
+		(*it).effect->Update();
 
 		++it;
 	}

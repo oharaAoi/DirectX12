@@ -8,6 +8,7 @@ GameScene::~GameScene() {
 
 void GameScene::Finalize() {
 	gameObjectManager_->Finalize();
+	animationEffectManager_->Finalize();
 }
 
 void GameScene::Init() {
@@ -71,6 +72,9 @@ void GameScene::Init() {
 
 	gameObjectManager_ = GameObjectManager::GetInstance();
 	gameObjectManager_->Init();
+
+	animationEffectManager_ = AnimetionEffectManager::GetInstance();
+	animationEffectManager_->Init();
 
 	// -------------------------------------------------
 	// ↓ Editer初期化
@@ -186,6 +190,7 @@ void GameScene::Update() {
 		Render::SetViewProjection2D(debugCamera_->GetViewMatrix2D(), debugCamera_->GetProjectionMatrix2D());
 	}
 
+	animationEffectManager_->Update();
 
 	// -------------------------------------------------
 	// ↓ Renderの更新
@@ -264,6 +269,8 @@ void GameScene::Draw() const {
 	player_->Draw();
 
 	gameObjectManager_->Draw();
+
+	animationEffectManager_->Draw();
 
 	rightSnaggeObj_->Draw();
 	leftSnaggeObj_->Draw();
