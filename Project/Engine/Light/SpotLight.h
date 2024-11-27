@@ -46,6 +46,9 @@ public:
 
 	void SetEyePos(const Vector3& pos) { spotLightData_->eyePos = pos; }
 
+	void SetDistance(float distance) { spotLightData_->distance = distance; }
+	const float GetDistance() const { return spotLightData_->distance; }
+
 private:
 
 	SpotLightData* spotLightData_ = nullptr;

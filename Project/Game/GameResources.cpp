@@ -43,6 +43,10 @@ void GameResources::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/BossHP/", "bossGaugeOrigin.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/BossHP/", "bossHpOutSideOrigin.obj");
 
+	// タイトルなどで使用
+	ModelManager::LoadModel("./Game/Resources/Model/UI/", "retry.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/UI/", "title.obj");
+
 	ModelManager::LoadModel("./Game/Resources/Model/PlayerHp/", "playerHpGauge.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/PlayerHp/", "playerHpOutSide.obj");
 

@@ -41,6 +41,8 @@ public:
 
 	WorldTransform* GetTransform() { return transform_.get(); }
 
+	const Vector3& GetWorldPos() const { return worldPos_; }
+
 	// -------------------------------------------------
 	// ↓ Material関連
 	// -------------------------------------------------
