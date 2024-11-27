@@ -7,7 +7,7 @@ BossCoreTutorialState::~BossCoreTutorialState() {
 void BossCoreTutorialState::Init() {
 	stateName_ = "TutorialState";
 
-	pos_ = { 0.0f, 2.0f, 0.0f };
+	pos_ = { 6.0f, 2.0f, 0.0f };
 }
 
 void BossCoreTutorialState::Update() {

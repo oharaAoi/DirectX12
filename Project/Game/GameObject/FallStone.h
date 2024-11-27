@@ -20,6 +20,11 @@ public:
 	void SetFalling(bool is) { isFalling_ = is; }
 	void SetAppear(bool is) { isAppear_ = is; }
 
+	void SetInitPosX(float x) { 
+		start_ = { x, 25.0f, 12.0f };
+		end_ = { x, 19.0f, 12.0f };
+	}
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
@@ -52,6 +57,5 @@ private:
 	float appearTime_ = 0.0f;
 	Vector3 start_{};
 	Vector3 end_{};
-
 };
 
