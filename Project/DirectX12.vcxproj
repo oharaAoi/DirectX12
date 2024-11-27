@@ -229,6 +229,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameObject\Boss\BossCoreDefaultState.cpp" />
     <ClCompile Include="Game\GameObject\Boss\BossCoreGameStartState.cpp" />
     <ClCompile Include="Game\GameObject\Boss\BossCoreHideState.cpp" />
+    <ClCompile Include="Game\GameObject\Boss\BossCoreTutorialState.cpp" />
     <ClCompile Include="Game\GameObject\Boss\BossEye.cpp" />
     <ClCompile Include="Game\GameObject\Boss\BossLeftHand.cpp" />
     <ClCompile Include="Game\GameObject\Boss\BossRightHand.cpp" />
@@ -398,6 +399,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\GameObject\Boss\BossCoreDefaultState.h" />
     <ClInclude Include="Game\GameObject\Boss\BossCoreGameStartState.h" />
     <ClInclude Include="Game\GameObject\Boss\BossCoreHideState.h" />
+    <ClInclude Include="Game\GameObject\Boss\BossCoreTutorialState.h" />
     <ClInclude Include="Game\GameObject\Boss\BossEye.h" />
     <ClInclude Include="Game\GameObject\Boss\BossLeftHand.h" />
     <ClInclude Include="Game\GameObject\Boss\BossRightHand.h" />
