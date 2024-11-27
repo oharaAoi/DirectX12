@@ -315,16 +315,42 @@ void Player::DefaultMove(Vector3& pos) {
 			}
 
 			if (Input::IsPressKey(DIK_A)) {
+				timeStanpA_ += GameTimer::DeltaTime();
+			}
+			else {
+				timeStanpA_ = 0.0f;
+			}
+			if (Input::IsPressKey(DIK_D)) {
+				timeStanpD_ += GameTimer::DeltaTime();
+			}
+			else {
+				timeStanpD_ = 0.0f;
+			}
+
+
+			if (timeStanpA_ > 0.0f && timeStanpD_ > 0.0f) {
+				if (timeStanpA_ <= timeStanpD_) {
+					velocity_.x -= moveSpeed_;
+					targetRotate = leftRotate;
+					playerAnimator_->NowToAfterTransition("move");
+				}
+				else {
+					velocity_.x += moveSpeed_;
+					targetRotate = rightRotate;
+					playerAnimator_->NowToAfterTransition("move");
+				}
+			}
+			else if (timeStanpA_ > 0.0f) {
 				velocity_.x -= moveSpeed_;
 				targetRotate = leftRotate;
 				playerAnimator_->NowToAfterTransition("move");
-
 			}
-			if (Input::IsPressKey(DIK_D)) {
+			else if (timeStanpD_ > 0.0f) {
 				velocity_.x += moveSpeed_;
 				targetRotate = rightRotate;
 				playerAnimator_->NowToAfterTransition("move");
 			}
+
 
 
 			if (velocity_.x < 0) {

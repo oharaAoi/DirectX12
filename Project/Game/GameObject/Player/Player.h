@@ -167,6 +167,9 @@ private:
 	int knockBack_LorR_ = 1;
 
 	// 移動
+	float timeStanpA_ = 0.0f;
+	float timeStanpD_ = 0.0f;
+
 	Vector3 velocity_{};
 	float moveSpeed_ = 6.0f;
 	float gravity_ = -29.4f;
