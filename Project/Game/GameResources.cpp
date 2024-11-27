@@ -70,8 +70,11 @@ void GameResources::Load() {
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPointGauge.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileLockOn.png");
 
-
-
+	// Tutorial
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/TutorialScene/", "tutorial_01.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/TutorialScene/", "tutorial_02.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/TutorialScene/", "tutorial_03.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/TutorialScene/", "tutorial_04.png");
 
 }
 

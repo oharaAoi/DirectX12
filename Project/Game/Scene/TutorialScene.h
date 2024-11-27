@@ -13,6 +13,7 @@
 #include "Game/GameObject/FallStone.h"
 #include "Engine/Manager/CollisionManager.h"
 #include "Game/UI/Panel.h"
+#include "Game/UI/Tutorial/TutorialUI.h"
 #include "Engine/Manager/CollisionManager.h"
 
 class TutorialScene
@@ -75,6 +76,7 @@ private:
 
 	// --- UI -------------------------------------- //
 	std::unique_ptr<Panel> panel_;
+	std::unique_ptr<TutorialUI> tutorialUI_;
 
 	bool isNextScene_ = false;
 };

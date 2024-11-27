@@ -76,6 +76,9 @@ void TutorialScene::Init() {
 	panel_ = std::make_unique<Panel>();
 	panel_->Init();
 
+	tutorialUI_ = std::make_unique<TutorialUI>();
+	tutorialUI_->Init();
+
 	// -------------------------------------------------
 	// ↓ ライト初期化
 	// -------------------------------------------------
@@ -166,6 +169,8 @@ void TutorialScene::Update() {
 	}
 
 
+	tutorialUI_->Update(player_->GetWorldPos());
+
 	// -------------------------------------------------
 	// ↓ Cameraの更新
 	// -------------------------------------------------
@@ -235,6 +240,8 @@ void TutorialScene::Draw() const {
 	fall_->Draw();
 	fallStone_->Draw();
 
+	tutorialUI_->Draw();
+
 	// -------------------------------------------------
 	// ↓ UIの描画
 	// -------------------------------------------------
@@ -287,11 +294,15 @@ void TutorialScene::Debug_Gui() {
 
 	ImGui::Begin("TutorialScene");
 
+	player_->Debug_Gui();
+
 	if (ImGui::TreeNode("AdjustmentItem")) {
 		// Updateだが実質Gui表示なためここで更新
 		adjustmentItem_->Update();
 		ImGui::TreePop();
 	}
+
+	tutorialUI_->Debug_Gui();
 
 	ImGui::End();
 }
