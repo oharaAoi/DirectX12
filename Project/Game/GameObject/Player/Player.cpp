@@ -26,6 +26,13 @@ void Player::Init() {
 	wireTip_ = std::make_unique<WireTip>();
 	wireTip_->Init();
 
+	predictionTip_ = std::make_unique<BaseGameObject>();
+	predictionTip_->Init();
+	predictionTip_->SetObject("prediction.obj");
+	predictionTip_->SetColor({ 0.0f,0.0f,1.0f,1.0f });
+	predictionTip_->GetTransform()->SetParentTranslation(transform_->GetTranslation());
+
+
 	// animatorの生成
 	playerAnimator_ = std::make_unique<PlayerAnimator>(this);
 
@@ -71,6 +78,7 @@ void Player::Update() {
 	if (!isAutoMove_) {
 		Move();
 	}
+	CalPrediction();
 	Clutch();
 
 	if (!isStretchClutch_ && !isReturnClutch_) {
@@ -91,6 +99,7 @@ void Player::Update() {
 
 	wire_->Update();
 	wireTip_->Update();
+	predictionTip_->Update();
 
 	isAutoMove_ = false;
 
@@ -107,6 +116,9 @@ void Player::Draw() const {
 	BaseGameObject::Draw();
 	wire_->Draw();
 	wireTip_->Draw();
+	if (!isPullBackObj_) {
+		predictionTip_->Draw();
+	}
 }
 
 
@@ -368,6 +380,21 @@ void Player::PullBackMove(Vector3& pos) {
 
 	targetRotate = 0.0f;
 	playerAnimator_->NowToAfterTransition("pull");
+}
+
+void Player::CalPrediction() {
+	Vector2 mousePos = Input::GetMousePosition();
+
+	Vector3 end = ScreenToWorldCoordinate(mousePos, inverMat_, -camerazDis_);
+
+	Vector3 sub = end - transform_->GetTranslation();
+	sub = sub.Normalize() * maxClutchLength_;
+
+	predictionTip_->GetTransform()->SetTranslaion(sub);
+
+	float angle = atan2(sub.y, sub.x);
+	predictionTip_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(angle, Vector3::FORWARD()));
+
 }
 
 void Player::Clutch() {

@@ -129,6 +129,8 @@ private:
 	void DefaultMove(Vector3& pos);
 	void PullBackMove(Vector3& pos);
 
+	void CalPrediction();
+
 	void Clutch();
 
 	/// <summary>
@@ -177,7 +179,7 @@ private:
 
 	// クラッチ
 	std::unique_ptr<ClutchWire> wire_;
-	const float defaultMaxClutchLength_ = 7.0f;
+	float defaultMaxClutchLength_ = 7.5f;
 	float maxClutchLength_ = defaultMaxClutchLength_;
 	float stretchSpeed_ = 30.0f;
 	float camerazDis_ = 0.0f;
@@ -202,6 +204,7 @@ private:
 
 	// ワイヤー先端
 	std::unique_ptr<WireTip> wireTip_;
+	std::unique_ptr<BaseGameObject> predictionTip_;
 
 
 	// 投げる

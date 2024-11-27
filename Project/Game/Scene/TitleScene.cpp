@@ -36,6 +36,7 @@ void TitleScene::Init() {
 	spotLight->AddAdjustment();
 	spotLight->AdaptAdjustment();
 
+	Input::SetNotAccepted(false);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,9 +117,15 @@ void TitleScene::TitleUpdate() {
 	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
 	player_->SetCameraZDis(followCamera_->GetTranslate().z);
 
-	if (Input::IsTriggerKey(DIK_SPACE)) {
-		player_->TitleEnd();
+	if (timeStep_ <= 0.0f) {
+		if (Input::IsTriggerKey(DIK_SPACE) || Input::IsTriggerMouse(0)) {
+			player_->TitleEnd();
+		}
 	}
+	else {
+		timeStep_ -= GameTimer::DeltaTime();
+	}
+
 
 	player_->Update();
 

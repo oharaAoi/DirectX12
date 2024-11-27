@@ -28,6 +28,7 @@ void GameClearScene::Init() {
 
 	panel_ = std::make_unique<Panel>();
 	panel_->Init();
+	panel_->SetBlackOutOpen();
 
 	clearUI_ = Engine::CreateSprite("clearUI.png");
 	clearUI_->SetScale(Vector2{ 0.5f, 0.5f });
@@ -116,12 +117,11 @@ void GameClearScene::DrawUI() {
 
 void GameClearScene::AutoUpdate() {
 	if (panel_->GetIsFinished()) {
-		nextSceneType_ = SceneType::TUTORIAL;
+		nextSceneType_ = SceneType::TITLE;
 		return;
 	}
 
-	Vector3 playerPos = player_->GetTransform()->GetTranslation();
-	if (playerPos.y >= 18.0f) {
+	if (isNextScene_) {
 		// ここでブラックアウトさせる
 		if (panel_->GetDoNoting()) {
 			panel_->SetBlackOut();
@@ -133,8 +133,9 @@ void GameClearScene::ClearUpdate() {
 	player_->SetInverMatrix(followCamera_->GetVPVMatrix().Inverse());
 	player_->SetCameraZDis(followCamera_->GetTranslate().z);
 
-	if (Input::IsTriggerKey(DIK_SPACE)) {
-
+	if (Input::IsTriggerKey(DIK_SPACE) || Input::IsTriggerMouse(0)) {
+		isNextScene_ = true;
+		Input::SetNotAccepted(true);
 	}
 
 	player_->ClearUpdate();

@@ -32,6 +32,7 @@ void GameResources::Load() {
 	ModelManager::LoadModel("./Game/Resources/Model/Player/", "Player.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Player/", "wire.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Player/", "Player.gltf");
+	ModelManager::LoadModel("./Game/Resources/Model/Player/", "prediction.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Barrier/", "barrier.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Missile/", "missile.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/Bomb/", "bomb.obj");

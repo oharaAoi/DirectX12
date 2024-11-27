@@ -47,5 +47,6 @@ private:
 
 	std::unique_ptr<Panel> panel_;
 	bool isNextScene_ = false;
+	float timeStep_ = 1.5f;
 };
 
