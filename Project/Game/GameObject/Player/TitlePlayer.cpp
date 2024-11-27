@@ -97,6 +97,27 @@ void TitlePlayer::TitleEnd() {
 }
 
 
+void TitlePlayer::ClearSet() {
+
+	SetObject("Player.obj");
+	maxClutchLength_ = 50.0f;
+	transform_->SetQuaternion(Quaternion::AngleAxis(3.4f, Vector3::UP()));
+	transform_->SetTranslaion(Vector3{ 3.0f,2.5f,-18.0f });
+
+}
+
+void TitlePlayer::ClearUpdate() {
+
+	Vector2 wireTipPos = (clutchEnd_ - Vector2{ transform_->GetTranslation().x,transform_->GetTranslation().y }).Normalize() * wire_->GetTransform()->GetScale().y;
+	wireTipPos += {transform_->GetTranslation().x, transform_->GetTranslation().y};
+	wireTip_->GetTransform()->SetTranslaion({ wireTipPos.x,wireTipPos.y, transform_->GetTranslation().z });
+
+	BaseGameObject::Update();
+
+	wire_->Update();
+	wireTip_->Update();
+
+}
 
 void TitlePlayer::Stretching() {
 

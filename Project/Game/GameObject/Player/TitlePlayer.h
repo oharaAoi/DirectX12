@@ -27,6 +27,8 @@ public:
 	void TitleSet();
 	void TitleEnd();
 
+	void ClearSet();
+	void ClearUpdate();
 
 	/// <summary>
 	/// 調整項目の適応
