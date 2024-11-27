@@ -5,6 +5,7 @@
 #include "Engine/2d/Sprite.h"
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Game/GameObject/Boss/Boss.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 class BossUI {
 public:

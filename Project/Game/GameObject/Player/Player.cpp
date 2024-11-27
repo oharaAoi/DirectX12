@@ -260,6 +260,7 @@ void Player::CatchObjectFollow() {
 		wireTip_->ReleseCathcObject();
 		targetRotate = 0.0f;
 		isRekey_ = false;
+		AudioPlayer::SinglShotPlay("throw.mp3", 0.3f);
 	}
 }
 

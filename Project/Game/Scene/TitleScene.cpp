@@ -28,6 +28,9 @@ void TitleScene::Init() {
 	player_->Init();
 	player_->TitleSet();
 
+	titleObj_ = std::make_unique<BaseGameObject>();
+	titleObj_->Init();
+	titleObj_->SetObject("TitleModel.obj");
 
 	panel_ = std::make_unique<Panel>();
 	panel_->Init();
@@ -50,6 +53,8 @@ void TitleScene::Init() {
 void TitleScene::Update() {
 	
 	skydome_->Update();
+
+	titleObj_->Update();
 
 	if (isNextScene_) {
 		AutoUpdate();
@@ -93,6 +98,7 @@ void TitleScene::Draw() const {
 
 	player_->Draw();
 
+	titleObj_->Draw();
 
 	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
 	panel_->Draw();

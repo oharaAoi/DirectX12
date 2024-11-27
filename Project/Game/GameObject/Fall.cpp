@@ -53,6 +53,10 @@ void Fall::Update() {
 			appearTime_ += GameTimer::DeltaTime();
 			Vector3 pos = Lerp(start_, end_, appearTime_);
 			transform_->SetTranslaion(pos);
+
+			if (appearTime_ >= 1.0f) {
+				AudioPlayer::SinglShotPlay("lockOn.mp3", 0.3f);
+			}
 		}
 	}
 
@@ -65,6 +69,7 @@ void Fall::Update() {
 		if (energy_ >= canFallEnergy) {
 			player_->SetFalsePullBack();
 			isFalling_ = true;
+			AudioPlayer::SinglShotPlay("fall.mp3", 0.3f);
 		}
 
 	}
@@ -183,6 +188,8 @@ void Fall::Reset() {
 	isAppear_ = false;
 	appearTime_ = 0.0f;
 	uiTime_ = -1.0f;
+
+	AudioPlayer::SinglShotPlay("lockOn.mp3", 0.3f);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

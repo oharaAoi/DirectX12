@@ -20,6 +20,8 @@ void BossCoreHideState::Update() {
 		pCore_->SetBehaviorRequest(CoreState::Default);
 		pCore_->SetIsBarrierSet(true);
 		pCore_->SetFalling(false);
+
+		AudioPlayer::SinglShotPlay("lockOn.mp3", 0.3f);
 	}
 
 	float t = (1 - moveTime_);

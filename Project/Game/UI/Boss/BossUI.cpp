@@ -84,7 +84,7 @@ void BossUI::Draw() {
 
 void BossUI::Draw3dObject(bool canAttackBoss,bool isPullSign){
 	if (canAttackBoss) {
-		obj3d_["coreClutch"]->Draw();
+		//obj3d_["coreClutch"]->Draw();
 	}
 	if (isPullSign) {
 		obj3d_["canClutchUI"]->Draw();

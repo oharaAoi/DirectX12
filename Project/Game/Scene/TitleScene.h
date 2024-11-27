@@ -42,8 +42,10 @@ private:
 
 	std::unique_ptr<Skydome> skydome_;
 
-
 	std::unique_ptr<TitlePlayer> player_;
+
+	// --- Title ------------------- //
+	std::unique_ptr<BaseGameObject> titleObj_;
 
 	std::unique_ptr<Panel> panel_;
 	bool isNextScene_ = false;

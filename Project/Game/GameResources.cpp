@@ -49,6 +49,7 @@ void GameResources::Load() {
 	// タイトルなどで使用
 	ModelManager::LoadModel("./Game/Resources/Model/UI/", "retry.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/UI/", "title.obj");
+	ModelManager::LoadModel("./Game/Resources/Model/TitleModel/", "TitleModel.obj");
 
 	ModelManager::LoadModel("./Game/Resources/Model/PlayerHp/", "playerHpGauge.obj");
 	ModelManager::LoadModel("./Game/Resources/Model/PlayerHp/", "playerHpOutSide.obj");
@@ -98,6 +99,12 @@ void GameResources::Load() {
 	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "barrierBreak.mp3");
 	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "strechWire.mp3");
 	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "select.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "bossHandBreak.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "bossHandAttack.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "lockOn.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "fall.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "missileGet.mp3");
+	AudioManager::LoadAudio("./Game/Resources/Audio/SE/", "throw.mp3");
 
 }
 

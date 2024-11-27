@@ -1,4 +1,5 @@
 #include "WireTip.h"
+#include "Engine/Audio/AudioPlayer.h"
 
 WireTip::WireTip() {
 }
@@ -109,6 +110,8 @@ void WireTip::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 			catchObject_->SetIsWireCaught(true);
 			catchObject_->GetMeshCollider()->SetTag("throwMissile");
 			catchObject_->GetTransform()->SetQuaternion(Quaternion());
+
+			AudioPlayer::SinglShotPlay("missileGet.mp3", 0.3f);
 		}
 	}
 	if (other.GetTag() == "bomb") {

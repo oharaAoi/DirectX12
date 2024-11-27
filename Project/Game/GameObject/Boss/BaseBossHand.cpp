@@ -325,6 +325,8 @@ void BaseBossHand::SetDeth() {
 	isExplosion_ = true;
 	isDanderDraw_ = false;
 	fallVelocity_ = { 0.0f, 3.0f, 0.0f };
+
+	AudioPlayer::SinglShotPlay("bossHandBreak.mp3", 0.3f);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -377,6 +379,7 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 		Player* player = dynamic_cast<Player*>(other.GetOwner());
 		if (player->GetWireTip()->GetIsBossAttack()) {
 			--hp_;
+			AudioPlayer::SinglShotPlay("bossHandAttack.mp3", 0.3f);
 			if (hp_ <= 0) {
 				SetDeth();
 			}
@@ -385,6 +388,7 @@ void BaseBossHand::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	} else if (other.GetTag() == "bomb") {
 		if (meshCollider_->GetSubTag() != "wait_hand") {
 			--hp_;
+			AudioPlayer::SinglShotPlay("bossHandAttack.mp3", 0.3f);
 			if (hp_ <= 0) {
 				SetDeth();
 			}
