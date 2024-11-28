@@ -73,6 +73,10 @@ void GameResources::Load() {
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "Arrow.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "A.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "D.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "gauge.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "gaugeBar.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "gaugeFall.png");
+	TextureManager::LoadTextureFile("./Game/Resources/Sprite/", "gaugeBarFall.png");
 
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPoint.png");
 	TextureManager::LoadTextureFile("./Game/Resources/Sprite/Missile/", "missileHitPointGauge.png");

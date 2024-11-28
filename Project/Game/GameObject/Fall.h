@@ -42,6 +42,11 @@ public:
 	const Vector3 GetForward() const { return TransformNormal(Vector3(0, 0, 1), transform_->GetWorldMatrix()); }
 	const Vector3 GetWorldPos() const { return Transform(Vector3(0, 0, 0), transform_->GetWorldMatrix()); }
 
+	float GetEnergy() const { return energy_; }
+	float GetEnergyMax() const { return canFallEnergy; }
+
+	bool GetIsClutched() const { return isClutched_; }
+
 private:
 
 	/// ==========================================
@@ -71,6 +76,8 @@ private:
 	float appearTime_ = 0.0f;
 	Vector3 start_{};
 	Vector3 end_{};
+
+	bool isClutched_;
 
 	/// ==========================================
 	/// UI

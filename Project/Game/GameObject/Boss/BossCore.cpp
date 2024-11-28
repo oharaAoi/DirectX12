@@ -46,7 +46,9 @@ void BossCore::Init() {
 
 	isFirstHit_ = false;
 
-	isBarrierSet_ = true;
+	isClutched_ = false;
+
+	isBarrierSet_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +64,11 @@ void BossCore::Update() {
 
 		if (isPlayerPullBack_) {
 			energy_ += 10.0f * GameTimer::DeltaTime();
+			isClutched_ = true;
+		} else {
+			isClutched_ = false;
 		}
+
 		if (energy_ >= canFallEnergy) {
 			isFalsePullBack_ = true;
 			isFalling_ = true;

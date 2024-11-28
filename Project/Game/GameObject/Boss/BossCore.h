@@ -72,6 +72,11 @@ public:
 	const bool GetIsAppearReset() { return isAppearReset_; }
 	void SetIsAppearReset(bool is) { isAppearReset_ = is; }
 
+	float GetEnergy() const { return energy_; }
+	float GetEnergyMax() const { return canFallEnergy; }
+
+	bool GetIsClutched() const { return isClutched_; }
+
 private:
 
 	void OnCollisionEnter([[maybe_unused]] MeshCollider& other);
@@ -103,6 +108,8 @@ private:
 
 	bool isBarrierSet_ = false;
 	bool isAppearReset_ = false;
+
+	bool isClutched_;
 
 	std::unique_ptr<BaseObjectState> state_;
 	// stateパターンに関する変数

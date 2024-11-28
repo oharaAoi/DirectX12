@@ -27,6 +27,8 @@ void Fall::Init() {
 	radius_ = 1.2f;
 	tag_ = "fallObj";
 
+	isClutched_ = false;
+
 	// -------------------------------------------------
 	// ↓ Uiの初期化
 	// -------------------------------------------------
@@ -66,7 +68,12 @@ void Fall::Update() {
 		if (player_->GetPullBack()) {
 			energy_ += 10.0f * GameTimer::DeltaTime();
 			player_->EmitStone(transform_->GetTranslation());
+			isClutched_ = true;
+		} else {
+			isClutched_ = false;
 		}
+
+
 		if (energy_ >= canFallEnergy) {
 			player_->SetFalsePullBack();
 			isFalling_ = true;

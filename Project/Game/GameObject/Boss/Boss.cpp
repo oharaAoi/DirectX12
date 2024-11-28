@@ -151,11 +151,13 @@ void Boss::Update() {
 	eye_->Update();
 	leftHand_->Update();
 	rightHand_->Update();
+
 	if (form_ == BossForm::SECOND && core_->GetIsBarrierSet()) {
 		core_->SetIsBarrierSet(false);
 		barrier_->SetBarrier();
 		AudioPlayer::SinglShotPlay("barrierExpand.mp3", 0.3f);
 	}
+
 	barrier_->Update();
 
 	if (form_ == BossForm::SECOND) {

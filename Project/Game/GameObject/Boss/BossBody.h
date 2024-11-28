@@ -39,6 +39,8 @@ public:
 	void SetIsDecrementHp(bool isDecrement) { isDecrementHp_ = isDecrement; }
 
 	const float GetAnimationTime() const { return animationTime_; }
+	void SetAniamtionTime(float time) { animationTime_ = time; }
+
 
 private:
 

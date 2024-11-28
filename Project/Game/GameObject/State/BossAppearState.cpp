@@ -25,6 +25,7 @@ void BossAppearState::Init() {
 }
 
 void BossAppearState::Update() {
+	pBoss_->GetBossBody()->SetAniamtionTime(0.0f);
 	// コアの状態が外に出ている状態だったら更新を行わない
 	if (pBoss_->GetBossCore()->GetCoreState() != CoreState::Default) {
 		return;
@@ -56,9 +57,6 @@ void BossAppearState::Update() {
 			isAppear_ = false;
 			pBoss_->SetBehaviorRequest(Behavior::ROOT);
 			pBoss_->SetIsAppear(true);
-
-			pBoss_->GetBossBody()->SetAnimater("./Game/Resources/Model/Boss_Body/", "boss_Body.gltf", true, false, true);
-			pBoss_->GetBossBody()->NowToAfterAnimation("Stand_by");
 		}
 
 		pBoss_->GetBossBody()->GetTransform()->SetTranslaion(movePos_);

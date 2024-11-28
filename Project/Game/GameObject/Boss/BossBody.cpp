@@ -12,7 +12,7 @@ void BossBody::Finalize() {}
 void BossBody::Init() {
 	BaseGameObject::Init();
 	SetObject("boss_Body.gltf");
-	//SetAnimater("./Game/Resources/Model/Boss_Body/", "boss_Body.gltf", true, false, true);
+	SetAnimater("./Game/Resources/Model/Boss_Body/", "boss_Body.gltf", true, false, true);
 
 	// colliderの設定
 	SetMeshCollider("boss_body");
@@ -35,7 +35,7 @@ void BossBody::Init() {
 	nowAnimatonName_ = "Damage";
 	waitAnimationName_ = "Stand_by";
 
-	//animetor_->SetTransitionAnimation(nowAnimatonName_, "Stand_by");
+	animetor_->SetTransitionAnimation(nowAnimatonName_, "Stand_by");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

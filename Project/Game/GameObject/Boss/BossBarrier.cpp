@@ -49,6 +49,8 @@ void BossBarrier::Init() {
 	transform_->SetTranslationY(-3.2f);
 
 	enableFunction_ = false;
+
+	isBreak_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,6 +80,10 @@ void BossBarrier::Update() {
 
 void BossBarrier::Draw() const {
 	if (!enableFunction_) {
+		return;
+	}
+
+	if (isBreak_) {
 		return;
 	}
 

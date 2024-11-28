@@ -63,14 +63,18 @@ public:
 
 	// バリアを貼る
 	void SetBarrier() { 
-		expand_.isAct = true;
-		expand_.time = 0.0f;
+		if (isBreak_) {
+			expand_.isAct = true;
+			expand_.time = 0.0f;
+		}
 	}
 
 	// バリアを機能させる
 	void SetEnableFunction(bool isWork) { enableFunction_ = isWork; }
 	const bool GetEnableFunction() const { return enableFunction_; }
+
 	const bool GetBreakBarrier()const { return break_.isAct; }
+
 	const bool GetIsBreak()const { return isBreak_; }
 	const bool GetIsExpand()const;
 

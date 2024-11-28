@@ -102,6 +102,9 @@ void GameScene::Init() {
 	bossHpUI_ = std::make_unique<BossHpUI>(boss_.get());
 	bossHpUI_->Init();
 
+	clutchGauge_ = std::make_unique<ClutchGauge>();
+	clutchGauge_->Init();
+
 	// -------------------------------------------------
 	// ↓ ライト初期化
 	// -------------------------------------------------
@@ -341,6 +344,8 @@ void GameScene::Draw() const {
 
 	panel_->Draw();
 
+	clutchGauge_->Draw();
+
 	// -------------------------------------------------
 	// ↓ 3dUIの描画
 	// -------------------------------------------------
@@ -441,6 +446,10 @@ void GameScene::UpdateUI() {
 	for (auto& missile : missileList_) {
 		missile->UpdateUI(followCamera_->GetVpvpMatrix());
 	}
+
+	clutchGauge_->Update(boss_->GetBossCore()->GetEnergy(), boss_->GetBossCore()->GetEnergyMax(),
+						 fall_->GetEnergy(), fall_->GetEnergyMax(),
+						 boss_->GetBossCore()->GetIsClutched(), fall_->GetIsClutched());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -454,7 +463,7 @@ void GameScene::UpdateManager() {
 	collisionManager_->AddCollider(leftSnaggeObj_.get());
 
 	// mesh
-	if (!boss_->GetBossBarrier()->GetEnableFunction()) {
+	if (boss_->GetBossBarrier()->GetIsBreak() || !boss_->GetBossBarrier()->GetEnableFunction()) {
 		collisionManager_->AddCollider(boss_->GetBossCore()->GetMeshCollider());
 		collisionManager_->AddCollider(boss_->GetBossBody()->GetMeshCollider());
 	}
@@ -667,6 +676,8 @@ void GameScene::Debug_Gui() {
 	panel_->Debug_Gui();
 
 	backGround_->Debug_Gui();
+
+	clutchGauge_->Debug_Gui();
 
 	ImGui::End();
 }

@@ -25,6 +25,7 @@
 #include "Game/Manager/AnimetionEffectManager.h"
 #include "Game/Manager/GameObjectManager.h"
 #include "Engine/Audio/AudioPlayer.h"
+#include "Game/UI/ClutchGauge.h"
 
 class GameScene 
 	: public BaseScene {
@@ -115,6 +116,8 @@ private:
 	std::unique_ptr<Panel> panel_;
 
 	std::unique_ptr<BossHpUI> bossHpUI_;
+
+	std::unique_ptr<ClutchGauge> clutchGauge_;
 	
 	// --- Edier ----------------------------------- //
 	std::unique_ptr<BossAttackEditer> bossLeftAttackEditer_;
