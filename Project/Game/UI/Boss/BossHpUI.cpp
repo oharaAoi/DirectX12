@@ -59,6 +59,7 @@ void BossHpUI::Update(float bossHp) {
 
 	if (!isScaleUpBossHp_) {
 		float hpRaito = bossHp / 100.0f;
+		hpRaito = std::clamp(hpRaito, 0.0f, 1.0f);
 		obj3d_["hpGauge"]->GetTransform()->SetScale(Vector3(1.0f, 1.0f, hpRaito));
 	} else {
 		obj3d_["hpGaugeOrigin"]->Update();
