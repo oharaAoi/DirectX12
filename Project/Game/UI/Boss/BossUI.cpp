@@ -61,6 +61,8 @@ void BossUI::Update(float bossHp, const Matrix4x4& vpvpMat) {
 		float sinSize = std::lerp(minVal_, maxVal_, (sinf(uiTime_) + 1.0f) * 0.5f);
 		obj3d_["canClutchUI"]->GetTransform()->SetScale({ sinSize,sinSize,1.0f });
 		obj3d_["canClutchUI"]->GetTransform()->SetTranslaion(Transform(Vector3::ZERO(), pBoss_->GetBossCore()->GetTransform()->GetWorldMatrix()));
+		float subz = obj3d_["canClutchUI"]->GetTransform()->GetTranslation().z;
+		obj3d_["canClutchUI"]->GetTransform()->SetTranslationZ(subz - 1.0f);
 		obj3d_["canClutchUI"]->Update();
 	}
 	else if (uiTime_ <= 0.0f) {
