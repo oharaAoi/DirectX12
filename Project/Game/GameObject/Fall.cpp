@@ -33,8 +33,6 @@ void Fall::Init() {
 	// ↓ Uiの初期化
 	// -------------------------------------------------
 
-	fallGuideUI_ = Engine::CreateSprite("kari_fallUI.png");
-
 	planes_["fallUI"] = std::make_unique<BaseGameObject>();
 	planes_["fallUI"]->Init();
 	planes_["fallUI"]->SetObject("plane.obj");
@@ -94,12 +92,6 @@ void Fall::Update() {
 
 	BaseGameObject::Update();
 
-	Vector3 worldPos = Transform(Vector3::ZERO(), transform_->GetWorldMatrix() * Render::GetVpvpMat());
-	Vector2 scrennPos = Vector2(worldPos.x + 100, worldPos.y + 50);
-	fallGuideUI_->SetTranslate(scrennPos);
-	fallGuideUI_->Update();
-
-
 	if (appearTime_ >= 1.0f) {
 		if (uiTime_ > 0.0f) {
 			uiTime_ += 9.0f * GameTimer::DeltaTime();
@@ -135,7 +127,7 @@ void Fall::Draw() const {
 }
 
 void Fall::DrawUI() const {
-	fallGuideUI_->Draw();
+	
 }
 
 void Fall::DrawUI3D() {
