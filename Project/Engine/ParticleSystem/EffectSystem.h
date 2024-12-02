@@ -14,14 +14,6 @@ class EffectSystemEditer;
 class EffectSystem {
 public:
 
-	/// <summary>
-	/// Effectのデータ(EmitterとEffect)
-	/// </summary>
-	struct EffectData {
-		std::list<std::unique_ptr<Emitter>> emitterList;
-		std::list<std::unique_ptr<BaseEffect>> effectList;
-	};
-	
 public:
 
 	EffectSystem() = default;
@@ -36,33 +28,12 @@ public:
 	void Update();
 	void Draw() const;
 
-	/// <summary>
-	/// Effectを生成する
-	/// </summary>
-	void CreateEffect();
-
-	/// <summary>
-	/// Emitterを情報を読み込む
-	/// </summary>
-	void LoadEmitter(const std::string& fileName);
-
-	/// <summary>
-	/// Saveを行う
-	/// </summary>
-	void SaveEmitter();
-
 #ifdef _DEBUG
 	void Debug_Gui();
 
 	void EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device);
 
-public:	// ImGui上でEffectだけを描画するための処理をする関数
-
-	void BeginEditer();
-	void EndEditer();
-
-	void UpdateEditer();
-	void DrawEditer();
+	void PostDraw();
 
 #endif;
 
@@ -78,8 +49,7 @@ private:
 	const std::string kDirectoryPath_ = "./Game/Resources/GameData/Emitter/";
 
 	std::unique_ptr<ParticleField> particleField_ = nullptr;
-	std::list<EffectData> effectList_;
-
+	
 	Matrix4x4 cameraMat_;
 	Matrix4x4 viewMat_;
 	Matrix4x4 projectionMat_;

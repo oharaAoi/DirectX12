@@ -1,10 +1,13 @@
 #include "GpuEmitter.h"
-#ifdef _DEBUG
-#include "Engine/Manager/ImGuiManager.h"
-#endif
+#include "Engine/Engine.h"
+#include "Engine/Utilities/DrawUtils.h"
 
 GpuEmitter::GpuEmitter() {}
 GpuEmitter::~GpuEmitter() {}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　初期化処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuEmitter::Init() {
 	// gpuに送るResourceの作成
@@ -24,6 +27,10 @@ void GpuEmitter::Init() {
 	sphereEmitter_->emit = 0;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　更新処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void GpuEmitter::Update() {
 	perFrame_->deltaTime = GameTimer::DeltaTime();
 	perFrame_->time = GameTimer::TotalTime();
@@ -38,8 +45,34 @@ void GpuEmitter::Update() {
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　commandListにコマンドを積む
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void GpuEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	commandList->SetComputeRootConstantBufferView(rootParameterIndex, emitterBuffer_->GetGPUVirtualAddress());
 	commandList->SetComputeRootConstantBufferView(rootParameterIndex + 1, perFrameBuffer_->GetGPUVirtualAddress());
 }
+
+void GpuEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
+	DrawSphere(sphereEmitter_->translate, sphereEmitter_->radius, viewProjectionMat);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Debug編集
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef _DEBUG
+#include "Engine/Manager/ImGuiManager.h"
+void GpuEmitter::Debug_Gui() {
+	ImGui::Begin("GpuEmitter");
+	ImGui::DragFloat3("translate", &sphereEmitter_->translate.x, 0.1f);
+	ImGui::DragFloat("radius", &sphereEmitter_->radius, 0.1f);
+	ImGui::DragFloat("frequency", &sphereEmitter_->frequency, 0.1f);
+	ImGui::DragFloat("frequencyTime", &sphereEmitter_->frequencyTime, 0.1f);
+	ImGui::DragScalar("count", ImGuiDataType_U32, &sphereEmitter_->count);
+	ImGui::SliderInt("emit", &sphereEmitter_->emit, 0, 1);
+	ImGui::End();
+}
+#endif
 

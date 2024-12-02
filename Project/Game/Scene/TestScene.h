@@ -32,7 +32,7 @@ public:
 	void Draw() const override;
 
 #ifdef _DEBUG
-	void ImGuiDraw();
+	void Debug_Gui() override;
 #endif
 
 private:
@@ -51,8 +51,6 @@ private:
 	std::unique_ptr<MeshCollider> meshColliderB_;
 
 	std::unique_ptr<CollisionManager> collisionManager_;
-
-	std::unique_ptr<GpuEffect> gpuEffect_;
 
 	int easeIndex_ = 0;
 

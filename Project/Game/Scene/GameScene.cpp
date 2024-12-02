@@ -14,10 +14,7 @@ void GameScene::Init() {
 }
 
 void GameScene::Update() {
-	
-#ifdef _DEBUG
-	Debug_Gui();
-#endif
+
 }
 
 void GameScene::Draw() const {

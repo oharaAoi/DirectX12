@@ -3,16 +3,9 @@
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
 #include "Engine/DirectX/DirectXCommon/DirectXCommon.h"
-#include "Engine/ParticleSystem/Emitter.h"
 #include "Engine/ParticleSystem/ParticleField.h"
-#include "Engine/ParticleSystem/BaseEffect.h"
-#include "EffectSystemCamera.h"
-#include "Engine/Utilities/DrawUtils.h"
-
-#ifdef _DEBUG
-#include <Externals/nlohmann/json.hpp>
-#endif // _DEBUG
-
+#include "Engine/ParticleSystem/EffectSystemCamera.h"
+#include "Engine/ParticleSystem/GpuEffect.h"
 
 /// <summary>
 /// effectを作成する用のクラス
@@ -22,14 +15,6 @@ public:
 
 #ifdef _DEBUG
 
-	/// <summary>
-	/// Effectのデータ(EmitterとEffect)
-	/// </summary>
-	struct EffectData {
-		std::list<std::unique_ptr<Emitter>> emitterList;
-		std::list<std::unique_ptr<BaseEffect>> effectList;
-	};
-
 	EffectSystemEditer(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device);
 	~EffectSystemEditer();
 
@@ -38,13 +23,12 @@ public:
 	void Update();
 	void Draw() const;
 
-	void CreateEffect();
-
 	void Begin();
 	void End();
 
-	void LoadEffectFile(const std::string& filePath);
-	void SaveEffectFile(const std::string& filePath);
+	void CreateEffect(const std::string& newName);
+
+	void Debug_Gui();
 
 private:
 
@@ -60,14 +44,18 @@ private:
 	DescriptorHeap* descriptorHeaps_ = nullptr;
 	// commands
 	DirectXCommands* dxCommands_ = nullptr;
-
+	// device
 	ID3D12Device* device_ = nullptr;
-
 	// dsv
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
 
+	// ----------- field ----------- //
+	// filed
 	std::unique_ptr<ParticleField> particleField_ = nullptr;
-	std::list<EffectData> effectList_;
+
+	// ----------- effect ----------- //
+	std::list<std::unique_ptr<GpuEffect>> effectList_;
+
 
 #endif // _DEBUG
 };

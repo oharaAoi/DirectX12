@@ -33,15 +33,7 @@ void EffectSystem::Finalize() {
 	editer_->Finalize();
 #endif
 
-	for (std::list<EffectData>::iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
-		for (std::list<std::unique_ptr<BaseEffect>>::iterator effectListIter = effectDataListIter->effectList.begin();
-			 effectListIter != effectDataListIter->effectList.end();) {
-			(*effectListIter)->Finalize();
 
-			++effectListIter;
-		}
-		++effectDataListIter;
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,38 +41,9 @@ void EffectSystem::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystem::Update() {
-	for (std::list<EffectData>::iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
-		// -------------------------------------------------
-		// ↓ エミッターの更新
-		// -------------------------------------------------
-		for (std::list<std::unique_ptr<Emitter>>::iterator emitterListIter = effectDataListIter->emitterList.begin(); emitterListIter != effectDataListIter->emitterList.end();) {
-			if ((*emitterListIter)->GetIsDead()) {
-				emitterListIter = effectDataListIter->emitterList.erase(emitterListIter);
-			}
-			(*emitterListIter)->Update();
-			++emitterListIter;
-		}
-
-		// -------------------------------------------------
-		// ↓ effectの更新
-		// -------------------------------------------------
-		for (std::list<std::unique_ptr<BaseEffect>>::iterator effectListIter = effectDataListIter->effectList.begin(); effectListIter != effectDataListIter->effectList.end();) {
-			particleField_->SetParticle((*effectListIter).get());
-			(*effectListIter)->SetCameraMatrix(cameraMat_);
-			(*effectListIter)->Update(viewMat_, projectionMat_);
-			++effectListIter;
-		}
-
-		++effectDataListIter;
-	}
-
-	// -------------------------------------------------
-	// ↓ 当たり判定の実装
-	// -------------------------------------------------
-	//particleField_->Update();
-
+	
 #ifdef _DEBUG
-	//particleField_->Debug_Gui();
+	editer_->Update();
 #endif
 }
 
@@ -89,60 +52,10 @@ void EffectSystem::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystem::Draw() const {
-	for (std::list<EffectData>::const_iterator effectDataListIter = effectList_.begin(); effectDataListIter != effectList_.end();) {
-		// -------------------------------------------------
-		// ↓ effectの更新
-		// -------------------------------------------------
-		for (std::list<std::unique_ptr<BaseEffect>>::const_iterator effectListIter = effectDataListIter->effectList.begin();
-			 effectListIter != effectDataListIter->effectList.end();) {
-			(*effectListIter)->Draw();
-			++effectListIter;
-		}
-		
-		// -------------------------------------------------
-		// ↓ エミッターの更新
-		// -------------------------------------------------
-		for (std::list<std::unique_ptr<Emitter>>::const_iterator emitterListIter = effectDataListIter->emitterList.begin();
-			 emitterListIter != effectDataListIter->emitterList.end();) {
-			(*emitterListIter)->Draw(viewMat_ * projectionMat_);
-			++emitterListIter;
-		}
-
-		++effectDataListIter;
-	}
-	//particleField_->Draw(viewMat_ * projectionMat_);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　メンバ関数
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void EffectSystem::CreateEffect() {
-	EffectData effectData;
-	std::unique_ptr<BaseEffect> effect = std::make_unique<BaseEffect>();
-	effect->Init("./Resources/Effect/", "particle.obj", 10);
-	std::unique_ptr<Emitter> emitter = std::make_unique<Emitter>(effect.get());
-	
-	effectData.emitterList.push_back(std::move(emitter));
-	effectData.effectList.push_back(std::move(effect));
-
-	effectList_.push_back(std::move(effectData));
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　Emitterのファイル読み込み
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void EffectSystem::LoadEmitter(const std::string& fileName) {
-	std::string filePath = kDirectoryPath_ + fileName + ".json";
-	// 読み込み用ファイルストリーム
-	std::ifstream ifs;
-	// ファイルを読み込みように開く
-	ifs.open(filePath);
-	if (ifs.fail()) {
-		std::string message = "not Exist " + fileName + ".json";
-	}
-
+#ifdef _DEBUG
+	editer_->Begin();
+	editer_->Draw();
+#endif
 }
 
 void EffectSystem::SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matrix4x4& projection) {
@@ -156,29 +69,16 @@ void EffectSystem::SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matri
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
 void EffectSystem::Debug_Gui() {
-	ImGui::Begin("Engine");
-	ImGui::Checkbox("openEffectEditer", &isEffectEditer_);
+	ImGui::Begin("EffectSystem");
+	//ImGui::Checkbox("openEffectEditer", &isEffectEditer_);
+	editer_->Debug_Gui();
 	ImGui::End();
 }
 
 void EffectSystem::EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device) {
 	editer_ = std::make_unique<EffectSystemEditer>(renderTarget, descriptorHeaps, dxCommands, device);
 }
-
-void EffectSystem::BeginEditer() {
-	editer_->Begin();
-}
-
-void EffectSystem::UpdateEditer() {
-	editer_->Update();
-}
-
-void EffectSystem::DrawEditer() {
-	editer_->Draw();
-}
-
-void EffectSystem::EndEditer() {
+void EffectSystem::PostDraw() {
 	editer_->End();
 }
-
 #endif

@@ -27,6 +27,12 @@ public:
 
 	void PostFrame();
 
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
+
+public:
+
 	void SetChange(const SceneType& type);
 
 private:

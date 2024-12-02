@@ -29,10 +29,6 @@ void TestScene::Init() {
 
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
-
-	// Effect -------------------------------------------------------------------
-	gpuEffect_ = std::make_unique<GpuEffect>();
-	gpuEffect_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,8 +55,6 @@ void TestScene::Update() {
 	testObjA_->Update();
 	testObjB_->Update();
 
-	gpuEffect_->Update();
-
 	collisionManager_->Reset();
 	collisionManager_->AddCollider(testObjA_->GetMeshCollider());
 	collisionManager_->AddCollider(testObjB_->GetMeshCollider());
@@ -71,10 +65,6 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	EffectSystem::GetInstacne()->SetCameraMatrix(camera_->GetCameraMatrix());
 	EffectSystem::GetInstacne()->SetViewProjectionMatrix(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-
-#ifdef _DEBUG
-	ImGuiDraw();
-#endif
 }
 
 void TestScene::Draw() const {
@@ -83,14 +73,11 @@ void TestScene::Draw() const {
 
 	testObjB_->Draw();
 
-	gpuEffect_->Draw();
-
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
-	
 }
 
 #ifdef _DEBUG
-void TestScene::ImGuiDraw() {
+void TestScene::Debug_Gui() {
 	ImGui::Begin("TestScene");
 	ImGui::Checkbox("isDebug", &isDebugCamera_);
 	//test_animationCS_->Debug_Gui();

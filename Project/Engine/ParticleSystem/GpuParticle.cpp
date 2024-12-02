@@ -22,11 +22,14 @@ void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
 	perViewBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerView));
 	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
 
+	perView_->viewProjection = Matrix4x4::MakeUnit();
+	perView_->billboardMat = Matrix4x4::MakeUnit();
+
 	perFrameBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
 
 	// -------------------------------------------------
-	// ↓ 
+	// ↓ Particle用のUAVの作成
 	// -------------------------------------------------
 	particleBuffer_ = CreateUAVResource(Engine::GetDevice(), sizeof(Particle) * kInstanceNum_);
 	// UAVの設定
@@ -123,9 +126,6 @@ void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
 void GpuParticle::Update() {
 	perFrame_->deltaTime = GameTimer::DeltaTime();
 	perFrame_->time = GameTimer::TotalTime();
-
-	perView_->viewProjection = Render::GetViewport3D() * Render::GetProjection3D();
-	perView_->billboardMat = Matrix4x4::MakeUnit();
 
 	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
 	Engine::SetCsPipeline(CsPipelineType::GpuParticleUpdate);

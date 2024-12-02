@@ -17,6 +17,10 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() const = 0;
 
+#ifdef _DEBUG
+	virtual void Debug_Gui() = 0;
+#endif
+
 	const std::optional<SceneType>& GetNextSceneType() const { return nextSceneType_; }
 	void SetNextSceneType(const std::optional<SceneType>& type) { nextSceneType_ = type; }
 

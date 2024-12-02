@@ -35,8 +35,8 @@ public:
 	void Update();
 
 	void LoadAllFile();
-	void Load(const std::string& fileName);
-	void Save(const std::string& fileName);
+	//void Load(const std::string& fileName);
+	//void Save(const std::string& fileName);
 
 	/// <summary>
 	/// json項目を追加する

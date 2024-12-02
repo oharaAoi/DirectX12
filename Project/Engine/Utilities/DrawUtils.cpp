@@ -1,5 +1,9 @@
 #include "DrawUtils.h"
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Grid線の描画
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 	//const float kGridHalfwidth_ = 20.0f; // 中心からの半幅
 	const uint32_t kSubdivision_ = 60;   // 分割数
@@ -41,6 +45,71 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　球の描画
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjectionMatrix) {
+	const uint32_t kSubdivision = 16;
+	const float kLonEvery = 2.0f * float(M_PI) / kSubdivision;
+	const float kLatEvery = float(M_PI) / kSubdivision;
+
+	for (uint32_t latIndex = 0; latIndex < kSubdivision; ++latIndex) {
+		float lat = -float(M_PI) / 2.0f + kLatEvery * latIndex; // 現在の緯度 theta
+
+		for (uint32_t lonIndex = 0; lonIndex < kSubdivision; ++lonIndex) {
+			float lon = lonIndex * kLonEvery; // 現在の経度 fai
+
+			Vector3 a, b, c;
+			Vector3 localA{}, localB{}, localC{};
+			localA = {
+				std::cos(lat) * cos(lon) * (radius / 2),
+				std::sin(lat) * (radius / 2),
+				std::cos(lat) * std::sin(lon) * (radius / 2)
+			};
+
+			localB = {
+				std::cos(lat + kLatEvery) * std::cos(lon) * (radius / 2) ,
+				std::sin(lat + kLatEvery) * (radius / 2),
+				std::cos(lat + kLatEvery) * std::sin(lon) * (radius / 2)
+			};
+
+			localC = {
+				std::cos(lat) * std::cos(lon + kLonEvery) * (radius / 2),
+				std::sin(lat) * (radius / 2),
+				std::cos(lat) * std::sin(lon + kLonEvery) * (radius / 2)
+			};
+
+
+			a = {
+				localA.x + center.x,
+				localA.y + center.y,
+				localA.z + center.z,
+			};
+
+			b = {
+				localB.x + center.x,
+				localB.y + center.y,
+				localB.z + center.z,
+			};
+
+			c = {
+				localC.x + center.x,
+				localC.y + center.y,
+				localC.z + center.z,
+			};
+
+			Render::DrawLine(a, b, { 1.0f, 0.0f, 0.0f, 1.0f }, viewProjectionMatrix);
+			Render::DrawLine(a, c, { 1.0f, 0.0f, 0.0f, 1.0f }, viewProjectionMatrix);
+		}
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　AABBの描画
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color) {
 	std::array<Vector3, 8> point = {
 		Vector3{aabb.min.x,aabb.max.y, aabb.min.z }, // front_LT
@@ -60,6 +129,10 @@ void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color)
 		Render::DrawLine(point[oi], point[j], color, vpMatrix);
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　OBBの描画
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DrawOBB(const OBB& obb, const Vector4& color) {
 	Matrix4x4 rotateMatrix = obb.matRotate;

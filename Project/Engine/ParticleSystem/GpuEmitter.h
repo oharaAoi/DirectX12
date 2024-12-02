@@ -1,9 +1,6 @@
 #pragma once
 #include <string>
-#include "Engine/Engine.h"
 #include "Engine/Math/Vector3.h"
-#include "Engine/Math/Vector4.h"
-#include "Engine/Math/Matrix4x4.h"
 #include "Engine/Utilities/DirectXUtils.h"
 
 class GpuEmitter {
@@ -31,6 +28,12 @@ public:
 	void Init();
 	void Update();
 	void BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
+
+	void DrawShape(const Matrix4x4& viewProjectionMat);
+
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
 
 private:
 

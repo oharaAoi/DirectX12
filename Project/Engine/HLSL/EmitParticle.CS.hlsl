@@ -70,7 +70,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				int particleIndex = gFreeListIndex[freeListIndex];
 				gParticles[particleIndex] = (Particle) 0;
 				gParticles[particleIndex].scale = generator.Generated3d();
-				gParticles[particleIndex].translate = generator.Generated3d();
+				gParticles[particleIndex].translate = gEmitter.translate + generator.Generated3d();
 				gParticles[particleIndex].color.rgb = generator.Generated3d();
 				gParticles[particleIndex].color.a = 1.0f;
 				gParticles[particleIndex].lifeTime = 5.0f;

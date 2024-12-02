@@ -59,21 +59,16 @@ void AdjustmentItem::LoadAllFile() {
 		if (extension.compare(".json") != 0) {
 			continue;
 		}
-		// ファイル読み込み
-		Load(filePath.stem().string());
+		//// ファイル読み込み
+		//Load(filePath.stem().string());
 	}
-}
-
-void AdjustmentItem::Load(const std::string& fileName) {
-	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　保存を行う
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AdjustmentItem::Save(const std::string& fileName) {
-}
+
 
 void AdjustmentItem::AddGroup(const std::string& groupName, const json& jsonData) {
 	std::string id = jsonData;

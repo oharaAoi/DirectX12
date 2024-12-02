@@ -37,7 +37,6 @@ void SceneManager::Update() {
 	scene_->Update();
 	effectSystem_->Update();
 	Render::Update();
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,24 +45,8 @@ void SceneManager::Update() {
 
 void SceneManager::Draw() {
 	scene_->Draw();
-
-	Engine::SetPipeline(PipelineType::ParticlePipeline);
 	effectSystem_->Draw();
-
-#ifdef _DEBUG
-	// ------------------------------------ //
-	// EffectEditerの処理
-	// ------------------------------------ //
-
-	effectSystem_->Debug_Gui();
-	if (effectSystem_->GetIsEffectEditer()) {
-		effectSystem_->BeginEditer();
-		effectSystem_->UpdateEditer();
-
-		effectSystem_->DrawEditer();
-	}
-
-#endif
+	Engine::DrawRenderTexture();
 }
 
 void SceneManager::PostFrame() {
@@ -72,14 +55,9 @@ void SceneManager::PostFrame() {
 	// ------------------------------------ //
 	// フレーム終了処理
 	// ------------------------------------ //
-	Engine::DrawRenderTexture();
 	Engine::EndImGui();
 
-#ifdef _DEBUG
-	if (effectSystem_->GetIsEffectEditer()) {
-		effectSystem_->EndEditer();
-	}
-#endif
+	effectSystem_->PostDraw();
 
 	Engine::EndFrame();
 
@@ -87,6 +65,12 @@ void SceneManager::PostFrame() {
 	gameTimer_.CalculationFrame();
 }
 
+#ifdef _DEBUG
+void SceneManager::Debug_Gui() {
+	scene_->Debug_Gui();
+	effectSystem_->Debug_Gui();
+}
+#endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　シーンの切り替え

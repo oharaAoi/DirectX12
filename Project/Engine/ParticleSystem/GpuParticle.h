@@ -45,6 +45,10 @@ public:
 
 	void EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
 
+public:		// アクセッサ
+
+	void SetPerViewProjectionMat(const Matrix4x4& viewProjectionMat) { perView_->viewProjection = viewProjectionMat; }
+
 private:
 
 	uint32_t kInstanceNum_;
