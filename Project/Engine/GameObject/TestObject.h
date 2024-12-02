@@ -7,19 +7,19 @@
 class TestObject : public BaseGameObject {
 public:
 
-	struct Test : IJsonConverter {
+	struct Test : public IJsonConverter {
 		Vector3 pos;
 		float lifeTime;
 		float speed;
 		float hp;
 
 		json ToJson() const override {
-			return {
-				{"position", toJson(pos)},
-				{"lifeTime", lifeTime},
-				{"speed", speed},
-				{"hp", hp}
-			};
+			return JsonBuilder("testParame")
+				.Add("pos", pos)
+				.Add("lifeTime", lifeTime)
+				.Add("speed", speed)
+				.Add("hp", hp)
+				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
@@ -28,8 +28,6 @@ public:
 			fromJson(jsonData, "speed", speed);
 			fromJson(jsonData, "hp", hp);
 		}
-
-		~Test() {};
 	};
 
 public:
@@ -61,6 +59,8 @@ private:
 	float transitionAnimationTimeLimit_;
 
 	bool isLerp_ = false;
+
+	Test test_;
 
 };
 

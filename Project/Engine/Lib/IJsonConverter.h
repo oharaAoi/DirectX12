@@ -4,9 +4,17 @@
 #include "Engine/Math/Vector4.h"
 #include <nlohmann/json.hpp>
 #include <string>
+#include <assert.h>
 #include <type_traits>
+#include <unordered_map>
+#include <variant>
+#include <Engine/Utilities/DirectXUtils.h>
 
 using json = nlohmann::json;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// <summary>
 /// このクラスは構造体やクラスのメンバ変数をjson形式に変換(逆もまた)する
@@ -35,25 +43,109 @@ protected:
 
 };
 
-json toJson(const Vector2& v);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-json toJson(const Vector3& v);
-
-
-
+template <typename T>
+inline json toJson(const T& v) {
+	if constexpr (std::is_same_v<T, Vector4>) {
+		// Vector4型に対する処理
+		return json{ {"x", v.x}, {"y", v.y}, {"z", v.z}, {"w", v.w} };
+	} else if constexpr (std::is_same_v<T, Vector3>) {
+		// Vector3型に対する処理
+		return json{ {"x", v.x}, {"y", v.y}, {"z", v.z} };
+	} else if constexpr (std::is_same_v<T, Vector2>) {
+		// Vector2型に対する処理
+		return json{ {"x", v.x}, {"y", v.y} };
+	} else if constexpr (std::is_same_v<T, float>) {
+		// float型に対する処理
+		return v;
+	} else if constexpr (std::is_same_v<T, int>) {
+		// int型に対する処理
+		return v;
+	} else if constexpr (std::is_same_v<T, uint32_t>) {
+		// uint32_t型に対する処理
+		return v;
+	} else {
+		assert(false && "Unsupported type in toJson");
+	}
+}
 
 template <typename T>
 inline void fromJson(const json& j, const std::string& name, T& value) {
-	if constexpr (std::is_same_v<T, Vector3>) {
-		// Vector3型に対する処理
-		value.x = j.at(name).at("x").get<float>();
-		value.y = j.at(name).at("y").get<float>();
-		value.z = j.at(name).at("z").get<float>();
-	} else if constexpr (std::is_same_v<T, float>) {
-		// float型に対する処理
-		value = j.at(name).get<float>();
-	} else if constexpr (std::is_same_v<T, int>) {
-		// int型に対する処理
-		value = j.at(name).get<int>();
+	// jsonにnameが含まれていたら
+	if (j.contains(name)) {
+		if constexpr (std::is_same_v<T, Vector3>) {
+			// Vector3型に対する処理
+			value.x = j.at(name).at("x").get<float>();
+			value.y = j.at(name).at("y").get<float>();
+			value.z = j.at(name).at("z").get<float>();
+		} else if constexpr (std::is_same_v<T, Vector2>) {
+			// Vector2型に対する処理
+			value.x = j.at(name).at("x").get<float>();
+			value.y = j.at(name).at("y").get<float>();
+		} else if constexpr (std::is_same_v<T, float>) {
+			// float型に対する処理
+			value = j.at(name).get<float>();
+		} else if constexpr (std::is_same_v<T, int>) {
+			// int型に対する処理
+			value = j.at(name).get<int>();
+		} else if constexpr (std::is_same_v<T, uint32_t>) {
+			// uint32_t型に対する処理
+			value = j.at(name).get<uint32_t>();
+		}
+	} else {
+		// json内にnameが存在していなかったら
+		std::string erroeLog = "not contains jsonData  : " + name;
+		Log(erroeLog);
+		assert(false && "Name is missing in the JSON");
 	}
 }
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　json形式のデータを構築するようのクラス
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+class JsonBuilder {
+public:
+
+	struct Item {
+		std::variant<uint32_t, int, float, Vector2, Vector3, Vector4> value;
+	};
+
+public:
+
+	JsonBuilder(const std::string& name) : hierarchyName_(name) {};
+	~JsonBuilder() = default;
+
+	/// <summary>
+	/// json項目を追加する関数
+	/// </summary>
+	/// <typeparam name="T">: 任意の型</typeparam>
+	/// <param name="key">: 値に対応する名前</param>
+	/// <param name="value">] 値</param>
+	/// <returns>: json型にkeyとvalueのペアが登録される</returns>
+	template <typename T>
+	JsonBuilder& Add(const std::string& key, const T& value) {
+		//jsonValue_[key].value = value;
+		jsonData_[hierarchyName_][key] = toJson(value);
+		return *this;// 自分自身を返す
+	}
+
+	/// <summary>
+	/// 構築を実行する
+	/// </summary>
+	/// <returns></returns>
+	json Build() const {
+		return jsonData_;
+	}
+
+private:
+
+	json jsonData_;
+	std::unordered_map<std::string, Item> jsonValue_;
+
+	std::string hierarchyName_;
+};

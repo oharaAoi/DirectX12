@@ -27,6 +27,13 @@ void TestObject::Init() {
 	transitionAnimationTimeLimit_ = 1.0f;
 
 	animationTime_ = 0.0f;
+
+	test_.pos = Vector3::UP();
+	test_.hp = 100.0f;
+	test_.lifeTime = 30.0f;
+	test_.speed = 5.0f;
+
+	test_.ToJson();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
