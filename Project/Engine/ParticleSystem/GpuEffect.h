@@ -24,11 +24,10 @@ public:
 
 	void SetViewProjectionMat(const Matrix4x4& mat) { viewProjectionMat_ = mat; }
 
-	/// <summary>
-	/// effectの名前を登録する
-	/// </summary>
-	/// <param name="effectName">: effectの名前を登録する</param>
+	// Effectの名前を取得する・設定する
+	const std::string& GetEffectName() const { return effectName_; }
 	void SetEffectName(const std::string& effectName) { effectName_ = effectName; }
+
 
 private:
 

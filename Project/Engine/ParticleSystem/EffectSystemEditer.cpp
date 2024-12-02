@@ -66,12 +66,14 @@ void EffectSystemEditer::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Draw() const {
+	ImGui::Begin("Render Target View");
+
 	// Grid線描画
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 
 	// 実際にEffectを描画する
-	Engine::SetPipeline(PipelineType::NormalPipeline);
+	Engine::SetPipeline(PipelineType::AddPipeline);
 	for (std::list<std::unique_ptr<GpuEffect>>::const_iterator it = effectList_.begin(); it != effectList_.end();) {
 		(*it)->Draw();
 		++it;
@@ -80,9 +82,8 @@ void EffectSystemEditer::Draw() const {
 	// 最後にImGui上でEffectを描画する
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	
-	ImGui::Begin("Render Target View");
 	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetOffScreenSRVHandle(RenderTargetType::EffectSystem_RenderTarget).handleGPU.ptr));
-	ImGui::Image((void*)textureID, ImVec2(static_cast<float>(640), static_cast<float>(360))); // サイズは適宜調整
+	ImGui::Image((void*)textureID, ImVec2(640.0f, 360.0f)); // サイズは適宜調整
 	ImGui::End();
 }
 
@@ -112,6 +113,8 @@ void EffectSystemEditer::End() {
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Effectの作成をする
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,8 +136,19 @@ void EffectSystemEditer::Debug_Gui() {
 		CreateEffect(defalutName);
 	}
 
-	for (std::list<std::unique_ptr<GpuEffect>>::iterator it = effectList_.begin(); it != effectList_.end(); ++it) {
-		(*it)->Debug_Gui();
+	if (ImGui::BeginTabBar("EmitterTabs")) {
+		// リストを反復してタブを作成
+		for (auto it = effectList_.begin(); it != effectList_.end(); ++it) {
+			// タブのラベルを生成（インデックスではなくポインタアドレスを利用）
+			std::string tabLabel = "Emitter " + std::to_string(std::distance(effectList_.begin(), it));
+
+			if (ImGui::BeginTabItem(tabLabel.c_str())) {
+				(*it)->Debug_Gui();
+
+				ImGui::EndTabItem();
+			}
+		}
+		ImGui::EndTabBar();
 	}
 
 }

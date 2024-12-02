@@ -65,14 +65,12 @@ void GpuEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
 void GpuEmitter::Debug_Gui() {
-	ImGui::Begin("GpuEmitter");
 	ImGui::DragFloat3("translate", &sphereEmitter_->translate.x, 0.1f);
 	ImGui::DragFloat("radius", &sphereEmitter_->radius, 0.1f);
 	ImGui::DragFloat("frequency", &sphereEmitter_->frequency, 0.1f);
 	ImGui::DragFloat("frequencyTime", &sphereEmitter_->frequencyTime, 0.1f);
 	ImGui::DragScalar("count", ImGuiDataType_U32, &sphereEmitter_->count);
 	ImGui::SliderInt("emit", &sphereEmitter_->emit, 0, 1);
-	ImGui::End();
 }
 #endif
 
