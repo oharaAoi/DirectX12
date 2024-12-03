@@ -252,9 +252,6 @@
     <ClCompile Include="Engine\Math\MyRandom.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ParticleSystem\Emitter.cpp">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Math\MathStructures.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
@@ -396,7 +393,7 @@
     <ClCompile Include="Engine\Math\Vector2.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ParticleSystem\BaseParticle.cpp">
+    <ClCompile Include="Engine\ParticleSystem\Particle\BaseParticle.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
     <ClCompile Include="Game\GameResources.cpp">
@@ -423,10 +420,10 @@
     <ClCompile Include="Engine\Math\Easing.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ParticleSystem\GpuParticle.cpp">
+    <ClCompile Include="Engine\ParticleSystem\Particle\GpuParticle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ParticleSystem\GpuEmitter.cpp">
+    <ClCompile Include="Engine\ParticleSystem\Emitter\GpuEmitter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ParticleSystem\GpuEffect.cpp">
@@ -451,6 +448,15 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Lib\IJsonConverter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\Emitter\Emitter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\Emitter\SphereEmitter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\Emitter\ConeEmitter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -614,9 +620,6 @@
     <ClInclude Include="Engine\Math\MyRandom.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ParticleSystem\Emitter.h">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Math\MathStructures.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
@@ -749,7 +752,7 @@
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorAllocator.h">
       <Filter>Engine\DirectX\Descriptor</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ParticleSystem\BaseParticle.h">
+    <ClInclude Include="Engine\ParticleSystem\Particle\BaseParticle.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
     <ClInclude Include="Game\GameResources.h">
@@ -776,10 +779,10 @@
     <ClInclude Include="Engine\Math\Easing.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ParticleSystem\GpuParticle.h">
+    <ClInclude Include="Engine\ParticleSystem\Particle\GpuParticle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ParticleSystem\GpuEmitter.h">
+    <ClInclude Include="Engine\ParticleSystem\Emitter\GpuEmitter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ParticleSystem\GpuEffect.h">
@@ -813,6 +816,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Lib\IJsonConverter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\Emitter\Emitter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\Emitter\SphereEmitter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\Emitter\ConeEmitter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

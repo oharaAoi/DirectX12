@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
 #include "Engine/Engine.h"
-#include "Engine/ParticleSystem/GpuParticle.h"
-#include "Engine/ParticleSystem/GpuEmitter.h"
+#include "Engine/ParticleSystem/Particle/GpuParticle.h"
+#include "Engine/ParticleSystem/Emitter/SphereEmitter.h"
 
 class GpuEffect {
 public:

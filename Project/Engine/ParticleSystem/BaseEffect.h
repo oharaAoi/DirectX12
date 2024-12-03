@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine.h"
 #include "Engine/Math/MyRandom.h"
-#include "Emitter.h"
+#include "Engine/ParticleSystem/Emitter/Emitter.h"
 #include "Engine/Lib/Transform.h"
 #include "Engine/Lib/GameTimer.h"
 

@@ -1,5 +1,5 @@
 #include "Emitter.h"
-#include "BaseEffect.h"
+#include "Engine/ParticleSystem/BaseEffect.h"
 
 Emitter::Emitter(BaseEffect* effect) : effect_(effect) {
 	Init();

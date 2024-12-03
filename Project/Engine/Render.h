@@ -4,7 +4,7 @@
 #include "Engine/2d/Sprite.h"
 #include "Engine/GameObject/Sphere.h"
 #include "Engine/GameObject/Model.h"
-#include "Engine/ParticleSystem/BaseParticle.h"
+#include "Engine/ParticleSystem/Particle/BaseParticle.h"
 #include "Engine/DirectX/Pipeline/PrimitivePipeline.h"
 #include "Engine/2d/PrimitiveDrawer.h"
 #include "Engine/Light/LightGroup.h"

@@ -1,19 +1,24 @@
-#include "GpuEmitter.h"
+#include "SphereEmitter.h"
 #include "Engine/Engine.h"
 #include "Engine/Utilities/DrawUtils.h"
 
-GpuEmitter::GpuEmitter() {}
-GpuEmitter::~GpuEmitter() {}
+SphereEmitter::SphereEmitter() {
+}
+
+SphereEmitter::~SphereEmitter() {
+	emitterBuffer_.Reset();
+	perFrameBuffer_.Reset();
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GpuEmitter::Init() {
-	// gpuに送るResourceの作成
-	emitterBuffer_ = CreateUAVResource(Engine::GetDevice(), sizeof(SphereEmitter));
+void SphereEmitter::Init() {
+	// Resourceの作成
+	emitterBuffer_ = CreateUAVResource(Engine::GetDevice(), sizeof(Emitter));
 
-	emitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(SphereEmitter));
+	emitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(Emitter));
 	emitterBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&sphereEmitter_));
 
 	perFrameBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerFrame));
@@ -31,7 +36,7 @@ void GpuEmitter::Init() {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GpuEmitter::Update() {
+void SphereEmitter::Update() {
 	perFrame_->deltaTime = GameTimer::DeltaTime();
 	perFrame_->time = GameTimer::TotalTime();
 
@@ -46,15 +51,19 @@ void GpuEmitter::Update() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　commandListにコマンドを積む
+// ↓　コマンドリストに登録
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GpuEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
+void SphereEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	commandList->SetComputeRootConstantBufferView(rootParameterIndex, emitterBuffer_->GetGPUVirtualAddress());
 	commandList->SetComputeRootConstantBufferView(rootParameterIndex + 1, perFrameBuffer_->GetGPUVirtualAddress());
 }
 
-void GpuEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　形状の描画
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void SphereEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
 	DrawSphere(sphereEmitter_->translate, sphereEmitter_->radius, viewProjectionMat);
 }
 
@@ -64,7 +73,7 @@ void GpuEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
 
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
-void GpuEmitter::Debug_Gui() {
+void SphereEmitter::Debug_Gui() {
 	ImGui::DragFloat3("translate", &sphereEmitter_->translate.x, 0.1f);
 	ImGui::DragFloat("radius", &sphereEmitter_->radius, 0.1f);
 	ImGui::DragFloat("frequency", &sphereEmitter_->frequency, 0.1f);
@@ -73,4 +82,3 @@ void GpuEmitter::Debug_Gui() {
 	ImGui::SliderInt("emit", &sphereEmitter_->emit, 0, 1);
 }
 #endif
-

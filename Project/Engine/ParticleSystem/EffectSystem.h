@@ -5,7 +5,7 @@
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
 // Emmiter
-#include "Engine/ParticleSystem/Emitter.h"
+#include "Engine/ParticleSystem/Emitter/Emitter.h"
 #include "Engine/ParticleSystem/ParticleField.h"
 #include "Engine/ParticleSystem/BaseEffect.h"
 

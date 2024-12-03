@@ -7,7 +7,7 @@
 #include "Engine/GameObject/BaseGameObject.h"
 #include "Game/Camera/Camera.h"
 #include "Game/Camera/DebugCamera.h"
-#include "Engine/ParticleSystem/Emitter.h"
+#include "Engine/ParticleSystem/Emitter/Emitter.h"
 #include "Engine/ParticleSystem/ParticleField.h"
 #include "Engine/ParticleSystem/EffectSystem.h"
 #include "Engine/Collider/MeshCollider.h"

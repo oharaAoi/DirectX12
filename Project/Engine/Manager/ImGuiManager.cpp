@@ -30,6 +30,9 @@ void ImGuiManager::Init(HWND hwnd, ID3D12Device* device, uint32_t bufferCount, I
 		srvHeap->GetCPUDescriptorHandleForHeapStart(),
 		srvHeap->GetGPUDescriptorHandleForHeapStart()
 	);
+
+	ImGuiStyle& style = ImGui::GetStyle();
+	style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 }
 
 void ImGuiManager::Finalize(){

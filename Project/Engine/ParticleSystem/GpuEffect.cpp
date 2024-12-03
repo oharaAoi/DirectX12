@@ -14,7 +14,7 @@ void GpuEffect::Init() {
 	gpuParticle_ = std::make_unique<GpuParticle>();
 	gpuParticle_->Init("cube.obj", 1024);
 
-	gpuEmitter_ = std::make_unique<GpuEmitter>();
+	gpuEmitter_ = std::make_unique<SphereEmitter>();
 	gpuEmitter_->Init();
 }
 

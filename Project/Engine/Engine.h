@@ -19,7 +19,7 @@
 #include "Engine/GameObject/Sphere.h"
 #include "Engine/2d/Sprite.h"
 #include "Engine/2d/Triangle.h"
-#include "Engine/ParticleSystem/BaseParticle.h"
+#include "Engine/ParticleSystem/Particle/BaseParticle.h"
 #include "Engine/Audio/Audio.h"
 #include "Engine/Utilities/Shader.h"
 #include "Engine/Assets/WorldTransform.h"

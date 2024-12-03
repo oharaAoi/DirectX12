@@ -23,7 +23,7 @@ void WorldTransform::Init(ID3D12Device* device) {
 	// 値を初期化しておく
 	scale_ = { 1.0f, 1.0f, 1.0f };
 	rotation_ = Quaternion();
-	translation_ = { 0.0f, 0.0f, 0.0f };
+	translate_ = { 0.0f, 0.0f, 0.0f };
 	worldMat_ = Matrix4x4::MakeUnit();
 }
 
@@ -42,10 +42,10 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	// -------------------------------------------------
 	// ↓ 平行成分の親子関係があるかを確認
 	// -------------------------------------------------
-	if (parentTransition_ != nullptr) {
-		worldTranslate = translation_ + *parentTransition_;
+	if (parentTranslate_ != nullptr) {
+		worldTranslate = translate_ + *parentTranslate_;
 	} else {
-		worldTranslate = translation_;
+		worldTranslate = translate_;
 	}
 
 	// -------------------------------------------------
@@ -96,7 +96,7 @@ void WorldTransform::Debug_Gui() {
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("translation")) {
-			ImGui::DragFloat3("translation", &translation_.x, 0.1f);
+			ImGui::DragFloat3("translation", &translate_.x, 0.1f);
 			ImGui::TreePop();
 		}
 		ImGui::TreePop();
@@ -120,8 +120,8 @@ void WorldTransform::SetParent(const Matrix4x4& parentMat) {
 	parentMat_ = &parentMat;
 }
 
-void WorldTransform::SetParentTranslation(const Vector3& parentTranslation) {
-	parentTransition_ = &parentTranslation;
+void WorldTransform::SetParentTranslate(const Vector3& parentTranslate) {
+	parentTranslate_ = &parentTranslate;
 }
 
 void WorldTransform::SetParentRotate(const Quaternion& parentQuaternion) {

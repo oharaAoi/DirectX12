@@ -37,20 +37,20 @@ public:
 public:
 
 	void SetParent(const Matrix4x4& parentMat);
-	void SetParentTranslation(const Vector3& parentTranslation);
+	void SetParentTranslate(const Vector3& parentTranslate);
 	void SetParentRotate(const Quaternion& parentQuaternion);
 
 	void SetMatrix(const Matrix4x4& mat);
 	void SetScale(const Vector3& scale) { scale_ = scale; }
-	void SetTranslaion(const Vector3& translation) { translation_ = translation; }
+	void SetTranslaion(const Vector3& translate) { translate_ = translate; }
 	void SetQuaternion(const Quaternion& quaternion) { rotation_ = quaternion; }
 
-	void SetTranslationX(float x) { translation_.x = x; }
-	void SetTranslationY(float y) { translation_.y = y; }
-	void SetTranslationZ(float z) { translation_.z = z; }
+	void SetTranslationX(float x) { translate_.x = x; }
+	void SetTranslationY(float y) { translate_.y = y; }
+	void SetTranslationZ(float z) { translate_.z = z; }
 
 	const Vector3 GetScale() const { return scale_; }
-	const Vector3& GetTranslation() const { return translation_; }
+	const Vector3& GetTranslation() const { return translate_; }
 	const Quaternion& GetQuaternion() const { return rotation_; }
 	const Matrix4x4& GetWorldMatrix() const { return worldMat_; }
 
@@ -59,11 +59,11 @@ private:
 	Vector3 scale_;
 	Quaternion rotation_;
 	Quaternion moveQuaternion_;
-	Vector3 translation_;
+	Vector3 translate_;
 	Matrix4x4 worldMat_;
 
 	const Matrix4x4* parentMat_ = nullptr;
-	const Vector3* parentTransition_ = nullptr;
+	const Vector3* parentTranslate_ = nullptr;
 	const Quaternion* parentRotate_ = nullptr;
 
 	ComPtr<ID3D12Resource> cBuffer_;

@@ -76,8 +76,6 @@ protected:
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
 	std::unique_ptr<Animetor> animetor_ = nullptr;
 
-	std::unique_ptr<ObjectAxis> objectAxis_ = nullptr; // objectの回転を可視化したもの
-
 	std::unique_ptr<MeshCollider> meshCollider_ = nullptr; // 当たり判定を行うクラス
 
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
@@ -87,5 +85,7 @@ protected:
 
 #ifdef _DEBUG
 	bool isDebugAxis_;
+
+	std::unique_ptr<ObjectAxis> objectAxis_ = nullptr; // objectの回転を可視化したもの
 #endif // _DEBUG
 };

@@ -1,6 +1,6 @@
 #include "EffectSystem.h"
 #include "Engine/ParticleSystem/EffectSystemEditer.h"
-#include "Engine/ParticleSystem/Emitter.h"
+#include "Engine/ParticleSystem/Emitter/Emitter.h"
 #include "Engine/ParticleSystem/BaseEffect.h"
 
 EffectSystem::~EffectSystem() {}
