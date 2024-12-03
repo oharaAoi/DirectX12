@@ -1,4 +1,5 @@
 #include "TestScene.h"
+#include "Engine/Utilities/AdjustmentItem.h"
 
 TestScene::TestScene() {}
 TestScene::~TestScene() {}
@@ -7,6 +8,9 @@ void TestScene::Finalize() {
 }
 
 void TestScene::Init() {
+	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
+	adjust->Init("TestScene");
+
 	// カメラ -------------------------------------------------------------------
 	camera_ = std::make_unique<Camera>();
 	debugCamera_ = std::make_unique<DebugCamera>();

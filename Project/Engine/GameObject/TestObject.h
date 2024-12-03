@@ -23,7 +23,7 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "position", pos);
+			fromJson(jsonData, "pos", pos);
 			fromJson(jsonData, "lifeTime", lifeTime);
 			fromJson(jsonData, "speed", speed);
 			fromJson(jsonData, "hp", hp);

@@ -1,15 +1,7 @@
 #pragma once
-#include <iostream>
-#include <fstream>
-#include <variant>
-#include <map>
 #include <string>
 #include <unordered_map>
-#include <cstdint>
 #include <nlohmann/json.hpp>
-#include "Engine/Math/Vector2.h"
-#include "Engine/Math/Vector3.h"
-#include "Engine/Math/Vector4.h"
 
 using json = nlohmann::json;
 
@@ -34,21 +26,54 @@ public:
 	void Init(const std::string& nowScene);
 	void Update();
 
+	/// <summary>
+	/// jsonファイルに保存する
+	/// </summary>
+	/// <param name="groupName">: ファイルを保存するフォルダ名</param>
+	/// <param name="saveData">: 保存するデータ</param>
+	static void Save(const std::string& groupName, const json& saveData);
+
+	/// <summary>
+	/// jsonファイルを読み込む
+	/// </summary>
+	/// <param name="groupName">: ファイルの保存されたフォルダ名</param>
+	/// <param name="rootKey">: 読み込むファイル名</param>
+	static void Load(const std::string& groupName, const std::string& rootKey);
+
+	/// <summary>
+	/// 値の取得(他クラスで呼び出し用)
+	/// </summary>
+	/// <param name="groupName">: ファイルの保存されたフォルダ名</param>
+	/// <param name="rootKey">: 取得するファイル名</param>
+	/// <returns>json型を返す</returns>
+	static json GetData(const std::string& groupName, const std::string& rootKey);
+
+private :
+
+	/// <summary>
+	/// すべてのファイルを読み込む
+	/// </summary>
 	void LoadAllFile();
-	//void Load(const std::string& fileName);
-	//void Save(const std::string& fileName);
 
 	/// <summary>
 	/// json項目を追加する
 	/// </summary>
-	/// <param name="groupName"></param>
-	/// <param name="jsonData"></param>
+	/// <param name="groupName">: ファイルを保存するフォルダ名</param>
+	/// <param name="jsonData">: 保存するデータ</param>
 	void AddGroup(const std::string& groupName, const json& jsonData);
 
-private:
+	/// <summary>
+	/// 値の取得(自クラスのみで呼び出し)
+	/// </summary>
+	/// <param name="groupName">: ファイルの保存されたフォルダ名</param>
+	/// <param name="rootKey">: 取得するファイル名</param>
+	/// <returns>json型を返す</returns>
+	json GetValue(const std::string& groupName, const std::string& rootKey);
 
-	const std::string& kDirectoryPath_ = "./Game/Resources/GameData/AdjustmentItem/";
-	std::string nowSceneName_;
+private:
+	
+	static const std::string kDirectoryPath_;
+	static std::string nowSceneName_;
 	
 	std::unordered_map<std::string, Group> jsonMap_;
 };

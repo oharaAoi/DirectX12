@@ -1,4 +1,5 @@
 #include "TestObject.h"
+#include "Engine/Utilities/AdjustmentItem.h"
 
 TestObject::TestObject() {
 }
@@ -28,12 +29,7 @@ void TestObject::Init() {
 
 	animationTime_ = 0.0f;
 
-	test_.pos = Vector3::UP();
-	test_.hp = 100.0f;
-	test_.lifeTime = 30.0f;
-	test_.speed = 5.0f;
-
-	test_.ToJson();
+	test_.FromJson(AdjustmentItem::GetData("Player", "testParame"));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
