@@ -26,3 +26,7 @@ std::vector<std::unique_ptr<Mesh>> LoadVertexData(const std::string& directoryPa
 /// <returns></returns>
 std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device);
 
+void LoadMtl(const std::string& directoryPath, const std::string& fileName, Vector3& scale);
+
+const char* GetFileExtension(const char* filename);
+std::string RemoveExtension(const std::string& filename);
