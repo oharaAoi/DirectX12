@@ -1,6 +1,7 @@
 #include "Model.h"
 #include "Engine/Assets/Material.h"
 #include "Engine/Assets/PBRMaterial.h"
+#include "Engine/Utilities/Loader.h"
 
 Model::Model() {
 }
@@ -130,6 +131,12 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 	std::unordered_map<std::string, Matrix4x4> meshUvData;
 	std::vector<std::string> materials;
 
+	// mtlファイルを読み込んでおく
+	Vector3 uvScale = Vector3(1,1,1);
+	if (std::strcmp(GetFileExtension(fileName.c_str()), "obj") == 0) {
+		LoadMtl(directoryPath, RemoveExtension(fileName) + ".mtl", uvScale);
+	}
+
 	// -------------------------------------------------
 	// ↓ meshの解析
 	// -------------------------------------------------
@@ -156,7 +163,7 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 
 			vertices[vertexIndex].pos = { position.x, position.y, position.z, 1.0f };
 			vertices[vertexIndex].normal = { normal.x, normal.y, normal.z };
-			vertices[vertexIndex].texcoord = { texcoord.x, texcoord.y };
+			vertices[vertexIndex].texcoord = { texcoord.x * uvScale.x, texcoord.y * uvScale.y };
 			vertices[vertexIndex].tangent = { tangent.x, tangent.y, tangent.z };
 
 			vertices[vertexIndex].pos.x *= -1.0f;
@@ -249,17 +256,6 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 
 			hasTexture_ = true;
 		}
-
-		// uvScaleの取得
-		aiUVTransform uvTransform;
-		if (material->Get(AI_MATKEY_UVTRANSFORM(aiTextureType_DIFFUSE, 0), uvTransform) == AI_SUCCESS) {
-			// UVスケールを取得
-			float scaleU = uvTransform.mScaling.x;
-			float scaleV = uvTransform.mScaling.y;
-			Vector3 scale = Vector3(scaleU, scaleV, 1);
-			materialData[materialName.C_Str()].uvTransform = Matrix4x4::MakeUnit();
-			materialData[materialName.C_Str()].uvTransform *= scale.MakeScaleMat();
-		} 
 	}
 
 	std::vector<std::unique_ptr<Mesh>> result;
@@ -273,14 +269,8 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 
 	std::unordered_map<std::string, std::unique_ptr<Material>> materialResult;// 結果
 	for (uint32_t oi = 0; oi < materials.size(); oi++) {
-		/*materialResult[materials[oi]] = std::make_unique<Material>();
-		materialResult[materials[oi]]->Init(device);
-		materialResult[materials[oi]]->SetMaterialData(materialData[materials[oi]]);*/
-
 		materialData_[materials[oi]] = materialData[materials[oi]];
 	}
-
-	//materialArray_ = std::move(materialResult);
 }
 
 Mesh* Model::GetMesh(const uint32_t& index) {

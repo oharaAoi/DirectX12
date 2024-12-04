@@ -141,3 +141,88 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(cons
 
 	return materialResult;
 }
+
+void LoadMtl(const std::string& directoryPath, const std::string& fileName, Vector3& scale) {
+	std::unordered_map<std::string, Model::ModelMaterialData> materialDatas;// 後で一気に結果の変数に代入するための物
+
+	std::string line;// ファイルから読み込んだ1行を格納する物
+	std::string materialName; // newmtlの名前
+
+	// マテリアルの名前を格納しておく
+	std::vector<std::string> materials;
+
+	// mtlファイルを開く
+	std::ifstream file2(directoryPath + "/" + fileName);
+	assert(file2.is_open());
+
+	// ファイルを読む
+	while (std::getline(file2, line)) {
+		std::string materialIdentifier;
+		std::istringstream s(line);
+		s >> materialIdentifier; // 先頭の識別子を読む
+
+		if (materialIdentifier == "newmtl") {
+			s >> materialName;
+			materials.push_back(materialName);
+
+		} else if (materialIdentifier == "map_Kd") {
+			
+			// テクスチャのスケーリングオプションを処理
+			std::string scalingOption;
+			if (s >> scalingOption && scalingOption == "-s") {
+				// スケーリング値を読み取る
+				float scaleX, scaleY, scaleZ;
+				s >> scaleX >> scaleY >> scaleZ;
+				// スケーリング情報を保存
+				scale = Vector3(scaleX, scaleY, scaleZ);
+			}
+
+		} else if (materialIdentifier == "Ka") {
+			// アルベド色を読み取る(環境反射率)
+			Vector4 color;
+			s >> color.x >> color.y >> color.z;
+			
+		} else if (materialIdentifier == "Kd") {
+			// ディフューズ色を読み取る(拡散反射率)
+			Vector4 color;
+			s >> color.x >> color.y >> color.z;
+			
+		} else if (materialIdentifier == "Ks") {
+			// スペキュラ色(鏡面反射率)
+			Vector4 color;
+			s >> color.x >> color.y >> color.z;
+			
+
+		} else if (materialIdentifier == "Ke") {
+			// 自己発光
+			Vector4 color;
+			s >> color.x >> color.y >> color.z;
+			
+
+		} else if (materialIdentifier == "Ni") {
+			// 屈折率
+			float refraction;
+			s >> refraction;
+			
+
+		} else if (materialIdentifier == "Ns") {
+			// shininess(鏡面反射の鋭さ)
+		}
+	}
+}
+
+const char* GetFileExtension(const char* filename) {
+	const char* ext = std::strrchr(filename, '.'); // 最後のピリオドを探す
+	if (ext == nullptr) {
+		return ""; // 拡張子がない場合は空文字を返す
+	}
+	return ext + 1; // ピリオドの次の文字から拡張子を返す
+}
+
+std::string RemoveExtension(const std::string& filename) {
+	size_t dotPos = filename.find_last_of('.');
+	if (dotPos != std::string::npos) {
+		return filename.substr(0, dotPos); // ドットより前の部分を返す
+	}
+	return filename; // ドットがない場合はそのまま返す
+}
