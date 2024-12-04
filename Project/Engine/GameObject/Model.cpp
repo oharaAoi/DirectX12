@@ -127,6 +127,7 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 	std::vector<std::string> useMaterial;
 
 	std::unordered_map<std::string, ModelMaterialData> materialData;
+	std::unordered_map<std::string, Matrix4x4> meshUvData;
 	std::vector<std::string> materials;
 
 	// -------------------------------------------------
@@ -237,6 +238,7 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 			materials.push_back(materialName.C_Str());
 		}
 
+		// textureの取得
 		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
 			aiString textureFilePath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
@@ -247,6 +249,17 @@ void Model::LoadObj(const std::string& directoryPath, const std::string& fileNam
 
 			hasTexture_ = true;
 		}
+
+		// uvScaleの取得
+		aiUVTransform uvTransform;
+		if (material->Get(AI_MATKEY_UVTRANSFORM(aiTextureType_DIFFUSE, 0), uvTransform) == AI_SUCCESS) {
+			// UVスケールを取得
+			float scaleU = uvTransform.mScaling.x;
+			float scaleV = uvTransform.mScaling.y;
+			Vector3 scale = Vector3(scaleU, scaleV, 1);
+			materialData[materialName.C_Str()].uvTransform = Matrix4x4::MakeUnit();
+			materialData[materialName.C_Str()].uvTransform *= scale.MakeScaleMat();
+		} 
 	}
 
 	std::vector<std::unique_ptr<Mesh>> result;
