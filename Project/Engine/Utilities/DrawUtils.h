@@ -36,4 +36,4 @@ void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color)
 void DrawOBB(const OBB& obb, const Vector4& color);
 
 
-void DrawMatrix(const Matrix4x4& mat);
+void DrawMatrix(const Matrix4x4& mat, const std::string& id);

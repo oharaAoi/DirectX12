@@ -168,13 +168,13 @@ void DrawOBB(const OBB& obb, const Vector4& color) {
 
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
-void DrawMatrix(const Matrix4x4& mat) {
+void DrawMatrix(const Matrix4x4& mat, const std::string& id) {
 	Vector4 vector1 = Vector4(mat.m[0][0], mat.m[0][1], mat.m[0][2], mat.m[0][3]);
 	Vector4 vector2 = Vector4(mat.m[1][0], mat.m[1][1], mat.m[1][2], mat.m[1][3]);
 	Vector4 vector3 = Vector4(mat.m[2][0], mat.m[2][1], mat.m[2][2], mat.m[2][3]);
 	Vector4 vector4 = Vector4(mat.m[3][0], mat.m[3][1], mat.m[3][2], mat.m[3][3]);
 
-	ImGui::Text("Matrix");
+	ImGui::Text(id.c_str());
 	ImGui::Separator();
 	ImGui::Text("%f, %f, %f, %f", vector1.x, vector1.y, vector1.z, vector1.w);
 	ImGui::Spacing();
