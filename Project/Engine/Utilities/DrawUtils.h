@@ -34,3 +34,6 @@ void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color)
 /// <param name="viewMatrix"></param>
 /// <param name="projectionMatrix"></param>
 void DrawOBB(const OBB& obb, const Vector4& color);
+
+
+void DrawMatrix(const Matrix4x4& mat);

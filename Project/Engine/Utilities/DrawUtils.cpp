@@ -165,3 +165,24 @@ void DrawOBB(const OBB& obb, const Vector4& color) {
 		Render::DrawLine(point[oi], point[j], color);
 	}
 }
+
+#ifdef _DEBUG
+#include "Engine/Manager/ImGuiManager.h"
+void DrawMatrix(const Matrix4x4& mat) {
+	Vector4 vector1 = Vector4(mat.m[0][0], mat.m[0][1], mat.m[0][2], mat.m[0][3]);
+	Vector4 vector2 = Vector4(mat.m[1][0], mat.m[1][1], mat.m[1][2], mat.m[1][3]);
+	Vector4 vector3 = Vector4(mat.m[2][0], mat.m[2][1], mat.m[2][2], mat.m[2][3]);
+	Vector4 vector4 = Vector4(mat.m[3][0], mat.m[3][1], mat.m[3][2], mat.m[3][3]);
+
+	ImGui::Text("Matrix");
+	ImGui::Separator();
+	ImGui::Text("%f, %f, %f, %f", vector1.x, vector1.y, vector1.z, vector1.w);
+	ImGui::Spacing();
+	ImGui::Text("%f, %f, %f, %f", vector2.x, vector2.y, vector2.z, vector2.w);
+	ImGui::Spacing();
+	ImGui::Text("%f, %f, %f, %f", vector3.x, vector3.y, vector3.z, vector3.w);
+	ImGui::Spacing();
+	ImGui::Text("%f, %f, %f, %f", vector4.x, vector4.y, vector4.z, vector4.w);
+	ImGui::Separator();
+}
+#endif

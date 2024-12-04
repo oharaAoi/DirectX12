@@ -35,7 +35,7 @@ void SceneManager::Update() {
 	}
 
 	scene_->Update();
-	effectSystem_->Update();
+	//effectSystem_->Update();
 	Render::Update();
 }
 
@@ -45,7 +45,7 @@ void SceneManager::Update() {
 
 void SceneManager::Draw() {
 	scene_->Draw();
-	effectSystem_->Draw();
+	//effectSystem_->Draw();
 	Engine::DrawRenderTexture();
 }
 
@@ -57,7 +57,7 @@ void SceneManager::PostFrame() {
 	// ------------------------------------ //
 	Engine::EndImGui();
 
-	effectSystem_->PostDraw();
+	//effectSystem_->PostDraw();
 
 	Engine::EndFrame();
 
@@ -68,7 +68,7 @@ void SceneManager::PostFrame() {
 #ifdef _DEBUG
 void SceneManager::Debug_Gui() {
 	scene_->Debug_Gui();
-	effectSystem_->Debug_Gui();
+	//effectSystem_->Debug_Gui();
 }
 #endif
 
