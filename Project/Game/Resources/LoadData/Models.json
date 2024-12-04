@@ -1,0 +1,10 @@
+{
+    "models": [
+        {
+            "directory": "./Game/Resources/Models/WorldObj/",
+            "files": [
+                "ground.obj"
+            ]
+        }
+    ]
+}

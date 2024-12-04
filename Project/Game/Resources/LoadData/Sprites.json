@@ -1,0 +1,10 @@
+{
+    "sprites": [
+        {
+            "directory": "./Engine/Resources/Develop/",
+            "files": [
+                "white.png"
+            ]
+        }
+    ]
+}

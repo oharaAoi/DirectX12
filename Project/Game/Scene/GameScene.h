@@ -2,6 +2,8 @@
 #include <vector>
 #include "Engine.h"
 #include "Game/Scene/BaseScene.h"
+#include "Game/Camera/DebugCamera.h"
+#include "Game/WorldObject/Ground.h"
 
 class GameScene 
 	: public BaseScene {
@@ -21,5 +23,8 @@ public:
 
 private:
 
+	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
+
+	std::unique_ptr<Ground> ground_ = nullptr;
 
 };
