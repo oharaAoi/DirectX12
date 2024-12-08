@@ -16,6 +16,7 @@ float3 rand3dTo3d(float3 value) {
 
 class RandomGenerator {
 	float3 seed;
+	
 	float3 Generated3d() {
 		seed = rand3dTo3d(seed);
 		return seed;

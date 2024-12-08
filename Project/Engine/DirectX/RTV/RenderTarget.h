@@ -18,10 +18,10 @@ enum RenderTargetType {
 	Sprite2D_RenderTarget,
 	OffScreen_RenderTarget,
 	EffectSystem_RenderTarget,
-	DepthOfField_RenderTarget,
+	PreEffectSystem_RenderTarget,
 };
 
-static const uint32_t renderTargetNum_ = sizeof(RenderTargetType);
+static const uint32_t renderTargetNum_ = sizeof(RenderTargetType) + 1;
 
 class RenderTarget {
 public:

@@ -28,12 +28,6 @@ public:
 	/// </summary>
 	void RotateMove();
 
-	void SetPlayerPos(Vector3 pos) {
-		transform_.translate.x = pos.x;
-		transform_.translate.y = pos.y;
-	}
-
-
 private:
 
 	Quaternion quaternion_;

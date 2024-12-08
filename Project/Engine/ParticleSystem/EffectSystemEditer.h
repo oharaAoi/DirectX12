@@ -23,12 +23,17 @@ public:
 	void Update();
 	void Draw() const;
 
+	void PreBegin();
 	void Begin();
 	void End();
 
 	void CreateEffect(const std::string& newName);
 
 	void Debug_Gui();
+
+public:
+
+	const bool GetIsFocused() const { return isFocused_; }
 
 private:
 
@@ -49,6 +54,10 @@ private:
 	// dsv
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
 
+	int createShape_;
+
+	bool isFocused_;	// windowが選択されているか
+
 	// ----------- field ----------- //
 	// filed
 	std::unique_ptr<ParticleField> particleField_ = nullptr;
@@ -56,6 +65,9 @@ private:
 	// ----------- effect ----------- //
 	std::list<std::unique_ptr<GpuEffect>> effectList_;
 
+	// ----------- Saveに使用 ----------- //
+	const std::string kDirectoryPath_ = "./Game/Resources/Effects/";
+	std::vector<std::string> emitterNames_;
 
 #endif // _DEBUG
 };

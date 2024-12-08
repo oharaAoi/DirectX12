@@ -63,21 +63,21 @@ void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjec
 			Vector3 a, b, c;
 			Vector3 localA{}, localB{}, localC{};
 			localA = {
-				std::cos(lat) * cos(lon) * (radius / 2),
-				std::sin(lat) * (radius / 2),
-				std::cos(lat) * std::sin(lon) * (radius / 2)
+				std::cos(lat) * cos(lon) * (radius),
+				std::sin(lat) * (radius),
+				std::cos(lat) * std::sin(lon) * (radius)
 			};
 
 			localB = {
-				std::cos(lat + kLatEvery) * std::cos(lon) * (radius / 2) ,
-				std::sin(lat + kLatEvery) * (radius / 2),
-				std::cos(lat + kLatEvery) * std::sin(lon) * (radius / 2)
+				std::cos(lat + kLatEvery) * std::cos(lon) * (radius) ,
+				std::sin(lat + kLatEvery) * (radius),
+				std::cos(lat + kLatEvery) * std::sin(lon) * (radius)
 			};
 
 			localC = {
-				std::cos(lat) * std::cos(lon + kLonEvery) * (radius / 2),
-				std::sin(lat) * (radius / 2),
-				std::cos(lat) * std::sin(lon + kLonEvery) * (radius / 2)
+				std::cos(lat) * std::cos(lon + kLonEvery) * (radius),
+				std::sin(lat) * (radius),
+				std::cos(lat) * std::sin(lon + kLonEvery) * (radius)
 			};
 
 
@@ -105,6 +105,46 @@ void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjec
 	}
 }
 
+void DrawCone(const Vector3& center, const Quaternion& rotate, float radius, float angle, float height, const Matrix4x4& viewProjectionMatrix) {
+	const uint32_t segment = 36;
+	float angleIncrement = 2.0f * PI / segment;
+	const Vector3 rotateHeight = rotate * Vector3(0, height, 0);
+	const Vector3 coneTip = center + rotateHeight; // 円錐の頂点（Y軸方向を高さとして仮定）
+	float newRadius = height * std::tanf(angle * 0.5f);
+
+	std::vector<Vector3> basePoints(segment);
+	for (int i = 0; i < segment; ++i) {
+		float theta = i * angleIncrement;
+		basePoints[i] = center + radius * Vector3(cos(theta), 0, sin(theta));
+		basePoints[i] = (rotate * (basePoints[i] - center)) + center;  // 回転適用
+	}
+
+	std::vector<Vector3> topPoints(segment);
+	for (int i = 0; i < segment; ++i) {
+		float theta = i * angleIncrement;
+		topPoints[i] = center + newRadius * Vector3(cos(theta), 0, sin(theta));
+		topPoints[i] = (rotate * (topPoints[i] - center)) + center;  // 回転適用
+	}
+
+	// 描画
+	for (int i = 0; i < segment; ++i) {
+		// 現在の点と次の点を結ぶ（円の線）
+		Vector3 p1 = basePoints[i];
+		Vector3 p2 = basePoints[(i + 1) % segment];
+
+		Vector3 topP1 = topPoints[i] + rotateHeight;
+		Vector3 topP2 = topPoints[(i + 1) % segment] + rotateHeight;
+
+		Render::DrawLine(p1, p2, { 0.0f, 1.0f, 0.0f, 1.0f }, viewProjectionMatrix);
+		Render::DrawLine(topP1, topP2, { 0.0f, 1.0f, 0.0f, 1.0f }, viewProjectionMatrix);
+
+		if (i % 9 == 0) {
+			// 頂点と底面の点を結ぶ（側面の線）
+			Render::DrawLine(topP1, p1, { 0.0f, 1.0f, 0.0f, 1.0f }, viewProjectionMatrix);
+		}
+	}
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　AABBの描画
@@ -128,13 +168,15 @@ void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color)
 		Render::DrawLine(point[j], point[(j + 1) % 4 + 4], color, vpMatrix);
 		Render::DrawLine(point[oi], point[j], color, vpMatrix);
 	}
+
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　OBBの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DrawOBB(const OBB& obb, const Vector4& color) {
+void DrawOBB(const OBB& obb, const Matrix4x4& vpMatrix, const Vector4& color) {
 	Matrix4x4 rotateMatrix = obb.matRotate;
 	// 平行移動分を作成
 	Matrix4x4 matTranslate = obb.center.MakeTranslateMat();
@@ -159,9 +201,9 @@ void DrawOBB(const OBB& obb, const Vector4& color) {
 
 
 	for (uint32_t oi = 0; oi < 4; oi++) {
-		Render::DrawLine(point[oi], point[(oi + 1) % 4], color);
+		Render::DrawLine(point[oi], point[(oi + 1) % 4], color, vpMatrix);
 		uint32_t j = oi + 4;
-		Render::DrawLine(point[j], point[(j + 1) % 4 + 4], color);
-		Render::DrawLine(point[oi], point[j], color);
+		Render::DrawLine(point[j], point[(j + 1) % 4 + 4], color, vpMatrix);
+		Render::DrawLine(point[oi], point[j], color, vpMatrix);
 	}
 }

@@ -74,6 +74,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	isFullScreen_ = false;
 
+	isEffectEditer_ = true;
+
 	Log("Engine Initialize compulete!\n");
 }
 
@@ -115,8 +117,9 @@ void Engine::Finalize() {
 
 #ifdef _DEBUG
 void Engine::DrawImGui() {
-	/*ImGui::Begin("Engine");
-	ImGui::End();*/
+	ImGui::Begin("Engine");
+	ImGui::Checkbox("openEffectEditer", &isEffectEditer_);
+	ImGui::End();
 }
 #endif
 
@@ -141,10 +144,6 @@ void Engine::BeginFrame() {
 		isFullScreen_ = !isFullScreen_;
 		WinApp::GetInstance()->SetFullScreen(isFullScreen_);
 	}
-
-#ifdef _DEBUG
-	DrawImGui();
-#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,6 +160,25 @@ void Engine::EndFrame() {
 
 void Engine::EndImGui() {
 #ifdef _DEBUG
+	if (ImGui::Begin("My Window", nullptr, ImGuiWindowFlags_MenuBar)) {
+		if (ImGui::BeginMenuBar()) {
+			if (ImGui::BeginMenu("Window")) {
+				if (ImGui::MenuItem("Debug")) {
+					
+				}
+				if (ImGui::MenuItem("Release")) {
+					
+				}
+				ImGui::EndMenu();
+			}
+			if (ImGui::BeginMenu("EffectSystem")) {
+				
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+	}
+	ImGui::End();
 	imguiManager_->End();
 	imguiManager_->Draw(dxCommands_->GetCommandList());
 #endif
@@ -403,4 +421,8 @@ ID3D12GraphicsCommandList* Engine::GetCommandList() {
 
 DescriptorHeap* Engine::GetDxHeap() {
 	return descriptorHeap_.get();
+}
+
+bool Engine::GetIsOpenEffectEditer() {
+	return isEffectEditer_;
 }

@@ -1,19 +1,18 @@
 #pragma once
+#include "Engine/Math/MathStructures.h"
 #include "Engine/ParticleSystem/Emitter/GpuEmitter.h"
 
-class ConeEmitter : public GpuEmitter {
+class BoxEmitter : public GpuEmitter {
 public:
 
 	struct Emitter {
-		float radius;			// 射出半径
-		float angle;			// 円錐の角度
-		float height;			// 円錐の高さ
+		Vector3 size_;
 	};
 
 public:
 
-	ConeEmitter();
-	~ConeEmitter();
+	BoxEmitter();
+	~BoxEmitter();
 
 	void Init() override;
 	void Update() override;
@@ -32,8 +31,9 @@ public:
 
 private:
 
-	ComPtr<ID3D12Resource> coneEmitterBuffer_;
+	ComPtr<ID3D12Resource> boxEmitterBuffer_;
 	Emitter* emitter_;
 
+	OBB obb_;
 };
 

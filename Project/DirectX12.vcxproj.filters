@@ -459,6 +459,15 @@
     <ClCompile Include="Engine\ParticleSystem\Emitter\ConeEmitter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Math\Vector4.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\Emitter\BoxEmitter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ParticleSystem\EffectPersistence.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -827,6 +836,12 @@
     <ClInclude Include="Engine\ParticleSystem\Emitter\ConeEmitter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\Emitter\BoxEmitter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ParticleSystem\EffectPersistence.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
@@ -911,5 +926,6 @@
     <None Include="Engine\HLSL\Sprite.2d.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
+    <None Include="Engine\HLSL\Random.hlsli" />
   </ItemGroup>
 </Project>
