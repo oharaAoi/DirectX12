@@ -70,6 +70,8 @@ public:
 	void SetEmitterPos(const Vector3& pos) { commonEmitter_->translate = pos; }
 	void SetEmitterColor(const Vector4& color) { commonEmitter_->color = color; }
 
+	const bool GetIsDead() const { return isDead_; }
+
 protected:
 
 	ComPtr<ID3D12Resource> commonBuffer_;

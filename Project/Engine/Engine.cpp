@@ -160,6 +160,25 @@ void Engine::EndFrame() {
 
 void Engine::EndImGui() {
 #ifdef _DEBUG
+	if (ImGui::Begin("My Window", nullptr, ImGuiWindowFlags_MenuBar)) {
+		if (ImGui::BeginMenuBar()) {
+			if (ImGui::BeginMenu("Window")) {
+				if (ImGui::MenuItem("Debug")) {
+					
+				}
+				if (ImGui::MenuItem("Release")) {
+					
+				}
+				ImGui::EndMenu();
+			}
+			if (ImGui::BeginMenu("EffectSystem")) {
+				
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+	}
+	ImGui::End();
 	imguiManager_->End();
 	imguiManager_->Draw(dxCommands_->GetCommandList());
 #endif

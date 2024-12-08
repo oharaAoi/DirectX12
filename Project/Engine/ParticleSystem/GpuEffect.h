@@ -33,6 +33,9 @@ public:
 	void SetEmitterPos(const Vector3& pos) const { return gpuEmitter_->SetEmitterPos(pos); }
 	void SetEmitterColor(const Vector4& color) const { return gpuEmitter_->SetEmitterColor(color); }
 
+	const bool GetIsAlive() const { return isAlive_; }
+	void SetIsAlive(bool isAlive) { isAlive_ = isAlive; }
+
 private:
 
 	std::unique_ptr<GpuParticle> gpuParticle_;
@@ -42,5 +45,7 @@ private:
 
 	// effectの名前
 	std::string effectName_ = "";
+
+	bool isAlive_ = true;
 };
 

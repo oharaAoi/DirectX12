@@ -52,6 +52,13 @@ void EffectSystemEditer::Update() {
 	// カメラの更新
 	effectSystemCamera_->Update();
 
+	effectList_.remove_if([](const std::unique_ptr<GpuEffect>& enemy) {
+		if (!enemy->GetIsAlive()) {
+			return true;
+		}
+		return false;
+						  });
+
 	for (std::list<std::unique_ptr<GpuEffect>>::iterator it = effectList_.begin(); it != effectList_.end();) {
 		(*it)->SetViewProjectionMat(effectSystemCamera_->GetViewMatrix() * effectSystemCamera_->GetProjectionMatrix());
 		(*it)->Update();
@@ -173,17 +180,19 @@ void EffectSystemEditer::CreateEffect(const std::string& newName) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Debug_Gui() {
+	ImGui::Begin("Create Emitter");
 	ImGui::RadioButton("Sphere", &createShape_, (int)EmitterShape::Sphere);
 	ImGui::SameLine();
 	ImGui::RadioButton("Cone", &createShape_, (int)EmitterShape::Cone);
 	ImGui::SameLine();
 	ImGui::RadioButton("Box", &createShape_, (int)EmitterShape::Box);
 
-	if (ImGui::Button("CreateEffect")) {
+	if (ImGui::Button("CreateEmitter")) {
 		uint32_t effectNum = static_cast<uint32_t>(effectList_.size()) + 1;
 		std::string defalutName = "effect" + std::to_string(effectNum);
 		CreateEffect(defalutName);
 	}
+	ImGui::End();
 
 	//if (ImGui::BeginTabBar("EmitterTabs")) {
 	//	// リストを反復してタブを作成
@@ -200,8 +209,8 @@ void EffectSystemEditer::Debug_Gui() {
 	//	ImGui::EndTabBar();
 	//}
 
-	static int selectedEffectIndex = -1; // -1 means no selection
 	ImGui::Begin("Emitter List");
+	static int selectedEffectIndex = -1; // -1 means no selection
 	int index = 0;
 	for (auto it = effectList_.begin(); it != effectList_.end(); ++it, ++index) {
 		std::string name = (*it)->GetEmitterLabel();
@@ -217,8 +226,11 @@ void EffectSystemEditer::Debug_Gui() {
 		std::advance(it, selectedEffectIndex); // Move iterator to the selected index
 
 		ImGui::Begin("EffectSystem");
-		ImGui::Separator();
 		(*it)->Debug_Gui();
+
+		if (ImGui::Button("Delete")) {
+			(*it)->SetIsAlive(false);
+		}
 		ImGui::End();
 	}
 	ImGui::End();
