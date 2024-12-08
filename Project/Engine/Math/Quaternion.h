@@ -7,7 +7,8 @@ public:
 
 	Quaternion() : x(0.0f), y(0.0f), z(0.0f), w(1.0f) {};
 	Quaternion(const float& _x, const float& _y, const float& _z, const float& _w) :
-		x(_x), y(_y), z(_z), w(_w) {};
+		x(_x), y(_y), z(_z), w(_w) {
+	};
 
 	~Quaternion() {};
 
@@ -31,6 +32,9 @@ public:
 	Vector3 ToEulerAngles() const;
 
 	Quaternion Conjugate() const;
+
+	Vector3 Rotate(const Vector3& vec) const;
+
 public:
 
 	/// <summary>
@@ -66,8 +70,8 @@ public:
 	/// <returns></returns>
 	static Quaternion LookRotation(const Vector3& forward, const Vector3& upVector);
 
-	static Quaternion LookAt(const Vector3& from, const Vector3& to, const Vector3& up = Vector3{0.0f, 1.0f, 0.0f});
-	
+	static Quaternion LookAt(const Vector3& from, const Vector3& to, const Vector3& up = Vector3{ 0.0f, 1.0f, 0.0f });
+
 	/// <summary>
 	/// 二つの回転の内積を返す
 	/// </summary>
@@ -84,12 +88,26 @@ public:
 	/// <param name="t"></param>
 	/// <returns></returns>
 	static Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, const float& t);
-	
+
+	// オイラー角（ラジアン）をクォータニオンに変換
+	static Quaternion EulerToQuaternion(float pitch, float yaw, float roll);
+
+	// クォータニオンをオイラー角（ラジアン）に変換
+	Vector3 QuaternionToEuler() const;
+
+	static Quaternion ToQuaternion(const Vector4& v);
+
 public:
 
 	Quaternion operator*(const Quaternion& q2) const;
-	Vector3 operator*(const Vector3& v);
-	
+	//Vector3 operator*(const Vector3& v);
+
+	Vector3 operator*(const Vector3& v) const;
+
+	operator Vector4() const {
+		return Vector4(x, y, z, w);
+	}
+
 public:
 
 	float x;

@@ -1,57 +1,58 @@
-#include "SphereEmitter.h"
+#include "BoxEmitter.h"
 #include "Engine/Engine.h"
 #include "Engine/Utilities/DrawUtils.h"
 
-SphereEmitter::SphereEmitter() {
-}
-
-SphereEmitter::~SphereEmitter() {
-	commonBuffer_.Reset();
-	perFrameBuffer_.Reset();
-}
+BoxEmitter::BoxEmitter() {}
+BoxEmitter::~BoxEmitter() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void SphereEmitter::Init() {
+void BoxEmitter::Init() {
 	// 共通部分の初期化
 	GpuEmitter::Init();
 
-	label_ = "sphere";
+	label_ = "box";
 
 	// sphere形状の初期化
-	sphereEmitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(Emitter));
-	sphereEmitterBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&emitter_));
+	boxEmitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(Emitter));
+	boxEmitterBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&emitter_));
 
-	// parametrの初期化
-	emitter_->radius = 1.0f;
-	commonEmitter_->shape = static_cast<uint32_t>(EmitterShape::Sphere);
+	emitter_->size_ = Vector3(1, 1, 1);
+
+	obb_.center = commonEmitter_->translate;
+	obb_.size = emitter_->size_;
+	obb_.MakeOBBAxis(Quaternion::ToQuaternion(commonEmitter_->rotate));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void SphereEmitter::Update() {
+void BoxEmitter::Update() {
+	obb_.center = commonEmitter_->translate;
+	obb_.size = emitter_->size_;
+	obb_.MakeOBBAxis(Quaternion::ToQuaternion(commonEmitter_->rotate));
+
 	GpuEmitter::Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　コマンドリストに登録
+// ↓　commandListに積む
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void SphereEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
+void BoxEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	GpuEmitter::BindCmdList(commandList, rootParameterIndex);
 	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, commonBuffer_->GetGPUVirtualAddress());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　形状の描画
+// ↓　形状を描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void SphereEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
-	DrawSphere(commonEmitter_->translate, emitter_->radius, viewProjectionMat);
+void BoxEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
+	DrawOBB(obb_, viewProjectionMat, Vector4(0,1,0,1));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,8 +61,8 @@ void SphereEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
 
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
-void SphereEmitter::Debug_Gui() {
+void BoxEmitter::Debug_Gui() {
 	GpuEmitter::Debug_Gui();
-	ImGui::DragFloat("radius", &emitter_->radius, 0.1f);
+	ImGui::DragFloat3("size", &emitter_->size_.x, 0.1f);
 }
 #endif

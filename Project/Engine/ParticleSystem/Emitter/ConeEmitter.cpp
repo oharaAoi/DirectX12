@@ -13,14 +13,21 @@ ConeEmitter::~ConeEmitter() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ConeEmitter::Init() {
-	// Resourceの作成
-	emitterBuffer_ = CreateUAVResource(Engine::GetDevice(), sizeof(Emitter));
+	// 共通部分の初期化
+	GpuEmitter::Init();
 
-	emitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(Emitter));
-	emitterBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&emitter_));
+	label_ = "cone";
 
-	perFrameBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerFrame));
-	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
+	// sphere形状の初期化
+	coneEmitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(Emitter));
+	coneEmitterBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&emitter_));
+
+	// parametrの初期化
+	emitter_->radius = 1.0f;
+	emitter_->height = 1.0f;
+	emitter_->angle = 2.0f;
+
+	commonEmitter_->shape = static_cast<uint32_t>(EmitterShape::Cone);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,17 +35,7 @@ void ConeEmitter::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ConeEmitter::Update() {
-	perFrame_->deltaTime = GameTimer::DeltaTime();
-	perFrame_->time = GameTimer::TotalTime();
-
-	emitter_->frequencyTime += GameTimer::DeltaTime();
-	// 射出時間を超えたら射出許可
-	if (emitter_->frequencyTime >= emitter_->frequency) {
-		emitter_->frequencyTime -= emitter_->frequency;
-		emitter_->emit = 1;
-	} else {
-		emitter_->emit = 0;
-	}
+	GpuEmitter::Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,8 +43,8 @@ void ConeEmitter::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ConeEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
-	commandList->SetComputeRootConstantBufferView(rootParameterIndex, emitterBuffer_->GetGPUVirtualAddress());
-	commandList->SetComputeRootConstantBufferView(rootParameterIndex + 1, perFrameBuffer_->GetGPUVirtualAddress());
+	GpuEmitter::BindCmdList(commandList, rootParameterIndex);
+	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, commonBuffer_->GetGPUVirtualAddress());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +52,8 @@ void ConeEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootP
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ConeEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
-	DrawSphere(emitter_->translate, emitter_->radius, viewProjectionMat);
+	Quaternion rotate = Quaternion(commonEmitter_->rotate.x, commonEmitter_->rotate.y, commonEmitter_->rotate.z, commonEmitter_->rotate.w);
+	DrawCone(commonEmitter_->translate, rotate, emitter_->radius, emitter_->angle, emitter_->height, viewProjectionMat);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,5 +63,9 @@ void ConeEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
 void ConeEmitter::Debug_Gui() {
+	GpuEmitter::Debug_Gui();
+	ImGui::DragFloat("radius", &emitter_->radius, 0.1f);
+	ImGui::DragFloat("angle", &emitter_->angle, 0.1f);
+	ImGui::DragFloat("height", &emitter_->height, 0.1f);
 }
 #endif

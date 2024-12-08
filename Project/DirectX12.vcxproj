@@ -183,7 +183,9 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Math\Quaternion.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
+    <ClCompile Include="Engine\Math\Vector4.cpp" />
     <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp" />
+    <ClCompile Include="Engine\ParticleSystem\Emitter\BoxEmitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Emitter\ConeEmitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Emitter\SphereEmitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Particle\BaseParticle.cpp" />
@@ -303,6 +305,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\ParticleSystem\BaseEffect.h" />
+    <ClInclude Include="Engine\ParticleSystem\Emitter\BoxEmitter.h" />
     <ClInclude Include="Engine\ParticleSystem\Emitter\ConeEmitter.h" />
     <ClInclude Include="Engine\ParticleSystem\Emitter\SphereEmitter.h" />
     <ClInclude Include="Engine\ParticleSystem\Particle\BaseParticle.h" />

@@ -1,13 +1,39 @@
 #pragma once
 #include <string>
 #include "Engine/Math/Vector3.h"
+#include "Engine/Math/Vector4.h"
+#include "Engine/Math/Quaternion.h"
 #include "Engine/Utilities/DirectXUtils.h"
+
+enum class EmitterShape {
+	Sphere,
+	Cone,
+	Box,
+};
 
 /// <summary>
 /// Emitterの基底クラス
 /// </summary>
 class GpuEmitter {
 public:
+
+	struct CommonEmitter {
+		Vector4 rotate;			// 回転(Quaternion)
+		Vector3 translate;		// 位置
+		uint32_t shape;			// emitterの種類
+		uint32_t count;			// 射出数
+		float frequency;		// 射出間隔
+		float frequencyTime;	// 時間調整用
+		int emit;				// 射出許可
+		Vector4 color;			// 色
+		float speed;			// 速度
+		float pad[3];
+	};
+
+	struct EmitterParameter {
+		Vector3 velocity;	// 速度
+		float lifeTime_;	// 生存時間
+	};
 
 	struct PerFrame {
 		float time;
@@ -19,22 +45,32 @@ public:
 	GpuEmitter() = default;
 	virtual ~GpuEmitter() = default;
 
-	virtual void Init() = 0;
-	virtual void Update() = 0;
-	virtual void BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) = 0;
+	virtual void Init();
+	virtual void Update() ;
+	virtual void BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
 
 	virtual void DrawShape(const Matrix4x4& viewProjectionMat) = 0;
 
 #ifdef _DEBUG
-	virtual void Debug_Gui() = 0;
+	virtual void Debug_Gui();
 #endif
+
+	const std::string& GetLabel() const { return label_; }
 
 protected:
 
-	ComPtr<ID3D12Resource> emitterBuffer_;
+	ComPtr<ID3D12Resource> commonBuffer_;
+	CommonEmitter* commonEmitter_;
 	
 	ComPtr<ID3D12Resource> perFrameBuffer_;
 	PerFrame* perFrame_;
 
+	const uint32_t kCommonParameters_ = 2;
+
+	// 回転
+	Quaternion rotate_;
+	Quaternion deltaRotate_;
+
+	std::string label_;
 };
 

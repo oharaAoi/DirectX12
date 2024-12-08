@@ -358,7 +358,9 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateEmitGpuParticle() {
 	return builder_
 		.AddDescriptorTable(descriptorRangeUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // particles(particle)
 		.AddDescriptorTable(counterUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // counter(particle)
-		.AddCBV(0, D3D12_SHADER_VISIBILITY_ALL)// emitter(emitter)
-		.AddCBV(1, D3D12_SHADER_VISIBILITY_ALL)// perFrame(emitter)
+		.AddCBV(0, D3D12_SHADER_VISIBILITY_ALL) // perFrame(emitter)
+		.AddCBV(1, D3D12_SHADER_VISIBILITY_ALL) // emitter(emitter)
+		.AddCBV(2, D3D12_SHADER_VISIBILITY_ALL) // sphere(emitter)
+		.AddCBV(3, D3D12_SHADER_VISIBILITY_ALL) // Cone(emitter)
 		.Build(device_);
 }

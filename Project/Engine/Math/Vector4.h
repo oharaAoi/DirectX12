@@ -1,6 +1,9 @@
 #pragma once
+#include "Engine/Math/Matrix4x4.h"
 
-struct Vector4 final {
+class Vector4 final {
+public:
+
 	float x;
 	float y;
 	float z;
@@ -85,5 +88,4 @@ struct Vector4 final {
 
 		return result;
 	}
-
 };

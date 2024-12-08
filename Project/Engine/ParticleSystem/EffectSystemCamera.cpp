@@ -13,8 +13,8 @@ EffectSystemCamera::~EffectSystemCamera() {}
 void EffectSystemCamera::Init() {
 	transform_ = {
 		{1.0f, 1.0f, 1.0f},
-		{0.5f, 0.0f, 0.0f},
-		{0.0f, 5.0f, -9.0f}
+		{0.3f, 0.0f, 0.0f},
+		{0.0f, 3.0f, -10.0f}
 	};
 
 	scaleMat_ = transform_.scale.MakeScaleMat();

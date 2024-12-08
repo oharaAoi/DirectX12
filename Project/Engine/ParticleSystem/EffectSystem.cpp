@@ -53,6 +53,7 @@ void EffectSystem::Update() {
 
 void EffectSystem::Draw() const {
 #ifdef _DEBUG
+	editer_->PreBegin();
 	editer_->Begin();
 	editer_->Draw();
 #endif

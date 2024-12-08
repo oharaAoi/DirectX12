@@ -72,6 +72,7 @@ void EffectSystemEditer::Draw() const {
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 
+
 	// 実際にEffectを描画する
 	Engine::SetPipeline(PipelineType::AddPipeline);
 	for (std::list<std::unique_ptr<GpuEffect>>::const_iterator it = effectList_.begin(); it != effectList_.end();) {
@@ -82,14 +83,43 @@ void EffectSystemEditer::Draw() const {
 	// 最後にImGui上でEffectを描画する
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	
-	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetOffScreenSRVHandle(RenderTargetType::EffectSystem_RenderTarget).handleGPU.ptr));
-	ImGui::Image((void*)textureID, ImVec2(640.0f, 360.0f)); // サイズは適宜調整
+	ImTextureID textureID2 = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetOffScreenSRVHandle(RenderTargetType::EffectSystem_RenderTarget).handleGPU.ptr));
+	ImGui::SetCursorPos(ImVec2(10, 10)); // 描画位置を設定
+	ImGui::Image((void*)textureID2, ImVec2(640.0f, 360.0f)); // サイズは適宜調整
 	ImGui::End();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　開始
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EffectSystemEditer::PreBegin() {
+	// ここでゲーム描画のRenderTargetからEffect用のRenderTargetに変更する
+	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
+	// dsvのポインターを設定する
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
+	dsvHandle.ptr += size_t(descriptorHeaps_->GetDescriptorSize()->GetDSV());
+	// RenderTargetを指定する
+	renderTarget_->SetRenderTarget(commandList, RenderTargetType::PreEffectSystem_RenderTarget);
+	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	// RenderTargetをクリアする
+	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(RenderTargetType::PreEffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
+
+	//------------------------------------------------------------------------------------------------------------------
+	ImGui::Begin("Render Target View");
+
+	// Grid線描画
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
+
+	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), PreEffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetOffScreenSRVHandle(RenderTargetType::PreEffectSystem_RenderTarget).handleGPU.ptr));
+	ImGui::SetCursorPos(ImVec2(10, 10)); // 描画位置を設定
+	ImGui::Image((void*)textureID, ImVec2(640.0f, 360.0f)); // サイズは適宜調整
+	ImGui::End();
+}
 
 void EffectSystemEditer::Begin() {
 	// ここでゲーム描画のRenderTargetからEffect用のRenderTargetに変更する
@@ -110,10 +140,9 @@ void EffectSystemEditer::Begin() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::End() {
+	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), PreEffectSystem_RenderTarget, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Effectの作成をする
@@ -121,7 +150,7 @@ void EffectSystemEditer::End() {
 
 void EffectSystemEditer::CreateEffect(const std::string& newName) {
 	auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
-	newEffect->Init();
+	newEffect->Init(static_cast<EmitterShape>(createShape_));
 	newEffect->SetEffectName(newName);
 }
 
@@ -130,6 +159,12 @@ void EffectSystemEditer::CreateEffect(const std::string& newName) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Debug_Gui() {
+	ImGui::RadioButton("Sphere", &createShape_, (int)EmitterShape::Sphere);
+	ImGui::SameLine();
+	ImGui::RadioButton("Cone", &createShape_, (int)EmitterShape::Cone);
+	ImGui::SameLine();
+	ImGui::RadioButton("Box", &createShape_, (int)EmitterShape::Box);
+
 	if (ImGui::Button("CreateEffect")) {
 		uint32_t effectNum = static_cast<uint32_t>(effectList_.size()) + 1;
 		std::string defalutName = "effect" + std::to_string(effectNum);
@@ -140,7 +175,7 @@ void EffectSystemEditer::Debug_Gui() {
 		// リストを反復してタブを作成
 		for (auto it = effectList_.begin(); it != effectList_.end(); ++it) {
 			// タブのラベルを生成（インデックスではなくポインタアドレスを利用）
-			std::string tabLabel = "Emitter " + std::to_string(std::distance(effectList_.begin(), it));
+			std::string tabLabel = (*it)->GetEmitterLabel() + std::to_string(std::distance(effectList_.begin(), it));
 
 			if (ImGui::BeginTabItem(tabLabel.c_str())) {
 				(*it)->Debug_Gui();

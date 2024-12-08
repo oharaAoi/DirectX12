@@ -23,6 +23,7 @@ public:
 	void Update();
 	void Draw() const;
 
+	void PreBegin();
 	void Begin();
 	void End();
 
@@ -48,6 +49,8 @@ private:
 	ID3D12Device* device_ = nullptr;
 	// dsv
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
+
+	int createShape_;
 
 	// ----------- field ----------- //
 	// filed
