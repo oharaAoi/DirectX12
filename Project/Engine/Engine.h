@@ -185,6 +185,8 @@ public:
 	static ID3D12GraphicsCommandList* GetCommandList();
 	static DescriptorHeap* GetDxHeap();
 
+	static bool GetIsOpenEffectEditer();
+
 private:
 
 };
@@ -229,5 +231,7 @@ namespace {
 	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;
 
 	bool isFullScreen_;
+
+	bool isEffectEditer_;
 }
 

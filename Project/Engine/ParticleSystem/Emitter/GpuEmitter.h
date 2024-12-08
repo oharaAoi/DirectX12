@@ -4,6 +4,7 @@
 #include "Engine/Math/Vector4.h"
 #include "Engine/Math/Quaternion.h"
 #include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/ParticleSystem/EffectPersistence.h"
 
 enum class EmitterShape {
 	Sphere,
@@ -17,7 +18,7 @@ enum class EmitterShape {
 class GpuEmitter {
 public:
 
-	struct CommonEmitter {
+	struct CommonEmitter{
 		Vector4 rotate;			// 回転(Quaternion)
 		Vector3 translate;		// 位置
 		uint32_t shape;			// emitterの種類
@@ -32,7 +33,8 @@ public:
 
 	struct EmitterParameter {
 		Vector3 velocity;	// 速度
-		float lifeTime_;	// 生存時間
+		float speed;		// 移動速度
+		float lifeTime;		// 生存時間
 	};
 
 	struct PerFrame {
@@ -50,6 +52,12 @@ public:
 	virtual void BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
 
 	virtual void DrawShape(const Matrix4x4& viewProjectionMat) = 0;
+
+	void Move();
+
+	virtual void Save();
+
+	virtual void Load();
 
 #ifdef _DEBUG
 	virtual void Debug_Gui();
@@ -72,5 +80,10 @@ protected:
 	Quaternion deltaRotate_;
 
 	std::string label_;
+
+	EmitterParameter emitterParameter_;
+	float lifeTime_;
+	bool isMove_ = false;
+	bool isDead_;
 };
 

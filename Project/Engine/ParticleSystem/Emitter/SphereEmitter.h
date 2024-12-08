@@ -19,6 +19,10 @@ public:
 
 	void DrawShape(const Matrix4x4& viewProjectionMat) override;
 
+	void Save() override;
+
+	void Load() override;
+
 #ifdef _DEBUG
 	void Debug_Gui() override;
 #endif

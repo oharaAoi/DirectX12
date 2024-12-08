@@ -18,6 +18,9 @@ void EffectSystem::Init() {
 	particleField_ = std::make_unique<ParticleField>();
 	particleField_->Init();
 
+	effectPersistence_ = EffectPersistence::GetInstance();
+	effectPersistence_->Init();
+
 	// -------------------------------------------------
 	// ↓ Systemの初期化
 	// -------------------------------------------------
@@ -81,5 +84,9 @@ void EffectSystem::EditerInit(RenderTarget* renderTarget, DescriptorHeap* descri
 }
 void EffectSystem::PostDraw() {
 	editer_->End();
+}
+
+const bool EffectSystem::GetIsEditerFocused() const {
+	return editer_->GetIsFocused();
 }
 #endif

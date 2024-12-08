@@ -362,5 +362,6 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateEmitGpuParticle() {
 		.AddCBV(1, D3D12_SHADER_VISIBILITY_ALL) // emitter(emitter)
 		.AddCBV(2, D3D12_SHADER_VISIBILITY_ALL) // sphere(emitter)
 		.AddCBV(3, D3D12_SHADER_VISIBILITY_ALL) // Cone(emitter)
+		.AddCBV(4, D3D12_SHADER_VISIBILITY_ALL) // Box(emitter)
 		.Build(device_);
 }

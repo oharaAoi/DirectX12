@@ -1,18 +1,33 @@
 #pragma once
-#include "Engine/Math/MyMath.h"
-#include "Engine/Lib/Transform.h"
+#include "Game/Camera/BaseCamera.h"
+#include "Engine/Math/Quaternion.h"
 
 /// <summary>
 /// Effectを作成する際に使用するカメラ
 /// </summary>
-class EffectSystemCamera {
+class EffectSystemCamera : public BaseCamera {
 public:
 
 	EffectSystemCamera();
 	~EffectSystemCamera();
 
-	void Init();
-	void Update();
+	void Finalize() override;
+	void Init() override;
+	void Update() override;
+
+#ifdef _DEBUG
+	void Debug_Gui() override;
+#endif
+
+	/// <summary>
+	/// カメラを動かす
+	/// </summary>
+	void TransitionMove();
+
+	/// <summary>
+	/// カメラを回転させる
+	/// </summary>
+	void RotateMove();
 
 public:
 
@@ -22,15 +37,26 @@ public:
 
 private:
 
-	kTransform transform_;
+	Quaternion quaternion_;
+	// 回転する前のQuaternion
+	Quaternion moveQuaternion_;
 
-	Matrix4x4 translateMat_;
-	Matrix4x4 scaleMat_;
-	Matrix4x4 rotateMat_;
+	// ---------------------------------------------------------------
+	// ↓ デバックカメラで使う変数
+	// ---------------------------------------------------------------
+	bool debugCameraMode_ = true;
 
-	Matrix4x4 cameraMatrix_;
-	Matrix4x4 projectionMatrix_;
-	Matrix4x4 viewMatrix_;
+	float moveBaseSpeed_;
+	float moveSpeed_;
+	float moveMaxSpeed_ = 30.0f;
+	Vector3 moveDirection_;
+	Vector2 preMousePos_;
+	
+	float yaw_ = 0.0f;
+	float pitch_ = 0.0f;
+	float sensitivity_ = 0.05f; // 回転感度
 
+	Quaternion qYaw;
+	Quaternion qPitch;
 };
 

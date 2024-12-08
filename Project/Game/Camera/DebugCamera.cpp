@@ -36,6 +36,8 @@ void DebugCamera::Init() {
 	moveBaseSpeed_ = 5.0f;
 	moveSpeed_ = 5.0f;
 	moveQuaternion_ = Quaternion();
+
+	isFocused_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,8 +45,10 @@ void DebugCamera::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DebugCamera::Update() {
-	RotateMove();
-	TransitionMove();
+	if (isFocused_) {
+		RotateMove();
+		TransitionMove();
+	}
 
 	quaternion_ = quaternion_.Normalize();
 

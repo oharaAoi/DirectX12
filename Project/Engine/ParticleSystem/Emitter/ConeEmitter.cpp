@@ -57,6 +57,31 @@ void ConeEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　保存
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ConeEmitter::Save() {
+	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	GpuEmitter::Save();
+	persistence->AddItem(label_, "radius", emitter_->radius);
+	persistence->AddItem(label_, "angle", emitter_->angle);
+	persistence->AddItem(label_, "height", emitter_->height);
+	persistence->Save(false, label_);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　読み込み
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void ConeEmitter::Load() {
+	GpuEmitter::Load();
+	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	emitter_->radius = persistence->GetValue<float>(label_, "radius");
+	emitter_->angle = persistence->GetValue<float>(label_, "angle");
+	emitter_->height = persistence->GetValue<float>(label_, "height");
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Debug編集
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -67,5 +92,10 @@ void ConeEmitter::Debug_Gui() {
 	ImGui::DragFloat("radius", &emitter_->radius, 0.1f);
 	ImGui::DragFloat("angle", &emitter_->angle, 0.1f);
 	ImGui::DragFloat("height", &emitter_->height, 0.1f);
+
+	ImGui::InputText("##effectName", &label_[0], sizeof(char) * 64);
+	if (ImGui::Button("Save")) {
+		Save();
+	}
 }
 #endif

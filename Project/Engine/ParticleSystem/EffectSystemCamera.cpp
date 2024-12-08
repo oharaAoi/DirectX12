@@ -1,4 +1,5 @@
 #include "EffectSystemCamera.h"
+#include "Engine/Input/Input.h"
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
 #endif // _DEBUG
@@ -6,25 +7,31 @@
 EffectSystemCamera::EffectSystemCamera() { Init(); }
 EffectSystemCamera::~EffectSystemCamera() {}
 
+void EffectSystemCamera::Finalize() {
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+
 void EffectSystemCamera::Init() {
+	BaseCamera::Init();
 	transform_ = {
 		{1.0f, 1.0f, 1.0f},
-		{0.3f, 0.0f, 0.0f},
-		{0.0f, 3.0f, -10.0f}
+		{0.0f , 0, 0.0f},
+		{0, 5, -10}
 	};
-
-	scaleMat_ = transform_.scale.MakeScaleMat();
-	rotateMat_ = transform_.rotate.MakeRotateMat();
-	translateMat_ = transform_.translate.MakeTranslateMat();
 
 	// worldの生成
 	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
 	viewMatrix_ = Inverse(cameraMatrix_);
-	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(0.45f, float(1280.0f) / float(720.0f), 0.1f, 100.0f);
+
+	debugCameraMode_ = true;
+
+	moveBaseSpeed_ = 5.0f;
+	moveSpeed_ = 5.0f;
+	quaternion_ = Quaternion::AngleAxis(20.0f * toRadian, Vector3::RIGHT());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,17 +39,89 @@ void EffectSystemCamera::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemCamera::Update() {
+	if (isFocused_) {
+		RotateMove();
+		TransitionMove();
+	}
+
+	quaternion_ = quaternion_.Normalize();
+
 	scaleMat_ = transform_.scale.MakeScaleMat();
-	rotateMat_ = transform_.rotate.MakeRotateMat();
+	rotateMat_ = quaternion_.MakeMatrix();
 	translateMat_ = transform_.translate.MakeTranslateMat();
 
-	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
+	cameraMatrix_ = scaleMat_ * rotateMat_ * translateMat_;
 	viewMatrix_ = Inverse(cameraMatrix_);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EffectSystemCamera::TransitionMove() {
+	moveDirection_ = Vector3();
+
+	if (Input::IsPressKey(DIK_A)) {
+		moveDirection_ -= quaternion_.MakeRight() * moveSpeed_;
+	}
+
+	if (Input::IsPressKey(DIK_D)) {
+		moveDirection_ += quaternion_.MakeRight() * moveSpeed_;
+	}
+
+	if (Input::IsPressKey(DIK_W)) {
+		moveDirection_ += quaternion_.MakeForward() * moveSpeed_;
+	}
+
+	if (Input::IsPressKey(DIK_S)) {
+		moveDirection_ -= quaternion_.MakeForward() * moveSpeed_;
+	}
+
+	if (Input::IsPressKey(DIK_Q)) {
+		moveDirection_ += quaternion_.MakeUp() * moveSpeed_;
+	}
+
+	if (Input::IsPressKey(DIK_E)) {
+		moveDirection_ -= quaternion_.MakeUp() * moveSpeed_;
+	}
+
+	transform_.translate += moveDirection_ * GameTimer::DeltaTime();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EffectSystemCamera::RotateMove() {
+	if (Input::IsPressMouse(1)) {
+
+		Vector2 dire = Input::GetMousePosition() - preMousePos_;
+
+		// Y軸回転(Y軸回転は必ずworld空間での回転が行われる)
+		yaw_ += dire.x * sensitivity_ * GameTimer::DeltaTime();
+		qYaw = Quaternion::AngleAxis(yaw_, Vector3(0.0f, 1.0f, 0.0f)).Normalize();
+
+		// X軸回転(X軸回転は必ずlocal空間で回転が行われる)
+		pitch_ += dire.y * sensitivity_ * GameTimer::DeltaTime();
+		qPitch = Quaternion::AngleAxis(pitch_, Vector3(1.0f, 0.0f, 0.0f)).Normalize();
+
+		// 回転合成
+		quaternion_ = (qYaw * moveQuaternion_ * qPitch).Normalize();
+
+	} else {
+		moveQuaternion_ = quaternion_;
+		yaw_ = 0;
+		pitch_ = 0;
+	}
+
+	preMousePos_ = Input::GetMousePosition();
+}
 
 #ifdef _DEBUG
+void EffectSystemCamera::Debug_Gui() {
 	ImGui::Begin("effectCamera");
 	ImGui::DragFloat3("rotate", &transform_.rotate.x, 0.1f);
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
 	ImGui::End();
-#endif
 }
+#endif

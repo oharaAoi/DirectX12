@@ -44,6 +44,9 @@ public:
 
 	void SetTarget(WorldTransform* target) { target_ = target; }
 
+	void SetIsFocused(bool isFocesd) { isFocused_ = isFocesd; }
+	const bool GetIsFocused() const { return isFocused_; }
+
 protected:
 
 	WorldTransform* target_;
@@ -65,6 +68,9 @@ protected:
 	Matrix4x4 viewport2D_;
 
 	Matrix4x4 view2DMatrix_;
+
+
+	bool isFocused_;
 
 };
 

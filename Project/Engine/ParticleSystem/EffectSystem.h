@@ -8,6 +8,7 @@
 #include "Engine/ParticleSystem/Emitter/Emitter.h"
 #include "Engine/ParticleSystem/ParticleField.h"
 #include "Engine/ParticleSystem/BaseEffect.h"
+#include "Engine/ParticleSystem/EffectPersistence.h"
 
 class EffectSystemEditer;
 
@@ -35,6 +36,8 @@ public:
 
 	void PostDraw();
 
+	const bool GetIsEditerFocused() const;
+
 #endif;
 
 public: // accessor
@@ -47,6 +50,8 @@ public: // accessor
 private:
 
 	const std::string kDirectoryPath_ = "./Game/Resources/GameData/Emitter/";
+
+	EffectPersistence* effectPersistence_ = nullptr;
 
 	std::unique_ptr<ParticleField> particleField_ = nullptr;
 	

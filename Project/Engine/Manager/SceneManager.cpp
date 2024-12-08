@@ -45,19 +45,21 @@ void SceneManager::Update() {
 
 void SceneManager::Draw() {
 	scene_->Draw();
-	effectSystem_->Draw();
+	if (Engine::GetIsOpenEffectEditer()) {
+		effectSystem_->Draw();
+	}
 	Engine::DrawRenderTexture();
 }
 
 void SceneManager::PostFrame() {
-	gameTimer_.FPS();
-
 	// ------------------------------------ //
 	// フレーム終了処理
 	// ------------------------------------ //
 	Engine::EndImGui();
 
-	effectSystem_->PostDraw();
+	if (Engine::GetIsOpenEffectEditer()) {
+		effectSystem_->PostDraw();
+	}
 
 	Engine::EndFrame();
 
@@ -67,8 +69,13 @@ void SceneManager::PostFrame() {
 
 #ifdef _DEBUG
 void SceneManager::Debug_Gui() {
+	gameTimer_.FPS();
+	Engine::DrawImGui();
 	scene_->Debug_Gui();
-	effectSystem_->Debug_Gui();
+
+	if (Engine::GetIsOpenEffectEditer()) {
+		effectSystem_->Debug_Gui();
+	}
 }
 #endif
 

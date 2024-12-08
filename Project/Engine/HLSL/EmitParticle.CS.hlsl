@@ -49,6 +49,7 @@ ConstantBuffer<PerFrame> gPerFrame : register(b0);
 ConstantBuffer<CommonEmitter> gCommonEmitter : register(b1);
 ConstantBuffer<SphereEmitter> gSphereEmitter : register(b2);
 ConstantBuffer<ConeEmitter> gConeEmitter : register(b3);
+ConstantBuffer<BoxEmitter> gBoxEmitter : register(b4);
 
 float3 ApplyVelocityWithRotation(float4 rotation, float3 localVelocity, float threshold) {
     // クォータニオンの長さを計算
@@ -83,13 +84,30 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 			if (0 <= freeListIndex && freeListIndex < kMaxParticles) {
 				int particleIndex = gFreeListIndex[freeListIndex];
 				gParticles[particleIndex] = (Particle) 0;
-				gParticles[particleIndex].scale = generator.Generated3d();
+				//gParticles[particleIndex].scale = generator.Generated3d();
+				gParticles[particleIndex].scale = float3(1, 1, 1);
 				gParticles[particleIndex].translate = gCommonEmitter.translate + generator.Generated3d();
 				gParticles[particleIndex].color.rgb = gCommonEmitter.color.rgb;
 				gParticles[particleIndex].color.a = 1.0f;
 				gParticles[particleIndex].lifeTime = 5.0f;
 				gParticles[particleIndex].currentTime = 0.0f;
-				gParticles[particleIndex].velocity = ApplyVelocityWithRotation(gCommonEmitter.rotate, float3(0, 1, 0), 0.01f) * gCommonEmitter.speed;
+				
+				if (gCommonEmitter.shape == 0) {	// sphere
+					float3 randomPos = generator.Generated3d();
+					randomPos.x = clamp(randomPos.x, -gSphereEmitter.radius, gSphereEmitter.radius);
+					randomPos.y = clamp(randomPos.y, -gSphereEmitter.radius, gSphereEmitter.radius);
+					randomPos.z = clamp(randomPos.z, -gSphereEmitter.radius, gSphereEmitter.radius);
+					
+					gParticles[particleIndex].translate = gCommonEmitter.translate + randomPos;
+					gParticles[particleIndex].velocity = generator.Generated3d() * gCommonEmitter.speed;
+				}
+				else if (gCommonEmitter.shape == 1) {	// Cone
+					gParticles[particleIndex].velocity = ApplyVelocityWithRotation(gCommonEmitter.rotate, float3(0, 1, 0), 0.01f) * gCommonEmitter.speed;
+				}
+				else if (gCommonEmitter.shape == 2) {	// box
+					gParticles[particleIndex].velocity = ApplyVelocityWithRotation(gCommonEmitter.rotate, float3(0, 1, 0), 0.01f) * gCommonEmitter.speed;
+				}
+				
 			}
 			else {
 				// 発生しなかったので減らした分を元に戻す

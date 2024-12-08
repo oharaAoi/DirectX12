@@ -185,6 +185,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\Vector4.cpp" />
     <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp" />
+    <ClCompile Include="Engine\ParticleSystem\EffectPersistence.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Emitter\BoxEmitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Emitter\ConeEmitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Emitter\SphereEmitter.cpp" />
@@ -305,6 +306,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\ParticleSystem\BaseEffect.h" />
+    <ClInclude Include="Engine\ParticleSystem\EffectPersistence.h" />
     <ClInclude Include="Engine\ParticleSystem\Emitter\BoxEmitter.h" />
     <ClInclude Include="Engine\ParticleSystem\Emitter\ConeEmitter.h" />
     <ClInclude Include="Engine\ParticleSystem\Emitter\SphereEmitter.h" />
@@ -466,6 +468,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <None Include="Engine\HLSL\Primitive.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="Engine\HLSL\Random.hlsli" />
     <None Include="Engine\HLSL\Sprite.2d.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>

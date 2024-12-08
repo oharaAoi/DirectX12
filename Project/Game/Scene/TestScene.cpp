@@ -94,5 +94,11 @@ void TestScene::Debug_Gui() {
 	ShowEasingDebug(easeIndex_);
 
 	ImGui::End();
+
+	if (EffectSystem::GetInstacne()->GetIsEditerFocused()) {
+		debugCamera_->SetIsFocused(false);
+	} else {
+		debugCamera_->SetIsFocused(true);
+	}
 }
 #endif

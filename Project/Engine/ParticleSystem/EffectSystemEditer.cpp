@@ -57,8 +57,14 @@ void EffectSystemEditer::Update() {
 		(*it)->Update();
 		++it;
 	}
-	
+
 	particleField_->Update();
+
+	if (effectSystemCamera_->GetIsFocused()) {
+		isFocused_ = true;
+	} else {
+		isFocused_ = false;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,10 +88,18 @@ void EffectSystemEditer::Draw() const {
 
 	// 最後にImGui上でEffectを描画する
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-	
+
 	ImTextureID textureID2 = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetOffScreenSRVHandle(RenderTargetType::EffectSystem_RenderTarget).handleGPU.ptr));
-	ImGui::SetCursorPos(ImVec2(10, 10)); // 描画位置を設定
+	ImGui::SetCursorPos(ImVec2(20, 30)); // 描画位置を設定
 	ImGui::Image((void*)textureID2, ImVec2(640.0f, 360.0f)); // サイズは適宜調整
+
+	// windowの判定
+	if (ImGui::IsWindowFocused()) {
+		effectSystemCamera_->SetIsFocused(true);
+	} else {
+		effectSystemCamera_->SetIsFocused(false);
+	}
+
 	ImGui::End();
 }
 
@@ -102,7 +116,7 @@ void EffectSystemEditer::PreBegin() {
 	// RenderTargetを指定する
 	renderTarget_->SetRenderTarget(commandList, RenderTargetType::PreEffectSystem_RenderTarget);
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-	float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	// RenderTargetをクリアする
 	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(RenderTargetType::PreEffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
 
@@ -116,8 +130,9 @@ void EffectSystemEditer::PreBegin() {
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), PreEffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetOffScreenSRVHandle(RenderTargetType::PreEffectSystem_RenderTarget).handleGPU.ptr));
-	ImGui::SetCursorPos(ImVec2(10, 10)); // 描画位置を設定
+	ImGui::SetCursorPos(ImVec2(20, 30)); // 描画位置を設定
 	ImGui::Image((void*)textureID, ImVec2(640.0f, 360.0f)); // サイズは適宜調整
+
 	ImGui::End();
 }
 
@@ -130,7 +145,7 @@ void EffectSystemEditer::Begin() {
 	// RenderTargetを指定する
 	renderTarget_->SetRenderTarget(commandList, RenderTargetType::EffectSystem_RenderTarget);
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-	float clearColor[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	// RenderTargetをクリアする
 	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(RenderTargetType::EffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
 }
@@ -171,20 +186,42 @@ void EffectSystemEditer::Debug_Gui() {
 		CreateEffect(defalutName);
 	}
 
-	if (ImGui::BeginTabBar("EmitterTabs")) {
-		// リストを反復してタブを作成
-		for (auto it = effectList_.begin(); it != effectList_.end(); ++it) {
-			// タブのラベルを生成（インデックスではなくポインタアドレスを利用）
-			std::string tabLabel = (*it)->GetEmitterLabel() + std::to_string(std::distance(effectList_.begin(), it));
+	//if (ImGui::BeginTabBar("EmitterTabs")) {
+	//	// リストを反復してタブを作成
+	//	for (auto it = effectList_.begin(); it != effectList_.end(); ++it) {
+	//		// タブのラベルを生成（インデックスではなくポインタアドレスを利用）
+	//		std::string tabLabel = (*it)->GetEmitterLabel() + std::to_string(std::distance(effectList_.begin(), it));
 
-			if (ImGui::BeginTabItem(tabLabel.c_str())) {
-				(*it)->Debug_Gui();
+	//		if (ImGui::BeginTabItem(tabLabel.c_str())) {
+	//			(*it)->Debug_Gui();
 
-				ImGui::EndTabItem();
-			}
+	//			ImGui::EndTabItem();
+	//		}
+	//	}
+	//	ImGui::EndTabBar();
+	//}
+
+	static int selectedEffectIndex = -1; // -1 means no selection
+	ImGui::Begin("Effect List");
+	int index = 0;
+	for (auto it = effectList_.begin(); it != effectList_.end(); ++it, ++index) {
+		std::string name = (*it)->GetEmitterLabel();
+		std::string label = "Effect_" + name + std::to_string(index);
+
+		if (ImGui::Selectable(label.c_str(), selectedEffectIndex == index)) {
+			selectedEffectIndex = index; // Update the selected index
 		}
-		ImGui::EndTabBar();
 	}
 
+	if (selectedEffectIndex >= 0 && selectedEffectIndex < effectList_.size()) {
+		auto it = effectList_.begin();
+		std::advance(it, selectedEffectIndex); // Move iterator to the selected index
+
+		ImGui::Begin("EffectSystem");
+		ImGui::Separator();
+		(*it)->Debug_Gui();
+		ImGui::End();
+	}
+	ImGui::End();
 }
 #endif // _DEBUG
