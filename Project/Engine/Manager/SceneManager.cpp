@@ -45,9 +45,9 @@ void SceneManager::Update() {
 
 void SceneManager::Draw() {
 	scene_->Draw();
-	if (Engine::GetIsOpenEffectEditer()) {
-		effectSystem_->Draw();
-	}
+
+	effectSystem_->Draw(Engine::GetIsOpenEffectEditer());
+
 	Engine::DrawRenderTexture();
 }
 
@@ -57,9 +57,7 @@ void SceneManager::PostFrame() {
 	// ------------------------------------ //
 	Engine::EndImGui();
 
-	if (Engine::GetIsOpenEffectEditer()) {
-		effectSystem_->PostDraw();
-	}
+	effectSystem_->PostDraw(Engine::GetIsOpenEffectEditer());
 
 	Engine::EndFrame();
 

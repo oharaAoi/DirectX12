@@ -29,6 +29,10 @@ public:
 
 	const std::string& GetEmitterLabel() const { return gpuEmitter_->GetLabel(); }
 
+	void SetEmitter(const std::string& effectName) const { return gpuEmitter_->SetEmitter(effectName); }
+	void SetEmitterPos(const Vector3& pos) const { return gpuEmitter_->SetEmitterPos(pos); }
+	void SetEmitterColor(const Vector4& color) const { return gpuEmitter_->SetEmitterColor(color); }
+
 private:
 
 	std::unique_ptr<GpuParticle> gpuParticle_;

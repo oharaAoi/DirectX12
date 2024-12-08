@@ -53,6 +53,8 @@ public:
 
 	virtual void DrawShape(const Matrix4x4& viewProjectionMat) = 0;
 
+	void SetEmitter(const std::string& name);
+
 	void Move();
 
 	virtual void Save();
@@ -64,6 +66,9 @@ public:
 #endif
 
 	const std::string& GetLabel() const { return label_; }
+
+	void SetEmitterPos(const Vector3& pos) { commonEmitter_->translate = pos; }
+	void SetEmitterColor(const Vector4& color) { commonEmitter_->color = color; }
 
 protected:
 

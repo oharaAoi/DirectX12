@@ -27,7 +27,6 @@ void EffectPersistence::Init() {
 	}
 
 	LoadAllFile();
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +50,7 @@ void EffectPersistence::CreateGroup(const std::string& groupName) {
 
 void EffectPersistence::LoadAllFile() {
 	// Effect
-	std::filesystem::directory_iterator dir_it(kDirectoryPath_ + "Effect/");
+	std::filesystem::directory_iterator dir_it(kDirectoryPath_ + "Effect");
 	for (const std::filesystem::directory_entry& entry : dir_it) {
 		// ファイルパスを取得
 		const std::filesystem::path& filePath = entry.path();
@@ -66,8 +65,8 @@ void EffectPersistence::LoadAllFile() {
 	}
 
 	// Emitter
-	std::filesystem::directory_iterator dir_Emitter(kDirectoryPath_ + "Emitter/");
-	for (const std::filesystem::directory_entry& entry : dir_it) {
+	std::filesystem::directory_iterator dir_Emitter(kDirectoryPath_ + "Emitter");
+	for (const std::filesystem::directory_entry& entry : dir_Emitter) {
 		// ファイルパスを取得
 		const std::filesystem::path& filePath = entry.path();
 		// ファイル拡張子を取得
@@ -90,8 +89,10 @@ void EffectPersistence::Load(bool isEffect, const std::string& fileName) {
 	// 読み込むjsonファイルのフルパスを合成する
 	if (isEffect) {
 		filePath = kDirectoryPath_ + "Effect/" + fileName + ".json";
+		effectNames_.push_back(fileName);
 	} else {
 		filePath = kDirectoryPath_ + "Emitter/" + fileName + ".json";
+		emitterNames_.push_back(fileName);
 	}
 	// 読み込み用ファイルストリーム
 	std::ifstream ifs;

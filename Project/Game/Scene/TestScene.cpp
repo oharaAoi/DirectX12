@@ -33,6 +33,10 @@ void TestScene::Init() {
 
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
+
+	EffectSystem::GetInstacne()->Emit("sphere", Vector3(0, 0, 0), Vector4(1, 0, 0, 1));
+	EffectSystem::GetInstacne()->Emit("cone", Vector3(5, 0, 0), Vector4(0, 1, 0, 1));
+	EffectSystem::GetInstacne()->Emit("box", Vector3(-5, 0, 0), Vector4(0, 0, 1, 1));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,15 +46,21 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	// ↓ カメラの更新
 	// -------------------------------------------------
+	camera_->Update();
 	if (isDebugCamera_) {
 		debugCamera_->Update();
 		Render::SetEyePos(debugCamera_->GetWorldTranslate());
 		Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
+
+		EffectSystem::GetInstacne()->SetCameraMatrix(debugCamera_->GetCameraMatrix());
+		EffectSystem::GetInstacne()->SetViewProjectionMatrix(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
 	} else {
-		camera_->Update();
 		Render::SetEyePos(camera_->GetWorldTranslate());
 		Render::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 		Render::SetViewProjection2D(camera_->GetViewMatrix2D(), camera_->GetProjectionMatrix2D());
+
+		EffectSystem::GetInstacne()->SetCameraMatrix(camera_->GetCameraMatrix());
+		EffectSystem::GetInstacne()->SetViewProjectionMatrix(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 	}
 
 	// -------------------------------------------------
@@ -67,15 +77,14 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	// ↓ ParticleのViewを設定する
 	// -------------------------------------------------
-	EffectSystem::GetInstacne()->SetCameraMatrix(camera_->GetCameraMatrix());
-	EffectSystem::GetInstacne()->SetViewProjectionMatrix(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
 }
 
 void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
-	testObjA_->Draw();
+	/*testObjA_->Draw();
 
-	testObjB_->Draw();
+	testObjB_->Draw();*/
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 }

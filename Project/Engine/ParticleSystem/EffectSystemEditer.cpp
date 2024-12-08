@@ -78,7 +78,6 @@ void EffectSystemEditer::Draw() const {
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 
-
 	// 実際にEffectを描画する
 	Engine::SetPipeline(PipelineType::AddPipeline);
 	for (std::list<std::unique_ptr<GpuEffect>>::const_iterator it = effectList_.begin(); it != effectList_.end();) {
@@ -202,7 +201,7 @@ void EffectSystemEditer::Debug_Gui() {
 	//}
 
 	static int selectedEffectIndex = -1; // -1 means no selection
-	ImGui::Begin("Effect List");
+	ImGui::Begin("Emitter List");
 	int index = 0;
 	for (auto it = effectList_.begin(); it != effectList_.end(); ++it, ++index) {
 		std::string name = (*it)->GetEmitterLabel();

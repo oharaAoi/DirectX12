@@ -58,6 +58,11 @@ void GpuEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootPa
 	commandList->SetComputeRootConstantBufferView(rootParameterIndex + 1, commonBuffer_->GetGPUVirtualAddress());
 }
 
+void GpuEmitter::SetEmitter(const std::string& name) {
+	label_ = name;
+	Load();
+}
+
 void GpuEmitter::Move() {
 	if (isMove_) {
 		lifeTime_ -= GameTimer::DeltaTime();

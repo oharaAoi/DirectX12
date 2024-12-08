@@ -24,6 +24,8 @@ void BoxEmitter::Init() {
 	obb_.center = commonEmitter_->translate;
 	obb_.size = emitter_->size_;
 	obb_.MakeOBBAxis(Quaternion::ToQuaternion(commonEmitter_->rotate));
+
+	commonEmitter_->shape = static_cast<uint32_t>(EmitterShape::Box);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

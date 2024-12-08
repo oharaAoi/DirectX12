@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <variant>
+#include <vector>
 #include <map>
 #include <string>
 #include <unordered_map>
@@ -45,6 +46,9 @@ public:
 	void Load(bool isEffect, const std::string& fileName);
 	void Save(bool isEffect, const std::string& fileName);
 
+	std::vector<std::string>& GetEffectNames() { return effectNames_; }
+	std::vector<std::string>& GetEmitterNames() { return emitterNames_; }
+
 	template<typename T>
 	void SetValue(const std::string& groupName, const std::string& key, const T& value);
 	template<typename T>
@@ -56,6 +60,9 @@ private:
 
 	const std::string& kDirectoryPath_ = "./Game/Resources/Effects/";
 	std::map<std::string, Group> data_;
+
+	std::vector<std::string> effectNames_;
+	std::vector<std::string> emitterNames_;
 	
 };
 

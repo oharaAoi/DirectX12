@@ -1,0 +1,35 @@
+{
+    "cone": {
+        "angle": 2.0,
+        "color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "count": 5,
+        "frequency": 0.5,
+        "frequencyTime": 0.01772294007241726,
+        "height": 1.0,
+        "lifeTime": 10.0,
+        "radius": 1.0,
+        "rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "shape": 1,
+        "speed": 1.0,
+        "translate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "velocity": [
+            0.0,
+            0.0,
+            0.0
+        ]
+    }
+}
