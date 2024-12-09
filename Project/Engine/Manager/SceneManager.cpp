@@ -19,7 +19,6 @@ void SceneManager::Init() {
 	sceneFactory_ = std::make_unique<SceneFactory>();
 
 	effectSystem_ = EffectSystem::GetInstacne();
-	effectSystem_->Init();
 
 	Render::Begin();
 }
@@ -48,7 +47,7 @@ void SceneManager::Draw() {
 
 	effectSystem_->Draw(Engine::GetIsOpenEffectEditer());
 
-	Engine::DrawRenderTexture();
+	Engine::RenderFrame();
 }
 
 void SceneManager::PostFrame() {
@@ -56,9 +55,9 @@ void SceneManager::PostFrame() {
 	// フレーム終了処理
 	// ------------------------------------ //
 	Engine::EndImGui();
-
+#ifdef _DEBUG
 	effectSystem_->PostDraw(Engine::GetIsOpenEffectEditer());
-
+#endif
 	Engine::EndFrame();
 
 	// fpsの計算
@@ -67,13 +66,15 @@ void SceneManager::PostFrame() {
 
 #ifdef _DEBUG
 void SceneManager::Debug_Gui() {
-	gameTimer_.FPS();
-	Engine::DrawImGui();
-	scene_->Debug_Gui();
-
-	if (Engine::GetIsOpenEffectEditer()) {
-		effectSystem_->Debug_Gui();
+	if (ImGui::Begin("My Window", nullptr, ImGuiWindowFlags_MenuBar)) {
+		scene_->Debug_Gui();
 	}
+
+	ImGui::Begin("GameTimer");
+	gameTimer_.FPS();
+	ImGui::End();
+
+	ImGui::End();
 }
 #endif
 

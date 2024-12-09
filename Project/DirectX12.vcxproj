@@ -147,6 +147,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PrimitivePipeline.cpp" />
+    <ClCompile Include="Engine\DirectX\Resource\DxResource.cpp" />
+    <ClCompile Include="Engine\DirectX\Resource\ShaderResource.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp" />
@@ -265,6 +267,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PrimitivePipeline.h" />
+    <ClInclude Include="Engine\DirectX\Resource\DxResource.h" />
+    <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h" />

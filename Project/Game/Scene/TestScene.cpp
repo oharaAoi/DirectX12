@@ -35,8 +35,8 @@ void TestScene::Init() {
 	collisionManager_->Init();
 
 	EffectSystem::GetInstacne()->Emit("sphere", Vector3(0, 0, 0), Vector4(1, 0, 0, 1));
-	EffectSystem::GetInstacne()->Emit("cone", Vector3(5, 0, 0), Vector4(0, 1, 0, 1));
-	EffectSystem::GetInstacne()->Emit("box", Vector3(-5, 0, 0), Vector4(0, 0, 1, 1));
+	/*EffectSystem::GetInstacne()->Emit("cone", Vector3(5, 0, 0), Vector4(0, 1, 0, 1));
+	EffectSystem::GetInstacne()->Emit("box", Vector3(-5, 0, 0), Vector4(0, 0, 1, 1));*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -56,7 +56,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
 	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
 	// CS
-	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(), renderTarget_->GetOffScreenSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
+	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(), renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
 	// input
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 	// audio
@@ -65,6 +65,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	render_->Init(dxCommands_->GetCommandList(), dxDevice_->GetDevice(), primitivePipeline_.get(), renderTarget_.get());
 
 	renderTexture_->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
+
+	effectSystem_ = EffectSystem::GetInstacne();
+	effectSystem_->Init();
 
 #ifdef _DEBUG
 	imguiManager_ = ImGuiManager::GetInstacne();
@@ -110,19 +113,6 @@ void Engine::Finalize() {
 	CoUninitialize();
 }
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　ImGuiを描画する
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-#ifdef _DEBUG
-void Engine::DrawImGui() {
-	ImGui::Begin("Engine");
-	ImGui::Checkbox("openEffectEditer", &isEffectEditer_);
-	ImGui::End();
-}
-#endif
-
 bool Engine::ProcessMessage() {
 	return  winApp_->ProcessMessage();
 }
@@ -160,79 +150,74 @@ void Engine::EndFrame() {
 
 void Engine::EndImGui() {
 #ifdef _DEBUG
-	if (ImGui::Begin("My Window", nullptr, ImGuiWindowFlags_MenuBar)) {
-		if (ImGui::BeginMenuBar()) {
-			if (ImGui::BeginMenu("Window")) {
-				if (ImGui::MenuItem("Debug")) {
-					
-				}
-				if (ImGui::MenuItem("Release")) {
-					
-				}
-				ImGui::EndMenu();
-			}
-			if (ImGui::BeginMenu("EffectSystem")) {
-				
-				ImGui::EndMenu();
-			}
-			ImGui::EndMenuBar();
-		}
-	}
-	ImGui::End();
 	imguiManager_->End();
 	imguiManager_->Draw(dxCommands_->GetCommandList());
 #endif
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　offScreenRenderingの処理をこの関数内で行う
-//////////////////////////////////////////////////////////////////////////////////////////////////
+void Engine::RenderFrame() {
+	BlendFinalTexture();
 
-void Engine::DrawRenderTexture() {
+	dxCommon_->SetSwapChain();
+
+#ifdef _DEBUG
+	if (ImGui::Begin("My Window", nullptr, ImGuiWindowFlags_MenuBar)) {
+		if (ImGui::BeginMenuBar()) {
+			if (ImGui::BeginMenu("Window")) {
+				if (ImGui::MenuItem("Debug")) {
+				}
+				/*if (ImGui::MenuItem("Release")) {
+
+				}*/
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+
+		renderTexture_->DrawGui();
+	}
+	ImGui::End();
+
+	if (ImGui::Begin("EffectSystem", nullptr, ImGuiWindowFlags_MenuBar)) {
+		effectSystem_->Debug_Gui();
+	}
+	ImGui::End();
+#endif
+
+#ifdef _RELEASE
+	graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
+	renderTexture_->Draw(dxCommands_->GetCommandList());
+#endif
+
+	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+}
+
+void Engine::BlendFinalTexture() {
 	// -------------------------------------------------
 	// ↓ Resourceの状態を切り替える(obj3D, sprite2D, renderTexture)
 	// -------------------------------------------------
-	if (!computeShader_->GetIsRun()) {
-		renderTarget_->TransitionResource(
-			dxCommands_->GetCommandList(),
-			Object3D_RenderTarget,
-			D3D12_RESOURCE_STATE_RENDER_TARGET, 
-			D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE
-		);
-	}
-	renderTarget_->TransitionResource(dxCommands_->GetCommandList(),
-									  Sprite2D_RenderTarget,
-									  D3D12_RESOURCE_STATE_RENDER_TARGET,
-									  D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+	renderTarget_->TransitionResource(
+		dxCommands_->GetCommandList(),
+		Object3D_RenderTarget,
+		D3D12_RESOURCE_STATE_RENDER_TARGET,
+		D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE
+	);
 
 	// 最終描画のTextureを書き込み可能状態にする
-	renderTexture_->TransitionResource(dxCommands_->GetCommandList(), 
+	renderTexture_->TransitionResource(dxCommands_->GetCommandList(),
 									   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 									   D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 
 	// -------------------------------------------------
-	// ↓ object3DとSprite2Dを最後に映すTextureに合成する
+	// ↓ object3Dと最終描画のTextureを合成する
 	// -------------------------------------------------
-	computeShader_->BlendRenderTarget(dxCommands_->GetCommandList(), renderTarget_->GetOffScreenSRVHandle(Sprite2D_RenderTarget).handleGPU, renderTexture_->GetUAV());
-	
+	computeShader_->BlendRenderTarget(dxCommands_->GetCommandList(), renderTarget_->GetRenderTargetSRVHandle(Object3D_RenderTarget).handleGPU, renderTexture_->GetUAV());
+
 	// -------------------------------------------------
 	// ↓ 映すTextureをpixeslShaderで使えるようにする
 	// -------------------------------------------------
 	renderTexture_->TransitionResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
-	// -------------------------------------------------
-	// ↓ 最後に映すTextureの描画
-	// -------------------------------------------------
-	// これから書き込む画面をバックバッファに変更する
-	dxCommon_->SetSwapChain();
-	graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
-	renderTexture_->Draw(dxCommands_->GetCommandList());
-
-	// -------------------------------------------------
-	// ↓ Resourceの状態を切り替える(obj3D, sprite2D)
-	// -------------------------------------------------
-	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), Sprite2D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
-	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -347,14 +332,6 @@ void Engine::SetPipeline(const PipelineType& kind) {
 
 void Engine::SetCsPipeline(const CsPipelineType& kind) {
 	computeShader_->SetCsPipeline(kind, dxCommands_->GetCommandList());
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　CSの設定
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Engine::SetComputeShader(const CSKind& kind) {
-	computeShader_->SetComputeShader(kind);
 }
 
 void Engine::SetSkinning(Skinning* skinning, Mesh* mesh) {

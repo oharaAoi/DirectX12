@@ -79,7 +79,7 @@ void EffectSystemEditer::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Draw() const {
-	ImGui::Begin("Render Target View");
+	ImGui::Begin("EffectSystem");
 
 	// Grid線描画
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
@@ -95,7 +95,7 @@ void EffectSystemEditer::Draw() const {
 	// 最後にImGui上でEffectを描画する
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
-	ImTextureID textureID2 = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetOffScreenSRVHandle(RenderTargetType::EffectSystem_RenderTarget).handleGPU.ptr));
+	ImTextureID textureID2 = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::EffectSystem_RenderTarget).handleGPU.ptr));
 	ImGui::SetCursorPos(ImVec2(20, 30)); // 描画位置を設定
 	ImGui::Image((void*)textureID2, ImVec2(640.0f, 360.0f)); // サイズは適宜調整
 
@@ -124,10 +124,10 @@ void EffectSystemEditer::PreBegin() {
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	// RenderTargetをクリアする
-	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(RenderTargetType::PreEffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
+	commandList->ClearRenderTargetView(renderTarget_->GetRenderTargetRTVHandle(RenderTargetType::PreEffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
 
 	//------------------------------------------------------------------------------------------------------------------
-	ImGui::Begin("Render Target View");
+	ImGui::Begin("EffectSystem");
 
 	// Grid線描画
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
@@ -135,7 +135,7 @@ void EffectSystemEditer::PreBegin() {
 
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), PreEffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
-	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetOffScreenSRVHandle(RenderTargetType::PreEffectSystem_RenderTarget).handleGPU.ptr));
+	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::PreEffectSystem_RenderTarget).handleGPU.ptr));
 	ImGui::SetCursorPos(ImVec2(20, 30)); // 描画位置を設定
 	ImGui::Image((void*)textureID, ImVec2(640.0f, 360.0f)); // サイズは適宜調整
 
@@ -153,7 +153,7 @@ void EffectSystemEditer::Begin() {
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	// RenderTargetをクリアする
-	commandList->ClearRenderTargetView(renderTarget_->GetOffScreenHandle(RenderTargetType::EffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
+	commandList->ClearRenderTargetView(renderTarget_->GetRenderTargetRTVHandle(RenderTargetType::EffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -225,7 +225,7 @@ void EffectSystemEditer::Debug_Gui() {
 		auto it = effectList_.begin();
 		std::advance(it, selectedEffectIndex); // Move iterator to the selected index
 
-		ImGui::Begin("EffectSystem");
+		ImGui::Begin("EmitterSetting");
 		(*it)->Debug_Gui();
 
 		if (ImGui::Button("Delete")) {

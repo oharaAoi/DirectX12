@@ -28,11 +28,8 @@ void GameTimer::CalculationFrame() {
 
 void GameTimer::FPS() {
 #ifdef _DEBUG
-	ImGui::Begin("Engine");
 	float fps = 1.0f / deletaTime_;
-	ImGui::Text("fps: %f", fps);
-
-	ImGui::Text("1f: %f", deletaTime_ * 1000.0f);
-	ImGui::End();
+	ImGui::Text("%f fps", fps);
+	ImGui::Text("%f m/s", deletaTime_ * 1000.0f);
 #endif
 }
