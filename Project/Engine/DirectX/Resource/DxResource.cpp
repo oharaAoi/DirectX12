@@ -6,9 +6,15 @@ DxResource::~DxResource() {}
 
 void DxResource::Finalize() {
 	cBuffer_.Reset();
-	DescriptorHeap::AddFreeSrvList(srvAddress_.value().assignIndex_);
-	DescriptorHeap::AddFreeSrvList(uavAddress_.value().assignIndex_);
-	DescriptorHeap::AddFreeSrvList(rtvAddress_.value().assignIndex_);
+	if (srvAddress_ != std::nullopt) {
+		DescriptorHeap::AddFreeSrvList(srvAddress_.value().assignIndex_);
+	}
+	if (uavAddress_ != std::nullopt) {
+		DescriptorHeap::AddFreeSrvList(uavAddress_.value().assignIndex_);
+	}
+	if (rtvAddress_ != std::nullopt) {
+		DescriptorHeap::AddFreeSrvList(rtvAddress_.value().assignIndex_);
+	}
 }
 
 void DxResource::Init(ID3D12Device* device, DescriptorHeap* dxHeap, ResourceType type) {
@@ -77,6 +83,19 @@ void DxResource::SetSwapChainBuffer(IDXGISwapChain4* swapChain, uint32_t index) 
 	HRESULT hr = S_FALSE;
 	hr = swapChain->GetBuffer(index, IID_PPV_ARGS(&cBuffer_));
 	assert(SUCCEEDED(hr));
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　遷移させる
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void DxResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& befor, const D3D12_RESOURCE_STATES& after) {
+	if (befor != bufferState_) {
+		Log("now : " + ResourceStateToString(bufferState_) + "\n");
+		Log("target : " + ResourceStateToString(befor) + "\n");
+		assert("ResourceState MissMatch");
+	}
+	TransitionResourceState(commandList, cBuffer_.Get(), befor, after);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

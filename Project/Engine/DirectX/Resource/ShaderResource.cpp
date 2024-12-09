@@ -35,3 +35,12 @@ void ShaderResource::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc) {
 	uavAddress_ = pDxHeap_->AllocateSRV();
 	pDevice_->CreateUnorderedAccessView(cBuffer_.Get(), nullptr, &desc, uavAddress_.handleCPU);
 }
+
+void ShaderResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& befor, const D3D12_RESOURCE_STATES& after) {
+	if (befor != bufferState_) {
+		Log("now : " + ResourceStateToString(bufferState_) + "\n");
+		Log("target : " + ResourceStateToString(befor) + "\n");
+		assert("ResourceState MissMatch");
+	}
+	TransitionResourceState(commandList, cBuffer_.Get(), befor, after);
+}

@@ -137,6 +137,6 @@ void RenderTarget::CreateRenderTarget() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void RenderTarget::TransitionResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
-	TransitionResourceState(commandList, renderTargetResource_[renderType]->GetResource(), beforState, afterState);
+	renderTargetResource_[renderType]->Transition(commandList, beforState, afterState);
 }
 

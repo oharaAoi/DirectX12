@@ -17,6 +17,8 @@ public:
 	void CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& desc);
 	void CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc);
 
+	void Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& befor, const D3D12_RESOURCE_STATES& after);
+
 public:
 
 	ID3D12Resource* GetResource() { return cBuffer_.Get(); }

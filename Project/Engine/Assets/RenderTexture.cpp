@@ -122,5 +122,5 @@ void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList) {
 }
 
 void RenderTexture::TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
-	TransitionResourceState(commandList, renderResource_->GetResource(), beforState, afterState);
+	renderResource_->Transition(commandList, beforState, afterState);
 }
