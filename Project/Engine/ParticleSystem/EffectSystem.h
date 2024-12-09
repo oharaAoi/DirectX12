@@ -6,7 +6,6 @@
 #include "Engine/ParticleSystem/ParticleField.h"
 #include "Engine/ParticleSystem/GpuEffect.h"
 #include "Engine/ParticleSystem/EffectPersistence.h"
-#include "Engine/ParticleSystem/EffectPersistence.h"
 
 class EffectSystemEditer;
 

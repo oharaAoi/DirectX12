@@ -39,7 +39,7 @@ void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* commandList, const
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles{};
 	//rtvHandles = RTVHandle_[type].handleCPU;
 	commandList->OMSetRenderTargets(1, &renderTargetResource_[type]->GetRTV().handleCPU, false, &dsvHandle);
-	float clearColor[] = { 0.1f, 0.25f, 0.5f, 0.0f };
+	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
 	// RenderTargetはoffScreen用のRenderTargetを指定しておく
 	commandList->ClearRenderTargetView(renderTargetResource_[type]->GetRTV().handleCPU, clearColor, 0, nullptr);
 	// 指定した深度で画面をクリア

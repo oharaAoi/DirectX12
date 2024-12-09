@@ -79,7 +79,7 @@ void EffectSystemEditer::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Draw() const {
-	ImGui::Begin("Render Target View");
+	ImGui::Begin("EffectSystem");
 
 	// Grid線描画
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
@@ -127,7 +127,7 @@ void EffectSystemEditer::PreBegin() {
 	commandList->ClearRenderTargetView(renderTarget_->GetRenderTargetRTVHandle(RenderTargetType::PreEffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
 
 	//------------------------------------------------------------------------------------------------------------------
-	ImGui::Begin("Render Target View");
+	ImGui::Begin("EffectSystem");
 
 	// Grid線描画
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
@@ -225,7 +225,7 @@ void EffectSystemEditer::Debug_Gui() {
 		auto it = effectList_.begin();
 		std::advance(it, selectedEffectIndex); // Move iterator to the selected index
 
-		ImGui::Begin("EffectSystem");
+		ImGui::Begin("EmitterSetting");
 		(*it)->Debug_Gui();
 
 		if (ImGui::Button("Delete")) {

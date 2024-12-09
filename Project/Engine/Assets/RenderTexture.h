@@ -43,6 +43,10 @@ public:
 	/// <param name="commandList"></param>
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
+#ifdef _DEBUG
+	void DrawGui();
+#endif // _DEBUG
+
 	void TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
 public:

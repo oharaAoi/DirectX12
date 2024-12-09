@@ -95,9 +95,7 @@ void EffectSystem::SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matri
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
 void EffectSystem::Debug_Gui() {
-	ImGui::Begin("EffectSystem");
 	editer_->Debug_Gui();
-	ImGui::End();
 }
 
 void EffectSystem::EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device) {

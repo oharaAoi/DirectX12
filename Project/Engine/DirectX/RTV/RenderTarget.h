@@ -10,7 +10,6 @@ using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 enum RenderTargetType {
 	Object3D_RenderTarget,
-	Sprite2D_RenderTarget,
 	OffScreen_RenderTarget,
 	EffectSystem_RenderTarget,
 	PreEffectSystem_RenderTarget,

@@ -120,7 +120,13 @@ void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetGraphicsRootDescriptorTable(2, renderResource_->GetSRV().handleGPU);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
-
+#ifdef _DEBUG
+void RenderTexture::DrawGui() {
+	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderResource_->GetSRV().handleGPU.ptr));
+	ImGui::SetCursorPos(ImVec2(20, 50)); // 描画位置を設定
+	ImGui::Image((void*)textureID, ImVec2(640.0f, 360.0f), ImVec2(0, 0), ImVec2(1, 1)); // サイズは適宜調整
+}
+#endif // _DEBUG
 void RenderTexture::TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
 	renderResource_->Transition(commandList, beforState, afterState);
 }

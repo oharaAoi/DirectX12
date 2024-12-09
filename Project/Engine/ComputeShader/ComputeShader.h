@@ -42,12 +42,6 @@ public:
 	void SetCsPipeline(const CsPipelineType& type, ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// 行うCsをセットする
-	/// </summary>
-	/// <param name="kind"></param>
-	void SetComputeShader(const CSKind& kind);
-
-	/// <summary>
 	/// 行うCSをReset
 	/// </summary>
 	void ResetComputeShader() { isCsReset_ = true; }
@@ -69,7 +63,7 @@ public:
 	/// <param name="commandList">: コマンドリスト</param>
 	/// <param name="spriteGpuHandle">: sprite描画のGPUハンドル</param>
 	/// <param name="rendrerGpuHandle">: 最終描画するTextureのGPUハンドル</param>
-	void BlendRenderTarget(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& spriteGpuHandle, const D3D12_GPU_DESCRIPTOR_HANDLE& rendrerGpuHandle);
+	void BlendRenderTarget(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& refarebceGpuHandle, const D3D12_GPU_DESCRIPTOR_HANDLE& rendrerGpuHandle);
 
 	const bool GetIsRun() const { return isRun_; }
 
@@ -83,8 +77,6 @@ private:
 	std::unique_ptr<DepthOfField> depthOfField_;
 
 	ComPtr<ID3D12Resource> resultResource_;
-	
-	std::vector<BaseCSResource*> executeCsArray_;
 	
 	// ---------------------------------------
 	// DXCで使う
