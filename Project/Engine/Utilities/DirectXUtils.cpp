@@ -276,9 +276,9 @@ std::string ResourceStateToString(D3D12_RESOURCE_STATES state) {
 }
 
 void TransitionResourceState(ID3D12GraphicsCommandList* commandList, ID3D12Resource* resource, D3D12_RESOURCE_STATES beforState, D3D12_RESOURCE_STATES afterState) {
-	/*Log("ChangeStart ResourceState\n");
+	Log("ChangeStart ResourceState\n");
 	Log("[" + ResourceStateToString(beforState) + " : ");
-	Log(ResourceStateToString(afterState) + "]");*/
+	Log(ResourceStateToString(afterState) + "]");
 	D3D12_RESOURCE_BARRIER barrier;
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;

@@ -56,7 +56,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
 	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
 	// CS
-	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(), renderTarget_->GetOffScreenSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
+	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(), renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
 	// input
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 	// audio
@@ -213,7 +213,7 @@ void Engine::DrawRenderTexture() {
 	// -------------------------------------------------
 	// ↓ object3DとSprite2Dを最後に映すTextureに合成する
 	// -------------------------------------------------
-	computeShader_->BlendRenderTarget(dxCommands_->GetCommandList(), renderTarget_->GetOffScreenSRVHandle(Sprite2D_RenderTarget).handleGPU, renderTexture_->GetUAV());
+	computeShader_->BlendRenderTarget(dxCommands_->GetCommandList(), renderTarget_->GetRenderTargetSRVHandle(Sprite2D_RenderTarget).handleGPU, renderTexture_->GetUAV());
 	
 	// -------------------------------------------------
 	// ↓ 映すTextureをpixeslShaderで使えるようにする

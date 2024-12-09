@@ -7,13 +7,11 @@ RenderTexture::~RenderTexture() {
 }
 
 void RenderTexture::Finalize() {
-	renderResource_.Reset();
+	renderResource_->Finalize();
 	vertexBuffer_.Reset();
 	indexBuffer_.Reset();
 	materialBuffer_.Reset();
 	transformBuffer_.Reset();
-	DescriptorHeap::AddFreeSrvList(renderSrvRenderAddress_.assignIndex_);
-	DescriptorHeap::AddFreeSrvList(renderUavRenderAddress_.assignIndex_);
 }
 
 void RenderTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
@@ -91,17 +89,16 @@ void RenderTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 
 	// HEAPの設定
 	// Resourceの作成
-	renderResource_ = CerateShaderResource(device, &desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	renderResource_ = std::make_unique<ShaderResource>();
+	renderResource_->Init(device, dxHeap, &desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// ------------------------------------------------------------
 	// UAVの設定
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
 	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
-	uavDesc.Format = renderResource_->GetDesc().Format;
-	// SRVを作成するDescriptorHeapの場所を求める
-	renderUavRenderAddress_ = dxHeap->AllocateSRV();
-	// 生成
-	device->CreateUnorderedAccessView(renderResource_.Get(), nullptr, &uavDesc, renderUavRenderAddress_.handleCPU);
+	uavDesc.Format = renderResource_->GetResource()->GetDesc().Format;
+	// 作成
+	renderResource_->CreateUAV(uavDesc);
 
 	// ------------------------------------------------------------
 	// SRVの設定
@@ -110,10 +107,8 @@ void RenderTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
-	// SRVを作成するDescriptorHeapの場所を求める
-	renderSrvRenderAddress_ = dxHeap->AllocateSRV();
-	// 生成
-	device->CreateShaderResourceView(renderResource_.Get(), &srvDesc, renderSrvRenderAddress_.handleCPU);
+
+	renderResource_->CreateSRV(srvDesc);
 }
 
 void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList) {
@@ -122,10 +117,10 @@ void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetIndexBuffer(&indexBufferView_);
 	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
 	commandList->SetGraphicsRootConstantBufferView(1, transformBuffer_->GetGPUVirtualAddress());
-	commandList->SetGraphicsRootDescriptorTable(2, renderSrvRenderAddress_.handleGPU);
+	commandList->SetGraphicsRootDescriptorTable(2, renderResource_->GetSRV().handleGPU);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 
 void RenderTexture::TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
-	TransitionResourceState(commandList, renderResource_.Get(), beforState, afterState);
+	TransitionResourceState(commandList, renderResource_->GetResource(), beforState, afterState);
 }
