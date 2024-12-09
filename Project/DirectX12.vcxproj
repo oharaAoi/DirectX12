@@ -152,6 +152,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp" />
+    <ClCompile Include="Engine\Editer\Window\EditerWindows.cpp" />
+    <ClCompile Include="Engine\Editer\Window\GameObjectWindow.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\GameObject\BaseGameObject.cpp" />
     <ClCompile Include="Engine\GameObject\Model.cpp" />
@@ -272,6 +274,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h" />
+    <ClInclude Include="Engine\Editer\Window\EditerWindows.h" />
+    <ClInclude Include="Engine\Editer\Window\GameObjectWindow.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\GameObject\BaseGameObject.h" />
     <ClInclude Include="Engine\GameObject\Model.h" />

@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Engine/ParticleSystem/EffectSystem.h"
+#include "Engine/Editer/Window/EditerWindows.h"
 
 Engine::Engine() {}
 
@@ -69,6 +70,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	effectSystem_ = EffectSystem::GetInstacne();
 	effectSystem_->Init();
 
+	EditerWindows* editerWindows = EditerWindows::GetInstance();
+	editerWindows->Init();
+
 #ifdef _DEBUG
 	imguiManager_ = ImGuiManager::GetInstacne();
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_->GetDevice(), dxCommon_->GetSwapChainBfCount(), descriptorHeap_->GetSRVHeap());
@@ -78,6 +82,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	isFullScreen_ = false;
 
 	isEffectEditer_ = true;
+
+	render_->Begin();
 
 	Log("Engine Initialize compulete!\n");
 }
@@ -123,9 +129,6 @@ bool Engine::ProcessMessage() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::BeginFrame() {
-#ifdef _DEBUG
-	imguiManager_->Begin();
-#endif
 	dxCommon_->Begin();
 	Render::Begin();
 	input_->Update();
@@ -134,6 +137,29 @@ void Engine::BeginFrame() {
 		isFullScreen_ = !isFullScreen_;
 		WinApp::GetInstance()->SetFullScreen(isFullScreen_);
 	}
+
+#ifdef _DEBUG
+	imguiManager_->Begin();
+	ImGui::SetNextWindowPos(ImVec2(0, 0));
+	ImGui::SetNextWindowSize(ImVec2(kWindowWidth_, kWindowHeight_));
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar |
+		ImGuiWindowFlags_NoBringToFrontOnFocus |
+		ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoCollapse;
+
+	if (ImGui::Begin("BaseWindow", nullptr, window_flags)) {
+		if (ImGui::BeginMenuBar()) {
+			if (ImGui::BeginMenu("File")) {
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+		
+	}
+	ImGuiID dockspace_id = ImGui::GetID("BaseDockspace");
+	ImGui::DockSpace(dockspace_id, ImVec2(0, 0), ImGuiDockNodeFlags_None);
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,15 +167,17 @@ void Engine::BeginFrame() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::EndFrame() {
+#ifdef _DEBUG
+	effectSystem_->EndEditer();
+#endif
 	dxCommon_->End();
-
 	descriptorHeap_->FreeList();
-
 	audio_->Update();
 }
 
 void Engine::EndImGui() {
 #ifdef _DEBUG
+	ImGui::End();
 	imguiManager_->End();
 	imguiManager_->Draw(dxCommands_->GetCommandList());
 #endif
@@ -166,13 +194,13 @@ void Engine::RenderFrame() {
 			if (ImGui::BeginMenu("Window")) {
 				if (ImGui::MenuItem("Debug")) {
 				}
-				/*if (ImGui::MenuItem("Release")) {
-
-				}*/
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
 		}
+
+		EditerWindows* editerWindows = EditerWindows::GetInstance();
+		editerWindows->Update();
 
 		renderTexture_->DrawGui();
 	}

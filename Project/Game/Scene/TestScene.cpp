@@ -1,5 +1,6 @@
 #include "TestScene.h"
 #include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/Editer/Window/EditerWindows.h"
 
 TestScene::TestScene() {}
 TestScene::~TestScene() {}
@@ -26,6 +27,9 @@ void TestScene::Init() {
 	testObjA_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, false);
 	testObjA_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
 	testObjA_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
+
+	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjA_.get()), "testAObj");
+	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjB_.get()), "testAObj");
 
 	testObjB_->SetObject("skin.obj");
 
@@ -93,15 +97,6 @@ void TestScene::Draw() const {
 void TestScene::Debug_Gui() {
 	ImGui::Begin("TestScene");
 	ImGui::Checkbox("isDebug", &isDebugCamera_);
-	//test_animationCS_->Debug_Gui();
-	testObjA_->Debug_Gui();
-	camera_->Debug_Gui();
-	debugCamera_->Debug_Gui();
-
-	ImGui::Separator();
-
-	ShowEasingDebug(easeIndex_);
-
 	ImGui::End();
 
 	if (EffectSystem::GetInstacne()->GetIsEditerFocused()) {

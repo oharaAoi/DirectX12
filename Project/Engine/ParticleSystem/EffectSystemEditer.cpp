@@ -79,7 +79,7 @@ void EffectSystemEditer::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Draw() const {
-	ImGui::Begin("EffectSystem");
+	ImGui::Begin("EffectSystem", nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus);
 
 	// Grid線描画
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
@@ -127,7 +127,7 @@ void EffectSystemEditer::PreBegin() {
 	commandList->ClearRenderTargetView(renderTarget_->GetRenderTargetRTVHandle(RenderTargetType::PreEffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
 
 	//------------------------------------------------------------------------------------------------------------------
-	ImGui::Begin("EffectSystem");
+	ImGui::Begin("EffectSystem" ,nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus);
 
 	// Grid線描画
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);

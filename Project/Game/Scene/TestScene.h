@@ -51,8 +51,5 @@ private:
 	std::unique_ptr<MeshCollider> meshColliderB_;
 
 	std::unique_ptr<CollisionManager> collisionManager_;
-
-	int easeIndex_ = 0;
-
 };
 
