@@ -1,5 +1,6 @@
 #include "EffectSystemEditer.h"
 #include "Engine/Utilities/DrawUtils.h"
+#include "Engine/ParticleSystem/EffectPersistence.h"
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
 
@@ -34,6 +35,8 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 
 	device->CreateDepthStencilView(depthStencilResource_.Get(), &desc, descriptorHeaps_->GetDescriptorHandle(TYPE_DSV).handleCPU);
+
+	emitterFiles_ = EffectPersistence::GetInstance()->GetEmitterNames();
 
 	// -------------------------------------------------
 	// ↓ カメラの初期化
@@ -107,6 +110,15 @@ void EffectSystemEditer::Draw() const {
 	}
 
 	ImGui::End();
+}
+
+void EffectSystemEditer::Import() {
+	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	uint32_t shape = persistence->GetValue<uint32_t>(importFileName_, "shape");
+
+	auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
+	newEffect->Init(static_cast<EmitterShape>(shape));
+	newEffect->SetEmitter(importFileName_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -192,6 +204,27 @@ void EffectSystemEditer::Debug_Gui() {
 		std::string defalutName = "effect" + std::to_string(effectNum);
 		CreateEffect(defalutName);
 	}
+	ImGui::Separator();
+	if (ImGui::Button("Inport")) {
+		Import();
+	}
+	ImGui::SameLine();
+	if (!emitterFiles_.empty()) {
+		importFileName_ = emitterFiles_[importIndex_];
+	}
+	if (ImGui::BeginCombo("##InportFileName", &importFileName_[0], ImGuiComboFlags_HeightLargest)) {
+		for (uint32_t i = 0; i < emitterFiles_.size(); i++) {
+			const bool isSelected = (importIndex_ == i);
+			if (ImGui::Selectable(emitterFiles_[i].c_str(), isSelected)) {
+				importIndex_ = i;
+			}
+			if (isSelected) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
+
 	ImGui::End();
 
 	//if (ImGui::BeginTabBar("EmitterTabs")) {
@@ -220,6 +253,7 @@ void EffectSystemEditer::Debug_Gui() {
 			selectedEffectIndex = index; // Update the selected index
 		}
 	}
+
 
 	if (selectedEffectIndex >= 0 && selectedEffectIndex < effectList_.size()) {
 		auto it = effectList_.begin();
