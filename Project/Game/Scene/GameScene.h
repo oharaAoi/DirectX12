@@ -3,7 +3,10 @@
 #include "Engine.h"
 #include "Game/Scene/BaseScene.h"
 #include "Game/Camera/DebugCamera.h"
+#include "Game/Camera/FollowCamera.h"
 #include "Game/WorldObject/Ground.h"
+#include "Game/WorldObject/Skydome.h"
+#include "Game/GameObject/Player/Player.h"
 
 class GameScene 
 	: public BaseScene {
@@ -23,8 +26,15 @@ public:
 
 private:
 
+	// ------------------- camera ------------------- //
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
+	std::unique_ptr<FollowCamera> followCamera_ = nullptr;
 
+	// ------------------- worldObject ------------------- //
 	std::unique_ptr<Ground> ground_ = nullptr;
+	std::unique_ptr<Skydome> skydome_ = nullptr;
+
+	// ------------------- gameObject ------------------- //
+	std::unique_ptr<Player> player_ = nullptr;
 
 };

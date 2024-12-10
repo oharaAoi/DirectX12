@@ -15,9 +15,21 @@ void GameScene::Init() {
 	adjust->Init("GameScene");
 
 	debugCamera_ = std::make_unique<DebugCamera>();
+	followCamera_ = std::make_unique<FollowCamera>();
+	followCamera_->Init();
 
 	ground_ = std::make_unique<Ground>();
 	ground_->Init();
+
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Init();
+
+	player_ = std::make_unique<Player>();
+	player_->Init();
+
+	player_->SetFollowCamera(followCamera_.get());
+
+	followCamera_->SetTarget(player_->GetTransform());
 }
 
 void GameScene::Update() {
@@ -26,20 +38,26 @@ void GameScene::Update() {
 	// -------------------------------------------------
 
 	debugCamera_->Update();
-	Render::SetEyePos(debugCamera_->GetWorldTranslate());
-	Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
+	followCamera_->Update();
+	Render::SetEyePos(followCamera_->GetWorldTranslate());
+	Render::SetViewProjection(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
 
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
 
 	ground_->Update();
+	skydome_->Update();
 
+	player_->Update();
 }
 
 void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
+	skydome_->Draw();
 	ground_->Draw();
+
+	player_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,12 +66,7 @@ void GameScene::Draw() const {
 
 #ifdef _DEBUG
 void GameScene::Debug_Gui() {
-	ImGui::Begin("GameScene");
-	if (ImGui::TreeNode("World")) {
-		ground_->Debug_Gui();
-		ImGui::TreePop();
-	}
-	ImGui::End();
+	
 }
 
 #endif

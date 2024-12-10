@@ -5,6 +5,12 @@
             "files": [
                 "ground.obj"
             ]
+        },
+        {
+            "directory": "./Game/Resources/Models/Player/",
+            "files": [
+                "player.obj"
+            ]
         }
     ]
 }

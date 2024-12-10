@@ -1,4 +1,5 @@
 #include "Ground.h"
+#include "Engine/Editer/Window/EditerWindows.h"
 
 Ground::Ground() {
 }
@@ -12,6 +13,10 @@ void Ground::Finalize() {
 void Ground::Init() {
 	BaseGameObject::Init();
 	SetObject("ground.obj");
+
+#ifdef _DEBUG
+	EditerWindows::AddObjectWindow(std::bind(&Ground::Debug_Gui, this), "ground");
+#endif
 }
 
 void Ground::Update() {
@@ -24,9 +29,6 @@ void Ground::Draw() const {
 
 #ifdef _DEBUG
 void Ground::Debug_Gui() {
-	if (ImGui::TreeNode("Ground")) {
-		transform_->Debug_Gui();
-		ImGui::TreePop();
-	}
+	transform_->Debug_Gui();
 }
 #endif
