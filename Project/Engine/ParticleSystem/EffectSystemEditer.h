@@ -23,6 +23,8 @@ public:
 	void Update();
 	void Draw() const;
 
+	void Import();
+
 	void PreBegin();
 	void Begin();
 	void End();
@@ -53,6 +55,10 @@ private:
 	ID3D12Device* device_ = nullptr;
 	// dsv
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
+
+	std::vector<std::string> emitterFiles_;
+	std::string importFileName_;
+	uint32_t importIndex_;
 
 	int createShape_;
 
