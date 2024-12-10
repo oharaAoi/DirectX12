@@ -18,8 +18,14 @@ void ImGuiManager::Init(HWND hwnd, ID3D12Device* device, uint32_t bufferCount, I
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
-	io.Fonts->AddFontFromFileTTF("./Engine/Resources/Font/FiraMono-Medium.ttf", 14);
+	
+	ImFontConfig fontConfig;
+	fontConfig.PixelSnapH = false;
+	fontConfig.OversampleH = 3;
+	fontConfig.OversampleV = 3;
+	io.Fonts->AddFontFromFileTTF("./Engine/Resources/Font/FiraMono-Medium.ttf", 80 * 10.f);
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	ImGui::GetIO().FontGlobalScale = 1.0f / 50.f;
 	ImGui::StyleColorsDark();
 	ImGui_ImplWin32_Init(hwnd);
 	ImGui_ImplDX12_Init(
@@ -45,9 +51,11 @@ void ImGuiManager::Begin(){
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+	//ImGui::SetWindowFontScale(0.1f);
 }
 
 void ImGuiManager::End() {
+	
 	ImGui::Render();
 }
 

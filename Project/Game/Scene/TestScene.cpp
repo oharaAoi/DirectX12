@@ -1,5 +1,6 @@
 #include "TestScene.h"
 #include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/Editer/Window/EditerWindows.h"
 
 TestScene::TestScene() {}
 TestScene::~TestScene() {}
@@ -15,7 +16,11 @@ void TestScene::Init() {
 	camera_ = std::make_unique<Camera>();
 	debugCamera_ = std::make_unique<DebugCamera>();
 
-	// GameObject -------------------------------------------------------------------
+	// worldObject -------------------------------------------------------------------
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Init();
+
+	// gameObject -------------------------------------------------------------------
 	testObjA_ = std::make_unique<TestObject>();
 	testObjB_ = std::make_unique<TestObject>();
 
@@ -26,6 +31,10 @@ void TestScene::Init() {
 	testObjA_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, false);
 	testObjA_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
 	testObjA_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
+#ifdef _DEBUG
+	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjA_.get()), "testAObj");
+	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjB_.get()), "testAObj");
+#endif
 
 	testObjB_->SetObject("skin.obj");
 
@@ -34,7 +43,7 @@ void TestScene::Init() {
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
 
-	EffectSystem::GetInstacne()->Emit("sphere", Vector3(0, 0, 0), Vector4(1, 0, 0, 1));
+	//EffectSystem::GetInstacne()->Emit("sphere", Vector3(0, 0, 0), Vector4(1, 0, 0, 1));
 	/*EffectSystem::GetInstacne()->Emit("cone", Vector3(5, 0, 0), Vector4(0, 1, 0, 1));
 	EffectSystem::GetInstacne()->Emit("box", Vector3(-5, 0, 0), Vector4(0, 0, 1, 1));*/
 }
@@ -64,6 +73,11 @@ void TestScene::Update() {
 	}
 
 	// -------------------------------------------------
+	// ↓ worldObjectの更新
+	// -------------------------------------------------
+	skydome_->Update();
+
+	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
 	testObjA_->Update();
@@ -82,26 +96,15 @@ void TestScene::Update() {
 
 void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
-	/*testObjA_->Draw();
-
-	testObjB_->Draw();*/
-
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	skydome_->Draw();
+	testObjA_->Draw();
+	testObjB_->Draw();
 }
 
 #ifdef _DEBUG
 void TestScene::Debug_Gui() {
 	ImGui::Begin("TestScene");
 	ImGui::Checkbox("isDebug", &isDebugCamera_);
-	//test_animationCS_->Debug_Gui();
-	testObjA_->Debug_Gui();
-	camera_->Debug_Gui();
-	debugCamera_->Debug_Gui();
-
-	ImGui::Separator();
-
-	ShowEasingDebug(easeIndex_);
-
 	ImGui::End();
 
 	if (EffectSystem::GetInstacne()->GetIsEditerFocused()) {

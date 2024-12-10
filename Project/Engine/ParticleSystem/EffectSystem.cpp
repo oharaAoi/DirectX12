@@ -56,20 +56,18 @@ void EffectSystem::Update() {
 // ↓　
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void EffectSystem::Draw(bool isOpneEditer) const {
-	Engine::SetPipeline(PipelineType::AddPipeline);
+void EffectSystem::Draw() const {
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	for (std::list<std::unique_ptr<GpuEffect>>::const_iterator it = effectList_.begin(); it != effectList_.end();) {
 		(*it)->Draw();
 		++it;
 	}
 
-	if (isOpneEditer) {
 #ifdef _DEBUG
-		editer_->PreBegin();
-		editer_->Begin();
-		editer_->Draw();
+	editer_->PreBegin();
+	editer_->Begin();
+	editer_->Draw();
 #endif
-	}
 }
 
 void EffectSystem::Emit(const std::string& name, const Vector3& pos, const Vector4& color) {
@@ -101,10 +99,8 @@ void EffectSystem::Debug_Gui() {
 void EffectSystem::EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device) {
 	editer_ = std::make_unique<EffectSystemEditer>(renderTarget, descriptorHeaps, dxCommands, device);
 }
-void EffectSystem::PostDraw(bool isOpneEditer) {
-	if (isOpneEditer) {
-		editer_->End();
-	}
+void EffectSystem::EndEditer() {
+	editer_->End();
 }
 
 const bool EffectSystem::GetIsEditerFocused() const {

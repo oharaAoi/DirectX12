@@ -23,15 +23,13 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 	int particleIndex = DTid.x;
 	if (particleIndex < kMaxParticles) {
 		// alphaが0は死んでいる
-		if (gParticles[particleIndex].color.a != 0) {
+		if (gParticles[particleIndex].color.a >= 0.01f) {
 			gParticles[particleIndex].translate += gParticles[particleIndex].velocity * gPerFrame.deletaTime;
 			gParticles[particleIndex].currentTime += gPerFrame.deletaTime;
 			float alpha = 1.0f - (gParticles[particleIndex].currentTime / gParticles[particleIndex].lifeTime);
 			gParticles[particleIndex].color.a = saturate(alpha);
 		}
-		
-		// alphaが0になったのでFreeにする
-		if (gParticles[particleIndex].color.a == 0) {
+		else {
 			// スケールに0を入れて出力されないようにする
 			gParticles[particleIndex].scale = float3(0.0f, 0.0f, 0.0f);
 			int freeListIndex;
@@ -39,13 +37,29 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 			// 最新のfreeListIndexの場所に死んだparticleのIndexを設定する
 			if ((freeListIndex + 1) < kMaxParticles) {
 				gFreeListIndex[freeListIndex + 1] = particleIndex;
-			} else {
+			}
+			else {
 				// 本来ここにはこない
 				InterlockedAdd(gFreeListIndex[0], -1, freeListIndex);
 			}
-			
-			
 		}
+		
+		// alphaが0になったのでFreeにする
+		//if (gParticles[particleIndex].color.a <= 0.0f) {
+		//	// スケールに0を入れて出力されないようにする
+		//	gParticles[particleIndex].scale = float3(0.0f, 0.0f, 0.0f);
+		//	int freeListIndex;
+		//	InterlockedAdd(gFreeListIndex[0], 1, freeListIndex);
+		//	// 最新のfreeListIndexの場所に死んだparticleのIndexを設定する
+		//	if ((freeListIndex + 1) < kMaxParticles) {
+		//		gFreeListIndex[freeListIndex + 1] = particleIndex;
+		//	} else {
+		//		// 本来ここにはこない
+		//		InterlockedAdd(gFreeListIndex[0], -1, freeListIndex);
+		//	}
+			
+			
+		//}
 
 	}
 }
