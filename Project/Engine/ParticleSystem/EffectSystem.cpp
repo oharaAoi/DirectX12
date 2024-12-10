@@ -57,17 +57,10 @@ void EffectSystem::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystem::Draw() const {
-	Engine::SetPipeline(PipelineType::NormalPipeline);
 	for (std::list<std::unique_ptr<GpuEffect>>::const_iterator it = effectList_.begin(); it != effectList_.end();) {
 		(*it)->Draw();
 		++it;
 	}
-
-#ifdef _DEBUG
-	editer_->PreBegin();
-	editer_->Begin();
-	editer_->Draw();
-#endif
 }
 
 void EffectSystem::Emit(const std::string& name, const Vector3& pos, const Vector4& color) {
@@ -94,6 +87,11 @@ void EffectSystem::SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matri
 #ifdef _DEBUG
 void EffectSystem::Debug_Gui() {
 	editer_->Debug_Gui();
+#ifdef _DEBUG
+	editer_->PreBegin();
+	editer_->Begin();
+	editer_->Draw();
+#endif
 }
 
 void EffectSystem::EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device) {

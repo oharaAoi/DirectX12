@@ -168,7 +168,9 @@ void Engine::BeginFrame() {
 
 void Engine::EndFrame() {
 #ifdef _DEBUG
-	effectSystem_->EndEditer();
+	if (isEffectEditer_) {
+		effectSystem_->EndEditer();
+	}
 #endif
 	dxCommon_->End();
 	descriptorHeap_->FreeList();
@@ -184,6 +186,14 @@ void Engine::EndImGui() {
 }
 
 void Engine::RenderFrame() {
+
+	isEffectEditer_ = false;
+	if (ImGui::Begin("EffectSystem", nullptr, ImGuiWindowFlags_MenuBar)) {
+		effectSystem_->Debug_Gui();
+		isEffectEditer_ = true;
+	}
+	ImGui::End();
+
 	BlendFinalTexture();
 
 	dxCommon_->SetSwapChain();
@@ -201,18 +211,7 @@ void Engine::RenderFrame() {
 
 		EditerWindows* editerWindows = EditerWindows::GetInstance();
 		editerWindows->Update();
-
-		ImGui::GetForegroundDrawList()->AddCallback([]([[maybe_unused]] const ImDrawList* parentList, [[maybe_unused]] const ImDrawCmd* cmd) {
-			graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList()); // ブレンド無効のPSOに切り替え
-													}, nullptr);
-
 		renderTexture_->DrawGui();
-	}
-	ImGui::End();
-
-	if (ImGui::Begin("EffectSystem", nullptr, ImGuiWindowFlags_MenuBar)) {
-		effectSystem_->Debug_Gui();
-		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
 	}
 	ImGui::End();
 #endif

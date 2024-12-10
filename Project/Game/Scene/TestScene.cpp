@@ -43,9 +43,9 @@ void TestScene::Init() {
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
 
-	//EffectSystem::GetInstacne()->Emit("sphere", Vector3(0, 0, 0), Vector4(1, 0, 0, 1));
-	/*EffectSystem::GetInstacne()->Emit("cone", Vector3(5, 0, 0), Vector4(0, 1, 0, 1));
-	EffectSystem::GetInstacne()->Emit("box", Vector3(-5, 0, 0), Vector4(0, 0, 1, 1));*/
+	EffectSystem::GetInstacne()->Emit("sphere", Vector3(0, 0, 5), Vector4(1, 0, 0, 1));
+	EffectSystem::GetInstacne()->Emit("cone", Vector3(5, 0, 5), Vector4(0, 1, 0, 1));
+	EffectSystem::GetInstacne()->Emit("box", Vector3(-5, 0, 5), Vector4(0, 0, 1, 1));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,8 +97,8 @@ void TestScene::Update() {
 void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
-	testObjA_->Draw();
-	testObjB_->Draw();
+	/*testObjA_->Draw();
+	testObjB_->Draw();*/
 }
 
 #ifdef _DEBUG
