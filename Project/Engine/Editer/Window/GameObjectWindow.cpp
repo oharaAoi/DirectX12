@@ -1,14 +1,15 @@
 #include "GameObjectWindow.h"
 #include <sstream>
 
-GameObjectWindow::GameObjectWindow() {
-}
-
-GameObjectWindow::~GameObjectWindow() {
-}
+GameObjectWindow::GameObjectWindow() {}
+GameObjectWindow::~GameObjectWindow() {}
 
 void GameObjectWindow::Init() {
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Objectの追加
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameObjectWindow::AddFunction(std::function<void()> func, const std::string& label) {
 	std::string uniqueLabel = label;
@@ -35,6 +36,10 @@ void GameObjectWindow::AddFunction(std::function<void()> func, const std::string
 	functionList.emplace_back(uniqueLabel, func);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　編集画面を表示する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
 void GameObjectWindow::Edit() {
@@ -48,14 +53,13 @@ void GameObjectWindow::Edit() {
 			selectedEffectIndex = index; // Update the selected index
 		}
 	}
+	ImGui::End();
 
+	ImGui::Begin("Object Setting");
 	if (selectedEffectIndex >= 0 && selectedEffectIndex < functionList.size()) {
 		auto it = functionList.begin();
 		std::advance(it, selectedEffectIndex); // Move iterator to the selected index
-
-		ImGui::Begin("Object Setting");
 		it->second();
-		ImGui::End();
 	}
 	ImGui::End();
 }

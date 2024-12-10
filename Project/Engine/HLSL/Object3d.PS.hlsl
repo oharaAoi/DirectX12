@@ -106,9 +106,13 @@ PixelShaderOutput main(VertexShaderOutput input)
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	
+	if (textureColor.a == 0.0) {
+		discard;
+	}
+	
 	if (gMaterial.enableLighting == 0){
 		output.color = gMaterial.color * textureColor;
-		if (output.color.a <= 0.1f) {
+		if (output.color.a == 0.0) {
 			discard;
 		}
 		return output;
@@ -127,10 +131,6 @@ PixelShaderOutput main(VertexShaderOutput input)
 	
 	float distance = length(gPointLight.position - input.worldPos.xyz);
 	float factor = pow(saturate(-distance / gPointLight.radius + 1.0f), gPointLight.decay);
-	
-	if (textureColor.a <= 0.5f){
-		discard;
-	}
 	
 	// --------------------- directional --------------------- //
 	// lambert
@@ -191,7 +191,7 @@ PixelShaderOutput main(VertexShaderOutput input)
 	
 	output.color = clamp(output.color, 0.0f, 1.0f);
 	
-	if (output.color.a <= 0.1f){
+	if (output.color.a == 0.0){
 		discard;
 	}
 	

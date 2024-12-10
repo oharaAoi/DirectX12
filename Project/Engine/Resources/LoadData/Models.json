@@ -16,6 +16,12 @@
                 "axis.obj",
                 "plane.obj"
             ]
+        },
+        {
+            "directory": "./Engine/Resources/Models/",
+            "files": [
+                "skydome.obj"
+            ]
         }
     ]
 }

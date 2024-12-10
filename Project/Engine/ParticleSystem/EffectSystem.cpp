@@ -57,7 +57,7 @@ void EffectSystem::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystem::Draw() const {
-	Engine::SetPipeline(PipelineType::AddPipeline);
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	for (std::list<std::unique_ptr<GpuEffect>>::const_iterator it = effectList_.begin(); it != effectList_.end();) {
 		(*it)->Draw();
 		++it;

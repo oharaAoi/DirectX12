@@ -122,9 +122,11 @@ void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList) {
 }
 #ifdef _DEBUG
 void RenderTexture::DrawGui() {
+	ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 1.0f);  // アルファの影響を無効化
 	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderResource_->GetSRV().handleGPU.ptr));
 	ImGui::SetCursorPos(ImVec2(20, 50)); // 描画位置を設定
 	ImGui::Image((void*)textureID, ImVec2(640.0f, 360.0f), ImVec2(0, 0), ImVec2(1, 1)); // サイズは適宜調整
+	ImGui::PopStyleVar();
 }
 #endif // _DEBUG
 void RenderTexture::TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {

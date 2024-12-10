@@ -22,7 +22,9 @@ void Camera::Init() {
 
 	offset_ = transform_.translate;
 
+#ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&Camera::Debug_Gui, this), "camera");
+#endif // _DEBUG
 }
 
 void Camera::Update() {

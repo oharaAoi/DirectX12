@@ -40,7 +40,9 @@ void DebugCamera::Init() {
 
 	isFocused_ = true;
 	
+#ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&DebugCamera::Debug_Gui, this), "debugCamera");
+#endif // _DEBUG
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

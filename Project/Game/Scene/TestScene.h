@@ -2,19 +2,14 @@
 #include "Engine.h"
 #include "Engine/Input/Input.h"
 #include "Game/Scene/BaseScene.h"
-#include "Engine/Lib/Transform.h"
-#include "Engine/Utilities/DrawUtils.h"
-#include "Engine/GameObject/BaseGameObject.h"
 #include "Game/Camera/Camera.h"
 #include "Game/Camera/DebugCamera.h"
-#include "Engine/ParticleSystem/Emitter/Emitter.h"
-#include "Engine/ParticleSystem/ParticleField.h"
 #include "Engine/ParticleSystem/EffectSystem.h"
 #include "Engine/Collider/MeshCollider.h"
 #include "Engine/Math/Easing.h"
-#include "Engine/ParticleSystem/GpuEffect.h"
 #include "Engine/Manager/CollisionManager.h"
 #include "Engine/GameObject/TestObject.h"
+#include "Game/WorldObject/Skydome.h"
 
 class TestScene 
 : public BaseScene {
@@ -37,12 +32,15 @@ public:
 
 private:
 
-	// カメラ ----------------------------------------------
+	// camera ----------------------------------------------
 	std::unique_ptr<Camera> camera_ = nullptr;
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
 	bool isDebugCamera_ = true;
 
-	// ゲームオブジェクト ------------------------------------
+	// worldObject ------------------------------------
+	std::unique_ptr<Skydome> skydome_ = nullptr;
+
+	// gameObject ------------------------------------
 	
 	std::unique_ptr<TestObject> testObjA_;
 	std::unique_ptr<TestObject> testObjB_;

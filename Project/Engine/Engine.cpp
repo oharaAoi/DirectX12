@@ -187,7 +187,7 @@ void Engine::RenderFrame() {
 	BlendFinalTexture();
 
 	dxCommon_->SetSwapChain();
-
+	graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
 #ifdef _DEBUG
 	if (ImGui::Begin("My Window", nullptr, ImGuiWindowFlags_MenuBar)) {
 		if (ImGui::BeginMenuBar()) {
@@ -202,20 +202,21 @@ void Engine::RenderFrame() {
 		EditerWindows* editerWindows = EditerWindows::GetInstance();
 		editerWindows->Update();
 
+		ImGui::GetForegroundDrawList()->AddCallback([]([[maybe_unused]] const ImDrawList* parentList, [[maybe_unused]] const ImDrawCmd* cmd) {
+			graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList()); // ブレンド無効のPSOに切り替え
+													}, nullptr);
+
 		renderTexture_->DrawGui();
 	}
 	ImGui::End();
 
 	if (ImGui::Begin("EffectSystem", nullptr, ImGuiWindowFlags_MenuBar)) {
 		effectSystem_->Debug_Gui();
+		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
 	}
 	ImGui::End();
 #endif
-
-#ifdef _RELEASE
-	graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
 	renderTexture_->Draw(dxCommands_->GetCommandList());
-#endif
 
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
