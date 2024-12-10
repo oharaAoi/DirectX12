@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #ifdef _DEBUG
-#include "Engine/Manager//ImGuiManager.h"
+#include "Engine/Manager/ImGuiManager.h"
 #endif
 
 const std::string AdjustmentItem::kDirectoryPath_ = "./Game/Resources/GameData/AdjustmentItem/";
@@ -120,7 +120,7 @@ void AdjustmentItem::Save(const std::string& groupName, const json& saveData) {
 		std::ofstream outFile(filePath);
 		if (outFile.fail()) {
 			std::string message = "Faild open data file for write\n";
-			Log(message);
+			//Log(message);
 			assert(0);
 			return;
 		}
@@ -131,9 +131,9 @@ void AdjustmentItem::Save(const std::string& groupName, const json& saveData) {
 		outFile << std::setw(4) << saveData << std::endl;
 		outFile.close();
 
-		Log("JSON data saved as: " + filePath + "\n");
+		//Log("JSON data saved as: " + filePath + "\n");
 	} else {
-		Log("Invalid or empty JSON data\n");
+		//Log("Invalid or empty JSON data\n");
 	}
 }
 

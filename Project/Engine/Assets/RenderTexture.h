@@ -3,6 +3,7 @@
 #include "Material.h"
 #include "Engine/Manager/TextureManager.h"
 #include "Engine/Manager/ImGuiManager.h"
+#include "Engine/DirectX/Resource/ShaderResource.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
@@ -42,11 +43,15 @@ public:
 	/// <param name="commandList"></param>
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
+#ifdef _DEBUG
+	void DrawGui();
+#endif // _DEBUG
+
 	void TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
 public:
 
-	const D3D12_GPU_DESCRIPTOR_HANDLE& GetUAV() { return renderUavRenderAddress_.handleGPU; }
+	const D3D12_GPU_DESCRIPTOR_HANDLE& GetUAV() { return renderResource_->GetUAV().handleGPU; }
 
 private:
 
@@ -54,13 +59,11 @@ private:
 	ComPtr<ID3D12Resource> indexBuffer_;
 	ComPtr<ID3D12Resource> materialBuffer_;
 	ComPtr<ID3D12Resource> transformBuffer_;
-	ComPtr<ID3D12Resource> renderResource_;
+	
+	std::unique_ptr<ShaderResource> renderResource_;
 
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
-
-	DescriptorHeap::DescriptorHandles renderUavRenderAddress_;
-	DescriptorHeap::DescriptorHandles renderSrvRenderAddress_;
 	
 	TextureMesh* vertexData_;
 	uint32_t* indexData_;

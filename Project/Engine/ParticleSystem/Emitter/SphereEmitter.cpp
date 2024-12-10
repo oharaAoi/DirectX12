@@ -6,7 +6,7 @@ SphereEmitter::SphereEmitter() {
 }
 
 SphereEmitter::~SphereEmitter() {
-	emitterBuffer_.Reset();
+	commonBuffer_.Reset();
 	perFrameBuffer_.Reset();
 }
 
@@ -15,39 +15,27 @@ SphereEmitter::~SphereEmitter() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SphereEmitter::Init() {
-	// Resourceの作成
-	emitterBuffer_ = CreateUAVResource(Engine::GetDevice(), sizeof(Emitter));
+	// 共通部分の初期化
+	GpuEmitter::Init();
 
-	emitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(Emitter));
-	emitterBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&sphereEmitter_));
+	label_ = "sphere";
 
-	perFrameBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerFrame));
-	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
+	// sphere形状の初期化
+	sphereEmitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(Emitter));
+	sphereEmitterBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&emitter_));
 
-	sphereEmitter_->translate = Vector3::ZERO();
-	sphereEmitter_->radius = 1.0f;
-	sphereEmitter_->frequency = 0.5f;
-	sphereEmitter_->frequencyTime = 0.0f;
-	sphereEmitter_->count = 10;
-	sphereEmitter_->emit = 0;
+	// parametrの初期化
+	emitter_->radius = 1.0f;
+	commonEmitter_->shape = static_cast<uint32_t>(EmitterShape::Sphere);
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SphereEmitter::Update() {
-	perFrame_->deltaTime = GameTimer::DeltaTime();
-	perFrame_->time = GameTimer::TotalTime();
-
-	sphereEmitter_->frequencyTime += GameTimer::DeltaTime();
-	// 射出時間を超えたら射出許可
-	if (sphereEmitter_->frequencyTime >= sphereEmitter_->frequency) {
-		sphereEmitter_->frequencyTime -= sphereEmitter_->frequency;
-		sphereEmitter_->emit = 1;
-	} else {
-		sphereEmitter_->emit = 0;
-	}
+	GpuEmitter::Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,8 +43,8 @@ void SphereEmitter::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SphereEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
-	commandList->SetComputeRootConstantBufferView(rootParameterIndex, emitterBuffer_->GetGPUVirtualAddress());
-	commandList->SetComputeRootConstantBufferView(rootParameterIndex + 1, perFrameBuffer_->GetGPUVirtualAddress());
+	GpuEmitter::BindCmdList(commandList, rootParameterIndex);
+	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, commonBuffer_->GetGPUVirtualAddress());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +52,28 @@ void SphereEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT roo
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SphereEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
-	DrawSphere(sphereEmitter_->translate, sphereEmitter_->radius, viewProjectionMat);
+	DrawSphere(commonEmitter_->translate, emitter_->radius, viewProjectionMat);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　形状の描画
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void SphereEmitter::Save() {
+	GpuEmitter::Save();
+	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	persistence->AddItem(label_, "radius", emitter_->radius);
+	persistence->Save(false, label_);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　形状の描画
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void SphereEmitter::Load() {
+	GpuEmitter::Load();
+	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	emitter_->radius = persistence->GetValue<float>(label_, "radius");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,11 +83,12 @@ void SphereEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
 void SphereEmitter::Debug_Gui() {
-	ImGui::DragFloat3("translate", &sphereEmitter_->translate.x, 0.1f);
-	ImGui::DragFloat("radius", &sphereEmitter_->radius, 0.1f);
-	ImGui::DragFloat("frequency", &sphereEmitter_->frequency, 0.1f);
-	ImGui::DragFloat("frequencyTime", &sphereEmitter_->frequencyTime, 0.1f);
-	ImGui::DragScalar("count", ImGuiDataType_U32, &sphereEmitter_->count);
-	ImGui::SliderInt("emit", &sphereEmitter_->emit, 0, 1);
+	GpuEmitter::Debug_Gui();
+	ImGui::DragFloat("radius", &emitter_->radius, 0.1f);
+
+	ImGui::InputText("##effectName", &label_[0], sizeof(char) * 64);
+	if (ImGui::Button("Save")) {
+		Save();
+	}
 }
 #endif

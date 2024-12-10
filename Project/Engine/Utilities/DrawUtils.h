@@ -2,6 +2,7 @@
 #include <array>
 #include "Engine.h"
 #include "Engine/Math/Vector3.h"
+#include "Engine/Math/Quaternion.h"
 #include "Engine/Math/MyMatrix.h"
 #include "Engine/Math/MathStructures.h"
 
@@ -20,6 +21,16 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix);
 void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjectionMatrix);
 
 /// <summary>
+/// Cone形状を描画
+/// </summary>
+/// <param name="center"></param>
+/// <param name="radius"></param>
+/// <param name="angle"></param>
+/// <param name="height"></param>
+/// <param name="viewProjectionMatrix"></param>
+void DrawCone(const Vector3& center, const Quaternion& rotate, float radius, float angle, float height, const Matrix4x4& viewProjectionMatrix);
+
+/// <summary>
 /// AABBを描画する
 /// </summary>
 /// <param name="aabb"></param>
@@ -33,4 +44,4 @@ void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color)
 /// <param name="aabb"></param>
 /// <param name="viewMatrix"></param>
 /// <param name="projectionMatrix"></param>
-void DrawOBB(const OBB& obb, const Vector4& color);
+void DrawOBB(const OBB& obb, const Matrix4x4& vpMatrix, const Vector4& color);

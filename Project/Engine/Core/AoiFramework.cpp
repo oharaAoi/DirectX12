@@ -35,6 +35,7 @@ void AoiFramework::Run() {
 	Init();
 
 	while (Engine::ProcessMessage()) {
+
 		// 更新
 		Update();
 

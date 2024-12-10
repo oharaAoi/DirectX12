@@ -1,8 +1,7 @@
 #pragma once
 #include <memory>
-#include "Engine/Engine.h"
 #include "Engine/ParticleSystem/Particle/GpuParticle.h"
-#include "Engine/ParticleSystem/Emitter/SphereEmitter.h"
+#include "Engine/ParticleSystem/Emitter/GpuEmitter.h"
 
 class GpuEffect {
 public:
@@ -10,7 +9,7 @@ public:
 	GpuEffect();
 	~GpuEffect();
 
-	void Init();
+	void Init(const EmitterShape& shape);
 	void Update();
 	void Draw() const;
 
@@ -28,6 +27,14 @@ public:
 	const std::string& GetEffectName() const { return effectName_; }
 	void SetEffectName(const std::string& effectName) { effectName_ = effectName; }
 
+	const std::string& GetEmitterLabel() const { return gpuEmitter_->GetLabel(); }
+
+	void SetEmitter(const std::string& effectName) const { return gpuEmitter_->SetEmitter(effectName); }
+	void SetEmitterPos(const Vector3& pos) const { return gpuEmitter_->SetEmitterPos(pos); }
+	void SetEmitterColor(const Vector4& color) const { return gpuEmitter_->SetEmitterColor(color); }
+
+	const bool GetIsAlive() const { return isAlive_; }
+	void SetIsAlive(bool isAlive) { isAlive_ = isAlive; }
 
 private:
 
@@ -38,5 +45,7 @@ private:
 
 	// effectの名前
 	std::string effectName_ = "";
+
+	bool isAlive_ = true;
 };
 

@@ -5,12 +5,7 @@ class SphereEmitter : public GpuEmitter {
 public:
 
 	struct Emitter {
-		Vector3 translate;		// 位置
 		float radius;			// 射出半径
-		uint32_t count;			// 射出数
-		float frequency;		// 射出間隔
-		float frequencyTime;	// 時間調整用
-		int emit;				// 射出許可
 	};
 
 public:
@@ -24,6 +19,10 @@ public:
 
 	void DrawShape(const Matrix4x4& viewProjectionMat) override;
 
+	void Save() override;
+
+	void Load() override;
+
 #ifdef _DEBUG
 	void Debug_Gui() override;
 #endif
@@ -31,7 +30,8 @@ public:
 
 private:
 
-	Emitter* sphereEmitter_;
+	ComPtr<ID3D12Resource> sphereEmitterBuffer_;
+	Emitter* emitter_;
 
 };
 

@@ -45,7 +45,6 @@ void GameCore::Update() {
 
 void GameCore::Draw() {
 	sceneManger_->Draw();
-
 	sceneManger_->PostFrame();
 }
 

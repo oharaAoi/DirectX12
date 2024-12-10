@@ -147,9 +147,13 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PrimitivePipeline.cpp" />
+    <ClCompile Include="Engine\DirectX\Resource\DxResource.cpp" />
+    <ClCompile Include="Engine\DirectX\Resource\ShaderResource.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp" />
+    <ClCompile Include="Engine\Editer\Window\EditerWindows.cpp" />
+    <ClCompile Include="Engine\Editer\Window\GameObjectWindow.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\GameObject\BaseGameObject.cpp" />
     <ClCompile Include="Engine\GameObject\Model.cpp" />
@@ -183,7 +187,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Math\Quaternion.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
+    <ClCompile Include="Engine\Math\Vector4.cpp" />
     <ClCompile Include="Engine\ParticleSystem\BaseEffect.cpp" />
+    <ClCompile Include="Engine\ParticleSystem\EffectPersistence.cpp" />
+    <ClCompile Include="Engine\ParticleSystem\Emitter\BoxEmitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Emitter\ConeEmitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Emitter\SphereEmitter.cpp" />
     <ClCompile Include="Engine\ParticleSystem\Particle\BaseParticle.cpp" />
@@ -221,6 +228,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\WorldObject\Ground.cpp" />
+    <ClCompile Include="Game\WorldObject\Skydome.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -263,9 +271,13 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PrimitivePipeline.h" />
+    <ClInclude Include="Engine\DirectX\Resource\DxResource.h" />
+    <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h" />
+    <ClInclude Include="Engine\Editer\Window\EditerWindows.h" />
+    <ClInclude Include="Engine\Editer\Window\GameObjectWindow.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\GameObject\BaseGameObject.h" />
     <ClInclude Include="Engine\GameObject\Model.h" />
@@ -304,6 +316,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\ParticleSystem\BaseEffect.h" />
+    <ClInclude Include="Engine\ParticleSystem\EffectPersistence.h" />
+    <ClInclude Include="Engine\ParticleSystem\Emitter\BoxEmitter.h" />
     <ClInclude Include="Engine\ParticleSystem\Emitter\ConeEmitter.h" />
     <ClInclude Include="Engine\ParticleSystem\Emitter\SphereEmitter.h" />
     <ClInclude Include="Engine\ParticleSystem\Particle\BaseParticle.h" />
@@ -346,6 +360,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\WorldObject\Ground.h" />
+    <ClInclude Include="Game\WorldObject\Skydome.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Blend.CS.hlsl">
@@ -465,6 +480,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <None Include="Engine\HLSL\Primitive.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="Engine\HLSL\Random.hlsli" />
     <None Include="Engine\HLSL\Sprite.2d.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>

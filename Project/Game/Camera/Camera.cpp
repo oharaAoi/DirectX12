@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Engine/Editer/Window/EditerWindows.h"
 
 Camera::Camera() {
 	Init();
@@ -20,6 +21,10 @@ void Camera::Init() {
 	};
 
 	offset_ = transform_.translate;
+
+#ifdef _DEBUG
+	EditerWindows::AddObjectWindow(std::bind(&Camera::Debug_Gui, this), "camera");
+#endif // _DEBUG
 }
 
 void Camera::Update() {
@@ -36,7 +41,6 @@ void Camera::Update() {
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
 void Camera::Debug_Gui() {
-	ImGui::Begin("Camera");
 	if (ImGui::Button("Reset")) {
 		transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, -9.0f} };
 		transform_.rotate = { 0.0f, 0.0f, 0.0f };
@@ -45,7 +49,5 @@ void Camera::Debug_Gui() {
 
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
 	ImGui::DragFloat3("rotate", &transform_.rotate.x, 0.1f);
-
-	ImGui::End();
 }
 #endif

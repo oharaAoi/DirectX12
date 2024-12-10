@@ -85,94 +85,61 @@ void ComputeShader::SetCsPipeline(const CsPipelineType& type, ID3D12GraphicsComm
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ComputeShader::RunComputeShader(ID3D12GraphicsCommandList* commandList) {
-	if (isCsReset_) {
-		executeCsArray_.clear();
-		isCsReset_ = false;
-	}
+	//if (isCsReset_) {
+	//	executeCsArray_.clear();
+	//	isCsReset_ = false;
+	//}
 
-	isRun_ = true;
-	if (executeCsArray_.empty()) {
-		isRun_ = false;
-		return;
-	}
-	// 先頭の配列に元となるResourceのSRVを指定する
-	executeCsArray_[0]->SetReferenceResourceHandles(runCsResourceAddress_);
+	//isRun_ = true;
+	//if (executeCsArray_.empty()) {
+	//	isRun_ = false;
+	//	return;
+	//}
+	//// 先頭の配列に元となるResourceのSRVを指定する
+	//executeCsArray_[0]->SetReferenceResourceHandles(runCsResourceAddress_);
 
-	for (uint32_t oi = 0; oi < executeCsArray_.size(); oi++) {
-		// ----------------------------------------------------------------------
-		// ↓ 各クラスでDispatchを行う
-		// ----------------------------------------------------------------------
-		executeCsArray_[oi]->ConfigureResource(commandList);
+	//for (uint32_t oi = 0; oi < executeCsArray_.size(); oi++) {
+	//	// ----------------------------------------------------------------------
+	//	// ↓ 各クラスでDispatchを行う
+	//	// ----------------------------------------------------------------------
+	//	executeCsArray_[oi]->ConfigureResource(commandList);
 
-		// ----------------------------------------------------------------------
-		// ↓ 次に行うエフェクトがあればその参照するResourceを今行った物に変更する
-		// ----------------------------------------------------------------------
-		if (oi < executeCsArray_.size() - 1) {
-			executeCsArray_[oi + 1]->SetReferenceResourceHandles(executeCsArray_[oi]->GetLastIndexSRVHandle());
-		}
-	}
+	//	// ----------------------------------------------------------------------
+	//	// ↓ 次に行うエフェクトがあればその参照するResourceを今行った物に変更する
+	//	// ----------------------------------------------------------------------
+	//	if (oi < executeCsArray_.size() - 1) {
+	//		executeCsArray_[oi + 1]->SetReferenceResourceHandles(executeCsArray_[oi]->GetLastIndexSRVHandle());
+	//	}
+	//}
 
-	// ----------------------------------------------------------------------
-	// ↓ 最終的に描画するResourceに加工したTextureを移す
-	// ----------------------------------------------------------------------
-	computeShaderPipelineMap_[CsPipelineType::Blend_Pipeline]->SetPipelineState(commandList);
-	uint32_t lastIndex = static_cast<uint32_t>(executeCsArray_.size()) - 1;
-	executeCsArray_[lastIndex]->ConfigureResultSRVResource(commandList);
-	//depthOfField_->ConfigureResultSRVResource(commandList);
-	commandList->SetComputeRootDescriptorTable(1, uavRenderAddress_.handleGPU);
+	//// ----------------------------------------------------------------------
+	//// ↓ 最終的に描画するResourceに加工したTextureを移す
+	//// ----------------------------------------------------------------------
+	//computeShaderPipelineMap_[CsPipelineType::Blend_Pipeline]->SetPipelineState(commandList);
+	//uint32_t lastIndex = static_cast<uint32_t>(executeCsArray_.size()) - 1;
+	//executeCsArray_[lastIndex]->ConfigureResultSRVResource(commandList);
+	////depthOfField_->ConfigureResultSRVResource(commandList);
+	//commandList->SetComputeRootDescriptorTable(1, uavRenderAddress_.handleGPU);
 	//Log("------------------ Dispatch!!!!! ----------------------\n");
 	commandList->Dispatch(groupCountX_, groupCountY_, 1);
 
 	// ----------------------------------------------------------------------
 	// ↓ 使用したエフェクトのResourceを元に戻す
 	// ----------------------------------------------------------------------
-	for (uint32_t oi = 0; oi < executeCsArray_.size(); oi++) {
+	/*for (uint32_t oi = 0; oi < executeCsArray_.size(); oi++) {
 		executeCsArray_[oi]->TransitionAllResourceHandles(commandList);
-	}
+	}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　最終結果として描画するTextureを作成する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ComputeShader::BlendRenderTarget(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& spriteGpuHandle, const D3D12_GPU_DESCRIPTOR_HANDLE& rendrerGpuHandle) {
-	computeShaderPipelineMap_[CsPipelineType::Result_Pipeline]->SetPipelineState(commandList);
-	if (!isRun_) {
-		commandList->SetComputeRootDescriptorTable(0, runCsResourceAddress_.handleGPU);
-	} else {
-		TransitionResourceState(commandList, resultResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
-		commandList->SetComputeRootDescriptorTable(0, srvRenderAddress_.handleGPU);
-	}
-
-
-	commandList->SetComputeRootDescriptorTable(1, spriteGpuHandle);
-	commandList->SetComputeRootDescriptorTable(2, rendrerGpuHandle);
-	//Log("------------------ Dispatch!!!!! ----------------------\n");
+void ComputeShader::BlendRenderTarget(ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& refarebceGpuHandle, const D3D12_GPU_DESCRIPTOR_HANDLE& rendrerGpuHandle) {
+	computeShaderPipelineMap_[CsPipelineType::Blend_Pipeline]->SetPipelineState(commandList);
+	commandList->SetComputeRootDescriptorTable(0, refarebceGpuHandle);
+	commandList->SetComputeRootDescriptorTable(1, rendrerGpuHandle);
 	commandList->Dispatch(groupCountX_, groupCountY_, 1);
-
-
-	if (isRun_) {
-		TransitionResourceState(commandList, resultResource_.Get(), D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　配列にCsを設定する
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void ComputeShader::SetComputeShader(const CSKind& kind) {
-	switch (kind) {
-	case CSKind::GrayScale:
-		executeCsArray_.push_back(grayScale_.get());
-		break;
-
-	case CSKind::GaussianBlue:
-		executeCsArray_.push_back(gaussianBlur_.get());
-		break;
-	default:
-		assert("not exist effect");
-		break;
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

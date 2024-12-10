@@ -1,21 +1,37 @@
 #include "GpuEffect.h"
+#include "Engine/Engine.h"
+#include "Engine/ParticleSystem/Emitter/SphereEmitter.h"
+#include "Engine/ParticleSystem/Emitter/ConeEmitter.h"
+#include "Engine/ParticleSystem/Emitter/BoxEmitter.h"
 
-GpuEffect::GpuEffect() {
-}
-
-GpuEffect::~GpuEffect() {
-}
+GpuEffect::GpuEffect() {}
+GpuEffect::~GpuEffect() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GpuEffect::Init() {
+void GpuEffect::Init(const EmitterShape& shape) {
 	gpuParticle_ = std::make_unique<GpuParticle>();
 	gpuParticle_->Init("cube.obj", 1024);
 
-	gpuEmitter_ = std::make_unique<SphereEmitter>();
+	switch (shape) {
+	case EmitterShape::Sphere:
+		gpuEmitter_ = std::make_unique<SphereEmitter>();
+		break;
+	case EmitterShape::Cone:
+		gpuEmitter_ = std::make_unique<ConeEmitter>();
+		break;
+	case EmitterShape::Box:
+		gpuEmitter_ = std::make_unique<BoxEmitter>();
+		break;
+	default:
+		break;
+	}
+	
 	gpuEmitter_->Init();
+
+	isAlive_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

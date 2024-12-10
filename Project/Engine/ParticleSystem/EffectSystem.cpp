@@ -1,7 +1,5 @@
 #include "EffectSystem.h"
 #include "Engine/ParticleSystem/EffectSystemEditer.h"
-#include "Engine/ParticleSystem/Emitter/Emitter.h"
-#include "Engine/ParticleSystem/BaseEffect.h"
 
 EffectSystem::~EffectSystem() {}
 
@@ -18,6 +16,9 @@ void EffectSystem::Init() {
 	particleField_ = std::make_unique<ParticleField>();
 	particleField_->Init();
 
+	effectPersistence_ = EffectPersistence::GetInstance();
+	effectPersistence_->Init();
+
 	// -------------------------------------------------
 	// ↓ Systemの初期化
 	// -------------------------------------------------
@@ -32,8 +33,7 @@ void EffectSystem::Finalize() {
 #ifdef _DEBUG
 	editer_->Finalize();
 #endif
-
-
+	effectList_.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,12 @@ void EffectSystem::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystem::Update() {
-	
+	for (std::list<std::unique_ptr<GpuEffect>>::iterator it = effectList_.begin(); it != effectList_.end();) {
+		(*it)->SetViewProjectionMat(viewMat_ * projectionMat_);
+		(*it)->Update();
+		++it;
+	}
+
 #ifdef _DEBUG
 	editer_->Update();
 #endif
@@ -52,10 +57,29 @@ void EffectSystem::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystem::Draw() const {
+	Engine::SetPipeline(PipelineType::NormalPipeline);
+	for (std::list<std::unique_ptr<GpuEffect>>::const_iterator it = effectList_.begin(); it != effectList_.end();) {
+		(*it)->Draw();
+		++it;
+	}
+
 #ifdef _DEBUG
+	editer_->PreBegin();
 	editer_->Begin();
 	editer_->Draw();
 #endif
+}
+
+void EffectSystem::Emit(const std::string& name, const Vector3& pos, const Vector4& color) {
+	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	uint32_t shape = persistence->GetValue<uint32_t>(name, "shape");
+
+	auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
+	newEffect->Init(static_cast<EmitterShape>(shape));
+	newEffect->SetEmitter(name);
+
+	newEffect->SetEmitterPos(pos);
+	newEffect->SetEmitterColor(color);
 }
 
 void EffectSystem::SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matrix4x4& projection) {
@@ -69,16 +93,17 @@ void EffectSystem::SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matri
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
 void EffectSystem::Debug_Gui() {
-	ImGui::Begin("EffectSystem");
-	//ImGui::Checkbox("openEffectEditer", &isEffectEditer_);
 	editer_->Debug_Gui();
-	ImGui::End();
 }
 
 void EffectSystem::EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device) {
 	editer_ = std::make_unique<EffectSystemEditer>(renderTarget, descriptorHeaps, dxCommands, device);
 }
-void EffectSystem::PostDraw() {
+void EffectSystem::EndEditer() {
 	editer_->End();
+}
+
+const bool EffectSystem::GetIsEditerFocused() const {
+	return editer_->GetIsFocused();
 }
 #endif

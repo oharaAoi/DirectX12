@@ -19,7 +19,6 @@
 #include "Engine/GameObject/Sphere.h"
 #include "Engine/2d/Sprite.h"
 #include "Engine/2d/Triangle.h"
-#include "Engine/ParticleSystem/Particle/BaseParticle.h"
 #include "Engine/Audio/Audio.h"
 #include "Engine/Utilities/Shader.h"
 #include "Engine/Assets/WorldTransform.h"
@@ -38,9 +37,6 @@ public:
 	static void Initialize(uint32_t backBufferWidth, int32_t backBufferHeight);
 
 	static void Finalize();
-#ifdef _DEBUG
-	static void DrawImGui();
-#endif
 
 public:
 
@@ -61,10 +57,9 @@ public:
 	static void EndFrame();
 	static void EndImGui();
 
-	/// <summary>
-	/// offScreenRenderingの処理を行う
-	/// </summary>
-	static void DrawRenderTexture();
+	static void RenderFrame();
+
+	static void BlendFinalTexture();
 
 
 public:
@@ -115,12 +110,6 @@ public:
 	/// </summary>
 	/// <param name="kind">設定するパイプライン</param>
 	static void SetCsPipeline(const CsPipelineType& kind);
-
-	/// <summary>
-	/// 行いたいCSを設定する
-	/// </summary>
-	/// <param name="kind"></param>
-	static void SetComputeShader(const CSKind& kind);
 
 	static void SetSkinning(Skinning* skinning, Mesh* mesh);
 
@@ -185,6 +174,8 @@ public:
 	static ID3D12GraphicsCommandList* GetCommandList();
 	static DescriptorHeap* GetDxHeap();
 
+	static bool GetIsOpenEffectEditer();
+
 private:
 
 };
@@ -200,6 +191,9 @@ namespace {
 
 	WinApp* winApp_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
+
+	EffectSystem* effectSystem_;
+
 #ifdef _DEBUG
 	ImGuiManager* imguiManager_ = nullptr;
 #endif
@@ -229,5 +223,7 @@ namespace {
 	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;
 
 	bool isFullScreen_;
+
+	bool isEffectEditer_;
 }
 

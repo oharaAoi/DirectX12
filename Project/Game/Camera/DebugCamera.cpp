@@ -1,4 +1,5 @@
 #include "DebugCamera.h"
+#include "Engine/Editer/Window/EditerWindows.h"
 
 DebugCamera::DebugCamera() {
 	Init();
@@ -36,6 +37,12 @@ void DebugCamera::Init() {
 	moveBaseSpeed_ = 5.0f;
 	moveSpeed_ = 5.0f;
 	moveQuaternion_ = Quaternion();
+
+	isFocused_ = true;
+	
+#ifdef _DEBUG
+	EditerWindows::AddObjectWindow(std::bind(&DebugCamera::Debug_Gui, this), "debugCamera");
+#endif // _DEBUG
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,8 +50,10 @@ void DebugCamera::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DebugCamera::Update() {
-	RotateMove();
-	TransitionMove();
+	if (isFocused_) {
+		RotateMove();
+		TransitionMove();
+	}
 
 	quaternion_ = quaternion_.Normalize();
 
@@ -63,8 +72,6 @@ void DebugCamera::Update() {
 
 #ifdef _DEBUG
 void DebugCamera::Debug_Gui() {
-	ImGui::Begin("Debug_Camera");
-
 	Vector3 right = quaternion_.MakeRight();
 	Vector3 up = quaternion_.MakeUp();
 	Vector3 forward = quaternion_.MakeForward();
@@ -86,8 +93,6 @@ void DebugCamera::Debug_Gui() {
 		yaw_ = 0.0f;
 		pitch_ = 0.0f;
 	}
-
-	ImGui::End();
 }
 #endif
 
