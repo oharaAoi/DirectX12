@@ -4,8 +4,16 @@
 
 class Player;
 
+const float kThreshold = 0.7f;
+
 class PlayerMoveState :
     public ICharactorState {
+public:	// メンバ構造体
+
+	struct Work {
+		float speed;
+	};
+
 public:
 
 	PlayerMoveState(Player* pPlayer) : pPlayer_(pPlayer) { Init(); };
@@ -29,6 +37,8 @@ private:
 	Vector3 velocity_;
 	Vector3 acceleration_;
 
-	bool preIsJump_;
+	bool isMoving_;
+
+	Work work_;
 };
 

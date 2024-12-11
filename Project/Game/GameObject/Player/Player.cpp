@@ -2,6 +2,7 @@
 #include "Engine/Editer/Window/EditerWindows.h"
 #include "Game/GameObject/Player/State/PlayerDefaultState.h"
 #include "Game/GameObject/Player/State/PlayerMoveState.h"
+#include "Game/GameObject/Player/State/PlayerAttackState.h"
 
 Player::Player() {}
 Player::~Player() {}
@@ -32,6 +33,7 @@ void Player::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Update() {
+	CheckAttack();
 	CheckMove();
 
 	CheckBehaviorRequest();
@@ -63,6 +65,9 @@ void Player::CheckBehaviorRequest() {
 		case Behavior::MOVE:
 			SetBehaviorState(std::make_unique<PlayerMoveState>(this));
 			break;
+		case Behavior::ATTACK:
+			SetBehaviorState(std::make_unique<PlayerAttackState>(this));
+			break;
 		default:
 			break;
 		}
@@ -76,13 +81,30 @@ void Player::CheckBehaviorRequest() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::CheckMove() {
-	if (Input::GetLeftJoyStick().x != 0.0f || Input::GetLeftJoyStick().y != 0.0f) {
-		behaviorRequest_ = Behavior::MOVE;
+	if (isAttack_) {
+		return;
 	}
 
-	if (Input::IsTriggerKey(DIK_SPACE) || Input::GetIsPadTrigger(BUTTON_A)) {
+	if (Input::GetLeftJoyStick().x != 0.0f || Input::GetLeftJoyStick().y != 0.0f) {
+		behaviorRequest_ = Behavior::MOVE;
+	} 
+
+	if (Input::GetIsPadTrigger(BUTTON_A)) {
 		behaviorRequest_ = Behavior::MOVE;
 		isJump_ = true;
+		velocity_.y = 6.0f;
+		acceleration_.y = -9.8f;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　攻撃受付状態
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::CheckAttack() {
+	if (Input::GetIsPadTrigger(BUTTON_X)) {
+		behaviorRequest_ = Behavior::ATTACK;
+		isAttack_ = true;
 	}
 }
 
@@ -92,6 +114,7 @@ void Player::CheckMove() {
 #ifdef _DEBUG
 void Player::Debug_Gui() {
 	BaseGameObject::Debug_Gui();
+	ImGui::Separator();
 	state_->Debug_Gui();
 }
 #endif

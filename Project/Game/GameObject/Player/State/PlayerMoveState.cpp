@@ -6,70 +6,92 @@ PlayerMoveState::~PlayerMoveState() {
 
 void PlayerMoveState::Init() {
 	stateName_ = "playerMoveState";
+
+	work_.speed = 6.0f;
 }
 
 void PlayerMoveState::Update() {
 	Jump();
 
 	Move();
-
-	preIsJump_ = pPlayer_->GetIsJump();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　jumpする
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void PlayerMoveState::Jump() {
+	// ジャンプして入なかったら早期リターン
 	if (!pPlayer_->GetIsJump()) {
 		return;
 	}
-
-	if (preIsJump_ == false) {
-		velocity_.y = 6.0f;
-		acceleration_.y = -9.8f;
-	}
+	// 速度加速度を取得
+	velocity_ = pPlayer_->GetVelocity();
+	acceleration_ = pPlayer_->GetAcceleration();
+	// 移動する
 	Vector3 translate = pPlayer_->GetTransform()->GetTranslation();
-
 	velocity_ += acceleration_ * GameTimer::DeltaTime();
 	translate += velocity_ * GameTimer::DeltaTime();
 
+	// 限界の範囲を指定
 	if (translate.y <= 0.0f) {
 		translate.y = 0.0f;
 		pPlayer_->SetIsJump(false);
 	}
-
+	// 実際に代入する
 	pPlayer_->GetTransform()->SetTranslaion((translate));
 
+	// 速度加速度を更新する
+	pPlayer_->SetVelocity(velocity_);
+	pPlayer_->SetAcceleration(acceleration_);
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　移動する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerMoveState::Move() {
-	const float threshold = 0.7f;
-	const float speed = 6.0f;
-	//float targetAngle = 0;
-	bool isMoveing = false;
-
+	isMoving_ = false;
+	
 	Vector2 inputJoyStateL = Input::GetLeftJoyStick();
-
-	velocity_ = { inputJoyStateL.x,0.0f,inputJoyStateL.y, };
+	Vector3 velocity = { inputJoyStateL.x,0.0f,inputJoyStateL.y, };
 
 	// スティックの押し込みが閾値を超えていたら移動可能にする
-	if (velocity_.Length() > threshold) {
-		isMoveing = true;
+	if (velocity.Length() > kThreshold) {
+		isMoving_ = true;
 	}
 
-	if (isMoveing) {
+	// 閾値を超えていたら移動
+	if (isMoving_) {
 		// 移動ベクトルをカメラの角度だけ回転する
 		Matrix4x4 cameraRotate = pPlayer_->GetFollowCamera()->GetRotateMat();
-		velocity_ = TransformNormal(velocity_, cameraRotate);
-
-		velocity_ = velocity_.Normalize() * speed;
+		Vector3 direction = TransformNormal(velocity, cameraRotate);
+		velocity = direction.Normalize() * work_.speed;
 
 		Vector3 translate = pPlayer_->GetTransform()->GetTranslation();
-		translate += velocity_ * GameTimer::DeltaTime();
+		translate += velocity * GameTimer::DeltaTime();
 
-		pPlayer_->GetTransform()->SetTranslaion((translate));
+		pPlayer_->GetTransform()->SetTranslaion(translate);
+
+		// playerの向きを移動方向にする
+		float targetAngle = std::atan2f(velocity.x, velocity.z);
+		pPlayer_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(targetAngle, Vector3::UP()));
+	}
+
+	// defaultに戻す判定の処理
+	if (!pPlayer_->GetIsJump()) {
+		if (inputJoyStateL.x == 0.0f && inputJoyStateL.y == 0.0f) {
+			pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
+		}
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　編集処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
 void PlayerMoveState::Debug_Gui() {
-
+	ImGui::Text(stateName_.c_str());
 }
 #endif // _DEBUG

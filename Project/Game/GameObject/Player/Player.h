@@ -8,6 +8,7 @@
 enum class Behavior {
 	DEFAULT,	// 待機状態
 	MOVE,		// 移動状態
+	ATTACK,		// 攻撃状態
 };
 
 class Player : public BaseGameObject {
@@ -27,6 +28,8 @@ private:
 
 	void CheckMove();
 
+	void CheckAttack();
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
@@ -42,6 +45,15 @@ public:
 	void SetIsJump(bool isJump) { isJump_ = isJump; }
 	const bool GetIsJump() const { return isJump_; }
 
+	void SetIsAttack(bool isAttack) { isAttack_ = isAttack; }
+	const bool GetIsAttack() const { return isAttack_; }
+
+	const Vector3 GetVelocity() const { return velocity_;}
+	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
+
+	const Vector3 GetAcceleration() const { return acceleration_; }
+	void SetAcceleration(const Vector3& acceleration) { acceleration_ = acceleration; }
+
 private:
 
 	// ------------------- pointer ------------------- //
@@ -54,5 +66,12 @@ private:
 
 	// ------------------- Move関連 ------------------- //
 	bool isJump_;
+
+	Vector3 velocity_;
+	Vector3 acceleration_;
+
+	// ------------------- Attack関連 ------------------- //
+	bool isAttack_ = false;
+
 };
 

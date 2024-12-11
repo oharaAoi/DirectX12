@@ -74,5 +74,6 @@ Vector3 FollowCamera::CalcucOffset() {
 #ifdef _DEBUG
 void FollowCamera::Debug_Gui() {
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
+	ImGui::DragFloat3("offset", &offset_.x, 0.1f);
 }
 #endif
