@@ -97,8 +97,8 @@ void TestScene::Update() {
 void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
-	/*testObjA_->Draw();
-	testObjB_->Draw();*/
+	testObjA_->Draw();
+	testObjB_->Draw();
 }
 
 #ifdef _DEBUG
