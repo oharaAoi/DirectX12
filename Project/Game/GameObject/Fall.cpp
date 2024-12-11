@@ -164,7 +164,7 @@ bool Fall::CheckMouseNear(const Matrix4x4& vpvpMat) {
 
 	// objectのscreen座標を求める
 	Vector3 objectScreen = Transform(Vector3::ZERO(), transform_->GetWorldMatrix() * vpvpMat);
-	Vector2 objectScreenPos_ = Vector2(objectScreen.x, objectScreen.y);
+	Vector2 objectScreenPos_ = Vector2(objectScreen.x + 10.0f, objectScreen.y + 30.0f);
 
 	if (player_->GetPullBack()) {
 		if (isNear_) {
@@ -174,7 +174,7 @@ bool Fall::CheckMouseNear(const Matrix4x4& vpvpMat) {
 
 	isNear_ = false;
 	// 長さを取って距離が近かったら
-	if ((mousePos - objectScreenPos_).Length() < 70.0f) {
+	if ((mousePos - objectScreenPos_).Length() < 80.0f) {
 		isNear_ = true;
 	}
 	return isNear_;

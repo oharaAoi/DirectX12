@@ -177,7 +177,7 @@ private:
 	float timeStanpD_ = 0.0f;
 
 	Vector3 velocity_{};
-	float moveSpeed_ = 6.0f;
+	float moveSpeed_ = 9.0f;
 	float gravity_ = -29.4f;
 	float rightRotate = 1.59f;
 	float leftRotate = -1.58f;
@@ -215,7 +215,7 @@ private:
 
 	// ワイヤー先端
 	std::unique_ptr<WireTip> wireTip_;
-	std::unique_ptr<BaseGameObject> predictionTip_;
+	//std::unique_ptr<BaseGameObject> predictionTip_;
 
 
 	// 投げる

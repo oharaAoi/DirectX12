@@ -28,11 +28,11 @@ void Player::Init() {
 	wireTip_ = std::make_unique<WireTip>();
 	wireTip_->Init();
 
-	predictionTip_ = std::make_unique<BaseGameObject>();
+	/*predictionTip_ = std::make_unique<BaseGameObject>();
 	predictionTip_->Init();
 	predictionTip_->SetObject("prediction.obj");
 	predictionTip_->SetColor({ 0.0f,0.0f,1.0f,1.0f });
-	predictionTip_->GetTransform()->SetParentTranslation(transform_->GetTranslation());
+	predictionTip_->GetTransform()->SetParentTranslation(transform_->GetTranslation());*/
 
 
 	fragment_ = std::make_unique<PlayerEffect>();
@@ -114,7 +114,7 @@ void Player::Update() {
 
 	wire_->Update();
 	wireTip_->Update();
-	predictionTip_->Update();
+	//predictionTip_->Update();
 
 
 	fragment_->Update();
@@ -147,7 +147,7 @@ void Player::Draw() const {
 	wireTip_->Draw();
 	fragment_->Draw();
 	if (!isPullBackObj_) {
-		predictionTip_->Draw();
+		//predictionTip_->Draw();
 	}
 }
 
@@ -455,10 +455,10 @@ void Player::CalPrediction() {
 	Vector3 sub = end - transform_->GetTranslation();
 	sub = sub.Normalize() * defaulPredictLength_;
 
-	predictionTip_->GetTransform()->SetTranslaion(sub);
+	//predictionTip_->GetTransform()->SetTranslaion(sub);
 
-	float angle = atan2(sub.y, sub.x);
-	predictionTip_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(angle, Vector3::FORWARD()));
+	//float angle = atan2(sub.y, sub.x);
+	//predictionTip_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(angle, Vector3::FORWARD()));
 
 }
 
