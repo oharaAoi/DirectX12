@@ -1,10 +1,7 @@
 #pragma once
-#include <d3d12.h>
-#include <dxgi1_6.h>
-#include "dxgidebug.h"
-#include <cassert>
 #include <memory>
-#include "Engine/Assets/Mesh.h"
+#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/Math/MyMatrix.h"
 #include "Engine/Math/MyMath.h"
 #include "Engine/Manager/ImGuiManager.h"
@@ -34,21 +31,27 @@ public:
 
 	void Finalize();
 
-	void Draw(ID3D12GraphicsCommandList* commandList, const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& wvpMat);
+	void Draw(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& wvpMat);
+
+	void DrawCall(ID3D12GraphicsCommandList* commandList);
 
 	void SetUseIndex(const uint32_t& count) { useIndex_ = count; }
+
+	void Begin();
 
 private:
 
 	// 定数バッファ
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBuffer_;
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuffer_;
-	Microsoft::WRL::ComPtr<ID3D12Resource> materialBuffer_;
-	Microsoft::WRL::ComPtr<ID3D12Resource> wvpBuffer_;
+	ComPtr<ID3D12Resource> vertexBuffer_;
+	ComPtr<ID3D12Resource> indexBuffer_;
+	ComPtr<ID3D12Resource> materialBuffer_;
+	ComPtr<ID3D12Resource> wvpBuffer_;
 
 	// バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
+
+	DescriptorHeap::DescriptorHandles wvpSRV_;
 
 	// データポインタ
 	PrimitiveData* primitiveData_;
@@ -58,5 +61,7 @@ private:
 
 	// 使用している線の頂点の数
 	uint32_t useIndex_ = 0;
+
+	uint32_t preUseIndex_;
 
 };

@@ -23,6 +23,7 @@
 #include "Engine/Utilities/Shader.h"
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/RenderTexture.h"
+#include "Engine/Editer/Window/EditerWindows.h"
 #include "Render.h"
 
 class EffectSystem;
@@ -221,6 +222,8 @@ namespace {
 
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;
+
+	EditerWindows* editerWindows_ = nullptr;
 
 	bool isFullScreen_;
 

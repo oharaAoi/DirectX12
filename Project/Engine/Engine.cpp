@@ -1,6 +1,5 @@
 #include "Engine.h"
 #include "Engine/ParticleSystem/EffectSystem.h"
-#include "Engine/Editer/Window/EditerWindows.h"
 
 Engine::Engine() {}
 
@@ -16,19 +15,20 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
-	// ↓インスタンスの生成
+	// -------------------------------------------------
+	// ↓ インスタンスの作成
+	// -------------------------------------------------
 	winApp_ = WinApp::GetInstance();
 	dxCommon_ = DirectXCommon::GetInstacne();
 	textureManager_ = TextureManager::GetInstance();
 	input_ = Input::GetInstance();
 	render_ = Render::GetInstacne();
+	effectSystem_ = EffectSystem::GetInstacne();
+	editerWindows_ = EditerWindows::GetInstance();
 
-	// ↓各初期化
 	winApp_->CreateGameWindow();
 	dxCommon_->Initialize(winApp_, kClientWidth_, kClientHeight_);
 	dxDevice_ = std::make_shared<DirectXDevice>(dxCommon_->GetUseAdapter());
-
-	assert(dxDevice_->GetDevice());
 
 	dxCommands_ = std::make_unique<DirectXCommands>(dxDevice_->GetDevice());
 	descriptorHeap_ = std::make_shared<DescriptorHeap>(dxDevice_->GetDevice());
@@ -41,37 +41,24 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	computeShader_ = std::make_unique<ComputeShader>();
 
 	renderTexture_ = std::make_unique<RenderTexture>();
-
 	audio_ = std::make_unique<Audio>();
 
-	// shader
-	shaders_->Init();
-
-	// dxcommon
-	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get(), renderTarget_.get());
-	// renderTarget
-	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get());
-	// texture
-	textureManager_->Init(dxDevice_, dxCommands_->GetCommandList(), descriptorHeap_);
-	// pipeline
-	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
-	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
-	// CS
-	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(), renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
-	// input
-	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
-	// audio
-	audio_->Init();
-
-	render_->Init(dxCommands_->GetCommandList(), dxDevice_->GetDevice(), primitivePipeline_.get(), renderTarget_.get());
-
-	renderTexture_->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
-
-	effectSystem_ = EffectSystem::GetInstacne();
-	effectSystem_->Init();
-
-	EditerWindows* editerWindows = EditerWindows::GetInstance();
-	editerWindows->Init();
+	// -------------------------------------------------
+	// ↓ 各初期化
+	// -------------------------------------------------
+	shaders_			->Init();
+	dxCommon_			->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get(), renderTarget_.get());
+	renderTarget_		->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get());
+	textureManager_		->Init(dxDevice_, dxCommands_->GetCommandList(), descriptorHeap_);
+	graphicsPipelines_	->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
+	primitivePipeline_	->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
+	computeShader_		->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(), renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
+	input_				->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
+	render_				->Init(dxCommands_->GetCommandList(), dxDevice_->GetDevice(), primitivePipeline_.get(), renderTarget_.get());
+	renderTexture_		->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
+	audio_				->Init();
+	effectSystem_		->Init();
+	editerWindows_		->Init();
 
 #ifdef _DEBUG
 	imguiManager_ = ImGuiManager::GetInstacne();
@@ -79,11 +66,13 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	EffectSystem::GetInstacne()->EditerInit(renderTarget_.get(), descriptorHeap_.get(), dxCommands_.get(), dxDevice_->GetDevice());
 #endif
 
+	// -------------------------------------------------
+	// ↓ その他初期化
+	// -------------------------------------------------
 	isFullScreen_ = false;
-
 	isEffectEditer_ = true;
 
-	render_->Begin();
+	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
 
 	Log("Engine Initialize compulete!\n");
 }
@@ -123,14 +112,12 @@ bool Engine::ProcessMessage() {
 	return  winApp_->ProcessMessage();
 }
 
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　フレーム開始時の処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::BeginFrame() {
 	dxCommon_->Begin();
-	Render::Begin();
 	input_->Update();
 
 	if (Input::IsTriggerKey(DIK_F11)) {
@@ -138,27 +125,11 @@ void Engine::BeginFrame() {
 		WinApp::GetInstance()->SetFullScreen(isFullScreen_);
 	}
 
+	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
+
 #ifdef _DEBUG
 	imguiManager_->Begin();
-	ImGui::SetNextWindowPos(ImVec2(0, 0));
-	ImGui::SetNextWindowSize(ImVec2(kWindowWidth_, kWindowHeight_));
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar |
-		ImGuiWindowFlags_NoBringToFrontOnFocus |
-		ImGuiWindowFlags_NoTitleBar |
-		ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoCollapse;
-
-	if (ImGui::Begin("BaseWindow", nullptr, window_flags)) {
-		if (ImGui::BeginMenuBar()) {
-			if (ImGui::BeginMenu("File")) {
-				ImGui::EndMenu();
-			}
-			ImGui::EndMenuBar();
-		}
-		
-	}
-	ImGuiID dockspace_id = ImGui::GetID("BaseDockspace");
-	ImGui::DockSpace(dockspace_id, ImVec2(0, 0), ImGuiDockNodeFlags_None);
+	editerWindows_->Begine();
 #endif
 }
 
@@ -172,21 +143,34 @@ void Engine::EndFrame() {
 		effectSystem_->EndEditer();
 	}
 #endif
+
 	dxCommon_->End();
 	descriptorHeap_->FreeList();
 	audio_->Update();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　ImGuiの処理を終了する(描画をする)
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Engine::EndImGui() {
 #ifdef _DEBUG
-	ImGui::End();
+	editerWindows_->End();
 	imguiManager_->End();
 	imguiManager_->Draw(dxCommands_->GetCommandList());
 #endif
 }
 
-void Engine::RenderFrame() {
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　1frameの結果を描画する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
+void Engine::RenderFrame() {
+	// gameで使用したlineの描画を開始する
+	primitivePipeline_->Draw(dxCommands_->GetCommandList());
+	Render::PrimitiveDrawCall();
+
+	// effectEditerの処理
 	isEffectEditer_ = false;
 	if (ImGui::Begin("EffectSystem", nullptr, ImGuiWindowFlags_MenuBar)) {
 		effectSystem_->Debug_Gui();
@@ -194,12 +178,14 @@ void Engine::RenderFrame() {
 	}
 	ImGui::End();
 
+	// 最終Textureの作成
 	BlendFinalTexture();
 
+	// swapChainの変更
 	dxCommon_->SetSwapChain();
 	graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
 #ifdef _DEBUG
-	if (ImGui::Begin("My Window", nullptr, ImGuiWindowFlags_MenuBar)) {
+	if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
 		if (ImGui::BeginMenuBar()) {
 			if (ImGui::BeginMenu("Window")) {
 				if (ImGui::MenuItem("Debug")) {
@@ -209,8 +195,7 @@ void Engine::RenderFrame() {
 			ImGui::EndMenuBar();
 		}
 
-		EditerWindows* editerWindows = EditerWindows::GetInstance();
-		editerWindows->Update();
+		editerWindows_->Update();
 		renderTexture_->DrawGui();
 	}
 	ImGui::End();
@@ -219,6 +204,10 @@ void Engine::RenderFrame() {
 
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　最終的に描画するTextureを合成する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::BlendFinalTexture() {
 	// -------------------------------------------------
