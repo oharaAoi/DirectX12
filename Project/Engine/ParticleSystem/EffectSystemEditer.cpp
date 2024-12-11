@@ -85,7 +85,6 @@ void EffectSystemEditer::Draw() const {
 	ImGui::Begin("EffectSystem", nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus);
 
 	// Grid線描画
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 
 	// 実際にEffectを描画する
@@ -94,6 +93,9 @@ void EffectSystemEditer::Draw() const {
 		(*it)->Draw();
 		++it;
 	}
+
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	Render::PrimitiveDrawCall();
 
 	// 最後にImGui上でEffectを描画する
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
@@ -142,7 +144,6 @@ void EffectSystemEditer::PreBegin() {
 	ImGui::Begin("EffectSystem" ,nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus);
 
 	// Grid線描画
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), PreEffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);

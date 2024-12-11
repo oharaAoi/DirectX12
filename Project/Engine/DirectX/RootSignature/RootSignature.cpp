@@ -93,9 +93,15 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateTexturelessRootSignature() {
 // primitiveRootSignatureの作成
 //////////////////////////////////////////////////////////////////////////////////////
 ComPtr<ID3D12RootSignature> RootSignature::CreatePrimitiveRootSignature() {
+	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
+	descriptorRangeForInstancing[0].BaseShaderRegister = 0;
+	descriptorRangeForInstancing[0].NumDescriptors = 1;
+	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
 	return builder_
 		.AddCBV(0, D3D12_SHADER_VISIBILITY_PIXEL)  // Material用
-		.AddCBV(0, D3D12_SHADER_VISIBILITY_VERTEX) // Transform用
+		.AddDescriptorTable(descriptorRangeForInstancing, 1, D3D12_SHADER_VISIBILITY_VERTEX) // Transform用
 		.Build(device_);
 }
 

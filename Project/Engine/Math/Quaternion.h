@@ -31,6 +31,7 @@ public:
 	/// <returns></returns>
 	Vector3 ToEulerAngles() const;
 
+
 	Quaternion Conjugate() const;
 
 	Vector3 Rotate(const Vector3& vec) const;

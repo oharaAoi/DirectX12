@@ -30,7 +30,7 @@ public:
 	void Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, PrimitivePipeline* primitive, RenderTarget* renderTarget);
 	static void Update();
 
-	static void Begin();
+	static void PrimitiveDrawCall();
 	static void SetRenderTarget(const RenderTargetType& type);
 
 public:
