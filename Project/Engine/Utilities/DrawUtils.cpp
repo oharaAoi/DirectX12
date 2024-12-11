@@ -185,4 +185,9 @@ void DrawMatrix(const Matrix4x4& mat, const std::string& id) {
 	ImGui::Text("%f, %f, %f, %f", vector4.x, vector4.y, vector4.z, vector4.w);
 	ImGui::Separator();
 }
+void DrawQuaternion(const Quaternion& q, const std::string& id) {
+	ImGui::Text(id.c_str());
+	ImGui::SameLine();
+	ImGui::Text(": %f, %f, %f, %f\n", q.x, q.y, q.z, q.w);
+}
 #endif

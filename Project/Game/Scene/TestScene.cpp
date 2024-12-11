@@ -23,18 +23,27 @@ void TestScene::Draw() const {
 void TestScene::Debug_Gui() {
 	ImGui::Begin("TestScene");
 
-	Vector3 from0 = Vector3(1.0f, 0.7f, 0.5f).Normalize();
-	Vector3 to0 = -1 * from0;
-	Vector3 from1 = Vector3(-0.6f, 0.9f, 0.2f).Normalize();
-	Vector3 to1 = Vector3(0.4f, 0.7f, -0.5f).Normalize();
+	Quaternion q1 = Quaternion(2.0f, 3.0f, 4.0f, 1.0f);
+	Quaternion q2 = Quaternion(1.0f, 3.0f, 5.0f, 2.0f);
 
-	Quaternion rotate2 = Quaternion::FromToRotation(from0, to0);
-	Quaternion rotate1 = Quaternion::FromToRotation(Vector3(1.0f, 0.0f, 0.0f).Normalize(), Vector3(-1.0f, 0.0f, 0.0f).Normalize());
-	Quaternion rotate3 = Quaternion::FromToRotation(from1, to1);
+	Quaternion identity = Quaternion();
+	Quaternion conj = q1.Conjugate();
+	Quaternion inverse = Quaternion::Inverse(q1);
+	Quaternion normal = q1.Normalize();
 
-	DrawMatrix(rotate1.MakeMatrix(), "matrix1");
-	DrawMatrix(rotate2.MakeMatrix(), "matrix2");
-	DrawMatrix(rotate3.MakeMatrix(), "matrix3");
+	Quaternion mul1 = q1 * q2;
+	Quaternion mul2 = q2 * q1;
+
+	float norm =q1.Norm();
+
+	DrawQuaternion(identity, "identity");
+	DrawQuaternion(conj, "conj");
+	DrawQuaternion(inverse, "inverse");
+	DrawQuaternion(normal, "normal");
+	DrawQuaternion(mul1, "mul1");
+	DrawQuaternion(mul2, "mul2");
+
+	ImGui::Text("norm : %f", norm);
 
 	ImGui::End();
 }

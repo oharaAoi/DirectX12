@@ -30,7 +30,14 @@ public:
 	/// <returns></returns>
 	Vector3 ToEulerAngles() const;
 
+	/// <summary>
+	/// 共役を返す
+	/// </summary>
+	/// <returns></returns>
 	Quaternion Conjugate() const;
+
+	float Norm() const;
+
 public:
 
 	/// <summary>

@@ -232,6 +232,10 @@ Quaternion Quaternion::Conjugate() const {
 	return Quaternion(-x, -y, -z, w);
 }
 
+float Quaternion::Norm() const {
+	return std::sqrt(x * x + y * y + z * z + w * w);
+}
+
 Quaternion Quaternion::operator*(const Quaternion& q2) const {
 	Vector3 v1 = Vector3(this->x, this->y, this->z);
 	Vector3 v2 = Vector3(q2.x, q2.y, q2.z);
