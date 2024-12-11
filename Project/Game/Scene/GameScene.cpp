@@ -18,15 +18,30 @@ void GameScene::Init() {
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Init();
 
+	// -------------------------------------------------
+	// ↓ worldObject
+	// -------------------------------------------------
 	ground_ = std::make_unique<Ground>();
 	ground_->Init();
 
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Init();
 
+	// -------------------------------------------------
+	// ↓ gameObject
+	// -------------------------------------------------
 	player_ = std::make_unique<Player>();
 	player_->Init();
 
+	// -------------------------------------------------
+	// ↓ Manager
+	// -------------------------------------------------
+	enemyManager_ = std::make_unique<EnemyManager>();
+	enemyManager_->Init();
+
+	// -------------------------------------------------
+	// ↓ その他設定
+	// -------------------------------------------------
 	player_->SetFollowCamera(followCamera_.get());
 
 	followCamera_->SetTarget(player_->GetTransform());
@@ -34,7 +49,7 @@ void GameScene::Init() {
 
 void GameScene::Update() {
 	// -------------------------------------------------
-	// ↓ カメラの更新
+	// ↓ cameraの更新
 	// -------------------------------------------------
 
 	debugCamera_->Update();
@@ -43,13 +58,15 @@ void GameScene::Update() {
 	Render::SetViewProjection(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
 
 	// -------------------------------------------------
-	// ↓ GameObjectの更新
+	// ↓ world,GameObjectの更新
 	// -------------------------------------------------
 
 	ground_->Update();
 	skydome_->Update();
 
 	player_->Update();
+
+	enemyManager_->Update();
 }
 
 void GameScene::Draw() const {
@@ -58,6 +75,8 @@ void GameScene::Draw() const {
 	ground_->Draw();
 
 	player_->Draw();
+
+	enemyManager_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

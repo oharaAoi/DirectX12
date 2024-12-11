@@ -7,6 +7,7 @@
 #include "Game/WorldObject/Ground.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/GameObject/Player/Player.h"
+#include "Game/Manager/EnemyManager.h"
 
 class GameScene 
 	: public BaseScene {
@@ -36,5 +37,8 @@ private:
 
 	// ------------------- gameObject ------------------- //
 	std::unique_ptr<Player> player_ = nullptr;
+
+	// ------------------- Manager ------------------- //
+	std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
 
 };
