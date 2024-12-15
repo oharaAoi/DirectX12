@@ -1,11 +1,20 @@
 #pragma once
 #include <functional>
+#include <string>
+#include <variant>
+#include "Engine/Math/MathStructures.h"
 
 enum CollisionFlags {
 	NONE = 0b00,
 	ENTER = 0b01,
 	EXIT = 0b10,
 	STAY = 0b11,
+};
+
+enum class ColliderShape {
+	SPHERE,
+	AABB,
+	OBB
 };
 
 /// <summary>
@@ -17,7 +26,7 @@ public:
 	ICollider() = default;
 	virtual ~ICollider() = default;
 
-	virtual void Init() {};
+	virtual void Init(const std::string& tag, ColliderShape shape) = 0;
 	virtual void Update() {};
 	virtual void Draw() const {};
 
@@ -58,6 +67,18 @@ public:
 		onCollisionExit_ = callback;
 	}
 
+	// --------------- tagの設定・取得 -------------- //
+	void SetTag(const std::string& tag) { tag_ = tag; }
+	const std::string GetTag() const { return tag_; }
+
+	// --------------- shapeの設定・取得 -------------- //
+	void SetShape(const std::variant<Sphere, AABB, OBB>& shape) { shape_ = shape; }
+	const std::variant<Sphere, AABB, OBB>& GetShape() const { return shape_; }
+
+	// --------------- stateの設定・取得 -------------- //
+	void SetCollisionState(int stateBit) { collisionState_ = stateBit; }
+	const int GetCollisionState() const { return collisionState_; }
+
 private:
 
 	/// <summary>
@@ -80,9 +101,14 @@ private:
 
 protected:
 
+	// タグ
+	std::string tag_;
+	// 形状
+	std::variant<Sphere, AABB, OBB> shape_;
+	// 当たり判定の状態
 	int collisionState_;
 
-	// 衝突用のコールバック
+	// 衝突時のcallBack
 	std::function<void(ICollider&)> onCollisionEnter_;
 	std::function<void(ICollider&)> onCollisionStay_;
 	std::function<void(ICollider&)> onCollisionExit_;

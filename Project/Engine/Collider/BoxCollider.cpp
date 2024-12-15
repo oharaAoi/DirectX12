@@ -1,19 +1,24 @@
 #include "BoxCollider.h"
+#include <assert.h>
 
-bool IsCollision(const AABB& aabb, const Vector3& point) {
-    Vector3 closestPoint{
-		std::clamp(point.x, aabb.min.x, aabb.max.x),
-		std::clamp(point.y, aabb.min.y, aabb.max.y),
-		std::clamp(point.z, aabb.min.z, aabb.max.z)
-	};
+BoxCollider::BoxCollider() {}
+BoxCollider::~BoxCollider() {}
 
-	// 最近傍点ト球の中心の距離を求める
-	float distance = Length(closestPoint - point);
+void BoxCollider::Init(const std::string& tag, ColliderShape shape) {
+	tag_ = tag;
+	collisionState_ = CollisionFlags::NONE;
 
-	// 距離が半径よりも小さければ衝突
-	if (distance <= 0.01f) {
-		return true;
+	if (shape == ColliderShape::AABB) {
+		shape_ = AABB{ .min = Vector3::ZERO() * -1.0f, .max = Vector3::ZERO() };
+	} else if(shape == ColliderShape::OBB) {
+		shape_ = OBB{ .center = Vector3::ZERO(), .size = Vector3::ZERO() };
+	} else {
+		assert("not AABB or OBB Shape");
 	}
+}
 
-	return false;
+void BoxCollider::Update() {
+}
+
+void BoxCollider::Draw() const {
 }

@@ -253,12 +253,6 @@ std::unique_ptr<Sprite> Engine::CreateSprite(const std::string& fileName) {
 	return sprite;
 }
 
-std::unique_ptr<Sphere> Engine::CreateSphere(const uint32_t& devision) {
-	std::unique_ptr<Sphere> sphere = std::make_unique<Sphere>();
-	sphere->Init(dxDevice_->GetDevice(), devision);
-	return sphere;
-}
-
 std::unique_ptr<Model> Engine::CreateModel(const std::string& directoryPath, const std::string& filePath) {
 	std::unique_ptr<Model> model = std::make_unique<Model>();
 	model->Init(dxDevice_->GetDevice(), directoryPath, filePath);
