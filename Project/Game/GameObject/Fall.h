@@ -35,6 +35,8 @@ public:
 		end_ = { x, 16.0f, 12.0f };
 	}
 
+	void SetTutorialMode() { appearTime_ = 0.0f; }
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif

@@ -87,5 +87,6 @@ private:
 	std::unique_ptr<AudioPlayer> bgm_;
 
 	bool isNextScene_ = false;
+	bool startFall_ = true;
 };
 

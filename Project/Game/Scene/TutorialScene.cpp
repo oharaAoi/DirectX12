@@ -58,15 +58,14 @@ void TutorialScene::Init() {
 
 	fall_ = std::make_unique<Fall>();
 	fall_->Init();
-	fall_->SetAppear(true);
 	fall_->SetPlayer(player_.get());
 	fall_->GetTransform()->SetTranslaion({ 10.0f, 20.0f, 12.0f });
 	fall_->SetInitPosX(12.0f);
 	
 	fallStone_ = std::make_unique<FallStone>();
 	fallStone_->Init();
-	fallStone_->SetAppear(true);
 	fallStone_->SetInitPosX(12.0f);
+
 
 	// -------------------------------------------------
 	// ↓ Managerの初期化
@@ -109,6 +108,7 @@ void TutorialScene::Init() {
 	followCamera_->SetTarget(player_->GetTransform());
 	Input::SetNotAccepted(false);
 	panel_->SetBlackOutOpen();
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,6 +116,14 @@ void TutorialScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TutorialScene::Update() {
+
+	if ( player_->GetTransform()->GetTranslation().x >= -7.0f && startFall_) {
+		fall_->SetAppear(true);
+		fall_->SetTutorialMode();
+		fallStone_->SetAppear(true);
+		fallStone_->SetTutorialMode();
+		startFall_ = false;
+	}
 
 	skydome_->Update();
 	field_->Update();
