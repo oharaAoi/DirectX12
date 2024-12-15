@@ -45,7 +45,7 @@ public:
 	/// <summary>
 	/// 初期化関数
 	/// </summary>
-	void Init(WNDCLASS wCalss, HWND hwnd);
+	void Init(WNDCLASS wCalss, const HWND& hwnd);
 
 	/// <summary>
 	/// 更新処理
@@ -58,11 +58,11 @@ public:
 	/// シングルトンインスタンスの取得
 	/// </summary>
 	/// <returns></returns>
-	static  Input* GetInstance();
+	static Input* GetInstance();
 
 	static BYTE GetKey(uint8_t keyNum) { return key_[keyNum]; }
 
-public:
+private :
 	/// <summary>
 	/// キーボードの初期化
 	/// </summary>
@@ -81,6 +81,12 @@ public:
 	/// ゲームパッドの初期化
 	/// </summary>
 	void GamePadInitialize();
+
+	/// <summary>
+	/// マウスがクライアント領域の中にいるかの確認
+	/// </summary>
+	/// <returns></returns>
+	bool CheckMouseInsideClient();
 
 public: // 入力
 
@@ -167,5 +173,7 @@ private:
 
 	// 入力を受け付けない用にする
 	static bool notAccepted_;
+
+	HWND hwnd_;
 
 };
