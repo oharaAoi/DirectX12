@@ -1,4 +1,5 @@
 #include "Input.h"
+#include "Enviroment.h"
 
 BYTE Input::key_[256];
 BYTE Input::preKey_[256];
@@ -13,11 +14,6 @@ XINPUT_STATE Input::preGamepadState_;
 
 bool Input::notAccepted_ = false;
 
-Input* Input::GetInstance() {
-	static Input instance;
-	return &instance;
-}
-
 Input::Input() {
 }
 
@@ -27,10 +23,17 @@ Input::~Input() {
 	mouse_.Reset();
 }
 
+Input* Input::GetInstance() {
+	static Input instance;
+	return &instance;
+}
+
 //=================================================================================================================
 //	↓　初期化
 //=================================================================================================================
-void Input::Init(WNDCLASS wCalss, HWND hwnd) {
+void Input::Init(WNDCLASS wCalss, const HWND& hwnd) {
+	hwnd_ = hwnd;
+
 	HRESULT result;
 	// -------------------------- DirectInputの初期化 -------------------------- //
 	result = DirectInput8Create(wCalss.hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput_, nullptr);
@@ -71,7 +74,12 @@ void Input::Update() {
 		keyboard_->Acquire();
 		keyboard_->GetDeviceState(sizeof(key_), key_);
 	}
-	mouse_->GetDeviceState(sizeof(DIMOUSESTATE), &currentMouse_);
+
+	if (CheckMouseInsideClient()) {
+		mouse_->GetDeviceState(sizeof(DIMOUSESTATE), &currentMouse_);
+	} else {
+		ZeroMemory(&currentMouse_, sizeof(currentMouse_));
+	}
 
 	GetCursorPos(&mousePoint_);
 	ScreenToClient(FindWindowA("CG2", nullptr), &mousePoint_);
@@ -125,6 +133,24 @@ void Input::GamePadInitialize() {
 	preGamepadState_ = gamepadState_;
 	ZeroMemory(&gamepadState_, sizeof(XINPUT_STATE));
 	XInputGetState(0, &gamepadState_);
+}
+
+//=================================================================================================================
+//	↓　マウスがクライアント領域の中にいるかの確認
+//=================================================================================================================
+bool Input::CheckMouseInsideClient() {
+	RECT clientRect;
+	
+	// クライアント領域を取得
+	GetClientRect(hwnd_, &clientRect);
+	ClientToScreen(hwnd_, (POINT*)&clientRect.left);
+	ClientToScreen(hwnd_, (POINT*)&clientRect.right);
+
+	Vector2 mousePos = GetMousePosition();
+
+	// マウスがクライアント領域内にあるか確認
+	return (mousePos.x >= clientRect.left && mousePos.x <= clientRect.right &&
+			mousePos.y >= clientRect.top && mousePos.y <= clientRect.bottom);
 }
 
 //=================================================================================================================
