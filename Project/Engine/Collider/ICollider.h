@@ -27,7 +27,7 @@ public:
 	virtual ~ICollider() = default;
 
 	virtual void Init(const std::string& tag, ColliderShape shape) = 0;
-	virtual void Update() {};
+	virtual void Update(const SRT& srt) = 0;
 	virtual void Draw() const {};
 
 public:
@@ -107,7 +107,7 @@ protected:
 	std::variant<Sphere, AABB, OBB> shape_;
 	// 当たり判定の状態
 	int collisionState_;
-
+	
 	// 衝突時のcallBack
 	std::function<void(ICollider&)> onCollisionEnter_;
 	std::function<void(ICollider&)> onCollisionStay_;

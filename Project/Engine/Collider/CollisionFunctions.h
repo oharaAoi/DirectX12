@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Math/MathStructures.h"
+#include <variant>
 
 //================================================================================================//
 //									当たり判定の関数群												　//
@@ -66,3 +67,6 @@ bool CheckCollision(const Sphere& sphere, const OBB& obb);
 
 bool CheckCollision(const OBB& obb, const AABB& aabb);
 bool CheckCollision(const AABB& aabb, const OBB& obb);
+
+bool CheckCollision(const std::variant<Sphere, AABB, OBB>& shape1,
+                    const std::variant<Sphere, AABB, OBB>& shape2);

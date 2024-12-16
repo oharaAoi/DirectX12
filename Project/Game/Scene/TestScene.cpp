@@ -27,6 +27,9 @@ void TestScene::Init() {
 	testObjA_->Init();
 	testObjB_->Init();
 
+	testObjA_->SetCollider("testA", ColliderShape::SPHERE);
+	testObjB_->SetCollider("testB", ColliderShape::OBB);
+
 	testObjA_->SetObject("simpleSkin.gltf");
 	testObjA_->SetAnimater("./Engine/Resources/Animation/", "simpleSkin.gltf", true, true, false);
 	testObjA_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
@@ -84,8 +87,8 @@ void TestScene::Update() {
 	testObjB_->Update();
 
 	collisionManager_->Reset();
-	collisionManager_->AddCollider(testObjA_->GetMeshCollider());
-	collisionManager_->AddCollider(testObjB_->GetMeshCollider());
+	collisionManager_->AddCollider(testObjA_->GetCollider());
+	collisionManager_->AddCollider(testObjB_->GetCollider());
 	collisionManager_->CheckAllCollision();
 
 	// -------------------------------------------------
@@ -95,6 +98,10 @@ void TestScene::Update() {
 }
 
 void TestScene::Draw() const {
+	// primitive
+	testObjA_->Debug_Draw();
+	testObjB_->Debug_Draw();
+
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
 	testObjA_->Draw();

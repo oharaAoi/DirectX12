@@ -145,6 +145,10 @@ Matrix4x4 Render::GetProjection3D() {
 	return viewProjection_->GetProjectionMatrix();
 }
 
+Matrix4x4 Render::GetViewProjectionMat() {
+	return viewProjection_->GetViewMatrix() * viewProjection_->GetProjectionMatrix();
+}
+
 float Render::GetNearClip() {
 	return nearClip_;
 }

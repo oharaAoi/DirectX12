@@ -4,6 +4,15 @@
 #include "Engine/Math/Quaternion.h"
 
 /// <summary>
+/// 拡縮、回転、移動
+/// </summary>
+struct SRT {
+	Vector3 scale;
+	Quaternion rotate;
+	Vector3 translate;
+};
+
+/// <summary>
 /// 球
 /// </summary>
 struct Sphere {

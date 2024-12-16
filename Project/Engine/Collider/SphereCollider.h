@@ -9,7 +9,7 @@ public:
 	~SphereCollider();
 
 	void Init(const std::string& tag, ColliderShape shape) override;
-	void Update() override;
+	void Update(const SRT& srt) override;
 	void Draw() const override;
 
 public:
@@ -19,6 +19,7 @@ public:
 	float GetRadius() const { return std::get<Sphere>(shape_).radius; }
 
 private:
+
 
 
 };

@@ -151,7 +151,7 @@ bool CheckCollisionOBBandSphere(const OBB& obb, const Sphere& sphere) {
 	Matrix4x4 matTranslate = obb.center.MakeTranslateMat();
 	// ワールド行列を作成
 	Matrix4x4 obbMatWorld = rotateMatrix * matTranslate;
-	Matrix4x4 obbMatWorldInverse = Inverse(obbMatWorld);
+	Matrix4x4 obbMatWorldInverse = obbMatWorld.Inverse();
 
 	// 中心点を作成
 	Vector3 centerInOBBLocal = Transform(sphere.center, obbMatWorldInverse);
@@ -204,4 +204,12 @@ bool CheckCollision(const OBB& obb, const AABB& aabb) {
 }
 bool CheckCollision(const AABB& aabb, const OBB& obb) {
 	return CheckCollisionAABBandOBB(obb, aabb);
+}
+
+bool CheckCollision(const std::variant<Sphere, AABB, OBB>& shape1, const std::variant<Sphere, AABB, OBB>& shape2) {
+	return std::visit(
+		[](const auto& lhs, const auto& rhs) {
+			return CheckCollision(lhs, rhs); // 各組み合わせの CheckCollision を呼び出す
+		},
+		shape1, shape2);
 }
