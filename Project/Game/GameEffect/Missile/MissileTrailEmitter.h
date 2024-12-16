@@ -3,10 +3,9 @@
 #include "Engine/Engine.h"
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/Vector4.h"
-#include "Engine/Math/Matrix4x4.h"
 #include "Engine/Utilities/DirectXUtils.h"
 
-class GpuEmitter {
+class MissileTrailEmitter {
 public:
 
 	struct SphereEmitter {
@@ -24,6 +23,12 @@ public:
 		float pad[2];
 	};
 
+	struct EmitterParameter {
+		Vector3 velocity;	// 速度
+		float speed;		// 移動速度
+		float lifeTime;		// 生存時間
+	};
+
 	struct PerFrame {
 		float time;
 		float deltaTime;
@@ -31,20 +36,32 @@ public:
 
 public:
 
-	GpuEmitter();
-	~GpuEmitter();
+	MissileTrailEmitter();
+	~MissileTrailEmitter();
 
 	void Init();
 	void Update();
 	void BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
 
+public:
+
+	void SetEmitterPos(const Vector3& pos) { emitter_->translate = pos; }
+	void SetEmitterColor(const Vector4& color) { emitter_->color = color; }
+
+	const bool GetIsDead() const { return isDead_; }
+
 private:
 
 	ComPtr<ID3D12Resource> emitterBuffer_;
-	SphereEmitter* sphereEmitter_;
+	SphereEmitter* emitter_;
 
 	ComPtr<ID3D12Resource> perFrameBuffer_;
 	PerFrame* perFrame_;
+
+	EmitterParameter emitterParameter_;
+	float lifeTime_;
+	bool isMove_ = false;
+	bool isDead_;
 
 };
 

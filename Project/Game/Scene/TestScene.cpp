@@ -31,8 +31,8 @@ void TestScene::Init() {
 	collisionManager_->Init();
 
 	// Effect -------------------------------------------------------------------
-	//gpuEffect_ = std::make_unique<GpuEffect>();
-	//gpuEffect_->Init();
+	testEffect_ = std::make_unique<MissileTrail>();
+	testEffect_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ void TestScene::Update() {
 	testObjA_->Update();
 	testObjB_->Update();
 
-	//gpuEffect_->Update();
+	testEffect_->Update();
 
 	collisionManager_->Reset();
 	collisionManager_->AddCollider(testObjA_->GetMeshCollider());
@@ -83,7 +83,7 @@ void TestScene::Draw() const {
 
 	testObjB_->Draw();
 
-	//gpuEffect_->Draw();
+	testEffect_->Draw();
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	

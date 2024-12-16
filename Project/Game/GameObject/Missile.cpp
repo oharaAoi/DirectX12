@@ -30,7 +30,7 @@ void Missile::Init() {
 
 	moveT_ = 0.0f;
 	nextMoveT_ = 0.0f;
-	speed_ = 5.0f;
+	speed_ = 8.0f;
 
 	reticleObj_ = std::make_unique<BaseGameObject>();
 	reticleObj_->Init();

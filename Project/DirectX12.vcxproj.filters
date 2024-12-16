@@ -621,6 +621,12 @@
     <ClCompile Include="Game\UI\ClutchGauge.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Game\GameEffect\Missile\MissileTrail.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameEffect\Missile\MissileTrailEmitter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -1151,6 +1157,12 @@
     <ClInclude Include="Game\UI\ClutchGauge.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Game\GameEffect\Missile\MissileTrail.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameEffect\Missile\MissileTrailEmitter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
@@ -1241,5 +1253,6 @@
     <None Include="Game\Resources\Model\Right_Hand\Right_Hand.bin">
       <Filter>リソース ファイル</Filter>
     </None>
+    <None Include="Engine\HLSL\Random.hlsli" />
   </ItemGroup>
 </Project>

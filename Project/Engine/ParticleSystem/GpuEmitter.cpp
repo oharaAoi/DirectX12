@@ -16,12 +16,15 @@ void GpuEmitter::Init() {
 	perFrameBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
 
+	sphereEmitter_->rotate = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 	sphereEmitter_->translate = Vector3::ZERO();
-	sphereEmitter_->radius = 1.0f;
 	sphereEmitter_->frequency = 0.5f;
 	sphereEmitter_->frequencyTime = 0.0f;
-	sphereEmitter_->count = 10;
+	sphereEmitter_->count = 5;
 	sphereEmitter_->emit = 0;
+	sphereEmitter_->speed = 1.0f;
+	sphereEmitter_->radius = 1.0f;
+	sphereEmitter_->color = Vector4(1, 1, 1, 1);
 }
 
 void GpuEmitter::Update() {
