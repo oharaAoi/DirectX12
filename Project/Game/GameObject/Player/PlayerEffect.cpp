@@ -143,15 +143,15 @@ void PlayerEffect::EmitFragment(Vector3 pos,Vector2 dir) {
 			continue;
 		}
 
-		float xRand = RandomFloat(8.0f, 12.0f);
-		float yRand = RandomFloat(-4.0f, 4.0f);
-		float zRand = RandomFloat(-10.0f, 20.0f);
+		float xRand = RandomFloat(14.0f, 20.0f);
+		float yRand = RandomFloat(-5.0f, 5.0f);
+		float zRand = RandomFloat(-10.0f, 10.0f);
 		if (dir.x == -1) {
 
 		}if (dir.x == 1) {
-			xRand = RandomFloat(-12.0f, -8.0f);
-			yRand = RandomFloat(-4.0f, 4.0f);
-			zRand = RandomFloat(-10.0f, 20.0f);
+			xRand = RandomFloat(-20.0f, -14.0f);
+			yRand = RandomFloat(-5.0f, 5.0f);
+			zRand = RandomFloat(-10.0f, 10.0f);
 		}
 		if (dir.y == -1) {
 			xRand = RandomFloat(-4.0f, 4.0f);
@@ -165,17 +165,22 @@ void PlayerEffect::EmitFragment(Vector3 pos,Vector2 dir) {
 		p->lifeTime_ = 0.36f;
 
 		if (count <10) {
-			p->velocity_ = { -xRand,yRand,zRand };
-			p->endVelo_ = { -xRand,yRand,zRand };
+			p->velocity_ = { -xRand*0.7f,yRand,zRand };
+			p->endVelo_ = { -xRand*0.7f,yRand,zRand };
+		}
+		else if(count <=25) {
+			p->velocity_ = { xRand*1.1f,yRand*1.2f,zRand };
+			p->endVelo_ = { xRand*1.1f,yRand*1.2f,zRand };
 		}
 		else {
-			p->velocity_ = { xRand,yRand,zRand };
-			p->endVelo_ = { xRand,yRand,zRand };
+			p->velocity_ = { (-xRand * 0.45f),yRand * 3.5f,zRand*1.3f };
+			p->endVelo_ = { (-xRand * 0.45f),yRand * 3.5f,zRand*1.3f };
+			p->grain_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 		}
 		p->startVelo_ = { 0.0f,0.0f,0.0f };
 		
 
-		p->startSize_ = { 0.1f,0.1f,0.1f };
+		p->startSize_ = { 0.15f,0.15f,0.15f };
 		p->endSize_ = { 0.8f,0.8f,0.8f };
 		p->live_ = true;
 
@@ -185,10 +190,14 @@ void PlayerEffect::EmitFragment(Vector3 pos,Vector2 dir) {
 		p->grain_->GetTransform()->SetTranslaion(pos);
 		p->grain_->SetColor({ 1.0f,0.8f,0.0f,1.0f });
 
+		if (count > 25) {
+			p->grain_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
+		}
+
 		p->grain_->Update();
 
 		count++;
-		if (count == 25) {
+		if (count == 40) {
 			return;
 		}
 	}
