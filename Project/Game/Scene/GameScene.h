@@ -26,6 +26,7 @@
 #include "Game/Manager/GameObjectManager.h"
 #include "Engine/Audio/AudioPlayer.h"
 #include "Game/UI/ClutchGauge.h"
+#include "Game/Manager/GameEffectManager.h"
 
 class GameScene 
 	: public BaseScene {
@@ -108,6 +109,8 @@ private:
 	GameObjectManager* gameObjectManager_;
 
 	AnimetionEffectManager* animationEffectManager_;
+
+	GameEffectManager* gameEffectManager_;
 
 	// --- UI -------------------------------------- //
 	std::unique_ptr<PlayerUI> playerUI_;

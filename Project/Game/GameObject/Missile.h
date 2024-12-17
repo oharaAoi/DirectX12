@@ -2,6 +2,7 @@
 #include "Game/GameObject/CanThrowObject.h"
 #include "Engine/Math/MyMath.h"
 #include "Game/UI/Missile/MissileHitPoint.h"
+#include "Game/GameEffect/Missile/MissileTrail.h"
 
 /// <summary>
 /// ミサイルオブジェクト
@@ -71,5 +72,7 @@ private:
 	// -------------------------------------------------
 
 	std::unique_ptr<MissileHitPoint> hitPoint_;
+
+	std::unique_ptr<MissileTrail> trail_;
 };
 

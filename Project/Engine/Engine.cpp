@@ -137,10 +137,10 @@ void Engine::BeginFrame() {
 	Render::Begin();
 	input_->Update();
 
-	/*if (Input::IsTriggerKey(DIK_F11)) {
+	if (Input::IsTriggerKey(DIK_F11)) {
 		isFullScreen_ = !isFullScreen_;
 		WinApp::GetInstance()->SetFullScreen(isFullScreen_);
-	}*/
+	}
 
 #ifdef _DEBUG
 	DrawImGui();

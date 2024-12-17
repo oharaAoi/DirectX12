@@ -11,6 +11,7 @@ struct Particle {
 
 struct SphereEmitter {
 	float4 rotate;			// 回転(Quaternion)
+	float3 scale;			// 拡縮
 	float3 translate;		// 位置
 	int shape;				// emitterの形
 	int count;				// 射出数
@@ -21,6 +22,7 @@ struct SphereEmitter {
 	float speed;			// 速度
 	float radius;			// 半径
 	int emissionType;		// 放射の種類
+	float lifeTime;			// particleのLifeTime
 };
 struct PerFrame {
 	float time;
@@ -67,11 +69,11 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				int particleIndex = gFreeListIndex[freeListIndex];
 				gParticles[particleIndex] = (Particle) 0;
 				//gParticles[particleIndex].scale = generator.Generated3d();
-				gParticles[particleIndex].scale = float3(1, 1, 1);
+				gParticles[particleIndex].scale = gEmitter.scale;
 				gParticles[particleIndex].translate = gEmitter.translate + generator.Generated3d();
 				gParticles[particleIndex].color.rgb = gEmitter.color.rgb;
 				gParticles[particleIndex].color.a = 1.0f;
-				gParticles[particleIndex].lifeTime = 5.0f;
+				gParticles[particleIndex].lifeTime = gEmitter.lifeTime;
 				gParticles[particleIndex].currentTime = 0.0f;
 				
 				float3 randomPos = generator.Generated3d();

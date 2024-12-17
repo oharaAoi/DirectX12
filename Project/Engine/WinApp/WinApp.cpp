@@ -107,6 +107,9 @@ void WinApp::SetFullScreen(bool fullscreen) {
 				fullscreenRect.bottom, SWP_FRAMECHANGED | SWP_NOACTIVATE);
 			ShowWindow(hwnd_, SW_MAXIMIZE);
 
+			offsetMousePosition_.x = windowRect_.left - info.rcMonitor.left;
+			offsetMousePosition_.y = windowRect_.top - info.rcMonitor.top;
+
 		} else {
 			// 通常ウィンドウに戻す
 			SetWindowLong(hwnd_, GWL_STYLE, windowStyle_);

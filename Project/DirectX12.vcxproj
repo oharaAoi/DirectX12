@@ -219,6 +219,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\Editer\BossAttackEditer.cpp" />
+    <ClCompile Include="Game\GameEffect\IGameEffect.cpp" />
     <ClCompile Include="Game\GameEffect\Missile\MissileTrail.cpp" />
     <ClCompile Include="Game\GameEffect\Missile\MissileTrailEmitter.cpp" />
     <ClCompile Include="Game\GameObject\Bomb.cpp" />
@@ -255,6 +256,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameObject\State\PlayerRootState.cpp" />
     <ClCompile Include="Game\GameResources.cpp" />
     <ClCompile Include="Game\Manager\AnimetionEffectManager.cpp" />
+    <ClCompile Include="Game\Manager\GameEffectManager.cpp" />
     <ClCompile Include="Game\Manager\GameObjectManager.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameClearScene.cpp" />
@@ -397,6 +399,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Camera\DebugCamera.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
     <ClInclude Include="Game\Editer\BossAttackEditer.h" />
+    <ClInclude Include="Game\GameEffect\IGameEffect.h" />
     <ClInclude Include="Game\GameEffect\Missile\MissileTrail.h" />
     <ClInclude Include="Game\GameEffect\Missile\MissileTrailEmitter.h" />
     <ClInclude Include="Game\GameObject\Bomb.h" />
@@ -433,6 +436,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\GameObject\State\PlayerRootState.h" />
     <ClInclude Include="Game\GameResources.h" />
     <ClInclude Include="Game\Manager\AnimetionEffectManager.h" />
+    <ClInclude Include="Game\Manager\GameEffectManager.h" />
     <ClInclude Include="Game\Manager\GameObjectManager.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />

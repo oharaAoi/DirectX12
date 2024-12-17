@@ -1,6 +1,7 @@
 #include "Missile.h"
 #include "Engine/Math/MyRandom.h"
 #include "Engine/Audio/AudioPlayer.h"
+#include "Game/Manager/GameEffectManager.h"
 
 Missile::Missile() {}
 Missile::~Missile() {}
@@ -44,6 +45,11 @@ void Missile::Init() {
 	// -------------------------------------------------
 	hitPoint_ = std::make_unique<MissileHitPoint>();
 	hitPoint_->Init();
+
+	trail_ = std::make_unique<MissileTrail>();
+	trail_->Init();
+
+	GameEffectManager::AddEffect(trail_.get());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +120,11 @@ void Missile::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Missile::Draw() const {
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	BaseGameObject::Draw();
+
+	Engine::SetPipeline(PipelineType::ParticlePipeline);
+	trail_->Draw();
 }
 
 void Missile::DrawReticle() {

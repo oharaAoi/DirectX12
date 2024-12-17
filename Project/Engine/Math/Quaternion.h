@@ -108,6 +108,11 @@ public:
 
 	Quaternion operator*(const Quaternion& q2) const;
 	Vector3 operator*(const Vector3& v);
+
+	operator Vector4() const {
+		return Vector4(x, y, z, w);
+	}
+
 	
 public:
 

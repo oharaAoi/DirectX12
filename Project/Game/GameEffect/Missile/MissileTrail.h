@@ -1,24 +1,21 @@
 #pragma once
-#include <memory>
-#include "Engine/ParticleSystem/GpuParticle.h"
+#include "Game/GameEffect/IGameEffect.h"
 #include "Game/GameEffect/Missile/MissileTrailEmitter.h"
 
-class MissileTrail {
+class MissileTrail : public IGameEffect {
 public:
 
 	MissileTrail();
 	~MissileTrail();
 
-	void Init();
-	void Update();
-	void Draw() const;
+	void Init() override;
+	void Update() override;
+	void Draw() const override;
 
-	void Dispatch(ID3D12GraphicsCommandList* commandList, const Vector3& group);
+	MissileTrailEmitter* GetEmitter() { return gpuEmitter_.get(); }
 
 private:
-
 	std::unique_ptr<GpuParticle> gpuParticle_;
 	std::unique_ptr<MissileTrailEmitter> gpuEmitter_;
-
 };
 

@@ -1,5 +1,6 @@
 #include "Input.h"
 #include "Enviroment.h"
+#include "Engine/WinApp/WinApp.h"
 
 BYTE Input::key_[256];
 BYTE Input::preKey_[256];
@@ -83,6 +84,23 @@ void Input::Update() {
 
 	GetCursorPos(&mousePoint_);
 	ScreenToClient(FindWindowA("CG2", nullptr), &mousePoint_);
+
+	if (WinApp::GetInstance()->GetIsFullScreen()) {
+		// クライアント領域を取得
+		RECT clientRect{};
+		GetClientRect(WinApp::GetInstance()->GetHwnd(), &clientRect);
+
+		// マウス座標をクライアント領域の解像度で正規化
+		float normalizedX =
+			(mousePoint_.x - clientRect.left) / static_cast<float>(clientRect.right - clientRect.left);
+		float normalizedY =
+			(mousePoint_.y - clientRect.top) / static_cast<float>(clientRect.bottom - clientRect.top);
+
+		// SwapChainのバックバッファ解像度に変換
+		mousePoint_.x = static_cast<LONG>(normalizedX * kWindowWidth_);
+		mousePoint_.y = static_cast<LONG>(normalizedY * kWindowHeight_);
+
+	}
 
 	GamePadInitialize();
 }
