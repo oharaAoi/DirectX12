@@ -106,6 +106,9 @@ void GameScene::Init() {
 	bossHpUI_ = std::make_unique<BossHpUI>(boss_.get());
 	bossHpUI_->Init();
 
+	bossCorePullUI_ = std::make_unique<BossCorePullUI>();
+	bossCorePullUI_->Init();
+
 	clutchGauge_ = std::make_unique<ClutchGauge>();
 	clutchGauge_->Init();
 
@@ -362,21 +365,21 @@ void GameScene::Draw() const {
 	bossUI_->Draw3dObject(player_->GetCanBossAttack(), isPullSign);
 	fall_->DrawUI3D();
 
-
+	if (boss_->GetBossCore()->GetIsClutched() && boss_->GetBossCore()->GetCoreState() == CoreState::Default) {
+		bossCorePullUI_->Draw();
+	}
+	
 	Engine::ClearRenderTarget();
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	if (finishAppear_) {
 		bossHpUI_->Draw();
 	}
 
-
-
 	for (const auto& missile : missileList_) {
 		missile->DrawReticle();
 	}
 
 	boss_->DrawUI();
-
 	playerUI_->Draw();
 }
 
@@ -451,6 +454,8 @@ void GameScene::UpdateUI() {
 	if (finishAppear_) {
 		bossHpUI_->Update(boss_->GetBossHp());
 	}
+
+	bossCorePullUI_->Update(boss_->GetBossCore()->GetEnergy(), boss_->GetBossCore()->GetEnergyMax());
 
 	for (auto& missile : missileList_) {
 		missile->UpdateUI(followCamera_->GetVpvpMatrix());
@@ -627,6 +632,7 @@ void GameScene::Debug_Gui() {
 			bossUI_->Debug_Gui();
 			bossHpUI_->Debug_Gui();
 			playerUI_->Debug_Gui();
+			bossCorePullUI_->Debug_Gui();
 			ImGui::TreePop();
 		}
 	}

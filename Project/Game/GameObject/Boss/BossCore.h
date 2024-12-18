@@ -94,7 +94,7 @@ private:
 	float moveTime_ = 0.0f;
 
 	float energy_ = 0.0f;
-	float canFallEnergy = 50.0f;
+	float canFallEnergy = 30.0f;
 	bool isNear_ = false;
 	bool isFalling_ = false;
 	bool isFalsePullBack_ = false;

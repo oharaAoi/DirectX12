@@ -58,6 +58,7 @@ void BossCore::Init() {
 void BossCore::Update() {
 
 	CheckRequest();
+	isClutched_ = false;
 
 	if (isNear_) {
 		SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));

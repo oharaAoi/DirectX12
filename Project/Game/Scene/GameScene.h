@@ -21,6 +21,7 @@
 #include "Game/UI/Player/PlayerUI.h"
 #include "Game/UI/Boss/BossUI.h"
 #include "Game/UI/Boss/BossHpUI.h"
+#include "Game/UI/Boss/BossCorePullUI.h"
 #include "Game/UI/Panel.h"
 #include "Game/Manager/AnimetionEffectManager.h"
 #include "Game/Manager/GameObjectManager.h"
@@ -119,6 +120,8 @@ private:
 	std::unique_ptr<Panel> panel_;
 
 	std::unique_ptr<BossHpUI> bossHpUI_;
+
+	std::unique_ptr<BossCorePullUI> bossCorePullUI_;
 
 	std::unique_ptr<ClutchGauge> clutchGauge_;
 	
