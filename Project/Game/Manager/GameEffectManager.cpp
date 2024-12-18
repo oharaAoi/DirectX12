@@ -11,12 +11,16 @@ GameEffectManager* GameEffectManager::GetInstance() {
 
 void GameEffectManager::Finalize() {
 	effectList_.clear();
+	newEffectList_.clear();
+	gpuParticle_.reset();
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameEffectManager::Init() {
+	gpuParticle_ = std::make_unique<GpuParticle>();
+	gpuParticle_->Init("cube.obj", 1024 * 2);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,9 +28,24 @@ void GameEffectManager::Init() {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameEffectManager::Update() {
+	effectList_.remove_if([](auto& effect) {
+		return effect->GetIsDead();
+						  });
+
+	newEffectList_.remove_if([](auto& effect) {
+		return effect->GetIsDead();
+						  });
+
+
 	for (auto& effect : effectList_) {
-		effect->Update();
+		effect->Update(gpuParticle_.get());
 	}
+
+	for (auto& effect : newEffectList_) {
+		effect->Update(gpuParticle_.get());
+	}
+
+	gpuParticle_->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,17 +54,20 @@ void GameEffectManager::Update() {
 
 void GameEffectManager::Draw() {
 	Engine::SetPipeline(PipelineType::ParticlePipeline);
-	for (const auto& effect : effectList_) {
-		effect->Draw();
-	}
+	gpuParticle_->Draw(Engine::GetCommandList());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameEffectManager::AddEffect(IGameEffect* gameEffect) {
-	GetInstance()->AddEffectList(gameEffect);
+void GameEffectManager::AddEffect(IGameEffect* gameEffect, const Vector3& pos, WorldTransform* worldTransform) {
+	GetInstance()->AddEffectList(gameEffect, pos, worldTransform);
+}
+
+void GameEffectManager::AddNewEffect(std::unique_ptr<IGameEffect> gameEffect, const Vector3& pos, WorldTransform* worldTransform) {
+	GetInstance()->AddNewEffectList(std::move(gameEffect), pos, worldTransform);
+
 }
 
 //================================================================================================//
@@ -54,6 +76,20 @@ void GameEffectManager::AddEffect(IGameEffect* gameEffect) {
 // 
 //================================================================================================//
 
-void GameEffectManager::AddEffectList(IGameEffect* gameEffect) {
-	effectList_.emplace_back(gameEffect);
+void GameEffectManager::AddEffectList(IGameEffect* gameEffect, const Vector3& pos, WorldTransform* worldTransform) {
+	auto& newEffect = effectList_.emplace_back(gameEffect);
+	newEffect->SetEmitPos(pos);
+	newEffect->Init();
+	if (worldTransform != nullptr) {
+		newEffect->SetParentWorldTransform(worldTransform);
+	}
+}
+
+void GameEffectManager::AddNewEffectList(std::unique_ptr<IGameEffect> gameEffect, const Vector3& pos, WorldTransform* worldTransform) {
+	auto& newEffect = newEffectList_.emplace_back(std::move(gameEffect));
+	newEffect->SetEmitPos(pos);
+	newEffect->Init();
+	if (worldTransform != nullptr) {
+		newEffect->SetParentWorldTransform(worldTransform);
+	}
 }

@@ -12,37 +12,30 @@ MissileTrail::~MissileTrail() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void MissileTrail::Init() {
-	gpuParticle_ = std::make_unique<GpuParticle>();
-	gpuParticle_->Init("cube.obj", 1024);
-
 	gpuEmitter_ = std::make_unique<MissileTrailEmitter>();
 	gpuEmitter_->Init();
+	gpuEmitter_->SetEmitterPos(emitPos_);
+
+	isDead_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　更新処理
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MissileTrail::Update() {
-	gpuParticle_->Update();
+void MissileTrail::Update(GpuParticle* gpuParticle) {
+	if (parentWorldTransform_ != nullptr) {
+		gpuEmitter_->SetEmitterPos(Transform(Vector3::ZERO(), parentWorldTransform_->GetWorldMatrix()));
+	}
 
 	if (!gpuEmitter_->GetIsDead()) {
 		gpuEmitter_->Update();
 
 		ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
 		Engine::SetCsPipeline(CsPipelineType::EmitGpuParticle);
-		gpuParticle_->EmitBindCmdList(commandList, 0);
+		gpuParticle->EmitBindCmdList(commandList, 0);
 		gpuEmitter_->BindCmdList(commandList, 2);
 
 		Dispatch(commandList, Vector3(1024 / 1024, 1, 1));
 	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　描画処理
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void MissileTrail::Draw() const {
-	Engine::SetPipeline(PipelineType::ParticlePipeline);
-	gpuParticle_->Draw(Engine::GetCommandList());
 }

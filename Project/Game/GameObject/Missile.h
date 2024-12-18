@@ -3,6 +3,7 @@
 #include "Engine/Math/MyMath.h"
 #include "Game/UI/Missile/MissileHitPoint.h"
 #include "Game/GameEffect/Missile/MissileTrail.h"
+#include "Game/GameEffect/Missile/MissileExprode.h"
 
 /// <summary>
 /// ミサイルオブジェクト
@@ -67,12 +68,13 @@ private:
 	float frequency = 0.8f;
 	float amplitude = 0.1f;
 
+	std::unique_ptr<WorldTransform> missileEngineWorldTransform_;
+
 	// -------------------------------------------------
 	// ↓ 他クラスの情報
 	// -------------------------------------------------
 
 	std::unique_ptr<MissileHitPoint> hitPoint_;
-
-	std::unique_ptr<MissileTrail> trail_;
+	std::unique_ptr<MissileTrail> missileTrail_;
 };
 

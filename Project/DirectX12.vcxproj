@@ -219,7 +219,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\Editer\BossAttackEditer.cpp" />
+    <ClCompile Include="Game\GameEffect\IEmitter.cpp" />
     <ClCompile Include="Game\GameEffect\IGameEffect.cpp" />
+    <ClCompile Include="Game\GameEffect\Missile\MissileExprode.cpp" />
+    <ClCompile Include="Game\GameEffect\Missile\MissileExprodeEmitter.cpp" />
+    <ClCompile Include="Game\GameEffect\Missile\MissileHitExprode.cpp" />
+    <ClCompile Include="Game\GameEffect\Missile\MissileHitExprodeEmitter.cpp" />
     <ClCompile Include="Game\GameEffect\Missile\MissileTrail.cpp" />
     <ClCompile Include="Game\GameEffect\Missile\MissileTrailEmitter.cpp" />
     <ClCompile Include="Game\GameObject\Bomb.cpp" />
@@ -399,7 +404,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Camera\DebugCamera.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
     <ClInclude Include="Game\Editer\BossAttackEditer.h" />
+    <ClInclude Include="Game\GameEffect\IEmitter.h" />
     <ClInclude Include="Game\GameEffect\IGameEffect.h" />
+    <ClInclude Include="Game\GameEffect\Missile\MissileExprode.h" />
+    <ClInclude Include="Game\GameEffect\Missile\MissileExprodeEmitter.h" />
+    <ClInclude Include="Game\GameEffect\Missile\MissileHitExprode.h" />
+    <ClInclude Include="Game\GameEffect\Missile\MissileHitExprodeEmitter.h" />
     <ClInclude Include="Game\GameEffect\Missile\MissileTrail.h" />
     <ClInclude Include="Game\GameEffect\Missile\MissileTrailEmitter.h" />
     <ClInclude Include="Game\GameObject\Bomb.h" />

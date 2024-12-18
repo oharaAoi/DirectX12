@@ -10,15 +10,15 @@ class GpuEmitter {
 public:
 
 	struct SphereEmitter {
-		Vector4 rotate;			// 回転(Quaternion)
-		Vector3 scale;			// 拡縮
+		Vector4 rotate;			// 回転(Quaternion) 16
+		Vector3 scale;			// 拡縮 12
 		float pad1;
-		Vector3 translate;		// 位置
-		uint32_t shape;			// emitterの種類
-		uint32_t count;			// 射出数
-		float frequency;		// 射出間隔
-		float frequencyTime;	// 時間調整用
-		int emit;				// 射出許可
+		Vector3 translate;		// 位置 12
+		uint32_t shape;			// emitterの種類 16
+		uint32_t count;			// 射出数 4
+		float frequency;		// 射出間隔 8
+		float frequencyTime;	// 時間調整用 12
+		int emit;				// 射出許可 16
 		Vector4 color;			// 色
 		float speed;			// 速度
 		float radius;			// 半径

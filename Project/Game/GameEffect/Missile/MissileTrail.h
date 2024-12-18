@@ -9,13 +9,12 @@ public:
 	~MissileTrail();
 
 	void Init() override;
-	void Update() override;
-	void Draw() const override;
-
+	void Update(GpuParticle* gpuParticle) override;
+	
 	MissileTrailEmitter* GetEmitter() { return gpuEmitter_.get(); }
 
 private:
-	std::unique_ptr<GpuParticle> gpuParticle_;
+	
 	std::unique_ptr<MissileTrailEmitter> gpuEmitter_;
 };
 

@@ -9,6 +9,7 @@ GameScene::~GameScene() {
 void GameScene::Finalize() {
 	gameObjectManager_->Finalize();
 	animationEffectManager_->Finalize();
+	gameEffectManager_->Finalize();
 	bgm_->Finalize();
 }
 

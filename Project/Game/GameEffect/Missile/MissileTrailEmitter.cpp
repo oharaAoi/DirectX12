@@ -14,19 +14,17 @@ void MissileTrailEmitter::Init() {
 	sphereEmitter_->translate = Vector3::ZERO();
 	sphereEmitter_->frequency = 0.2f;
 	sphereEmitter_->frequencyTime = 0.0f;
-	sphereEmitter_->count = 5;
+	sphereEmitter_->count = 6;
 	sphereEmitter_->emit = 0;
 	sphereEmitter_->speed = 0.0f;
 	sphereEmitter_->radius = 1.0f;
 	sphereEmitter_->emissionType = 1;
-	sphereEmitter_->lifeTime = 4;
+	sphereEmitter_->lifeTime = 1;
 	sphereEmitter_->color = Vector4(1, 1, 1, 1);
 }
 
 void MissileTrailEmitter::Update() {
 	GpuEmitter::Update();
-
-	Debug_Gui();
 }
 
 void MissileTrailEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {

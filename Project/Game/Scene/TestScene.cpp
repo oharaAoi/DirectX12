@@ -29,10 +29,6 @@ void TestScene::Init() {
 
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
-
-	// Effect -------------------------------------------------------------------
-	testEffect_ = std::make_unique<MissileTrail>();
-	testEffect_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,8 +55,6 @@ void TestScene::Update() {
 	testObjA_->Update();
 	testObjB_->Update();
 
-	testEffect_->Update();
-
 	collisionManager_->Reset();
 	collisionManager_->AddCollider(testObjA_->GetMeshCollider());
 	collisionManager_->AddCollider(testObjB_->GetMeshCollider());
@@ -82,8 +76,6 @@ void TestScene::Draw() const {
 	testObjA_->Draw();
 
 	testObjB_->Draw();
-
-	testEffect_->Draw();
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	

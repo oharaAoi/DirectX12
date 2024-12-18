@@ -21,8 +21,6 @@ void PlayerEffect::Init() {
 		p->grain_->Init();
 		p->grain_->SetObject("prediction.obj");
 
-
-
 		fragument_.push_back(std::move(p));
 	}
 

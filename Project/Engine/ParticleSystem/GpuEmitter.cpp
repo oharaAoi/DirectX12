@@ -4,7 +4,11 @@
 #endif
 
 GpuEmitter::GpuEmitter() {}
-GpuEmitter::~GpuEmitter() {}
+GpuEmitter::~GpuEmitter() {
+	perFrameBuffer_.Reset();
+	emitterBuffer_.Reset();
+	emitterBuffer_.Reset();
+}
 
 void GpuEmitter::Init() {
 	// gpuに送るResourceの作成

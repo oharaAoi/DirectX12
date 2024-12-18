@@ -105,13 +105,18 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	
+	if (textureColor.a <= 0.01f) {
+		discard;
+	}
+	
 	if (gMaterial.enableLighting == 0){
 		output.color = gMaterial.color * textureColor;
-		if (output.color.a == 0.0) {
+		if (output.color.a <= 0.01) {
 			discard;
 		}
 		return output;
 	}
+
 	float3 normal = normalize(input.normal);
 	float3 pointLightDirection = normalize(input.worldPos.xyz - gPointLight.position);
 	float3 toEye = normalize(gDirectionalLight.eyePos - input.worldPos.xyz);
@@ -126,11 +131,6 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	
 	float distance = length(gPointLight.position - input.worldPos.xyz);
 	float factor = pow(saturate(-distance / gPointLight.radius + 1.0f), gPointLight.decay);
-	
-	if (textureColor.a == 0.0) {
-		discard;
-	}
-
 	
 	// --------------------- directional --------------------- //
 	// lambert
@@ -187,11 +187,10 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	output.color.rgb += spotDiffuse + spotSpeculer;
 	//output.color.rgb += limCol;
 	
-	output.color.a = gMaterial.color.a * textureColor.a;
-	
+	output.color.a = textureColor.a * gMaterial.color.a;
 	output.color = clamp(output.color, 0.0f, 1.0f);
 	
-	if (output.color.a == 0.0) {
+	if (output.color.a <= 0.001) {
 		discard;
 	}
 	

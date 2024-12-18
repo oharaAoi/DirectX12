@@ -4,6 +4,11 @@ GpuParticle::GpuParticle() {
 }
 
 GpuParticle::~GpuParticle() {
+	freeList_.Reset();
+	freeListIndex_.Reset();
+	particleBuffer_.Reset();
+	perFrameBuffer_.Reset();
+	perViewBuffer_.Reset();
 }
 
 void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
