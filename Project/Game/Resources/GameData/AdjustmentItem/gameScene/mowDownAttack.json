@@ -15,7 +15,7 @@
         "returnEasing": 0,
         "returnTime": 2.0,
         "swingEasing": 0,
-        "swingTime": 3.0,
+        "swingTime": 2.5,
         "targetPos_left": [
             -20.0,
             6.0,

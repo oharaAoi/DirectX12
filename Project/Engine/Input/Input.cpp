@@ -83,7 +83,7 @@ void Input::Update() {
 	}
 
 	GetCursorPos(&mousePoint_);
-	ScreenToClient(FindWindowA("CG2", nullptr), &mousePoint_);
+	ScreenToClient(WinApp::GetInstance()->GetHwnd(), &mousePoint_);
 
 	if (WinApp::GetInstance()->GetIsFullScreen()) {
 		// クライアント領域を取得
@@ -160,9 +160,9 @@ bool Input::CheckMouseInsideClient() {
 	RECT clientRect;
 	
 	// クライアント領域を取得
-	GetClientRect(hwnd_, &clientRect);
-	ClientToScreen(hwnd_, (POINT*)&clientRect.left);
-	ClientToScreen(hwnd_, (POINT*)&clientRect.right);
+	GetClientRect(WinApp::GetInstance()->GetHwnd(), &clientRect);
+	ClientToScreen(WinApp::GetInstance()->GetHwnd(), (POINT*)&clientRect.left);
+	ClientToScreen(WinApp::GetInstance()->GetHwnd(), (POINT*)&clientRect.right);
 
 	Vector2 mousePos = GetMousePosition();
 
