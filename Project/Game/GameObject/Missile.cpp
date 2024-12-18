@@ -1,6 +1,8 @@
 #include "Missile.h"
 #include "Engine/Math/MyRandom.h"
 #include "Engine/Audio/AudioPlayer.h"
+#include "Game/Manager/GameEffectManager.h"
+#include "Game/GameEffect/Missile/MissileHitExprode.h"
 
 Missile::Missile() {}
 Missile::~Missile() {}
@@ -30,7 +32,7 @@ void Missile::Init() {
 
 	moveT_ = 0.0f;
 	nextMoveT_ = 0.0f;
-	speed_ = 5.0f;
+	speed_ = 8.0f;
 
 	reticleObj_ = std::make_unique<BaseGameObject>();
 	reticleObj_->Init();
@@ -39,17 +41,26 @@ void Missile::Init() {
 	reticleObj_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
 	reticleObj_->GetTransform()->SetScale(Vector3(2.0f, 2.0f, 2.0f));
 
+	missileEngineWorldTransform_ = Engine::CreateWorldTransform();
+	missileEngineWorldTransform_->SetTranslaion(Vector3(0.0f, 0.0f, -1.0f));
+	missileEngineWorldTransform_->SetParent(transform_->GetWorldMatrix());
+
 	// -------------------------------------------------
 	// ↓ 着弾点にUI
 	// -------------------------------------------------
 	hitPoint_ = std::make_unique<MissileHitPoint>();
 	hitPoint_->Init();
+
+	missileTrail_ = std::make_unique<MissileTrail>();
+	missileTrail_->Init();
+
+	GameEffectManager::AddEffect(missileTrail_.get(), Vector3::ZERO(), missileEngineWorldTransform_.get());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
-;
+
 void Missile::Update() {
 	if (isThrowed_) {
 		// lifeTimeの更新をしておく
@@ -78,6 +89,8 @@ void Missile::Update() {
 		nextMoveT_ = moveT_ + (((1.0f / static_cast<float>(kDivision_)) * speed_) * (GameTimer::DeltaTime()));
 		if (nextMoveT_ >= 1.0f) {
 			isAlive_ = false;
+			missileTrail_->SetIsDead(true);
+			GameEffectManager::AddNewEffect(std::make_unique<MissileExprode>(), transform_->GetTranslation());
 			return;
 		}
 
@@ -104,7 +117,11 @@ void Missile::Update() {
 		reticleObj_->GetTransform()->SetTranslaion(transform_->GetTranslation());
 		reticleObj_->Update();
 		//reticleObj_->GetTransform()->SetBillBorad(cameraMat_);
+	} else {
+		missileTrail_->SetIsDead(true);
 	}
+
+	missileEngineWorldTransform_->Update();
 
 	BaseGameObject::Update();
 }
@@ -114,6 +131,7 @@ void Missile::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Missile::Draw() const {
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	BaseGameObject::Draw();
 }
 
@@ -177,6 +195,8 @@ void Missile::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	if (meshCollider_->GetTag() == "missile") {
 		if (other.GetTag() == "player") {
 			isAlive_ = false;
+			missileTrail_->SetIsDead(true);
+			GameEffectManager::AddNewEffect(std::make_unique<MissileHitExprode>(), transform_->GetTranslation());
 			AudioPlayer::SinglShotPlay("fireMissile.mp3", 0.3f);
 		} else if (other.GetTag() == "notCatchWireTip") {
 			// この時点でワイヤーのタグが変わっているためここで処理をする必要がない
@@ -186,14 +206,20 @@ void Missile::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
 	} else if (meshCollider_->GetTag() == "throwMissile") {
 		if (other.GetTag() == "boss_barrier") {
 			isAlive_ = false;
+			missileTrail_->SetIsDead(true);
+			GameEffectManager::AddNewEffect(std::make_unique<MissileHitExprode>(), transform_->GetTranslation());
 			AudioPlayer::SinglShotPlay("fireMissile.mp3", 0.3f);
 		} else if (other.GetTag() == "right_hand" || other.GetTag() == "left_hand") {
 			if (isThrowed_) {
 				isAlive_ = false;
+				missileTrail_->SetIsDead(true);
+				GameEffectManager::AddNewEffect(std::make_unique<MissileHitExprode>(), transform_->GetTranslation());
 				AudioPlayer::SinglShotPlay("fireMissile.mp3", 0.3f);
 			}
 		} else if (other.GetTag() == "boss_body") {
 			isAlive_ = false;
+			missileTrail_->SetIsDead(true);
+			GameEffectManager::AddNewEffect(std::make_unique<MissileHitExprode>(), transform_->GetTranslation());
 			AudioPlayer::SinglShotPlay("fireMissile.mp3", 0.3f);
 		}
 	}

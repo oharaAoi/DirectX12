@@ -5,12 +5,7 @@ struct Material
 	float4 color;
 	int enableLighting;
 	float4x4 uvTransform;
-	
-	// 反射の要素
-	float aldedo;
-	
-	// 屈折率
-	float refractiveIndex;
+	float shininess; // 光沢度
 };
 
 struct DirectionalLight
@@ -59,10 +54,14 @@ PixelShaderOutput main(VertexShaderOutput input)
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	
-	output.color.rgb = textureColor.rgb * gMaterial.color.rgb * input.color.rbg;
-	output.color.a = textureColor.a * input.color.a;
+	if (textureColor.a == 0.0) {
+		discard;
+	}
 	
-	if (output.color.a <= 0.01f){
+	output.color.rgb = textureColor.rgb * gMaterial.color.rgb * input.color.rgb;
+	output.color.a = textureColor.a * gMaterial.color.a * input.color.a;
+	
+	if (output.color.a <= 0.01) {
 		discard;
 	}
 	

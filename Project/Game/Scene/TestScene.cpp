@@ -29,10 +29,6 @@ void TestScene::Init() {
 
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
-
-	// Effect -------------------------------------------------------------------
-	//gpuEffect_ = std::make_unique<GpuEffect>();
-	//gpuEffect_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,8 +55,6 @@ void TestScene::Update() {
 	testObjA_->Update();
 	testObjB_->Update();
 
-	//gpuEffect_->Update();
-
 	collisionManager_->Reset();
 	collisionManager_->AddCollider(testObjA_->GetMeshCollider());
 	collisionManager_->AddCollider(testObjB_->GetMeshCollider());
@@ -82,8 +76,6 @@ void TestScene::Draw() const {
 	testObjA_->Draw();
 
 	testObjB_->Draw();
-
-	//gpuEffect_->Draw();
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	

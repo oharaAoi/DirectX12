@@ -9,6 +9,7 @@ GameScene::~GameScene() {
 void GameScene::Finalize() {
 	gameObjectManager_->Finalize();
 	animationEffectManager_->Finalize();
+	gameEffectManager_->Finalize();
 	bgm_->Finalize();
 }
 
@@ -76,6 +77,9 @@ void GameScene::Init() {
 
 	animationEffectManager_ = AnimetionEffectManager::GetInstance();
 	animationEffectManager_->Init();
+
+	gameEffectManager_ = GameEffectManager::GetInstance();
+	gameEffectManager_->Init();
 
 	// -------------------------------------------------
 	// ↓ Editer初期化
@@ -200,6 +204,8 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	UpdateManager();
 
+	gameEffectManager_->Update();
+
 	if (!finishAppear_) {
 		player_->SetNearBack(false);
 	}
@@ -321,6 +327,9 @@ void GameScene::Draw() const {
 
 	animationEffectManager_->Draw();
 
+	gameEffectManager_->Draw();
+
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	rightSnaggeObj_->Draw();
 	leftSnaggeObj_->Draw();
 
@@ -678,6 +687,9 @@ void GameScene::Debug_Gui() {
 	backGround_->Debug_Gui();
 
 	clutchGauge_->Debug_Gui();
+
+	Vector2 mousePos = Input::GetMousePosition();
+	ImGui::DragFloat2("mousePos", &mousePos.x, 0.1f);
 
 	ImGui::End();
 }

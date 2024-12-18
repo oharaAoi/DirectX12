@@ -20,7 +20,7 @@ ConstantBuffer<PerView> gPerView : register(b0);
 struct VertexShaderInput{
 	float4 position : POSITION0;
 	float2 texcoord : TEXCOORD0;
-	float4 colot : COLOR0;
+	float4 color : COLOR0;
 };
 
 VertexShaderOutput main(VertexShaderInput input, uint instanceId : SV_InstanceID){

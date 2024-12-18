@@ -15,6 +15,7 @@
 #include "Engine/ParticleSystem/GpuEffect.h"
 #include "Engine/Manager/CollisionManager.h"
 #include "Engine/GameObject/TestObject.h"
+#include "Game/GameEffect/Missile/MissileTrail.h"
 
 class TestScene 
 : public BaseScene {
@@ -52,7 +53,7 @@ private:
 
 	std::unique_ptr<CollisionManager> collisionManager_;
 
-	std::unique_ptr<GpuEffect> gpuEffect_;
+	std::unique_ptr<MissileTrail> testEffect_;
 
 	int easeIndex_ = 0;
 

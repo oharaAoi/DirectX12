@@ -36,6 +36,7 @@ public: // 静的メンバ関数
 	static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 public: // メンバ関数
+	void Finalize();
 	WinApp() = default;
 	~WinApp();
 	WinApp(const WinApp& obj) = delete;
@@ -63,7 +64,13 @@ public: // メンバ関数
 	/// <returns></returns>
 	WNDCLASS GetWNDCLASS() const { return wc; }
 
-	void Finalize();
+	/// <summary>
+	/// FullScreenかを取得
+	/// </summary>
+	/// <returns></returns>
+	const bool GetIsFullScreen() const { return isFullscreen_; }
+
+	const POINT GetOffsetMousePosition() const { return offsetMousePosition_; }
 
 private: // メンバ変数
 	// window関連
@@ -71,6 +78,7 @@ private: // メンバ変数
 	WNDCLASS wc{};
 	RECT windowRect_;
 	UINT windowStyle_ = WS_OVERLAPPEDWINDOW;
+	POINT offsetMousePosition_;
 
 	bool isFullscreen_;
 	int32_t windowWidth_;
