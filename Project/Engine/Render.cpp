@@ -34,7 +34,6 @@ void Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, 
 
 	primitiveDrawer_->Init(device);
 
-
 	nearClip_ = 1.0f;
 	farClip_ = 10000.0f;
 
@@ -42,14 +41,26 @@ void Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, 
 	farClip2D_ = 100.0f;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Renderの更新
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Render::Update() {
 	lightGroup_->Update();
-	primitiveDrawer_->SetUseIndex(0);
+	primitiveDrawer_->Begin();
 }
 
-void Render::Begin() {
-	GetInstacne()->renderTarget_->SetRenderTarget(commandList_, RenderTargetType::Object3D_RenderTarget);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　LineのDrawCallを呼び出す
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Render::PrimitiveDrawCall() {
+	primitiveDrawer_->DrawCall(commandList_);
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　RenderTargetを任意の物に設定する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Render::SetRenderTarget(const RenderTargetType& type) {
 	GetInstacne()->renderTarget_->SetRenderTarget(commandList_, type);
@@ -70,15 +81,6 @@ void Render::DrawTriangle(Triangle* triangle) {
 
 void Render::DrawSprite(Sprite* sprite) {
 	sprite->PostDraw(commandList_);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　球体の描画
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Render::DrawSphere(Sphere* sphere, const WorldTransform* worldTransform) {
-	lightGroup_->Draw(commandList_, 4);
-	sphere->Draw(commandList_, worldTransform, viewProjection_.get());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,11 +106,11 @@ void Render::DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstanc
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Render::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat) {
-	primitiveDrawer_->Draw(commandList_, p1, p2, color, vpMat);
+	primitiveDrawer_->Draw(p1, p2, color, vpMat);
 }
 
 void Render::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color) {
-	primitiveDrawer_->Draw(commandList_, p1, p2, color, viewProjection_->GetViewProjection());
+	primitiveDrawer_->Draw(p1, p2, color, viewProjection_->GetViewProjection());
 }
 
 void Render::DrawLightGroup(const int& startIndex) {
@@ -141,6 +143,10 @@ Matrix4x4 Render::GetProjection2D() {
 
 Matrix4x4 Render::GetProjection3D() {
 	return viewProjection_->GetProjectionMatrix();
+}
+
+Matrix4x4 Render::GetViewProjectionMat() {
+	return viewProjection_->GetViewMatrix() * viewProjection_->GetProjectionMatrix();
 }
 
 float Render::GetNearClip() {

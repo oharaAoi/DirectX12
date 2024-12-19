@@ -1,4 +1,6 @@
 #include "BaseGameObject.h"
+#include "Engine/Collider/SphereCollider.h"
+#include "Engine/Collider/BoxCollider.h"
 
 void BaseGameObject::Finalize() {
 	if (transform_ != nullptr) {
@@ -67,6 +69,13 @@ void BaseGameObject::PostUpdate() {
 		meshCollider_->Update(transform_.get());
 	}
 
+	if (collider_ != nullptr) {
+		collider_->Update(SRT{.scale = transform_->GetScale(),
+						  .rotate = transform_->GetQuaternion(),
+						  .translate = transform_->GetTranslation()}
+		);
+	}
+
 	worldPos_ = Vector3(0.0f, 0.0f, 0.0f) * transform_->GetWorldMatrix();
 }
 
@@ -77,19 +86,26 @@ void BaseGameObject::PostUpdate() {
 
 void BaseGameObject::Draw() const {
 	Render::DrawModel(model_, transform_.get(), materials);
-
-#ifdef _DEBUG
-	// Debug表示
-	if (objectAxis_ != nullptr) {
-		objectAxis_->Draw();
-	}
-#endif
 }
 
 void BaseGameObject::SetMeshCollider(const std::string& tag) {
 	meshCollider_ = std::make_unique<MeshCollider>();
 	meshCollider_->Init(model_->GetMesh(0));
 	meshCollider_->SetTag(tag);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Colliderを設定する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BaseGameObject::SetCollider(const std::string& tag, ColliderShape shape) {
+	if (shape == ColliderShape::SPHERE) {
+		collider_ = std::make_unique<SphereCollider>();
+	} else if (shape == ColliderShape::AABB || shape == ColliderShape::OBB) {
+		collider_ = std::make_unique<BoxCollider>();
+	}
+
+	collider_->Init(tag, shape);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +166,16 @@ void BaseGameObject::SetTexture(const std::string& path) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
+void BaseGameObject::Debug_Draw() {
+	if (collider_ != nullptr) {
+		collider_->Draw();
+	}
+	// Debug表示
+	if (objectAxis_ != nullptr) {
+		objectAxis_->Draw();
+	}
+}
+
 void BaseGameObject::Debug_Gui() {
 	transform_->Debug_Gui();
 	model_->Debug_Gui("Test");

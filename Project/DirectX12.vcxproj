@@ -126,7 +126,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Audio\AudioPlayer.cpp" />
     <ClCompile Include="Engine\Collider\BoxCollider.cpp" />
     <ClCompile Include="Engine\Collider\Collider.cpp" />
+    <ClCompile Include="Engine\Collider\CollisionFunctions.cpp" />
+    <ClCompile Include="Engine\Collider\ICollider.cpp" />
     <ClCompile Include="Engine\Collider\MeshCollider.cpp" />
+    <ClCompile Include="Engine\Collider\SphereCollider.cpp" />
     <ClCompile Include="Engine\ComputeShader\BaseCSResource.cpp" />
     <ClCompile Include="Engine\ComputeShader\ComputeShader.cpp" />
     <ClCompile Include="Engine\ComputeShader\ComputeShaderPipeline.cpp" />
@@ -158,7 +161,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\GameObject\BaseGameObject.cpp" />
     <ClCompile Include="Engine\GameObject\Model.cpp" />
     <ClCompile Include="Engine\GameObject\ObjectAxis.cpp" />
-    <ClCompile Include="Engine\GameObject\Sphere.cpp" />
     <ClCompile Include="Engine\GameObject\TestObject.cpp" />
     <ClCompile Include="Engine\Input\Input.cpp" />
     <ClCompile Include="Engine\Lib\GameTimer.cpp" />
@@ -258,7 +260,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Audio\AudioPlayer.h" />
     <ClInclude Include="Engine\Collider\BoxCollider.h" />
     <ClInclude Include="Engine\Collider\Collider.h" />
+    <ClInclude Include="Engine\Collider\CollisionFunctions.h" />
+    <ClInclude Include="Engine\Collider\ICollider.h" />
     <ClInclude Include="Engine\Collider\MeshCollider.h" />
+    <ClInclude Include="Engine\Collider\SphereCollider.h" />
     <ClInclude Include="Engine\ComputeShader\BaseCSResource.h" />
     <ClInclude Include="Engine\ComputeShader\ComputeShader.h" />
     <ClInclude Include="Engine\ComputeShader\ComputeShaderPipeline.h" />
@@ -290,7 +295,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\GameObject\BaseGameObject.h" />
     <ClInclude Include="Engine\GameObject\Model.h" />
     <ClInclude Include="Engine\GameObject\ObjectAxis.h" />
-    <ClInclude Include="Engine\GameObject\Sphere.h" />
     <ClInclude Include="Engine\GameObject\TestObject.h" />
     <ClInclude Include="Engine\Input\Input.h" />
     <ClInclude Include="Engine\Lib\AbstractSceneFactory.h" />

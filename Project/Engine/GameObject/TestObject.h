@@ -61,6 +61,5 @@ private:
 	bool isLerp_ = false;
 
 	Test test_;
-
 };
 

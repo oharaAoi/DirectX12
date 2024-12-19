@@ -16,13 +16,13 @@
 #include "Engine/Input/Input.h"
 #include "Engine/GameObject/Model.h"
 #include "Engine/Assets/PBRMaterial.h"
-#include "Engine/GameObject/Sphere.h"
 #include "Engine/2d/Sprite.h"
 #include "Engine/2d/Triangle.h"
 #include "Engine/Audio/Audio.h"
 #include "Engine/Utilities/Shader.h"
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/RenderTexture.h"
+#include "Engine/Editer/Window/EditerWindows.h"
 #include "Render.h"
 
 class EffectSystem;
@@ -71,8 +71,6 @@ public:
 	static std::unique_ptr<Triangle> CreateTriangle(const Mesh::Vertices& vertex, const std::string& textureName);
 	// スプライトのポインタを作成
 	static std::unique_ptr<Sprite> CreateSprite(const std::string& fileName);
-	// 球のポインタを作成
-	static std::unique_ptr<Sphere> CreateSphere(const uint32_t& devision);
 	// モデルのポインタを作成
 	static std::unique_ptr<Model> CreateModel(const std::string& directoryPath, const std::string& filePath);
 	// パーティクルのポインタを作成
@@ -221,6 +219,8 @@ namespace {
 
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;
+
+	EditerWindows* editerWindows_ = nullptr;
 
 	bool isFullScreen_;
 

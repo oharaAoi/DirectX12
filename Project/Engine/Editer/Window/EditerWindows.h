@@ -13,9 +13,20 @@ public:
 
 	static EditerWindows* GetInstance();
 
+#ifdef _DEBUG
 	void Init();
 
 	void Update();
+
+	/// <summary>
+	/// 開始処理
+	/// </summary>
+	void Begine();
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	void End();
 
 public:
 
@@ -29,5 +40,6 @@ private:
 
 	std::unique_ptr<GameObjectWindow> gameObjectWindow_;
 
+#endif // _DEBUG
 };
 

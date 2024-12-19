@@ -13,6 +13,9 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Assets/AnimetionClip.h"
 #include "Engine/Collider/MeshCollider.h"
+#include "Engine/Collider/ICollider.h"
+#include "Engine/Collider/SphereCollider.h"
+#include "Engine/Collider/BoxCollider.h"
 
 class BaseGameObject {
 public:
@@ -28,6 +31,8 @@ public:
 	void PostUpdate();
 
 #ifdef _DEBUG
+	void Debug_Draw();
+
 	void Debug_Gui();
 
 	void Debug_Axis();
@@ -68,6 +73,23 @@ public:
 
 	void SetMeshCollider(const std::string& tag);
 
+	ICollider* GetCollider() { return collider_.get(); }
+	void SetCollider(const std::string& tag, ColliderShape shape);
+
+private:
+
+	void SetColliderRadius(float radius) {
+		if (auto sphere = dynamic_cast<SphereCollider*>(collider_.get())) {
+			sphere->SetRadius(radius);
+		}
+	}
+
+	void SetColliderSize(const Vector3& size) {
+		if (auto box = dynamic_cast<BoxCollider*>(collider_.get())) {
+			box->SetSize(size);
+		}
+	}
+
 protected:
 
 	Model* model_ = nullptr;
@@ -77,6 +99,7 @@ protected:
 	std::unique_ptr<Animetor> animetor_ = nullptr;
 
 	std::unique_ptr<MeshCollider> meshCollider_ = nullptr; // 当たり判定を行うクラス
+	std::unique_ptr<ICollider> collider_ = nullptr;
 
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f};

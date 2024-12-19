@@ -1,4 +1,5 @@
 #include "ParticleField.h"
+#include "Engine/Collider/CollisionFunctions.h"
 
 ParticleField::ParticleField() {
 }
@@ -20,9 +21,9 @@ void ParticleField::Update() {
 	}
 	std::list<BaseEffect::ParticleData>& particleList = particle_->GetParticleList();
 	for (std::list<BaseEffect::ParticleData>::iterator particleIter = particleList.begin(); particleIter != particleList.end();) {
-		if (IsCollision(accelerationField_.area, (*particleIter).transform.translate)) {
+		/*if (CheckCollision(accelerationField_.area, (*particleIter).transform.translate)) {
 			(*particleIter).velocity += accelerationField_.acceleration * kDeltaTime_;
-		}
+		}*/
 		++particleIter;
 	}
 }

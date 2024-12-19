@@ -27,8 +27,11 @@ void TestScene::Init() {
 	testObjA_->Init();
 	testObjB_->Init();
 
-	testObjA_->SetObject("amimationCharacter.gltf");
-	testObjA_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, false);
+	testObjA_->SetCollider("testA", ColliderShape::SPHERE);
+	testObjB_->SetCollider("testB", ColliderShape::OBB);
+
+	testObjA_->SetObject("simpleSkin.gltf");
+	testObjA_->SetAnimater("./Engine/Resources/Animation/", "simpleSkin.gltf", true, true, false);
 	testObjA_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
 	testObjA_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
 #ifdef _DEBUG
@@ -43,9 +46,9 @@ void TestScene::Init() {
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
 
-	EffectSystem::GetInstacne()->Emit("sphere", Vector3(0, 0, 5), Vector4(1, 0, 0, 1));
+	/*EffectSystem::GetInstacne()->Emit("sphere", Vector3(0, 0, 5), Vector4(1, 0, 0, 1));
 	EffectSystem::GetInstacne()->Emit("cone", Vector3(5, 0, 5), Vector4(0, 1, 0, 1));
-	EffectSystem::GetInstacne()->Emit("box", Vector3(-5, 0, 5), Vector4(0, 0, 1, 1));
+	EffectSystem::GetInstacne()->Emit("box", Vector3(-5, 0, 5), Vector4(0, 0, 1, 1));*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,8 +87,8 @@ void TestScene::Update() {
 	testObjB_->Update();
 
 	collisionManager_->Reset();
-	collisionManager_->AddCollider(testObjA_->GetMeshCollider());
-	collisionManager_->AddCollider(testObjB_->GetMeshCollider());
+	collisionManager_->AddCollider(testObjA_->GetCollider());
+	collisionManager_->AddCollider(testObjB_->GetCollider());
 	collisionManager_->CheckAllCollision();
 
 	// -------------------------------------------------
@@ -97,8 +100,8 @@ void TestScene::Update() {
 void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
-	/*testObjA_->Draw();
-	testObjB_->Draw();*/
+	testObjA_->Draw();
+	testObjB_->Draw();
 }
 
 #ifdef _DEBUG

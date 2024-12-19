@@ -42,7 +42,8 @@ void EffectSystem::Finalize() {
 
 void EffectSystem::Update() {
 	for (std::list<std::unique_ptr<GpuEffect>>::iterator it = effectList_.begin(); it != effectList_.end();) {
-		(*it)->SetViewProjectionMat(viewMat_ * projectionMat_);
+		Matrix4x4 mat = Multiply(viewMat_,projectionMat_);
+		(*it)->SetViewProjectionMat(mat);
 		(*it)->Update();
 		++it;
 	}
