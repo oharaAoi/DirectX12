@@ -1,11 +1,13 @@
 #include "GameScene.h"
 #include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/Editer/Window/EditerWindows.h"
 
 GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
 }
+
 
 void GameScene::Finalize() {
 }
@@ -45,6 +47,10 @@ void GameScene::Init() {
 	player_->SetFollowCamera(followCamera_.get());
 
 	followCamera_->SetTarget(player_->GetTransform());
+
+#ifdef _DEBUG
+	EditerWindows::AddObjectWindow(std::bind(&GameScene::Debug_Gui, this), "Scene");
+#endif // _DEBUG
 }
 
 void GameScene::Update() {
@@ -54,8 +60,15 @@ void GameScene::Update() {
 
 	debugCamera_->Update();
 	followCamera_->Update();
-	Render::SetEyePos(followCamera_->GetWorldTranslate());
-	Render::SetViewProjection(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
+
+	if (isDebug_) {
+		Render::SetEyePos(debugCamera_->GetWorldTranslate());
+		Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
+	} else {
+		Render::SetEyePos(followCamera_->GetWorldTranslate());
+		Render::SetViewProjection(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
+	}
+	
 
 	// -------------------------------------------------
 	// ↓ world,GameObjectの更新
@@ -85,7 +98,6 @@ void GameScene::Draw() const {
 
 #ifdef _DEBUG
 void GameScene::Debug_Gui() {
-	
+	ImGui::Checkbox("debugMode", &isDebug_);
 }
-
 #endif

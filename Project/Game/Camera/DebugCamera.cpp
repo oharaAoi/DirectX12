@@ -34,8 +34,8 @@ void DebugCamera::Init() {
 
 	debugCameraMode_ = true;
 
-	moveBaseSpeed_ = 5.0f;
-	moveSpeed_ = 5.0f;
+	moveBaseSpeed_ = 8.0f;
+	moveSpeed_ = 8.0f;
 	moveQuaternion_ = Quaternion();
 
 	isFocused_ = true;
@@ -126,6 +126,12 @@ void DebugCamera::TransitionMove() {
 
 	if (Input::IsPressKey(DIK_E)) {
 		moveDirection_ -= quaternion_.MakeUp() * moveSpeed_;
+	}
+
+	if (Input::IsPressKey(DIK_LSHIFT)) {
+		moveSpeed_ = moveBaseSpeed_ * 2.0f;
+	} else {
+		moveSpeed_ = moveBaseSpeed_;
 	}
 	
 	transform_.translate += moveDirection_ * GameTimer::DeltaTime();

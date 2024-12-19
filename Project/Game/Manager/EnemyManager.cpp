@@ -58,7 +58,9 @@ void EnemyManager::Pop(const Vector3& pos) {
 #include "Engine/Manager/ImGuiManager.h"
 void EnemyManager::Debug_Gui() {
 	if (ImGui::Button("pop")) {
-		Pop();
+		Pop(newEnemyPos_);
 	}
+	ImGui::SameLine();
+	ImGui::DragFloat3("newEnemyPos", &newEnemyPos_.x, 0.1f);
 }
 #endif

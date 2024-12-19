@@ -28,5 +28,8 @@ private:
 
 	std::list<std::unique_ptr<NormalEnemy>> normalEnemyList_;
 
+	// ------------------- newEnemyParameter ------------------- //
+	Vector3 newEnemyPos_;
+
 };
 

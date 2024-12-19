@@ -38,7 +38,10 @@ private:
 	// ------------------- gameObject ------------------- //
 	std::unique_ptr<Player> player_ = nullptr;
 
-	// ------------------- Manager ------------------- //
+	// ------------------- manager ------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
+
+	// ------------------- parameter ------------------- //
+	bool isDebug_ = false;
 
 };
