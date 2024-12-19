@@ -107,6 +107,7 @@ public:
 	// 数学用関数
 
 	static Vector3 ZERO() { return Vector3(0.0f, 0.0f, 0.0f); }
+	static Vector3 UNIT() { return Vector3(1.0f, 1.0f, 1.0f); }
 
 	static Vector3 UP() {return Vector3(0.0f, 1.0f, 0.0f);}
 	static Vector3 RIGHT() {return Vector3(1.0f, 0.0f, 0.0f);}

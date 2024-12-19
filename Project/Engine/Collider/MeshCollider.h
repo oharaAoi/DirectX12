@@ -4,13 +4,7 @@
 #include "Engine/Math/MathStructures.h"
 #include "Engine/Utilities/DrawUtils.h"
 #include "Engine/Assets/WorldTransform.h"
-
-enum CollisionFlags {
-	NONE = 0b00,
-	ENTER = 0b01,
-	EXIT = 0b10,
-	STAY = 0b11,
-};
+#include "Engine/Collider/ICollider.h"
 
 class MeshCollider {
 public:

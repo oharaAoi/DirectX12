@@ -1,8 +1,4 @@
 #pragma once
-#include <Windows.h>
-#include <cstdint>
-#include <d3d12.h>
-#include <wrl.h>
 #include "Engine/Utilities/DirectXUtils.h"
 #include "Engine/Math/MyMath.h"
 

@@ -2,7 +2,6 @@
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/2d/Triangle.h"
 #include "Engine/2d/Sprite.h"
-#include "Engine/GameObject/Sphere.h"
 #include "Engine/GameObject/Model.h"
 #include "Engine/ParticleSystem/Particle/BaseParticle.h"
 #include "Engine/DirectX/Pipeline/PrimitivePipeline.h"
@@ -47,13 +46,6 @@ public:
 	/// </summary>
 	/// <param name="sprite">: spriteのポインタ</param>
 	static void DrawSprite(Sprite* sprite);
-
-	/// <summary>
-	/// 球体の描画
-	/// </summary>
-	/// <param name="sphere">: sphereのポインタ</param>
-	/// <param name="worldTransform">: worldTransform</param>
-	static void DrawSphere(Sphere* sphere, const WorldTransform* worldTransform);
 
 	/// <summary>
 	/// モデルの描画
@@ -110,6 +102,7 @@ public:
 	static Matrix4x4 GetProjection2D();
 	static Matrix4x4 GetViewport3D();
 	static Matrix4x4 GetProjection3D();
+	static Matrix4x4 GetViewProjectionMat();
 
 	static float GetNearClip();
 	static float GetNearClip2D();

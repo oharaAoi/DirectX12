@@ -49,7 +49,7 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 // ↓　球の描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjectionMatrix) {
+void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjectionMatrix, const Vector4& color) {
 	const uint32_t kSubdivision = 16;
 	const float kLonEvery = 2.0f * float(M_PI) / kSubdivision;
 	const float kLatEvery = float(M_PI) / kSubdivision;
@@ -99,8 +99,8 @@ void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjec
 				localC.z + center.z,
 			};
 
-			Render::DrawLine(a, b, { 1.0f, 0.0f, 0.0f, 1.0f }, viewProjectionMatrix);
-			Render::DrawLine(a, c, { 1.0f, 0.0f, 0.0f, 1.0f }, viewProjectionMatrix);
+			Render::DrawLine(a, b, color, viewProjectionMatrix);
+			Render::DrawLine(a, c, color, viewProjectionMatrix);
 		}
 	}
 }

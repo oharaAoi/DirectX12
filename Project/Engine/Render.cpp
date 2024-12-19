@@ -84,15 +84,6 @@ void Render::DrawSprite(Sprite* sprite) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　球体の描画
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Render::DrawSphere(Sphere* sphere, const WorldTransform* worldTransform) {
-	lightGroup_->Draw(commandList_, 4);
-	sphere->Draw(commandList_, worldTransform, viewProjection_.get());
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　モデルの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -152,6 +143,10 @@ Matrix4x4 Render::GetProjection2D() {
 
 Matrix4x4 Render::GetProjection3D() {
 	return viewProjection_->GetProjectionMatrix();
+}
+
+Matrix4x4 Render::GetViewProjectionMat() {
+	return viewProjection_->GetViewMatrix() * viewProjection_->GetProjectionMatrix();
 }
 
 float Render::GetNearClip() {
