@@ -96,6 +96,7 @@ void DxResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_
 		assert("ResourceState MissMatch");
 	}
 	TransitionResourceState(commandList, cBuffer_.Get(), befor, after);
+	bufferState_ = after;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
