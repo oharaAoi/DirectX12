@@ -98,10 +98,6 @@ void TestScene::Update() {
 }
 
 void TestScene::Draw() const {
-	// primitive
-	testObjA_->Debug_Draw();
-	testObjB_->Debug_Draw();
-
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
 	testObjA_->Draw();
