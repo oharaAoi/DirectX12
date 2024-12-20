@@ -10,6 +10,7 @@
 #include "Engine/Manager/CollisionManager.h"
 #include "Engine/GameObject/TestObject.h"
 #include "Game/WorldObject/Skydome.h"
+#include "Game/WorldObject/Floor.h"
 
 class TestScene 
 : public BaseScene {
@@ -39,6 +40,7 @@ private:
 
 	// worldObject ------------------------------------
 	std::unique_ptr<Skydome> skydome_ = nullptr;
+	std::unique_ptr<Floor> floor_ = nullptr;
 
 	// gameObject ------------------------------------
 	
