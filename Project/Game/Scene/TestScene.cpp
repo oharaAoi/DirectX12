@@ -20,6 +20,10 @@ void TestScene::Init() {
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Init();
 
+	floor_ = std::make_unique<Floor>();
+	floor_->Init();
+
+
 	// gameObject -------------------------------------------------------------------
 	testObjA_ = std::make_unique<TestObject>();
 	testObjB_ = std::make_unique<TestObject>();
@@ -31,8 +35,9 @@ void TestScene::Init() {
 	testObjB_->SetCollider("testB", ColliderShape::OBB);
 
 	testObjA_->SetObject("simpleSkin.gltf");
-	testObjA_->SetAnimater("./Engine/Resources/Animation/", "simpleSkin.gltf", true, true, false);
 	testObjA_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
+
+	testObjA_->SetAnimater("./Engine/Resources/Animation/", "simpleSkin.gltf", true, true, false);
 	testObjA_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjA_.get()), "testAObj");
@@ -79,6 +84,7 @@ void TestScene::Update() {
 	// ↓ worldObjectの更新
 	// -------------------------------------------------
 	skydome_->Update();
+	floor_->Update();
 
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
@@ -100,6 +106,7 @@ void TestScene::Update() {
 void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
+	floor_->Draw();
 	testObjA_->Draw();
 	testObjB_->Draw();
 }
