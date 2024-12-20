@@ -20,7 +20,8 @@
         {
             "directory": "./Engine/Resources/Models/",
             "files": [
-                "skydome.obj"
+                "skydome.obj",
+                "floor.obj"
             ]
         }
     ]
