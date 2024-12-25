@@ -13,8 +13,8 @@ public:
 		float speed;
 		float hp;
 
-		json ToJson() const override {
-			return JsonBuilder("testParame")
+		json ToJson(const std::string id) const override {
+			return JsonBuilder(id)
 				.Add("pos", pos)
 				.Add("lifeTime", lifeTime)
 				.Add("speed", speed)

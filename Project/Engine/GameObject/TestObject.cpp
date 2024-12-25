@@ -29,6 +29,7 @@ void TestObject::Init() {
 
 	animationTime_ = 0.0f;
 
+	test_.ToJson("testParame");
 	test_.FromJson(AdjustmentItem::GetData("Player", "testParame"));
 }
 
