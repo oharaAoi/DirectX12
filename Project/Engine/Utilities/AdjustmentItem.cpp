@@ -108,7 +108,7 @@ void AdjustmentItem::Save(const std::string& groupName, const json& saveData) {
 		// -------------------------------------------------
 		// ↓ ディレクトリがなければ作成を行う
 		// -------------------------------------------------
-		std::filesystem::path dirPath = std::filesystem::path(kDirectoryPath_ + groupName);
+		std::filesystem::path dirPath = std::filesystem::path(kDirectoryPath_ + nowSceneName_ + "/" + groupName);
 		if (!std::filesystem::exists(dirPath)) {
 			std::filesystem::create_directories(dirPath);
 			std::cout << "Created directory: " << dirPath << std::endl;
