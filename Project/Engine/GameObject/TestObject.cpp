@@ -89,12 +89,10 @@ void TestObject::Debug_Gui() {
 
 	if (ImGui::Button("lerp1")) {
 		isLerp_ = true;
-		animetor_->SetTransitionAnimation("walkRun", "jump");
 	}
 
 	if (ImGui::Button("lerp2")) {
 		isLerp_ = true;
-		animetor_->SetTransitionAnimation("jump", "walkRun");
 	}
 }
 #endif
