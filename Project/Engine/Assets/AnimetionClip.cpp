@@ -339,6 +339,19 @@ void AnimetionClip::SetLerpAnimation(const std::string& preAnimation, const std:
 	blendFactor_ = 0.0f;
 }
 
+
+void AnimetionClip::SetLerpAnimation(const std::string& lerpAnimation) {
+	lerpAnimetion_[0] = animation_;
+	lerpAnimetion_[1] = manager_->GetAnimation(animationFileName_, lerpAnimation);
+
+	lerpAnimationTime_[0] = animationTime_;
+	lerpAnimationTime_[1] = 0;
+
+	isAnimationChange_ = true;
+
+	blendFactor_ = 0.0f;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Debug
 //////////////////////////////////////////////////////////////////////////////////////////////////
