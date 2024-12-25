@@ -85,6 +85,8 @@ public:
 
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	std::string SelectAnimationName();
 #endif
 
 	// animationの時間を取得・設定
