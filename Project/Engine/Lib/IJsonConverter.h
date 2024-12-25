@@ -65,6 +65,9 @@ inline json toJson(const T& v) {
 	} else if constexpr (std::is_same_v<T, uint32_t>) {
 		// uint32_t型に対する処理
 		return v;
+	} else if constexpr (std::is_same_v<T, std::string>) {
+		// std::string型に対する処理
+		return v;
 	} else {
 		assert(false && "Unsupported type in toJson");
 	}
