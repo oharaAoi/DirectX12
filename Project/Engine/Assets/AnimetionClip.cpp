@@ -411,13 +411,11 @@ void AnimetionClip::Debug_Gui() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 std::string AnimetionClip::SelectAnimationName() {
-	bool isChange = false;
 	if (ImGui::BeginCombo("Select Animation", animationNames_[selectedAnimationIndex].c_str())) {
 		for (int i = 0; i < animationNames_.size(); ++i) {
 			bool isSelected = (i == selectedAnimationIndex);
 			if (ImGui::Selectable(animationNames_[i].c_str(), isSelected)) {
 				selectedAnimationIndex = i; // インデックスを更新
-				isChange = true;
 			}
 			if (isSelected) {
 				ImGui::SetItemDefaultFocus(); // 初期選択のフォーカス
@@ -425,9 +423,7 @@ std::string AnimetionClip::SelectAnimationName() {
 		}
 		ImGui::EndCombo();
 	}
-	if (isChange) {
-		return animationNames_[selectedAnimationIndex];
-	}
-	return std::string();
+	
+	return animationNames_[selectedAnimationIndex];
 }
 #endif // DEBUG
