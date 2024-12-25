@@ -14,5 +14,7 @@ void PlayerDefaultState::Update() {
 #ifdef _DEBUG
 void PlayerDefaultState::Debug_Gui() {
 	ImGui::Text(stateName_.c_str());
+
+	
 }
 #endif // _DEBUG

@@ -9,6 +9,7 @@ enum class Behavior {
 	DEFAULT,	// 待機状態
 	MOVE,		// 移動状態
 	ATTACK,		// 攻撃状態
+	AVOIDANCE,	// 回避状態
 };
 
 class Player : public BaseGameObject {

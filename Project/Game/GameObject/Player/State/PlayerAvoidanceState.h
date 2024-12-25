@@ -1,14 +1,20 @@
 #pragma once
 #include "Game/Interface/ICharactorState.h"
+#include "Engine/Math/Vector3.h"
 
 class Player;
 
-class PlayerDefaultState :
+/// <summary>
+/// 回避状態
+/// </summary>
+class PlayerAvoidanceState :
     public ICharactorState {
 public:
 
-	PlayerDefaultState(Player* pPlayer) : pPlayer_(pPlayer) { Init(); };
-	~PlayerDefaultState();
+public:
+
+	PlayerAvoidanceState(Player* pPlayer) : pPlayer_(pPlayer) { Init(); };
+	~PlayerAvoidanceState();
 
 	void Init() override;
 	void Update() override;
@@ -21,6 +27,5 @@ private:
 
 	Player* pPlayer_ = nullptr;
 
-	Information information_;
 };
 

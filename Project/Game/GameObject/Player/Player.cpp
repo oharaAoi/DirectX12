@@ -3,6 +3,7 @@
 #include "Game/GameObject/Player/State/PlayerDefaultState.h"
 #include "Game/GameObject/Player/State/PlayerMoveState.h"
 #include "Game/GameObject/Player/State/PlayerAttackState.h"
+#include "Game/GameObject/Player/State/PlayerAvoidanceState.h"
 
 Player::Player() {}
 Player::~Player() {}
@@ -16,7 +17,8 @@ void Player::Finalize() {
 
 void Player::Init() {
 	BaseGameObject::Init();
-	SetObject("player.obj");
+	SetObject("player.gltf");
+	SetAnimater("./Game/Resources/Models/Player/", "player.gltf", true, true, false);
 
 	behaviorRequest_ = Behavior::DEFAULT;
 	CheckBehaviorRequest();
@@ -67,6 +69,9 @@ void Player::CheckBehaviorRequest() {
 			break;
 		case Behavior::ATTACK:
 			SetBehaviorState(std::make_unique<PlayerAttackState>(this));
+			break;
+		case Behavior::AVOIDANCE:
+			SetBehaviorState(std::make_unique<PlayerAvoidanceState>(this));
 			break;
 		default:
 			break;

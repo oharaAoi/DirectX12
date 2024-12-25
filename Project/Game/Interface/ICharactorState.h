@@ -7,6 +7,12 @@
 class ICharactorState {
 public:
 
+	struct Information {
+		std::string animationName;
+	};
+
+public:
+
 	ICharactorState();
 	virtual ~ICharactorState() = default;
 
@@ -22,7 +28,6 @@ public:
 protected:
 
 	std::string stateName_;	// 状態の名前
-
 
 };
 
