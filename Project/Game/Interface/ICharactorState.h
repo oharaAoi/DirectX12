@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Engine/Lib/IJsonConverter.h"
 
 /// <summary>
 /// キャラクターの状態基底クラス
@@ -7,8 +8,18 @@
 class ICharactorState {
 public:
 
-	struct Information {
+	struct Information : public IJsonConverter {
 		std::string animationName;
+
+		json ToJson(const std::string id) const override {
+			return JsonBuilder(id)
+				.Add("animationName", animationName)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "animationName", animationName);
+		}
 	};
 
 public:
