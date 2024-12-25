@@ -44,6 +44,9 @@ public:
 
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	std::string SelectAnimationName() { return animetionClip_->SelectAnimationName(); }
+
 #endif
 
 	Skinning* GetSkinning() { return skinning_.get(); }
