@@ -88,8 +88,12 @@ void Animetor::LoadAnimation(const std::string& directoryPath, const std::string
 	}
 }
 
-void Animetor::SetTransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation) {
+void Animetor::TransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation) {
 	animetionClip_->SetLerpAnimation(preAnimation, afterAnimation);
+}
+
+void Animetor::TransitionAnimation(const std::string& afterAnimation) {
+	animetionClip_->SetLerpAnimation(afterAnimation);
 }
 
 #ifdef _DEBUG
