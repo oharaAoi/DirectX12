@@ -86,13 +86,5 @@ void TestObject::Debug_Gui() {
 
 		ImGui::SliderFloat("transitionAnimationTimeLimit", &transitionAnimationTimeLimit_, 0.0, 10.0f);
 	}
-
-	if (ImGui::Button("lerp1")) {
-		isLerp_ = true;
-	}
-
-	if (ImGui::Button("lerp2")) {
-		isLerp_ = true;
-	}
 }
 #endif
