@@ -89,6 +89,8 @@ public:
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
 	void SetLerpAnimation(const std::string& lerpAnimation);
 
+	void SetAnimation(const std::string& animationName);
+
 #ifdef _DEBUG
 	void Debug_Gui();
 

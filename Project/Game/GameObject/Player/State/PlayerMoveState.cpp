@@ -1,5 +1,6 @@
 #include "PlayerMoveState.h"
 #include "Game/GameObject/Player/Player.h"
+#include "Engine/Utilities/AdjustmentItem.h"
 
 PlayerMoveState::~PlayerMoveState() {
 }
@@ -8,6 +9,9 @@ void PlayerMoveState::Init() {
 	stateName_ = "playerMoveState";
 
 	work_.speed = 6.0f;
+
+	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
+	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName);
 }
 
 void PlayerMoveState::Update() {
@@ -93,5 +97,10 @@ void PlayerMoveState::Move() {
 #ifdef _DEBUG
 void PlayerMoveState::Debug_Gui() {
 	ImGui::Text(stateName_.c_str());
+	information_.animationName = pPlayer_->GetAnimetor()->SelectAnimationName();
+	ImGui::Text(information_.animationName.c_str());
+	if (ImGui::Button("Save")) {
+		AdjustmentItem::Save(stateName_, information_.ToJson(stateName_));
+	}
 }
 #endif // _DEBUG

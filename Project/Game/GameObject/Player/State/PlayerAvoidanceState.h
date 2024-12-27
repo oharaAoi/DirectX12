@@ -11,6 +11,11 @@ class PlayerAvoidanceState :
     public ICharactorState {
 public:
 
+	struct Work {
+		float time;
+		float timeLimit;
+	};
+
 public:
 
 	PlayerAvoidanceState(Player* pPlayer) : pPlayer_(pPlayer) { Init(); };
@@ -25,6 +30,7 @@ public:
 
 private:
 
+	Work work_;
 	Player* pPlayer_ = nullptr;
 
 };

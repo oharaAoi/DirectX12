@@ -31,6 +31,8 @@ private:
 
 	void CheckAttack();
 
+	void CheckAvoidance();
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif

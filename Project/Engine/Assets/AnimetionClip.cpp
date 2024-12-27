@@ -19,15 +19,17 @@ void AnimetionClip::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AnimetionClip::Update() {
-	animationTime_ += GameTimer::DeltaTime();
-
-	// アニメーションが終了したら
-	if (animationTime_ >= animation_.duration) {
-		isAnimationFinish_ = true;
-		if (isLoop_) {
+	if (isLoop_) {
+		if (isAnimationFinish_) {
 			isAnimationFinish_ = false;
 			animationTime_ = std::fmod(animationTime_, animation_.duration);
 		}
+	}
+
+	animationTime_ += GameTimer::DeltaTime();
+	// アニメーションが終了したら
+	if (animationTime_ >= animation_.duration) {
+		isAnimationFinish_ = true;
 	}
 	
 	// skinningを行わない場合アニメーションの行列を更新する
@@ -350,6 +352,11 @@ void AnimetionClip::SetLerpAnimation(const std::string& lerpAnimation) {
 	isAnimationChange_ = true;
 
 	blendFactor_ = 0.0f;
+}
+
+void AnimetionClip::SetAnimation(const std::string& animationName) {
+	animation_ = manager_->GetAnimation(animationFileName_, animationName);
+	animationTime_ = 0.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -37,9 +37,10 @@ void Player::Init() {
 void Player::Update() {
 	CheckAttack();
 	CheckMove();
+	CheckAvoidance();
 
-	CheckBehaviorRequest();
 	state_->Update();
+	CheckBehaviorRequest();
 
 	BaseGameObject::Update();
 }
@@ -91,7 +92,9 @@ void Player::CheckMove() {
 	}
 
 	if (Input::GetLeftJoyStick().x != 0.0f || Input::GetLeftJoyStick().y != 0.0f) {
-		behaviorRequest_ = Behavior::MOVE;
+		if (behavior_ == Behavior::DEFAULT) {
+			behaviorRequest_ = Behavior::MOVE;
+		}
 	} 
 
 	if (Input::GetIsPadTrigger(BUTTON_A)) {
@@ -110,6 +113,16 @@ void Player::CheckAttack() {
 	if (Input::GetIsPadTrigger(BUTTON_X)) {
 		behaviorRequest_ = Behavior::ATTACK;
 		isAttack_ = true;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　回避受付状態
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::CheckAvoidance() {
+	if (Input::GetIsPadTrigger(BUTTON_B)) {
+		behaviorRequest_ = Behavior::AVOIDANCE;
 	}
 }
 

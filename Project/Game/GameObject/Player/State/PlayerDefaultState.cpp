@@ -7,7 +7,7 @@ PlayerDefaultState::~PlayerDefaultState() {
 
 void PlayerDefaultState::Init() {
 	stateName_ = "playerDefaultState";
-	/*AdjustmentItem::Save(stateName_, information_.ToJson(stateName_));*/
+
 	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
 
 	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName);

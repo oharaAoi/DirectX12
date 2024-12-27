@@ -40,5 +40,6 @@ protected:
 
 	std::string stateName_;	// 状態の名前
 
+	Information information_;
 };
 

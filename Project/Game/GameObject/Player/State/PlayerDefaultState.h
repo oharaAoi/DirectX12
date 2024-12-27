@@ -20,7 +20,5 @@ public:
 private:
 
 	Player* pPlayer_ = nullptr;
-
-	Information information_;
 };
 

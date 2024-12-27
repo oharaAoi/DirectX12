@@ -53,6 +53,8 @@ public:
 
 	Skinning* GetSkinning() { return skinning_.get(); }
 
+	AnimetionClip* GetAnimationClip() { return animetionClip_.get(); }
+
 	const Matrix4x4 GetAnimationMat() const { return animetionClip_->GetMatrix(); }
 
 	const float GetAnimationDuration() const { return animetionClip_->GetAnimationDuration(); }
