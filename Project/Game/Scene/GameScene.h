@@ -1,6 +1,10 @@
 #pragma once
+// C++
 #include <vector>
+// Engine
 #include "Engine.h"
+#include "Engine/Manager/CollisionManager.h"
+// Game
 #include "Game/Scene/BaseScene.h"
 #include "Game/Camera/DebugCamera.h"
 #include "Game/Camera/FollowCamera.h"
@@ -40,6 +44,7 @@ private:
 
 	// ------------------- manager ------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
+	std::unique_ptr<CollisionManager> collisionManager_ = nullptr;
 
 	// ------------------- parameter ------------------- //
 	bool isDebug_ = false;

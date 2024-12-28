@@ -23,6 +23,8 @@ void EnemyManager::Init() {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EnemyManager::Update() {
+	normalEnemyList_.remove_if([](const std::unique_ptr<NormalEnemy>& enemy) { return enemy->GetIsDead(); });
+
 	for (std::list<std::unique_ptr<NormalEnemy>>::iterator it = normalEnemyList_.begin(); it != normalEnemyList_.end();) {
 		(*it)->Update();
 		++it;

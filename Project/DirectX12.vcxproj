@@ -225,6 +225,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Camera\Camera.cpp" />
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
+    <ClCompile Include="Game\Collider\AttackCollider.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\NormalEnemy.cpp" />
     <ClCompile Include="Game\GameObject\Player\Player.cpp" />
     <ClCompile Include="Game\GameObject\Player\State\PlayerAttackState.cpp" />
@@ -367,6 +368,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Camera\Camera.h" />
     <ClInclude Include="Game\Camera\DebugCamera.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
+    <ClInclude Include="Game\Collider\AttackCollider.h" />
     <ClInclude Include="Game\GameObject\Enemy\NormalEnemy.h" />
     <ClInclude Include="Game\GameObject\Player\Player.h" />
     <ClInclude Include="Game\GameObject\Player\State\PlayerAttackState.h" />

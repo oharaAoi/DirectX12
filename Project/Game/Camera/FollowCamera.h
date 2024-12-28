@@ -1,7 +1,8 @@
 #pragma once
 #include "Game/Camera/BaseCamera.h"
 
-class FollowCamera : public BaseCamera {
+class FollowCamera 
+	: public BaseCamera {
 public:
 
 	FollowCamera();

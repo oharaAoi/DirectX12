@@ -16,6 +16,10 @@ public:
 	void Update();
 	void Draw() const;
 
+public:
+
+	std::list<std::unique_ptr<NormalEnemy>>& GetNormalEnemyList() { return normalEnemyList_; }
+
 private:
 
 	void Pop(const Vector3& pos = Vector3::ZERO());

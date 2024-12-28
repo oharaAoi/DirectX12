@@ -82,6 +82,11 @@ void PlayerMoveState::Move() {
 		pPlayer_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(targetAngle, Vector3::UP()));
 	}
 
+	// 状態を編集する状態だったら変化させない
+	if (pPlayer_->GetIsStateDebug()) {
+		return;
+	}
+
 	// defaultに戻す判定の処理
 	if (!pPlayer_->GetIsJump()) {
 		if (inputJoyStateL.x == 0.0f && inputJoyStateL.y == 0.0f) {

@@ -20,10 +20,22 @@ void Player::Init() {
 	SetObject("player.gltf");
 	SetAnimater("./Game/Resources/Models/Player/", "player.gltf", true, true, false);
 
+	// 状態の設定
 	behaviorRequest_ = Behavior::DEFAULT;
 	CheckBehaviorRequest();
 
+	// Colliderの初期化
+	SetCollider("player", ColliderShape::SPHERE);
+	collider_->SetCollisionEnter([this](ICollider& other) { OnCollisionEnter(other); });
+	collider_->SetCollisionStay([this](ICollider& other)  { OnCollisionStay(other); });
+
+	attackCollider_ = std::make_unique<AttackCollider>();
+	attackCollider_->Init("playerAttackCollider", ColliderShape::SPHERE);
+	attackCollider_->SetRadius(4.0f);
+
+	// フラグの初期化
 	isJump_ = false;
+	isAttack_ = false;
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&Player::Debug_Gui, this), "player");
@@ -43,6 +55,13 @@ void Player::Update() {
 	CheckBehaviorRequest();
 
 	BaseGameObject::Update();
+
+	// attackColliderの位置を更新する
+	attackCollider_->Update(SRT{
+		.scale = transform_->GetScale(),
+		.rotate = transform_->GetQuaternion(),
+		.translate = transform_->GetTranslation() + (transform_->GetQuaternion().Normalize() * attackColliderDiff_)
+	});
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,7 +114,7 @@ void Player::CheckMove() {
 		if (behavior_ == Behavior::DEFAULT) {
 			behaviorRequest_ = Behavior::MOVE;
 		}
-	} 
+	}
 
 	if (Input::GetIsPadTrigger(BUTTON_A)) {
 		behaviorRequest_ = Behavior::MOVE;
@@ -111,8 +130,10 @@ void Player::CheckMove() {
 
 void Player::CheckAttack() {
 	if (Input::GetIsPadTrigger(BUTTON_X)) {
-		behaviorRequest_ = Behavior::ATTACK;
-		isAttack_ = true;
+		if (behavior_ == Behavior::DEFAULT) {
+			behaviorRequest_ = Behavior::ATTACK;
+			isAttack_ = true;
+		}
 	}
 }
 
@@ -122,8 +143,30 @@ void Player::CheckAttack() {
 
 void Player::CheckAvoidance() {
 	if (Input::GetIsPadTrigger(BUTTON_B)) {
-		behaviorRequest_ = Behavior::AVOIDANCE;
+		if (behavior_ == Behavior::DEFAULT) {
+			behaviorRequest_ = Behavior::AVOIDANCE;
+		}
 	}
+}
+
+//================================================================================================//
+//
+// 当たり判定
+//
+//================================================================================================//
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　一番最初
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　連続
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::OnCollisionStay([[maybe_unused]] ICollider& other) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,6 +176,13 @@ void Player::CheckAvoidance() {
 void Player::Debug_Gui() {
 	BaseGameObject::Debug_Gui();
 	ImGui::Separator();
+	ImGui::Checkbox("isStateDebug", &stateDebug_);
 	state_->Debug_Gui();
+
+	ImGui::DragFloat3("attackColliderDiff", &attackColliderDiff_.x, 0.1f);
+}
+
+void Player::Debug_Draw() {
+	attackCollider_->Draw();
 }
 #endif

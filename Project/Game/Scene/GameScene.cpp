@@ -41,6 +41,9 @@ void GameScene::Init() {
 	enemyManager_ = std::make_unique<EnemyManager>();
 	enemyManager_->Init();
 
+	collisionManager_ = std::make_unique<CollisionManager>();
+	collisionManager_->Init();
+
 	// -------------------------------------------------
 	// ↓ その他設定
 	// -------------------------------------------------
@@ -80,9 +83,32 @@ void GameScene::Update() {
 	player_->Update();
 
 	enemyManager_->Update();
+
+	// -------------------------------------------------
+	// ↓ Collision判定
+	// -------------------------------------------------
+	collisionManager_->Reset();
+
+	//collisionManager_->AddCollider(player_->GetCollider());
+
+	if (player_->GetIsAttack()) {
+		collisionManager_->AddCollider(player_->GetAttackCollider());
+	}
+
+	for (auto& enemy : enemyManager_->GetNormalEnemyList()) {
+		collisionManager_->AddCollider(enemy->GetCollider());
+	}
+
+	collisionManager_->CheckAllCollision();
+
 }
 
 void GameScene::Draw() const {
+#ifdef _DEBUG
+	if (player_->GetIsAttack()) {
+		player_->Debug_Draw();
+	}
+#endif
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
 	ground_->Draw();

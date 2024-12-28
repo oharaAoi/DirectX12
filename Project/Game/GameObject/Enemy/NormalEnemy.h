@@ -18,12 +18,20 @@ public:
 
 private:
 
+	void OnCollisionEnter([[maybe_unused]] ICollider& other);
+	void OnCollisionStay([[maybe_unused]] ICollider& other);
+
 #ifdef _DEBUG
 	void Debug_Gui();
 #endif
 
+public:
+
+	const bool GetIsDead() const { return isDead_; }
+
 private:
 
+	bool isDead_ = false;
 
 };
 

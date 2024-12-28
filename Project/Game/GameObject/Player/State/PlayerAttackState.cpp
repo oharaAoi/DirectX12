@@ -16,6 +16,10 @@ void PlayerAttackState::Init() {
 }
 
 void PlayerAttackState::Update() {
+	if (pPlayer_->GetIsStateDebug()) {
+		return ;
+	}
+
 	work_.time += GameTimer::DeltaTime();
 
 	if (work_.time >= work_.timeLimit) {
