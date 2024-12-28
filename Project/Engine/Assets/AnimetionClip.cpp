@@ -339,6 +339,19 @@ void AnimetionClip::SetLerpAnimation(const std::string& preAnimation, const std:
 	blendFactor_ = 0.0f;
 }
 
+
+void AnimetionClip::SetLerpAnimation(const std::string& lerpAnimation) {
+	lerpAnimetion_[0] = animation_;
+	lerpAnimetion_[1] = manager_->GetAnimation(animationFileName_, lerpAnimation);
+
+	lerpAnimationTime_[0] = animationTime_;
+	lerpAnimationTime_[1] = 0;
+
+	isAnimationChange_ = true;
+
+	blendFactor_ = 0.0f;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Debug
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -404,5 +417,26 @@ void AnimetionClip::Debug_Gui() {
 		std::string animationName = animationNames_[selectedAnimationIndex];
 		animation_ = manager_->GetAnimation(animationFileName_, animationName);
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　ImGuiで選択されているAnimatinoの名前を返す
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+std::string AnimetionClip::SelectAnimationName() {
+	if (ImGui::BeginCombo("Select Animation", animationNames_[selectedAnimationIndex].c_str())) {
+		for (int i = 0; i < animationNames_.size(); ++i) {
+			bool isSelected = (i == selectedAnimationIndex);
+			if (ImGui::Selectable(animationNames_[i].c_str(), isSelected)) {
+				selectedAnimationIndex = i; // インデックスを更新
+			}
+			if (isSelected) {
+				ImGui::SetItemDefaultFocus(); // 初期選択のフォーカス
+			}
+		}
+		ImGui::EndCombo();
+	}
+	
+	return animationNames_[selectedAnimationIndex];
 }
 #endif // DEBUG

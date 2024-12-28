@@ -40,10 +40,15 @@ public:
 	/// </summary>
 	/// <param name="preAnimation">: 遷移前アニメーション</param>
 	/// <param name="afterAnimation">: 遷移後アニメーション</param>
-	void SetTransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation);
+	void TransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation);
+
+	void TransitionAnimation(const std::string& afterAnimation);
 
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	std::string SelectAnimationName() { return animetionClip_->SelectAnimationName(); }
+
 #endif
 
 	Skinning* GetSkinning() { return skinning_.get(); }

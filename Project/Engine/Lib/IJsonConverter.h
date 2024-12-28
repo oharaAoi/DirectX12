@@ -99,6 +99,9 @@ inline void fromJson(const json& j, const std::string& name, T& value) {
 			} else if constexpr (std::is_same_v<T, uint32_t>) {
 				// uint32_t型に対する処理
 				value = j.at(rootKey).at(name).get<uint32_t>();
+			} else if constexpr (std::is_same_v<T, std::string>) {
+				// std::string型に対する処理
+				value = j.at(rootKey).at(name).get<std::string>();
 			}
 		} else {
 			// json内にnameが存在していなかったら

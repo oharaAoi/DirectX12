@@ -83,8 +83,16 @@ public:
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
 	void SetLerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation);
 
+	/// <summary>
+	/// animationを遷移させる設定をする
+	/// </summary>
+	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
+	void SetLerpAnimation(const std::string& lerpAnimation);
+
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	std::string SelectAnimationName();
 #endif
 
 	// animationの時間を取得・設定
