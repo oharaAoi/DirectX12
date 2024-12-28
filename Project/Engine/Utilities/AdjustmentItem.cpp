@@ -3,6 +3,7 @@
 #include <fstream>
 #ifdef _DEBUG
 #include "Engine/Manager/ImGuiManager.h"
+#include "Engine/Editer/Window/EditerWindows.h"
 #endif
 
 const std::string AdjustmentItem::kDirectoryPath_ = "./Game/Resources/GameData/AdjustmentItem/";
@@ -31,6 +32,9 @@ void AdjustmentItem::Init(const std::string& nowScene) {
 	}
 
 	LoadAllFile();
+#ifdef _DEBUG
+	EditerWindows::AddObjectWindow(std::bind(&AdjustmentItem::Update, this), "AdjustmentItem");
+#endif // _DEBUG
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,12 +43,7 @@ void AdjustmentItem::Init(const std::string& nowScene) {
 
 void AdjustmentItem::Update() {
 #ifdef _DEBUG
-	if (!ImGui::Begin("AdjustValue", nullptr, ImGuiWindowFlags_MenuBar)) {
-		ImGui::End();
-		return;
-	}
-
-	if (ImGui::Button("Reload")) {
+	if (ImGui::Button("HotReload")) {
 		LoadAllFile();
 	}
 	
