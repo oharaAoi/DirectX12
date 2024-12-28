@@ -11,7 +11,7 @@ PlayerAvoidanceState::~PlayerAvoidanceState() {
 
 void PlayerAvoidanceState::Init() {
 	stateName_ = "playerAvoidanceState";
-	// 基本の情報の初期あk
+	// 基本の情報の初期化
 	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
 	// 特有の行動の初期化
 	work_.time = 0.0f;
@@ -36,6 +36,7 @@ void PlayerAvoidanceState::Update() {
 	work_.time += GameTimer::DeltaTime();
 	if (work_.time >= work_.timeLimit) {
 		pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
+		pPlayer_->SetIsAvoidance(false);
 	}
 }
 

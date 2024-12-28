@@ -231,6 +231,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameObject\Player\State\PlayerAttackState.cpp" />
     <ClCompile Include="Game\GameObject\Player\State\PlayerAvoidanceState.cpp" />
     <ClCompile Include="Game\GameObject\Player\State\PlayerDefaultState.cpp" />
+    <ClCompile Include="Game\GameObject\Player\State\PlayerInputReceptionState.cpp" />
+    <ClCompile Include="Game\GameObject\Player\State\PlayerJumpState.cpp" />
     <ClCompile Include="Game\GameObject\Player\State\PlayerMoveState.cpp" />
     <ClCompile Include="Game\GameResources.cpp" />
     <ClCompile Include="Game\Interface\ICharactorState.cpp" />
@@ -374,6 +376,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\GameObject\Player\State\PlayerAttackState.h" />
     <ClInclude Include="Game\GameObject\Player\State\PlayerAvoidanceState.h" />
     <ClInclude Include="Game\GameObject\Player\State\PlayerDefaultState.h" />
+    <ClInclude Include="Game\GameObject\Player\State\PlayerInputReceptionState.h" />
+    <ClInclude Include="Game\GameObject\Player\State\PlayerJumpState.h" />
     <ClInclude Include="Game\GameObject\Player\State\PlayerMoveState.h" />
     <ClInclude Include="Game\GameResources.h" />
     <ClInclude Include="Game\Interface\ICharactorState.h" />

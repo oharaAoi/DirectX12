@@ -9,8 +9,10 @@
 enum class Behavior {
 	DEFAULT,	// 待機状態
 	MOVE,		// 移動状態
+	JUMP,		// 跳躍状態
 	ATTACK,		// 攻撃状態
 	AVOIDANCE,	// 回避状態
+	RECEPTION,	// 入力受付状態
 };
 
 class Player : public BaseGameObject {
@@ -24,17 +26,15 @@ public:
 	void Update() override;
 	void Draw() const override;
 
-private:
-
-	/// <summary>
-	/// 状態変化のリクエストを確認する
-	/// </summary>
-	void CheckBehaviorRequest();
-
 	/// <summary>
 	/// 移動入力があるかを判定する
 	/// </summary>
 	void CheckMove();
+
+	/// <summary>
+	/// 跳躍入力があるかを判定する
+	/// </summary>
+	void CheckJump();
 
 	/// <summary>
 	/// 攻撃入力があるかを判定する
@@ -45,6 +45,13 @@ private:
 	/// 回避入力があるかを判定する
 	/// </summary>
 	void CheckAvoidance();
+
+private:
+
+	/// <summary>
+	/// 状態変化のリクエストを確認する
+	/// </summary>
+	void CheckBehaviorRequest();
 
 	// 衝突時の処理
 	void OnCollisionEnter([[maybe_unused]] ICollider& other);
@@ -78,13 +85,13 @@ public:
 	void SetIsAttack(bool isAttack) { isAttack_ = isAttack; }
 	const bool GetIsAttack() const { return isAttack_; }
 
-	// 速度の設定と取得
-	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
-	const Vector3 GetVelocity() const { return velocity_;}
+	// 回避フラグの設定と取得
+	void SetIsAvoidance(bool isAvoidance) { isAvoidance_ = isAvoidance; }
+	const bool GetIsAvoidance() const { return isAvoidance_; }
 
-	// 加速度の設定と取得
-	void SetAcceleration(const Vector3& acceleration) { acceleration_ = acceleration; }
-	const Vector3 GetAcceleration() const { return acceleration_; }
+	// 入力を受け付ける時間の設定と取得
+	void SetInputReceptionFrame(float frame) { inputReceptionFrame_ = frame; }
+	const float GetInputReceptionFrame() const { return inputReceptionFrame_; }
 
 	// 攻撃時のColliderの取得
 	AttackCollider* GetAttackCollider() { return attackCollider_.get(); }
@@ -100,10 +107,10 @@ private:
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
 	// ------------------- Move関連 ------------------- //
-	bool isJump_;
+	bool isJump_ = false;
 
-	Vector3 velocity_;
-	Vector3 acceleration_;
+	// ------------------- Avoidance関連 ------------------- //
+	bool isAvoidance_ = false;
 
 	// ------------------- Attack関連 ------------------- //
 	std::unique_ptr<AttackCollider> attackCollider_;
@@ -111,6 +118,8 @@ private:
 	Vector3 attackColliderDiff_ = {0,0,4.0f};
 
 	bool isAttack_ = false;
+
+	float inputReceptionFrame_;	// 入力を受け付ける時間
 
 	// ------------------- Debug用の変数 ------------------- //
 #ifdef _DEBUG

@@ -1,6 +1,7 @@
 #include "FollowCamera.h"
 #include "Engine/Input/Input.h"
 #include "Engine/Editer/Window/EditerWindows.h"
+#include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/Math/MyMatrix.h"
 
 FollowCamera::FollowCamera() {
@@ -18,13 +19,14 @@ void FollowCamera::Finalize() {
 
 void FollowCamera::Init() {
 	BaseCamera::Init();
+
+	information_.FromJson(AdjustmentItem::GetData("FollowCamera", "information"));
+
 	transform_ = {
 		{1.0f, 1.0f, 1.0f},
 		{0 , 0, 0.0f},
 		{0, 2, -10}
 	};
-
-	offset_ = { 0, 3, -10 };
 
 	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
 	viewMatrix_ = Inverse(cameraMatrix_);
@@ -60,7 +62,7 @@ void FollowCamera::RotateCamera() {
 }
 
 Vector3 FollowCamera::CalcucOffset() {
-	Vector3 offset = offset_;
+	Vector3 offset = information_.offset;
 	// 回転行列の合成
 	Matrix4x4 matRotate = transform_.rotate.MakeRotateMat();
 	offset = TransformNormal(offset, matRotate);
@@ -74,6 +76,10 @@ Vector3 FollowCamera::CalcucOffset() {
 #ifdef _DEBUG
 void FollowCamera::Debug_Gui() {
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
-	ImGui::DragFloat3("offset", &offset_.x, 0.1f);
+	ImGui::DragFloat3("offset", &information_.offset.x, 0.1f);
+
+	if (ImGui::Button("Save")) {
+		AdjustmentItem::Save("FollowCamera", information_.ToJson("information"));
+	}
 }
 #endif

@@ -34,9 +34,6 @@ private:
 
 	Player* pPlayer_ = nullptr;
 
-	Vector3 velocity_;
-	Vector3 acceleration_;
-
 	bool isMoving_;
 
 	Work work_;

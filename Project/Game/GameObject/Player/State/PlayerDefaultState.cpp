@@ -14,6 +14,10 @@ void PlayerDefaultState::Init() {
 }
 
 void PlayerDefaultState::Update() {
+	pPlayer_->CheckMove();
+	pPlayer_->CheckJump();
+	pPlayer_->CheckAttack();
+	pPlayer_->CheckAvoidance();
 }
 
 #ifdef _DEBUG

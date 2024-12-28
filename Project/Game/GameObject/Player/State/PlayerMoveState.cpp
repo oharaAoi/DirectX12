@@ -25,29 +25,7 @@ void PlayerMoveState::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerMoveState::Jump() {
-	// ジャンプして入なかったら早期リターン
-	if (!pPlayer_->GetIsJump()) {
-		return;
-	}
-	// 速度加速度を取得
-	velocity_ = pPlayer_->GetVelocity();
-	acceleration_ = pPlayer_->GetAcceleration();
-	// 移動する
-	Vector3 translate = pPlayer_->GetTransform()->GetTranslation();
-	velocity_ += acceleration_ * GameTimer::DeltaTime();
-	translate += velocity_ * GameTimer::DeltaTime();
-
-	// 限界の範囲を指定
-	if (translate.y <= 0.0f) {
-		translate.y = 0.0f;
-		pPlayer_->SetIsJump(false);
-	}
-	// 実際に代入する
-	pPlayer_->GetTransform()->SetTranslaion((translate));
-
-	// 速度加速度を更新する
-	pPlayer_->SetVelocity(velocity_);
-	pPlayer_->SetAcceleration(acceleration_);
+	pPlayer_->CheckJump();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
