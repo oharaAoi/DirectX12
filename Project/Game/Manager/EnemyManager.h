@@ -27,9 +27,9 @@ public:
 
 public:
 
-	NormalEnemy* GetNearEnemy(uint32_t& index);
+	std::shared_ptr<NormalEnemy> GetNearEnemy(uint32_t& index);
 
-	std::list<std::unique_ptr<NormalEnemy>>& GetNormalEnemyList() { return normalEnemyList_; }
+	std::list<std::shared_ptr<NormalEnemy>>& GetNormalEnemyList() { return normalEnemyList_; }
 
 	void SetPlayerPos(const Vector3& playerPos) { playerPos_ = playerPos; }
 
@@ -43,9 +43,9 @@ private:
 
 private:
 
-	std::list<std::unique_ptr<NormalEnemy>> normalEnemyList_;
+	std::list<std::shared_ptr<NormalEnemy>> normalEnemyList_;
 
-	std::vector<NormalEnemy*> nearNormalEnemyList_;
+	std::vector<std::shared_ptr<NormalEnemy>> nearNormalEnemyList_;
 
 	// ------------------- newEnemyParameter ------------------- //
 	Vector3 newEnemyPos_;

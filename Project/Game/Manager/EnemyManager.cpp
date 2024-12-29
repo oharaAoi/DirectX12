@@ -25,9 +25,15 @@ void EnemyManager::Init() {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EnemyManager::Update() {
-	normalEnemyList_.remove_if([](const std::unique_ptr<NormalEnemy>& enemy) { return enemy->GetIsDead(); });
+	normalEnemyList_.remove_if([this](const std::shared_ptr<NormalEnemy>& enemy) {
+		if (enemy->GetIsDead()) {
+			this->CheckNearEnemyList();
+			return true; // 削除
+		}
+		return false; // 削除しない
+	});
 
-	for (std::list<std::unique_ptr<NormalEnemy>>::iterator it = normalEnemyList_.begin(); it != normalEnemyList_.end();) {
+	for (std::list<std::shared_ptr<NormalEnemy>>::iterator it = normalEnemyList_.begin(); it != normalEnemyList_.end();) {
 		(*it)->Update();
 		++it;
 	}
@@ -40,7 +46,7 @@ void EnemyManager::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EnemyManager::Draw() const {
-	for (std::list<std::unique_ptr<NormalEnemy>>::const_iterator it = normalEnemyList_.begin(); it != normalEnemyList_.end();) {
+	for (std::list<std::shared_ptr<NormalEnemy>>::const_iterator it = normalEnemyList_.begin(); it != normalEnemyList_.end();) {
 		(*it)->Draw();
 		++it;
 	}
@@ -51,7 +57,7 @@ void EnemyManager::Draw() const {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EnemyManager::Pop(const Vector3& pos) {
-	auto& newEnemy = normalEnemyList_.emplace_back(std::make_unique<NormalEnemy>());
+	auto& newEnemy = normalEnemyList_.emplace_back(std::make_shared<NormalEnemy>());
 	newEnemy->Init();
 	newEnemy->GetTransform()->SetTranslaion(pos);
 }
@@ -63,8 +69,8 @@ void EnemyManager::Pop(const Vector3& pos) {
 void EnemyManager::CheckNearEnemyList() {
 	nearNormalEnemyList_.clear();
 	// 一旦すべて格納する
-	for (std::list<std::unique_ptr<NormalEnemy>>::iterator it = normalEnemyList_.begin(); it != normalEnemyList_.end();) {
-		nearNormalEnemyList_.emplace_back((*it).get());
+	for (std::list<std::shared_ptr<NormalEnemy>>::iterator it = normalEnemyList_.begin(); it != normalEnemyList_.end();) {
+		nearNormalEnemyList_.emplace_back((*it));
 		++it;
 	}
 
@@ -72,7 +78,7 @@ void EnemyManager::CheckNearEnemyList() {
 	// ソートする
 	std::sort(
 		nearNormalEnemyList_.begin(), nearNormalEnemyList_.end(),
-		[pos](NormalEnemy* enemy1, NormalEnemy* enemy2) {
+		[pos](std::shared_ptr<NormalEnemy> enemy1, std::shared_ptr<NormalEnemy> enemy2) {
 			return (enemy1->GetTransform()->GetTranslation() - pos).Length() < (enemy2->GetTransform()->GetTranslation() - pos).Length();
 		}
 	);
@@ -82,7 +88,7 @@ void EnemyManager::CheckNearEnemyList() {
 // ↓　近い敵のポインタを返す
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-NormalEnemy* EnemyManager::GetNearEnemy(uint32_t& index) {
+std::shared_ptr<NormalEnemy> EnemyManager::GetNearEnemy(uint32_t& index) {
 	// 指定された値が配列を超えていないかをチェックする
 	if (index < nearNormalEnemyList_.size()) {
 		return nearNormalEnemyList_[index];

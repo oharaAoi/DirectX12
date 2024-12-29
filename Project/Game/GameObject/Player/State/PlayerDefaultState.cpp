@@ -18,6 +18,8 @@ void PlayerDefaultState::Update() {
 	pPlayer_->CheckJump();
 	pPlayer_->CheckAttack();
 	pPlayer_->CheckAvoidance();
+
+	pPlayer_->LookTarget();
 }
 
 #ifdef _DEBUG

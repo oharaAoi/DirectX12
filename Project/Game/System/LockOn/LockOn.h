@@ -1,4 +1,6 @@
 #pragma once
+// c++
+#include <memory>
 // engine
 #include "Engine/GameObject/BaseGameObject.h"
 // game
@@ -39,6 +41,8 @@ public:
 
 	const bool GetIsLockOn() const { return isLockOn_; }
 
+	BaseGameObject* GetTarget() { return target_.lock().get(); }
+
 private:
 
 	EnemyManager* enemyManager_ = nullptr;
@@ -46,7 +50,7 @@ private:
 	// カメラの行列
 	Matrix4x4 cameraMat_;
 
-	BaseGameObject* target_ = nullptr;
+	std::weak_ptr<BaseGameObject> target_;
 
 	bool isLockOn_;
 

@@ -29,9 +29,18 @@ void LockOn::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void LockOn::Update() {
-	if (target_ != nullptr) {
+	if (!target_.expired()) {
 		ChangeLockOnTarget();
-		transform_->SetTranslaion(target_->GetTransform()->GetTranslation());
+		transform_->SetTranslaion(target_.lock()->GetTransform()->GetTranslation());
+	} else if (isLockOn_) {
+		lockOnEnemyIndex_ = 0;
+
+		if (enemyManager_->GetNormalEnemyList().size() != 0) {
+			target_ = enemyManager_->GetNearEnemy(lockOnEnemyIndex_);
+		} else {
+			target_.reset();
+			isLockOn_ = false;
+		}
 	}
 	BaseGameObject::Update();
 }
@@ -51,6 +60,9 @@ void LockOn::Draw() const {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void LockOn::LockOnTarget() {
+	if (enemyManager_->GetNormalEnemyList().size() == 0) {
+		return;
+	}
 	isLockOn_ = !isLockOn_;
 
 	if (isLockOn_) {
@@ -60,7 +72,8 @@ void LockOn::LockOnTarget() {
 		// 指定した敵のポインタを取得する
 		target_ = enemyManager_->GetNearEnemy(lockOnEnemyIndex_);
 	} else {
-		target_ = nullptr;
+		target_.reset();
+		isLockOn_ = false;
 	}
 }
 
@@ -70,8 +83,10 @@ void LockOn::LockOnTarget() {
 
 void LockOn::ChangeLockOnTarget() {
 	if (Input::GetIsPadTrigger(XInputButtons::L_SHOULDER)) {
-		lockOnEnemyIndex_++;
-		target_ = enemyManager_->GetNearEnemy(lockOnEnemyIndex_);
+		if (enemyManager_->GetNormalEnemyList().size() != 0) {
+			lockOnEnemyIndex_++;
+			target_ = enemyManager_->GetNearEnemy(lockOnEnemyIndex_);
+		}
 	}
 }
 

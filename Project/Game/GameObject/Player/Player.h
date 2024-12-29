@@ -49,6 +49,11 @@ public:
 	/// </summary>
 	void CheckAvoidance();
 
+	/// <summary>
+	/// LockOnした敵の方向を向く
+	/// </summary>
+	void LookTarget();
+
 private:
 
 	void CheckLockOn();

@@ -55,6 +55,7 @@ private:
 	// 回転する前のQuaternion
 	Quaternion moveQuaternion_;
 
+	float lockOnDestinationAngleY_;
 	float destinationAngleY_;
 	float destinationAngleX_;
 

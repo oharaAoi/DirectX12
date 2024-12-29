@@ -151,12 +151,25 @@ void Player::CheckAvoidance() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　回避受付状態
+// ↓　Z注視受付状態
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::CheckLockOn() {
 	if (Input::GetIsPadTrigger(XInputButtons::R_SHOULDER)) {
 		lockOn_->LockOnTarget();
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　回避受付状態
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::LookTarget() {
+	if (lockOn_->GetIsLockOn()) {
+		Vector3 sub = lockOn_->GetTransform()->GetTranslation() - transform_->GetTranslation();
+		float angle = std::atan2f(sub.x, sub.z);
+		Quaternion lookRotate = Quaternion::AngleAxis(angle, Vector3::UP());
+		transform_->SetQuaternion(Quaternion::Slerp(transform_->GetQuaternion(), lookRotate, 0.1f));
 	}
 }
 

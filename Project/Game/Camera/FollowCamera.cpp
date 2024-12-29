@@ -31,6 +31,8 @@ void FollowCamera::Init() {
 	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
 	viewMatrix_ = Inverse(cameraMatrix_);
 
+	lockOnDestinationAngleY_ = 0.0f;
+
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&FollowCamera::Debug_Gui, this), "followCamera");
 #endif // _DEBUG
@@ -50,8 +52,8 @@ void FollowCamera::Update() {
 
 	if (lockOn_->GetIsLockOn()) {
 		Vector3 sub = lockOn_->GetTransform()->GetTranslation() - target_->GetTranslation();
-		destinationAngleY_ = std::atan2f(sub.x, sub.z);
-		transform_.rotate.y = LerpShortAngle(transform_.rotate.y, destinationAngleY_, 0.1f);
+		lockOnDestinationAngleY_ = std::atan2f(sub.x, sub.z);
+		transform_.rotate.y = LerpShortAngle(transform_.rotate.y, lockOnDestinationAngleY_, 0.05f);
 	}
 
 	BaseCamera::Update();
@@ -62,13 +64,14 @@ void FollowCamera::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::RotateCamera() {
-	Vector2 inputJoyStateR = Input::GetRightJoyStick();
-
-	if (inputJoyStateR.x != 0) {
-		const float speed = 0.1f;
-		destinationAngleY_ += inputJoyStateR.x * speed;
-		transform_.rotate.y = LerpShortAngle(transform_.rotate.y, destinationAngleY_, 0.1f);
+	if (lockOn_->GetIsLockOn()) {
+		return;
 	}
+
+	Vector2 inputJoyStateR = Input::GetRightJoyStick();
+	const float speed = 0.1f;
+	destinationAngleY_ += inputJoyStateR.x * speed;
+	transform_.rotate.y = LerpShortAngle(transform_.rotate.y, destinationAngleY_, 0.1f);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
