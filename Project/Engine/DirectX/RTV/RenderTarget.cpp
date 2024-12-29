@@ -49,6 +49,11 @@ void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* commandList, const
 	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 }
 
+void RenderTarget::ClearDepth(ID3D12GraphicsCommandList* commandList) {
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dxHeap_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
+	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　swawChainで使用するRenderTargetを作成する
 //////////////////////////////////////////////////////////////////////////////////////////////////
