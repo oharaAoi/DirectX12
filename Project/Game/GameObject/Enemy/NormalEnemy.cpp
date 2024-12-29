@@ -23,7 +23,6 @@ void NormalEnemy::Init() {
 	behaviorRequest_ = EnemyBehavior::DEFAULT;
 	CheckBehaviorRequest();
 
-
 	isDead_ = false;
 }
 
