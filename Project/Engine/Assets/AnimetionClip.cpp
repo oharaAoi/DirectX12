@@ -179,9 +179,12 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AnimetionClip::LoadGetAnimation(const std::string& animationFile, bool isSkinning) {
-	animation_ = manager_->GetAnimation(animationFile, manager_->GetAnimationFirstName(animationFile));
 	nowAnimationName_ = animationFile;
 	isSkinnig_ = isSkinning;
+
+	animation_ = manager_->GetAnimation(animationFile, manager_->GetAnimationFirstName(animationFile));
+	// すべてのanimationの名前を取得
+	animationNames_ = manager_->GetModelHaveAnimationNames(animationFileName_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
