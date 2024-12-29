@@ -177,6 +177,7 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AnimetionClip::LoadGetAnimation(const std::string& animationFile, bool isSkinning) {
+	animationFileName_ = animationFile;
 	nowAnimationName_ = animationFile;
 	isSkinnig_ = isSkinning;
 
