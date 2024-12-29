@@ -1,6 +1,7 @@
 #pragma once
-#include "Game/Camera/BaseCamera.h"
 #include "Engine/Lib/IJsonConverter.h"
+#include "Game/Camera/BaseCamera.h"
+#include "Game/System/LockOn/LockOn.h"
 
 class FollowCamera 
 	: public BaseCamera {
@@ -41,9 +42,14 @@ public:
 	void Debug_Gui() override;
 #endif
 
+	void SetLockOn(LockOn* lockOn) { lockOn_ = lockOn; }
+
 	const Matrix4x4& GetRotateMat() const { return rotateMat_; }
 
 private:
+
+	// ------------------- pointer ------------------- //
+	LockOn* lockOn_ = nullptr;
 
 	Quaternion quaternion_;
 	// 回転する前のQuaternion

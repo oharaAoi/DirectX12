@@ -54,8 +54,12 @@ void GameScene::Init() {
 	// ↓ その他設定
 	// -------------------------------------------------
 	player_->SetFollowCamera(followCamera_.get());
+	player_->SetLockOn(lockOn_.get());
 
 	followCamera_->SetTarget(player_->GetTransform());
+	followCamera_->SetLockOn(lockOn_.get());
+
+	lockOn_->SetEnemyManger(enemyManager_.get());
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&GameScene::Debug_Gui, this), "Scene");
@@ -88,10 +92,10 @@ void GameScene::Update() {
 
 	player_->Update();
 
-	lockOn_->GetTransform()->SetTranslaion(player_->GetTransform()->GetTranslation());
 	lockOn_->SetCameraMat(followCamera_->GetCameraMatrix());
 	lockOn_->Update();
 
+	enemyManager_->SetPlayerPos(player_->GetTransform()->GetTranslation());
 	enemyManager_->Update();
 
 	// -------------------------------------------------
@@ -127,7 +131,7 @@ void GameScene::Draw() const {
 
 	enemyManager_->Draw();
 
-
+	Engine::ClearDepth();
 	lockOn_->Draw();
 }
 

@@ -49,6 +49,8 @@ void Player::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Update() {
+	CheckLockOn();
+
 	state_->Update();
 	CheckBehaviorRequest();
 
@@ -145,6 +147,16 @@ void Player::CheckAvoidance() {
 	if (Input::GetIsPadTrigger(BUTTON_B)) {
 		behaviorRequest_ = Behavior::AVOIDANCE;
 		isAvoidance_ = true;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　回避受付状態
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::CheckLockOn() {
+	if (Input::GetIsPadTrigger(XInputButtons::R_SHOULDER)) {
+		lockOn_->LockOnTarget();
 	}
 }
 

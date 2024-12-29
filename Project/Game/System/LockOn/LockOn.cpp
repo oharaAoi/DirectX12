@@ -1,5 +1,6 @@
 #include "LockOn.h"
 #include "Engine/Editer/Window/EditerWindows.h"
+#include "Engine/Input/Input.h"
 
 LockOn::LockOn() {}
 LockOn::~LockOn() {}
@@ -16,6 +17,8 @@ void LockOn::Init() {
 
 	transform_->SetParent(cameraMat_);
 
+	lockOnEnemyIndex_ = 0;
+
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&LockOn::Debug_Gui, this), "lockOn");
 #endif
@@ -26,6 +29,10 @@ void LockOn::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void LockOn::Update() {
+	if (target_ != nullptr) {
+		ChangeLockOnTarget();
+		transform_->SetTranslaion(target_->GetTransform()->GetTranslation());
+	}
 	BaseGameObject::Update();
 }
 
@@ -34,7 +41,38 @@ void LockOn::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void LockOn::Draw() const {
-	BaseGameObject::Draw();
+	if (isLockOn_) {
+		BaseGameObject::Draw();
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　LockOnする処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void LockOn::LockOnTarget() {
+	isLockOn_ = !isLockOn_;
+
+	if (isLockOn_) {
+		lockOnEnemyIndex_ = 0;
+		// 一番近い敵を探索する
+		enemyManager_->CheckNearEnemyList();
+		// 指定した敵のポインタを取得する
+		target_ = enemyManager_->GetNearEnemy(lockOnEnemyIndex_);
+	} else {
+		target_ = nullptr;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Targetを変更する処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void LockOn::ChangeLockOnTarget() {
+	if (Input::GetIsPadTrigger(XInputButtons::L_SHOULDER)) {
+		lockOnEnemyIndex_++;
+		target_ = enemyManager_->GetNearEnemy(lockOnEnemyIndex_);
+	}
 }
 
 void LockOn::SetCameraMat(const Matrix4x4& cameraMat) {

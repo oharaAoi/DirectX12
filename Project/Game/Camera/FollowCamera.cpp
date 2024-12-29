@@ -48,18 +48,32 @@ void FollowCamera::Update() {
 		transform_.translate = target_->GetTranslation() + offset;
 	}
 
+	if (lockOn_->GetIsLockOn()) {
+		Vector3 sub = lockOn_->GetTransform()->GetTranslation() - target_->GetTranslation();
+		destinationAngleY_ = std::atan2f(sub.x, sub.z);
+		transform_.rotate.y = LerpShortAngle(transform_.rotate.y, destinationAngleY_, 0.1f);
+	}
+
 	BaseCamera::Update();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　カメラを回転させる
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::RotateCamera() {
 	Vector2 inputJoyStateR = Input::GetRightJoyStick();
 
-	const float speed = 0.1f;
-
-	destinationAngleY_ += inputJoyStateR.x * speed;
-
-	transform_.rotate.y = LerpShortAngle(transform_.rotate.y, destinationAngleY_, 0.1f);
+	if (inputJoyStateR.x != 0) {
+		const float speed = 0.1f;
+		destinationAngleY_ += inputJoyStateR.x * speed;
+		transform_.rotate.y = LerpShortAngle(transform_.rotate.y, destinationAngleY_, 0.1f);
+	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　offsetの位置を計算する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 Vector3 FollowCamera::CalcucOffset() {
 	Vector3 offset = information_.offset;

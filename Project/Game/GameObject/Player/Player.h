@@ -1,10 +1,13 @@
 #pragma once
 #include <memory>
 #include <optional>
+// engine
 #include "Engine/GameObject/BaseGameObject.h"
+// game
 #include "Game/Interface/ICharactorState.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Collider/AttackCollider.h"
+#include "Game/System/LockOn/LockOn.h"
 
 enum class Behavior {
 	DEFAULT,	// 待機状態
@@ -48,6 +51,8 @@ public:
 
 private:
 
+	void CheckLockOn();
+
 	/// <summary>
 	/// 状態変化のリクエストを確認する
 	/// </summary>
@@ -77,6 +82,9 @@ public:
 	void SetFollowCamera(FollowCamera* followCamera) { followCamera_ = followCamera; };
 	FollowCamera* GetFollowCamera() { return followCamera_; }
 
+	// lockOnの設定
+	void SetLockOn(LockOn* lockOn) { lockOn_ = lockOn; }
+
 	// Jumpフラグの設定と取得
 	void SetIsJump(bool isJump) { isJump_ = isJump; }
 	const bool GetIsJump() const { return isJump_; }
@@ -100,6 +108,8 @@ private:
 
 	// ------------------- pointer ------------------- //
 	FollowCamera* followCamera_ = nullptr;
+
+	LockOn* lockOn_ = nullptr;
 
 	// ------------------- State関連 ------------------- //
 	std::unique_ptr<ICharactorState> state_;
