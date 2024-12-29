@@ -1,5 +1,6 @@
 #include "NormalEnemy.h"
 #include "Engine/Editer/Window/EditerWindows.h"
+#include "Game/GameObject/Enemy/State/NormalEnemyDefaultState.h"
 
 NormalEnemy::NormalEnemy() {}
 NormalEnemy::~NormalEnemy() {}
@@ -11,11 +12,17 @@ void NormalEnemy::Finalize() {}
 
 void NormalEnemy::Init() {
 	BaseGameObject::Init();
-	SetObject("player.obj");
-	SetColor(Vector4(1,0,0,1));
-
+	SetObject("enemy.gltf");
+	SetAnimater("./Game/Resources/Models/Enemy/", "enemy.gltf", true, true, false);
+	SetIsLighting(false);
+	
 	SetCollider("normalEnemy", ColliderShape::SPHERE);
 	collider_->SetCollisionEnter([this](ICollider& other) { OnCollisionEnter(other); });
+
+	// 状態の設定
+	behaviorRequest_ = EnemyBehavior::DEFAULT;
+	CheckBehaviorRequest();
+
 
 	isDead_ = false;
 }
@@ -25,6 +32,9 @@ void NormalEnemy::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void NormalEnemy::Update() {
+	state_->Update();
+	CheckBehaviorRequest();
+
 	BaseGameObject::Update();
 }
 
@@ -34,6 +44,32 @@ void NormalEnemy::Update() {
 
 void NormalEnemy::Draw() const {
 	BaseGameObject::Draw();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　状態変化のリクエストを確認する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void NormalEnemy::CheckBehaviorRequest() {
+	if (behaviorRequest_) {
+		behavior_ = behaviorRequest_.value();
+
+		switch (behavior_) {
+		case EnemyBehavior::DEFAULT:
+			SetBehaviorState(std::make_unique<NormalEnemyDefaultState>(this));
+			break;
+		case EnemyBehavior::MOVE:
+
+			break;
+		case EnemyBehavior::ATTACK:
+
+			break;
+		default:
+			break;
+		}
+		// 振る舞いをリセット
+		behaviorRequest_ = std::nullopt;
+	}
 }
 
 //================================================================================================//

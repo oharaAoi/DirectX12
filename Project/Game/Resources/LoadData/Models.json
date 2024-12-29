@@ -12,6 +12,12 @@
                 "player.gltf",
                 "player.obj"
             ]
+        },
+        {
+            "directory": "./Game/Resources/Models/Enemy/",
+            "files": [
+                "enemy.gltf"
+            ]
         }
     ]
 }

@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Engine/Editer/Window/EditerWindows.h"
+#include "Engine/Utilities/AdjustmentItem.h"
 #include "Game/GameObject/Player/State/PlayerDefaultState.h"
 #include "Game/GameObject/Player/State/PlayerMoveState.h"
 #include "Game/GameObject/Player/State/PlayerJumpState.h"
@@ -25,6 +26,11 @@ void Player::Init() {
 	// 状態の設定
 	behaviorRequest_ = Behavior::DEFAULT;
 	CheckBehaviorRequest();
+
+	// statusの初期化
+	status_.FromJson(AdjustmentItem::GetData(groupName_, status_.tag));
+
+	initHp_ = status_.hp_;
 
 	// Colliderの初期化
 	SetCollider("player", ColliderShape::SPHERE);
@@ -200,9 +206,19 @@ void Player::OnCollisionStay([[maybe_unused]] ICollider& other) {
 void Player::Debug_Gui() {
 	BaseGameObject::Debug_Gui();
 	ImGui::Separator();
+	// statusの編集
+	if (ImGui::TreeNode("status")) {
+		ImGui::SliderFloat("hp", &status_.hp_, 0.0f, initHp_);
+		if (ImGui::Button("Save")) {
+			AdjustmentItem::Save(groupName_, status_.ToJson(status_.tag));
+		}
+		ImGui::TreePop();
+	}
+
+	ImGui::Separator();
+	// stateの編集
 	ImGui::Checkbox("isStateDebug", &stateDebug_);
 	state_->Debug_Gui();
-
 	ImGui::DragFloat3("attackColliderDiff", &attackColliderDiff_.x, 0.1f);
 }
 

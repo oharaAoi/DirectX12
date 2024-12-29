@@ -2,6 +2,7 @@
 #include <memory>
 #include <optional>
 // engine
+#include "Engine/Lib/IJsonConverter.h"
 #include "Engine/GameObject/BaseGameObject.h"
 // game
 #include "Game/Interface/ICharactorState.h"
@@ -19,6 +20,23 @@ enum class Behavior {
 };
 
 class Player : public BaseGameObject {
+public:
+
+	struct PlayerStatus : public IJsonConverter {
+		const std::string tag = "status";
+		float hp_;
+
+		json ToJson(const std::string id) const override {
+			return JsonBuilder(id)
+				.Add("hp", hp_)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "hp", hp_);
+		}
+	};
+
 public:
 
 	Player();
@@ -111,10 +129,17 @@ public:
 
 private:
 
+	const std::string groupName_ = "player";
+
 	// ------------------- pointer ------------------- //
 	FollowCamera* followCamera_ = nullptr;
 
 	LockOn* lockOn_ = nullptr;
+
+	// ------------------- status関連 ------------------- //
+	PlayerStatus status_;
+
+	float initHp_;
 
 	// ------------------- State関連 ------------------- //
 	std::unique_ptr<ICharactorState> state_;
