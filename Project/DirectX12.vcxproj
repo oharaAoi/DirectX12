@@ -241,6 +241,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
+    <ClCompile Include="Game\System\LockOn\LockOn.cpp" />
     <ClCompile Include="Game\WorldObject\Floor.cpp" />
     <ClCompile Include="Game\WorldObject\Ground.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
@@ -388,6 +389,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Scene\SceneFactory.h" />
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
+    <ClInclude Include="Game\System\LockOn\LockOn.h" />
     <ClInclude Include="Game\WorldObject\Ground.h" />
     <ClInclude Include="Game\WorldObject\Floor.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />

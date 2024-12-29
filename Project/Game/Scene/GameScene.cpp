@@ -36,6 +36,12 @@ void GameScene::Init() {
 	player_->Init();
 
 	// -------------------------------------------------
+	// ↓ system
+	// -------------------------------------------------
+	lockOn_ = std::make_unique<LockOn>();
+	lockOn_->Init();
+
+	// -------------------------------------------------
 	// ↓ Manager
 	// -------------------------------------------------
 	enemyManager_ = std::make_unique<EnemyManager>();
@@ -82,6 +88,10 @@ void GameScene::Update() {
 
 	player_->Update();
 
+	lockOn_->GetTransform()->SetTranslaion(player_->GetTransform()->GetTranslation());
+	lockOn_->SetCameraMat(followCamera_->GetCameraMatrix());
+	lockOn_->Update();
+
 	enemyManager_->Update();
 
 	// -------------------------------------------------
@@ -116,6 +126,9 @@ void GameScene::Draw() const {
 	player_->Draw();
 
 	enemyManager_->Draw();
+
+
+	lockOn_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

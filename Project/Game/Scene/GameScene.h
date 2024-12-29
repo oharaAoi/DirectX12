@@ -12,6 +12,7 @@
 #include "Game/WorldObject/Skydome.h"
 #include "Game/GameObject/Player/Player.h"
 #include "Game/Manager/EnemyManager.h"
+#include "Game/System/LockOn/LockOn.h"
 
 class GameScene 
 	: public BaseScene {
@@ -41,6 +42,9 @@ private:
 
 	// ------------------- gameObject ------------------- //
 	std::unique_ptr<Player> player_ = nullptr;
+
+	// ------------------- system ------------------- //
+	std::unique_ptr<LockOn> lockOn_ = nullptr;
 
 	// ------------------- manager ------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_ = nullptr;

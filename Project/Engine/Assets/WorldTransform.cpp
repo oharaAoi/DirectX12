@@ -62,7 +62,7 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	// -------------------------------------------------
 	worldMat_ = mat * Matrix4x4::MakeAffine(scale_, worldRotate, worldTranslate);
 	if (parentMat_ != nullptr) {
-		worldMat_ *= *parentMat_;
+		worldMat_ = *parentMat_ * worldMat_;
 	}
 
 	// GPUに送るデータを更新
