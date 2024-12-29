@@ -167,7 +167,8 @@ void AnimetionClip::LoadAnimation(const std::string directoryPath, const std::st
 	// managerにanimationデータを追加
 	manager_->AddMap(animationMap, animationFile);
 	// 先頭のアニメーションを追加しておく
-	animation_ = manager_->GetAnimation(animationFile, manager_->GetAnimationFirstName(animationFile));
+	nowAnimationName_ = manager_->GetAnimationFirstName(animationFile);
+	animation_ = manager_->GetAnimation(animationFile, nowAnimationName_);
 	// すべてのanimationの名前を取得
 	animationNames_ = manager_->GetModelHaveAnimationNames(animationFileName_);
 }
@@ -181,7 +182,8 @@ void AnimetionClip::LoadGetAnimation(const std::string& animationFile, bool isSk
 	nowAnimationName_ = animationFile;
 	isSkinnig_ = isSkinning;
 
-	animation_ = manager_->GetAnimation(animationFile, manager_->GetAnimationFirstName(animationFile));
+	nowAnimationName_ = manager_->GetAnimationFirstName(animationFile);
+	animation_ = manager_->GetAnimation(animationFile, nowAnimationName_);
 	// すべてのanimationの名前を取得
 	animationNames_ = manager_->GetModelHaveAnimationNames(animationFileName_);
 }
