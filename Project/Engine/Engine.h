@@ -112,6 +112,11 @@ public:
 	static void SetSkinning(Skinning* skinning, Mesh* mesh);
 
 	/// <summary>
+	/// 深度バッファをリセットする
+	/// </summary>
+	static void ClearDepth();
+
+	/// <summary>
 	/// CSをResetする
 	/// </summary>
 	static void ResetComputeShader();

@@ -29,6 +29,8 @@ public:
 
 	void SetRenderTarget(ID3D12GraphicsCommandList* commandList, const RenderTargetType& type);
 
+	void ClearDepth(ID3D12GraphicsCommandList* commandList);
+
 	/// <summary>
 	/// swawChainで使用するRenderTargetを作成する
 	/// </summary>
