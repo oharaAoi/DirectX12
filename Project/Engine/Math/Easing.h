@@ -6,7 +6,7 @@
 #include <math.h>
 
 #ifdef _DEBUG
-#include "Engine/Manager/ImGuiManager.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 #endif
 
 using EasingFunc = float(*)(float);

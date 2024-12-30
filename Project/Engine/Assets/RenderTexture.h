@@ -1,8 +1,8 @@
 #pragma once
-#include "Mesh.h"
-#include "Material.h"
-#include "Engine/Manager/TextureManager.h"
-#include "Engine/Manager/ImGuiManager.h"
+#include "Engine/Assets/Meshes/Mesh.h"
+#include "Engine/Assets/Materials/Material.h"
+#include "Engine/System/Manager/TextureManager.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/DirectX/Resource/ShaderResource.h"
 
 template<typename T>

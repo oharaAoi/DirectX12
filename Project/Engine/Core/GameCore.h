@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include "Engine/Core/AoiFramework.h"
-#include "Engine/Manager/SceneManager.h"
+#include "Engine/System/Manager/SceneManager.h"
 
 /// <summary>
 /// ゲーム全体
