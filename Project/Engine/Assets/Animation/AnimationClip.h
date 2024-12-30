@@ -7,7 +7,7 @@
 #include <assimp/postprocess.h>
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/Quaternion.h"
-#include "Engine/Assets/Skeleton.h"
+#include "Engine/Assets/Rigging/Skeleton.h"
 
 class AnimationManager;
 
