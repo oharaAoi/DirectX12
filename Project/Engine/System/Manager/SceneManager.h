@@ -8,7 +8,7 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/System/ParticleSystem/EffectSystem.h"
 #include "Engine/System/Manager/ModelManager.h"
-#include "Engine/Input/Input.h"
+#include "Engine/System/Input/Input.h"
 #include "Game/GameResources.h"
 
 /// <summary>

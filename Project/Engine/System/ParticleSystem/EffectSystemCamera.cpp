@@ -1,5 +1,5 @@
 #include "EffectSystemCamera.h"
-#include "Engine/Input/Input.h"
+#include "Engine/System/Input/Input.h"
 #ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
 #endif // _DEBUG
