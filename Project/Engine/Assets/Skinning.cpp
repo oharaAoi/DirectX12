@@ -1,7 +1,11 @@
 #include "Skinning.h"
+#include <utility>
+#include <algorithm>
+#include <DirectXTex/d3dx12.h>
+#include "Engine/Utilities/DirectXUtils.h"
 #include "Engine/Assets/Skeleton.h"
-#include "Engine/GameObject/Model.h"
-#include "Engine/Assets/Mesh.h"
+#include "Engine/Assets/GameObject/Model.h"
+#include "Engine/Assets/Meshes/Mesh.h"
 
 Skinning::Skinning() {}
 Skinning::~Skinning() {}
@@ -178,7 +182,6 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Skinning::RunCs(ID3D12GraphicsCommandList* commandList) const {
-	
 	commandList->SetComputeRootDescriptorTable(0, paletteSrvHandle_.handleGPU);
 	commandList->SetComputeRootDescriptorTable(1, inputHandle_.handleGPU);
 	commandList->SetComputeRootDescriptorTable(2, influenceSrvHandle_.handleGPU);

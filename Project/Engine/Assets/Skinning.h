@@ -3,18 +3,15 @@
 #include <vector>
 #include <array>
 #include <span>
-#include <utility>
 #include <map>
-#include <algorithm>
 #include "Engine/Utilities/DirectXUtils.h"
-#include "Engine/Math/MyMatrix.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
-#include "Engine/Assets/Mesh.h"
 
 const uint32_t kNumMaxInfluence = 4;
 
 class Skeleton;
 class Model;
+class Mesh;
 
 /// <summary>
 /// skinningの情報を管理しているクラス

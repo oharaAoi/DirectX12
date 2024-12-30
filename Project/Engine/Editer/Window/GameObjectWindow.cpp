@@ -41,7 +41,7 @@ void GameObjectWindow::AddFunction(std::function<void()> func, const std::string
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
-#include "Engine/Manager/ImGuiManager.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 void GameObjectWindow::Edit() {
 	ImGui::Begin("SceneObject");
 	static int selectedEffectIndex = -1; // -1 means no selection
