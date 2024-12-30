@@ -211,6 +211,12 @@ void LoadMtl(const std::string& directoryPath, const std::string& fileName, Vect
 	}
 }
 
+//================================================================================================//
+//
+// ファイル拡張子の探索
+//
+//================================================================================================//
+
 const char* GetFileExtension(const char* filename) {
 	const char* ext = std::strrchr(filename, '.'); // 最後のピリオドを探す
 	if (ext == nullptr) {

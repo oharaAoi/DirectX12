@@ -1,7 +1,7 @@
 #include "Animetor.h"
 #include "Engine/Assets/Animation/AnimationClip.h"
-#include "Engine/Assets/Skeleton.h"
-#include "Engine/Assets/Skinning.h"
+#include "Engine/Assets/Rigging/Skeleton.h"
+#include "Engine/Assets/Rigging/Skinning.h"
 
 Animetor::Animetor() {
 	manager_ = AnimationManager::GetInstance();
