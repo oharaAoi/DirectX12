@@ -195,7 +195,7 @@
     <ClCompile Include="Engine\Assets\Light\LightGroup.cpp">
       <Filter>Engine\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Input\Input.cpp">
+    <ClCompile Include="Engine\System\Input\Input.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp">
@@ -408,9 +408,6 @@
     <ClCompile Include="Engine\Assets\Collider\MeshCollider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Collider\MeshCollider.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Assets\GameObject\ObjectAxis.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -596,7 +593,7 @@
     <ClInclude Include="Engine\Assets\Light\LightGroup.h">
       <Filter>Engine\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Input\Input.h">
+    <ClInclude Include="Engine\System\Input\Input.h">
       <Filter>Engine\Input</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h">
@@ -798,9 +795,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Assets\Collider\MeshCollider.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Collider\MeshCollider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Assets\GameObject\ObjectAxis.h">
