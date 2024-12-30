@@ -343,6 +343,8 @@ void AnimetionClip::SetLerpAnimation(const std::string& preAnimation, const std:
 	isAnimationChange_ = true;
 
 	blendFactor_ = 0.0f;
+
+	nowAnimationName_ = lerpAnimation;
 }
 
 
@@ -356,6 +358,8 @@ void AnimetionClip::SetLerpAnimation(const std::string& lerpAnimation) {
 	isAnimationChange_ = true;
 
 	blendFactor_ = 0.0f;
+
+	nowAnimationName_ = lerpAnimation;
 }
 
 void AnimetionClip::SetAnimation(const std::string& animationName) {
@@ -428,6 +432,14 @@ void AnimetionClip::Debug_Gui() {
 		std::string animationName = animationNames_[selectedAnimationIndex];
 		animation_ = manager_->GetAnimation(animationFileName_, animationName);
 	}
+
+	if (isAnimationChange_) {
+		ImGui::Text("true Change");
+	} else {
+		ImGui::Text("not Change");
+	}
+
+	ImGui::Text(nowAnimationName_.c_str());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

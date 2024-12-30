@@ -1,6 +1,7 @@
 #include "NormalEnemy.h"
 #include "Engine/Editer/Window/EditerWindows.h"
 #include "Game/GameObject/Enemy/State/NormalEnemyDefaultState.h"
+#include "Game/GameObject/Enemy/State/NormalEnemyMoveState.h"
 
 NormalEnemy::NormalEnemy() {}
 NormalEnemy::~NormalEnemy() {}
@@ -58,7 +59,7 @@ void NormalEnemy::CheckBehaviorRequest() {
 			SetBehaviorState(std::make_unique<NormalEnemyDefaultState>(this));
 			break;
 		case EnemyBehavior::MOVE:
-
+			SetBehaviorState(std::make_unique<NormalEnemyMoveState>(this));
 			break;
 		case EnemyBehavior::ATTACK:
 
@@ -100,5 +101,6 @@ void NormalEnemy::OnCollisionStay([[maybe_unused]] ICollider& other) {
 
 #ifdef _DEBUG
 void NormalEnemy::Debug_Gui() {
+	BaseGameObject::Debug_Gui();
 }
 #endif

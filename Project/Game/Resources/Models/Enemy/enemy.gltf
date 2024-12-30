@@ -14,7 +14,7 @@
 	],
 	"nodes":[
 		{
-			"name":"\u30dc\u30fc\u30f3"
+			"name":"born"
 		},
 		{
 			"mesh":0,
@@ -26,7 +26,7 @@
 				1,
 				0
 			],
-			"name":"\u30a2\u30fc\u30de\u30c1\u30e5\u30a2"
+			"name":"arm"
 		}
 	],
 	"animations":[
@@ -167,7 +167,7 @@
 			"joints":[
 				0
 			],
-			"name":"\u30a2\u30fc\u30de\u30c1\u30e5\u30a2"
+			"name":"arm"
 		}
 	],
 	"accessors":[

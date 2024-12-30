@@ -34,6 +34,7 @@ void EnemyManager::Update() {
 	});
 
 	for (std::list<std::shared_ptr<NormalEnemy>>::iterator it = normalEnemyList_.begin(); it != normalEnemyList_.end();) {
+		(*it)->SetPlayerPos(playerPos_);
 		(*it)->Update();
 		++it;
 	}
@@ -110,5 +111,14 @@ void EnemyManager::Debug_Gui() {
 	}
 	ImGui::SameLine();
 	ImGui::DragFloat3("newEnemyPos", &newEnemyPos_.x, 0.1f);
+	uint32_t index = 0;
+	for (auto& enemy : normalEnemyList_) {
+		std::string label = "enemy" + std::to_string(index);
+		if (ImGui::TreeNode(label.c_str())) {
+			enemy->Debug_Gui();
+			ImGui::TreePop();
+		}
+		index++;
+	}
 }
 #endif

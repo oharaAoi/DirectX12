@@ -11,6 +11,9 @@ void NormalEnemyDefaultState::Init() {
 }
 
 void NormalEnemyDefaultState::Update() {
+	if ((pEnemy_->GetTransform()->GetTranslation() - pEnemy_->GetPlayerPos()).Length() < 10.0f) {
+		pEnemy_->SetBehaviorRequest(EnemyBehavior::MOVE);
+	}
 }
 
 #ifdef _DEBUG
