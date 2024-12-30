@@ -162,7 +162,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Assets\GameObject\Model.cpp" />
     <ClCompile Include="Engine\Assets\GameObject\ObjectAxis.cpp" />
     <ClCompile Include="Engine\Assets\GameObject\TestObject.cpp" />
-    <ClCompile Include="Engine\Input\Input.cpp" />
+    <ClCompile Include="Engine\System\Input\Input.cpp" />
     <ClCompile Include="Engine\Lib\GameTimer.cpp" />
     <ClCompile Include="Engine\Lib\IJsonConverter.cpp" />
     <ClCompile Include="Engine\Lib\Transform.cpp" />
@@ -304,7 +304,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Assets\GameObject\Model.h" />
     <ClInclude Include="Engine\Assets\GameObject\ObjectAxis.h" />
     <ClInclude Include="Engine\Assets\GameObject\TestObject.h" />
-    <ClInclude Include="Engine\Input\Input.h" />
+    <ClInclude Include="Engine\System\Input\Input.h" />
     <ClInclude Include="Engine\Lib\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
     <ClInclude Include="Engine\Lib\IJsonConverter.h" />

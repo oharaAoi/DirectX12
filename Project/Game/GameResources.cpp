@@ -1,7 +1,7 @@
 #include "GameResources.h"
-#include "Engine/Manager/TextureManager.h"
-#include "Engine/Manager/ModelManager.h"
-#include "Engine/Manager/AudioManager.h"
+#include "Engine/System/Manager/TextureManager.h"
+#include "Engine/System/Manager/ModelManager.h"
+#include "Engine/System/Manager/AudioManager.h"
 
 GameResources::GameResources() {
 }
