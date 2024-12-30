@@ -3,7 +3,7 @@
 #include <optional>
 // game
 #include "Game/Interface/ICharactorState.h"
-#include "Engine/GameObject/BaseGameObject.h"
+#include "Engine/Assets/GameObject/BaseGameObject.h"
 
 enum class EnemyBehavior {
 	DEFAULT,

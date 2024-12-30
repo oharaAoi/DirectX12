@@ -104,7 +104,7 @@ std::shared_ptr<NormalEnemy> EnemyManager::GetNearEnemy(uint32_t& index) {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
-#include "Engine/Manager/ImGuiManager.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 void EnemyManager::Debug_Gui() {
 	if (ImGui::Button("pop")) {
 		Pop(newEnemyPos_);

@@ -18,7 +18,7 @@ void AnimationClip::Init() {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AnimetionClip::Update() {
+void AnimationClip::Update() {
 	if (isLoop_) {
 		if (isAnimationFinish_) {
 			isAnimationFinish_ = false;
@@ -364,7 +364,7 @@ void AnimationClip::SetLerpAnimation(const std::string& lerpAnimation) {
 	nowAnimationName_ = lerpAnimation;
 }
 
-void AnimetionClip::SetAnimation(const std::string& animationName) {
+void AnimationClip::SetAnimation(const std::string& animationName) {
 	animation_ = manager_->GetAnimation(animationFileName_, animationName);
 	animationTime_ = 0.0f;
 }

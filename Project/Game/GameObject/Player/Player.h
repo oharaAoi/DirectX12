@@ -3,7 +3,7 @@
 #include <optional>
 // engine
 #include "Engine/Lib/IJsonConverter.h"
-#include "Engine/GameObject/BaseGameObject.h"
+#include "Engine/Assets/GameObject/BaseGameObject.h"
 // game
 #include "Game/Interface/ICharactorState.h"
 #include "Game/Camera/FollowCamera.h"

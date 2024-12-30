@@ -2,7 +2,7 @@
 // c++
 #include <memory>
 // engine
-#include "Engine/GameObject/BaseGameObject.h"
+#include "Engine/Assets/GameObject/BaseGameObject.h"
 // game
 #include "Game/Manager/EnemyManager.h"
 

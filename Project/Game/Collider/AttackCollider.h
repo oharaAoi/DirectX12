@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "Engine/Collider/ICollider.h"
+#include "Engine/Assets/Collider/ICollider.h"
 
 class AttackCollider
 	: public ICollider {

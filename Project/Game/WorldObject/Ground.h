@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/GameObject/BaseGameObject.h"
+#include "Engine/Assets/GameObject/BaseGameObject.h"
 
 class Ground : public BaseGameObject {
 public:
