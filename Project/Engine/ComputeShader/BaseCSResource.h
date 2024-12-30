@@ -3,7 +3,7 @@
 #include "Engine/Utilities/DirectXUtils.h"
 #include "Engine/Math/MyMath.h"
 #include "Engine/ComputeShader/ComputeShaderPipeline.h"
-#include "Engine/Manager/ImGuiManager.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 class BaseCSResource {
 public:

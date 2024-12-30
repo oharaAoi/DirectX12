@@ -1,12 +1,12 @@
 #pragma once
 #include "Engine/DirectX/RTV/RenderTarget.h"
-#include "Engine/2d/Triangle.h"
-#include "Engine/2d/Sprite.h"
-#include "Engine/GameObject/Model.h"
-#include "Engine/ParticleSystem/Particle/BaseParticle.h"
+#include "Engine/Assets/2d/Triangle.h"
+#include "Engine/Assets/2d/Sprite.h"
+#include "Engine/Assets/2d/PrimitiveDrawer.h"
+#include "Engine/Assets/Light/LightGroup.h"
+#include "Engine/Assets/GameObject/Model.h"
+#include "Engine/System/ParticleSystem/Particle/BaseParticle.h"
 #include "Engine/DirectX/Pipeline/PrimitivePipeline.h"
-#include "Engine/2d/PrimitiveDrawer.h"
-#include "Engine/Light/LightGroup.h"
 
 /// <summary>
 /// GameObjectの描画を行う

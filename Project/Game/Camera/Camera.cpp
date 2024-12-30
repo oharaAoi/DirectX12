@@ -39,7 +39,7 @@ void Camera::Update() {
 }
 
 #ifdef _DEBUG
-#include "Engine/Manager/ImGuiManager.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 void Camera::Debug_Gui() {
 	if (ImGui::Button("Reset")) {
 		transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, -9.0f} };
