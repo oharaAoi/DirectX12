@@ -12,7 +12,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include "Engine/Assets/Meshes/Mesh.h"
-#include "Engine/Assets/Skinning.h"
+#include "Engine/Assets/Rigging/Skinning.h"
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/ViewProjection.h"
 #include "Engine/Lib/Transform.h"
@@ -55,7 +55,7 @@ public:
 	~Model();
 
 	void Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName);
-	void Update();
+	
 	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform* worldTransform, const ViewProjection* viewprojection, const std::vector<std::unique_ptr<Material>>& materials);
 	
 #ifdef _DEBUG
@@ -106,9 +106,4 @@ private:
 
 	// モデルにtextureがあるか
 	bool hasTexture_;
-
-	//////////////////////////////////////////////////////////
-
-	// アニメーションの時間
-	float currentAnimationTime_ = 0;
 };

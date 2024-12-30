@@ -18,16 +18,6 @@ Model::~Model() {
 void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
 	Log("Load: " + fileName + "\n");
 	LoadObj(directorPath, fileName, device);
-
-	currentAnimationTime_ = 0;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// 更新関数
-//////////////////////////////////////////////////////////////////////////////////////////////////
-void Model::Update() {
-	currentAnimationTime_ += rootNode_.animationsData.tickPerSecond * kDeltaTime_;
-	currentAnimationTime_ = fmod(currentAnimationTime_, rootNode_.animationsData.duration);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

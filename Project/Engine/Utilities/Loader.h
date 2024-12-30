@@ -40,6 +40,8 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(cons
 /// <param name="scale"></param>
 void LoadMtl(const std::string& directoryPath, const std::string& fileName, Vector3& scale);
 
+
+
 //================================================================================================//
 //
 // 拡張子系

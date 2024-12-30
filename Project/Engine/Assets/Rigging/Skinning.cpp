@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <DirectXTex/d3dx12.h>
 #include "Engine/Utilities/DirectXUtils.h"
-#include "Engine/Assets/Skeleton.h"
+#include "Engine/Assets/Rigging/Skeleton.h"
 #include "Engine/Assets/GameObject/Model.h"
 #include "Engine/Assets/Meshes/Mesh.h"
 
