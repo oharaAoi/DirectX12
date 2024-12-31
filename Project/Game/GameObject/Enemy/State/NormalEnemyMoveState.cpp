@@ -13,9 +13,9 @@ void NormalEnemyMoveState::Init() {
 void NormalEnemyMoveState::Update() {
 	Move();
 
-	/*if (distance_.Length() < 1.0f) {
+	if (distance_.Length() < 1.0f) {
 		pEnemy_->SetBehaviorRequest(EnemyBehavior::ATTACK);
-	}*/
+	}
 }
 
 void NormalEnemyMoveState::Move() {

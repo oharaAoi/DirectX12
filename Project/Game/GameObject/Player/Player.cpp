@@ -6,6 +6,7 @@
 #include "Game/GameObject/Player/State/PlayerJumpState.h"
 #include "Game/GameObject/Player/State/PlayerAttackState.h"
 #include "Game/GameObject/Player/State/PlayerAvoidanceState.h"
+#include "Game/GameObject/Player/State/PlayerDamageState.h"
 #include "Game/GameObject/Player/State/PlayerInputReceptionState.h"
 
 Player::Player() {}
@@ -102,6 +103,9 @@ void Player::CheckBehaviorRequest() {
 		case Behavior::AVOIDANCE:
 			SetBehaviorState(std::make_unique<PlayerAvoidanceState>(this));
 			break;
+		case Behavior::DAMAGE:
+			SetBehaviorState(std::make_unique<PlayerDamageState>(this));
+			break;
 		case Behavior::RECEPTION:
 			SetBehaviorState(std::make_unique<PlayerInputReceptionState>(this));
 			break;
@@ -190,6 +194,7 @@ void Player::LookTarget() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

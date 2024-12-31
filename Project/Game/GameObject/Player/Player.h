@@ -16,6 +16,7 @@ enum class Behavior {
 	JUMP,		// 跳躍状態
 	ATTACK,		// 攻撃状態
 	AVOIDANCE,	// 回避状態
+	DAMAGE,		// 被弾状態
 	RECEPTION,	// 入力受付状態
 };
 

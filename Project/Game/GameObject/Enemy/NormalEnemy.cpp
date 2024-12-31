@@ -2,6 +2,7 @@
 #include "Engine/Editer/Window/EditerWindows.h"
 #include "Game/GameObject/Enemy/State/NormalEnemyDefaultState.h"
 #include "Game/GameObject/Enemy/State/NormalEnemyMoveState.h"
+#include "Game/GameObject/Enemy/State/NormalEnemyAttackState.h"
 
 NormalEnemy::NormalEnemy() {}
 NormalEnemy::~NormalEnemy() {}
@@ -62,7 +63,7 @@ void NormalEnemy::CheckBehaviorRequest() {
 			SetBehaviorState(std::make_unique<NormalEnemyMoveState>(this));
 			break;
 		case EnemyBehavior::ATTACK:
-
+			SetBehaviorState(std::make_unique<NormalEnemyAttackState>(this));
 			break;
 		default:
 			break;
