@@ -34,8 +34,6 @@ void MeshManager::AddMesh(ID3D12Device* device, const std::string& modelName, co
 
 	// 名前リストを更新
 	meshNameList_.push_back(modelName);
-		meshMap_[modelName].push_back(std::move(mesh));
-	}
 }
 
 std::vector<std::unique_ptr<Mesh>> MeshManager::GetMeshes(const std::string& modelName) {

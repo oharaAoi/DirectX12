@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:Project/Engine/Assets/Animation/Animetor.cpp
-#include "Animetor.h"
-========
 #include "Animator.h"
->>>>>>>> main:Project/Engine/Assets/Animation/Animator.cpp
 #include "Engine/Assets/Animation/AnimationClip.h"
 #include "Engine/Assets/Rigging/Skeleton.h"
 #include "Engine/Assets/Rigging/Skinning.h"
@@ -37,11 +33,8 @@ void Animator::Update() {
 }
 
 
-<<<<<<<< HEAD:Project/Engine/Assets/Animation/Animetor.cpp
-void Animetor::UpdateScript(float& animationTime, float transitionTime) {
-========
+
 void Animator::UpdateScript(float& animationTime, float transitionTime) {
->>>>>>>> main:Project/Engine/Assets/Animation/Animator.cpp
 	if (!animationClip_->GetIsChange()) {
 		// Animationの遷移がなかったらそのままタイムの更新を行う
 		animationClip_->SetAnimationTime(animationTime);
@@ -96,28 +89,16 @@ void Animator::LoadAnimation(const std::string& directoryPath, const std::string
 	}
 }
 
-<<<<<<<< HEAD:Project/Engine/Assets/Animation/Animetor.cpp
-void Animetor::TransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation) {
-	animationClip_->SetLerpAnimation(preAnimation, afterAnimation);
-}
-
-void Animetor::TransitionAnimation(const std::string& afterAnimation) {
-========
 void Animator::TransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation) {
 	animationClip_->SetLerpAnimation(preAnimation, afterAnimation);
 }
 
 void Animator::TransitionAnimation(const std::string& afterAnimation) {
->>>>>>>> main:Project/Engine/Assets/Animation/Animator.cpp
 	animationClip_->SetLerpAnimation(afterAnimation);
 }
 
 #ifdef _DEBUG
-<<<<<<<< HEAD:Project/Engine/Assets/Animation/Animetor.cpp
-void Animetor::Debug_Gui() {
-========
 void Animator::Debug_Gui() {
->>>>>>>> main:Project/Engine/Assets/Animation/Animator.cpp
 	animationClip_->Debug_Gui();
 }
 #endif

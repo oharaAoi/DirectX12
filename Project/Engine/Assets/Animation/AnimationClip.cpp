@@ -29,12 +29,6 @@ void AnimationClip::Update() {
 			animationTime_ = std::fmod(animationTime_, animation_.duration);
 		}
 	}
-
-	animationTime_ += GameTimer::DeltaTime();
-	// アニメーションが終了したら
-	if (animationTime_ >= animation_.duration) {
-		isAnimationFinish_ = true;
-	}
 	
 	// skinningを行わない場合アニメーションの行列を更新する
 	if (!isSkinnig_) {

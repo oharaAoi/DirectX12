@@ -49,7 +49,6 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList,
 		worldTransform->BindCommandList(commandList);
 		viewProjection->BindCommandList(commandList);
 
-		if (hasTexture_) {
 		std::string textureName = materials[oi]->GetUseTexture();
 		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 3);
 
@@ -81,6 +80,7 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList,
 // ↓　Debug
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
+#include "Engine/System/Manager/ImGuiManager.h"
 void Model::Debug_Gui(const std::string& name) {
 	if (ImGui::TreeNode(name.c_str())) {
 		for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
