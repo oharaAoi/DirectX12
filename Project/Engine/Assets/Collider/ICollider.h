@@ -26,7 +26,7 @@ public:
 	ICollider() = default;
 	virtual ~ICollider() = default;
 
-	virtual void Init(const std::string& tag, ColliderShape shape) = 0;
+	virtual void Init(uint32_t bitTag, ColliderShape shape) = 0;
 	virtual void Update(const SRT& srt) = 0;
 	virtual void Draw() const {};
 
@@ -68,8 +68,8 @@ public:
 	}
 
 	// --------------- tagの設定・取得 -------------- //
-	void SetTag(const std::string& tag) { tag_ = tag; }
-	const std::string GetTag() const { return tag_; }
+	void SetTag(uint32_t tag) { bitTag_ = tag; }
+	const uint32_t GetTag() const { return bitTag_; }
 
 	// --------------- shapeの設定・取得 -------------- //
 	void SetShape(const std::variant<Sphere, AABB, OBB>& shape) { shape_ = shape; }
@@ -102,7 +102,7 @@ private:
 protected:
 
 	// タグ
-	std::string tag_;
+	uint32_t bitTag_;
 	// 形状
 	std::variant<Sphere, AABB, OBB> shape_;
 	// 当たり判定の状態

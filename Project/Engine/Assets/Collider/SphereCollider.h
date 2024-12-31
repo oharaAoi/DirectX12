@@ -8,7 +8,7 @@ public:
 	SphereCollider();
 	~SphereCollider();
 
-	void Init(const std::string& tag, ColliderShape shape) override;
+	void Init(uint32_t bitTag, ColliderShape shape) override;
 	void Update(const SRT& srt) override;
 	void Draw() const override;
 

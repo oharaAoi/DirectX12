@@ -31,8 +31,8 @@ void TestScene::Init() {
 	testObjA_->Init();
 	testObjB_->Init();
 
-	testObjA_->SetCollider("testA", ColliderShape::SPHERE);
-	testObjB_->SetCollider("testB", ColliderShape::OBB);
+	testObjA_->SetCollider(1 << 1, ColliderShape::SPHERE);
+	testObjB_->SetCollider(1 << 2, ColliderShape::OBB);
 
 	testObjA_->SetObject("amimationCharacter.gltf");
 	testObjA_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, false);

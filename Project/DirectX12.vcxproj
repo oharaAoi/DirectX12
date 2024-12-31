@@ -209,6 +209,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Render.cpp" />
     <ClCompile Include="Engine\Utilities\AdjustmentItem.cpp" />
     <ClCompile Include="Engine\Utilities\AnimationUtils.cpp" />
+    <ClCompile Include="Engine\Utilities\BitChecker.cpp" />
     <ClCompile Include="Engine\Utilities\Convert.cpp" />
     <ClCompile Include="Engine\Utilities\DirectXUtils.cpp" />
     <ClCompile Include="Engine\Utilities\DrawUtils.cpp" />
@@ -357,6 +358,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Render.h" />
     <ClInclude Include="Engine\Utilities\AdjustmentItem.h" />
     <ClInclude Include="Engine\Utilities\AnimationUtils.h" />
+    <ClInclude Include="Engine\Utilities\BitChecker.h" />
     <ClInclude Include="Engine\Utilities\Convert.h" />
     <ClInclude Include="Engine\Utilities\Debug.h" />
     <ClInclude Include="Engine\Utilities\DirectXUtils.h" />
