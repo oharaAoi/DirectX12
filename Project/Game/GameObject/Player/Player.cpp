@@ -38,6 +38,7 @@ void Player::Init() {
 
 	// Colliderの初期化
 	SetCollider(ColliderTags::Player::DEFAULT, ColliderShape::SPHERE);
+	collider_->SetRadius(3.0f);
 	collider_->SetCollisionEnter([this](ICollider& other) { OnCollisionEnter(other); });
 	collider_->SetCollisionStay([this](ICollider& other) { OnCollisionStay(other); });
 
@@ -207,6 +208,9 @@ void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::OnCollisionStay([[maybe_unused]] ICollider& other) {
+	if (CheckBit(other.GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
+		SetBehaviorRequest(Behavior::DAMAGE);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

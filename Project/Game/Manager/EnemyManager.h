@@ -39,6 +39,9 @@ private:
 
 #ifdef _DEBUG
 	void Debug_Gui();
+
+public:
+	void Debug_Draw();
 #endif
 
 private:

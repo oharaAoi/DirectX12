@@ -40,6 +40,8 @@ public:
 
 #ifdef _DEBUG
 	void Debug_Gui();
+
+	void Debug_Draw();
 #endif
 
 	// 状態の設定

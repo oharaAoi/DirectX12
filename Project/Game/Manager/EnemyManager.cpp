@@ -121,4 +121,10 @@ void EnemyManager::Debug_Gui() {
 		index++;
 	}
 }
+void EnemyManager::Debug_Draw() {
+	for (std::list<std::shared_ptr<NormalEnemy>>::const_iterator it = normalEnemyList_.begin(); it != normalEnemyList_.end();) {
+		(*it)->Debug_Draw();
+		++it;
+	}
+}
 #endif

@@ -109,4 +109,7 @@ void NormalEnemy::OnCollisionStay([[maybe_unused]] ICollider& other) {
 void NormalEnemy::Debug_Gui() {
 	BaseGameObject::Debug_Gui();
 }
+void NormalEnemy::Debug_Draw() {
+	collider_->Draw();
+}
 #endif

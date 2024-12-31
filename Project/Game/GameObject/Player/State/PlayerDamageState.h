@@ -20,6 +20,8 @@ public:
 	void Init() override;
 	void Update() override;
 
+	void KnockBack();
+
 #ifdef _DEBUG
 	void Debug_Gui() override;
 #endif // _DEBUG
