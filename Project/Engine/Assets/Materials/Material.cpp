@@ -68,6 +68,6 @@ void Material::SetMaterialData(Model::ModelMaterialData materialData) {
 	material_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	material_->enableLighting = true;
 	material_->uvTransform = Matrix4x4::MakeUnit();
-	material_->shininess = 1;
+	material_->shininess = 50;
 	materialsData_.textureFilePath = materialData.textureFilePath;
 }
