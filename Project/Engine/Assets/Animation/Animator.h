@@ -52,6 +52,7 @@ public:
 #endif
 
 	Skinning* GetSkinning() { return skinning_.get(); }
+	AnimationClip* GetAnimationClip() { return animationClip_.get(); }
 
 	AnimationClip* GetAnimationClip() { return animationClip_.get(); }
 
