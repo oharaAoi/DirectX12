@@ -10,8 +10,8 @@ BoxCollider::~BoxCollider() {}
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BoxCollider::Init(const std::string& tag, ColliderShape shape) {
-	tag_ = tag;
+void BoxCollider::Init(uint32_t bitTag, ColliderShape shape) {
+	bitTag_ = bitTag;
 	collisionState_ = CollisionFlags::NONE;
 	
 	if (shape == ColliderShape::AABB) {

@@ -10,8 +10,8 @@ SphereCollider::~SphereCollider() {}
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void SphereCollider::Init(const std::string& tag, ColliderShape shape) {
-	tag_ = tag;
+void SphereCollider::Init(uint32_t bitTag, ColliderShape shape) {
+	bitTag_ = bitTag;
 	collisionState_ = CollisionFlags::NONE;
 
 	if (shape == ColliderShape::SPHERE) {
