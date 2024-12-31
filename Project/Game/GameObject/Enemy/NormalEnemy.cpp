@@ -1,5 +1,7 @@
 #include "NormalEnemy.h"
 #include "Engine/Editer/Window/EditerWindows.h"
+#include "Game/Collider/ColliderTags.h"
+#include "Engine/Utilities/BitChecker.h"
 #include "Game/GameObject/Enemy/State/NormalEnemyDefaultState.h"
 #include "Game/GameObject/Enemy/State/NormalEnemyMoveState.h"
 #include "Game/GameObject/Enemy/State/NormalEnemyAttackState.h"
@@ -18,7 +20,7 @@ void NormalEnemy::Init() {
 	SetAnimater("./Game/Resources/Models/Enemy/", "enemy.gltf", true, true, false);
 	SetIsLighting(false);
 	
-	SetCollider("normalEnemy", ColliderShape::SPHERE);
+	SetCollider(ColliderTags::Enemy::DEFAULT, ColliderShape::SPHERE);
 	collider_->SetCollisionEnter([this](ICollider& other) { OnCollisionEnter(other); });
 
 	// 状態の設定
@@ -58,12 +60,15 @@ void NormalEnemy::CheckBehaviorRequest() {
 		switch (behavior_) {
 		case EnemyBehavior::DEFAULT:
 			SetBehaviorState(std::make_unique<NormalEnemyDefaultState>(this));
+			collider_->SetTag(ColliderTags::Enemy::DEFAULT);
 			break;
 		case EnemyBehavior::MOVE:
 			SetBehaviorState(std::make_unique<NormalEnemyMoveState>(this));
+			collider_->SetTag(ColliderTags::Enemy::DEFAULT);
 			break;
 		case EnemyBehavior::ATTACK:
 			SetBehaviorState(std::make_unique<NormalEnemyAttackState>(this));
+			collider_->SetTag(ColliderTags::Enemy::ATTACK);
 			break;
 		default:
 			break;
@@ -84,7 +89,7 @@ void NormalEnemy::CheckBehaviorRequest() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void NormalEnemy::OnCollisionEnter([[maybe_unused]] ICollider& other) {
-	if (other.GetTag() == "playerAttackCollider") {
+	if (CheckBit(other.GetTag(), ColliderTags::Player::ATTACK, CheckType::EQUAL)) {
 		isDead_ = true;
 	}
 }

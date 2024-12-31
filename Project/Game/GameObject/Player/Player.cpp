@@ -1,6 +1,9 @@
 #include "Player.h"
 #include "Engine/Editer/Window/EditerWindows.h"
 #include "Engine/Utilities/AdjustmentItem.h"
+#include "Game/Collider/ColliderTags.h"
+#include "Engine/Utilities/BitChecker.h"
+
 #include "Game/GameObject/Player/State/PlayerDefaultState.h"
 #include "Game/GameObject/Player/State/PlayerMoveState.h"
 #include "Game/GameObject/Player/State/PlayerJumpState.h"
@@ -34,12 +37,12 @@ void Player::Init() {
 	initHp_ = status_.hp_;
 
 	// Colliderの初期化
-	SetCollider("player", ColliderShape::SPHERE);
+	SetCollider(ColliderTags::Player::DEFAULT, ColliderShape::SPHERE);
 	collider_->SetCollisionEnter([this](ICollider& other) { OnCollisionEnter(other); });
 	collider_->SetCollisionStay([this](ICollider& other) { OnCollisionStay(other); });
 
 	attackCollider_ = std::make_unique<AttackCollider>();
-	attackCollider_->Init("playerAttackCollider", ColliderShape::SPHERE);
+	attackCollider_->Init(ColliderTags::Player::ATTACK, ColliderShape::SPHERE);
 	attackCollider_->SetRadius(4.0f);
 
 	// フラグの初期化
@@ -194,7 +197,9 @@ void Player::LookTarget() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
-	
+	if (CheckBit(other.GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
+		SetBehaviorRequest(Behavior::DAMAGE);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -228,6 +233,9 @@ void Player::Debug_Gui() {
 }
 
 void Player::Debug_Draw() {
-	attackCollider_->Draw();
+	collider_->Draw();
+	if (isAttack_) {
+		attackCollider_->Draw();
+	}
 }
 #endif

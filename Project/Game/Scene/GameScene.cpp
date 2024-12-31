@@ -103,7 +103,7 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	collisionManager_->Reset();
 
-	//collisionManager_->AddCollider(player_->GetCollider());
+	collisionManager_->AddCollider(player_->GetCollider());
 
 	if (player_->GetIsAttack()) {
 		collisionManager_->AddCollider(player_->GetAttackCollider());
@@ -119,9 +119,8 @@ void GameScene::Update() {
 
 void GameScene::Draw() const {
 #ifdef _DEBUG
-	if (player_->GetIsAttack()) {
-		player_->Debug_Draw();
-	}
+	
+	player_->Debug_Draw();
 #endif
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();

@@ -12,8 +12,8 @@ AttackCollider::~AttackCollider() {
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AttackCollider::Init(const std::string& tag, ColliderShape shape) {
-	tag_ = tag;
+void AttackCollider::Init(uint32_t bitTag, ColliderShape shape) {
+	bitTag_ = bitTag;
 	collisionState_ = CollisionFlags::NONE;
 
 	if (shape == ColliderShape::SPHERE) {
