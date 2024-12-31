@@ -12,17 +12,14 @@ void Material::Finalize() {
 	material_ = nullptr;
 }
 
-void Material::Init(ID3D12Device* device) {
+void Material::Init(ID3D12Device* device, const Model::ModelMaterialData& materialData) {
 	// ---------------------------------------------------------------
 	// ↓Materialの設定
 	// ---------------------------------------------------------------
 	materialBuffer_ = CreateBufferResource(device, sizeof(MaterialData));
 	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
 	// 色を決める
-	material_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	material_->enableLighting = false;
-	material_->uvTransform = Matrix4x4::MakeUnit();
-	material_->shininess = 0;
+	SetMaterialData(materialData);
 
 	uvTranslation_ = { 0,0,0 };
 	uvScale_ = { 1,1,1 };
@@ -71,5 +68,6 @@ void Material::SetMaterialData(Model::ModelMaterialData materialData) {
 	material_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	material_->enableLighting = true;
 	material_->uvTransform = Matrix4x4::MakeUnit();
-	material_->shininess = 50;
+	material_->shininess = 1;
+	materialsData_.textureFilePath = materialData.textureFilePath;
 }

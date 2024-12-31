@@ -19,8 +19,12 @@ void AnimationClip::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AnimationClip::Update() {
-	if (isLoop_) {
-		if (isAnimationFinish_) {
+	animationTime_ += GameTimer::DeltaTime();
+
+	// アニメーションが終了したら
+	if (animationTime_ >= animation_.duration) {
+		isAnimationFinish_ = true;
+		if (isLoop_) {
 			isAnimationFinish_ = false;
 			animationTime_ = std::fmod(animationTime_, animation_.duration);
 		}

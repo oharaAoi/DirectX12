@@ -11,11 +11,11 @@ class Skinning;
 /// <summary>
 /// SkeletonやSkinningの情報を持っているクラス
 /// </summary>
-class Animetor {
+class Animator {
 public:
 
-	Animetor();
-	~Animetor();
+	Animator();
+	~Animator();
 
 	void Finalize();
 	void Update();
@@ -53,10 +53,15 @@ public:
 
 	Skinning* GetSkinning() { return skinning_.get(); }
 
+<<<<<<<< HEAD:Project/Engine/Assets/Animation/Animetor.h
 	AnimationClip* GetAnimationClip() { return animationClip_.get(); }
 
 	const Matrix4x4 GetAnimationMat() const { return animationClip_->GetMatrix(); }
 
+========
+	const Matrix4x4 GetAnimationMat() const { return animationClip_->GetMatrix(); }
+
+>>>>>>>> main:Project/Engine/Assets/Animation/Animator.h
 	const float GetAnimationDuration() const { return animationClip_->GetAnimationDuration(); }
 
 	// 今のanimationの名前を取得

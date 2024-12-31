@@ -16,6 +16,6 @@ void ViewProjection::Init(ID3D12Device* device) {
 	cBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&data_));
 }
 
-void ViewProjection::Draw(ID3D12GraphicsCommandList* commandList) const {
+void ViewProjection::BindCommandList(ID3D12GraphicsCommandList* commandList) const {
 	commandList->SetGraphicsRootConstantBufferView(2, cBuffer_->GetGPUVirtualAddress());
 }

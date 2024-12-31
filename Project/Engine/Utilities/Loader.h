@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include "Engine/Assets/Meshes/Mesh.h"
 #include "Engine/Assets/Materials/Material.h"
+#include "Engine/Assets/Rigging/SkinCluster.h"
 #include "Engine/System/Manager/TextureManager.h"
 
 //================================================================================================//
@@ -33,6 +34,14 @@ std::vector<std::unique_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device);
 
 /// <summary>
+/// materialを構成する情報の読み込み
+/// </summary>
+/// <param name="directoryPath"></param>
+/// <param name="fileName"></param>
+/// <returns></returns>
+std::unordered_map<std::string, Model::ModelMaterialData> LoadMaterialData(const std::string& directoryPath, const std::string& fileName);
+
+/// <summary>
 /// mtlファイルを読み込む
 /// </summary>
 /// <param name="directoryPath"></param>
@@ -40,7 +49,22 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(cons
 /// <param name="scale"></param>
 void LoadMtl(const std::string& directoryPath, const std::string& fileName, Vector3& scale);
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="directoryPath"></param>
+/// <param name="fileName"></param>
+/// <returns></returns>
+Model::Node LoadNode(const std::string& directoryPath, const std::string& fileName);
 
+Model::Node ReadNode(aiNode* node, const aiScene* scene);
+
+/// <summary>
+/// skinCluster用のデータを読み込む
+/// </summary>
+/// <param name="directoryPath"></param>
+/// <param name="fileName"></param>
+std::vector<std::unique_ptr<SkinCluster>> LoadSkinCluster(const std::string& directoryPath, const std::string& fileName);
 
 //================================================================================================//
 //

@@ -34,11 +34,11 @@ void TestScene::Init() {
 	testObjA_->SetCollider("testA", ColliderShape::SPHERE);
 	testObjB_->SetCollider("testB", ColliderShape::OBB);
 
-	testObjA_->SetObject("simpleSkin.gltf");
-	testObjA_->SetAnimater("./Engine/Resources/Animation/", "simpleSkin.gltf", true, true, false);
+	testObjA_->SetObject("amimationCharacter.gltf");
+	testObjA_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, false);
 
-	/*testObjB_->SetObject("simpleSkin.gltf");
-	testObjB_->SetAnimater("./Engine/Resources/Animation/", "simpleSkin.gltf", true, true, false);*/
+	testObjB_->SetObject("amimationCharacter.gltf");
+	testObjB_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, false);
 
 	testObjA_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
 	testObjA_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
@@ -47,7 +47,7 @@ void TestScene::Init() {
 	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjB_.get()), "testAObj");
 #endif
 
-	testObjB_->SetObject("skin.obj");
+	//testObjB_->SetObject("skin.obj");
 
 	// Manager -------------------------------------------------------------------
 
