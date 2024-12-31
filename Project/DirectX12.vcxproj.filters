@@ -363,7 +363,7 @@
     <ClCompile Include="Engine\Math\Vector3.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Animation\Animetor.cpp">
+    <ClCompile Include="Engine\Assets\Animation\Animator.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp">
@@ -487,6 +487,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Game\WorldObject\Floor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\Rigging\SkinCluster.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -755,7 +758,7 @@
     <ClInclude Include="Engine\System\ParticleSystem\EffectSystemCamera.h">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Animation\Animetor.h">
+    <ClInclude Include="Engine\Assets\Animation\Animator.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h">
@@ -882,6 +885,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Game\WorldObject\Floor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Rigging\SkinCluster.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

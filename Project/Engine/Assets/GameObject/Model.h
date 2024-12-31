@@ -13,12 +13,14 @@
 #include <assimp/postprocess.h>
 #include "Engine/Assets/Meshes/Mesh.h"
 #include "Engine/Assets/Rigging/Skinning.h"
+#include "Engine/Assets/Rigging/SkinCluster.h"
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/ViewProjection.h"
 #include "Engine/Lib/Transform.h"
 #include "Engine/Math/MyMatrix.h"
 #include "Engine/Utilities/AnimationUtils.h"
 #include "Engine/Lib/GameTimer.h"
+#include <memory>
 
 class Material;
 class PBRMaterial;
@@ -46,7 +48,7 @@ public:
 		int32_t enableLighting = 1;
 		Matrix4x4 uvTransform = Matrix4x4::MakeUnit();
 		float shininess = 1.0f;
-		std::string textureFilePath; // 使用するtextureのパス
+		std::string textureFilePath = "white.png"; // 使用するtextureのパス
 	};
 
 public:
@@ -56,8 +58,14 @@ public:
 
 	void Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName);
 	
-	void Draw(ID3D12GraphicsCommandList* commandList, const WorldTransform* worldTransform, const ViewProjection* viewprojection, const std::vector<std::unique_ptr<Material>>& materials);
+	void Draw(ID3D12GraphicsCommandList* commandList,
+			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,
+			  const std::vector<std::unique_ptr<Material>>& materials);
 	
+	void Draw(ID3D12GraphicsCommandList* commandList,
+			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,
+			  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::vector<std::unique_ptr<Material>>& materials);
+
 #ifdef _DEBUG
 	void Debug_Gui(const std::string& name);
 #endif
@@ -75,35 +83,31 @@ public:
 	/// <param name="directoryPath"></param>
 	/// <param name="fileName"></param>
 	/// <param name="device"></param>
-	void LoadObj(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device);
+	//void LoadObj(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device);
 
 public:
-
-	bool GetHasTexture() const { return hasTexture_; }
 
 	const std::string& GetRootNodeName() const { return rootNode_.name; }
 
 	Node& GetNode() { return rootNode_; }
 
-	std::map<std::string, Skinning::JointWeightData>& GetSkinClustersData(uint32_t index) { return skinClusterData_[index]; }
+	const std::map<std::string, JointWeightData>& GetSkinClustersData(uint32_t index) { return skinClusterArray_[index]->GetSkinClustersData(); }
+
+	std::unordered_map<std::string, Model::ModelMaterialData>& GetMaterialData() { return materialData_; }
 
 	Mesh* GetMesh(const uint32_t& index);
 	size_t GetMeshsNum() const { return meshArray_.size(); }
 
-	const ModelMaterialData GetMaterialData(const std::string& name)const {return materialData_.at(name);}
 	const size_t GetMaterialsSize() const { return materialData_.size(); }
 
 private:
 
 	// 頂点バッファやインデックスバッファを持つ
-	std::vector<std::shared_ptr<Mesh>> meshArray_;
+	std::vector<std::unique_ptr<Mesh>> meshArray_;
 	// materialの情報
-	std::unordered_map<std::string, ModelMaterialData> materialData_;
+	std::unordered_map<std::string, Model::ModelMaterialData> materialData_;
 	// skinningのデータ
-	std::vector<std::map<std::string, Skinning::JointWeightData>> skinClusterData_;
+	std::vector<std::unique_ptr<SkinCluster>> skinClusterArray_;
 	// ノード
 	Node rootNode_;
-
-	// モデルにtextureがあるか
-	bool hasTexture_;
 };

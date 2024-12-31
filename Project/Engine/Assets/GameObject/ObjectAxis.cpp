@@ -16,9 +16,8 @@ void ObjectAxis::Init() {
 	model_ = nullptr;
 	model_ = ModelManager::GetModel("axis.obj");
 	materials.clear();
-	for (uint32_t oi = 0; oi < model_->GetMaterialsSize(); ++oi) {
-		std::string name = model_->GetMesh(oi)->GetUseMaterial();
-		materials.push_back(Engine::CreateMaterial(model_->GetMaterialData(name)));
+	for (const auto& material : model_->GetMaterialData()) {
+		materials.emplace_back(Engine::CreateMaterial(material.second));
 	}
 }
 

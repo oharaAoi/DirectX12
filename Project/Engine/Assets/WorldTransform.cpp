@@ -74,7 +74,7 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 // ↓　コマンドリストに送る
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void WorldTransform::Draw(ID3D12GraphicsCommandList* commandList) const {
+void WorldTransform::BindCommandList(ID3D12GraphicsCommandList* commandList) const {
 	commandList->SetGraphicsRootConstantBufferView(1, cBuffer_->GetGPUVirtualAddress());
 }
 

@@ -9,7 +9,8 @@
 #include "Engine/Assets/GameObject/Model.h"
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/GameObject/ObjectAxis.h"
-#include "Engine/Assets/Animation/Animetor.h"
+#include "Engine/Assets/Animation/Animator.h"
+
 #include "Engine/Assets/Collider/MeshCollider.h"
 #include "Engine/Assets/Collider/ICollider.h"
 #include "Engine/Assets/Collider/SphereCollider.h"
@@ -61,7 +62,7 @@ public:
 
 	void SetAnimater(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript);
 
-	Animetor* GetAnimetor() { return animetor_.get(); }
+	Animator* GetAnimetor() { return animetor_.get(); }
 
 	// -------------------------------------------------
 	// ↓ Collider関連
@@ -94,7 +95,7 @@ protected:
 	std::vector<std::unique_ptr<Material>> materials;	// 後で変えたい
 
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
-	std::unique_ptr<Animetor> animetor_ = nullptr;
+	std::unique_ptr<Animator> animetor_ = nullptr;
 
 	std::unique_ptr<MeshCollider> meshCollider_ = nullptr; // 当たり判定を行うクラス
 	std::unique_ptr<ICollider> collider_ = nullptr;

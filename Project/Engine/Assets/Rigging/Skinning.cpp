@@ -38,7 +38,7 @@ void Skinning::Update(Skeleton* skeleton) {
 // ↓　CPUで作られたデータをGPUで扱えるように
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, std::map<std::string, Skinning::JointWeightData>& skinClusterData) {
+void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, const std::map<std::string, JointWeightData>& skinClusterData) {
 	uint32_t vertices = (uint32_t)mesh->GetVerticesData().size();
 	uint32_t jointSize = (uint32_t)skeleton->GetJointsSize();
 	vertices_ = (uint32_t)mesh->GetVerticesData().size();
@@ -200,13 +200,11 @@ void Skinning::EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh) {
 	commandList->CopyResource(copyResource_.Get(), outputResource_.Get());
 	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
 
-	// 出力されたvbvをmeshの持つvbvにコピーする
-	mesh->SetVBV(vertexBufferView_);
-
 	// マップしてデータを取得
 	Mesh::VertexData* pVertexDataBegin = nullptr;
 	copyResource_->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin));
 
+	mesh->GetIndexNum();
 	// skinningされた後のlocal頂点座標を取得する
-	mesh->SetOutputVertexData(pVertexDataBegin);
+	//mesh->SetOutputVertexData(pVertexDataBegin);
 }

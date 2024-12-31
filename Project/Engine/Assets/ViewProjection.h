@@ -26,7 +26,7 @@ public:
 
 	void Init(ID3D12Device* device);
 
-	void Draw(ID3D12GraphicsCommandList* commandList) const;
+	void BindCommandList(ID3D12GraphicsCommandList* commandList) const;
 
 	/// <summary>
 	/// データをセットする

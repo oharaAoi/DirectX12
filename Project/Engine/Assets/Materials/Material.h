@@ -35,7 +35,7 @@ public:
 	~Material();
 
 	void Finalize();
-	void Init(ID3D12Device* device);
+	void Init(ID3D12Device* device, const Model::ModelMaterialData& materialData);
 	void Update(const Matrix4x4& uvTransform);
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
@@ -44,6 +44,8 @@ public:
 #endif
 
 public:
+
+	D3D12_GPU_VIRTUAL_ADDRESS GetBufferAdress() const { return materialBuffer_->GetGPUVirtualAddress(); }
 
 	Model::ModelMaterialData GetBaseMaterial() { return materialsData_; }
 	const std::string GetUseTexture() const { return materialsData_.textureFilePath; }

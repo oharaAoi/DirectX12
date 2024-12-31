@@ -85,7 +85,11 @@ void BaseGameObject::PostUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::Draw() const {
-	Render::DrawModel(model_, transform_.get(), materials);
+	if (animetor_ == nullptr) {
+		Render::DrawModel(model_, transform_.get(), materials);
+	} else {
+		Render::DrawModel(model_, transform_.get(), animetor_->GetSkinning()->GetVBV(), materials);
+	}
 }
 
 void BaseGameObject::SetMeshCollider(const std::string& tag) {
@@ -114,11 +118,11 @@ void BaseGameObject::SetCollider(const std::string& tag, ColliderShape shape) {
 
 void BaseGameObject::SetObject(const std::string& objName) {
 	model_ = nullptr;
-	model_ = ModelManager::GetModel(objName);
 	materials.clear();
-	for (uint32_t oi = 0; oi < model_->GetMaterialsSize(); ++oi) {
-		std::string name = model_->GetMesh(oi)->GetUseMaterial();
-		materials.push_back(Engine::CreateMaterial(model_->GetMaterialData(name)));
+
+	model_ = ModelManager::GetModel(objName);
+	for (const auto& material : model_->GetMaterialData()) {
+		materials.emplace_back(Engine::CreateMaterial(material.second));
 	}
 }
 
@@ -127,7 +131,7 @@ void BaseGameObject::SetObject(const std::string& objName) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::SetAnimater(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript) {
-	animetor_.reset(new Animetor);
+	animetor_.reset(new Animator);
 	animetor_->LoadAnimation(directoryPath, objName, model_, isSkinning, isLoop, isControlScript);
 }
 

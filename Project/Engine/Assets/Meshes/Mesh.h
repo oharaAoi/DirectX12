@@ -42,8 +42,10 @@ public:
 
 public:
 
-	D3D12_VERTEX_BUFFER_VIEW GetVBV() { return vertexBufferView_; }
+	const D3D12_VERTEX_BUFFER_VIEW& GetVBV() { return vertexBufferView_; }
 	void SetVBV(const D3D12_VERTEX_BUFFER_VIEW& view) { vertexBufferView_ = view; }
+
+	const D3D12_INDEX_BUFFER_VIEW& GetIBV() { return indexBufferView_; }
 
 	/// <summary>
 	/// vertexBuffer
