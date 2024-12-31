@@ -79,6 +79,13 @@ public:
 	void SetCollisionState(int stateBit) { collisionState_ = stateBit; }
 	const int GetCollisionState() const { return collisionState_; }
 
+	// ------------ 半径 ------------ // 
+	void SetRadius(const float& radius) { std::get<Sphere>(shape_).radius = radius; }
+	float GetRadius() const { return std::get<Sphere>(shape_).radius; }
+
+	// size
+	void SetSize(const Vector3& size) { size_ = size; }
+
 private:
 
 	/// <summary>
@@ -107,6 +114,8 @@ protected:
 	std::variant<Sphere, AABB, OBB> shape_;
 	// 当たり判定の状態
 	int collisionState_;
+
+	Vector3 size_;
 	
 	// 衝突時のcallBack
 	std::function<void(ICollider&)> onCollisionEnter_;
