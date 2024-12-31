@@ -102,14 +102,14 @@ void BaseGameObject::SetMeshCollider(const std::string& tag) {
 // ↓　Colliderを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseGameObject::SetCollider(const std::string& tag, ColliderShape shape) {
+void BaseGameObject::SetCollider(uint32_t bitTag, ColliderShape shape) {
 	if (shape == ColliderShape::SPHERE) {
 		collider_ = std::make_unique<SphereCollider>();
 	} else if (shape == ColliderShape::AABB || shape == ColliderShape::OBB) {
 		collider_ = std::make_unique<BoxCollider>();
 	}
 
-	collider_->Init(tag, shape);
+	collider_->Init(bitTag, shape);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
