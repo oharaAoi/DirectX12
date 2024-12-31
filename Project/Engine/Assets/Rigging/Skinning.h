@@ -6,6 +6,7 @@
 #include <map>
 #include "Engine/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/Assets/Rigging/SkinCluster.h"
 
 const uint32_t kNumMaxInfluence = 4;
 
@@ -18,16 +19,6 @@ class Mesh;
 /// </summary>
 class Skinning {
 public:
-
-	struct VertexWeightData {
-		float weight;
-		uint32_t vertexIndex;
-	};
-
-	struct JointWeightData {
-		Matrix4x4 inverseBindPoseMatrix;
-		std::vector<VertexWeightData> vertexWeight;
-	};
 
 	/// <summary>
 	/// 頂点に対して影響を与えるパラメータ群
@@ -55,11 +46,13 @@ public:
 
 	void Update(Skeleton* skeleton);
 
-	void CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, std::map<std::string, Skinning::JointWeightData>& skinClusterData);
+	void CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, const std::map<std::string, JointWeightData>& skinClusterData);
 
 	void RunCs(ID3D12GraphicsCommandList* commandList) const;
 
 	void EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh);
+
+	const D3D12_VERTEX_BUFFER_VIEW& GetVBV() { return vertexBufferView_; }
 
 private:
 	UINT vertices_;
@@ -89,6 +82,7 @@ private:
 	// MeshInput
 	DescriptorHeap::DescriptorHandles inputHandle_;
 
+	// vertex
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 
 	// copy

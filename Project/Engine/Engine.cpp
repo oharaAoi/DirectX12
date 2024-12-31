@@ -282,8 +282,7 @@ std::unique_ptr<Skinning> Engine::CreateSkinning(Skeleton* skeleton, Model* mode
 
 std::unique_ptr<Material> Engine::CreateMaterial(const Model::ModelMaterialData data) {
 	std::unique_ptr<Material> material = std::make_unique<Material>();
-	material->Init(dxDevice_->GetDevice());
-	material->SetMaterialData(data);
+	material->Init(dxDevice_->GetDevice(), data);
 	return material;
 }
 

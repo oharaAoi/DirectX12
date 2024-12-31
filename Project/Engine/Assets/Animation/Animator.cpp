@@ -1,14 +1,14 @@
-#include "Animetor.h"
+#include "Animator.h"
 #include "Engine/Assets/Animation/AnimationClip.h"
 #include "Engine/Assets/Rigging/Skeleton.h"
 #include "Engine/Assets/Rigging/Skinning.h"
 
-Animetor::Animetor() {
+Animator::Animator() {
 	manager_ = AnimationManager::GetInstance();
 }
-Animetor::~Animetor() {}
+Animator::~Animator() {}
 
- void Animetor::Finalize() {
+ void Animator::Finalize() {
 	skinning_->Finalize();
 }
 
@@ -16,7 +16,7 @@ Animetor::~Animetor() {}
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Animetor::Update() {
+void Animator::Update() {
 	// scriptでanimationの時間を制御して入なかったら自動的に更新
 	if (!isControlScript_) {
 		animationClip_->Update();
@@ -33,7 +33,7 @@ void Animetor::Update() {
 }
 
 
-void Animetor::UpdateScript(float& animationTime, float transitionTime) {
+void Animator::UpdateScript(float& animationTime, float transitionTime) {
 	if (!animationClip_->GetIsChange()) {
 		// Animationの遷移がなかったらそのままタイムの更新を行う
 		animationClip_->SetAnimationTime(animationTime);
@@ -50,7 +50,7 @@ void Animetor::UpdateScript(float& animationTime, float transitionTime) {
 }
 
 
-void Animetor::UpdateSkinning() {
+void Animator::UpdateSkinning() {
 	// skinningをするなら
 	if (isSkinning_) {
 		skeleton_->Update();
@@ -62,7 +62,7 @@ void Animetor::UpdateSkinning() {
 // ↓　ファイル読み込み
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Animetor::LoadAnimation(const std::string& directoryPath, const std::string& fileName, Model* model, bool isSkinning, bool isLoop, bool isControlScript) {
+void Animator::LoadAnimation(const std::string& directoryPath, const std::string& fileName, Model* model, bool isSkinning, bool isLoop, bool isControlScript) {
 	isSkinning_ = isSkinning;
 	isControlScript_ = isControlScript;
 
@@ -88,16 +88,16 @@ void Animetor::LoadAnimation(const std::string& directoryPath, const std::string
 	}
 }
 
-void Animetor::TransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation) {
+void Animator::TransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation) {
 	animationClip_->SetLerpAnimation(preAnimation, afterAnimation);
 }
 
-void Animetor::TransitionAnimation(const std::string& afterAnimation) {
+void Animator::TransitionAnimation(const std::string& afterAnimation) {
 	animationClip_->SetLerpAnimation(afterAnimation);
 }
 
 #ifdef _DEBUG
-void Animetor::Debug_Gui() {
+void Animator::Debug_Gui() {
 	animationClip_->Debug_Gui();
 }
 #endif

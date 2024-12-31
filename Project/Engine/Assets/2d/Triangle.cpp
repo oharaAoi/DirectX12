@@ -39,7 +39,7 @@ void Triangle::Init(ID3D12Device* device, const Mesh::Vertices& vertex, const st
 	}
 
 	mesh_->Init(device, vertices, indices);
-	material_->Init(device);
+	material_->Init(device, Model::ModelMaterialData());
 
 	worldTransform_ = Engine::CreateWorldTransform();
 
@@ -54,8 +54,8 @@ void Triangle::Draw(ID3D12GraphicsCommandList* commandList, ViewProjection* view
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	mesh_->Draw(commandList);
 	material_->Draw(commandList);
-	worldTransform_->Draw(commandList);
-	viewProjection->Draw(commandList);
+	worldTransform_->BindCommandList(commandList);
+	viewProjection->BindCommandList(commandList);
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName_, 3);
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }

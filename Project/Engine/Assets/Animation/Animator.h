@@ -11,11 +11,11 @@ class Skinning;
 /// <summary>
 /// SkeletonやSkinningの情報を持っているクラス
 /// </summary>
-class Animetor {
+class Animator {
 public:
 
-	Animetor();
-	~Animetor();
+	Animator();
+	~Animator();
 
 	void Finalize();
 	void Update();

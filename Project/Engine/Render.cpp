@@ -92,6 +92,13 @@ void Render::DrawModel(Model* model, const WorldTransform* worldTransform, const
 	model->Draw(commandList_, worldTransform, viewProjection_.get(), materials);
 }
 
+void Render::DrawModel(Model* model, const WorldTransform* worldTransform, 
+					   const D3D12_VERTEX_BUFFER_VIEW& vbv, 
+					   const std::vector<std::unique_ptr<Material>>& materials) {
+	lightGroup_->Draw(commandList_, 4);
+	model->Draw(commandList_, worldTransform, viewProjection_.get(), vbv, materials);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Particleの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -52,7 +52,11 @@ public:
 	/// </summary>
 	/// <param name="model">: モデルのポインタ</param>
 	/// <param name="worldTransform">: worldTransform</param>
-	static void DrawModel(Model* model, const WorldTransform* worldTransform, const std::vector<std::unique_ptr<Material>>& materials);
+	static void DrawModel(Model* model, const WorldTransform* worldTransform,
+						  const std::vector<std::unique_ptr<Material>>& materials);
+
+	static void DrawModel(Model* model, const WorldTransform* worldTransform,
+						  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::vector<std::unique_ptr<Material>>& materials);
 
 	/// <summary>
 	/// Particleの描画
