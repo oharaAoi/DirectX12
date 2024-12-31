@@ -28,6 +28,7 @@ void BoxCollider::Init(uint32_t bitTag, ColliderShape shape) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BoxCollider::Update(const SRT& srt) {
+	centerPos_ = srt.translate;
 	if (std::holds_alternative<AABB>(shape_)) {
 		std::get<AABB>(shape_).min = srt.translate - (size_ / 2.0f);
 		std::get<AABB>(shape_).max = srt.translate + (size_ / 2.0f);

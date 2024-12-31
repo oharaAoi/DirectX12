@@ -83,7 +83,10 @@ public:
 	void SetRadius(const float& radius) { std::get<Sphere>(shape_).radius = radius; }
 	float GetRadius() const { return std::get<Sphere>(shape_).radius; }
 
-	// size
+	// ------------ Colliderの中心座標 ------------ // 
+	const Vector3 GetCenterPos() const { return centerPos_; }
+
+	// ------------ size ------------ // 
 	void SetSize(const Vector3& size) { size_ = size; }
 
 private:
@@ -114,7 +117,9 @@ protected:
 	std::variant<Sphere, AABB, OBB> shape_;
 	// 当たり判定の状態
 	int collisionState_;
-
+	// Colliderの中心座標
+	Vector3 centerPos_;
+	// AABBやOBBで使用するsize
 	Vector3 size_;
 	
 	// 衝突時のcallBack
