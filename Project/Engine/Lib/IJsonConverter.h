@@ -107,7 +107,7 @@ inline void fromJson(const json& j, const std::string& name, T& value) {
 			// json内にnameが存在していなかったら
 			std::string erroeLog = "not contains jsonData  : " + name;
 			Log(erroeLog);
-			assert(false && "Name is missing in the JSON");
+			//assert(false && "Name is missing in the JSON");
 		}
 	}
 }

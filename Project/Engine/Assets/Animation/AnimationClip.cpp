@@ -347,6 +347,11 @@ void AnimationClip::SetLerpAnimation(const std::string& preAnimation, const std:
 
 
 void AnimationClip::SetLerpAnimation(const std::string& lerpAnimation) {
+	// 今と遷移後がAnimationが同じだったら何もしない
+	if (animation_.animationName == lerpAnimation) {
+		return;
+	}
+
 	lerpAnimetion_[0] = animation_;
 	lerpAnimetion_[1] = manager_->GetAnimation(animationFileName_, lerpAnimation);
 
