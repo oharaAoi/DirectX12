@@ -19,7 +19,7 @@ void AnimationClip::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AnimationClip::Update() {
-	animationTime_ += GameTimer::DeltaTime();
+	animationTime_ += GameTimer::DeltaTime() * animationSpeed_;
 
 	// アニメーションが終了したら
 	if (animationTime_ >= animation_.duration) {
