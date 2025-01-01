@@ -208,8 +208,8 @@ void AnimationClip::ApplyAnimation(Skeleton* skelton) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
-	blendFactor_ += GameTimer::DeltaTime();
-	lerpAnimationTime_[1] += GameTimer::DeltaTime();
+	blendFactor_ += GameTimer::DeltaTime() * animationSpeed_;
+	lerpAnimationTime_[1] += GameTimer::DeltaTime() * animationSpeed_;
 
 	for (Skeleton::Joint& joint : skelton->GetJoints()) {
 
