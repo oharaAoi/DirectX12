@@ -34,14 +34,14 @@ void TestScene::Init() {
 	testObjA_->SetCollider(1 << 1, ColliderShape::SPHERE);
 	testObjB_->SetCollider(1 << 2, ColliderShape::OBB);
 
-	testObjA_->SetObject("amimationCharacter.gltf");
-	testObjA_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, false);
+	testObjA_->SetObject("player.gltf");
+	testObjA_->SetAnimater("./Engine/Resources/Animation/", "player.gltf", true, true, false);
 	
 	testObjB_->SetObject("amimationCharacter.gltf");
 	testObjB_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, false);
 
-	testObjA_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
-	testObjA_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
+	testObjB_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
+	testObjB_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjA_.get()), "testAObj");
 	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjB_.get()), "testAObj");
