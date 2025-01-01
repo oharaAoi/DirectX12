@@ -121,6 +121,9 @@ public:
 	// モデルに入っているAnimationの名前を取得
 	const std::vector<std::string>& GetAnimationNames() { return animationNames_; }
 
+	// Animationの速度
+	void SetAnimationSpeed(float speed) { animationSpeed_ = speed; }
+
 private:
 
 	AnimationManager* manager_;
@@ -133,6 +136,8 @@ private:
 	bool isAnimationFinish_ = false;
 	// アニメーションをループさせるか
 	bool isLoop_ = false;
+	// アニメーションの速度
+	float animationSpeed_ = 1.0f;
 
 	Matrix4x4 animationMat_ = Matrix4x4::MakeUnit();
 

@@ -78,6 +78,9 @@ public:
 	// モデルに入っているAnimationの名前を取得
 	const std::vector<std::string>& GetAnimationNames() { return animationClip_->GetAnimationNames(); }
 
+	// アニメーションの速度を設定する
+	void SetAnimationSpeed(float speed) { animationClip_->SetAnimationSpeed(speed); }
+
 private:
 
 	AnimationManager* manager_ = nullptr;
