@@ -10,15 +10,18 @@ public:
 
 	struct Information : public IJsonConverter {
 		std::string animationName;
+		float animationSpeed = 1.0f;
 
 		json ToJson(const std::string id) const override {
 			return JsonBuilder(id)
 				.Add("animationName", animationName)
+				.Add("animationSpeed", animationSpeed)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "animationName", animationName);
+			fromJson(jsonData, "animationSpeed", animationSpeed);
 		}
 	};
 

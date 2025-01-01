@@ -15,7 +15,7 @@ void PlayerAttackState::Init() {
 	work_.time = 0.0f;
 	work_.timeLimit = 1.0f;
 
-	velocity_ = { 0.0f, 0.0f, 0.0f };
+	velocity_ = { 0.0f, 4.0f, 0.0f };
 	acceleration_.y = -9.8f;
 
 	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
@@ -25,6 +25,7 @@ void PlayerAttackState::Init() {
 		pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName);
 	} else {
 		pPlayer_->GetAnimetor()->TransitionAnimation("fallAttack");
+		pPlayer_->GetAnimetor()->SetAnimationSpeed(1.3f);
 	}
 }
 
@@ -71,8 +72,9 @@ void PlayerAttackState::JumpAttack() {
 	if (translate.y <= 0.0f) {
 		translate.y = 0.0f;
 		pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
-		pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimation("idle");
+		pPlayer_->GetAnimetor()->TransitionAnimation("idle");
 		pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
+		pPlayer_->GetAnimetor()->SetAnimationSpeed(1.0f);
 	}
 	// 実際に代入する
 	pPlayer_->GetTransform()->SetTranslaion((translate));
