@@ -12,8 +12,8 @@ namespace ColliderTags {
 
 	namespace Enemy {
 		enum Tag : uint32_t {
-			DEFAULT = 1 << 0,
-			ATTACK = 1 << 1,
+			DEFAULT = 1 << 3,
+			ATTACK = 1 << 4,
 		};
 	}
 }

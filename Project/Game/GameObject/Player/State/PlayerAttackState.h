@@ -3,6 +3,14 @@
 
 class Player;
 
+enum class AttackStep {
+	NONE,
+	FIRST,
+	SECOND,
+
+	JUMPATTACK,
+};
+
 class PlayerAttackState :
     public ICharactorState {
 public:
@@ -19,6 +27,10 @@ public:
 	void Init() override;
 	void Update() override;
 
+	void CombAttack();
+
+	void JumpAttack();
+
 #ifdef _DEBUG
 	void Debug_Gui() override;
 #endif // _DEBUG
@@ -28,5 +40,8 @@ private:
 	Player* pPlayer_ = nullptr;
 
 	Work work_;
+
+	Vector3 velocity_;
+	Vector3 acceleration_;
 };
 

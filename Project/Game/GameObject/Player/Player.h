@@ -6,6 +6,7 @@
 #include "Engine/Assets/GameObject/BaseGameObject.h"
 // game
 #include "Game/Interface/ICharactorState.h"
+#include "Game/GameObject/Player/State/PlayerAttackState.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Collider/AttackCollider.h"
 #include "Game/System/LockOn/LockOn.h"
@@ -128,7 +129,12 @@ public:
 	// 攻撃時のColliderの取得
 	AttackCollider* GetAttackCollider() { return attackCollider_.get(); }
 
+	// knockBackする方向
 	const Vector3 GetKnockBackVelocity() const { return knockBackVelocity_; }
+
+	// 攻撃の段階の設定と取得
+	void SetAttackStep(const AttackStep& step) { attackStep_ = step; }
+	const AttackStep GetAttackStep() const { return attackStep_; }
 
 private:
 
@@ -161,6 +167,8 @@ private:
 	std::unique_ptr<AttackCollider> attackCollider_;
 
 	Vector3 attackColliderDiff_ = {0,0,4.0f};
+
+	AttackStep attackStep_;
 
 	bool isAttack_ = false;
 

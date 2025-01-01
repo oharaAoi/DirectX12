@@ -7,7 +7,6 @@
 #include "Game/GameObject/Player/State/PlayerDefaultState.h"
 #include "Game/GameObject/Player/State/PlayerMoveState.h"
 #include "Game/GameObject/Player/State/PlayerJumpState.h"
-#include "Game/GameObject/Player/State/PlayerAttackState.h"
 #include "Game/GameObject/Player/State/PlayerAvoidanceState.h"
 #include "Game/GameObject/Player/State/PlayerDamageState.h"
 #include "Game/GameObject/Player/State/PlayerInputReceptionState.h"
@@ -33,8 +32,10 @@ void Player::Init() {
 
 	// statusの初期化
 	status_.FromJson(AdjustmentItem::GetData(groupName_, status_.tag));
-
 	initHp_ = status_.hp_;
+
+	// 攻撃段階の設定
+	attackStep_ = AttackStep::NONE;
 
 	// Colliderの初期化
 	SetCollider(ColliderTags::Player::DEFAULT, ColliderShape::SPHERE);
@@ -150,6 +151,7 @@ void Player::CheckAttack() {
 	if (Input::GetIsPadTrigger(BUTTON_X)) {
 		behaviorRequest_ = Behavior::ATTACK;
 		isAttack_ = true;
+		attackStep_ = AttackStep::FIRST;
 	}
 }
 
@@ -214,6 +216,13 @@ void Player::OnCollisionStay([[maybe_unused]] ICollider& other) {
 		knockBackVelocity_ = (other.GetCenterPos() - transform_->GetTranslation()).Normalize();
 	}*/
 }
+
+//================================================================================================//
+//
+// Debub系
+//
+//================================================================================================//
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　編集処理

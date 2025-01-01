@@ -40,6 +40,8 @@ private:
 
 	void Jump();
 
+	void JumpAttack();
+
 private:
 
 	Player* pPlayer_ = nullptr;
