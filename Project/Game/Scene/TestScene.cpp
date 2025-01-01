@@ -36,7 +36,7 @@ void TestScene::Init() {
 
 	testObjA_->SetObject("amimationCharacter.gltf");
 	testObjA_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, false);
-
+	
 	testObjB_->SetObject("amimationCharacter.gltf");
 	testObjB_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, false);
 
