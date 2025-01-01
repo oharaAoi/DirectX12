@@ -49,6 +49,7 @@ void PlayerJumpState::JumpAttack() {
 	if (Input::GetIsPadTrigger(BUTTON_X)) {
 		pPlayer_->SetBehaviorRequest(Behavior::ATTACK);
 		pPlayer_->SetAttackStep(AttackStep::JUMPATTACK);
+		pPlayer_->SetIsAttack(true);
 	}
 }
 

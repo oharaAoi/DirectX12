@@ -29,6 +29,8 @@ public:
 
 	void CombAttack();
 
+	void CheckNextAttack();
+
 	void JumpAttack();
 
 #ifdef _DEBUG
@@ -43,5 +45,7 @@ private:
 
 	Vector3 velocity_;
 	Vector3 acceleration_;
+
+	bool isComb_;
 };
 

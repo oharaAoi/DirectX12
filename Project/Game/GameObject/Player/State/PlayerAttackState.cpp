@@ -15,6 +15,8 @@ void PlayerAttackState::Init() {
 	work_.time = 0.0f;
 	work_.timeLimit = 1.0f;
 
+	isComb_ = false;
+
 	velocity_ = { 0.0f, 4.0f, 0.0f };
 	acceleration_.y = -9.8f;
 
@@ -50,11 +52,31 @@ void PlayerAttackState::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerAttackState::CombAttack() {
-	work_.time += GameTimer::DeltaTime();
-	if (work_.time >= work_.timeLimit) {
-		pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
-		pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
-		pPlayer_->SetIsAttack(false);
+	CheckNextAttack();
+
+	if (pPlayer_->GetAnimetor()->GetAnimationClip()->GetIsAnimationFinish()) {
+		if (!isComb_) {
+			pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
+			pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
+			pPlayer_->SetIsAttack(false);
+		} else {
+			//pPlayer_->GetAnimetor()->TransitionAnimation("attack2");
+			pPlayer_->GetAnimetor()->GetAnimationClip()->SetLerpAnimation(information_.animationName, "attack2");
+			pPlayer_->SetAttackStep(AttackStep::SECOND);
+			isComb_ = false;
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　次の攻撃の確認
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void PlayerAttackState::CheckNextAttack() {
+	if (!isComb_) {
+		if (Input::GetIsPadTrigger(BUTTON_X)) {
+			isComb_ = true;
+		}
 	}
 }
 
@@ -71,6 +93,7 @@ void PlayerAttackState::JumpAttack() {
 	// 限界の範囲を指定
 	if (translate.y <= 0.0f) {
 		translate.y = 0.0f;
+		pPlayer_->SetIsAttack(false);
 		pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
 		pPlayer_->GetAnimetor()->TransitionAnimation("idle");
 		pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);

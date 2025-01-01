@@ -149,8 +149,8 @@ void Player::CheckJump() {
 
 void Player::CheckAttack() {
 	if (Input::GetIsPadTrigger(BUTTON_X)) {
-		behaviorRequest_ = Behavior::ATTACK;
 		isAttack_ = true;
+		behaviorRequest_ = Behavior::ATTACK;
 		attackStep_ = AttackStep::FIRST;
 	}
 }
