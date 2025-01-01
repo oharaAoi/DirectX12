@@ -128,6 +128,8 @@ public:
 	// 攻撃時のColliderの取得
 	AttackCollider* GetAttackCollider() { return attackCollider_.get(); }
 
+	const Vector3 GetKnockBackVelocity() const { return knockBackVelocity_; }
+
 private:
 
 	const std::string groupName_ = "player";
@@ -149,6 +151,8 @@ private:
 
 	// ------------------- Move関連 ------------------- //
 	bool isJump_ = false;
+
+	Vector3 knockBackVelocity_;
 
 	// ------------------- Avoidance関連 ------------------- //
 	bool isAvoidance_ = false;

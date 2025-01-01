@@ -10,6 +10,7 @@ public:	// メンバ構造体
 	struct Work {
 		float time;
 		float timeLimit;
+		float strength;
 	};
 
 public:

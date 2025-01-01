@@ -7,6 +7,13 @@ class NormalEnemyAttackState :
 	public ICharactorState {
 public:
 
+	struct Work {
+		float time;
+		float timeLimit;
+	};
+
+public:
+
 	NormalEnemyAttackState(NormalEnemy* pEnemy) : pEnemy_(pEnemy) { Init(); };
 	~NormalEnemyAttackState();
 
@@ -20,5 +27,9 @@ public:
 private:
 
 	NormalEnemy* pEnemy_ = nullptr;
+
+	Work work_;
+
+	Vector3 velocity_;
 };
 

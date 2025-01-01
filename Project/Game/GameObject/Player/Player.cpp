@@ -200,6 +200,7 @@ void Player::LookTarget() {
 void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 	if (CheckBit(other.GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
 		SetBehaviorRequest(Behavior::DAMAGE);
+		knockBackVelocity_ = (transform_->GetTranslation() - other.GetCenterPos()).Normalize();
 	}
 }
 
@@ -208,9 +209,10 @@ void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::OnCollisionStay([[maybe_unused]] ICollider& other) {
-	if (CheckBit(other.GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
+	/*if (CheckBit(other.GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
 		SetBehaviorRequest(Behavior::DAMAGE);
-	}
+		knockBackVelocity_ = (other.GetCenterPos() - transform_->GetTranslation()).Normalize();
+	}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
