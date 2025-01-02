@@ -6,7 +6,7 @@ NormalEnemyAttackState::~NormalEnemyAttackState() {
 
 void NormalEnemyAttackState::Init() {
 	stateName_ = "attack";
-	pEnemy_->GetAnimetor()->TransitionAnimation("attack");
+	pEnemy_->GetAnimetor()->TransitionAnimation("attack", 0.5f);
 
 	work_.time = 0.0f;
 	work_.timeLimit = 1.0f;

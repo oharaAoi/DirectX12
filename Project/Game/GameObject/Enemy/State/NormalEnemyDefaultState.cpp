@@ -7,7 +7,7 @@ NormalEnemyDefaultState::~NormalEnemyDefaultState() {
 void NormalEnemyDefaultState::Init() {
 	stateName_ = "default";
 
-	pEnemy_->GetAnimetor()->TransitionAnimation("default");
+	pEnemy_->GetAnimetor()->TransitionAnimation("default", 0.5f);
 }
 
 void NormalEnemyDefaultState::Update() {

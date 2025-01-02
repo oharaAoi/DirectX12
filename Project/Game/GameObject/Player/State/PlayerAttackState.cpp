@@ -24,9 +24,9 @@ void PlayerAttackState::Init() {
 
 	pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(false);
 	if (pPlayer_->GetAttackStep() != AttackStep::JUMPATTACK) {
-		pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName);
+		pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.1f);
 	} else {
-		pPlayer_->GetAnimetor()->TransitionAnimation("fallAttack");
+		pPlayer_->GetAnimetor()->TransitionAnimation("fallAttack", 0.5f);
 		pPlayer_->GetAnimetor()->SetAnimationSpeed(1.3f);
 	}
 }
@@ -54,16 +54,20 @@ void PlayerAttackState::Update() {
 void PlayerAttackState::CombAttack() {
 	CheckNextAttack();
 
-	if (pPlayer_->GetAnimetor()->GetAnimationClip()->GetIsAnimationFinish()) {
-		if (!isComb_) {
-			pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
-			pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
-			pPlayer_->SetIsAttack(false);
-		} else {
-			//pPlayer_->GetAnimetor()->TransitionAnimation("attack2");
-			//pPlayer_->GetAnimetor()->GetAnimationClip()->SetLerpAnimation(information_.animationName, "attack2");
-			pPlayer_->SetAttackStep(AttackStep::SECOND);
-			isComb_ = false;
+	if (!pPlayer_->GetAnimetor()->GetAnimationClip()->GetIsChange()) {
+		if (pPlayer_->GetAnimetor()->GetAnimationClip()->GetIsAnimationFinish()) {
+			if (!isComb_) {
+				pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
+				pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimation("idle", 1.0f);
+				pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
+				pPlayer_->SetIsAttack(false);
+			} else {
+				//pPlayer_->GetAnimetor()->TransitionAnimation("attack2");
+				//pPlayer_->GetAnimetor()->GetAnimationClip()->SetLerpAnimation(information_.animationName, "attack2");
+				//pPlayer_->GetAnimetor()->TransitionAnimation("attack2", 0.1f);
+				pPlayer_->SetAttackStep(AttackStep::SECOND);
+				isComb_ = false;
+			}
 		}
 	}
 }
@@ -74,9 +78,11 @@ void PlayerAttackState::CombAttack() {
 
 void PlayerAttackState::CheckNextAttack() {
 	if (!isComb_) {
-		if (Input::GetIsPadTrigger(BUTTON_X)) {
-			pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation(information_.animationName, "attack2", 1.0f);
-			isComb_ = true;
+		if (!pPlayer_->GetAnimetor()->GetAnimationClip()->GetIsChange()) {
+			if (Input::GetIsPadTrigger(BUTTON_X)) {
+				pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation(information_.animationName, "attack2",0.1f, 0.85f);
+				isComb_ = true;
+			}
 		}
 	}
 }
@@ -96,7 +102,7 @@ void PlayerAttackState::JumpAttack() {
 		translate.y = 0.0f;
 		pPlayer_->SetIsAttack(false);
 		pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
-		pPlayer_->GetAnimetor()->TransitionAnimation("idle");
+		pPlayer_->GetAnimetor()->TransitionAnimation("idle", 0.5f);
 		pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
 		pPlayer_->GetAnimetor()->SetAnimationSpeed(1.0f);
 	}

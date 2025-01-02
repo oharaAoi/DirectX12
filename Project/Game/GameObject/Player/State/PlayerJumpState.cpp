@@ -17,7 +17,7 @@ void PlayerJumpState::Init() {
 
 	velocity_.y = 6.0f;
 	acceleration_.y = -9.8f;
-	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName);
+	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.5f);
 	pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(false);
 }
 
@@ -38,7 +38,7 @@ void PlayerJumpState::Jump() {
 	if (translate.y <= 0.0f) {
 		translate.y = 0.0f;
 		pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
-		pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimation("idle");
+		pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimation("idle", 0.5f);
 		pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
 	}
 	// 実際に代入する

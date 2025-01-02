@@ -7,7 +7,7 @@ NormalEnemyMoveState::~NormalEnemyMoveState() {
 void NormalEnemyMoveState::Init() {
 	stateName_ = "move";
 
-	pEnemy_->GetAnimetor()->TransitionAnimation("move");
+	pEnemy_->GetAnimetor()->TransitionAnimation("move", 0.5f);
 }
 
 void NormalEnemyMoveState::Update() {

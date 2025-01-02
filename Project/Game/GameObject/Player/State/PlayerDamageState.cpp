@@ -13,7 +13,7 @@ void PlayerDamageState::Init() {
 	work_.strength = 20.0f;
 
 	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
-	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName);
+	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.5f);
 }
 
 void PlayerDamageState::Update() {
