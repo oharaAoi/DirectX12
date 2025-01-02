@@ -9,6 +9,7 @@ enum AttackStep {
 	Step_FIRST,
 	Step_SECOND,
 	Step_THEARD,
+	Step_FOUR,
 
 	Step_JUMPATTACK,
 };
@@ -25,10 +26,10 @@ public:
 	using AttackPointer = void(PlayerAttackState::*)();
 
 	std::unordered_map<AttackStep, AttackPointer> functionMap_ = {
-		{AttackStep::Step_FIRST, &PlayerAttackState::FirstAttack},
-		{AttackStep::Step_SECOND, &PlayerAttackState::SecondAttack},
-		{AttackStep::Step_THEARD, &PlayerAttackState::TheradAttack},
-		{AttackStep::Step_JUMPATTACK, &PlayerAttackState::JumpAttack}
+		{AttackStep::Step_FIRST,	&PlayerAttackState::FirstAttack},
+		{AttackStep::Step_SECOND,	&PlayerAttackState::SecondAttack},
+		{AttackStep::Step_THEARD,	&PlayerAttackState::TheradAttack},
+		{AttackStep::Step_FOUR,		&PlayerAttackState::FourAttack},
 	};
 
 public:
@@ -49,6 +50,8 @@ public:
 	void SecondAttack();
 
 	void TheradAttack();
+
+	void FourAttack();
 
 	void JumpAttack();
 

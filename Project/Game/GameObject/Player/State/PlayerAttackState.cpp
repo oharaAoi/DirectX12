@@ -26,7 +26,7 @@ void PlayerAttackState::Init() {
 	if (pPlayer_->GetAttackStep() != AttackStep::Step_JUMPATTACK) {
 		pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.1f);
 	} else {
-		pPlayer_->GetAnimetor()->TransitionAnimation("fallAttack", 0.5f);
+		pPlayer_->GetAnimetor()->TransitionAnimation("fallAttack", 0.1f);
 		pPlayer_->GetAnimetor()->SetAnimationSpeed(1.3f);
 	}
 }
@@ -61,9 +61,13 @@ void PlayerAttackState::CombAttack() {
 				pPlayer_->GetAnimetor()->TransitionAnimation("idle", 0.1f);
 				pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
 				pPlayer_->SetIsAttack(false);
-			} else {
-				isComb_ = false;
 			}
+		}
+	}
+
+	if (isComb_) {
+		if (!pPlayer_->GetAnimetor()->GetAnimationClip()->GetIsReservation()) {
+			isComb_ = false;
 		}
 	}
 }
@@ -105,6 +109,10 @@ void PlayerAttackState::SecondAttack() {
 
 void PlayerAttackState::TheradAttack() {
 	pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation("attack2", "attack3", 0.1f, 0.9f);
+}
+
+void PlayerAttackState::FourAttack() {
+	pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation("attack3", "attack4", 0.1f, 0.9f);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
