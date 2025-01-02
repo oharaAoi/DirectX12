@@ -61,7 +61,7 @@ void PlayerAttackState::CombAttack() {
 			pPlayer_->SetIsAttack(false);
 		} else {
 			//pPlayer_->GetAnimetor()->TransitionAnimation("attack2");
-			pPlayer_->GetAnimetor()->GetAnimationClip()->SetLerpAnimation(information_.animationName, "attack2");
+			//pPlayer_->GetAnimetor()->GetAnimationClip()->SetLerpAnimation(information_.animationName, "attack2");
 			pPlayer_->SetAttackStep(AttackStep::SECOND);
 			isComb_ = false;
 		}
@@ -75,6 +75,7 @@ void PlayerAttackState::CombAttack() {
 void PlayerAttackState::CheckNextAttack() {
 	if (!isComb_) {
 		if (Input::GetIsPadTrigger(BUTTON_X)) {
+			pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation(information_.animationName, "attack2", 0.85f);
 			isComb_ = true;
 		}
 	}
