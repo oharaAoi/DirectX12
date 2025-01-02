@@ -5,7 +5,8 @@
             "files": [
                 "amimationCharacter.gltf",
                 "walk.gltf",
-                "simpleSkin.gltf"
+                "simpleSkin.gltf",
+                "player.gltf"
             ]
         },
         {

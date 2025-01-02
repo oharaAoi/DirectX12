@@ -68,6 +68,7 @@ void SceneManager::PostFrame() {
 void SceneManager::Debug_Gui() {
 	ImGui::Begin("GameTimer", nullptr);
 	gameTimer_.FPS();
+	scene_->Debug_Gui();
 	ImGui::End();
 }
 #endif

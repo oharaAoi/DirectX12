@@ -91,6 +91,14 @@ public:
 
 	void SetAnimation(const std::string& animationName);
 
+	/// <summary>
+	/// Animationの予約
+	/// </summary>
+	/// <param name="preAnimation">: 遷移前アニメーション</param>
+	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
+	/// <param name="startTransitionRaito">: 前のAnimationがどのくらいの割合の時に開始するか</param>
+	void SetAnimationReservation(const std::string& preAnimation, const std::string& lerpAnimation, float startTransitionRaito);
+
 #ifdef _DEBUG
 	void Debug_Gui();
 
@@ -135,22 +143,25 @@ private:
 	std::string nowAnimationName_;
 	// アニメーションの時間
 	float animationTime_ = 0.0f;
-	bool isAnimationFinish_ = false;
-	// アニメーションをループさせるか
-	bool isLoop_ = false;
 	// アニメーションの速度
 	float animationSpeed_ = 1.0f;
 
 	Matrix4x4 animationMat_ = Matrix4x4::MakeUnit();
 
 	std::string rootName_;
-
 	// アニメーションの入っているファイルの名前
 	std::string animationFileName_;
 	// アニメーションの名前の配列
 	std::vector<std::string> animationNames_;
+
 	// skinningを行うか
 	bool isSkinnig_ = true;
+	// Animation終了フラグ
+	bool isAnimationFinish_ = false;
+	// アニメーションをループさせるか
+	bool isLoop_ = false;
+
+	bool isStop_ = false;
 
 	int selectedAnimationIndex = 0;
 
@@ -162,6 +173,9 @@ private:
 	Animation lerpAnimetion_[2];		// 補完させるアニメーション
 	float lerpAnimationTime_[2];		// アニメーションさせるkeyTime
 	int lerpAnimationNamesIndex_[2];	// 
+
+	bool isReservation_;				// Animationの予約をする
+	float startTransitionRaito_;		// 遷移を開始する割合
 };
 
 

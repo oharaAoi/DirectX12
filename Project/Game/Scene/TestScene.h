@@ -51,5 +51,8 @@ private:
 	std::unique_ptr<MeshCollider> meshColliderB_;
 
 	std::unique_ptr<CollisionManager> collisionManager_;
+
+
+	float raito_ = 0.9f;
 };
 
