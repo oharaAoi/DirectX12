@@ -74,6 +74,11 @@ public:
 	/// </summary>
 	void LookTarget();
 
+	/// <summary>
+	/// コンボを進める
+	/// </summary>
+	void CombStepUp();
+
 private:
 
 	void CheckLockOn();

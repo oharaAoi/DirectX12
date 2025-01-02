@@ -23,7 +23,7 @@ void PlayerAttackState::Init() {
 	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
 
 	pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(false);
-	if (pPlayer_->GetAttackStep() != AttackStep::JUMPATTACK) {
+	if (pPlayer_->GetAttackStep() != AttackStep::Step_JUMPATTACK) {
 		pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.1f);
 	} else {
 		pPlayer_->GetAnimetor()->TransitionAnimation("fallAttack", 0.5f);
@@ -40,7 +40,7 @@ void PlayerAttackState::Update() {
 		return ;
 	}
 
-	if (pPlayer_->GetAttackStep() != AttackStep::JUMPATTACK) {
+	if (pPlayer_->GetAttackStep() != AttackStep::Step_JUMPATTACK) {
 		CombAttack();
 	} else {
 		JumpAttack();
@@ -58,14 +58,10 @@ void PlayerAttackState::CombAttack() {
 		if (pPlayer_->GetAnimetor()->GetAnimationClip()->GetIsAnimationFinish()) {
 			if (!isComb_) {
 				pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
-				pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimation("idle", 1.0f);
+				pPlayer_->GetAnimetor()->TransitionAnimation("idle", 0.1f);
 				pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
 				pPlayer_->SetIsAttack(false);
 			} else {
-				//pPlayer_->GetAnimetor()->TransitionAnimation("attack2");
-				//pPlayer_->GetAnimetor()->GetAnimationClip()->SetLerpAnimation(information_.animationName, "attack2");
-				//pPlayer_->GetAnimetor()->TransitionAnimation("attack2", 0.1f);
-				pPlayer_->SetAttackStep(AttackStep::SECOND);
 				isComb_ = false;
 			}
 		}
@@ -80,11 +76,35 @@ void PlayerAttackState::CheckNextAttack() {
 	if (!isComb_) {
 		if (!pPlayer_->GetAnimetor()->GetAnimationClip()->GetIsChange()) {
 			if (Input::GetIsPadTrigger(BUTTON_X)) {
-				pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation(information_.animationName, "attack2",0.1f, 0.85f);
+				pPlayer_->CombStepUp();
+				Attack(pPlayer_->GetAttackStep());
 				isComb_ = true;
 			}
 		}
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 攻撃の実行
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void PlayerAttackState::Attack(AttackStep step) {
+	const auto& it = functionMap_.find(step);
+	if (it != functionMap_.end()) {
+		(this->*(it->second))(); // メンバー関数ポインタを使って関数を呼び出す
+	}
+}
+
+void PlayerAttackState::FirstAttack() {
+	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.1f);
+}
+
+void PlayerAttackState::SecondAttack() {
+	pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation(information_.animationName, "attack2", 0.1f, 0.85f);
+}
+
+void PlayerAttackState::TheradAttack() {
+	pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation("attack2", "attack3", 0.1f, 0.9f);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

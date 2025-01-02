@@ -96,7 +96,7 @@ public:
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
 	void SetLerpAnimation(const std::string& lerpAnimation, float blendSpeed);
 
-	void SetAnimation(const std::string& animationName, float blendSpeed);
+	void SetAnimation(const std::string& animationName);
 
 	/// <summary>
 	/// Animationの予約

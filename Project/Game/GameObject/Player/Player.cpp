@@ -35,7 +35,7 @@ void Player::Init() {
 	initHp_ = status_.hp_;
 
 	// 攻撃段階の設定
-	attackStep_ = AttackStep::NONE;
+	attackStep_ = AttackStep::Step_NONE;
 
 	// Colliderの初期化
 	SetCollider(ColliderTags::Player::DEFAULT, ColliderShape::SPHERE);
@@ -151,7 +151,7 @@ void Player::CheckAttack() {
 	if (Input::GetIsPadTrigger(BUTTON_X)) {
 		isAttack_ = true;
 		behaviorRequest_ = Behavior::ATTACK;
-		attackStep_ = AttackStep::FIRST;
+		attackStep_ = AttackStep::Step_FIRST;
 	}
 }
 
@@ -164,6 +164,14 @@ void Player::CheckAvoidance() {
 		behaviorRequest_ = Behavior::AVOIDANCE;
 		isAvoidance_ = true;
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　combを進める
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::CombStepUp() {
+	attackStep_ = AttackStep(attackStep_ + 1);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

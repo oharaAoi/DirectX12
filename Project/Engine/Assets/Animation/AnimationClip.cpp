@@ -388,6 +388,7 @@ void AnimationClip::SetLerpAnimation(const std::string& lerpAnimation, float ble
 	isAnimationChange_ = true;
 
 	blendFactor_ = 0.0f;
+	blendSpeed_ = blendSpeed;
 
 	nowAnimationName_ = lerpAnimation;
 }
@@ -395,15 +396,8 @@ void AnimationClip::SetLerpAnimation(const std::string& lerpAnimation, float ble
 void AnimationClip::SetAnimation(const std::string& animationName) {
 	animation_ = manager_->GetAnimation(animationFileName_, animationName);
 	animationTime_ = 0.0f;
-	blendSpeed_ = blendSpeed;
-
-	nowAnimationName_ = lerpAnimation;
-}
-
-void AnimationClip::SetAnimation(const std::string& animationName, float blendSpeed) {
-	animation_ = manager_->GetAnimation(animationFileName_, animationName);
-	animationTime_ = 0.0f;
-	blendSpeed_ = blendSpeed;
+	
+	nowAnimationName_ = animation_.animationName;
 }
 
 void AnimationClip::SetAnimationReservation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed, float startTransitionRaito) {

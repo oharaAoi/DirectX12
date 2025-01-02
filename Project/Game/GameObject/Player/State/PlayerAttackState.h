@@ -1,14 +1,16 @@
 #pragma once
+#include <unordered_map>
 #include "Game/Interface/ICharactorState.h"
 
 class Player;
 
-enum class AttackStep {
-	NONE,
-	FIRST,
-	SECOND,
+enum AttackStep {
+	Step_NONE,
+	Step_FIRST,
+	Step_SECOND,
+	Step_THEARD,
 
-	JUMPATTACK,
+	Step_JUMPATTACK,
 };
 
 class PlayerAttackState :
@@ -18,6 +20,15 @@ public:
 	struct Work {
 		float time;
 		float timeLimit;
+	};
+
+	using AttackPointer = void(PlayerAttackState::*)();
+
+	std::unordered_map<AttackStep, AttackPointer> functionMap_ = {
+		{AttackStep::Step_FIRST, &PlayerAttackState::FirstAttack},
+		{AttackStep::Step_SECOND, &PlayerAttackState::SecondAttack},
+		{AttackStep::Step_THEARD, &PlayerAttackState::TheradAttack},
+		{AttackStep::Step_JUMPATTACK, &PlayerAttackState::JumpAttack}
 	};
 
 public:
@@ -30,6 +41,14 @@ public:
 	void CombAttack();
 
 	void CheckNextAttack();
+
+	void Attack(AttackStep step);
+
+	void FirstAttack();
+
+	void SecondAttack();
+
+	void TheradAttack();
 
 	void JumpAttack();
 
