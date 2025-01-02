@@ -75,7 +75,7 @@ void PlayerAttackState::CombAttack() {
 void PlayerAttackState::CheckNextAttack() {
 	if (!isComb_) {
 		if (Input::GetIsPadTrigger(BUTTON_X)) {
-			pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation(information_.animationName, "attack2", 0.85f);
+			pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation(information_.animationName, "attack2", 1.0f);
 			isComb_ = true;
 		}
 	}

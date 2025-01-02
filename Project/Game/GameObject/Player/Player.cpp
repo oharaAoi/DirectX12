@@ -229,21 +229,24 @@ void Player::OnCollisionStay([[maybe_unused]] ICollider& other) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
 void Player::Debug_Gui() {
-	BaseGameObject::Debug_Gui();
-	ImGui::Separator();
+	if (ImGui::CollapsingHeader("Base")) {
+		BaseGameObject::Debug_Gui();
+	}
+	
 	// statusの編集
-	if (ImGui::TreeNode("status")) {
+	if (ImGui::CollapsingHeader("status")) {
 		ImGui::SliderFloat("hp", &status_.hp_, 0.0f, initHp_);
 		if (ImGui::Button("Save")) {
 			AdjustmentItem::Save(groupName_, status_.ToJson(status_.tag));
 		}
-		ImGui::TreePop();
 	}
 
-	ImGui::Separator();
 	// stateの編集
-	ImGui::Checkbox("isStateDebug", &stateDebug_);
-	state_->Debug_Gui();
+	if (ImGui::CollapsingHeader("state")) {
+		ImGui::Checkbox("isStateDebug", &stateDebug_);
+		state_->Debug_Gui();
+	}
+
 	ImGui::DragFloat3("attackColliderDiff", &attackColliderDiff_.x, 0.1f);
 }
 
