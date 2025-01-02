@@ -81,13 +81,20 @@ public:
 	/// </summary>
 	/// <param name="preAnimation">: 遷移前アニメーション</param>
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
-	void SetLerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation);
+	
+	/// <summary>
+	/// animationを遷移させる設定をする
+	/// </summary>
+	/// <param name="preAnimation">: 遷移前アニメーション</param>
+	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
+	/// <param name="blendSpeed">: 遷移する速さ</param>
+	void SetLerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed);
 
 	/// <summary>
 	/// animationを遷移させる設定をする
 	/// </summary>
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
-	void SetLerpAnimation(const std::string& lerpAnimation);
+	void SetLerpAnimation(const std::string& lerpAnimation, float blendSpeed);
 
 	/// <summary>
 	/// Animationの予約
@@ -168,6 +175,7 @@ private:
 	// -------------------------------------------------
 	bool isAnimationChange_;			// アニメーションの遷移を行うか
 	float blendFactor_;					// 補完の線形代数
+	float blendSpeed_;
 	Animation lerpAnimetion_[2];		// 補完させるアニメーション
 	float lerpAnimationTime_[2];		// アニメーションさせるkeyTime
 	int lerpAnimationNamesIndex_[2];	// 
