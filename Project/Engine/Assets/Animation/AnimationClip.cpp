@@ -6,6 +6,7 @@ AnimationClip::AnimationClip() {
 
 	isAnimationChange_ = false;
 	blendFactor_ = 0.0f;
+	blendSpeed_ = 1.0f;
 }
 
 AnimationClip ::~AnimationClip() {
@@ -252,7 +253,7 @@ void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
 			Vector3 scaleB = CalculateValue(nodeAnimationB.scale.keyframes, lerpAnimationTime_[1]);
 
 			// blendFactor（補間率）に基づいて補間
-			float t = blendFactor_ / 1.0f;
+			float t = blendFactor_ / blendSpeed_;
 			joint.transform.translate = Lerp(translateA, translateB, t);
 			joint.transform.rotate = Quaternion::Slerp(rotateA, rotateB, t);
 			joint.transform.scale = Lerp(scaleA, scaleB, t);
@@ -260,7 +261,7 @@ void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
 	}
 
 	// 1以上になったら完全に遷移させる
-	if (blendFactor_ >= 1.0f) {
+	if (blendFactor_ >= blendSpeed_) {
 		isAnimationChange_ = false;
 		animationTime_ = lerpAnimationTime_[1];
 		animation_ = lerpAnimetion_[1];
@@ -354,7 +355,7 @@ Quaternion AnimationClip::CalculateQuaternion(const std::vector<KeyframeQuaterni
 // ↓　animation同士の補完を設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AnimationClip::SetLerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation) {
+void AnimationClip::SetLerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed) {
 	lerpAnimetion_[0] = manager_->GetAnimation(animationFileName_, preAnimation);
 	lerpAnimetion_[1] = manager_->GetAnimation(animationFileName_, lerpAnimation);
 
@@ -364,10 +365,11 @@ void AnimationClip::SetLerpAnimation(const std::string& preAnimation, const std:
 	isAnimationChange_ = true;
 
 	blendFactor_ = 0.0f;
+	blendSpeed_ = blendSpeed;
 }
 
 
-void AnimationClip::SetLerpAnimation(const std::string& lerpAnimation) {
+void AnimationClip::SetLerpAnimation(const std::string& lerpAnimation, float blendSpeed) {
 	// 今と遷移後がAnimationが同じだったら何もしない
 	if (animation_.animationName == lerpAnimation) {
 		return;
@@ -382,6 +384,7 @@ void AnimationClip::SetLerpAnimation(const std::string& lerpAnimation) {
 	isAnimationChange_ = true;
 
 	blendFactor_ = 0.0f;
+	blendSpeed_ = blendSpeed;
 }
 
 void AnimationClip::SetAnimationReservation(const std::string& preAnimation, const std::string& lerpAnimation, float startTransitionRaito) {
@@ -477,10 +480,13 @@ void AnimationClip::Debug_Gui() {
 				ImGui::EndCombo();
 			}
 
+			ImGui::DragFloat("blendSpeed", &blendSpeed_, 0.01f);
+
 			if (ImGui::Button("isChange")) {
 				SetLerpAnimation(
 					animationNames_[lerpAnimationNamesIndex_[0]],
-					animationNames_[lerpAnimationNamesIndex_[1]]
+					animationNames_[lerpAnimationNamesIndex_[1]],
+					blendSpeed_
 				);
 			}
 		}
