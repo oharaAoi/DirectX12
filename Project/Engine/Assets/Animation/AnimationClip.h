@@ -135,6 +135,9 @@ public:
 	const bool GetIsLoop() const { return isLoop_; }	// 取得
 	void SetIsLoop(bool isLoop) { isLoop_ = isLoop; }	// 設定
 
+	// 予約があるかの取得
+	const bool GetIsReservation() const { return isReservation_; }
+
 	// モデルに入っているAnimationの名前を取得
 	const std::vector<std::string>& GetAnimationNames() { return animationNames_; }
 
