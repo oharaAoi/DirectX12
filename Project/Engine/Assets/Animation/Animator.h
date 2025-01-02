@@ -40,9 +40,13 @@ public:
 	/// </summary>
 	/// <param name="preAnimation">: 遷移前アニメーション</param>
 	/// <param name="afterAnimation">: 遷移後アニメーション</param>
-	void TransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation);
+	void TransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation, float blendSpeed);
 
-	void TransitionAnimation(const std::string& afterAnimation);
+	/// <summary>
+	/// Animationを遷移させる(今のAnimationを指定しない)
+	/// </summary>
+	/// <param name="afterAnimation"></param>
+	void TransitionAnimation(const std::string& afterAnimation, float blendSpeed);
 
 #ifdef _DEBUG
 	void Debug_Gui();

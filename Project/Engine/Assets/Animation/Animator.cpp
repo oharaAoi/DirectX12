@@ -89,12 +89,12 @@ void Animator::LoadAnimation(const std::string& directoryPath, const std::string
 	}
 }
 
-void Animator::TransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation) {
-	animationClip_->SetLerpAnimation(preAnimation, afterAnimation);
+void Animator::TransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation, float blendSpeed) {
+	animationClip_->SetLerpAnimation(preAnimation, afterAnimation, blendSpeed);
 }
 
-void Animator::TransitionAnimation(const std::string& afterAnimation) {
-	animationClip_->SetLerpAnimation(afterAnimation);
+void Animator::TransitionAnimation(const std::string& afterAnimation, float blendSpeed) {
+	animationClip_->SetLerpAnimation(afterAnimation, blendSpeed);
 }
 
 #ifdef _DEBUG
