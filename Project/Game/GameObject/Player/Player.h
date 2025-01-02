@@ -141,6 +141,9 @@ public:
 	void SetAttackStep(const AttackStep& step) { attackStep_ = step; }
 	const AttackStep GetAttackStep() const { return attackStep_; }
 
+	// hpの取得
+	const float GetHp() const { return status_.hp_; }
+
 private:
 
 	const std::string groupName_ = "player";
