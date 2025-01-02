@@ -81,7 +81,7 @@ public:
 	/// </summary>
 	/// <param name="preAnimation">: 遷移前アニメーション</param>
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
-	
+
 	/// <summary>
 	/// animationを遷移させる設定をする
 	/// </summary>
@@ -96,13 +96,15 @@ public:
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
 	void SetLerpAnimation(const std::string& lerpAnimation, float blendSpeed);
 
+	void SetAnimation(const std::string& animationName, float blendSpeed);
+
 	/// <summary>
 	/// Animationの予約
 	/// </summary>
 	/// <param name="preAnimation">: 遷移前アニメーション</param>
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
 	/// <param name="startTransitionRaito">: 前のAnimationがどのくらいの割合の時に開始するか</param>
-	void SetAnimationReservation(const std::string& preAnimation, const std::string& lerpAnimation, float startTransitionRaito);
+	void SetAnimationReservation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed, float startTransitionRaito);
 
 #ifdef _DEBUG
 	void Debug_Gui();

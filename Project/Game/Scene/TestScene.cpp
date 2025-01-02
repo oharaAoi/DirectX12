@@ -120,7 +120,7 @@ void TestScene::Debug_Gui() {
 	ImGui::Checkbox("isDebug", &isDebugCamera_);
 
 	if (ImGui::Button("reserve")) {
-		testObjA_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation("slash", "attack2", raito_);
+		testObjA_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation("slash", "attack2", 0.5f, raito_);
 	}
 	ImGui::DragFloat("raito", &raito_, 0.01f);
 
