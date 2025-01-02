@@ -24,7 +24,19 @@ void AnimationClip::Update() {
 		return;
 	}
 
+	// アニメーションが終了したら
+	if (isAnimationFinish_) {
+		if (isLoop_) {
+			isAnimationFinish_ = false;
+			animationTime_ = std::fmod(animationTime_, animation_.duration);
+		}
+	}
+
+	// animationを進める
 	animationTime_ += GameTimer::DeltaTime() * animationSpeed_;
+	if (animationTime_ >= animation_.duration) {
+		isAnimationFinish_ = true;
+	}
 
 	// 遷移の予約が入っていたら
 	if (isReservation_) {
@@ -32,15 +44,6 @@ void AnimationClip::Update() {
 			isAnimationChange_ = true;
 			isReservation_ = false;
 			return;
-		}
-	}
-
-	// アニメーションが終了したら
-	if (animationTime_ >= animation_.duration) {
-		isAnimationFinish_ = true;
-		if (isLoop_) {
-			isAnimationFinish_ = false;
-			animationTime_ = std::fmod(animationTime_, animation_.duration);
 		}
 	}
 	
@@ -401,6 +404,7 @@ void AnimationClip::SetAnimationReservation(const std::string& preAnimation, con
 #include "Engine/System/Manager/ImGuiManager.h"
 void AnimationClip::Debug_Gui() {
 	bool isChange = false;
+	int isAnimationFinish = (int)isAnimationFinish_;
 	if (ImGui::TreeNode("animation")) {
 
 		if (ImGui::Button("play")) {
@@ -417,6 +421,7 @@ void AnimationClip::Debug_Gui() {
 
 		ImGui::SliderFloat("time", &animationTime_, 0.0f, animation_.duration);
 		ImGui::DragFloat("speed", &animationSpeed_, 0.1f);
+		ImGui::SliderInt("isFinish", &isAnimationFinish, 0, 1);
 		ImGui::Text(nowAnimationName_.c_str());
 
 		{
