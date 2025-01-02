@@ -44,10 +44,12 @@ void AnimationClip::Update() {
 		if ((animationTime_ / animation_.duration) >= startTransitionRaito_) {
 			isAnimationChange_ = true;
 			isReservation_ = false;
+			lerpAnimationTime_[0] = animationTime_;
+			lerpAnimationTime_[1] = 0;
 			return;
 		}
 	}
-	
+
 	// skinningを行わない場合アニメーションの行列を更新する
 	if (!isSkinnig_) {
 		// =======================================================================================
@@ -69,14 +71,14 @@ void AnimationClip::LoadAnimation(const std::string directoryPath, const std::st
 	animationFileName_ = animationFile;
 	isSkinnig_ = isSkinning;
 	rootName_ = rootName;
-	
+
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + animationFile;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
 	if (!scene || scene->mNumAnimations == 0) {
 		throw std::runtime_error("Failed to load animations or no animations present");
 	}
-	
+
 	Log("Start LoadAnimationFile [" + animationFile + "]\n");
 
 	std::unordered_map<std::string, Animation> animationMap{};
@@ -119,7 +121,7 @@ void AnimationClip::LoadAnimation(const std::string directoryPath, const std::st
 				std::string valueXLog = "keyFrame.value X : " + std::to_string(keyframe.value.x) + "\n";
 				std::string valueYLog = "keyFrame.value Y : " + std::to_string(keyframe.value.y) + "\n";
 				std::string valueZLog = "keyFrame.value Z : " + std::to_string(keyframe.value.z) + "\n";
-				
+
 				Log(valueXLog);
 				Log(valueYLog);
 				Log(valueZLog);*/
@@ -143,9 +145,9 @@ void AnimationClip::LoadAnimation(const std::string directoryPath, const std::st
 				/*Log("--------------------------------------------------\n");
 				std::string timeLog = "TicksPerSecond : " + std::to_string(animationAssimp->mTicksPerSecond) + "\n";
 				Log(timeLog);
-				
+
 				Log("--------------------------------------------------\n");*/
-	
+
 			}
 
 			// -------------------------------------------------
@@ -226,12 +228,12 @@ void AnimationClip::ApplyAnimation(Skeleton* skelton) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
-	if (isReservation_) {
-		animationTime_ += GameTimer::DeltaTime() * animationSpeed_;
-	}
-
 	blendFactor_ += GameTimer::DeltaTime() * animationSpeed_;
+	lerpAnimationTime_[0] += GameTimer::DeltaTime() * animationSpeed_;
 	lerpAnimationTime_[1] += GameTimer::DeltaTime() * animationSpeed_;
+
+	lerpAnimationTime_[0] = std::clamp(lerpAnimationTime_[0], 0.0f, lerpAnimetion_[0].duration);
+	lerpAnimationTime_[1] = std::clamp(lerpAnimationTime_[1], 0.0f, lerpAnimetion_[1].duration);
 
 	for (Skeleton::Joint& joint : skelton->GetJoints()) {
 
@@ -244,9 +246,9 @@ void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
 			const NodeAnimation& nodeAnimationB = itB->second;
 
 			// アニメーションAとBのそれぞれの変換を取得
-			Vector3 translateA = CalculateValue(nodeAnimationA.translate.keyframes, animationTime_);
-			Quaternion rotateA = CalculateQuaternion(nodeAnimationA.rotate.keyframes, animationTime_);
-			Vector3 scaleA = CalculateValue(nodeAnimationA.scale.keyframes, animationTime_);
+			Vector3 translateA = CalculateValue(nodeAnimationA.translate.keyframes, lerpAnimationTime_[0]);
+			Quaternion rotateA = CalculateQuaternion(nodeAnimationA.rotate.keyframes, lerpAnimationTime_[0]);
+			Vector3 scaleA = CalculateValue(nodeAnimationA.scale.keyframes, lerpAnimationTime_[0]);
 
 			Vector3 translateB = CalculateValue(nodeAnimationB.translate.keyframes, lerpAnimationTime_[1]);
 			Quaternion rotateB = CalculateQuaternion(nodeAnimationB.rotate.keyframes, lerpAnimationTime_[1]);
@@ -263,7 +265,7 @@ void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
 	// 1以上になったら完全に遷移させる
 	if (blendFactor_ >= blendSpeed_) {
 		isAnimationChange_ = false;
-		animationTime_ = lerpAnimationTime_[1];
+		animationTime_ = blendFactor_ / lerpAnimetion_[1].duration;
 		animation_ = lerpAnimetion_[1];
 	}
 }
@@ -282,9 +284,9 @@ void AnimationClip::AnimationTransition(Skeleton* skelton, float time) {
 			const NodeAnimation& nodeAnimationB = itB->second;
 
 			// アニメーションAとBのそれぞれの変換を取得
-			Vector3 translateA = CalculateValue(nodeAnimationA.translate.keyframes, animationTime_);
-			Quaternion rotateA = CalculateQuaternion(nodeAnimationA.rotate.keyframes, animationTime_);
-			Vector3 scaleA = CalculateValue(nodeAnimationA.scale.keyframes, animationTime_);
+			Vector3 translateA = CalculateValue(nodeAnimationA.translate.keyframes, lerpAnimationTime_[0]);
+			Quaternion rotateA = CalculateQuaternion(nodeAnimationA.rotate.keyframes, lerpAnimationTime_[0]);
+			Vector3 scaleA = CalculateValue(nodeAnimationA.scale.keyframes, lerpAnimationTime_[0]);
 
 			Vector3 translateB = CalculateValue(nodeAnimationB.translate.keyframes, lerpAnimationTime_[1]);
 			Quaternion rotateB = CalculateQuaternion(nodeAnimationB.rotate.keyframes, lerpAnimationTime_[1]);
@@ -365,6 +367,8 @@ void AnimationClip::SetLerpAnimation(const std::string& preAnimation, const std:
 	isAnimationChange_ = true;
 
 	blendFactor_ = 0.0f;
+
+	nowAnimationName_ = lerpAnimation;
 	blendSpeed_ = blendSpeed;
 }
 
@@ -385,9 +389,17 @@ void AnimationClip::SetLerpAnimation(const std::string& lerpAnimation, float ble
 
 	blendFactor_ = 0.0f;
 	blendSpeed_ = blendSpeed;
+
+	nowAnimationName_ = lerpAnimation;
 }
 
-void AnimationClip::SetAnimationReservation(const std::string& preAnimation, const std::string& lerpAnimation, float startTransitionRaito) {
+void AnimationClip::SetAnimation(const std::string& animationName, float blendSpeed) {
+	animation_ = manager_->GetAnimation(animationFileName_, animationName);
+	animationTime_ = 0.0f;
+	blendSpeed_ = blendSpeed;
+}
+
+void AnimationClip::SetAnimationReservation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed, float startTransitionRaito) {
 	lerpAnimetion_[0] = manager_->GetAnimation(animationFileName_, preAnimation);
 	lerpAnimetion_[1] = manager_->GetAnimation(animationFileName_, lerpAnimation);
 
@@ -396,6 +408,7 @@ void AnimationClip::SetAnimationReservation(const std::string& preAnimation, con
 
 	isReservation_ = true;
 	startTransitionRaito_ = startTransitionRaito;
+	blendSpeed_ = blendSpeed;
 	blendFactor_ = 0.0f;
 }
 
@@ -452,6 +465,8 @@ void AnimationClip::Debug_Gui() {
 
 		{
 			ImGui::BulletText("Transition Animation");
+			ImGui::SliderFloat("lerpAnimationTime_0", &lerpAnimationTime_[0], 0.0f, lerpAnimetion_[0].duration);
+			ImGui::SliderFloat("lerpAnimationTime_1", &lerpAnimationTime_[1], 0.0f, lerpAnimetion_[1].duration);
 			// 遷移前アニメーション
 			if (ImGui::BeginCombo("before", animationNames_[lerpAnimationNamesIndex_[0]].c_str())) {
 				for (int i = 0; i < animationNames_.size(); ++i) {
@@ -493,6 +508,14 @@ void AnimationClip::Debug_Gui() {
 
 		ImGui::TreePop();
 	}
+
+	if (isAnimationChange_) {
+		ImGui::Text("true Change");
+	} else {
+		ImGui::Text("not Change");
+	}
+
+	ImGui::Text(nowAnimationName_.c_str());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -512,7 +535,7 @@ std::string AnimationClip::SelectAnimationName() {
 		}
 		ImGui::EndCombo();
 	}
-	
+
 	return animationNames_[selectedAnimationIndex];
 }
 #endif // DEBUG
