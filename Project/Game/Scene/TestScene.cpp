@@ -23,28 +23,14 @@ void TestScene::Init() {
 	floor_ = std::make_unique<Floor>();
 	floor_->Init();
 
-
 	// gameObject -------------------------------------------------------------------
 	testObjA_ = std::make_unique<TestObject>();
-	testObjB_ = std::make_unique<TestObject>();
 
 	testObjA_->Init();
-	testObjB_->Init();
-
 	testObjA_->SetCollider(1 << 1, ColliderShape::SPHERE);
-	testObjB_->SetCollider(1 << 2, ColliderShape::OBB);
-
-	testObjA_->SetObject("player.gltf");
-	testObjA_->SetAnimater("./Engine/Resources/Animation/", "player.gltf", true, true, false);
 	
-	testObjB_->SetObject("amimationCharacter.gltf");
-	testObjB_->SetAnimater("./Engine/Resources/Animation/", "amimationCharacter.gltf", true, true, false);
-
-	testObjB_->GetTransform()->SetTranslaion(Vector3(2.0f, 0.0f, 0.0f));
-	testObjB_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(180.0f * toRadian, Vector3::UP()));
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjA_.get()), "testAObj");
-	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjB_.get()), "testAObj");
 #endif
 
 	//testObjB_->SetObject("skin.obj");
@@ -93,11 +79,9 @@ void TestScene::Update() {
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
 	testObjA_->Update();
-	testObjB_->Update();
-
+	
 	collisionManager_->Reset();
 	collisionManager_->AddCollider(testObjA_->GetCollider());
-	collisionManager_->AddCollider(testObjB_->GetCollider());
 	collisionManager_->CheckAllCollision();
 
 	// -------------------------------------------------
@@ -111,7 +95,6 @@ void TestScene::Draw() const {
 	skydome_->Draw();
 	floor_->Draw();
 	testObjA_->Draw();
-	testObjB_->Draw();
 }
 
 #ifdef _DEBUG

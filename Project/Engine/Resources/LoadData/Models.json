@@ -6,7 +6,8 @@
                 "amimationCharacter.gltf",
                 "walk.gltf",
                 "simpleSkin.gltf",
-                "player.gltf"
+                "player.gltf",
+                "sword.obj"
             ]
         },
         {
