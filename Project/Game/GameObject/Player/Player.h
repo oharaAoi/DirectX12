@@ -182,6 +182,10 @@ private:
 
 	float inputReceptionFrame_;	// 入力を受け付ける時間
 
+	// 武器
+	std::unique_ptr<BaseGameObject> sword_;
+	Matrix4x4 swordMat_;
+
 	// ------------------- Debug用の変数 ------------------- //
 #ifdef _DEBUG
 	bool stateDebug_ = false;

@@ -1,5 +1,6 @@
 #include "EnemyManager.h"
 #include "Engine/Editer/Window/EditerWindows.h"
+#include "Engine/Math/MyRandom.h"
 
 EnemyManager::EnemyManager() {}
 EnemyManager::~EnemyManager() {}
@@ -63,6 +64,25 @@ void EnemyManager::Pop(const Vector3& pos) {
 	newEnemy->GetTransform()->SetTranslaion(pos);
 }
 
+void EnemyManager::RandomPop() {
+	if (isStop_) {
+		return;
+	}
+
+	popTime_ += GameTimer::DeltaTime();
+
+	if (popTime_ >= popTimeLimit_) {
+		for (int oi = 0; oi < popNum_; ++oi) {
+			Pop(Vector3(
+				RandomFloat(-20.0f, 20.0f),
+				RandomFloat(-20.0f, 20.0f),
+				RandomFloat(-20.0f, 20.0f)
+			));
+		}
+		popTime_ = 0.0f;
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　一番近い敵を探索する
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,19 +126,30 @@ std::shared_ptr<NormalEnemy> EnemyManager::GetNearEnemy(uint32_t& index) {
 #ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
 void EnemyManager::Debug_Gui() {
+	if (ImGui::CollapsingHeader("popInformation")) {
+		ImGui::Checkbox("isStop", &isStop_);
+		ImGui::SliderFloat("popTime", &popTime_, 0.0f, popTimeLimit_);
+		ImGui::DragFloat("popTimeLimit", &popTimeLimit_, 1.0f);
+
+		ImGui::SliderInt("popNum", &popNum_, 0, 10);
+	}
+
 	if (ImGui::Button("pop")) {
 		Pop(newEnemyPos_);
 	}
 	ImGui::SameLine();
 	ImGui::DragFloat3("newEnemyPos", &newEnemyPos_.x, 0.1f);
-	uint32_t index = 0;
-	for (auto& enemy : normalEnemyList_) {
-		std::string label = "enemy" + std::to_string(index);
-		if (ImGui::TreeNode(label.c_str())) {
-			enemy->Debug_Gui();
-			ImGui::TreePop();
+
+	if (ImGui::CollapsingHeader("enemies")) {
+		uint32_t index = 0;
+		for (auto& enemy : normalEnemyList_) {
+			std::string label = "enemy" + std::to_string(index);
+			if (ImGui::TreeNode(label.c_str())) {
+				enemy->Debug_Gui();
+				ImGui::TreePop();
+			}
+			index++;
 		}
-		index++;
 	}
 }
 void EnemyManager::Debug_Draw() {

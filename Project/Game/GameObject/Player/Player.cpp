@@ -47,6 +47,15 @@ void Player::Init() {
 	attackCollider_->Init(ColliderTags::Player::ATTACK, ColliderShape::SPHERE);
 	attackCollider_->SetRadius(4.0f);
 
+	// 武器の初期化
+	sword_ = std::make_unique<BaseGameObject>();
+	sword_->Init();
+	sword_->SetObject("sword.obj");
+	sword_->GetTransform()->SetScale(Vector3(100, 100, 100));
+
+	swordMat_ = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
+	sword_->GetTransform()->SetParent(swordMat_);
+
 	// フラグの初期化
 	isJump_ = false;
 	isAttack_ = false;
@@ -63,9 +72,15 @@ void Player::Init() {
 void Player::Update() {
 	CheckLockOn();
 
+	// Stateの更新
 	state_->Update();
 	CheckBehaviorRequest();
 
+	// 武器の更新
+	swordMat_ = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
+	sword_->Update();
+
+	// objectの更新
 	BaseGameObject::Update();
 
 	// attackColliderの位置を更新する
@@ -81,6 +96,7 @@ void Player::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Draw() const {
+	sword_->Draw();
 	BaseGameObject::Draw();
 }
 

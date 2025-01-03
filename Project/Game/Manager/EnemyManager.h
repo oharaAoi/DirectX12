@@ -37,6 +37,8 @@ private:
 
 	void Pop(const Vector3& pos = Vector3::ZERO());
 
+	void RandomPop();
+
 #ifdef _DEBUG
 	void Debug_Gui();
 
@@ -56,5 +58,11 @@ private:
 	// ------------------- playerの情報 ------------------- //
 	Vector3 playerPos_;
 
+	// ------------------- 出現の情報 ------------------- //
+	float popTime_ = 0.0f;
+	float popTimeLimit_ = 5.0f;
+	int popNum_ = 8;
+
+	bool isStop_ = false;
 };
 

@@ -10,7 +10,8 @@
             "directory": "./Game/Resources/Models/Player/",
             "files": [
                 "player.gltf",
-                "player.obj"
+                "player.obj",
+                "sword.obj"
             ]
         },
         {

@@ -62,7 +62,7 @@ void GameScene::Init() {
 	lockOn_->SetEnemyManger(enemyManager_.get());
 
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(std::bind(&GameScene::Debug_Gui, this), "Scene");
+	
 #endif // _DEBUG
 }
 
