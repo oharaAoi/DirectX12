@@ -51,6 +51,8 @@ private:
 #ifdef _DEBUG
 	int selectSceneNum_ = 0;
 	bool isSceneChange_ = 0;
+
+	SceneType changeScene_;
 #endif // _DEBUG
 
 };

@@ -99,15 +99,12 @@ void TestScene::Draw() const {
 
 #ifdef _DEBUG
 void TestScene::Debug_Gui() {
-	ImGui::Begin("TestScene");
 	ImGui::Checkbox("isDebug", &isDebugCamera_);
 
 	if (ImGui::Button("reserve")) {
 		testObjA_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation("slash", "attack2", 0.5f, raito_);
 	}
 	ImGui::DragFloat("raito", &raito_, 0.01f);
-
-	ImGui::End();
 
 	if (EffectSystem::GetInstacne()->GetIsEditerFocused()) {
 		debugCamera_->SetIsFocused(false);
