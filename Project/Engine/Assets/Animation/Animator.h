@@ -56,6 +56,7 @@ public:
 #endif
 
 	Skinning* GetSkinning() { return skinning_.get(); }
+	Skeleton* GetSkeleton() { return skeleton_.get(); }
 	AnimationClip* GetAnimationClip() { return animationClip_.get(); }
 
 	const Matrix4x4 GetAnimationMat() const { return animationClip_->GetMatrix(); }

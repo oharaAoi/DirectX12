@@ -46,6 +46,10 @@ public:
 
 	const size_t GetJointsSize() const { return joints_.size(); }
 
+	const Joint& GetJoint(uint32_t index) { return joints_[index]; }
+
+	const Matrix4x4& GetSkeltonSpaceMat(const std::string& boenName) { return joints_[jointMap_[boenName]].skeltonSpaceMat; }
+
 private:
 
 	int32_t root_ = 0;	// RootJointのIndex
