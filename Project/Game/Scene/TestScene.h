@@ -45,13 +45,11 @@ private:
 	// gameObject ------------------------------------
 	
 	std::unique_ptr<TestObject> testObjA_;
-	std::unique_ptr<TestObject> testObjB_;
-
+	
 	std::unique_ptr<MeshCollider> meshColliderA_;
 	std::unique_ptr<MeshCollider> meshColliderB_;
 
 	std::unique_ptr<CollisionManager> collisionManager_;
-
 
 	float raito_ = 0.9f;
 };

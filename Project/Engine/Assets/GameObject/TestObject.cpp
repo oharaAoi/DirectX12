@@ -16,10 +16,10 @@ void TestObject::Finalize() {
 
 void TestObject::Init() {
 	BaseGameObject::Init();
-	SetObject("skin.obj");
+	SetObject("player.gltf");
+	SetAnimater("./Engine/Resources/Animation/", "player.gltf", true, true, false);
 
 	SetMeshCollider("testObj");
-
 	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other);});
 	meshCollider_->SetCollisionStay([this](MeshCollider& other) {OnCollisionStay(other);});
 	meshCollider_->SetCollisionExit([this](MeshCollider& other) {OnCollisionExit(other);});
@@ -28,6 +28,13 @@ void TestObject::Init() {
 	transitionAnimationTimeLimit_ = 1.0f;
 
 	animationTime_ = 0.0f;
+
+	sword_ = std::make_unique<BaseGameObject>();
+	sword_->Init();
+	sword_->SetObject("sword.obj");
+	swordMat_ = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
+	sword_->GetTransform()->SetScale(Vector3(100, 100, 100));
+	sword_->GetTransform()->SetParent(swordMat_);
 
 	test_.ToJson("testParame");
 	test_.FromJson(AdjustmentItem::GetData("Player", "testParame"));
@@ -38,20 +45,16 @@ void TestObject::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TestObject::Update() {
-	/*if (animetor_ != nullptr) {
-		if (!animetor_->GetIsAnimationChange()) {
-			animationTime_ += GameTimer::DeltaTime();
-		}
-		animetor_->UpdateScript(animationTime_, transitionAnimationTimeLimit_);
-		animationTime_ = std::fmod(animationTime_, animetor_->GetAnimationDuration());
-	}*/
-
+	Matrix4x4 jointMat = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand");
+	swordMat_ = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
+	sword_->Update();
 	BaseGameObject::Update();
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestObject::Draw() const {
+	sword_->Draw();
 	BaseGameObject::Draw();
 }
 

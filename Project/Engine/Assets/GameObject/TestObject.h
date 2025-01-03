@@ -51,6 +51,9 @@ public:
 
 private:
 
+	Matrix4x4 swordMat_;
+	std::unique_ptr<BaseGameObject> sword_;
+
 	bool isCollision_;
 
 	float animationTime_;
