@@ -24,7 +24,7 @@ void FollowCamera::Init() {
 
 	transform_ = {
 		{1.0f, 1.0f, 1.0f},
-		{0 , 0, 0.0f},
+		{0.1f , 0, 0.0f},
 		{0, 2, -10}
 	};
 
@@ -92,6 +92,7 @@ Vector3 FollowCamera::CalcucOffset() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
 void FollowCamera::Debug_Gui() {
+	ImGui::DragFloat3("rotate", &transform_.rotate.x, 0.1f);
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
 	ImGui::DragFloat3("offset", &information_.offset.x, 0.1f);
 

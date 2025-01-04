@@ -186,6 +186,9 @@ private:
 	std::unique_ptr<BaseGameObject> sword_;
 	Matrix4x4 swordMat_;
 
+	// ------------------- 影関連 ------------------- //
+	std::unique_ptr<BaseGameObject> shadow_;
+
 	// ------------------- Debug用の変数 ------------------- //
 #ifdef _DEBUG
 	bool stateDebug_ = false;

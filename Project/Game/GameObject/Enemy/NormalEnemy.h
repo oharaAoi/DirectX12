@@ -63,6 +63,9 @@ private:
 	EnemyBehavior behavior_ = EnemyBehavior::DEFAULT;
 	std::optional<EnemyBehavior> behaviorRequest_ = std::nullopt;
 
+	// ------------------- 影関連 ------------------- //
+	std::unique_ptr<BaseGameObject> shadow_;
+
 	// ------------------- 他クラス関連 ------------------- //
 	Vector3 playerPos_;
 

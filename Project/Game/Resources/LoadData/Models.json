@@ -19,6 +19,12 @@
             "files": [
                 "enemy.gltf"
             ]
+        },
+        {
+            "directory": "./Game/Resources/Models/Shadow/",
+            "files": [
+                "shadow.obj"
+            ]
         }
     ]
 }

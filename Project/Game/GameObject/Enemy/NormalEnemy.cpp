@@ -27,6 +27,12 @@ void NormalEnemy::Init() {
 	behaviorRequest_ = EnemyBehavior::DEFAULT;
 	CheckBehaviorRequest();
 
+	// 影の初期化
+	shadow_ = std::make_unique<BaseGameObject>();
+	shadow_->Init();
+	shadow_->SetObject("shadow.obj");
+	shadow_->SetColor({ 0.0f, 0.0f, 0.0f, 0.8f });
+
 	isDead_ = false;
 }
 
@@ -39,6 +45,12 @@ void NormalEnemy::Update() {
 	CheckBehaviorRequest();
 
 	BaseGameObject::Update();
+
+	// 影の更新
+	Vector3 pos = transform_->GetTranslation();
+	pos.y = 0.05f;	// 少し浮かす
+	shadow_->GetTransform()->SetTranslaion(pos);
+	shadow_->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,6 +58,8 @@ void NormalEnemy::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void NormalEnemy::Draw() const {
+	shadow_->Draw();
+
 	BaseGameObject::Draw();
 }
 

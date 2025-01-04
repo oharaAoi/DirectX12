@@ -2,8 +2,6 @@
 #include <unordered_map>
 #include "Engine/Lib/AbstractSceneFactory.h"
 #include "Game/Scene/SceneType.h"
-#include "Game/Scene/GameScene.h"
-#include "Game/Scene/TestScene.h"
 
 /// <summary>
 /// シーン工場

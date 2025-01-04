@@ -51,10 +51,16 @@ void Player::Init() {
 	sword_ = std::make_unique<BaseGameObject>();
 	sword_->Init();
 	sword_->SetObject("sword.obj");
-	sword_->GetTransform()->SetScale(Vector3(100, 100, 100));
+	sword_->GetTransform()->SetScale(Vector3(100, 100, 100));	// 親子関係で小さくなってしまっているため
 
 	swordMat_ = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
 	sword_->GetTransform()->SetParent(swordMat_);
+
+	// 影の初期化
+	shadow_ = std::make_unique<BaseGameObject>();
+	shadow_->Init();
+	shadow_->SetObject("shadow.obj");
+	shadow_->SetColor({ 0.0f, 0.0f, 0.0f, 0.8f });
 
 	// フラグの初期化
 	isJump_ = false;
@@ -83,6 +89,12 @@ void Player::Update() {
 	// objectの更新
 	BaseGameObject::Update();
 
+	// 影の更新
+	Vector3 pos = transform_->GetTranslation();
+	pos.y = 0.05f;	// 少し浮かす
+	shadow_->GetTransform()->SetTranslaion(pos);
+	shadow_->Update();
+
 	// attackColliderの位置を更新する
 	attackCollider_->Update(SRT{
 		.scale = transform_->GetScale(),
@@ -96,6 +108,7 @@ void Player::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Draw() const {
+	shadow_->Draw();
 	sword_->Draw();
 	BaseGameObject::Draw();
 }
