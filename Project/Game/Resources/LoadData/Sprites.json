@@ -5,6 +5,13 @@
             "files": [
                 "white.png"
             ]
+        },
+        {
+            "directory": "./Game/Resources/Sprites/",
+            "files": [
+                "numbers.png",
+                "slash.png"
+            ]
         }
     ]
 }

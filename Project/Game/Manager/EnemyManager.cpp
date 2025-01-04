@@ -16,6 +16,8 @@ void EnemyManager::Init() {
 	Pop(Vector3(9.0f, 0.0f, 15.0f));
 	Pop(Vector3(-9.0f, 0.0f, 15.0f));
 
+	downNum_ = 0;
+
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&EnemyManager::Debug_Gui, this), "EnemyManager");
 #endif
@@ -29,6 +31,7 @@ void EnemyManager::Update() {
 	normalEnemyList_.remove_if([this](const std::shared_ptr<NormalEnemy>& enemy) {
 		if (enemy->GetIsDead()) {
 			this->CheckNearEnemyList();
+			downNum_++;
 			return true; // 削除
 		}
 		return false; // 削除しない

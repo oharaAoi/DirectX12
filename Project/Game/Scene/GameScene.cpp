@@ -42,6 +42,12 @@ void GameScene::Init() {
 	lockOn_->Init();
 
 	// -------------------------------------------------
+	// ↓ UI
+	// -------------------------------------------------
+	score_ = std::make_unique<Score>();
+	score_->Init();
+
+	// -------------------------------------------------
 	// ↓ Manager
 	// -------------------------------------------------
 	enemyManager_ = std::make_unique<EnemyManager>();
@@ -80,6 +86,7 @@ void GameScene::Update() {
 	} else {
 		Render::SetEyePos(followCamera_->GetWorldTranslate());
 		Render::SetViewProjection(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
+		Render::SetViewProjection2D(followCamera_->GetViewMatrix2D(), followCamera_->GetProjectionMatrix2D());
 	}
 	
 
@@ -115,6 +122,10 @@ void GameScene::Update() {
 
 	collisionManager_->CheckAllCollision();
 
+	// -------------------------------------------------
+	// ↓ UIの更新
+	// -------------------------------------------------
+	score_->Update(enemyManager_->GetDownNum());
 }
 
 void GameScene::Draw() const {
@@ -134,6 +145,9 @@ void GameScene::Draw() const {
 
 	Engine::ClearDepth();
 	lockOn_->Draw();
+
+	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
+	score_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -13,6 +13,7 @@
 #include "Game/GameObject/Player/Player.h"
 #include "Game/Manager/EnemyManager.h"
 #include "Game/System/LockOn/LockOn.h"
+#include "Game/UI/Score.h"
 
 class GameScene 
 	: public BaseScene {
@@ -45,6 +46,9 @@ private:
 
 	// ------------------- system ------------------- //
 	std::unique_ptr<LockOn> lockOn_ = nullptr;
+
+	// ------------------- UI ------------------- //
+	std::unique_ptr<Score> score_;
 
 	// ------------------- manager ------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_ = nullptr;

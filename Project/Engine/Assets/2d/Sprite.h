@@ -67,12 +67,6 @@ public:
 	void ReSetTexture(const std::string& fileName);
 
 	/// <summary>
-	/// Textureの中心位置を変える(Screen座標系)
-	/// </summary>
-	/// <param name="centerPos">: position</param>
-	void SetTranslate(const Vector2& centerPos);
-
-	/// <summary>
 	/// Textureのサイズを再設計する
 	/// </summary>
 	/// <param name="size"></param>

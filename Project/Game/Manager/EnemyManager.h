@@ -33,6 +33,8 @@ public:
 
 	void SetPlayerPos(const Vector3& playerPos) { playerPos_ = playerPos; }
 
+	const uint32_t GetDownNum() const { return downNum_; }
+
 private:
 
 	void Pop(const Vector3& pos = Vector3::ZERO());
@@ -51,6 +53,8 @@ private:
 	std::list<std::shared_ptr<NormalEnemy>> normalEnemyList_;
 
 	std::vector<std::shared_ptr<NormalEnemy>> nearNormalEnemyList_;
+
+	uint32_t downNum_;
 
 	// ------------------- newEnemyParameter ------------------- //
 	Vector3 newEnemyPos_;
