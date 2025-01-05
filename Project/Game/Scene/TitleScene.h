@@ -3,12 +3,14 @@
 #include <vector>
 // Engine
 #include "Engine.h"
+#include "Engine/Assets/2d/Sprite.h"
 // Game
 #include "Game/Scene/BaseScene.h"
 #include "Game/Camera/DebugCamera.h"
 #include "Game/Camera/Camera.h"
 #include "Game/WorldObject/Ground.h"
 #include "Game/WorldObject/Skydome.h"
+#include "Game/UI/TitlteUI.h"
 
 class TitleScene 
 	: public BaseScene {
@@ -35,6 +37,11 @@ private:
 	// ------------------- worldObject ------------------- //
 	std::unique_ptr<Ground> ground_ = nullptr;
 	std::unique_ptr<Skydome> skydome_ = nullptr;
+
+	// ------------------- Sprite ------------------- //
+
+	std::unique_ptr<TitlteUI> titleUI_;
+	
 
 	// ------------------- parameter ------------------- //
 	bool isDebug_ = false;

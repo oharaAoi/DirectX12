@@ -22,6 +22,14 @@ void TitleScene::Init() {
 
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Init();
+
+	// -------------------------------------------------
+	// ↓ UI
+	// -------------------------------------------------
+
+	titleUI_ = std::make_unique<TitlteUI>();
+	titleUI_->Init();
+
 }
 
 void TitleScene::Update() {
@@ -46,12 +54,17 @@ void TitleScene::Update() {
 
 	ground_->Update();
 	skydome_->Update();
+
+	titleUI_->Update();
 }
 
 void TitleScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
 	ground_->Draw();
+
+	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
+	titleUI_->Draw();
 }
 
 #ifdef _DEBUG

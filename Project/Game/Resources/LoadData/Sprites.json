@@ -10,7 +10,8 @@
             "directory": "./Game/Resources/Sprites/",
             "files": [
                 "numbers.png",
-                "slash.png"
+                "slash.png",
+                "title.png"
             ]
         }
     ]
