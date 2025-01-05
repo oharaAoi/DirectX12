@@ -14,6 +14,7 @@
 #include "Game/Manager/EnemyManager.h"
 #include "Game/System/LockOn/LockOn.h"
 #include "Game/UI/Score.h"
+#include "Game/Effect/Trail.h"
 
 class GameScene 
 	: public BaseScene {
@@ -49,6 +50,9 @@ private:
 
 	// ------------------- UI ------------------- //
 	std::unique_ptr<Score> score_;
+
+	// ------------------- Effect ------------------- //
+	std::unique_ptr<Trail> trail_;
 
 	// ------------------- manager ------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_ = nullptr;

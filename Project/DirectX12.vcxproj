@@ -228,6 +228,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\Collider\AttackCollider.cpp" />
+    <ClCompile Include="Game\Effect\Trail.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\NormalEnemy.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\State\NormalEnemyAttackState.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\State\NormalEnemyDefaultState.cpp" />
@@ -384,6 +385,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Camera\FollowCamera.h" />
     <ClInclude Include="Game\Collider\AttackCollider.h" />
     <ClInclude Include="Game\Collider\ColliderTags.h" />
+    <ClInclude Include="Game\Effect\Trail.h" />
     <ClInclude Include="Game\GameObject\Enemy\NormalEnemy.h" />
     <ClInclude Include="Game\GameObject\Enemy\State\NormalEnemyAttackState.h" />
     <ClInclude Include="Game\GameObject\Enemy\State\NormalEnemyDefaultState.h" />
@@ -507,6 +509,18 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\Textureless.PS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Trail.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\HLSL\Trail.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>

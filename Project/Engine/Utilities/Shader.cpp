@@ -16,6 +16,8 @@ void Shader::Init() {
 	Load("Engine/HLSL/Particle.VS.hlsl", "Engine/HLSL/Particle.PS.hlsl", Shader::Particle);
 	Load("Engine/HLSL/Sprite.VS.hlsl", "Engine/HLSL/Sprite.PS.hlsl", Shader::Sprite);
 
+	Load("Engine/HLSL/Trail.VS.hlsl", "Engine/HLSL/Trail.PS.hlsl", Shader::Trail);
+
 	// CS
 	Load("Engine/HLSL/GrayScale.CS.hlsl", CsShaderName::GrayScale);
 	Load("Engine/HLSL/HorizontalBlur.CS.hlsl", CsShaderName::HorizontalBlur);

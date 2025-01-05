@@ -47,6 +47,9 @@ void GameScene::Init() {
 	score_ = std::make_unique<Score>();
 	score_->Init();
 
+	trail_ = std::make_unique<Trail>();
+	trail_->Init();
+
 	// -------------------------------------------------
 	// ↓ Manager
 	// -------------------------------------------------
@@ -61,6 +64,7 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	player_->SetFollowCamera(followCamera_.get());
 	player_->SetLockOn(lockOn_.get());
+	player_->SetTrail(trail_.get());
 
 	followCamera_->SetTarget(player_->GetTransform());
 	followCamera_->SetLockOn(lockOn_.get());
@@ -98,6 +102,8 @@ void GameScene::Update() {
 	skydome_->Update();
 
 	player_->Update();
+
+	trail_->Update();
 
 	lockOn_->SetCameraMat(followCamera_->GetCameraMatrix());
 	lockOn_->Update();
@@ -137,11 +143,14 @@ void GameScene::Draw() const {
 #endif
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
-	ground_->Draw();
+	//ground_->Draw();
 
 	player_->Draw();
 
 	enemyManager_->Draw();
+
+	Engine::SetPipeline(PipelineType::TrailPipeline);
+	trail_->Draw(Render::GetViewProjection());
 
 	Engine::ClearDepth();
 	lockOn_->Draw();

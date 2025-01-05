@@ -56,6 +56,13 @@ void Player::Init() {
 	swordMat_ = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
 	sword_->GetTransform()->SetParent(swordMat_);
 
+	swordCenter_ = std::make_unique<BaseGameObject>();
+	swordCenter_->Init();
+	swordCenter_->SetObject("plane.obj");
+	swordCenter_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(PI, Vector3::RIGHT()));
+	swordCenter_->GetTransform()->SetParent(sword_->GetTransform()->GetWorldMatrix());
+	swordCenter_->SetObjectAxis();
+
 	// 影の初期化
 	shadow_ = std::make_unique<BaseGameObject>();
 	shadow_->Init();
@@ -86,6 +93,19 @@ void Player::Update() {
 	swordMat_ = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
 	sword_->Update();
 
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	swordRotate_ = TransformNormal(Vector3::RIGHT(), sword_->GetTransform()->GetWorldMatrix());
+
+	swordCenter_->GetTransform()->SetTranslaion(swordOffset_);
+	swordCenter_->Update();
+
+	Vector3 translate = Transform(Vector3::ZERO(), swordCenter_->GetTransform()->GetWorldMatrix());
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	if (behavior_ == Behavior::ATTACK) {
+		pTrail_->AddTrail(swordCenter_->GetTransform()->GetWorldMatrix());
+	}
+
 	// objectの更新
 	BaseGameObject::Update();
 
@@ -110,6 +130,9 @@ void Player::Update() {
 void Player::Draw() const {
 	shadow_->Draw();
 	sword_->Draw();
+	/*swordCenter_->Draw();
+	swordCenter_->Debug_Draw();*/
+	
 	BaseGameObject::Draw();
 }
 
@@ -285,6 +308,7 @@ void Player::Debug_Gui() {
 	}
 
 	ImGui::DragFloat3("attackColliderDiff", &attackColliderDiff_.x, 0.1f);
+	ImGui::DragFloat3("swordOffset_", &swordOffset_.x, 0.1f);
 }
 
 void Player::Debug_Draw() {

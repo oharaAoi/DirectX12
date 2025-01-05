@@ -343,6 +343,9 @@ void Engine::SetPipeline(const PipelineType& kind) {
 	case PipelineType::SpriteAddBlendPipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::SpriteAddBlendPipeline, dxCommands_->GetCommandList());
 		break;
+	case PipelineType::TrailPipeline:
+		graphicsPipelines_->SetPipeline(PipelineType::TrailPipeline, dxCommands_->GetCommandList());
+		break;
 	}
 }
 

@@ -17,6 +17,8 @@ enum class RootSignatureType {
 	ComputeShaderBlend,
 	CSReultRenderBlend,
 
+	Trail,
+
 	GpuParticleInit,
 	GpuParticleUpdate,
 	EmitGpuParticle,
@@ -43,6 +45,8 @@ public:
 	ComPtr<ID3D12RootSignature> CreateBlendShaderRootSignature();
 	ComPtr<ID3D12RootSignature> CreateResultRenderRootSignature();
 
+	ComPtr<ID3D12RootSignature> CreateTrailRootSignature();
+
 	ComPtr<ID3D12RootSignature> CreateGpuParticleInit();
 	ComPtr<ID3D12RootSignature> CreateGpuParticleUpdate();
 	ComPtr<ID3D12RootSignature> CreateEmitGpuParticle();
@@ -63,6 +67,8 @@ public:
 		{RootSignatureType::CsSkinning, &RootSignature::CreateCsSkinnigRootSignature},
 		{RootSignatureType::ComputeShaderBlend, &RootSignature::CreateBlendShaderRootSignature},
 		{RootSignatureType::CSReultRenderBlend, &RootSignature::CreateResultRenderRootSignature},
+		// custum
+		{RootSignatureType::Trail, &RootSignature::CreateTrailRootSignature},
 		// Particle
 		{RootSignatureType::GpuParticleInit, &RootSignature::CreateGpuParticleInit},
 		{RootSignatureType::GpuParticleUpdate, &RootSignature::CreateGpuParticleUpdate},

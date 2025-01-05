@@ -11,6 +11,7 @@
 #include "Engine/Assets/GameObject/TestObject.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/WorldObject/Floor.h"
+#include "Game/Effect/Trail.h"
 
 class TestScene 
 : public BaseScene {
@@ -50,6 +51,8 @@ private:
 	std::unique_ptr<MeshCollider> meshColliderB_;
 
 	std::unique_ptr<CollisionManager> collisionManager_;
+
+	std::unique_ptr<Trail> trail_;
 
 	float raito_ = 0.9f;
 };

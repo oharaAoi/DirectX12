@@ -16,6 +16,8 @@ public:
 		PBR,
 		Particle,
 		Sprite,
+
+		Trail,
 	};
 
 	enum CsShaderName {

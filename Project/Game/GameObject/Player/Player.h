@@ -10,6 +10,7 @@
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Collider/AttackCollider.h"
 #include "Game/System/LockOn/LockOn.h"
+#include "Game/Effect/Trail.h"
 
 enum class Behavior {
 	DEFAULT,	// 待機状態
@@ -37,6 +38,13 @@ public:
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "hp", hp_);
 		}
+	};
+
+	struct Rect {
+		Vector3 leftTop;
+		Vector3 rightTop;
+		Vector3 leftBottom;
+		Vector3 rightBottom;
 	};
 
 public:
@@ -112,6 +120,8 @@ public:
 	void SetFollowCamera(FollowCamera* followCamera) { followCamera_ = followCamera; };
 	FollowCamera* GetFollowCamera() { return followCamera_; }
 
+	void SetTrail(Trail* trail) { pTrail_ = trail; }
+
 	// lockOnの設定
 	void SetLockOn(LockOn* lockOn) { lockOn_ = lockOn; }
 
@@ -153,6 +163,8 @@ private:
 
 	LockOn* lockOn_ = nullptr;
 
+	Trail* pTrail_ = nullptr;
+
 	// ------------------- status関連 ------------------- //
 	PlayerStatus status_;
 
@@ -186,12 +198,18 @@ private:
 	std::unique_ptr<BaseGameObject> sword_;
 	Matrix4x4 swordMat_;
 
+	std::unique_ptr<BaseGameObject> swordCenter_;
+
 	// ------------------- 影関連 ------------------- //
 	std::unique_ptr<BaseGameObject> shadow_;
 
 	// ------------------- Debug用の変数 ------------------- //
 #ifdef _DEBUG
 	bool stateDebug_ = false;
+
+	Vector3 swordRotate_;
+	Vector3 swordOffset_ = {-2.0f, 0.0f, 0.0f};
+
 #endif
 };
 

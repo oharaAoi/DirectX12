@@ -298,6 +298,25 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateResultRenderRootSignature() {
 		.Build(device_);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+// Trail
+//////////////////////////////////////////////////////////////////////////////////////
+
+ComPtr<ID3D12RootSignature> RootSignature::CreateTrailRootSignature() {
+	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
+	spriteDescriptorRange[0].BaseShaderRegister = 0;
+	spriteDescriptorRange[0].NumDescriptors = 1;
+	spriteDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	spriteDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	return builder_
+		.AddCBV(0, D3D12_SHADER_VISIBILITY_PIXEL)  // Material用
+		.AddDescriptorTable(spriteDescriptorRange, 1, D3D12_SHADER_VISIBILITY_PIXEL) // Texture用
+		.AddCBV(0, D3D12_SHADER_VISIBILITY_VERTEX) // viewProjection用
+		.AddSampler(CreateSampler(D3D12_TEXTURE_ADDRESS_MODE_WRAP))
+		.Build(device_);
+}
+
 ComPtr<ID3D12RootSignature> RootSignature::CreateGpuParticleInit() {
 	// 出力のストラクチャードバッファ
 	D3D12_DESCRIPTOR_RANGE descriptorRangeUAV[1] = {};

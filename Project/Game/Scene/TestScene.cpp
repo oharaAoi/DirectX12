@@ -28,6 +28,9 @@ void TestScene::Init() {
 
 	testObjA_->Init();
 	testObjA_->SetCollider(1 << 1, ColliderShape::SPHERE);
+
+	trail_ = std::make_unique<Trail>();
+	trail_->Init();
 	
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjA_.get()), "testAObj");
@@ -84,6 +87,8 @@ void TestScene::Update() {
 	collisionManager_->AddCollider(testObjA_->GetCollider());
 	collisionManager_->CheckAllCollision();
 
+	trail_->Update();
+
 	// -------------------------------------------------
 	// ↓ ParticleのViewを設定する
 	// -------------------------------------------------
@@ -93,8 +98,11 @@ void TestScene::Update() {
 void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
-	floor_->Draw();
+	//floor_->Draw();
 	testObjA_->Draw();
+
+	Engine::SetPipeline(PipelineType::TrailPipeline);
+	trail_->Draw(Render::GetViewProjection());
 }
 
 #ifdef _DEBUG
