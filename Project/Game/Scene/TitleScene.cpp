@@ -30,6 +30,11 @@ void TitleScene::Init() {
 	titleUI_ = std::make_unique<TitlteUI>();
 	titleUI_->Init();
 
+	panel_ = std::make_unique<FadePanel>();
+	panel_->Init();
+
+	isNexScene_ = false;
+
 }
 
 void TitleScene::Update() {
@@ -49,6 +54,21 @@ void TitleScene::Update() {
 	}
 
 	// -------------------------------------------------
+	// ↓ sceneの更新
+	// -------------------------------------------------
+
+	if (Input::GetIsPadTrigger(BUTTON_A)) {
+		isNexScene_ = true;
+		panel_->SetFadeOut(0.8f);
+	}
+
+	if (isNexScene_) {
+		if (panel_->GetIsFinished()) {
+			SetNextSceneType(SceneType::GAME);
+		}
+	}
+
+	// -------------------------------------------------
 	// ↓ world,GameObjectの更新
 	// -------------------------------------------------
 
@@ -56,6 +76,7 @@ void TitleScene::Update() {
 	skydome_->Update();
 
 	titleUI_->Update();
+	panel_->Update();
 }
 
 void TitleScene::Draw() const {
@@ -65,9 +86,12 @@ void TitleScene::Draw() const {
 
 	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
 	titleUI_->Draw();
+
+	panel_->Draw();
 }
 
 #ifdef _DEBUG
 void TitleScene::Debug_Gui() {
+	
 }
 #endif

@@ -250,6 +250,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Scene\TitleScene.cpp" />
     <ClCompile Include="Game\System\LockOn\LockOn.cpp" />
+    <ClCompile Include="Game\UI\ControlUI.cpp" />
+    <ClCompile Include="Game\UI\FadePanel.cpp" />
     <ClCompile Include="Game\UI\PlayerUI.cpp" />
     <ClCompile Include="Game\UI\Score.cpp" />
     <ClCompile Include="Game\UI\TitlteUI.cpp" />
@@ -410,6 +412,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\Scene\TitleScene.h" />
     <ClInclude Include="Game\System\LockOn\LockOn.h" />
+    <ClInclude Include="Game\UI\ControlUI.h" />
+    <ClInclude Include="Game\UI\FadePanel.h" />
     <ClInclude Include="Game\UI\PlayerUI.h" />
     <ClInclude Include="Game\UI\Score.h" />
     <ClInclude Include="Game\UI\TitlteUI.h" />

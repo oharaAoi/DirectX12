@@ -80,9 +80,11 @@ void PlayerAttackState::CheckNextAttack() {
 	if (!isComb_) {
 		if (!pPlayer_->GetAnimetor()->GetAnimationClip()->GetIsChange()) {
 			if (Input::GetIsPadTrigger(BUTTON_X)) {
-				pPlayer_->CombStepUp();
-				Attack(pPlayer_->GetAttackStep());
-				isComb_ = true;
+				if (pPlayer_->GetAttackStep() < AttackStep::Step_FOUR) {
+					pPlayer_->CombStepUp();
+					Attack(pPlayer_->GetAttackStep());
+					isComb_ = true;
+				}
 			}
 		}
 	}

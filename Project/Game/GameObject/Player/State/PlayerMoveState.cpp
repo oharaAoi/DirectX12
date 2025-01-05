@@ -51,6 +51,7 @@ void PlayerMoveState::Move() {
 		velocity = direction.Normalize() * work_.speed;
 
 		Vector3 translate = pPlayer_->GetTransform()->GetTranslation();
+		velocity.y = 0.0f;
 		translate += velocity * GameTimer::DeltaTime();
 
 		pPlayer_->GetTransform()->SetTranslaion(translate);

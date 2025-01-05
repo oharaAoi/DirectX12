@@ -13,8 +13,10 @@
 #include "Game/GameObject/Player/Player.h"
 #include "Game/Manager/EnemyManager.h"
 #include "Game/System/LockOn/LockOn.h"
-#include "Game/UI/Score.h"
 #include "Game/Effect/Trail.h"
+#include "Game/UI/Score.h"
+#include "Game/UI/FadePanel.h"
+#include "Game/UI/ControlUI.h"
 
 class GameScene 
 	: public BaseScene {
@@ -50,6 +52,9 @@ private:
 
 	// ------------------- UI ------------------- //
 	std::unique_ptr<Score> score_;
+	std::unique_ptr<ControlUI> controlUI_;
+
+	std::unique_ptr<FadePanel> panel_;
 
 	// ------------------- Effect ------------------- //
 	std::unique_ptr<Trail> trail_;

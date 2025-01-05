@@ -47,8 +47,15 @@ void GameScene::Init() {
 	score_ = std::make_unique<Score>();
 	score_->Init();
 
+	controlUI_ = std::make_unique<ControlUI>();
+	controlUI_->Init();
+
 	trail_ = std::make_unique<Trail>();
 	trail_->Init();
+
+	panel_ = std::make_unique<FadePanel>();
+	panel_->Init();
+	panel_->SetFadeOutOpen(1.0f);
 
 	// -------------------------------------------------
 	// ↓ Manager
@@ -132,6 +139,10 @@ void GameScene::Update() {
 	// ↓ UIの更新
 	// -------------------------------------------------
 	score_->Update(enemyManager_->GetDownNum());
+
+	controlUI_->Update();
+
+	panel_->Update();
 }
 
 void GameScene::Draw() const {
@@ -143,7 +154,7 @@ void GameScene::Draw() const {
 #endif
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
-	//ground_->Draw();
+	ground_->Draw();
 
 	player_->Draw();
 
@@ -157,6 +168,9 @@ void GameScene::Draw() const {
 
 	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
 	score_->Draw();
+	controlUI_->Draw();
+
+	panel_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -14,6 +14,7 @@ public:
 private:
 
 	std::unique_ptr<Sprite> titleSprite_;
+	std::unique_ptr<Sprite> pushA_;
 
 };
 

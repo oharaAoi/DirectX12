@@ -37,9 +37,11 @@ void PlayerJumpState::Jump() {
 	// 限界の範囲を指定
 	if (translate.y <= 0.0f) {
 		translate.y = 0.0f;
+		pPlayer_->SetIsJump(false);
 		pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
 		pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimation("idle");
 		pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
+
 	}
 	// 実際に代入する
 	pPlayer_->GetTransform()->SetTranslaion((translate));

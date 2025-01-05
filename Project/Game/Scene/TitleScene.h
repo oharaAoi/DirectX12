@@ -11,6 +11,7 @@
 #include "Game/WorldObject/Ground.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/UI/TitlteUI.h"
+#include "Game/UI/FadePanel.h"
 
 class TitleScene 
 	: public BaseScene {
@@ -41,10 +42,11 @@ private:
 	// ------------------- Sprite ------------------- //
 
 	std::unique_ptr<TitlteUI> titleUI_;
-	
+	std::unique_ptr<FadePanel> panel_;
 
 	// ------------------- parameter ------------------- //
 	bool isDebug_ = false;
+	bool isNexScene_ = false;
 
 };
 
