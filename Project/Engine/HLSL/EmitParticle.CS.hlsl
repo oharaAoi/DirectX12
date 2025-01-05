@@ -88,7 +88,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				gParticles[particleIndex].scale = float3(1, 1, 1);
 				gParticles[particleIndex].translate = gCommonEmitter.translate + generator.Generated3d();
 				gParticles[particleIndex].color.rgb = gCommonEmitter.color.rgb;
-				gParticles[particleIndex].color.a = 1.0f;
+				gParticles[particleIndex].color.a = gCommonEmitter.color.a;
 				gParticles[particleIndex].lifeTime = 5.0f;
 				gParticles[particleIndex].currentTime = 0.0f;
 				

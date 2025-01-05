@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Math/Matrix4x4.h"
+#include "Engine/Math/Vector3.h"
 
 class Vector4 final {
 public:
@@ -9,20 +10,32 @@ public:
 	float z;
 	float w;
 
+	Vector4() = default;
+	~Vector4() = default;
+
+	Vector4(float x, float y, float z, float w)
+		: x(x), y(y), z(z), w(w) {
+	}
+
+	Vector4(const Vector3& vec3, float w = 1.0f)
+		: x(vec3.x), y(vec3.y), z(vec3.z), w(w) {
+	}
+
 	// =============================================
 	/// <summary>
 	/// 加算
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <returns></returns>
-	Vector4 operator+(const Vector4& obj) const { return Vector4(x + obj.x, y + obj.y, z + obj.z); }
+	Vector4 operator+(const Vector4& obj) const { return Vector4(x + obj.x, y + obj.y, z + obj.z, w + obj.w); }
 
-	Vector4 operator+(const float& obj) const { return Vector4(x + obj, y + obj, z + obj); }
+	Vector4 operator+(const float& obj) const { return Vector4(x + obj, y + obj, z + obj, w + obj); }
 
 	Vector4 operator+=(const Vector4& obj) {
 		x += obj.x;
 		y += obj.y;
 		z += obj.z;
+		w += obj.w;
 		return *this;
 	}
 
@@ -30,6 +43,7 @@ public:
 		x += obj;
 		y += obj;
 		z += obj;
+		w += obj;
 		return *this;
 	}
 
@@ -38,14 +52,15 @@ public:
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <returns></returns>
-	Vector4 operator-(const Vector4& obj) const { return Vector4(x - obj.x, y - obj.y, z - obj.z); }
+	Vector4 operator-(const Vector4& obj) const { return Vector4(x - obj.x, y - obj.y, z - obj.z, w - obj.w); }
 
-	Vector4 operator-(const float& obj) const { return Vector4(x - obj, y - obj, z - obj); }
+	Vector4 operator-(const float& obj) const { return Vector4(x - obj, y - obj, z - obj, w - obj); }
 
 	Vector4 operator-=(const Vector4& obj) {
 		x -= obj.x;
 		y -= obj.y;
 		z -= obj.z;
+		w -= obj.w;
 		return *this;
 	}
 
@@ -53,6 +68,7 @@ public:
 		x -= obj;
 		y -= obj;
 		z -= obj;
+		w -= obj;
 		return *this;
 	}
 
@@ -61,14 +77,15 @@ public:
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <returns></returns>
-	Vector4 operator*(const Vector4& obj) const { return Vector4(x * obj.x, y * obj.y, z * obj.z); }
+	Vector4 operator*(const Vector4& obj) const { return Vector4(x * obj.x, y * obj.y, z * obj.z, w * obj.w); }
 
-	Vector4 operator*(const float& obj) const { return Vector4(x * obj, y * obj, z * obj); }
+	Vector4 operator*(const float& obj) const { return Vector4(x * obj, y * obj, z * obj, w * obj); }
 
 	Vector4 operator*=(const Vector4& obj) {
 		x *= obj.x;
 		y *= obj.y;
 		z *= obj.z;
+		w *= obj.w;
 		return *this;
 	}
 
@@ -76,6 +93,7 @@ public:
 		x *= obj;
 		y *= obj;
 		z *= obj;
+		w *= obj;
 		return *this;
 	}
 
