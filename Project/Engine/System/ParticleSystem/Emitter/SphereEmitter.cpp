@@ -44,7 +44,7 @@ void SphereEmitter::Update() {
 
 void SphereEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	GpuEmitter::BindCmdList(commandList, rootParameterIndex);
-	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, commonBuffer_->GetGPUVirtualAddress());
+	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, sphereEmitterBuffer_->GetGPUVirtualAddress());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

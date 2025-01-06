@@ -45,6 +45,12 @@ public:
 
 	void EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
 
+	/// <summary>
+	/// modelを設定し直す
+	/// </summary>
+	/// <param name="modelName"></param>
+	void ResetModel(const std::string& modelName);
+
 public:		// アクセッサ
 
 	void SetPerViewProjectionMat(const Matrix4x4& viewProjectionMat) { perView_->viewProjection = viewProjectionMat; }

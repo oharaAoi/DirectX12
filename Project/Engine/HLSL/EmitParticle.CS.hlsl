@@ -11,25 +11,25 @@ struct Particle {
 };
 
 struct CommonEmitter {
-	float4 rotate;			// 回転(Quaternion)
-	float3 translate;		// 位置
-	int shape;				// emitterの形
-	int count;				// 射出数
-	float frequency;		// 射出間隔
-	float frequencyTime;	// 時間調整用
-	int emit;				// 射出許可
-	float4 color;			// 色
+	float4 rotate; // 回転(Quaternion)
+	float3 translate; // 位置
+	int shape; // emitterの形
+	int count; // 射出数
+	float frequency; // 射出間隔
+	float frequencyTime; // 時間調整用
+	int emit; // 射出許可
+	float4 color; // 色
 	float speed; // 速度
 };
 
 struct SphereEmitter {
-	float radius;			// 射出半径
+	float radius; // 射出半径
 };
 
 struct ConeEmitter {
-	float radius;			// 射出半径
-	float angle;			// 角度
-	float height;			// 高さ
+	float radius; // 射出半径
+	float angle; // 角度
+	float height; // 高さ
 };
 
 struct BoxEmitter {
@@ -92,19 +92,25 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				gParticles[particleIndex].lifeTime = 5.0f;
 				gParticles[particleIndex].currentTime = 0.0f;
 				
-				if (gCommonEmitter.shape == 0) {	// sphere
-					float3 randomPos = generator.Generated3d();
-					randomPos.x = clamp(randomPos.x, -gSphereEmitter.radius, gSphereEmitter.radius);
-					randomPos.y = clamp(randomPos.y, -gSphereEmitter.radius, gSphereEmitter.radius);
-					randomPos.z = clamp(randomPos.z, -gSphereEmitter.radius, gSphereEmitter.radius);
+				if (gCommonEmitter.shape == 0) { // sphere
+					float3 randomPos = generator.Generated3dRange(-gSphereEmitter.radius, gSphereEmitter.radius);
 					
 					gParticles[particleIndex].translate = gCommonEmitter.translate + randomPos;
 					gParticles[particleIndex].velocity = generator.Generated3d() * gCommonEmitter.speed;
 				}
-				else if (gCommonEmitter.shape == 1) {	// Cone
-					gParticles[particleIndex].velocity = ApplyVelocityWithRotation(gCommonEmitter.rotate, float3(0, 1, 0), 0.01f) * gCommonEmitter.speed;
+				else if (gCommonEmitter.shape == 1) { // Cone
+					gParticles[particleIndex].velocity = ApplyVelocityWithRotation(gCommonEmitter.rotate, float3(0, 1, 0), 0.01f) + normalize(generator.Generated3dRange(-5.0f, 5.0f)) * gCommonEmitter.speed;
 				}
-				else if (gCommonEmitter.shape == 2) {	// box
+				else if (gCommonEmitter.shape == 2) { // box
+					float x = generator.Generated1dRange(-gBoxEmitter.size.x, gBoxEmitter.size.x);
+					float y = generator.Generated1dRange(-gBoxEmitter.size.y, gBoxEmitter.size.y);
+					float z = generator.Generated1dRange(-gBoxEmitter.size.z, gBoxEmitter.size.z);
+					
+					gParticles[particleIndex].translate = gCommonEmitter.translate;
+					gParticles[particleIndex].translate.x += x;
+					gParticles[particleIndex].translate.y += y;
+					gParticles[particleIndex].translate.z += z;
+					
 					gParticles[particleIndex].velocity = ApplyVelocityWithRotation(gCommonEmitter.rotate, float3(0, 1, 0), 0.01f) * gCommonEmitter.speed;
 				}
 				

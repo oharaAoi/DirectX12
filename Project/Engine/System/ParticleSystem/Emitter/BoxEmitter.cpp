@@ -19,7 +19,7 @@ void BoxEmitter::Init() {
 	boxEmitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(Emitter));
 	boxEmitterBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&emitter_));
 
-	emitter_->size_ = Vector3(1, 1, 1);
+	emitter_->size_ = Vector3(5, 1, 1);
 
 	obb_.center = commonEmitter_->translate;
 	obb_.size = emitter_->size_;
@@ -46,7 +46,7 @@ void BoxEmitter::Update() {
 
 void BoxEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	GpuEmitter::BindCmdList(commandList, rootParameterIndex);
-	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, commonBuffer_->GetGPUVirtualAddress());
+	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, boxEmitterBuffer_->GetGPUVirtualAddress());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

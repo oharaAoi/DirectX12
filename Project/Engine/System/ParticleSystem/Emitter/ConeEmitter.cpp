@@ -44,7 +44,7 @@ void ConeEmitter::Update() {
 
 void ConeEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	GpuEmitter::BindCmdList(commandList, rootParameterIndex);
-	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, commonBuffer_->GetGPUVirtualAddress());
+	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, coneEmitterBuffer_->GetGPUVirtualAddress());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
