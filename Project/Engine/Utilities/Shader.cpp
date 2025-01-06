@@ -29,6 +29,7 @@ void Shader::Init() {
 
 	Load("Engine/HLSL/GpuParticleInit.CS.hlsl", CsShaderName::GpuParticleInit);
 	Load("Engine/HLSL/GpuParticleUpdate.CS.hlsl", CsShaderName::GpuParticleUpdate);
+	Load("Engine/HLSL/GpuParticleEnd.CS.hlsl", CsShaderName::GpuParticleEnd);
 	Load("Engine/HLSL/EmitParticle.CS.hlsl", CsShaderName::EmitGpuParticle);
 }
 

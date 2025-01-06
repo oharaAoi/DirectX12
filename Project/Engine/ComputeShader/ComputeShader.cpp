@@ -41,6 +41,7 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 	computeShaderPipelineMap_[CsPipelineType::EmitGpuParticle] = std::make_unique<ComputeShaderPipeline>();
 	computeShaderPipelineMap_[CsPipelineType::GpuParticleInit] = std::make_unique<ComputeShaderPipeline>();
 	computeShaderPipelineMap_[CsPipelineType::GpuParticleUpdate] = std::make_unique<ComputeShaderPipeline>();
+	computeShaderPipelineMap_[CsPipelineType::GpuParticleEnd] = std::make_unique<ComputeShaderPipeline>();
 
 	computeShaderPipelineMap_[CsPipelineType::GrayScale_Pipeline]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::GrayScale), RootSignatureType::ComputeShader);
 	computeShaderPipelineMap_[CsPipelineType::HorizontalBlur_Pipeline]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::HorizontalBlur), RootSignatureType::ComputeShader);
@@ -52,6 +53,7 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 
 	computeShaderPipelineMap_[CsPipelineType::GpuParticleInit]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::GpuParticleInit), RootSignatureType::GpuParticleInit);
 	computeShaderPipelineMap_[CsPipelineType::GpuParticleUpdate]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::GpuParticleUpdate), RootSignatureType::GpuParticleUpdate);
+	computeShaderPipelineMap_[CsPipelineType::GpuParticleEnd]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::GpuParticleEnd), RootSignatureType::GpuParticleEnd);
 	computeShaderPipelineMap_[CsPipelineType::EmitGpuParticle]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::EmitGpuParticle), RootSignatureType::EmitGpuParticle);
 
 	// postEffectの作成

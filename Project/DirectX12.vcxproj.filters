@@ -1111,6 +1111,7 @@
     <FxCompile Include="Engine\HLSL\GpuParticleInit.CS.hlsl" />
     <FxCompile Include="Engine\HLSL\EmitParticle.CS.hlsl" />
     <FxCompile Include="Engine\HLSL\GpuParticleUpdate.CS.hlsl" />
+    <FxCompile Include="Engine\HLSL\GpuParticleEnd.CS.hlsl" />
     <FxCompile Include="Engine\HLSL\Trail.VS.hlsl" />
     <FxCompile Include="Engine\HLSL\Trail.PS.hlsl" />
   </ItemGroup>

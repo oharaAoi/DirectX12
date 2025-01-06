@@ -170,6 +170,10 @@ void GpuParticle::EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT r
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 1, freeListIndexUav_.handleGPU);
 }
 
+void GpuParticle::EndBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
+	commandList->SetComputeRootDescriptorTable(rootParameterIndex, uav_.handleGPU);
+}
+
 void GpuParticle::ResetModel(const std::string& modelName) {
 	ID3D12Device* dxDevice = Engine::GetDevice();
 
