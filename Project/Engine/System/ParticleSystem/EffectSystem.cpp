@@ -64,21 +64,29 @@ void EffectSystem::Draw() const {
 	}
 }
 
-void EffectSystem::Emit(const std::string& name, const Vector3& pos, const Vector4& color) {
+void EffectSystem::Emit(const std::string& name, const Vector3& pos) {
 	EffectPersistence* persistence = EffectPersistence::GetInstance();
-	uint32_t shape = persistence->GetValue<uint32_t>(name, "shape");
-
-	auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
-	newEffect->Init(static_cast<EmitterShape>(shape));
-	newEffect->SetEmitter(name);
-
-	newEffect->SetEmitterPos(pos);
-	newEffect->SetEmitterColor(color);
+	for (uint32_t oi = 0; oi < persistence->GetItemsSize(name); ++oi) {
+		std::string key = "emitter" + std::to_string(oi + 1);
+		std::string emitterName = persistence->GetValue<std::string>(name, key.c_str());
+		ImportEmitter(emitterName, pos);
+	}
+	
 }
 
 void EffectSystem::SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matrix4x4& projection) {
 	viewMat_ = viewMat;
 	projectionMat_ = projection;
+}
+
+void EffectSystem::ImportEmitter(const std::string& emiterName, const Vector3& pos) {
+	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	uint32_t shape = persistence->GetValue<uint32_t>(emiterName, "shape");
+
+	auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
+	newEffect->Init(static_cast<EmitterShape>(shape));
+	newEffect->SetEmitter(emiterName);
+	newEffect->SetEmitterPos(pos);
 }
 
 
