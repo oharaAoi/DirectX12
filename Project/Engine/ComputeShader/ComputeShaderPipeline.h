@@ -23,6 +23,7 @@ enum class CsPipelineType {
 
 	GpuParticleInit,
 	GpuParticleUpdate,
+	GpuParticleEnd,
 	EmitGpuParticle,
 };
 

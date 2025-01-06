@@ -40,7 +40,7 @@ void TestScene::Init() {
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
 
-	EffectSystem::GetInstacne()->Emit("test", Vector3(0, 2, 0));
+	EffectSystem::GetInstacne()->Emit("test", Vector3(0, 0, 0));
 
 	/*EffectSystem::GetInstacne()->Emit("sphere", Vector3(0, 0, 5), Vector4(1, 0, 0, 1));
 	EffectSystem::GetInstacne()->Emit("cone", Vector3(5, 0, 5), Vector4(0, 1, 0, 1));

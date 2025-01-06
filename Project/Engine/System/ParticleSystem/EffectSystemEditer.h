@@ -77,6 +77,8 @@ private:
 	// ----------- effect ----------- //
 	std::list<std::unique_ptr<GpuEffect>> effectList_;
 
+	std::list<std::unique_ptr<GpuParticle>> gpuParticleList_;
+
 	// ----------- Saveに使用 ----------- //
 	const std::string kDirectoryPath_ = "./Game/Resources/Effects/";
 	std::vector<std::string> emitterNames_;

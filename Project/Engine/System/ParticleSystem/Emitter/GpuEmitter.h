@@ -42,6 +42,7 @@ public:
 		Vector3 velocity;	// 速度
 		float speed;		// 移動速度
 		float lifeTime;		// 生存時間
+		bool oneShot;		// 
 	};
 
 	struct PerFrame {

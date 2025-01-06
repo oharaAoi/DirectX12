@@ -53,6 +53,8 @@ public:
 
 	void EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
 
+	void EndBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
+
 	/// <summary>
 	/// modelを設定し直す
 	/// </summary>
