@@ -163,6 +163,7 @@ void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::TrailPipeline);
 	trail_->Draw(Render::GetViewProjection());
 
+	Engine::SetPipeline(PipelineType::NormalPipeline);
 	Engine::ClearDepth();
 	lockOn_->Draw();
 
