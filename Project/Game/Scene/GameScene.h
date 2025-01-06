@@ -66,4 +66,6 @@ private:
 	// ------------------- parameter ------------------- //
 	bool isDebug_ = false;
 
+	bool isClear_;
+
 };

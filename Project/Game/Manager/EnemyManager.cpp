@@ -16,7 +16,7 @@ void EnemyManager::Init() {
 	Pop(Vector3(9.0f, 0.0f, 15.0f));
 	Pop(Vector3(-9.0f, 0.0f, 15.0f));
 
-	downNum_ = 0;
+	downNum_ = 49;
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&EnemyManager::Debug_Gui, this), "EnemyManager");

@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/System/ParticleSystem/EffectSystem.h"
 #include "Engine/Editer/Window/EditerWindows.h"
 
 GameScene::GameScene() {
@@ -78,12 +79,33 @@ void GameScene::Init() {
 
 	lockOn_->SetEnemyManger(enemyManager_.get());
 
+	isClear_ = false;
+
 #ifdef _DEBUG
 	
 #endif // _DEBUG
 }
 
 void GameScene::Update() {
+	// -------------------------------------------------
+	// ↓ クリア判定
+	// -------------------------------------------------
+
+	if (enemyManager_->GetDownNum() >= 50) {
+		if (!isClear_) {
+			isClear_ = true;
+			panel_->SetFadeOut(1.0f);
+		}
+	}
+
+	if (isClear_) {
+		if (panel_->GetIsFinished()) {
+			SetNextSceneType(SceneType::CLEAR);
+		}
+		panel_->Update();
+		return;
+	}
+
 	// -------------------------------------------------
 	// ↓ cameraの更新
 	// -------------------------------------------------
@@ -98,6 +120,9 @@ void GameScene::Update() {
 		Render::SetEyePos(followCamera_->GetWorldTranslate());
 		Render::SetViewProjection(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
 		Render::SetViewProjection2D(followCamera_->GetViewMatrix2D(), followCamera_->GetProjectionMatrix2D());
+
+		EffectSystem::GetInstacne()->SetCameraMatrix(followCamera_->GetCameraMatrix());
+		EffectSystem::GetInstacne()->SetViewProjectionMatrix(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
 	}
 	
 

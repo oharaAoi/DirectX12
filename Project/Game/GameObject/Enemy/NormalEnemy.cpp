@@ -1,5 +1,6 @@
 #include "NormalEnemy.h"
 #include "Engine/Editer/Window/EditerWindows.h"
+#include "Engine/System/ParticleSystem/EffectSystem.h"
 #include "Game/Collider/ColliderTags.h"
 #include "Engine/Utilities/BitChecker.h"
 #include "Game/GameObject/Enemy/State/NormalEnemyDefaultState.h"
@@ -105,6 +106,8 @@ void NormalEnemy::CheckBehaviorRequest() {
 void NormalEnemy::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 	if (CheckBit(other.GetTag(), ColliderTags::Player::ATTACK, CheckType::EQUAL)) {
 		isDead_ = true;
+
+		EffectSystem::GetInstacne()->Emit("test", transform_->GetTranslation());
 	}
 }
 
