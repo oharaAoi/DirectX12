@@ -36,9 +36,9 @@ void PlayerAttackState::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerAttackState::Update() {
-	if (pPlayer_->GetIsStateDebug()) {
-		return ;
-	}
+	//if (pPlayer_->GetIsStateDebug()) {
+	//	return ;
+	//}
 
 	if (pPlayer_->GetAttackStep() != AttackStep::Step_JUMPATTACK) {
 		CombAttack();

@@ -62,9 +62,9 @@ void PlayerMoveState::Move() {
 	}
 
 	// 状態を編集する状態だったら変化させない
-	if (pPlayer_->GetIsStateDebug()) {
+	/*if (pPlayer_->GetIsStateDebug()) {
 		return;
-	}
+	}*/
 
 	// defaultに戻す判定の処理
 	if (!pPlayer_->GetIsJump()) {

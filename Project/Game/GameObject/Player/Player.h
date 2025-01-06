@@ -199,6 +199,8 @@ private:
 	Matrix4x4 swordMat_;
 
 	std::unique_ptr<BaseGameObject> swordCenter_;
+	Vector3 swordRotate_;
+	Vector3 swordOffset_ = { -2.0f, 0.0f, 0.0f };
 
 	// ------------------- 影関連 ------------------- //
 	std::unique_ptr<BaseGameObject> shadow_;
@@ -207,8 +209,7 @@ private:
 #ifdef _DEBUG
 	bool stateDebug_ = false;
 
-	Vector3 swordRotate_;
-	Vector3 swordOffset_ = {-2.0f, 0.0f, 0.0f};
+	
 
 #endif
 };

@@ -61,7 +61,7 @@ void Player::Init() {
 	swordCenter_->SetObject("plane.obj");
 	swordCenter_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(PI, Vector3::RIGHT()));
 	swordCenter_->GetTransform()->SetParent(sword_->GetTransform()->GetWorldMatrix());
-	swordCenter_->SetObjectAxis();
+	//swordCenter_->SetObjectAxis();
 
 	// 影の初期化
 	shadow_ = std::make_unique<BaseGameObject>();

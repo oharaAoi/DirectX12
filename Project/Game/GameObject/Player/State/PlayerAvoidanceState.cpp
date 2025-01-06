@@ -29,9 +29,9 @@ void PlayerAvoidanceState::Init() {
 void PlayerAvoidanceState::Update() {
 	pPlayer_->GetTransform()->SetTranslaion(pPlayer_->GetTransform()->GetTranslation() + (velocity_ * GameTimer::DeltaTime()));
 	
-	if (pPlayer_->GetIsStateDebug()) {
+	/*if (pPlayer_->GetIsStateDebug()) {
 		return;
-	}
+	}*/
 
 	work_.time += GameTimer::DeltaTime();
 	if (work_.time >= work_.timeLimit) {
