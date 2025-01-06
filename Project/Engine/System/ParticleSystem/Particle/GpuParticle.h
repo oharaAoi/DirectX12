@@ -14,12 +14,20 @@ class GpuParticle {
 public:	// メンバ構造体
 
 	struct Particle {
-		Vector3 scale;		// 拡縮
-		Vector3 translate;	// 座標
-		Vector3 velocity;	// 速度
-		float lifeTime;		// 生存時間
-		float currentTime;	// 現在の時間
-		Vector4 color;		// 色
+		Vector4 color;			// 色
+
+		Vector3 scale;			// 拡縮
+		
+		Vector3 translate;		// 座標
+		
+		Vector3 velocity;		// 速度
+		
+		Vector3 acceleration;	// 加速度
+		
+		float lifeTime;			// 生存時間
+		float currentTime;		// 現在の時間
+		float damping;			// 減衰
+		float gravity;			// 重力
 	};
 
 	struct PerView {
@@ -44,6 +52,12 @@ public:
 	void BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
 
 	void EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
+
+	/// <summary>
+	/// modelを設定し直す
+	/// </summary>
+	/// <param name="modelName"></param>
+	void ResetModel(const std::string& modelName);
 
 public:		// アクセッサ
 

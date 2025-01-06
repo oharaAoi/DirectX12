@@ -27,9 +27,7 @@ void GameScene::Draw() const {
 
 #ifdef _DEBUG
 void GameScene::Debug_Gui() {
-	ImGui::Begin("GameScene");
 	
-	ImGui::End();
 }
 
 #endif

@@ -26,9 +26,16 @@ public:
 		float frequency;		// 射出間隔
 		float frequencyTime;	// 時間調整用
 		int emit;				// 射出許可
+
+		// particle自体のparameter
 		Vector4 color;			// 色
+		Vector3 minScale;		// 最小の大きさ
+		Vector3 maxScale;		// 最大の大きさ
+		float pad;
 		float speed;			// 速度
-		float pad[3];
+		uint32_t lifeTime;		// particleの生存時間
+		float gravity;			// 重力を付与するか
+		float dampig;			// 減衰率
 	};
 
 	struct EmitterParameter {
@@ -87,6 +94,7 @@ protected:
 	Quaternion deltaRotate_;
 
 	std::string label_;
+	char inputFileNameBuffer_[64];
 
 	EmitterParameter emitterParameter_;
 	float lifeTime_;

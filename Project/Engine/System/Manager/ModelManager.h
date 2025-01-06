@@ -38,6 +38,9 @@ public:
 
 	static std::string GetModelPath(const std::string& modelName);
 
+	std::vector<std::string>& GetModelNameList() { return modelNameList_; }
+	static std::vector<std::string>& GetModelNames() { return GetInstance()->GetModelNameList(); }
+
 private:
 
 	static std::unordered_map<std::string, std::unique_ptr<Model>> modelMap_;

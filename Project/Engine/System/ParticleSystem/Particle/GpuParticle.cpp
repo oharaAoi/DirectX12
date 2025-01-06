@@ -169,3 +169,13 @@ void GpuParticle::EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT r
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex, uav_.handleGPU);
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 1, freeListIndexUav_.handleGPU);
 }
+
+void GpuParticle::ResetModel(const std::string& modelName) {
+	ID3D12Device* dxDevice = Engine::GetDevice();
+
+	materialArray_.clear();
+	meshArray_.clear();
+
+	materialArray_ = LoadMaterialData(ModelManager::GetModelPath(modelName), modelName, dxDevice);
+	meshArray_ = LoadMesh(ModelManager::GetModelPath(modelName), modelName, dxDevice);
+}
