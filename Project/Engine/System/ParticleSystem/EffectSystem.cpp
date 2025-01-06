@@ -41,8 +41,16 @@ void EffectSystem::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystem::Update() {
+	effectList_.remove_if([this](const std::unique_ptr<GpuEffect>& effect) {
+		if (!effect->GetIsAlive()) {
+			return true; // 削除
+		}
+		return false; // 削除しない
+						  }
+	);
+
 	for (std::list<std::unique_ptr<GpuEffect>>::iterator it = effectList_.begin(); it != effectList_.end();) {
-		Matrix4x4 mat = Multiply(viewMat_,projectionMat_);
+		Matrix4x4 mat = Multiply(viewMat_, projectionMat_);
 		(*it)->SetViewProjectionMat(mat);
 		(*it)->Update();
 		++it;
@@ -71,7 +79,7 @@ void EffectSystem::Emit(const std::string& name, const Vector3& pos) {
 		std::string emitterName = persistence->GetValue<std::string>(name, key.c_str());
 		ImportEmitter(emitterName, pos);
 	}
-	
+
 }
 
 void EffectSystem::SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matrix4x4& projection) {

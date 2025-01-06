@@ -32,6 +32,7 @@ void GpuEmitter::Init() {
 	emitterParameter_.velocity = Vector3::ZERO();
 	emitterParameter_.speed = 1.0f;
 	emitterParameter_.lifeTime = 10.0f;
+	emitterParameter_.oneShot = false;
 
 	lifeTime_ = emitterParameter_.lifeTime;
 	isMove_ = false;
@@ -40,6 +41,13 @@ void GpuEmitter::Init() {
 
 
 void GpuEmitter::Update() {
+	// 発射していてかつ一度切りだったらemitterを終了させる
+	if (commonEmitter_->emit) {
+		if (emitterParameter_.oneShot) {
+			isDead_ = true;
+			return;
+		}
+	}
 
 	Move();
 
@@ -100,6 +108,7 @@ void GpuEmitter::Save() {
 	persistence->AddItem(label_, "velocity", emitterParameter_.velocity);
 	persistence->AddItem(label_, "speed", emitterParameter_.speed);
 	persistence->AddItem(label_, "emitterLifeTime", emitterParameter_.lifeTime);
+	persistence->AddItem(label_, "oneShot", emitterParameter_.oneShot);
 }
 
 void GpuEmitter::Load() {
@@ -120,6 +129,7 @@ void GpuEmitter::Load() {
 	emitterParameter_.velocity = persistence->GetValue<Vector3>(label_, "velocity");
 	emitterParameter_.speed = persistence->GetValue<float>(label_, "speed");
 	emitterParameter_.lifeTime = persistence->GetValue<float>(label_, "emitterLifeTime");
+	emitterParameter_.oneShot = persistence->GetValue<bool>(label_, "oneShot");
 }
 
 #ifdef _DEBUG
@@ -161,12 +171,14 @@ void GpuEmitter::Debug_Gui() {
 		if (ImGui::Button("reset")) {
 			commonEmitter_->translate = Vector3::ZERO();
 			lifeTime_ = emitterParameter_.lifeTime;
-			isDead_ = true;
+			commonEmitter_->frequencyTime = 0.0f;
+			isDead_ = false;
 		}
 
 		ImGui::DragFloat3("velocity", &emitterParameter_.velocity.x, 0.01f);
 		ImGui::DragFloat("emitterLifeTime", &emitterParameter_.lifeTime, 0.1f);
 		ImGui::DragFloat("speed", &emitterParameter_.speed, 0.1f);
+		ImGui::Checkbox("oneShot", &emitterParameter_.oneShot);
 
 		ImGui::TreePop();
 	}

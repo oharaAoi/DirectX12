@@ -346,6 +346,26 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateGpuParticleUpdate() {
 		.Build(device_);
 }
 
+ComPtr<ID3D12RootSignature> RootSignature::CreateGpuParticleEnd() {
+	// 出力のストラクチャードバッファ
+	D3D12_DESCRIPTOR_RANGE descriptorRangeUAV[1] = {};
+	descriptorRangeUAV[0].BaseShaderRegister = 0;
+	descriptorRangeUAV[0].NumDescriptors = 1;
+	descriptorRangeUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
+	descriptorRangeUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	D3D12_DESCRIPTOR_RANGE boolIndexUAV[1] = {};
+	boolIndexUAV[0].BaseShaderRegister = 1;
+	boolIndexUAV[0].NumDescriptors = 1;
+	boolIndexUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
+	boolIndexUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	return builder_
+		.AddDescriptorTable(descriptorRangeUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // particles
+		.AddDescriptorTable(boolIndexUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // freeListIndex
+		.Build(device_);
+}
+
 ComPtr<ID3D12RootSignature> RootSignature::CreateEmitGpuParticle() {
 	// 出力のストラクチャードバッファ
 	D3D12_DESCRIPTOR_RANGE descriptorRangeUAV[1] = {};

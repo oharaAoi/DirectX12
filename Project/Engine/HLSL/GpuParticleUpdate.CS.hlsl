@@ -14,10 +14,9 @@ ConstantBuffer<PerFrame> gPerFrame : register(b0);
 void CSmain(uint3 DTid : SV_DispatchThreadID) {
 	int particleIndex = DTid.x;
 	if (particleIndex < kMaxParticles) {
-		if (gParticles[particleIndex].translate.y <= 0.0f) {
-			gParticles[particleIndex].velocity = float3(0.0f, 0.0f, 0.0f);
-
-		}
+		//if (gParticles[particleIndex].translate.y <= 0.0f) {
+		//	gParticles[particleIndex].velocity = float3(0.0f, 0.0f, 0.0f);
+		//}
 		
 		// alphaが0は死んでいる
 		if (gParticles[particleIndex].color.a >= 0.01f) {
@@ -33,6 +32,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 		else {
 			// スケールに0を入れて出力されないようにする
 			gParticles[particleIndex].scale = float3(0.0f, 0.0f, 0.0f);
+			gParticles[particleIndex].color.a = 0.0f;
 			int freeListIndex;
 			InterlockedAdd(gFreeListIndex[0], 1, freeListIndex);
 			// 最新のfreeListIndexの場所に死んだparticleのIndexを設定する

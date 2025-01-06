@@ -19,6 +19,12 @@ public:
 	void Debug_Gui();
 #endif
 
+private:
+
+
+
+	void CheckParticlesAlpha();
+
 public:
 
 	void SetViewProjectionMat(const Matrix4x4& mat) { viewProjectionMat_ = mat; }
@@ -33,6 +39,7 @@ public:
 	void SetEmitterPos(const Vector3& pos) const { return gpuEmitter_->SetEmitterPos(pos); }
 	void SetEmitterColor(const Vector4& color) const { return gpuEmitter_->SetEmitterColor(color); }
 
+	// effectの終了を取得と設定
 	const bool GetIsAlive() const { return isAlive_; }
 	void SetIsAlive(bool isAlive) { isAlive_ = isAlive; }
 
@@ -43,9 +50,15 @@ private:
 
 	Matrix4x4 viewProjectionMat_;
 
+	ComPtr<ID3D12Resource> outputBuffer_;
+	ComPtr<ID3D12Resource> allDeathBuffer_;
+	DescriptorHeap::DescriptorHandles allDeathUav_;
+	DescriptorHeap::DescriptorHandles allDeathSrv_;
+
 	// effectの名前
 	std::string effectName_ = "";
 
 	bool isAlive_ = true;
+	bool allAlphaZero_ = false;
 };
 
