@@ -47,7 +47,7 @@ public:
 private:
 
 	static const uint32_t kMaxScoreDegit_ = 2;
-	const uint32_t kMaxScore_ = 50;
+	const uint32_t kMaxScore_ = 25;
 
 	std::unique_ptr<Sprite> targetScore_[kMaxScoreDegit_];
 	std::vector<std::unique_ptr<Sprite>> scores_;

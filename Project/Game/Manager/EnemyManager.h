@@ -64,8 +64,8 @@ private:
 
 	// ------------------- 出現の情報 ------------------- //
 	float popTime_ = 0.0f;
-	float popTimeLimit_ = 5.0f;
-	int popNum_ = 8;
+	float popTimeLimit_ = 8.0f;
+	int popNum_ = 4;
 
 	bool isStop_ = false;
 };

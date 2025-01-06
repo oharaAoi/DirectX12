@@ -25,12 +25,23 @@ void NormalEnemyMoveState::Move() {
 	velocity_ = distance_.Normalize();
 	// 更新
 	translate += velocity_ * GameTimer::DeltaTime();
+	ConstrainToField(translate);
 	pEnemy_->GetTransform()->SetTranslaion(translate);
 
 	// 対象の方向を向ける
 	float angle = std::atan2f(distance_.x, distance_.z);
 	Quaternion lookRotate = Quaternion::AngleAxis(angle, Vector3::UP());
 	pEnemy_->GetTransform()->SetQuaternion(Quaternion::Slerp(pEnemy_->GetTransform()->GetQuaternion(), lookRotate, 0.1f));
+}
+
+void NormalEnemyMoveState::ConstrainToField(Vector3& translate) {
+	Vector3 distance = (translate - Vector3(0, translate.y, 0)).Normalize();
+	// 中心からの長さ
+	float lenght = (translate - Vector3(0, translate.y, 0)).Length();
+	if (lenght > 65.0f) {
+		distance = distance * 65.0f;
+		translate = { distance.x, translate.y, distance.z };
+	}
 }
 
 #ifdef _DEBUG

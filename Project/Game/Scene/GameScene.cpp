@@ -175,7 +175,7 @@ void GameScene::Draw() const {
 	
 	player_->Debug_Draw();
 
-	enemyManager_->Debug_Draw();
+	/*enemyManager_->Debug_Draw();*/
 #endif
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();

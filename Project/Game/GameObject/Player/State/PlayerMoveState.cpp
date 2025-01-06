@@ -8,7 +8,7 @@ PlayerMoveState::~PlayerMoveState() {
 void PlayerMoveState::Init() {
 	stateName_ = "playerMoveState";
 
-	work_.speed = 6.0f;
+	work_.speed = 10.0f;
 
 	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
 	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.5f);
@@ -53,6 +53,8 @@ void PlayerMoveState::Move() {
 		Vector3 translate = pPlayer_->GetTransform()->GetTranslation();
 		velocity.y = 0.0f;
 		translate += velocity * GameTimer::DeltaTime();
+		// 範囲ないから出ないようにする処理
+		ConstrainToField(translate);
 
 		pPlayer_->GetTransform()->SetTranslaion(translate);
 
@@ -71,6 +73,16 @@ void PlayerMoveState::Move() {
 		if (inputJoyStateL.x == 0.0f && inputJoyStateL.y == 0.0f) {
 			pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
 		}
+	}
+}
+
+void PlayerMoveState::ConstrainToField(Vector3& translate) {
+	Vector3 distance = (translate - Vector3(0, translate.y, 0)).Normalize();
+	// 中心からの長さ
+	float lenght = (translate - Vector3(0, translate.y, 0)).Length();
+	if (lenght > 65.0f) {
+		distance = distance * 65.0f;
+		translate = { distance.x, translate.y, distance.z };
 	}
 }
 

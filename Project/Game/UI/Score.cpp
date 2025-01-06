@@ -52,6 +52,7 @@ void Score::Update(uint32_t score) {
 
 	for (uint32_t oi = 0; oi < scores_.size(); ++oi) {
 		uint32_t nowScore = IntegerCount(score, oi + 1);
+		scores_[oi]->SetTranslate(Vector2{ scoreParameter_.scorePos.x + scoreParameter_.interval * -float(oi), scoreParameter_.scorePos.y });
 		scores_[oi]->SetLeftTop(NumberSpriteLt(nowScore, textureSize_));
 		scores_[oi]->Update();
 	}

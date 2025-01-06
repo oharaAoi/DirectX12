@@ -26,6 +26,8 @@ public:
 
 	void Move();
 
+	void ConstrainToField(Vector3& translate);
+
 #ifdef _DEBUG
 	void Debug_Gui() override;
 #endif // _DEBUG

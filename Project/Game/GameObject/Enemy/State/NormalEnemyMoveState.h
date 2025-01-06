@@ -21,6 +21,8 @@ private:
 
 	void Move();
 
+	void ConstrainToField(Vector3& translate);
+
 private:
 
 	NormalEnemy* pEnemy_ = nullptr;

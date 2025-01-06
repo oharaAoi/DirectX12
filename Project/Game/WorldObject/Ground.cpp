@@ -12,7 +12,7 @@ void Ground::Finalize() {
 
 void Ground::Init() {
 	BaseGameObject::Init();
-	SetObject("ground.obj");
+	SetObject("ground2.obj");
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&Ground::Debug_Gui, this), "ground");
