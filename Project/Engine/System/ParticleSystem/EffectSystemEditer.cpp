@@ -37,6 +37,7 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 	device->CreateDepthStencilView(depthStencilResource_.Get(), &desc, descriptorHeaps_->GetDescriptorHandle(TYPE_DSV).handleCPU);
 
 	emitterFiles_ = EffectPersistence::GetInstance()->GetEmitterNames();
+	effectFiles_ = EffectPersistence::GetInstance()->GetEffectNames();
 
 	// -------------------------------------------------
 	// ↓ カメラの初期化
@@ -114,15 +115,6 @@ void EffectSystemEditer::Draw() const {
 	ImGui::End();
 }
 
-void EffectSystemEditer::Import() {
-	EffectPersistence* persistence = EffectPersistence::GetInstance();
-	uint32_t shape = persistence->GetValue<uint32_t>(importFileName_, "shape");
-
-	auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
-	newEffect->Init(static_cast<EmitterShape>(shape));
-	newEffect->SetEmitter(importFileName_);
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　開始
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -189,10 +181,74 @@ void EffectSystemEditer::CreateEffect(const std::string& newName) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Emitterを取り出す
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EffectSystemEditer::Import() {
+	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	uint32_t shape = persistence->GetValue<uint32_t>(importFileName_, "shape");
+
+	auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
+	newEffect->Init(static_cast<EmitterShape>(shape));
+	newEffect->SetEmitter(importFileName_);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Debug表示
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Debug_Gui() {
+	EditEmitter();
+
+	EditEffect();
+
+	//if (ImGui::BeginTabBar("EmitterTabs")) {
+	//	// リストを反復してタブを作成
+	//	for (auto it = effectList_.begin(); it != effectList_.end(); ++it) {
+	//		// タブのラベルを生成（インデックスではなくポインタアドレスを利用）
+	//		std::string tabLabel = (*it)->GetEmitterLabel() + std::to_string(std::distance(effectList_.begin(), it));
+
+	//		if (ImGui::BeginTabItem(tabLabel.c_str())) {
+	//			(*it)->Debug_Gui();
+
+	//			ImGui::EndTabItem();
+	//		}
+	//	}
+	//	ImGui::EndTabBar();
+	//}
+
+	ImGui::Begin("Emitter List");
+	static int selectedEffectIndex = -1; // -1 means no selection
+	int index = 0;
+	for (auto it = effectList_.begin(); it != effectList_.end(); ++it, ++index) {
+		std::string name = (*it)->GetEmitterLabel();
+		std::string label = "Effect_" + name + std::to_string(index);
+
+		if (ImGui::Selectable(label.c_str(), selectedEffectIndex == index)) {
+			selectedEffectIndex = index; // Update the selected index
+		}
+	}
+
+	if (selectedEffectIndex >= 0 && selectedEffectIndex < effectList_.size()) {
+		auto it = effectList_.begin();
+		std::advance(it, selectedEffectIndex); // Move iterator to the selected index
+
+		ImGui::Begin("EmitterSetting");
+		(*it)->Debug_Gui();
+
+		if (ImGui::Button("Delete")) {
+			(*it)->SetIsAlive(false);
+		}
+		ImGui::End();
+	}
+	ImGui::End();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Emitterを編集する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EffectSystemEditer::EditEmitter() {
 	ImGui::Begin("Create Emitter");
 	ImGui::RadioButton("Sphere", &createShape_, (int)EmitterShape::Sphere);
 	ImGui::SameLine();
@@ -228,46 +284,114 @@ void EffectSystemEditer::Debug_Gui() {
 
 	ImGui::End();
 
-	//if (ImGui::BeginTabBar("EmitterTabs")) {
-	//	// リストを反復してタブを作成
-	//	for (auto it = effectList_.begin(); it != effectList_.end(); ++it) {
-	//		// タブのラベルを生成（インデックスではなくポインタアドレスを利用）
-	//		std::string tabLabel = (*it)->GetEmitterLabel() + std::to_string(std::distance(effectList_.begin(), it));
+}
 
-	//		if (ImGui::BeginTabItem(tabLabel.c_str())) {
-	//			(*it)->Debug_Gui();
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Effectを選択する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//			ImGui::EndTabItem();
-	//		}
-	//	}
-	//	ImGui::EndTabBar();
-	//}
+void EffectSystemEditer::EditEffect() {
+	ImGui::Begin("Create Effect");
 
-	ImGui::Begin("Emitter List");
-	static int selectedEffectIndex = -1; // -1 means no selection
-	int index = 0;
-	for (auto it = effectList_.begin(); it != effectList_.end(); ++it, ++index) {
-		std::string name = (*it)->GetEmitterLabel();
-		std::string label = "Effect_" + name + std::to_string(index);
+	if (ImGui::BeginCombo("##InportFileName", &importFileName_[0], ImGuiComboFlags_HeightLargest)) {
+		for (uint32_t i = 0; i < emitterFiles_.size(); i++) {
+			const bool isSelected = (importIndex_ == i);
+			if (ImGui::Selectable(emitterFiles_[i].c_str(), isSelected)) {
+				importIndex_ = i;
+			}
+			if (isSelected) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
 
-		if (ImGui::Selectable(label.c_str(), selectedEffectIndex == index)) {
-			selectedEffectIndex = index; // Update the selected index
+	if (ImGui::Button("Add")) {
+		effectEmitterNames_.push_back(importFileName_);
+	}
+
+	ImGui::BulletText("Emitters");
+	static int selectedIndex = -1; // 選択された項目のインデックス
+	std::unordered_map<std::string, int> nameCount; // 各名前の出現回数を記録
+
+	for (int i = 0; i < effectEmitterNames_.size(); ++i) {
+		std::string displayName = effectEmitterNames_[i];
+
+		// 重複がある場合は末尾に番号を追加
+		if (nameCount[displayName] > 0) {
+			displayName += " (" + std::to_string(nameCount[displayName]) + ")";
+		}
+
+		// 出現回数を更新
+		nameCount[effectEmitterNames_[i]]++;
+
+		// ImGui で選択可能項目を表示
+		if (ImGui::Selectable(displayName.c_str(), selectedIndex == i)) {
+			selectedIndex = i; // 選択を更新
 		}
 	}
 
-
-	if (selectedEffectIndex >= 0 && selectedEffectIndex < effectList_.size()) {
-		auto it = effectList_.begin();
-		std::advance(it, selectedEffectIndex); // Move iterator to the selected index
-
-		ImGui::Begin("EmitterSetting");
-		(*it)->Debug_Gui();
-
+	if (selectedIndex != -1) {
 		if (ImGui::Button("Delete")) {
-			(*it)->SetIsAlive(false);
+			effectEmitterNames_.erase(effectEmitterNames_.begin() + selectedIndex);
 		}
-		ImGui::End();
 	}
+
+	strncpy_s(inputNewEffectNameBuffer_, newEffectName_.c_str(), sizeof(inputNewEffectNameBuffer_));
+	inputNewEffectNameBuffer_[sizeof(inputNewEffectNameBuffer_) - 1] = '\0'; // null終端を確実に設定
+	if (ImGui::InputText("##effectName", inputNewEffectNameBuffer_, sizeof(inputNewEffectNameBuffer_))) {
+		newEffectName_ = inputNewEffectNameBuffer_; // 入力が変更された場合に更新
+	}
+
+	if (ImGui::Button("Save")) {
+		SaveEffect();
+	}
+
+	LoadEffect();
+
 	ImGui::End();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Effectを保存する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EffectSystemEditer::SaveEffect() {
+	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	uint32_t emitterNum = 1;
+	for (const auto& emitterName : effectEmitterNames_) {
+		std::string key = "emitter" + std::to_string(emitterNum);
+		persistence->AddItem(newEffectName_, key.c_str(), emitterName);
+		emitterNum++;
+	}
+	persistence->Save(true, newEffectName_);
+
+}
+void EffectSystemEditer::LoadEffect() {
+	ImGui::BulletText("Load");
+
+	if (!EffectPersistence::GetInstance()->GetEffectNames().empty()) {
+		importEffectName_ = EffectPersistence::GetInstance()->GetEffectNames()[importEffectIndex_];
+	}
+	if (ImGui::BeginCombo("##InportEffectName", &importEffectName_[0], ImGuiComboFlags_HeightLargest)) {
+		for (uint32_t i = 0; i < effectFiles_.size(); i++) {
+			const bool isSelected = (importEffectIndex_ == i);
+			if (ImGui::Selectable(effectFiles_[i].c_str(), isSelected)) {
+				importEffectIndex_ = i;
+			}
+			if (isSelected) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+	if (ImGui::Button("Load")) {
+		for (uint32_t oi = 0; oi < EffectPersistence::GetInstance()->GetItemsSize(importEffectName_); ++oi) {
+			std::string key = "emitter" + std::to_string(oi + 1);
+			importFileName_ = EffectPersistence::GetInstance()->GetValue<std::string>(importEffectName_, key.c_str());
+			Import();
+		}
+	}
 }
 #endif // _DEBUG

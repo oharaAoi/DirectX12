@@ -26,7 +26,7 @@ public:
 	void Update();
 	void Draw() const;
 
-	void Emit(const std::string& name, const Vector3& pos = Vector3::ZERO(), const Vector4& color = Vector4(1,1,1,1));
+	void Emit(const std::string& name, const Vector3& pos = Vector3::ZERO());
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -45,6 +45,10 @@ public: // accessor
 	void SetViewProjectionMatrix(const Matrix4x4& viewMat, const Matrix4x4& projection);
 
 	const bool GetIsEffectEditer() const { return isEffectEditer_; }
+
+private:
+
+	void ImportEmitter(const std::string& emiterName, const Vector3& pos);
 
 private:
 

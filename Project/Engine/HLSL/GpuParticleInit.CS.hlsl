@@ -1,12 +1,4 @@
-
-struct Particle {
-	float3 scale;
-	float3 translate;
-	float3 velocity;
-	float lifeTime;
-	float currentTime;
-	float4 color;
-};
+#include "Particle.hlsli"
 
 static const int kMaxParticles = 1024;
 RWStructuredBuffer<Particle> gParticles : register(u0);

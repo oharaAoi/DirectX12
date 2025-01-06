@@ -19,7 +19,7 @@ void BoxEmitter::Init() {
 	boxEmitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(Emitter));
 	boxEmitterBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&emitter_));
 
-	emitter_->size_ = Vector3(1, 1, 1);
+	emitter_->size_ = Vector3(5, 1, 1);
 
 	obb_.center = commonEmitter_->translate;
 	obb_.size = emitter_->size_;
@@ -46,7 +46,7 @@ void BoxEmitter::Update() {
 
 void BoxEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	GpuEmitter::BindCmdList(commandList, rootParameterIndex);
-	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, commonBuffer_->GetGPUVirtualAddress());
+	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, boxEmitterBuffer_->GetGPUVirtualAddress());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +88,11 @@ void BoxEmitter::Debug_Gui() {
 	GpuEmitter::Debug_Gui();
 	ImGui::DragFloat3("size", &emitter_->size_.x, 0.1f);
 
-	ImGui::InputText("##effectName", &label_[0], sizeof(char) * 64);
+	strncpy_s(inputFileNameBuffer_, label_.c_str(), sizeof(inputFileNameBuffer_));
+	inputFileNameBuffer_[sizeof(inputFileNameBuffer_) - 1] = '\0'; // null終端を確実に設定
+	if (ImGui::InputText("##effectName", inputFileNameBuffer_, sizeof(inputFileNameBuffer_))) {
+		label_ = inputFileNameBuffer_; // 入力が変更された場合に更新
+	}
 	if (ImGui::Button("Save")) {
 		Save();
 	}

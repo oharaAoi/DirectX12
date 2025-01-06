@@ -7,9 +7,12 @@
             1.0
         ],
         "count": 5,
+        "dampig": 1.0,
+        "emitterLifeTime": 10.0,
         "frequency": 0.5,
-        "frequencyTime": 0.06458508968353271,
-        "lifeTime": 3.0,
+        "frequencyTime": 0.0007293820381164551,
+        "gravity": 0.0,
+        "lifeTime": 4,
         "radius": 1.0,
         "rotate": [
             0.0,

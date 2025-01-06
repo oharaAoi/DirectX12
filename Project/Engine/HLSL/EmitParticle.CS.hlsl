@@ -1,35 +1,33 @@
-
 #include "Random.hlsli"
-
-struct Particle {
-	float3 scale;
-	float3 translate;
-	float3 velocity;
-	float lifeTime;
-	float currentTime;
-	float4 color;
-};
+#include "Particle.hlsli"
 
 struct CommonEmitter {
-	float4 rotate;			// 回転(Quaternion)
-	float3 translate;		// 位置
-	int shape;				// emitterの形
-	int count;				// 射出数
-	float frequency;		// 射出間隔
-	float frequencyTime;	// 時間調整用
-	int emit;				// 射出許可
-	float4 color;			// 色
+	float4 rotate; // 回転(Quaternion)
+	float3 translate; // 位置
+	int shape; // emitterの形
+	int count; // 射出数
+	float frequency; // 射出間隔
+	float frequencyTime; // 時間調整用
+	int emit; // 射出許可
+	
+	// particle自体の情報
+	float4 color; // 色
+	float3 minScale; // 最小の大きさ
+	float3 maxScale; // 最大の大きさ
 	float speed; // 速度
+	int lifeTime;
+	float gravity;
+	float damping;
 };
 
 struct SphereEmitter {
-	float radius;			// 射出半径
+	float radius; // 射出半径
 };
 
 struct ConeEmitter {
-	float radius;			// 射出半径
-	float angle;			// 角度
-	float height;			// 高さ
+	float radius; // 射出半径
+	float angle; // 角度
+	float height; // 高さ
 };
 
 struct BoxEmitter {
@@ -85,26 +83,40 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				int particleIndex = gFreeListIndex[freeListIndex];
 				gParticles[particleIndex] = (Particle) 0;
 				//gParticles[particleIndex].scale = generator.Generated3d();
-				gParticles[particleIndex].scale = float3(1, 1, 1);
+				float x = generator.Generated1dRange(gCommonEmitter.minScale.x, gCommonEmitter.maxScale.x);
+				float y = generator.Generated1dRange(gCommonEmitter.minScale.y, gCommonEmitter.maxScale.y);
+				float z = generator.Generated1dRange(gCommonEmitter.minScale.z, gCommonEmitter.maxScale.z);
+				
+				gParticles[particleIndex].scale = float3(x, y, z);
 				gParticles[particleIndex].translate = gCommonEmitter.translate + generator.Generated3d();
 				gParticles[particleIndex].color.rgb = gCommonEmitter.color.rgb;
-				gParticles[particleIndex].color.a = 1.0f;
-				gParticles[particleIndex].lifeTime = 5.0f;
+				gParticles[particleIndex].color.a = gCommonEmitter.color.a;
+				gParticles[particleIndex].lifeTime = gCommonEmitter.lifeTime;
 				gParticles[particleIndex].currentTime = 0.0f;
+				gParticles[particleIndex].acceleration = float3(0, 0, 0);
+				gParticles[particleIndex].damping = gCommonEmitter.damping;
+				gParticles[particleIndex].gravity = gCommonEmitter.gravity;
 				
-				if (gCommonEmitter.shape == 0) {	// sphere
-					float3 randomPos = generator.Generated3d();
-					randomPos.x = clamp(randomPos.x, -gSphereEmitter.radius, gSphereEmitter.radius);
-					randomPos.y = clamp(randomPos.y, -gSphereEmitter.radius, gSphereEmitter.radius);
-					randomPos.z = clamp(randomPos.z, -gSphereEmitter.radius, gSphereEmitter.radius);
+				if (gCommonEmitter.shape == 0) { // sphere
+					float3 randomPos = generator.Generated3dRange(-gSphereEmitter.radius, gSphereEmitter.radius);
 					
 					gParticles[particleIndex].translate = gCommonEmitter.translate + randomPos;
 					gParticles[particleIndex].velocity = generator.Generated3d() * gCommonEmitter.speed;
 				}
-				else if (gCommonEmitter.shape == 1) {	// Cone
-					gParticles[particleIndex].velocity = ApplyVelocityWithRotation(gCommonEmitter.rotate, float3(0, 1, 0), 0.01f) * gCommonEmitter.speed;
+				else if (gCommonEmitter.shape == 1) { // Cone
+					float angle = generator.Generated1dRange(-gConeEmitter.angle, gConeEmitter.angle);
+					gParticles[particleIndex].velocity = ApplyVelocityWithRotation(gCommonEmitter.rotate, float3(cos(angle), 1, sin(angle)), 0.01f) * gCommonEmitter.speed;
 				}
-				else if (gCommonEmitter.shape == 2) {	// box
+				else if (gCommonEmitter.shape == 2) { // box
+					float x = generator.Generated1dRange(-gBoxEmitter.size.x * 0.5f, gBoxEmitter.size.x * 0.5f);
+					float y = generator.Generated1dRange(-gBoxEmitter.size.y * 0.5f, gBoxEmitter.size.y * 0.5f);
+					float z = generator.Generated1dRange(-gBoxEmitter.size.z * 0.5f, gBoxEmitter.size.z * 0.5f);
+					
+					gParticles[particleIndex].translate = gCommonEmitter.translate;
+					gParticles[particleIndex].translate.x += x;
+					gParticles[particleIndex].translate.y += y;
+					gParticles[particleIndex].translate.z += z;
+					
 					gParticles[particleIndex].velocity = ApplyVelocityWithRotation(gCommonEmitter.rotate, float3(0, 1, 0), 0.01f) * gCommonEmitter.speed;
 				}
 				

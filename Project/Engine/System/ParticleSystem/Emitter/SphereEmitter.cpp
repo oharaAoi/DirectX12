@@ -44,7 +44,7 @@ void SphereEmitter::Update() {
 
 void SphereEmitter::BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	GpuEmitter::BindCmdList(commandList, rootParameterIndex);
-	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, commonBuffer_->GetGPUVirtualAddress());
+	commandList->SetComputeRootConstantBufferView(rootParameterIndex + kCommonParameters_ + commonEmitter_->shape, sphereEmitterBuffer_->GetGPUVirtualAddress());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,11 +82,16 @@ void SphereEmitter::Load() {
 
 #ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
+#include <cstring>
 void SphereEmitter::Debug_Gui() {
 	GpuEmitter::Debug_Gui();
 	ImGui::DragFloat("radius", &emitter_->radius, 0.1f);
 
-	ImGui::InputText("##effectName", &label_[0], sizeof(char) * 64);
+	strncpy_s(inputFileNameBuffer_, label_.c_str(), sizeof(inputFileNameBuffer_));
+	inputFileNameBuffer_[sizeof(inputFileNameBuffer_) - 1] = '\0'; // null終端を確実に設定
+	if (ImGui::InputText("##effectName", inputFileNameBuffer_, sizeof(inputFileNameBuffer_))) {
+		label_ = inputFileNameBuffer_; // 入力が変更された場合に更新
+	}
 	if (ImGui::Button("Save")) {
 		Save();
 	}
