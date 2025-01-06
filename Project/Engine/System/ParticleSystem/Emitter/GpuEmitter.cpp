@@ -19,8 +19,15 @@ void GpuEmitter::Init() {
 	commonEmitter_->frequencyTime = 0.0f;
 	commonEmitter_->count = 5;
 	commonEmitter_->emit = 0;
-	commonEmitter_->speed = 1.0f;
+
+	// particle自体のparameter
 	commonEmitter_->color = Vector4(1, 1, 1, 1);
+	commonEmitter_->minScale = Vector3(1, 1, 1);
+	commonEmitter_->maxScale = Vector3(1, 1, 1);
+	commonEmitter_->speed = 1.0f;
+	commonEmitter_->lifeTime = 4;
+	commonEmitter_->gravity = 0.0f;
+	commonEmitter_->dampig = 1.0f;
 
 	emitterParameter_.velocity = Vector3::ZERO();
 	emitterParameter_.speed = 1.0f;
@@ -86,10 +93,13 @@ void GpuEmitter::Save() {
 	persistence->AddItem(label_, "frequencyTime", commonEmitter_->frequencyTime);
 	persistence->AddItem(label_, "color", commonEmitter_->color);
 	persistence->AddItem(label_, "speed", commonEmitter_->speed);
+	persistence->AddItem(label_, "lifeTime", commonEmitter_->lifeTime);
+	persistence->AddItem(label_, "gravity", commonEmitter_->gravity);
+	persistence->AddItem(label_, "dampig", commonEmitter_->dampig);
 	// parameter
 	persistence->AddItem(label_, "velocity", emitterParameter_.velocity);
 	persistence->AddItem(label_, "speed", emitterParameter_.speed);
-	persistence->AddItem(label_, "lifeTime", emitterParameter_.lifeTime);
+	persistence->AddItem(label_, "emitterLifeTime", emitterParameter_.lifeTime);
 }
 
 void GpuEmitter::Load() {
@@ -103,10 +113,13 @@ void GpuEmitter::Load() {
 	commonEmitter_->frequencyTime = persistence->GetValue<float>(label_, "frequencyTime");
 	commonEmitter_->color = persistence->GetValue<Vector4>(label_, "color");
 	commonEmitter_->speed = persistence->GetValue<float>(label_, "speed");
+	commonEmitter_->lifeTime = persistence->GetValue<uint32_t>(label_, "lifeTime");
+	commonEmitter_->gravity = persistence->GetValue<float>(label_, "gravity");
+	commonEmitter_->dampig = persistence->GetValue<float>(label_, "dampig");
 	// commonのSave
 	emitterParameter_.velocity = persistence->GetValue<Vector3>(label_, "velocity");
 	emitterParameter_.speed = persistence->GetValue<float>(label_, "speed");
-	emitterParameter_.lifeTime = persistence->GetValue<float>(label_, "lifeTime");
+	emitterParameter_.lifeTime = persistence->GetValue<float>(label_, "emitterLifeTime");
 }
 
 #ifdef _DEBUG
@@ -116,6 +129,7 @@ void GpuEmitter::Debug_Gui() {
 
 	// 共通部
 	if (ImGui::TreeNode("Common")) {
+
 		ImGui::DragFloat3("rotate", &rotate_.x, 0.01f);
 		ImGui::DragFloat3("deltaRotate", &deltaRotate_.x, 0.01f);
 		ImGui::DragFloat3("translate", &commonEmitter_->translate.x, 0.1f);
@@ -123,8 +137,13 @@ void GpuEmitter::Debug_Gui() {
 		ImGui::DragFloat("frequencyTime", &commonEmitter_->frequencyTime, 0.1f);
 		ImGui::DragScalar("count", ImGuiDataType_U32, &commonEmitter_->count);
 		ImGui::SliderInt("emit", &commonEmitter_->emit, 0, 1);
-		ImGui::DragFloat("speed", &commonEmitter_->speed, 0.1f);
+
 		ImGui::ColorEdit4("color", &commonEmitter_->color.x);
+		ImGui::DragFloat("speed", &commonEmitter_->speed, 0.1f);
+		ImGui::DragScalar("lifeTime", ImGuiDataType_U32, &commonEmitter_->lifeTime);
+		ImGui::DragFloat("gravity", &commonEmitter_->gravity, 0.1f);
+		ImGui::DragFloat("damping", &commonEmitter_->dampig, 0.1f, 0.0f, 2.0f);
+
 
 		ImGui::TreePop();
 	}
@@ -146,7 +165,7 @@ void GpuEmitter::Debug_Gui() {
 		}
 
 		ImGui::DragFloat3("velocity", &emitterParameter_.velocity.x, 0.01f);
-		ImGui::DragFloat("lifeTime", &emitterParameter_.lifeTime, 0.1f);
+		ImGui::DragFloat("emitterLifeTime", &emitterParameter_.lifeTime, 0.1f);
 		ImGui::DragFloat("speed", &emitterParameter_.speed, 0.1f);
 
 		ImGui::TreePop();

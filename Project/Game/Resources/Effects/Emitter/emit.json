@@ -1,31 +1,30 @@
 {
-    "box": {
+    "emit": {
         "color": [
             1.0,
-            1.0,
-            1.0,
+            0.0941176488995552,
+            0.0,
             1.0
         ],
-        "count": 5,
+        "count": 14,
+        "dampig": 2.0,
+        "emitterLifeTime": 0.800000011920929,
         "frequency": 0.5,
-        "frequencyTime": 0.30174121260643005,
-        "lifeTime": 10.0,
+        "frequencyTime": 0.49918225407600403,
+        "gravity": 0.0,
+        "lifeTime": 4,
+        "radius": 1.0,
         "rotate": [
             0.0,
             0.0,
             0.0,
             1.0
         ],
-        "shape": 2,
-        "size": [
-            1.0,
-            1.0,
-            1.0
-        ],
-        "speed": 1.0,
+        "shape": 0,
+        "speed": 5.0,
         "translate": [
             0.0,
-            0.0,
+            1.0,
             0.0
         ],
         "velocity": [

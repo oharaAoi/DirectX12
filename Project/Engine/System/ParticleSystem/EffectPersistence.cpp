@@ -172,9 +172,7 @@ void EffectPersistence::Load(bool isEffect, const std::string& fileName) {
 void EffectPersistence::Save(bool isEffect, const std::string& fileName) {
 	// グループ検索
 	std::map<std::string, Group>::iterator itGroup = data_.find(fileName);
-	// 未登録チェック
-	assert(itGroup != data_.end());
-
+	
 	json root;
 	root = json::object();
 	// jsonオブジェクト登録

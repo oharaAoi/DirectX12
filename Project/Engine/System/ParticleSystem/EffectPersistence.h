@@ -56,6 +56,8 @@ public:
 	template<typename T>
 	T GetValue(const std::string& groupName, const std::string& key) const;
 
+	uint32_t GetItemsSize(const std::string& groupName) { return static_cast<uint32_t>(data_[groupName].items.size()); }
+
 private:
 
 	const std::string& kDirectoryPath_ = "./Game/Resources/Effects/";

@@ -39,6 +39,16 @@ public:
 
 private:
 
+	void EditEmitter();
+
+	void EditEffect();
+
+	void SaveEffect();
+
+	void LoadEffect();
+
+private:
+
 	int32_t kClientWidth_ = 1280;
 	int32_t kClientHeight_ = 720;
 
@@ -56,10 +66,6 @@ private:
 	// dsv
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
 
-	std::vector<std::string> emitterFiles_;
-	std::string importFileName_;
-	uint32_t importIndex_;
-
 	int createShape_;
 
 	bool isFocused_;	// windowが選択されているか
@@ -74,6 +80,21 @@ private:
 	// ----------- Saveに使用 ----------- //
 	const std::string kDirectoryPath_ = "./Game/Resources/Effects/";
 	std::vector<std::string> emitterNames_;
+
+	std::vector<std::string> effectEmitterNames_;
+
+	// effect関連
+	std::string newEffectName_;
+	char inputNewEffectNameBuffer_[64];
+
+	// ----------- loadに使用 ----------- //
+	std::vector<std::string> effectFiles_;
+	std::string importEffectName_;
+	uint32_t importEffectIndex_;
+
+	std::vector<std::string> emitterFiles_;
+	std::string importFileName_;
+	uint32_t importIndex_;
 
 #endif // _DEBUG
 };

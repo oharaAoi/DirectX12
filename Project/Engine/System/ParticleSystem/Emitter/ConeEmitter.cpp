@@ -93,7 +93,11 @@ void ConeEmitter::Debug_Gui() {
 	ImGui::DragFloat("angle", &emitter_->angle, 0.1f);
 	ImGui::DragFloat("height", &emitter_->height, 0.1f);
 
-	ImGui::InputText("##effectName", &label_[0], sizeof(char) * 64);
+	strncpy_s(inputFileNameBuffer_, label_.c_str(), sizeof(inputFileNameBuffer_));
+	inputFileNameBuffer_[sizeof(inputFileNameBuffer_) - 1] = '\0'; // null終端を確実に設定
+	if (ImGui::InputText("##effectName", inputFileNameBuffer_, sizeof(inputFileNameBuffer_))) {
+		label_ = inputFileNameBuffer_; // 入力が変更された場合に更新
+	}
 	if (ImGui::Button("Save")) {
 		Save();
 	}

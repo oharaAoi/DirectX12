@@ -1,5 +1,5 @@
 {
-    "cone": {
+    "expload": {
         "angle": 2.0,
         "color": [
             1.0,
@@ -8,10 +8,13 @@
             1.0
         ],
         "count": 5,
+        "dampig": 1.0,
+        "emitterLifeTime": 10.0,
         "frequency": 0.5,
-        "frequencyTime": 0.01772294007241726,
+        "frequencyTime": 0.03282187506556511,
+        "gravity": -9.800000190734863,
         "height": 1.0,
-        "lifeTime": 10.0,
+        "lifeTime": 4,
         "radius": 1.0,
         "rotate": [
             0.0,
@@ -20,10 +23,10 @@
             1.0
         ],
         "shape": 1,
-        "speed": 1.0,
+        "speed": 7.0,
         "translate": [
             0.0,
-            0.0,
+            1.2000000476837158,
             0.0
         ],
         "velocity": [
