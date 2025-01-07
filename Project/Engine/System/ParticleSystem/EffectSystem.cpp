@@ -95,6 +95,8 @@ void EffectSystem::ImportEmitter(const std::string& emiterName, const Vector3& p
 	newEffect->Init(static_cast<EmitterShape>(shape));
 	newEffect->SetEmitter(emiterName);
 	newEffect->SetEmitterPos(pos);
+
+	newEffect->ResetParticleName(persistence->GetValue<std::string>(emiterName, "modelName"));
 }
 
 

@@ -10,7 +10,7 @@ void PlayerDefaultState::Init() {
 
 	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
 
-	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.4f);
+	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.1f);
 }
 
 void PlayerDefaultState::Update() {

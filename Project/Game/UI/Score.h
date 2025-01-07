@@ -33,7 +33,7 @@ class Score {
 
 public:
 
-	Score();
+	Score(uint32_t maxScore) : kMaxScore_(maxScore) {};
 	~Score();
 
 	void Init();

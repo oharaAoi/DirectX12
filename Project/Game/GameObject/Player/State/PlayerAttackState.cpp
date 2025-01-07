@@ -142,6 +142,7 @@ void PlayerAttackState::JumpAttack() {
 	if (translate.y <= 0.0f) {
 		translate.y = 0.0f;
 		pPlayer_->SetIsAttack(false);
+		pPlayer_->SetIsJump(false);
 		pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
 		pPlayer_->GetAnimetor()->TransitionAnimation("idle", 0.5f);
 		pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);

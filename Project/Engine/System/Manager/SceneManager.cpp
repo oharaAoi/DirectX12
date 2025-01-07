@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include "Engine/Editer/Window/EditerWindows.h"
 #include <optional>
 
 SceneManager::SceneManager() {}
@@ -96,6 +97,7 @@ void SceneManager::Debug_Gui() {
 void SceneManager::SetChange(const SceneType& type) {
 	assert(sceneFactory_);
 	assert(nextScene_ == nullptr);
+	EditerWindows::GetInstance()->Clear();
 	nextScene_ = sceneFactory_->CreateScene(sceneFactory_->SceneTypeToString(type));
 	nextScene_->Init();
 

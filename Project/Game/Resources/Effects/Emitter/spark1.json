@@ -1,18 +1,28 @@
 {
-    "spark": {
+    "spark1": {
         "color": [
             1.0,
-            0.23137255012989044,
-            0.15294118225574493,
+            0.1725490242242813,
+            0.003921568859368563,
             1.0
         ],
-        "count": 20,
+        "count": 14,
         "dampig": 2.0,
         "emitterLifeTime": 10.0,
         "frequency": 0.5,
-        "frequencyTime": 0.14962705969810486,
-        "gravity": 0.0,
-        "lifeTime": 0.20000000298023224,
+        "frequencyTime": 0.44942864775657654,
+        "gravity": -7.099999904632568,
+        "lifeTime": 0.30000001192092896,
+        "maxScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "minScale": [
+            1.0,
+            1.0,
+            1.0
+        ],
         "modelName": "spark.obj",
         "oneShot": true,
         "radius": 1.0,
@@ -23,21 +33,11 @@
             1.0
         ],
         "shape": 0,
-        "speed": 22.299999237060547,
+        "speed": 30.5,
         "translate": [
             0.0,
             0.0,
             0.0
-        ],
-        "maxScale": [
-            0.2,
-            0.2,
-            0.2
-        ],
-         "minScale": [
-            0.2,
-            0.2,
-            0.2
         ],
         "velocity": [
             0.0,

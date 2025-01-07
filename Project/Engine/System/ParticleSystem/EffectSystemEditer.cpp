@@ -162,6 +162,7 @@ void EffectSystemEditer::Import() {
 	auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
 	newEffect->Init(static_cast<EmitterShape>(shape));
 	newEffect->SetEmitter(importFileName_);
+	newEffect->ResetParticleName(persistence->GetValue<std::string>(importFileName_, "modelName"));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,5 +1,5 @@
 {
-    "sphere": {
+    "spark3": {
         "color": [
             1.0,
             1.0,
@@ -7,12 +7,24 @@
             1.0
         ],
         "count": 5,
-        "dampig": 1.0,
+        "dampig": 1.5,
         "emitterLifeTime": 10.0,
         "frequency": 0.5,
-        "frequencyTime": 0.0007293820381164551,
+        "frequencyTime": 0.3175690174102783,
         "gravity": 0.0,
-        "lifeTime": 4,
+        "lifeTime": 0.20000000298023224,
+        "maxScale": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+        ],
+        "minScale": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+        ],
+        "modelName": "cube.obj",
+        "oneShot": true,
         "radius": 1.0,
         "rotate": [
             0.0,
@@ -21,7 +33,7 @@
             1.0
         ],
         "shape": 0,
-        "speed": 1.0,
+        "speed": 8.5,
         "translate": [
             0.0,
             0.0,

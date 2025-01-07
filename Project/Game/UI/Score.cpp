@@ -4,9 +4,6 @@
 #include "Engine/Editer/Window/EditerWindows.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 
-Score::Score() {
-}
-
 Score::~Score() {
 }
 

@@ -5,6 +5,7 @@ GameObjectWindow::GameObjectWindow() {}
 GameObjectWindow::~GameObjectWindow() {}
 
 void GameObjectWindow::Init() {
+	functionList.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +35,10 @@ void GameObjectWindow::AddFunction(std::function<void()> func, const std::string
 
 	// ユニークなラベルでリストに追加
 	functionList.emplace_back(uniqueLabel, func);
+}
+
+void GameObjectWindow::WindowClear() {
+	functionList.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

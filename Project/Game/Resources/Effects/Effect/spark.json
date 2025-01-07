@@ -1,0 +1,7 @@
+{
+    "spark": {
+        "emitter1": "spark1",
+        "emitter2": "spark2",
+        "emitter3": "spark3"
+    }
+}

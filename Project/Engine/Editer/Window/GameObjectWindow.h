@@ -16,6 +16,8 @@ public:
 
 	void AddFunction(std::function<void()> func, const std::string& label);
 
+	void WindowClear();
+
 #ifdef _DEBUG
 	void Edit();
 #endif // _DEBUG

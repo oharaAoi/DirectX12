@@ -28,6 +28,8 @@ public:
 	/// </summary>
 	void End();
 
+	void Clear();
+
 public:
 
 	static void AddObjectWindow(std::function<void()> func, const std::string& label);

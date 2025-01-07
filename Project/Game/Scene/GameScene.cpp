@@ -47,7 +47,7 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	// ↓ UI
 	// -------------------------------------------------
-	score_ = std::make_unique<Score>();
+	score_ = std::make_unique<Score>(kMaxTarget_);
 	score_->Init();
 
 	controlUI_ = std::make_unique<ControlUI>();
@@ -101,7 +101,7 @@ void GameScene::Update() {
 	// ↓ クリア判定
 	// -------------------------------------------------
 
-	if (enemyManager_->GetDownNum() >= 25) {
+	if (enemyManager_->GetDownNum() >= kMaxTarget_) {
 		if (!isClear_) {
 			isClear_ = true;
 			panel_->SetFadeOut(1.0f);
