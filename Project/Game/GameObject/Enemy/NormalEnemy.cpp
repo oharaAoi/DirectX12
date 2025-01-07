@@ -107,7 +107,7 @@ void NormalEnemy::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 	if (CheckBit(other.GetTag(), ColliderTags::Player::ATTACK, CheckType::EQUAL)) {
 		isDead_ = true;
 
-		EffectSystem::GetInstacne()->Emit("test", transform_->GetTranslation());
+		EffectSystem::GetInstacne()->Emit("sparkEffect", transform_->GetTranslation());
 	}
 }
 

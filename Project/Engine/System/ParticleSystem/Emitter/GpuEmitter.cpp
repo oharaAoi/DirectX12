@@ -121,8 +121,8 @@ void GpuEmitter::Save() {
 	// commonのSave
 	persistence->AddItem(label_, "translate", commonEmitter_->translate);
 	persistence->AddItem(label_, "rotate", commonEmitter_->rotate);
-	persistence->AddItem(label_, "rotate", commonEmitter_->minScale);
-	persistence->AddItem(label_, "rotate", commonEmitter_->maxScale);
+	persistence->AddItem(label_, "minScale", commonEmitter_->minScale);
+	persistence->AddItem(label_, "maxScale", commonEmitter_->maxScale);
 	persistence->AddItem(label_, "shape", commonEmitter_->shape);
 	persistence->AddItem(label_, "count", commonEmitter_->count);
 	persistence->AddItem(label_, "frequency", commonEmitter_->frequency);
