@@ -184,7 +184,7 @@ void GameScene::Update() {
 void GameScene::Draw() const {
 #ifdef _DEBUG
 	
-	player_->Debug_Draw();
+	//player_->Debug_Draw();
 
 	/*enemyManager_->Debug_Draw();*/
 #endif
