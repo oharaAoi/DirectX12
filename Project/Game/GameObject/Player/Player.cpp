@@ -3,6 +3,7 @@
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Game/Collider/ColliderTags.h"
 #include "Engine/Utilities/BitChecker.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 
 #include "Game/GameObject/Player/State/PlayerDefaultState.h"
 #include "Game/GameObject/Player/State/PlayerMoveState.h"
@@ -192,6 +193,8 @@ void Player::CheckJump() {
 	if (Input::GetIsPadTrigger(BUTTON_A)) {
 		behaviorRequest_ = Behavior::JUMP;
 		isJump_ = true;
+
+		AudioPlayer::SinglShotPlay("jumpSE.mp3", 0.6f);
 	}
 }
 
@@ -204,6 +207,7 @@ void Player::CheckAttack() {
 		isAttack_ = true;
 		behaviorRequest_ = Behavior::ATTACK;
 		attackStep_ = AttackStep::Step_FIRST;
+		AudioPlayer::SinglShotPlay("attack1.mp3", 0.6f);
 	}
 }
 
@@ -215,6 +219,8 @@ void Player::CheckAvoidance() {
 	if (Input::GetIsPadTrigger(BUTTON_B)) {
 		behaviorRequest_ = Behavior::AVOIDANCE;
 		isAvoidance_ = true;
+
+		AudioPlayer::SinglShotPlay("rollSE.mp3", 0.6f);
 	}
 }
 
@@ -233,6 +239,8 @@ void Player::CombStepUp() {
 void Player::CheckLockOn() {
 	if (Input::GetIsPadTrigger(XInputButtons::R_SHOULDER)) {
 		lockOn_->LockOnTarget();
+		
+		AudioPlayer::SinglShotPlay("lockOnSE.mp3", 0.4f);
 	}
 }
 

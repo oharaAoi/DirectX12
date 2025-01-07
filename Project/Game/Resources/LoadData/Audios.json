@@ -1,0 +1,28 @@
+{
+    "audios": [
+        {
+            "directory": "./Game/Resources/AUdio/BGM/",
+            "files": [
+                "mainBGM.mp3",
+                "titleBGM.mp3"
+            ]
+        },
+        {
+            "directory": "./Game/Resources/AUdio/SE/",
+            "files": [
+                "attack1.mp3",
+                "attack2.mp3",
+                "attack3.mp3",
+                "attack4.mp3",
+                "jumpAttack.mp3",
+                "jumpSE.mp3",
+                "lockOnSE.mp3",
+                "rollSE.mp3",
+                "pushA.mp3",
+                "gameClear.wav",
+                "damege.mp3",
+                "enemyAttack.mp3"
+            ]
+        }
+    ]
+}

@@ -1,5 +1,6 @@
 #include "NormalEnemyAttackState.h"
 #include "Game/GameObject/Enemy/NormalEnemy.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 
 NormalEnemyAttackState::~NormalEnemyAttackState() {
 }
@@ -12,6 +13,8 @@ void NormalEnemyAttackState::Init() {
 	work_.timeLimit = 1.0f;
 
 	velocity_ = (pEnemy_->GetPlayerPos() - pEnemy_->GetTransform()->GetTranslation()).Normalize();
+
+	AudioPlayer::SinglShotPlay("enemyAttack.mp3", 0.6f);
 }
 
 void NormalEnemyAttackState::Update() {

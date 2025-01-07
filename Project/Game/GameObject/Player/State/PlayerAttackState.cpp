@@ -1,6 +1,7 @@
 #include "PlayerAttackState.h"
 #include "Game/GameObject/Player/Player.h"
 #include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 
 PlayerAttackState::~PlayerAttackState() {
 }
@@ -29,6 +30,8 @@ void PlayerAttackState::Init() {
 		pPlayer_->GetAnimetor()->TransitionAnimation("fallAttack", 0.1f);
 		pPlayer_->GetAnimetor()->SetAnimationSpeed(1.3f);
 	}
+
+	combNum_ = 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +71,14 @@ void PlayerAttackState::CombAttack() {
 	if (isComb_) {
 		if (!pPlayer_->GetAnimetor()->GetAnimationClip()->GetIsReservation()) {
 			isComb_ = false;
+			combNum_++;
+			if (combNum_ == 1) {
+				AudioPlayer::SinglShotPlay("attack2.mp3", 0.6f);
+			} else if (combNum_ == 2) {
+				AudioPlayer::SinglShotPlay("attack3.mp3", 0.6f);
+			} else if (combNum_ == 3) {
+				AudioPlayer::SinglShotPlay("attack4.mp3", 0.6f);
+			}
 		}
 	}
 }

@@ -3,8 +3,10 @@
 #include "Engine/Editer/Window/EditerWindows.h"
 
 TitleScene::TitleScene() {}
-TitleScene::~TitleScene() {}
-void TitleScene::Finalize() {}
+TitleScene::~TitleScene() { Finalize(); }
+void TitleScene::Finalize() {
+	bgm_->Finalize();
+}
 
 void TitleScene::Init() {
 	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
@@ -33,6 +35,10 @@ void TitleScene::Init() {
 	panel_ = std::make_unique<FadePanel>();
 	panel_->Init();
 
+	bgm_ = std::make_unique<AudioPlayer>();
+	bgm_->Init("titleBGM.mp3");
+	bgm_->Play(true, 0.2f);
+
 	isNexScene_ = false;
 
 }
@@ -60,6 +66,8 @@ void TitleScene::Update() {
 	if (Input::GetIsPadTrigger(BUTTON_A)) {
 		isNexScene_ = true;
 		panel_->SetFadeOut(0.8f);
+		AudioPlayer::SinglShotPlay("pushA.mp3", 0.6f);
+		bgm_->Stop();
 	}
 
 	if (isNexScene_) {

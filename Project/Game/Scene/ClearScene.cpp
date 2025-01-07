@@ -1,6 +1,7 @@
 #include "ClearScene.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/Editer/Window/EditerWindows.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 
 ClearScene::ClearScene() {
 }
@@ -24,6 +25,8 @@ void ClearScene::Init() {
 
 	clearBack_ = Engine::CreateSprite("clearUI.png");
 	clearBack_->SetTranslate({ 640.0f, 360.0f });
+
+	AudioPlayer::SinglShotPlay("gameClear.wav", 0.6f);
 }
 
 void ClearScene::Update() {
@@ -47,6 +50,7 @@ void ClearScene::Update() {
 	// -------------------------------------------------
 
 	if (Input::GetIsPadTrigger(BUTTON_A)) {
+		AudioPlayer::SinglShotPlay("pushA.mp3", 0.6f);
 		SetNextSceneType(SceneType::TITLE);
 	}
 

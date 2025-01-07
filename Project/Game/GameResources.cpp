@@ -56,6 +56,8 @@ void GameResources::LoadResources(const std::string& filePath) {
 					ModelManager::LoadModel(directory, file);
 				} else if (category == "sprites") {
 					TextureManager::LoadTextureFile(directory, file);
+				} else if (category == "audios") {
+					AudioManager::LoadAudio(directory, file);
 				}
 			}
 		}

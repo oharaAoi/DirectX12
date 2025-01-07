@@ -69,5 +69,7 @@ private:
 	Vector3 acceleration_;
 
 	bool isComb_;
+
+	uint32_t combNum_;
 };
 

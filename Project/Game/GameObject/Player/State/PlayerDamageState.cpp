@@ -1,6 +1,7 @@
 #include "PlayerDamageState.h"
 #include "Game/GameObject/Player/Player.h"
 #include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 
 PlayerDamageState::~PlayerDamageState() {
 }
@@ -14,6 +15,8 @@ void PlayerDamageState::Init() {
 
 	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
 	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.5f);
+
+	AudioPlayer::SinglShotPlay("damege.mp3", 0.6f);
 }
 
 void PlayerDamageState::Update() {

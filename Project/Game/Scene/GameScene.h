@@ -4,6 +4,7 @@
 // Engine
 #include "Engine.h"
 #include "Engine/System/Manager/CollisionManager.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 // Game
 #include "Game/Scene/BaseScene.h"
 #include "Game/Camera/DebugCamera.h"
@@ -62,6 +63,11 @@ private:
 	// ------------------- manager ------------------- //
 	std::unique_ptr<EnemyManager> enemyManager_ = nullptr;
 	std::unique_ptr<CollisionManager> collisionManager_ = nullptr;
+
+
+	// ------------------- Audio ------------------- //
+
+	std::unique_ptr<AudioPlayer> bgm_;
 
 	// ------------------- parameter ------------------- //
 	bool isDebug_ = false;

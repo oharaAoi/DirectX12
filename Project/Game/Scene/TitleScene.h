@@ -4,6 +4,7 @@
 // Engine
 #include "Engine.h"
 #include "Engine/Assets/2d/Sprite.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 // Game
 #include "Game/Scene/BaseScene.h"
 #include "Game/Camera/DebugCamera.h"
@@ -43,6 +44,10 @@ private:
 
 	std::unique_ptr<TitlteUI> titleUI_;
 	std::unique_ptr<FadePanel> panel_;
+
+	// ------------------- Audio ------------------- //
+
+	std::unique_ptr<AudioPlayer> bgm_;
 
 	// ------------------- parameter ------------------- //
 	bool isDebug_ = false;

@@ -7,10 +7,12 @@ GameScene::GameScene() {
 }
 
 GameScene::~GameScene() {
+	Finalize();
 }
 
 
 void GameScene::Finalize() {
+	bgm_->Finalize();
 }
 
 void GameScene::Init() {
@@ -67,6 +69,9 @@ void GameScene::Init() {
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
 
+	bgm_ = std::make_unique<AudioPlayer>();
+	bgm_->Init("mainBGM.mp3");
+
 	// -------------------------------------------------
 	// ↓ その他設定
 	// -------------------------------------------------
@@ -81,6 +86,8 @@ void GameScene::Init() {
 
 	isClear_ = false;
 
+	bgm_->Play(true, 0.2f);
+
 #ifdef _DEBUG
 	
 #endif // _DEBUG
@@ -91,7 +98,7 @@ void GameScene::Update() {
 	// ↓ クリア判定
 	// -------------------------------------------------
 
-	if (enemyManager_->GetDownNum() >= 50) {
+	if (enemyManager_->GetDownNum() >= 25) {
 		if (!isClear_) {
 			isClear_ = true;
 			panel_->SetFadeOut(1.0f);
@@ -100,6 +107,7 @@ void GameScene::Update() {
 
 	if (isClear_) {
 		if (panel_->GetIsFinished()) {
+			bgm_->Stop();
 			SetNextSceneType(SceneType::CLEAR);
 		}
 		panel_->Update();
