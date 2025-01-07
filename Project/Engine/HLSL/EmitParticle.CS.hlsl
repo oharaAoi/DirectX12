@@ -73,8 +73,8 @@ float3 ApplyVelocityWithRotation(float4 rotation, float3 localVelocity, float th
 void CSmain(uint3 DTid : SV_DispatchThreadID) {
 	if (gCommonEmitter.emit == 1) {
 		RandomGenerator generator;
+		generator.seed = (DTid + gPerFrame.time) * gPerFrame.time;
 		for (int countIndex = 0; countIndex < gCommonEmitter.count; ++countIndex) {
-			generator.seed = (DTid + gPerFrame.time + countIndex) * gPerFrame.time;
 			int freeListIndex;
 			// gFreeCounter[0]に1を足し、足す前の値をparticleIndexに格納
 			InterlockedAdd(gFreeListIndex[0], -1, freeListIndex);
