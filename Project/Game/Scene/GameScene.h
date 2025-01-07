@@ -74,4 +74,6 @@ private:
 
 	bool isClear_;
 
+	bool isStop_ = false;
+
 };

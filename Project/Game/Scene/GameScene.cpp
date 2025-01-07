@@ -94,6 +94,9 @@ void GameScene::Init() {
 }
 
 void GameScene::Update() {
+	if (isStop_) {
+		return;
+	}
 	// -------------------------------------------------
 	// ↓ クリア判定
 	// -------------------------------------------------
@@ -214,5 +217,6 @@ void GameScene::Draw() const {
 #ifdef _DEBUG
 void GameScene::Debug_Gui() {
 	ImGui::Checkbox("debugMode", &isDebug_);
+	ImGui::Checkbox("isStop", &isStop_);
 }
 #endif
