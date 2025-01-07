@@ -33,12 +33,13 @@ public:
 		Vector3 maxScale;		// 最大の大きさ
 		float pad;
 		float speed;			// 速度
-		uint32_t lifeTime;		// particleの生存時間
+		float lifeTime;		// particleの生存時間
 		float gravity;			// 重力を付与するか
 		float dampig;			// 減衰率
 	};
 
 	struct EmitterParameter {
+		std::string particleModel;
 		Vector3 velocity;	// 速度
 		float speed;		// 移動速度
 		float lifeTime;		// 生存時間
@@ -71,9 +72,13 @@ public:
 
 #ifdef _DEBUG
 	virtual void Debug_Gui();
+
+	void SelectEmitModel();
 #endif
 
 	const std::string& GetLabel() const { return label_; }
+
+	const std::string& GetParticleModel() const { return emitterParameter_.particleModel; }
 
 	void SetEmitterPos(const Vector3& pos) { commonEmitter_->translate = pos; }
 	void SetEmitterColor(const Vector4& color) { commonEmitter_->color = color; }
@@ -101,5 +106,10 @@ protected:
 	float lifeTime_;
 	bool isMove_ = false;
 	bool isDead_;
+
+#ifdef _DEBUG
+	uint32_t selectModelIndex_ = 0;
+	std::vector<std::string> modelNameArray_;
+#endif
 };
 

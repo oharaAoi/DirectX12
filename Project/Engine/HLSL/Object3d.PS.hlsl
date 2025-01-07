@@ -183,9 +183,9 @@ PixelShaderOutput main(VertexShaderOutput input)
 	
 	// --------------------- final --------------------- //
 	output.color.rgb = directionalDiffuse + directionalSpeculer;
-	//output.color.rgb += pointDiffuse + pointSpeculer;
-	//output.color.rgb += spotDiffuse + spotSpeculer;
-	//output.color.rgb += limCol;
+	output.color.rgb += pointDiffuse + pointSpeculer;
+	output.color.rgb += spotDiffuse + spotSpeculer;
+	output.color.rgb += limCol;
 	
 	output.color.a = gMaterial.color.a * textureColor.a;
 	
