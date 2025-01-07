@@ -74,10 +74,13 @@ void PlayerAttackState::CombAttack() {
 			combNum_++;
 			if (combNum_ == 1) {
 				AudioPlayer::SinglShotPlay("attack2.mp3", 0.6f);
+				pPlayer_->ResetTrail();
 			} else if (combNum_ == 2) {
 				AudioPlayer::SinglShotPlay("attack3.mp3", 0.6f);
+				pPlayer_->ResetTrail();
 			} else if (combNum_ == 3) {
 				AudioPlayer::SinglShotPlay("attack4.mp3", 0.6f);
+				pPlayer_->ResetTrail();
 			}
 		}
 	}

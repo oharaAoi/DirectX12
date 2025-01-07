@@ -17,7 +17,7 @@ void PlayerAvoidanceState::Init() {
 	work_.time = 0.0f;
 	work_.FromJson(AdjustmentItem::GetData(stateName_, "work"));
 	// Animationの設定
-	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.5f);
+	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.1f);
 	// 回避する方向を決定する
 	RollMove();
 }

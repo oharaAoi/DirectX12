@@ -18,6 +18,7 @@
 #include "Game/UI/Score.h"
 #include "Game/UI/FadePanel.h"
 #include "Game/UI/ControlUI.h"
+#include "Game/UI/PlayerUI.h"
 
 class GameScene 
 	: public BaseScene {
@@ -56,6 +57,8 @@ private:
 	// ------------------- UI ------------------- //
 	std::unique_ptr<Score> score_;
 	std::unique_ptr<ControlUI> controlUI_;
+	std::unique_ptr<PlayerUI> playerUI_;
+
 
 	std::unique_ptr<FadePanel> panel_;
 

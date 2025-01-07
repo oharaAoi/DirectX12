@@ -15,6 +15,10 @@ public:
 	void Update();
 	void Draw() const;
 
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
+
 public:
 
 	// playerのポインタを設定
@@ -24,7 +28,12 @@ private:
 
 	Player* pPlayer_ = nullptr;
 
-	std::unordered_map<std::string, std::unique_ptr<Sprite>> uiMap_;
+	static const uint32_t kMaxPlayerHp_ = 5;
+
+	std::unique_ptr<Sprite> hpes_[kMaxPlayerHp_];
+
+	Vector2 firstHpPos_;
+	float interval_;
 
 };
 

@@ -40,6 +40,7 @@ public:
 
 	void AddTrail(const Matrix4x4& mat);
 
+	void ResetTrail();
 
 private:
 

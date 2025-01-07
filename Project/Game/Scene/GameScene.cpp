@@ -53,6 +53,9 @@ void GameScene::Init() {
 	controlUI_ = std::make_unique<ControlUI>();
 	controlUI_->Init();
 
+	playerUI_ = std::make_unique<PlayerUI>();
+	playerUI_->Init();
+
 	trail_ = std::make_unique<Trail>();
 	trail_->Init();
 
@@ -83,6 +86,8 @@ void GameScene::Init() {
 	followCamera_->SetLockOn(lockOn_.get());
 
 	lockOn_->SetEnemyManger(enemyManager_.get());
+
+	playerUI_->SetPlayer(player_.get());
 
 	isClear_ = false;
 
@@ -115,6 +120,10 @@ void GameScene::Update() {
 		}
 		panel_->Update();
 		return;
+	}
+
+	if (player_->GetHp() <= 0) {
+		SetNextSceneType(SceneType::GAMEOVER);
 	}
 
 	// -------------------------------------------------
@@ -178,6 +187,8 @@ void GameScene::Update() {
 
 	controlUI_->Update();
 
+	playerUI_->Update();
+
 	panel_->Update();
 }
 
@@ -206,6 +217,7 @@ void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
 	score_->Draw();
 	controlUI_->Draw();
+	playerUI_->Draw();
 
 	panel_->Draw();
 }

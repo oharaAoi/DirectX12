@@ -180,6 +180,7 @@
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game\Scene\ClearScene.cpp" />
+    <ClCompile Include="Game\Scene\GameOverScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Assets\2d\PrimitiveDrawer.h" />
@@ -342,6 +343,7 @@
     <ClInclude Include="Game\WorldObject\Floor.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />
     <ClInclude Include="Game\Scene\ClearScene.h" />
+    <ClInclude Include="Game\Scene\GameOverScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\HLSL\Object3d.hlsli" />

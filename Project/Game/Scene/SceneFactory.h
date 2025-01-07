@@ -37,6 +37,8 @@ private:
 	const std::unordered_map<SceneType, std::string> sceneTypeToStringMap_ = {
 	{SceneType::TITLE, "TITLE"},
 	{SceneType::GAME, "GAME"},
+	{SceneType::CLEAR, "CLEAR"},
+	{SceneType::GAMEOVER, "GAMEOVER"},
 	{SceneType::TEST, "TEST"},
 	};
 

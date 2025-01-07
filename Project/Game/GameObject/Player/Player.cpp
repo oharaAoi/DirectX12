@@ -33,7 +33,8 @@ void Player::Init() {
 
 	// statusの初期化
 	status_.FromJson(AdjustmentItem::GetData(groupName_, status_.tag));
-	initHp_ = status_.hp_;
+	
+	hp_ = initHp_;
 
 	// 攻撃段階の設定
 	attackStep_ = AttackStep::Step_NONE;
@@ -73,6 +74,8 @@ void Player::Init() {
 	// フラグの初期化
 	isJump_ = false;
 	isAttack_ = false;
+	isInvincible_ = false;
+
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&Player::Debug_Gui, this), "player");
@@ -89,6 +92,15 @@ void Player::Update() {
 	// Stateの更新
 	state_->Update();
 	CheckBehaviorRequest();
+
+	if (isInvincible_) {
+		invincibleTime_ += GameTimer::DeltaTime();
+
+		if (invincibleTime_ >= kInvincibleTime_) {
+			isInvincible_ = false;
+			invincibleTime_ = 0.0f;
+		}
+	}
 
 	// 武器の更新
 	swordMat_ = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
@@ -233,6 +245,15 @@ void Player::CombStepUp() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Trailのリセット
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::ResetTrail() {
+	pTrail_->ResetTrail();
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Z注視受付状態
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -268,9 +289,22 @@ void Player::LookTarget() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
+	// 回避中は取らない
+	if (behavior_ == Behavior::AVOIDANCE) {
+		return;
+	}
+
+	// 無敵中も取らない
+	if (isInvincible_) {
+		return;
+	}
+
 	if (CheckBit(other.GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
 		SetBehaviorRequest(Behavior::DAMAGE);
 		knockBackVelocity_ = (transform_->GetTranslation() - other.GetCenterPos()).Normalize();
+		isInvincible_ = true;
+		invincibleTime_ = 0.0f;
+		hp_--;
 	}
 }
 

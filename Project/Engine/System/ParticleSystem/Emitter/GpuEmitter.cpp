@@ -43,7 +43,9 @@ void GpuEmitter::Init() {
 	isMove_ = false;
 	isDead_ = false;
 
+#ifdef _DEBUG
 	modelNameArray_ = ModelManager::GetInstance()->GetModelNameList();
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -87,6 +87,11 @@ public:
 	/// </summary>
 	void CombStepUp();
 
+	/// <summary>
+	/// Trailのリセットを行う
+	/// </summary>
+	void ResetTrail();
+
 private:
 
 	void CheckLockOn();
@@ -152,7 +157,7 @@ public:
 	const AttackStep GetAttackStep() const { return attackStep_; }
 
 	// hpの取得
-	const float GetHp() const { return status_.hp_; }
+	const float GetHp() const { return hp_; }
 
 private:
 
@@ -168,7 +173,13 @@ private:
 	// ------------------- status関連 ------------------- //
 	PlayerStatus status_;
 
-	float initHp_;
+	float initHp_ = 5.0f;
+	float hp_;
+
+	bool isInvincible_ = false;
+
+	float invincibleTime_ = 0.0f;
+	float kInvincibleTime_ = 2.0f;
 
 	// ------------------- State関連 ------------------- //
 	std::unique_ptr<ICharactorState> state_;

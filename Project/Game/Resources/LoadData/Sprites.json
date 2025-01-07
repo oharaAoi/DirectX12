@@ -17,7 +17,10 @@
                 "pushA.png",
                 "panel.png",
                 "controlUI1.png",
-                "controlUI2.png"
+                "controlUI2.png",
+                "gameOverBack.png",
+                "GameOverUI.png",
+                "hart.png"
             ]
         }
     ]

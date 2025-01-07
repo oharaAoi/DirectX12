@@ -11,7 +11,7 @@ void PlayerMoveState::Init() {
 	work_.speed = 10.0f;
 
 	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
-	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.2f);
+	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.1f);
 }
 
 void PlayerMoveState::Update() {

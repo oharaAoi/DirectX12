@@ -97,7 +97,9 @@ void SceneManager::Debug_Gui() {
 void SceneManager::SetChange(const SceneType& type) {
 	assert(sceneFactory_);
 	assert(nextScene_ == nullptr);
+#ifdef _DEBUG
 	EditerWindows::GetInstance()->Clear();
+#endif
 	nextScene_ = sceneFactory_->CreateScene(sceneFactory_->SceneTypeToString(type));
 	nextScene_->Init();
 

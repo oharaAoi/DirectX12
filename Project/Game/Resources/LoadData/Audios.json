@@ -21,7 +21,8 @@
                 "pushA.mp3",
                 "gameClear.wav",
                 "damege.mp3",
-                "enemyAttack.mp3"
+                "enemyAttack.mp3",
+                "gameOver.mp3"
             ]
         }
     ]

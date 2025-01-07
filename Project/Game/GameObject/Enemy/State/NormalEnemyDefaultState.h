@@ -13,6 +13,10 @@ public:
 	void Init() override;
 	void Update() override;
 
+	void Move();
+
+	void ConstrainToField(Vector3& translate);
+
 #ifdef _DEBUG
 	void Debug_Gui() override;
 #endif // _DEBUG
@@ -20,5 +24,9 @@ public:
 private:
 
 	NormalEnemy* pEnemy_ = nullptr;
+
+	float time_;
+	const float changeTime_ = 4.0f;
+	Vector3 velocity_;
 };
 

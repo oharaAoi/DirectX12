@@ -75,109 +75,18 @@ void Trail::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Trail::Update() {
-	//if (!quades.empty()) {
-	//	for (uint32_t oi = 0; oi < quades.size() - 1; ++oi) {
-	//		for (uint32_t index = 0; index < quades[oi].vertices.size() - 1; ++index) {
-	//			quades[oi].vertices[index].color.w -= GameTimer::DeltaTime() * 3.0f;
-
-	//			/*if (quades[oi].vertices[index].color.w <= 0.0f) {
-	//				quades.erase(quades.begin() + oi);
-	//				nowTrailCount_--;
-	//				break;
-	//			}*/
-	//		}
-	//	}
-	//}
-
+	
 	std::vector<bool> toDelete(verticesData_.size(), false);
 
 	if (!verticesData_.empty()) {
 		for (uint32_t oi = 0; oi < verticesData_.size() - 1; ++oi) {
 			verticesData_[oi].color.w -= GameTimer::DeltaTime() * 3.0f;
-
-			if (verticesData_[oi].color.w <= 0.0f) {
-				toDelete[oi] = true;
-			}
-		}
-
-		auto vertexIt = verticesData_.begin();
-		for (size_t i = 0; i < toDelete.size(); ++i) {
-			if (toDelete[i]) {
-				vertexIt = verticesData_.erase(vertexIt);
-			} else {
-				++vertexIt;
-			}
 		}
 	}
 
-	std::vector<uint32_t> newIndices_;
-	for (const auto& index : indices_) {
-		if (index < toDelete.size() && !toDelete[index]) {
-			// マークされていないインデックスを追加
-			newIndices_.push_back(index);
-		}
-	}
-
-	indices_.clear();
-	indices_ = std::move(newIndices_);
-
-	for (uint32_t oi = 0; oi < kMaxTrailNum_ * 4; ++oi) {
-		vertexData_[oi] = VertexData();
-	}
-
-	for (uint32_t oi = 0; oi < (kMaxTrailNum_ * 6); ++oi) {
-		indexData_[oi] = uint32_t();
-	}
-
-	vertexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
-	indexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
-
+	
 	memcpy(vertexData_, verticesData_.data(), sizeof(VertexData) * verticesData_.size());
 	memcpy(indexData_, indices_.data(), sizeof(uint32_t) * indices_.size());
-
-	vertexBuffer_->Unmap(0, nullptr);
-	indexBuffer_->Unmap(0, nullptr);
-
-	/*verticesData_.clear();
-	indices_.clear();*/
-
-	//if (!quades.empty()) {
-	//	size_t baseIndex = 0; // 頂点インデックスの基準
-
-	//	// 頂点データの合計サイズを事前予約
-	//	size_t totalVertices = 0;
-	//	size_t totalIndices = 0;
-
-	//	for (const auto& quad : quades) {
-	//		totalVertices += quad.vertices.size();
-	//		totalIndices += quad.indices.size();
-	//	}
-
-	//	verticesData_.reserve(totalVertices);
-	//	indices_.reserve(totalIndices);
-
-	//	for (uint32_t oi = 0; oi < quades.size(); ++oi) {
-	//		const auto& quad = quades[oi];
-
-	//		// 頂点データを追加
-	//		verticesData_.insert(verticesData_.end(), quad.vertices.begin(), quad.vertices.end());
-
-	//		// インデックスデータを追加
-	//		for (uint32_t index : quad.indices) {
-	//			indices_.push_back(uint32_t(baseIndex) + index); // インデックスにオフセットを適用
-	//		}
-
-	//		// ベースインデックスを更新
-	//		baseIndex += quad.vertices.size();
-	//	}
-	//}
-	//
-
-	/*size_t remaining = kMaxTrailNum_ * 4 - verticesData_.size();
-	if (remaining > 0) {
-		memset(vertexData_ + verticesData_.size(), 0, sizeof(VertexData) * remaining);
-	}*/
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -207,14 +116,14 @@ void Trail::AddTrail(const Matrix4x4& mat) {
 	time_ += GameTimer::DeltaTime();
 	if (time_ > popTime_) {
 		Vector3 rect[4] = {
-			(TransformNormal(rect_.leftTop * weight_, mat)) + translate,
-			(TransformNormal(rect_.rightTop * weight_, mat)) + translate,
-			(TransformNormal(rect_.leftBottom * weight_ ,mat)) + translate,
-			(TransformNormal(rect_.rightBottom * weight_, mat)) + translate
+			(TransformNormal(rect_.leftTop , mat)) + translate,
+			(TransformNormal(rect_.rightTop , mat)) + translate,
+			(TransformNormal(rect_.leftBottom ,mat)) + translate,
+			(TransformNormal(rect_.rightBottom, mat)) + translate
 		};
 
 		// 最初の四角形かどうかを判定
-		if (uint32_t(verticesData_.size()) == 0) {
+		if (uint32_t(nowTrailCount_) == 0) {
 			/*auto& quad = quades.emplace_back();*/
 			// 最初の四角形の場合、4つの頂点を追加
 			verticesData_.push_back(VertexData({ Vector4(rect[0], 1.0f) }, { 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
@@ -229,9 +138,10 @@ void Trail::AddTrail(const Matrix4x4& mat) {
 			indices_.push_back(1);
 			indices_.push_back(3);
 			indices_.push_back(2);
+
 		} else {
 			// それ以降の四角形は頂点を共有
-			uint32_t baseIndex = uint32_t((verticesData_.size()) / 2.0f) * 2; // 新しい頂点のインデックス
+			uint32_t baseIndex = uint32_t(nowTrailCount_) * 2; // 新しい頂点のインデックス
 			//auto& quad = quades.emplace_back();
 
 			verticesData_.push_back(VertexData({ Vector4(rect[0], 1.0f) }, { 0.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
@@ -247,5 +157,34 @@ void Trail::AddTrail(const Matrix4x4& mat) {
 		}
 
 		time_ = 0.0f;
+		nowTrailCount_++;
+	}
+}
+
+void Trail::ResetTrail() {
+	verticesData_.clear();
+	indices_.clear();
+
+	vertexData_ = nullptr;
+	indexData_ = nullptr;
+
+	vertexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
+	indexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
+
+	memcpy(vertexData_, verticesData_.data(), sizeof(VertexData) * verticesData_.size());
+	memcpy(indexData_, indices_.data(), sizeof(uint32_t) * indices_.size());
+
+	vertexBuffer_->Unmap(0, nullptr);
+	indexBuffer_->Unmap(0, nullptr);
+
+	nowTrailCount_ = 0;
+
+
+	for (uint32_t oi = 0; oi < kMaxTrailNum_ * 4; ++oi) {
+		vertexData_[oi] = VertexData();
+	}
+
+	for (uint32_t oi = 0; oi < kMaxTrailNum_ * 6; ++oi) {
+		indexData_[oi] = uint32_t();
 	}
 }
