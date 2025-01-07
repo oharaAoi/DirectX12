@@ -1,44 +1,42 @@
 {
-    "expload": {
-        "angle": 2.0,
+    "sphere1": {
         "color": [
             1.0,
-            1.0,
-            1.0,
+            0.062745101749897,
+            0.062745101749897,
             1.0
         ],
-        "count": 10,
-        "dampig": 1.0,
+        "count": 14,
+        "dampig": 2.0,
         "emitterLifeTime": 10.0,
         "frequency": 0.5,
-        "frequencyTime": 0.03282187506556511,
-        "gravity": -9.800000190734863,
-        "height": 1.0,
-        "lifeTime": 4.0,
+        "frequencyTime": 0.2856889069080353,
+        "gravity": 0.0,
+        "lifeTime": 0.5,
+        "oneShot": false,
         "radius": 1.0,
-        "oneShot": true,
         "rotate": [
             0.0,
             0.0,
             0.0,
             1.0
         ],
-        "shape": 1,
-        "speed": 7.0,
+        "shape": 0,
+        "speed": 13.800000190734863,
         "translate": [
             0.0,
-            1.2000000476837158,
+            0.0,
             0.0
         ],
         "maxScale": [
-            0.3,
-            0.3,
-            0.3
+            0.2,
+            0.2,
+            0.2
         ],
          "minScale": [
-            1.0,
-            1.0,
-            1.0
+            0.2,
+            0.2,
+            0.2
         ],
         "velocity": [
             0.0,

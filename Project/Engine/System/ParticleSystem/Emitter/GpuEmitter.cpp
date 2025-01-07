@@ -95,6 +95,8 @@ void GpuEmitter::Save() {
 	// commonのSave
 	persistence->AddItem(label_, "translate", commonEmitter_->translate);
 	persistence->AddItem(label_, "rotate", commonEmitter_->rotate);
+	persistence->AddItem(label_, "rotate", commonEmitter_->minScale);
+	persistence->AddItem(label_, "rotate", commonEmitter_->maxScale);
 	persistence->AddItem(label_, "shape", commonEmitter_->shape);
 	persistence->AddItem(label_, "count", commonEmitter_->count);
 	persistence->AddItem(label_, "frequency", commonEmitter_->frequency);
@@ -116,13 +118,16 @@ void GpuEmitter::Load() {
 	// commonのLoad
 	commonEmitter_->translate = persistence->GetValue<Vector3>(label_, "translate");
 	commonEmitter_->rotate = persistence->GetValue<Vector4>(label_, "rotate");
+	commonEmitter_->minScale = persistence->GetValue<Vector3>(label_, "minScale");
+	commonEmitter_->maxScale = persistence->GetValue<Vector3>(label_, "maxScale");
+	commonEmitter_->translate = persistence->GetValue<Vector3>(label_, "translate");
 	commonEmitter_->shape = persistence->GetValue<uint32_t>(label_, "shape");
 	commonEmitter_->count = persistence->GetValue<uint32_t>(label_, "count");
 	commonEmitter_->frequency = persistence->GetValue<float>(label_, "frequency");
 	commonEmitter_->frequencyTime = persistence->GetValue<float>(label_, "frequencyTime");
 	commonEmitter_->color = persistence->GetValue<Vector4>(label_, "color");
 	commonEmitter_->speed = persistence->GetValue<float>(label_, "speed");
-	commonEmitter_->lifeTime = persistence->GetValue<uint32_t>(label_, "lifeTime");
+	commonEmitter_->lifeTime = persistence->GetValue<float>(label_, "lifeTime");
 	commonEmitter_->gravity = persistence->GetValue<float>(label_, "gravity");
 	commonEmitter_->dampig = persistence->GetValue<float>(label_, "dampig");
 	// commonのSave
@@ -141,6 +146,8 @@ void GpuEmitter::Debug_Gui() {
 	if (ImGui::TreeNode("Common")) {
 
 		ImGui::DragFloat3("rotate", &rotate_.x, 0.01f);
+		ImGui::DragFloat3("minScale", &commonEmitter_->minScale.x, 0.01f);
+		ImGui::DragFloat3("maxScale", &commonEmitter_->maxScale.x, 0.01f);
 		ImGui::DragFloat3("deltaRotate", &deltaRotate_.x, 0.01f);
 		ImGui::DragFloat3("translate", &commonEmitter_->translate.x, 0.1f);
 		ImGui::DragFloat("frequency", &commonEmitter_->frequency, 0.1f);
@@ -150,10 +157,9 @@ void GpuEmitter::Debug_Gui() {
 
 		ImGui::ColorEdit4("color", &commonEmitter_->color.x);
 		ImGui::DragFloat("speed", &commonEmitter_->speed, 0.1f);
-		ImGui::DragScalar("lifeTime", ImGuiDataType_U32, &commonEmitter_->lifeTime);
+		ImGui::DragFloat("lifeTime", &commonEmitter_->lifeTime, 0.1f);
 		ImGui::DragFloat("gravity", &commonEmitter_->gravity, 0.1f);
 		ImGui::DragFloat("damping", &commonEmitter_->dampig, 0.1f, 0.0f, 2.0f);
-
 
 		ImGui::TreePop();
 	}

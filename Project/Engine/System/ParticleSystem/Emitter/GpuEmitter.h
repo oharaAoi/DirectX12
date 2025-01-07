@@ -33,7 +33,7 @@ public:
 		Vector3 maxScale;		// 最大の大きさ
 		float pad;
 		float speed;			// 速度
-		uint32_t lifeTime;		// particleの生存時間
+		float lifeTime;		// particleの生存時間
 		float gravity;			// 重力を付与するか
 		float dampig;			// 減衰率
 	};

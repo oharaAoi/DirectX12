@@ -15,7 +15,7 @@ struct CommonEmitter {
 	float3 minScale; // 最小の大きさ
 	float3 maxScale; // 最大の大きさ
 	float speed; // 速度
-	int lifeTime;
+	float lifeTime;
 	float gravity;
 	float damping;
 };
@@ -81,7 +81,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 			
 			if (0 <= freeListIndex && freeListIndex < kMaxParticles) {
 				// ここは良くない処理
-				int particleIndex = countIndex;
+				int particleIndex = gFreeListIndex[freeListIndex];
 				gParticles[particleIndex] = (Particle) 0;
 				//gParticles[particleIndex].scale = generator.Generated3d();
 				float x = generator.Generated1dRange(gCommonEmitter.minScale.x, gCommonEmitter.maxScale.x);
@@ -99,9 +99,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				gParticles[particleIndex].gravity = gCommonEmitter.gravity;
 				
 				if (gCommonEmitter.shape == 0) { // sphere
-					float3 randomPos = generator.Generated3dRange(-gSphereEmitter.radius, gSphereEmitter.radius);
-					
-					gParticles[particleIndex].translate = gCommonEmitter.translate + randomPos;
+					gParticles[particleIndex].translate = gCommonEmitter.translate;
 					gParticles[particleIndex].velocity = generator.Generated3d() * gCommonEmitter.speed;
 				}
 				else if (gCommonEmitter.shape == 1) { // Cone

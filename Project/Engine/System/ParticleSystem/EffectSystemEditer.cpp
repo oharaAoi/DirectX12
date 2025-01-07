@@ -293,6 +293,14 @@ void EffectSystemEditer::EditEmitter() {
 void EffectSystemEditer::EditEffect() {
 	ImGui::Begin("Create Effect");
 
+	if (ImGui::Button("hotReload")) {
+		emitterFiles_.clear();
+		effectFiles_.clear();
+		emitterFiles_ = EffectPersistence::GetInstance()->GetEmitterNames();
+		effectFiles_ = EffectPersistence::GetInstance()->GetEffectNames();
+		EffectPersistence::GetInstance()->LoadAllFile();
+	}
+
 	if (ImGui::BeginCombo("##InportFileName", &importFileName_[0], ImGuiComboFlags_HeightLargest)) {
 		for (uint32_t i = 0; i < emitterFiles_.size(); i++) {
 			const bool isSelected = (importIndex_ == i);
