@@ -49,6 +49,10 @@ void EffectPersistence::CreateGroup(const std::string& groupName) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectPersistence::LoadAllFile() {
+	data_.clear();
+	effectNames_.clear();
+	emitterNames_.clear();
+
 	// Effect
 	std::filesystem::directory_iterator dir_it(kDirectoryPath_ + "Effect");
 	for (const std::filesystem::directory_entry& entry : dir_it) {

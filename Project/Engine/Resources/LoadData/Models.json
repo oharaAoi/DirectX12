@@ -25,6 +25,12 @@
                 "skydome.obj",
                 "floor.obj"
             ]
+        },
+        {
+            "directory": "./Engine/Resources/Effect/",
+            "files": [
+                "spark.obj"
+            ]
         }
     ]
 }

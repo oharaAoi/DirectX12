@@ -171,5 +171,9 @@ void GpuEffect::CheckParticlesAlpha() {
 #ifdef _DEBUG
 void GpuEffect::Debug_Gui() {
 	gpuEmitter_->Debug_Gui();
+	gpuEmitter_->SelectEmitModel();
+	if (ImGui::Button("Reset")) {
+		gpuParticle_->ResetModel(gpuEmitter_->GetParticleModel());
+	}
 }
 #endif

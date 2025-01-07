@@ -21,8 +21,6 @@ public:
 
 private:
 
-
-
 	void CheckParticlesAlpha();
 
 public:
