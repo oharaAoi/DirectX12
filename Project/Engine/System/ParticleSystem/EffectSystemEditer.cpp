@@ -119,34 +119,6 @@ void EffectSystemEditer::Draw() const {
 // ↓　開始
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void EffectSystemEditer::PreBegin() {
-	// ここでゲーム描画のRenderTargetからEffect用のRenderTargetに変更する
-	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
-	// dsvのポインターを設定する
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
-	dsvHandle.ptr += size_t(descriptorHeaps_->GetDescriptorSize()->GetDSV());
-	// RenderTargetを指定する
-	renderTarget_->SetRenderTarget(commandList, RenderTargetType::PreEffectSystem_RenderTarget);
-	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	// RenderTargetをクリアする
-	commandList->ClearRenderTargetView(renderTarget_->GetRenderTargetRTVHandle(RenderTargetType::PreEffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
-
-	//------------------------------------------------------------------------------------------------------------------
-	ImGui::Begin("EffectSystem" ,nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus);
-
-	// Grid線描画
-	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
-
-	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), PreEffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-
-	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::PreEffectSystem_RenderTarget).handleGPU.ptr));
-	ImGui::SetCursorPos(ImVec2(20, 30)); // 描画位置を設定
-	ImGui::Image((void*)textureID, ImVec2(640.0f, 360.0f)); // サイズは適宜調整
-
-	ImGui::End();
-}
-
 void EffectSystemEditer::Begin() {
 	// ここでゲーム描画のRenderTargetからEffect用のRenderTargetに変更する
 	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
@@ -166,7 +138,6 @@ void EffectSystemEditer::Begin() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::End() {
-	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), PreEffectSystem_RenderTarget, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
