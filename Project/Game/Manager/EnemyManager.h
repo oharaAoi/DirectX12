@@ -25,6 +25,8 @@ public:
 	/// </summary>
 	void CheckNearEnemyList();
 
+	void CheckHitedEnmey();
+
 public:
 
 	std::shared_ptr<NormalEnemy> GetNearEnemy(uint32_t& index);
@@ -34,6 +36,8 @@ public:
 	void SetPlayerPos(const Vector3& playerPos) { playerPos_ = playerPos; }
 
 	const uint32_t GetDownNum() const { return downNum_; }
+
+	const bool GetIsCameraShake() { return isCameraShake_; }
 
 private:
 
@@ -68,5 +72,7 @@ private:
 	int popNum_ = 4;
 
 	bool isStop_ = false;
+
+	bool isCameraShake_ = false;
 };
 

@@ -54,9 +54,13 @@ public:
 	void SetPlayerPos(const Vector3& playerPos) { playerPos_ = playerPos; }
 	const Vector3 GetPlayerPos() const { return playerPos_; }
 
+	const bool GetIsHited() const { return isHited_; }
+
 private:
 
 	bool isDead_ = false;
+
+	bool isHited_ = false;
 
 	// ------------------- State関連 ------------------- //
 	std::unique_ptr<ICharactorState> state_;

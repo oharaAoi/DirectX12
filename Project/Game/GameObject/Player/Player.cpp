@@ -305,6 +305,8 @@ void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 		isInvincible_ = true;
 		invincibleTime_ = 0.0f;
 		hp_--;
+
+		followCamera_->SetIsShake();
 	}
 }
 

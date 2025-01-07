@@ -28,6 +28,8 @@ void EnemyManager::Init() {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EnemyManager::Update() {
+	isCameraShake_ = false;
+
 	normalEnemyList_.remove_if([this](const std::shared_ptr<NormalEnemy>& enemy) {
 		if (enemy->GetIsDead()) {
 			this->CheckNearEnemyList();
@@ -108,6 +110,16 @@ void EnemyManager::CheckNearEnemyList() {
 			return (enemy1->GetTransform()->GetTranslation() - pos).Length() < (enemy2->GetTransform()->GetTranslation() - pos).Length();
 		}
 	);
+}
+
+void EnemyManager::CheckHitedEnmey() {
+	for (std::list<std::shared_ptr<NormalEnemy>>::const_iterator it = normalEnemyList_.begin(); it != normalEnemyList_.end();) {
+		if ((*it)->GetIsHited()) {
+			isCameraShake_ = true;
+			break;
+		}
+		++it;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -35,6 +35,7 @@ void NormalEnemy::Init() {
 	shadow_->SetColor({ 0.0f, 0.0f, 0.0f, 0.8f });
 
 	isDead_ = false;
+	isHited_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,6 +43,8 @@ void NormalEnemy::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void NormalEnemy::Update() {
+	isHited_ = false;
+
 	state_->Update();
 	CheckBehaviorRequest();
 
@@ -106,6 +109,8 @@ void NormalEnemy::CheckBehaviorRequest() {
 void NormalEnemy::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 	if (CheckBit(other.GetTag(), ColliderTags::Player::ATTACK, CheckType::EQUAL)) {
 		isDead_ = true;
+		isHited_ = true;
+		GameTimer::SetIsSlow();
 
 		EffectSystem::GetInstacne()->Emit("spark", transform_->GetTranslation());
 	}

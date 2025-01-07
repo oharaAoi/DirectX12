@@ -48,6 +48,8 @@ void PlayerAvoidanceState::RollMove() {
 	Vector2 inputJoyStateL = Input::GetLeftJoyStick();
 	Vector3 velocity = { inputJoyStateL.x,0.0f,inputJoyStateL.y, };
 
+	work_.avoidanceLength *= 0.8f;
+
 	// スティックの押し込みが閾値を超えていたらスティック方向に移動させて
 	// 超えてなかったらそのままの方向に移動
 	if (velocity.Length() > 0.7f) {

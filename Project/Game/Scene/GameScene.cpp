@@ -180,6 +180,12 @@ void GameScene::Update() {
 
 	collisionManager_->CheckAllCollision();
 
+	enemyManager_->CheckHitedEnmey();
+
+	if (enemyManager_->GetIsCameraShake()) {
+		followCamera_->SetIsShake();
+	}
+
 	// -------------------------------------------------
 	// ↓ UIの更新
 	// -------------------------------------------------

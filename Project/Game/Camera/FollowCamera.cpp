@@ -3,6 +3,7 @@
 #include "Engine/Editer/Window/EditerWindows.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/Math/MyMatrix.h"
+#include "Engine/Math/MyRandom.h"
 
 FollowCamera::FollowCamera() {
 }
@@ -45,9 +46,13 @@ void FollowCamera::Init() {
 void FollowCamera::Update() {
 	RotateCamera();
 
+	if (isShake_) {
+		Shake();
+	}
+
 	Vector3 offset = CalcucOffset();
 	if (target_ != nullptr) {
-		transform_.translate = target_->GetTranslation() + offset;
+		transform_.translate = target_->GetTranslation() + offset + shakeVelocity_;
 	}
 
 	if (lockOn_->GetIsLockOn()) {
@@ -72,6 +77,29 @@ void FollowCamera::RotateCamera() {
 	const float speed = 0.1f;
 	destinationAngleY_ += inputJoyStateR.x * speed;
 	transform_.rotate.y = LerpShortAngle(transform_.rotate.y, destinationAngleY_, 0.1f);
+}
+
+void FollowCamera::Shake() {
+	shakeTime_ += GameTimer::DeltaTime();
+
+	if (shakeTime_ >= shakeTimeLimit_) {
+		isShake_ = false;
+		shakeTime_ = 0.0f;
+		shakeVelocity_ = Vector3();
+		return;
+	}
+
+	shakeStrength_ = shakeTimeLimit_ - shakeTime_;
+
+	shakeVelocity_ = {
+		RandomFloat(-shakeStrength_, shakeStrength_),
+		RandomFloat(-shakeStrength_, shakeStrength_),
+		RandomFloat(-shakeStrength_, shakeStrength_)
+	};
+}
+
+void FollowCamera::SetIsShake() {
+	isShake_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

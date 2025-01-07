@@ -1,6 +1,6 @@
 {
     "work": {
-        "avoidanceLength": 7.0,
+        "avoidanceLength": 20.0,
         "timeLimit": 1.0
     }
 }

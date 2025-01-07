@@ -32,6 +32,10 @@ public:
 
 	void RotateCamera();
 
+	void Shake();
+
+	void SetIsShake();
+
 private:
 
 	Vector3 CalcucOffset();
@@ -51,6 +55,7 @@ private:
 	// ------------------- pointer ------------------- //
 	LockOn* lockOn_ = nullptr;
 
+	// ------------------- parameter ------------------- //
 	Quaternion quaternion_;
 	// 回転する前のQuaternion
 	Quaternion moveQuaternion_;
@@ -60,5 +65,17 @@ private:
 	float destinationAngleX_;
 
 	Information information_;
+
+	// ------------------- 演出 ------------------- //
+
+	bool isShake_ = false;
+
+	float shakeTime_ = 0.0f;
+	float shakeTimeLimit_ = 0.5f;
+
+	float shakeStrength_ = 0.0f;
+
+	Vector3 shakeVelocity_;
+
 };
 

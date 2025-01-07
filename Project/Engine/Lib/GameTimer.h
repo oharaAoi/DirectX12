@@ -21,6 +21,8 @@ public:
 	static float TotalTime(){ return totalTime_; }
 	static float TimeRate() { return timeRate_; }
 
+	static void SetIsSlow() { isSlow_ = true; }
+
 	static float fps_;
 
 private:
@@ -29,6 +31,8 @@ private:
 	static float deletaTime_;
 	static float timeRate_;
 	static float totalTime_;
+
+	static bool isSlow_;
 };
 
 const float kDeltaTime_ = (1.0f / GameTimer::fps_);
