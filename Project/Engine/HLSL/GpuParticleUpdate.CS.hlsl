@@ -24,6 +24,12 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 			gParticles[particleIndex].acceleration.y = gParticles[particleIndex].gravity;
 			gParticles[particleIndex].velocity += gParticles[particleIndex].acceleration * gPerFrame.deletaTime;
 			gParticles[particleIndex].velocity *= exp(-gParticles[particleIndex].damping * gPerFrame.deletaTime);
+			
+			// 回転を進行方向に合わせる
+			gParticles[particleIndex].rotate.y = atan2(gParticles[particleIndex].velocity.x, gParticles[particleIndex].velocity.z);
+			float xzLength = length(float3(gParticles[particleIndex].velocity.x, 0, gParticles[particleIndex].velocity.z));
+			gParticles[particleIndex].rotate.x = atan2(-gParticles[particleIndex].velocity.y, xzLength);
+			
 			gParticles[particleIndex].translate += gParticles[particleIndex].velocity * gPerFrame.deletaTime;
 			gParticles[particleIndex].currentTime += gPerFrame.deletaTime;
 			float alpha = 1.0f - (gParticles[particleIndex].currentTime / gParticles[particleIndex].lifeTime);

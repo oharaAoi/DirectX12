@@ -17,6 +17,8 @@ public:	// メンバ構造体
 		Vector4 color;			// 色
 
 		Vector3 scale;			// 拡縮
+
+		Vector3 rotate;			// 回転
 		
 		Vector3 translate;		// 座標
 		

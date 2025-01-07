@@ -89,6 +89,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				float z = generator.Generated1dRange(gCommonEmitter.minScale.z, gCommonEmitter.maxScale.z);
 				
 				gParticles[particleIndex].scale = float3(x, y, z);
+				gParticles[particleIndex].rotate = float3(0, 0, 0);
 				gParticles[particleIndex].translate = gCommonEmitter.translate + generator.Generated3d();
 				gParticles[particleIndex].color.rgb = gCommonEmitter.color.rgb;
 				gParticles[particleIndex].color.a = gCommonEmitter.color.a;
@@ -107,9 +108,9 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 					gParticles[particleIndex].velocity = ApplyVelocityWithRotation(gCommonEmitter.rotate, float3(cos(angle), 1, sin(angle)), 0.01f) * gCommonEmitter.speed;
 				}
 				else if (gCommonEmitter.shape == 2) { // box
-					float x = generator.Generated1dRange(-gBoxEmitter.size.x * 0.5f, gBoxEmitter.size.x * 0.5f);
-					float y = generator.Generated1dRange(-gBoxEmitter.size.y * 0.5f, gBoxEmitter.size.y * 0.5f);
-					float z = generator.Generated1dRange(-gBoxEmitter.size.z * 0.5f, gBoxEmitter.size.z * 0.5f);
+					float x = generator.Generated1dRange(-gBoxEmitter.size.x, gBoxEmitter.size.x);
+					float y = generator.Generated1dRange(-gBoxEmitter.size.y, gBoxEmitter.size.y);
+					float z = generator.Generated1dRange(-gBoxEmitter.size.z, gBoxEmitter.size.z);
 					
 					gParticles[particleIndex].translate = gCommonEmitter.translate;
 					gParticles[particleIndex].translate.x += x;
