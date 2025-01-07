@@ -4,6 +4,12 @@ GpuParticle::GpuParticle() {
 }
 
 GpuParticle::~GpuParticle() {
+	DescriptorHeap::AddFreeSrvList(uav_.assignIndex_);
+	DescriptorHeap::AddFreeSrvList(srv_.assignIndex_);
+	DescriptorHeap::AddFreeSrvList(freeListIndexUav_.assignIndex_);
+	DescriptorHeap::AddFreeSrvList(freeListIndexSrv_.assignIndex_);
+	DescriptorHeap::AddFreeSrvList(freeListUav_.assignIndex_);
+	DescriptorHeap::AddFreeSrvList(freeListSrv_.assignIndex_);
 }
 
 void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
@@ -120,7 +126,7 @@ void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
 	
 	Engine::SetCsPipeline(CsPipelineType::GpuParticleInit);
 	BindCmdList(commandList, 0);
-	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
+	commandList->Dispatch((UINT)kInstanceNum_ / 256, 1, 1);
 }
 
 void GpuParticle::Update() {
@@ -132,7 +138,7 @@ void GpuParticle::Update() {
 	commandList->SetComputeRootDescriptorTable(0, uav_.handleGPU);
 	commandList->SetComputeRootDescriptorTable(1, freeListIndexUav_.handleGPU);
 	commandList->SetComputeRootConstantBufferView(2, perFrameBuffer_->GetGPUVirtualAddress());
-	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
+	commandList->Dispatch((UINT)kInstanceNum_ / 256, 1, 1);
 
 	// UAVの変更
 	D3D12_RESOURCE_BARRIER barrier{};
