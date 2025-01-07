@@ -18,7 +18,7 @@ GpuEffect::~GpuEffect() {
 
 void GpuEffect::Init(const EmitterShape& shape) {
 	gpuParticle_ = std::make_unique<GpuParticle>();
-	gpuParticle_->Init("cube.obj", 256);
+	gpuParticle_->Init("cube.obj", 1024);
 
 	switch (shape) {
 	case EmitterShape::Sphere:
