@@ -8,6 +8,8 @@ GpuEffect::GpuEffect() {}
 GpuEffect::~GpuEffect() {
 	allDeathBuffer_.Reset();
 	outputBuffer_.Reset();
+	DescriptorHeap::AddFreeSrvList(allDeathSrv_.assignIndex_);
+	DescriptorHeap::AddFreeSrvList(allDeathUav_.assignIndex_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,7 +18,7 @@ GpuEffect::~GpuEffect() {
 
 void GpuEffect::Init(const EmitterShape& shape) {
 	gpuParticle_ = std::make_unique<GpuParticle>();
-	gpuParticle_->Init("cube.obj", 1024);
+	gpuParticle_->Init("cube.obj", 256);
 
 	switch (shape) {
 	case EmitterShape::Sphere:
