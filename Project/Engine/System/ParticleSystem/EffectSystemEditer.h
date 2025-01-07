@@ -25,7 +25,6 @@ public:
 
 	void Import();
 
-	void PreBegin();
 	void Begin();
 	void End();
 

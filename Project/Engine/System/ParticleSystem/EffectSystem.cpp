@@ -105,7 +105,6 @@ void EffectSystem::ImportEmitter(const std::string& emiterName, const Vector3& p
 void EffectSystem::Debug_Gui() {
 	editer_->Debug_Gui();
 #ifdef _DEBUG
-	editer_->PreBegin();
 	editer_->Begin();
 	editer_->Draw();
 #endif
