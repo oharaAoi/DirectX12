@@ -56,8 +56,7 @@ public:
 	/// フレームを終了する
 	/// </summary>
 	static void EndFrame();
-	static void EndImGui();
-
+	
 	static void RenderFrame();
 
 	static void BlendFinalTexture();
@@ -180,6 +179,8 @@ public:
 
 	static bool GetIsOpenEffectEditer();
 
+	static bool GetRunGame();
+
 private:
 
 };
@@ -231,5 +232,7 @@ namespace {
 	bool isFullScreen_;
 
 	bool isEffectEditer_;
+
+	bool runGame_;
 }
 

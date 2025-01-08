@@ -22,8 +22,7 @@ void GameCore::Init() {
 
 	sceneManger_ = std::make_unique<SceneManager>();
 	sceneManger_->Init();
-
-	sceneManger_->SetChange(SceneType::TITLE);
+	sceneManger_->SetChange(SceneType::TEST);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,11 +31,16 @@ void GameCore::Init() {
 
 void GameCore::Update() {
 	AoiFramework::Update();
-	sceneManger_->Update();
 
 #ifdef _DEBUG
+	if (Engine::GetRunGame()) {
+		sceneManger_->Update();
+	}
 	Debug_Gui();
+#else 
+	sceneManger_->Update();
 #endif
+	Render::Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,8 +48,17 @@ void GameCore::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameCore::Draw() {
+#ifdef _DEBUG
+	if (Engine::GetRunGame()) {
+		sceneManger_->Draw();
+	}
+#else 
 	sceneManger_->Draw();
-	sceneManger_->PostFrame();
+#endif
+	
+	Engine::EndFrame();
+	// fpsの計算
+	gameTimer_.CalculationFrame();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,5 +67,8 @@ void GameCore::Draw() {
 #ifdef _DEBUG
 void GameCore::Debug_Gui() {
 	sceneManger_->Debug_Gui();
+
+	gameTimer_.Debug();
+	
 }
 #endif

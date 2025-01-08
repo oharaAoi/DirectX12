@@ -32,6 +32,7 @@ public:
 	void Debug_Gui();
 
 	void EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device);
+	void EditerUpdate();
 
 	void EndEditer();
 

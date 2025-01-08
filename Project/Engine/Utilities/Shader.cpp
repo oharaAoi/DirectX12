@@ -13,24 +13,24 @@ void Shader::Init() {
 	Load("Engine/HLSL/Primitive.VS.hlsl", "Engine/HLSL/Primitive.PS.hlsl", Shader::Primitive);
 	Load("Engine/HLSL/Object3d.VS.hlsl", "Engine/HLSL/Phong.Lighting.hlsl", Shader::Phong);
 	Load("Engine/HLSL/PBR.VS.hlsl", "Engine/HLSL/PBR.PS.hlsl", Shader::PBR);
-	Load("Engine/HLSL/Particle.VS.hlsl", "Engine/HLSL/Particle.PS.hlsl", Shader::Particle);
 	Load("Engine/HLSL/Sprite.VS.hlsl", "Engine/HLSL/Sprite.PS.hlsl", Shader::Sprite);
+	Load("Engine/HLSL/Particle/Particle.VS.hlsl", "Engine/HLSL/Particle/Particle.PS.hlsl", Shader::Particle);
 
 	Load("Engine/HLSL/Trail.VS.hlsl", "Engine/HLSL/Trail.PS.hlsl", Shader::Trail);
 
 	// CS
-	Load("Engine/HLSL/GrayScale.CS.hlsl", CsShaderName::GrayScale);
-	Load("Engine/HLSL/HorizontalBlur.CS.hlsl", CsShaderName::HorizontalBlur);
-	Load("Engine/HLSL/VerticalBlur.CS.hlsl", CsShaderName::VerticalBlur);
-	Load("Engine/HLSL/DepthOfField.CS.hlsl", CsShaderName::DepthOfField);
-	Load("Engine/HLSL/Skinning.CS.hlsl", CsShaderName::SkinningCS);
-	Load("Engine/HLSL/Blend.CS.hlsl", CsShaderName::Blend);
-	Load("Engine/HLSL/ResultRender.CS.hlsl", CsShaderName::Result);
+	Load("Engine/HLSL/CS/GrayScale.CS.hlsl", CsShaderName::GrayScale);
+	Load("Engine/HLSL/CS/HorizontalBlur.CS.hlsl", CsShaderName::HorizontalBlur);
+	Load("Engine/HLSL/CS/VerticalBlur.CS.hlsl", CsShaderName::VerticalBlur);
+	Load("Engine/HLSL/CS/DepthOfField.CS.hlsl", CsShaderName::DepthOfField);
+	Load("Engine/HLSL/CS/Skinning.CS.hlsl", CsShaderName::SkinningCS);
+	Load("Engine/HLSL/CS/Blend.CS.hlsl", CsShaderName::Blend);
+	Load("Engine/HLSL/CS/ResultRender.CS.hlsl", CsShaderName::Result);
 
-	Load("Engine/HLSL/GpuParticleInit.CS.hlsl", CsShaderName::GpuParticleInit);
-	Load("Engine/HLSL/GpuParticleUpdate.CS.hlsl", CsShaderName::GpuParticleUpdate);
-	Load("Engine/HLSL/GpuParticleEnd.CS.hlsl", CsShaderName::GpuParticleEnd);
-	Load("Engine/HLSL/EmitParticle.CS.hlsl", CsShaderName::EmitGpuParticle);
+	Load("Engine/HLSL/Particle/GpuParticleInit.CS.hlsl", CsShaderName::GpuParticleInit);
+	Load("Engine/HLSL/Particle/GpuParticleUpdate.CS.hlsl", CsShaderName::GpuParticleUpdate);
+	Load("Engine/HLSL/Particle/GpuParticleEnd.CS.hlsl", CsShaderName::GpuParticleEnd);
+	Load("Engine/HLSL/Particle/EmitParticle.CS.hlsl", CsShaderName::EmitGpuParticle);
 }
 
 void Shader::Load(const std::string& vsPath, const std::string& psPath, const ShaderName& type) {

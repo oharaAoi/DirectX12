@@ -43,6 +43,7 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 	// ↓ カメラの初期化
 	// -------------------------------------------------
 	effectSystemCamera_ = std::make_unique<EffectSystemCamera>();
+	effectSystemCamera_->Init();
 
 	particleField_ = std::make_unique<ParticleField>();
 	particleField_->Init();

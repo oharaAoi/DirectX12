@@ -1,4 +1,4 @@
-#include "Random.hlsli"
+#include "../Random.hlsli"
 #include "Particle.hlsli"
 
 struct CommonEmitter {

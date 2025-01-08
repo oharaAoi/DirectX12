@@ -280,9 +280,6 @@
     <ClCompile Include="Game\Camera\BaseCamera.cpp">
       <Filter>Game\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Camera.cpp">
-      <Filter>Game\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Camera\DebugCamera.cpp">
       <Filter>Game\Camera</Filter>
     </ClCompile>
@@ -684,9 +681,6 @@
     <ClInclude Include="Game\Camera\BaseCamera.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Camera.h">
-      <Filter>Game\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Camera\DebugCamera.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
@@ -989,6 +983,22 @@
     <None Include="Engine\HLSL\Sprite.2d.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Engine\HLSL\Object3d.hlsli">
+      <Filter>Engine\HLSL</Filter>
+    </None>
+    <None Include="Engine\HLSL\Primitive.hlsli">
+      <Filter>Engine\HLSL</Filter>
+    </None>
+    <None Include="Engine\HLSL\Particle\Particle.hlsli">
+      <Filter>Engine\HLSL</Filter>
+    </None>
+    <None Include="Engine\HLSL\PBR.hlsli">
+      <Filter>Engine\HLSL</Filter>
+    </None>
+    <None Include="Engine\HLSL\Sprite.hlsli">
+      <Filter>Engine\HLSL</Filter>
+    </None>
+    <None Include="Engine\HLSL\Random.hlsli" />
     <Text Include="Externals\ImGui\LICENSE.txt" />
   </ItemGroup>
 </Project>

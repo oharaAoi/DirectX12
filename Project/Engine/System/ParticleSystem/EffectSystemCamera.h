@@ -5,7 +5,8 @@
 /// <summary>
 /// Effectを作成する際に使用するカメラ
 /// </summary>
-class EffectSystemCamera : public BaseCamera {
+class EffectSystemCamera :
+	public BaseCamera {
 public:
 
 	EffectSystemCamera();

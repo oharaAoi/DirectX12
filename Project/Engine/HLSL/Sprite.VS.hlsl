@@ -1,4 +1,4 @@
-#include "Sprite.2d.hlsli"
+#include "Sprite.hlsli"
 
 struct TransformationMatrix{
 	float4x4 WVP;
