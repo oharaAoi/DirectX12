@@ -26,10 +26,12 @@ void GameTimer::CalculationFrame() {
 	preFrameTime_ = currentTime;
 }
 
-void GameTimer::FPS() {
+void GameTimer::Debug() {
 #ifdef _DEBUG
+	ImGui::Begin("GameTimer", nullptr);
 	float fps = 1.0f / deletaTime_;
 	ImGui::Text("%f fps", fps);
 	ImGui::Text("%f m/s", deletaTime_ * 1000.0f);
+	ImGui::End();
 #endif
 }

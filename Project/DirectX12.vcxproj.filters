@@ -369,9 +369,6 @@
     <ClCompile Include="Game\Camera\BaseCamera.cpp">
       <Filter>Game\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\Camera.cpp">
-      <Filter>Game\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Camera\DebugCamera.cpp">
       <Filter>Game\Camera</Filter>
     </ClCompile>
@@ -773,9 +770,6 @@
     <ClInclude Include="Game\Camera\BaseCamera.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\Camera.h">
-      <Filter>Game\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Camera\DebugCamera.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
@@ -928,13 +922,13 @@
     <FxCompile Include="Engine\HLSL\PBR.VS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Particle.PS.hlsl">
+    <FxCompile Include="Engine\HLSL\Particle\Particle.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\PBR.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Particle.VS.hlsl">
+    <FxCompile Include="Engine\HLSL\Particle\Particle.VS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="Engine\HLSL\Sprite.PS.hlsl">
@@ -943,31 +937,31 @@
     <FxCompile Include="Engine\HLSL\Sprite.VS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\GrayScale.CS.hlsl">
+    <FxCompile Include="Engine\HLSL\CS\GrayScale.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Blend.CS.hlsl">
+    <FxCompile Include="Engine\HLSL\CS\Blend.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\VerticalBlur.CS.hlsl">
+    <FxCompile Include="Engine\HLSL\CS\VerticalBlur.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\HorizontalBlur.CS.hlsl">
+    <FxCompile Include="Engine\HLSL\CS\HorizontalBlur.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\DepthOfField.CS.hlsl">
+    <FxCompile Include="Engine\HLSL\CS\DepthOfField.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\ResultRender.CS.hlsl">
+    <FxCompile Include="Engine\HLSL\CS\ResultRender.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Skinning.CS.hlsl">
+    <FxCompile Include="Engine\HLSL\CS\Skinning.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\GpuParticleInit.CS.hlsl" />
-    <FxCompile Include="Engine\HLSL\EmitParticle.CS.hlsl" />
-    <FxCompile Include="Engine\HLSL\GpuParticleUpdate.CS.hlsl" />
-    <FxCompile Include="Engine\HLSL\GpuParticleEnd.CS.hlsl" />
+    <FxCompile Include="Engine\HLSL\Particle\GpuParticleInit.CS.hlsl" />
+    <FxCompile Include="Engine\HLSL\Particle\EmitParticle.CS.hlsl" />
+    <FxCompile Include="Engine\HLSL\Particle\GpuParticleUpdate.CS.hlsl" />
+    <FxCompile Include="Engine\HLSL\Particle\GpuParticleEnd.CS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">
@@ -981,13 +975,13 @@
     <None Include="Engine\HLSL\Primitive.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
-    <None Include="Engine\HLSL\Particle.hlsli">
+    <None Include="Engine\HLSL\Particle\Particle.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
     <None Include="Engine\HLSL\PBR.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
-    <None Include="Engine\HLSL\Sprite.2d.hlsli">
+    <None Include="Engine\HLSL\Sprite.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
     <None Include="Engine\HLSL\Random.hlsli" />

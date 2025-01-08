@@ -15,7 +15,7 @@ public:
 
 	void CalculationFrame();
 
-	void FPS();
+	void Debug();
 
 	static float DeltaTime() { return deletaTime_; }
 	static float TotalTime(){ return totalTime_; }

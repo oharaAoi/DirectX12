@@ -1,5 +1,6 @@
 #include "EffectSystemCamera.h"
 #include "Engine/System/Input/Input.h"
+#include "Engine/Render.h"
 #ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
 #endif // _DEBUG
@@ -17,15 +18,6 @@ void EffectSystemCamera::Finalize() {
 
 void EffectSystemCamera::Init() {
 	BaseCamera::Init();
-	transform_ = {
-		{1.0f, 1.0f, 1.0f},
-		Quaternion(),
-		{0, 5, -10}
-	};
-
-	// worldの生成
-	cameraMatrix_ = transform_.MakeAffine();
-	viewMatrix_ = Inverse(cameraMatrix_);
 
 	debugCameraMode_ = true;
 
@@ -39,15 +31,17 @@ void EffectSystemCamera::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemCamera::Update() {
-	if (isFocused_) {
-		RotateMove();
-		TransitionMove();
-	}
 
-	quaternion_ = quaternion_.Normalize();
+	RotateMove();
+	TransitionMove();
 
-	cameraMatrix_ = transform_.MakeAffine();
-	viewMatrix_ = Inverse(cameraMatrix_);
+	transform_.rotate = quaternion_.Normalize();
+
+	BaseCamera::Update();
+
+	// renderの更新
+	Render::SetEyePos(GetWorldPosition());
+	Render::SetViewProjection(viewMatrix_, projectionMatrix_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

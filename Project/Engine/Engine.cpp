@@ -46,18 +46,18 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	// -------------------------------------------------
 	// ↓ 各初期化
 	// -------------------------------------------------
-	shaders_			->Init();
-	dxCommon_			->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get(), renderTarget_.get());
-	renderTarget_		->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get());
-	textureManager_		->Init(dxDevice_, dxCommands_->GetCommandList(), descriptorHeap_);
-	graphicsPipelines_	->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
-	primitivePipeline_	->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
-	computeShader_		->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(), renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
-	input_				->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
-	render_				->Init(dxCommands_->GetCommandList(), dxDevice_->GetDevice(), primitivePipeline_.get(), renderTarget_.get());
-	renderTexture_		->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
-	audio_				->Init();
-	effectSystem_		->Init();
+	shaders_->Init();
+	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get(), renderTarget_.get());
+	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get());
+	textureManager_->Init(dxDevice_, dxCommands_->GetCommandList(), descriptorHeap_);
+	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
+	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
+	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(), renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
+	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
+	render_->Init(dxCommands_->GetCommandList(), dxDevice_->GetDevice(), primitivePipeline_.get(), renderTarget_.get());
+	renderTexture_->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
+	audio_->Init();
+	effectSystem_->Init();
 
 #ifdef _DEBUG
 	editerWindows_->Init();
@@ -71,6 +71,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	// -------------------------------------------------
 	isFullScreen_ = false;
 	isEffectEditer_ = true;
+	runGame_ = true;
 
 	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
 
@@ -124,13 +125,22 @@ void Engine::BeginFrame() {
 		isFullScreen_ = !isFullScreen_;
 		WinApp::GetInstance()->SetFullScreen(isFullScreen_);
 	}
-
 	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
 
 #ifdef _DEBUG
 	imguiManager_->Begin();
 	editerWindows_->Begine();
-#endif
+
+	if (ImGui::Begin("EffectSystem", nullptr)) {
+		runGame_ = false;
+	}
+	ImGui::End();
+
+	if (ImGui::Begin("Game Window", nullptr)) {
+		runGame_ = true;
+	}
+	ImGui::End();
+#endif // 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,8 +148,13 @@ void Engine::BeginFrame() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::EndFrame() {
+	Engine::RenderFrame();
 #ifdef _DEBUG
-	if (isEffectEditer_) {
+	editerWindows_->End();
+	imguiManager_->End();
+	imguiManager_->Draw(dxCommands_->GetCommandList());
+
+	if (!runGame_) {
 		effectSystem_->EndEditer();
 	}
 #endif
@@ -147,18 +162,6 @@ void Engine::EndFrame() {
 	dxCommon_->End();
 	descriptorHeap_->FreeList();
 	audio_->Update();
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　ImGuiの処理を終了する(描画をする)
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Engine::EndImGui() {
-#ifdef _DEBUG
-	editerWindows_->End();
-	imguiManager_->End();
-	imguiManager_->Draw(dxCommands_->GetCommandList());
-#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,38 +173,29 @@ void Engine::RenderFrame() {
 	primitivePipeline_->Draw(dxCommands_->GetCommandList());
 	Render::PrimitiveDrawCall();
 
-	// effectEditerの処理
-#ifdef _DEBUG
-	isEffectEditer_ = false;
-	if (ImGui::Begin("EffectSystem", nullptr, ImGuiWindowFlags_MenuBar)) {
-		effectSystem_->Debug_Gui();
-		isEffectEditer_ = true;
-	}
-	ImGui::End();
-#endif // 
-
 	// 最終Textureの作成
 	BlendFinalTexture();
+
+#ifdef _DEBUG
+	if (runGame_) {
+		if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
+			editerWindows_->Update();
+			renderTexture_->DrawGui();
+		}
+		ImGui::End();
+	} else {
+		if (ImGui::Begin("EffectSystem", nullptr)) {
+			effectSystem_->EditerUpdate();
+			effectSystem_->Debug_Gui();
+		}
+		ImGui::End();
+	}
+#endif
 
 	// swapChainの変更
 	dxCommon_->SetSwapChain();
 	graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
-#ifdef _DEBUG
-	if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
-		if (ImGui::BeginMenuBar()) {
-			if (ImGui::BeginMenu("Window")) {
-				if (ImGui::MenuItem("Debug")) {
-				}
-				ImGui::EndMenu();
-			}
-			ImGui::EndMenuBar();
-		}
 
-		editerWindows_->Update();
-		renderTexture_->DrawGui();
-	}
-	ImGui::End();
-#endif
 	renderTexture_->Draw(dxCommands_->GetCommandList());
 
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
@@ -316,25 +310,25 @@ void Engine::ClearDepth() {
 
 void Engine::SetPipeline(const PipelineType& kind) {
 	switch (kind) {
-	case PipelineType ::NormalPipeline:
+	case PipelineType::NormalPipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::NormalPipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineType::AddPipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::AddPipeline, dxCommands_->GetCommandList());
 		break;
-	case PipelineType ::TextureLessPipeline:
+	case PipelineType::TextureLessPipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::TextureLessPipeline, dxCommands_->GetCommandList());
 		break;
-	case PipelineType ::PrimitivePipeline:
+	case PipelineType::PrimitivePipeline:
 		primitivePipeline_->Draw(dxCommands_->GetCommandList());
 		break;
-	case PipelineType ::PBRPipeline:
+	case PipelineType::PBRPipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::PBRPipeline, dxCommands_->GetCommandList());
 		break;
-	case PipelineType ::ParticlePipeline:
+	case PipelineType::ParticlePipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::ParticlePipeline, dxCommands_->GetCommandList());
 		break;
-	case PipelineType ::SpritePipeline:
+	case PipelineType::SpritePipeline:
 		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
 		break;
 	case PipelineType::SpriteNormalBlendPipeline:
@@ -422,4 +416,8 @@ DescriptorHeap* Engine::GetDxHeap() {
 
 bool Engine::GetIsOpenEffectEditer() {
 	return isEffectEditer_;
+}
+
+bool Engine::GetRunGame() {
+	return runGame_;
 }
