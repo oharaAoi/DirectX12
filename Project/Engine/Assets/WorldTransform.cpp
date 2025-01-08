@@ -120,10 +120,6 @@ void WorldTransform::SetParent(const Matrix4x4& parentMat) {
 	parentWorldMat_ = &parentMat;
 }
 
-void WorldTransform::SetChiled(const Matrix4x4& chiledMat) {
-	chiledMat_ = &chiledMat;
-}
-
 void WorldTransform::SetParentTranslate(const Vector3& parentTranslate) {
 	parentTranslate_ = &parentTranslate;
 }

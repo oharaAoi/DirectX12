@@ -17,7 +17,7 @@ void ClearScene::Init() {
 	adjust->Init("ClearScene");
 
 	debugCamera_ = std::make_unique<DebugCamera>();
-	camera_ = std::make_unique<Camera>();
+	camera_ = std::make_unique<Camera3d>();
 	camera_->Init();
 
 	clearUI_ = Engine::CreateSprite("clearBack.png");
@@ -34,17 +34,10 @@ void ClearScene::Update() {
 	// ↓ cameraの更新
 	// -------------------------------------------------
 
-	debugCamera_->Update();
 	camera_->Update();
 
 	if (isDebug_) {
-		Render::SetEyePos(debugCamera_->GetWorldTranslate());
-		Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
-	} else {
-		Render::SetEyePos(camera_->GetWorldTranslate());
-		Render::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-
-		Render::SetViewProjection2D(camera_->GetViewMatrix2D(), camera_->GetProjectionMatrix2D());
+		debugCamera_->Update();
 	}
 
 	// -------------------------------------------------

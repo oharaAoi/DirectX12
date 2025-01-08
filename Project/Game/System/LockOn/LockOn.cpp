@@ -16,8 +16,6 @@ void LockOn::Init() {
 	SetIsLighting(false);
 	SetTexture("reticle.png");
 
-	transform_->SetChiled(cameraMat_);
-
 
 	lockOnEnemyIndex_ = 0;
 

@@ -2,17 +2,11 @@
 #include "Engine/System/Input/Input.h"
 #include "Engine/Editer/Window/EditerWindows.h"
 #include "Engine/Utilities/AdjustmentItem.h"
-#include "Engine/Math/MyMatrix.h"
 #include "Engine/Math/MyRandom.h"
 
-FollowCamera::FollowCamera() {
-}
-
-FollowCamera::~FollowCamera() {
-}
-
-void FollowCamera::Finalize() {
-}
+FollowCamera::FollowCamera() {}
+FollowCamera::~FollowCamera() {}
+void FollowCamera::Finalize() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
@@ -23,16 +17,8 @@ void FollowCamera::Init() {
 
 	information_.FromJson(AdjustmentItem::GetData("FollowCamera", "information"));
 
-	transform_ = {
-		{1.0f, 1.0f, 1.0f},
-		{0.1f , 0, 0.0f},
-		{0, 2, -10}
-	};
-
-	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
-	viewMatrix_ = Inverse(cameraMatrix_);
-
 	lockOnDestinationAngleY_ = 0.0f;
+	eulerRotate_ = Vector3::ZERO();
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&FollowCamera::Debug_Gui, this), "followCamera");
@@ -58,10 +44,18 @@ void FollowCamera::Update() {
 	if (lockOn_->GetIsLockOn()) {
 		Vector3 sub = lockOn_->GetTransform()->GetTranslation() - target_->GetTranslation();
 		lockOnDestinationAngleY_ = std::atan2f(sub.x, sub.z);
-		transform_.rotate.y = LerpShortAngle(transform_.rotate.y, lockOnDestinationAngleY_, 0.05f);
+		eulerRotate_.y = LerpShortAngle(eulerRotate_.y, lockOnDestinationAngleY_, 0.05f);
 	}
 
+	transform_.rotate = Quaternion::EulerToQuaternion(eulerRotate_.x, eulerRotate_.y, eulerRotate_.z);
+
 	BaseCamera::Update();
+
+	rotateMat_ = transform_.rotate.MakeMatrix();
+
+	// renderの更新
+	Render::SetEyePos(GetWorldPosition());
+	Render::SetViewProjection(viewMatrix_, projectionMatrix_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,8 +70,12 @@ void FollowCamera::RotateCamera() {
 	Vector2 inputJoyStateR = Input::GetRightJoyStick();
 	const float speed = 0.1f;
 	destinationAngleY_ += inputJoyStateR.x * speed;
-	transform_.rotate.y = LerpShortAngle(transform_.rotate.y, destinationAngleY_, 0.1f);
+	eulerRotate_.y = LerpShortAngle(eulerRotate_.y, destinationAngleY_, 0.1f);
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　カメラをshakeさせる
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::Shake() {
 	shakeTime_ += GameTimer::DeltaTime();
@@ -109,7 +107,7 @@ void FollowCamera::SetIsShake() {
 Vector3 FollowCamera::CalcucOffset() {
 	Vector3 offset = information_.offset;
 	// 回転行列の合成
-	Matrix4x4 matRotate = transform_.rotate.MakeRotateMat();
+	Matrix4x4 matRotate = transform_.rotate.MakeMatrix();
 	offset = TransformNormal(offset, matRotate);
 
 	return offset;

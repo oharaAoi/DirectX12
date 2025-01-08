@@ -50,21 +50,26 @@ public:
 
 	const Matrix4x4& GetRotateMat() const { return rotateMat_; }
 
+	void SetTarget(WorldTransform* target) { target_ = target; }
+
 private:
 
 	// ------------------- pointer ------------------- //
 	LockOn* lockOn_ = nullptr;
 
-	// ------------------- parameter ------------------- //
-	Quaternion quaternion_;
-	// 回転する前のQuaternion
-	Quaternion moveQuaternion_;
+	WorldTransform* target_;
 
+	// ------------------- parameter ------------------- //
+	
 	float lockOnDestinationAngleY_;
 	float destinationAngleY_;
 	float destinationAngleX_;
 
 	Information information_;
+
+	Matrix4x4 rotateMat_;
+
+	Vector3 eulerRotate_;
 
 	// ------------------- 演出 ------------------- //
 

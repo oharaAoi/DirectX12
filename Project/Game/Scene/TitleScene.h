@@ -8,7 +8,7 @@
 // Game
 #include "Game/Scene/BaseScene.h"
 #include "Game/Camera/DebugCamera.h"
-#include "Game/Camera/Camera.h"
+#include "Game/Camera/Camera3d.h"
 #include "Game/WorldObject/Ground.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/UI/TitlteUI.h"
@@ -34,7 +34,7 @@ private:
 
 	// ------------------- camera ------------------- //
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
-	std::unique_ptr<Camera> camera_ = nullptr;
+	std::unique_ptr<Camera3d> camera_ = nullptr;
 
 	// ------------------- worldObject ------------------- //
 	std::unique_ptr<Ground> ground_ = nullptr;

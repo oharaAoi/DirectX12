@@ -136,7 +136,7 @@ void Player::Update() {
 	shadow_->Update();
 
 	// attackColliderの位置を更新する
-	attackCollider_->Update(SRT{
+	attackCollider_->Update(QuaternionSRT{
 		.scale = transform_->GetScale(),
 		.rotate = transform_->GetQuaternion(),
 		.translate = transform_->GetTranslation() + (transform_->GetQuaternion().Normalize() * attackColliderDiff_)

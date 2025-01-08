@@ -37,7 +37,6 @@ public:
 public:
 
 	void SetParent(const Matrix4x4& parentMat);
-	void SetChiled(const Matrix4x4& chiledMat);
 	void SetParentTranslate(const Vector3& parentTranslate);
 	void SetParentRotate(const Quaternion& parentQuaternion);
 

@@ -32,19 +32,11 @@ void GameOverScene::Update() {
 	// ↓ cameraの更新
 	// -------------------------------------------------
 
-	debugCamera_->Update();
 	camera_->Update();
 
 	if (isDebug_) {
-		Render::SetEyePos(debugCamera_->GetWorldTranslate());
-		Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
-	} else {
-		Render::SetEyePos(camera_->GetWorldTranslate());
-		Render::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-
-		Render::SetViewProjection2D(camera_->GetViewMatrix2D(), camera_->GetProjectionMatrix2D());
+		debugCamera_->Update();
 	}
-
 	// -------------------------------------------------
 	// ↓ sceneの更新
 	// -------------------------------------------------

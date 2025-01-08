@@ -1,6 +1,7 @@
 #include "FadePanel.h"
 #include "Engine/Engine.h"
 #include "Engine/Editer/Window/EditerWindows.h"
+#include "Engine/Lib/GameTimer.h"
 
 FadePanel::FadePanel() {
 }

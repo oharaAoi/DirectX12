@@ -1,5 +1,6 @@
 #include "Trail.h"
 #include "Engine/Engine.h"
+#include "Engine/Lib/GameTimer.h"
 
 Trail::Trail() {
 }

@@ -27,7 +27,7 @@ void AttackCollider::Init(uint32_t bitTag, ColliderShape shape) {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AttackCollider::Update(const SRT& srt) {
+void AttackCollider::Update(const QuaternionSRT& srt) {
 	std::get<Sphere>(shape_).center = srt.translate;
 }
 

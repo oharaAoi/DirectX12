@@ -22,6 +22,7 @@ void GameScene::Init() {
 	debugCamera_ = std::make_unique<DebugCamera>();
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Init();
+	debugCamera_->Init();
 
 	// -------------------------------------------------
 	// ↓ worldObject
@@ -130,17 +131,11 @@ void GameScene::Update() {
 	// ↓ cameraの更新
 	// -------------------------------------------------
 
-	debugCamera_->Update();
 	followCamera_->Update();
 
 	if (isDebug_) {
-		Render::SetEyePos(debugCamera_->GetWorldTranslate());
-		Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
+		debugCamera_->Update();
 	} else {
-		Render::SetEyePos(followCamera_->GetWorldTranslate());
-		Render::SetViewProjection(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
-		Render::SetViewProjection2D(followCamera_->GetViewMatrix2D(), followCamera_->GetProjectionMatrix2D());
-
 		EffectSystem::GetInstacne()->SetCameraMatrix(followCamera_->GetCameraMatrix());
 		EffectSystem::GetInstacne()->SetViewProjectionMatrix(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
 	}
