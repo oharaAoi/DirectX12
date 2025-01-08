@@ -123,6 +123,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Assets\TransformationMatrix.cpp" />
     <ClCompile Include="Engine\Assets\ViewProjection.cpp" />
     <ClCompile Include="Engine\Assets\WorldTransform.cpp" />
+    <ClCompile Include="Engine\Math\Matrix3x3.cpp" />
     <ClCompile Include="Engine\System\Audio\Audio.cpp" />
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp" />
     <ClCompile Include="Engine\Assets\Collider\BoxCollider.cpp" />

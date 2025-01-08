@@ -56,7 +56,6 @@ public:
 
 public:
 
-
 	Vector3 scale_;
 	Quaternion rotation_;
 	Vector3 translate_;

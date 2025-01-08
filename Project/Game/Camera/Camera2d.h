@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Math/MyMatrix.h"
+#include "Engine/Math/Vector2.h"
 
 /// <summary>
 /// 2dのカメラ
@@ -14,14 +15,28 @@ public:
 	void Update();
 
 #ifdef _DEBUG
-	void Debug_Gui() {};
+	void Debug_Gui();
 #endif // _DEBUG
+
+public:
+
+	Matrix4x4 GetViewMatrix() const { return viewMatrix_; }
+
+	Matrix4x4 GetProjectionMatrix() const { return projectionMatrix_; }
+
+	Matrix4x4 GetVPVMatrix() const { return worldMat_ * projectionMatrix_ * viewportMatrix_; }
 
 private:
 
-	Matrix4x4 projectionMatrix2D_;
-	Matrix4x4 viewMatrix2D_;
-	Matrix4x4 viewport2D_;
+	float near_ = 0.0f;
+	float far_ = 100.0f;
 
+	Matrix4x4 projectionMatrix_;
+	Matrix4x4 viewMatrix_;
+	Matrix4x4 viewportMatrix_;
+	Matrix4x4 worldMat_;
+
+	Vector3 translate_;
+	
 };
 
