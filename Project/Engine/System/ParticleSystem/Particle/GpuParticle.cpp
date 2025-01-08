@@ -1,9 +1,16 @@
 #include "GpuParticle.h"
+#include "Engine/Lib/GameTimer.h"
 
 GpuParticle::GpuParticle() {
 }
 
 GpuParticle::~GpuParticle() {
+	DescriptorHeap::AddFreeSrvList(uav_.assignIndex_);
+	DescriptorHeap::AddFreeSrvList(srv_.assignIndex_);
+	DescriptorHeap::AddFreeSrvList(freeListIndexUav_.assignIndex_);
+	DescriptorHeap::AddFreeSrvList(freeListIndexSrv_.assignIndex_);
+	DescriptorHeap::AddFreeSrvList(freeListUav_.assignIndex_);
+	DescriptorHeap::AddFreeSrvList(freeListSrv_.assignIndex_);
 }
 
 void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {

@@ -19,12 +19,12 @@ void EffectSystemCamera::Init() {
 	BaseCamera::Init();
 	transform_ = {
 		{1.0f, 1.0f, 1.0f},
-		{0.0f , 0, 0.0f},
+		Quaternion(),
 		{0, 5, -10}
 	};
 
 	// worldの生成
-	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
+	cameraMatrix_ = transform_.MakeAffine();
 	viewMatrix_ = Inverse(cameraMatrix_);
 
 	debugCameraMode_ = true;
@@ -46,11 +46,7 @@ void EffectSystemCamera::Update() {
 
 	quaternion_ = quaternion_.Normalize();
 
-	scaleMat_ = transform_.scale.MakeScaleMat();
-	rotateMat_ = quaternion_.MakeMatrix();
-	translateMat_ = transform_.translate.MakeTranslateMat();
-
-	cameraMatrix_ = scaleMat_ * rotateMat_ * translateMat_;
+	cameraMatrix_ = transform_.MakeAffine();
 	viewMatrix_ = Inverse(cameraMatrix_);
 }
 

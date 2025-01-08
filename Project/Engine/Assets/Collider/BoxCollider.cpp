@@ -27,7 +27,7 @@ void BoxCollider::Init(uint32_t bitTag, ColliderShape shape) {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BoxCollider::Update(const SRT& srt) {
+void BoxCollider::Update(const QuaternionSRT& srt) {
 	centerPos_ = srt.translate;
 	if (std::holds_alternative<AABB>(shape_)) {
 		std::get<AABB>(shape_).min = srt.translate - (size_ / 2.0f);

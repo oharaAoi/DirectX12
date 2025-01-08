@@ -1,6 +1,9 @@
 #include "TestScene.h"
+#include "Engine.h"
+#include "Engine/System/Input/Input.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/Editer/Window/EditerWindows.h"
+#include "Engine/System/ParticleSystem/EffectSystem.h"
 
 TestScene::TestScene() {}
 TestScene::~TestScene() {}
@@ -13,8 +16,13 @@ void TestScene::Init() {
 	adjust->Init("TestScene");
 
 	// カメラ -------------------------------------------------------------------
-	camera_ = std::make_unique<Camera>();
+	camera2d_ = std::make_unique<Camera2d>();
+	camera3d_ = std::make_unique<Camera3d>();
 	debugCamera_ = std::make_unique<DebugCamera>();
+
+	camera2d_->Init();
+	camera3d_->Init();
+	debugCamera_->Init();
 
 	// worldObject -------------------------------------------------------------------
 	skydome_ = std::make_unique<Skydome>();
@@ -54,21 +62,17 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	// ↓ カメラの更新
 	// -------------------------------------------------
-	camera_->Update();
+	camera2d_->Update();
+	camera3d_->Update();
 	if (isDebugCamera_) {
 		debugCamera_->Update();
-		Render::SetEyePos(debugCamera_->GetWorldTranslate());
-		Render::SetViewProjection(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
-
+		
 		EffectSystem::GetInstacne()->SetCameraMatrix(debugCamera_->GetCameraMatrix());
 		EffectSystem::GetInstacne()->SetViewProjectionMatrix(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
 	} else {
-		Render::SetEyePos(camera_->GetWorldTranslate());
-		Render::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-		Render::SetViewProjection2D(camera_->GetViewMatrix2D(), camera_->GetProjectionMatrix2D());
-
-		EffectSystem::GetInstacne()->SetCameraMatrix(camera_->GetCameraMatrix());
-		EffectSystem::GetInstacne()->SetViewProjectionMatrix(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+		
+		EffectSystem::GetInstacne()->SetCameraMatrix(camera3d_->GetCameraMatrix());
+		EffectSystem::GetInstacne()->SetViewProjectionMatrix(camera3d_->GetViewMatrix(), camera3d_->GetProjectionMatrix());
 	}
 
 	// -------------------------------------------------
@@ -93,6 +97,8 @@ void TestScene::Update() {
 }
 
 void TestScene::Draw() const {
+	DrawGrid(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
+
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
 	floor_->Draw();
@@ -107,11 +113,5 @@ void TestScene::Debug_Gui() {
 		testObjA_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation("slash", "attack2", 0.5f, raito_);
 	}
 	ImGui::DragFloat("raito", &raito_, 0.01f);
-
-	if (EffectSystem::GetInstacne()->GetIsEditerFocused()) {
-		debugCamera_->SetIsFocused(false);
-	} else {
-		debugCamera_->SetIsFocused(true);
-	}
 }
 #endif

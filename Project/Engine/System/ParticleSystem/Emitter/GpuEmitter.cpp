@@ -1,5 +1,6 @@
 #include "GpuEmitter.h"
 #include "Engine/Engine.h"
+#include "Engine/Lib/GameTimer.h"
 #include "Engine/System/Manager/ModelManager.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

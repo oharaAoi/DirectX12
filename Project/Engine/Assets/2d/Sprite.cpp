@@ -1,5 +1,8 @@
 #include "Sprite.h"
 #include "Render.h"
+#include "Engine/Assets/Meshes/Mesh.h"
+#include "Engine/System/Manager/TextureManager.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 Sprite::Sprite() {}
 Sprite::~Sprite() {
@@ -87,7 +90,7 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	uvTransform_ = { {1.0f,1.0f,1.0f} , {0.0f, 0.0f, 0.0f}, {0, 0, 0} };
 
 	transformData_->wvp = Matrix4x4(
-		MakeAffineMatrix(transform_)
+		transform_.MakeAffine()
 		* Matrix4x4::MakeUnit()
 		* Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f)
 	);
@@ -98,7 +101,7 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Update() {
-	materialData_->uvTransform = MakeAffineMatrix(uvTransform_);
+	materialData_->uvTransform = uvTransform_.MakeAffine();
 	
 	// -------------------------------------------------
 	// ↓ UVの変更
@@ -124,7 +127,7 @@ void Sprite::Draw(bool isBackGround) {
 		transform_.translate.z = Render::GetFarClip();
 	}
 	// アフィン変換行列の作成
-	Matrix4x4 affineMatrix = MakeAffineMatrix(transform_);
+	Matrix4x4 affineMatrix = transform_.MakeAffine();
 	// テクスチャ位置を保持するための補正行列
 	Matrix4x4 correctionTranslation = Vector3({ pivotOffset.x, pivotOffset.y, 0.0f }).MakeTranslateMat();
 

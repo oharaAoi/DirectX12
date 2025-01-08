@@ -8,6 +8,8 @@ GpuEffect::GpuEffect() {}
 GpuEffect::~GpuEffect() {
 	allDeathBuffer_.Reset();
 	outputBuffer_.Reset();
+	DescriptorHeap::AddFreeSrvList(allDeathSrv_.assignIndex_);
+	DescriptorHeap::AddFreeSrvList(allDeathUav_.assignIndex_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,12 +1,9 @@
 #include "DebugCamera.h"
 #include "Engine/Editer/Window/EditerWindows.h"
+#include "Engine/Render.h"
 
-DebugCamera::DebugCamera() {
-	Init();
-}
-
-DebugCamera::~DebugCamera() {
-}
+DebugCamera::DebugCamera() {}
+DebugCamera::~DebugCamera() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化
@@ -17,26 +14,11 @@ void DebugCamera::Finalize() {
 
 void DebugCamera::Init() {
 	BaseCamera::Init();
-	transform_ = {
-		{1.0f, 1.0f, 1.0f},
-		{0 , 0, 0.0f},
-		{0, 0, -10}
-	};
-
-	// 行列の生成
-	//scaleMat_ = MakeScaleMatrix(transform_.scale);
-	//rotateMat_ = MakeRotateXYZMatrix(transform_.rotate);
-	//translateMat_ = MakeTranslateMatrix(transform_.translate);
-
-	// worldの生成
-	cameraMatrix_ = Multiply(Multiply(scaleMat_, rotateMat_), translateMat_);
-	viewMatrix_ = Inverse(cameraMatrix_);
-
-	debugCameraMode_ = true;
-
+	
 	moveBaseSpeed_ = 5.0f;
-	moveSpeed_ = 5.0f;
-	moveQuaternion_ = Quaternion();
+	moveSpeed_ = moveBaseSpeed_;
+	moveRotate_ = transform_.rotate;
+	preMoveRotate_ = transform_.rotate;
 
 	isFocused_ = true;
 	
@@ -55,41 +37,31 @@ void DebugCamera::Update() {
 		TransitionMove();
 	}
 
-	quaternion_ = quaternion_.Normalize();
+	moveRotate_ = moveRotate_.Normalize();
+	transform_.rotate = moveRotate_;
 
-	scaleMat_ = transform_.scale.MakeScaleMat();
-	rotateMat_ = quaternion_.MakeMatrix();
-	translateMat_ = transform_.translate.MakeTranslateMat();
+	BaseCamera::Update();
 
-	cameraMatrix_ = scaleMat_ * rotateMat_ * translateMat_;
-	viewMatrix_ = Inverse(cameraMatrix_);
-
-	Matrix4x4 matViewProjection = viewMatrix_ * projectionMatrix_;
-	vpvpMatrix_ = matViewProjection * viewportMatrix_;
-
-	//projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, float(kWindowWidth_) / float(kWindowHeight_), 1.0f, 6000);
+	Render::SetEyePos(GetWorldPosition());
+	Render::SetViewProjection(viewMatrix_, projectionMatrix_);
 }
 
 #ifdef _DEBUG
 void DebugCamera::Debug_Gui() {
-	Vector3 right = quaternion_.MakeRight();
-	Vector3 up = quaternion_.MakeUp();
-	Vector3 forward = quaternion_.MakeForward();
-	Vector3 eulaer = quaternion_.ToEulerAngles();
-
+	Vector3 right = moveRotate_.MakeRight();
+	Vector3 up = moveRotate_.MakeUp();
+	Vector3 forward = moveRotate_.MakeForward();
+	
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
-	ImGui::DragFloat4("rotate", &quaternion_.x, 0.01f);
+	ImGui::DragFloat4("rotate", &moveRotate_.x, 0.01f);
 	ImGui::DragFloat("sensitivity", &sensitivity_, 0.01f, 0.0f, 0.1f);
 	ImGui::Separator();
-	ImGui::DragFloat("yaw", &yaw_, 0.1f);
-	ImGui::DragFloat("pitch", &pitch_, 0.1f);
 	ImGui::DragFloat4("qYaw", &qYaw.x, 0.01f);
 	ImGui::DragFloat4("qPitch", &qPitch.x, 0.01f);
-	ImGui::DragFloat3("eulaer", &eulaer.x, 0.01f);
-
+	
 	if (ImGui::Button("Reset")) {
-		transform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 5.0f, -30.0f} };
-		quaternion_ = Quaternion();
+		transform_ = { {1.0f, 1.0f, 1.0f}, Quaternion(), {0.0f, 5.0f, -30.0f}};
+		moveRotate_ = Quaternion();
 		yaw_ = 0.0f;
 		pitch_ = 0.0f;
 	}
@@ -105,27 +77,33 @@ void DebugCamera::TransitionMove() {
 	moveDirection_ = Vector3();
 
 	if (Input::IsPressKey(DIK_A)) {
-		moveDirection_ -= quaternion_.MakeRight() * moveSpeed_;
+		moveDirection_ -= moveRotate_.MakeRight() * moveSpeed_;
 	}
 
 	if (Input::IsPressKey(DIK_D)) {
-		moveDirection_ += quaternion_.MakeRight() * moveSpeed_;
+		moveDirection_ += moveRotate_.MakeRight() * moveSpeed_;
 	}
 
 	if (Input::IsPressKey(DIK_W)) {
-		moveDirection_ += quaternion_.MakeForward() * moveSpeed_;
+		moveDirection_ += moveRotate_.MakeForward() * moveSpeed_;
 	}
 
 	if (Input::IsPressKey(DIK_S)) {
-		moveDirection_ -= quaternion_.MakeForward() * moveSpeed_;
+		moveDirection_ -= moveRotate_.MakeForward() * moveSpeed_;
 	}
 
 	if (Input::IsPressKey(DIK_Q)) {
-		moveDirection_ += quaternion_.MakeUp() * moveSpeed_;
+		moveDirection_ += moveRotate_.MakeUp() * moveSpeed_;
 	}
 
 	if (Input::IsPressKey(DIK_E)) {
-		moveDirection_ -= quaternion_.MakeUp() * moveSpeed_;
+		moveDirection_ -= moveRotate_.MakeUp() * moveSpeed_;
+	}
+
+	if (Input::IsPressKey(DIK_LSHIFT)) {
+		moveSpeed_ = moveBaseSpeed_ * 2.0f;
+	} else {
+		moveSpeed_ = moveBaseSpeed_;
 	}
 	
 	transform_.translate += moveDirection_ * GameTimer::DeltaTime();
@@ -149,10 +127,10 @@ void DebugCamera::RotateMove() {
 		qPitch = Quaternion::AngleAxis(pitch_, Vector3(1.0f, 0.0f, 0.0f)).Normalize();
 
 		// 回転合成
-		quaternion_ = (qYaw * moveQuaternion_ * qPitch).Normalize();
+		moveRotate_ = (qYaw * preMoveRotate_ * qPitch).Normalize();
 
 	} else {
-		moveQuaternion_ = quaternion_;
+		preMoveRotate_ = moveRotate_;
 		yaw_ = 0;
 		pitch_ = 0;
 	}

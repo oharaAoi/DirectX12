@@ -32,9 +32,9 @@ void BaseEffect::Update(const Matrix4x4& viewMat, const Matrix4x4& projection) {
 		// 行列の生成
 		Matrix4x4 worldMat;
 		if (useBillboard_) {
-			worldMat = MakeAffineMatrix(particleIter->transform) * cameraMat_;
+			worldMat = particleIter->transform.MakeAffine() * cameraMat_;
 		} else {
-			worldMat = MakeAffineMatrix(particleIter->transform);
+			worldMat = particleIter->transform.MakeAffine();
 		}
 
 		// 色の変更

@@ -23,6 +23,7 @@
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/RenderTexture.h"
 #include "Engine/Editer/Window/EditerWindows.h"
+#include "Engine/Assets/Rigging/Skinning.h"
 #include "Render.h"
 
 class EffectSystem;

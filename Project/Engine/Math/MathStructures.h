@@ -8,8 +8,18 @@
 /// </summary>
 struct SRT {
 	Vector3 scale;
+	Vector3 rotate;
+	Vector3 translate;
+
+	Matrix4x4 MakeAffine();
+};
+
+struct QuaternionSRT {
+	Vector3 scale;
 	Quaternion rotate;
 	Vector3 translate;
+
+	Matrix4x4 MakeAffine();
 };
 
 /// <summary>

@@ -2,7 +2,6 @@
 #include "Engine.h"
 #include "Engine/Math/MyRandom.h"
 #include "Engine/System/ParticleSystem/Emitter/Emitter.h"
-#include "Engine/Lib/Transform.h"
 #include "Engine/Lib/GameTimer.h"
 
 /// <summary>
@@ -15,7 +14,7 @@ public:
 	/// Particleが持つデータ
 	/// </summary>
 	struct ParticleData {
-		kTransform transform;
+		SRT transform;
 		Vector3 velocity;
 		Vector4 color;
 		float lifeTime;
@@ -35,13 +34,13 @@ public:
 	/// Particleを生成時に必要なデータ
 	/// </summary>
 	struct ParticleCreateData {
-		const kTransform transform;	// 場所
+		const SRT transform;	// 場所
 		Vector3 size;			// エミッターのサイズ
 		uint32_t count;			// 生成する個数
 		Vector3 firstVelocity;	// 初速度
 		float lifeTime;			// 生存期間
 
-		ParticleCreateData(const kTransform& transformData, const Vector3& sizeData, const uint32_t& countData, const Vector3& firstVelocityData, const float& lifeTimeData) :
+		ParticleCreateData(const SRT& transformData, const Vector3& sizeData, const uint32_t& countData, const Vector3& firstVelocityData, const float& lifeTimeData) :
 			transform(transformData),
 			size(sizeData),
 			count(countData),

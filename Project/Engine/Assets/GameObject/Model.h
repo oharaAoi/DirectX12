@@ -1,25 +1,17 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <cassert>
-#include <cmath>
 #include <unordered_map>
 //#include <Lib/tiny_gltf.h> // Assimpの場合使わない
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include "Engine/Assets/Meshes/Mesh.h"
-#include "Engine/Assets/Rigging/Skinning.h"
 #include "Engine/Assets/Rigging/SkinCluster.h"
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/ViewProjection.h"
-#include "Engine/Lib/Transform.h"
-#include "Engine/Math/MyMatrix.h"
 #include "Engine/Utilities/AnimationUtils.h"
-#include "Engine/Lib/GameTimer.h"
+#include "Engine/Math/MathStructures.h"
 #include <memory>
 
 class Material;
@@ -36,7 +28,7 @@ public:
 	};
 
 	struct Node {
-		QuaternionTransform transform;
+		QuaternionSRT transform;
 		Matrix4x4 localMatrix;				 // NodeのLocalMatrix
 		std::string name;					 // Nodeの名前
 		std::vector<Node> children;			 // 子供のNode

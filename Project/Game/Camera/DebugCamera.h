@@ -5,7 +5,8 @@
 
 const float kDebugCameraMoveSpeed_ = 0.05f;
 
-class DebugCamera : public BaseCamera {
+class DebugCamera
+	: public BaseCamera {
 public:
 
 	DebugCamera();
@@ -18,6 +19,14 @@ public:
 #ifdef _DEBUG
 	void Debug_Gui() override;
 #endif
+
+public:
+
+	void SetIsFocused(bool isFocesd) { isFocused_ = isFocesd; }
+	const bool GetIsFocused() const { return isFocused_; }
+
+private:
+
 	/// <summary>
 	/// カメラを動かす
 	/// </summary>
@@ -30,15 +39,14 @@ public:
 
 private:
 
-	Quaternion quaternion_;
+	Quaternion moveRotate_;
 	// 回転する前のQuaternion
-	Quaternion moveQuaternion_;
+	Quaternion preMoveRotate_;
 
 	// ---------------------------------------------------------------
 	// ↓ デバックカメラで使う変数
 	// ---------------------------------------------------------------
-	bool debugCameraMode_ = true;
-
+	
 	float moveBaseSpeed_;
 	float moveSpeed_;
 	float moveMaxSpeed_ = 30.0f;
@@ -53,4 +61,6 @@ private:
 
 	Quaternion qYaw;
 	Quaternion qPitch;
+
+	bool isFocused_;
 };

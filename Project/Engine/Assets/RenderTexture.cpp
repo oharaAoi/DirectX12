@@ -64,11 +64,11 @@ void RenderTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	transformBuffer_ = CreateBufferResource(device, sizeof(TextureTransformData));
 	transformBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&transformData_));
 
-	kTransform transform = { {1.0f,1.0f,1.0f} , {0.0f, 0.0f, 0.0f}, {0, 0, 0} };
+	SRT transform = { {1.0f,1.0f,1.0f} , {0.0f, 0.0f, 0.0f}, {0, 0, 0} };
 
 	transformData_->wvp = Matrix4x4(
-		MakeAffineMatrix(transform)
-		* Inverse(MakeAffineMatrix(transform))
+		transform.MakeAffine()
+		* Inverse(transform.MakeAffine())
 		* Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f)
 	);
 
