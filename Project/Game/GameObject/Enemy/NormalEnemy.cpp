@@ -19,7 +19,6 @@ void NormalEnemy::Init() {
 	BaseGameObject::Init();
 	SetObject("enemy.gltf");
 	SetAnimater("./Game/Resources/Models/Enemy/", "enemy.gltf", true, true, false);
-	SetIsLighting(false);
 	
 	SetCollider(ColliderTags::Enemy::DEFAULT, ColliderShape::SPHERE);
 	collider_->SetCollisionEnter([this](ICollider& other) { OnCollisionEnter(other); });
@@ -34,6 +33,8 @@ void NormalEnemy::Init() {
 	shadow_->SetObject("shadow.obj");
 	shadow_->SetColor({ 0.0f, 0.0f, 0.0f, 0.8f });
 
+	hp_ = 3;
+
 	isDead_ = false;
 	isHited_ = false;
 }
@@ -44,6 +45,12 @@ void NormalEnemy::Init() {
 
 void NormalEnemy::Update() {
 	isHited_ = false;
+
+	if (hp_ <= 0) {
+		isDead_ = true;
+		EffectSystem::GetInstacne()->Emit("down", transform_->GetTranslation());
+		return;
+	}
 
 	state_->Update();
 	CheckBehaviorRequest();
@@ -86,7 +93,6 @@ void NormalEnemy::CheckBehaviorRequest() {
 			break;
 		case EnemyBehavior::ATTACK:
 			SetBehaviorState(std::make_unique<NormalEnemyAttackState>(this));
-			collider_->SetTag(ColliderTags::Enemy::ATTACK);
 			break;
 		default:
 			break;
@@ -108,10 +114,9 @@ void NormalEnemy::CheckBehaviorRequest() {
 
 void NormalEnemy::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 	if (CheckBit(other.GetTag(), ColliderTags::Player::ATTACK, CheckType::EQUAL)) {
-		isDead_ = true;
+		hp_--;
 		isHited_ = true;
-		GameTimer::SetIsSlow();
-
+		
 		EffectSystem::GetInstacne()->Emit("spark", transform_->GetTranslation());
 	}
 }

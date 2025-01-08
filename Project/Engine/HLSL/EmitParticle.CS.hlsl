@@ -82,6 +82,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 			if (0 <= freeListIndex && freeListIndex < kMaxParticles) {
 				// ここは良くない処理
 				int particleIndex = countIndex;
+				//int particleIndex = gFreeListIndex[freeListIndex];
 				gParticles[particleIndex] = (Particle) 0;
 				//gParticles[particleIndex].scale = generator.Generated3d();
 				float x = generator.Generated1dRange(gCommonEmitter.minScale.x, gCommonEmitter.maxScale.x);

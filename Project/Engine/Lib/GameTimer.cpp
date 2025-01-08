@@ -25,11 +25,6 @@ void GameTimer::CalculationFrame() {
 	timeRate_ = deletaTime_ / kDeltaTime_;
 	totalTime_ += deletaTime_;
 	preFrameTime_ = currentTime;
-
-	if (isSlow_) {
-		deletaTime_ *= 0.3f;
-		isSlow_ = false;
-	}
 }
 
 void GameTimer::FPS() {

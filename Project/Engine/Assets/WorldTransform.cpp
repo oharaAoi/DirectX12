@@ -61,6 +61,11 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	// ↓ world行列を生成
 	// -------------------------------------------------
 	worldMat_ = mat * Matrix4x4::MakeAffine(scale_, worldRotate, worldTranslate);
+
+	if (chiledMat_ != nullptr) {
+		worldMat_ =  *chiledMat_ * worldMat_;
+	}
+
 	if (parentMat_ != nullptr) {
 		worldMat_ = worldMat_*  *parentMat_;
 	}
@@ -118,6 +123,10 @@ void WorldTransform::Debug_Quaternion() {
 
 void WorldTransform::SetParent(const Matrix4x4& parentMat) {
 	parentMat_ = &parentMat;
+}
+
+void WorldTransform::SetChiled(const Matrix4x4& chiledMat) {
+	chiledMat_ = &chiledMat;
 }
 
 void WorldTransform::SetParentTranslate(const Vector3& parentTranslate) {

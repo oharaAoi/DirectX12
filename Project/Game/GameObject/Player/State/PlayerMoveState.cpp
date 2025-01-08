@@ -12,6 +12,9 @@ void PlayerMoveState::Init() {
 
 	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
 	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.1f);
+
+	pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsAnimationReservation(false);
+	pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
 }
 
 void PlayerMoveState::Update() {

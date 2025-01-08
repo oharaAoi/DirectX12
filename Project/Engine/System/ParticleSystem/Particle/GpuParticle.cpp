@@ -126,7 +126,7 @@ void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
 	
 	Engine::SetCsPipeline(CsPipelineType::GpuParticleInit);
 	BindCmdList(commandList, 0);
-	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
+	commandList->Dispatch((UINT)kInstanceNum_ / 32, 1, 1);
 }
 
 void GpuParticle::Update() {
@@ -138,7 +138,7 @@ void GpuParticle::Update() {
 	commandList->SetComputeRootDescriptorTable(0, uav_.handleGPU);
 	commandList->SetComputeRootDescriptorTable(1, freeListIndexUav_.handleGPU);
 	commandList->SetComputeRootConstantBufferView(2, perFrameBuffer_->GetGPUVirtualAddress());
-	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
+	commandList->Dispatch((UINT)kInstanceNum_ / 32, 1, 1);
 
 	// UAVの変更
 	D3D12_RESOURCE_BARRIER barrier{};

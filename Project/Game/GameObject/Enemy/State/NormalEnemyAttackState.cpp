@@ -1,6 +1,7 @@
 #include "NormalEnemyAttackState.h"
 #include "Game/GameObject/Enemy/NormalEnemy.h"
 #include "Engine/System/Audio/AudioPlayer.h"
+#include "Game/Collider/ColliderTags.h"
 
 NormalEnemyAttackState::~NormalEnemyAttackState() {
 }
@@ -19,6 +20,10 @@ void NormalEnemyAttackState::Init() {
 
 void NormalEnemyAttackState::Update() {
 	work_.time += GameTimer::DeltaTime();
+
+	if (work_.time > work_.timeLimit * 0.5f) {
+		pEnemy_->GetCollider()->SetTag(ColliderTags::Enemy::ATTACK);
+	}
 	
 	Vector3 pos = pEnemy_->GetTransform()->GetTranslation();
 	pos += velocity_ * GameTimer::DeltaTime();

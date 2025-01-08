@@ -106,6 +106,8 @@ public:
 	/// <param name="startTransitionRaito">: 前のAnimationがどのくらいの割合の時に開始するか</param>
 	void SetAnimationReservation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed, float startTransitionRaito);
 
+	void SetIsAnimationReservation(bool isFlag) { isReservation_ = isFlag; }
+
 #ifdef _DEBUG
 	void Debug_Gui();
 

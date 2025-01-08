@@ -57,6 +57,8 @@ void TitleScene::Update() {
 	} else {
 		Render::SetEyePos(camera_->GetWorldTranslate());
 		Render::SetViewProjection(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
+		Render::SetViewProjection2D(camera_->GetViewMatrix2D(), camera_->GetProjectionMatrix2D());
 	}
 
 	// -------------------------------------------------
@@ -92,6 +94,7 @@ void TitleScene::Draw() const {
 	skydome_->Draw();
 	ground_->Draw();
 
+	Engine::ClearDepth();
 	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
 	titleUI_->Draw();
 

@@ -37,6 +37,7 @@ public:
 public:
 
 	void SetParent(const Matrix4x4& parentMat);
+	void SetChiled(const Matrix4x4& chiledMat);
 	void SetParentTranslate(const Vector3& parentTranslate);
 	void SetParentRotate(const Quaternion& parentQuaternion);
 
@@ -63,6 +64,7 @@ private:
 	Matrix4x4 worldMat_;
 
 	const Matrix4x4* parentMat_ = nullptr;
+	const Matrix4x4* chiledMat_ = nullptr;
 	const Vector3* parentTranslate_ = nullptr;
 	const Quaternion* parentRotate_ = nullptr;
 

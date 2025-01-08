@@ -28,7 +28,7 @@ private:
 
 	Player* pPlayer_ = nullptr;
 
-	static const uint32_t kMaxPlayerHp_ = 5;
+	static const uint32_t kMaxPlayerHp_ = 7;
 
 	std::unique_ptr<Sprite> hpes_[kMaxPlayerHp_];
 

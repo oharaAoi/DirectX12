@@ -29,7 +29,7 @@ void AnimationClip::Update() {
 	if (isAnimationFinish_) {
 		if (isLoop_) {
 			isAnimationFinish_ = false;
-			animationTime_ = std::fmod(animationTime_, animation_.duration);
+			animationTime_ = 0.0f;
 		}
 	}
 
@@ -361,7 +361,7 @@ void AnimationClip::SetLerpAnimation(const std::string& preAnimation, const std:
 	lerpAnimetion_[0] = manager_->GetAnimation(animationFileName_, preAnimation);
 	lerpAnimetion_[1] = manager_->GetAnimation(animationFileName_, lerpAnimation);
 
-	lerpAnimationTime_[0] = lerpAnimetion_[0].duration;
+	lerpAnimationTime_[0] = animationTime_;
 	lerpAnimationTime_[1] = 0;
 
 	isAnimationChange_ = true;
@@ -369,6 +369,7 @@ void AnimationClip::SetLerpAnimation(const std::string& preAnimation, const std:
 	blendFactor_ = 0.0f;
 
 	nowAnimationName_ = lerpAnimation;
+	blendFactor_ = 0.0f;
 	blendSpeed_ = blendSpeed;
 }
 

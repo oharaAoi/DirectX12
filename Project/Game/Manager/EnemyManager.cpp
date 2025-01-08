@@ -76,6 +76,10 @@ void EnemyManager::RandomPop() {
 		return;
 	}
 
+	if (normalEnemyList_.size() >= 15) {
+		return;
+	}
+
 	popTime_ += GameTimer::DeltaTime();
 
 	if (popTime_ >= popTimeLimit_) {

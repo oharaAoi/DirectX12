@@ -23,7 +23,7 @@ void GameCore::Init() {
 	sceneManger_ = std::make_unique<SceneManager>();
 	sceneManger_->Init();
 
-	sceneManger_->SetChange(SceneType::GAME);
+	sceneManger_->SetChange(SceneType::TITLE);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

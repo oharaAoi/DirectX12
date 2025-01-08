@@ -173,7 +173,7 @@ private:
 	// ------------------- status関連 ------------------- //
 	PlayerStatus status_;
 
-	float initHp_ = 5.0f;
+	float initHp_ = 7.0f;
 	float hp_;
 
 	bool isInvincible_ = false;

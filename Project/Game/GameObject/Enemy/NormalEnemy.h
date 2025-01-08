@@ -56,11 +56,15 @@ public:
 
 	const bool GetIsHited() const { return isHited_; }
 
+	ICollider* GetCollider() { return collider_.get(); }
+
 private:
 
 	bool isDead_ = false;
 
 	bool isHited_ = false;
+
+	uint32_t hp_ = 3;
 
 	// ------------------- State関連 ------------------- //
 	std::unique_ptr<ICharactorState> state_;

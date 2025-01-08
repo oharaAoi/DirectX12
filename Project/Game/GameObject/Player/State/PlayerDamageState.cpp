@@ -14,7 +14,9 @@ void PlayerDamageState::Init() {
 	work_.strength = 20.0f;
 
 	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
-	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.2f);
+	pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.1f);
+
+	pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsAnimationReservation(false);
 
 	AudioPlayer::SinglShotPlay("damege.mp3", 0.6f);
 }

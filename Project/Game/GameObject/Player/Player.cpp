@@ -115,6 +115,13 @@ void Player::Update() {
 	Vector3 translate = Transform(Vector3::ZERO(), swordCenter_->GetTransform()->GetWorldMatrix());
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+	if (isJump_) {
+		if (behavior_ == Behavior::JUMP) {
+			transform_->SetTranslationY(0);
+			isJump_ = false;
+		}
+	}
+
 	if (behavior_ == Behavior::ATTACK) {
 		pTrail_->AddTrail(swordCenter_->GetTransform()->GetWorldMatrix());
 	}
@@ -302,6 +309,8 @@ void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 	if (CheckBit(other.GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
 		SetBehaviorRequest(Behavior::DAMAGE);
 		knockBackVelocity_ = (transform_->GetTranslation() - other.GetCenterPos()).Normalize();
+		isAttack_ = false;
+
 		isInvincible_ = true;
 		invincibleTime_ = 0.0f;
 		hp_--;
@@ -315,10 +324,7 @@ void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::OnCollisionStay([[maybe_unused]] ICollider& other) {
-	/*if (CheckBit(other.GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
-		SetBehaviorRequest(Behavior::DAMAGE);
-		knockBackVelocity_ = (other.GetCenterPos() - transform_->GetTranslation()).Normalize();
-	}*/
+	
 }
 
 //================================================================================================//

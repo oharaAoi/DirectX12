@@ -18,7 +18,7 @@ GpuEffect::~GpuEffect() {
 
 void GpuEffect::Init(const EmitterShape& shape) {
 	gpuParticle_ = std::make_unique<GpuParticle>();
-	gpuParticle_->Init("cube.obj", 1024);
+	gpuParticle_->Init("cube.obj", 32);
 
 	switch (shape) {
 	case EmitterShape::Sphere:
@@ -127,10 +127,10 @@ void GpuEffect::Draw() const {
 	Engine::SetPipeline(PipelineType::ParticlePipeline);
 	gpuParticle_->Draw(Engine::GetCommandList());
 
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	/*Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	if (!gpuEmitter_->GetIsDead()) {
 		gpuEmitter_->DrawShape(viewProjectionMat_);
-	}
+	}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

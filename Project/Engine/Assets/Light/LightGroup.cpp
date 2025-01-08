@@ -31,9 +31,9 @@ void LightGroup::Update() {
 	pointLight_->SetEyePos(eyePos_);
 	spotLight_->SetEyePos(eyePos_);
 
-	/*directionalLight_->ImGuiDraw();
+	directionalLight_->ImGuiDraw();
 	pointLight_->ImGuiDraw();
-	spotLight_->ImGuiDraw();*/
+	spotLight_->ImGuiDraw();
 }
 
 void LightGroup::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {

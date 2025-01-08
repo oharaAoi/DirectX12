@@ -14,8 +14,10 @@ void LockOn::Init() {
 	BaseGameObject::Init();
 	SetObject("plane.obj");
 	SetIsLighting(false);
+	SetTexture("reticle.png");
 
-	transform_->SetParent(cameraMat_);
+	transform_->SetChiled(cameraMat_);
+
 
 	lockOnEnemyIndex_ = 0;
 

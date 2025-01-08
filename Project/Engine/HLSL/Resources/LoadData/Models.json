@@ -1,0 +1,36 @@
+{
+    "models": [
+        {
+            "directory": "./Engine/Resources/Animation/",
+            "files": [
+                "amimationCharacter.gltf",
+                "walk.gltf",
+                "simpleSkin.gltf",
+                "player.gltf",
+                "sword.obj"
+            ]
+        },
+        {
+            "directory": "./Engine/Resources/Develop/",
+            "files": [
+                "skin.obj",
+                "cube.obj",
+                "axis.obj",
+                "plane.obj"
+            ]
+        },
+        {
+            "directory": "./Engine/Resources/Models/",
+            "files": [
+                "skydome.obj",
+                "floor.obj"
+            ]
+        },
+        {
+            "directory": "./Engine/Resources/Effect/",
+            "files": [
+                "spark.obj"
+            ]
+        }
+    ]
+}

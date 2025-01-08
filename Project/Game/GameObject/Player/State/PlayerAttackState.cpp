@@ -147,7 +147,7 @@ void PlayerAttackState::JumpAttack() {
 		pPlayer_->SetIsAttack(false);
 		pPlayer_->SetIsJump(false);
 		pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
-		pPlayer_->GetAnimetor()->TransitionAnimation("idle", 0.5f);
+		pPlayer_->GetAnimetor()->TransitionAnimation("idle", 0.1f);
 		pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
 		pPlayer_->GetAnimetor()->SetAnimationSpeed(1.0f);
 	}
