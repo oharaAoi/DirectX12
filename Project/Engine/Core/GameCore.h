@@ -23,6 +23,8 @@ public:
 
 private:
 
+	GameTimer gameTimer_ = GameTimer(60);
+
 	std::unique_ptr<SceneManager> sceneManger_;
 
 };

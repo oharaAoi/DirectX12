@@ -55,10 +55,6 @@ void EffectSystem::Update() {
 		(*it)->Update();
 		++it;
 	}
-
-#ifdef _DEBUG
-	editer_->Update();
-#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +108,9 @@ void EffectSystem::Debug_Gui() {
 
 void EffectSystem::EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device) {
 	editer_ = std::make_unique<EffectSystemEditer>(renderTarget, descriptorHeaps, dxCommands, device);
+}
+void EffectSystem::EditerUpdate() {
+	editer_->Update();
 }
 void EffectSystem::EndEditer() {
 	editer_->End();

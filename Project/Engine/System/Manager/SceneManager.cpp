@@ -30,10 +30,8 @@ void SceneManager::Update() {
 		SetChange(scene_->GetNextSceneType().value());
 		scene_->SetNextSceneType(std::nullopt);
 	}
-
 	scene_->Update();
 	effectSystem_->Update();
-	Render::Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,22 +40,7 @@ void SceneManager::Update() {
 
 void SceneManager::Draw() {
 	scene_->Draw();
-
 	effectSystem_->Draw();
-
-	Engine::RenderFrame();
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　フレーム終了処理
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void SceneManager::PostFrame() {
-	Engine::EndImGui();
-	Engine::EndFrame();
-
-	// fpsの計算
-	gameTimer_.CalculationFrame();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,10 +49,6 @@ void SceneManager::PostFrame() {
 
 #ifdef _DEBUG
 void SceneManager::Debug_Gui() {
-	ImGui::Begin("GameTimer", nullptr);
-	gameTimer_.FPS();
-	ImGui::End();
-
 	// sceneのDebug
 	ImGui::Begin("Scene");
 	// 切り替える

@@ -93,6 +93,7 @@ void DxResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_
 	if (befor != bufferState_) {
 		Log("now : " + ResourceStateToString(bufferState_) + "\n");
 		Log("target : " + ResourceStateToString(befor) + "\n");
+		Log("ResourceState MissMatch\n");
 		assert("ResourceState MissMatch");
 	}
 	TransitionResourceState(commandList, cBuffer_.Get(), befor, after);
