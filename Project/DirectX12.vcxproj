@@ -123,6 +123,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Assets\TransformationMatrix.cpp" />
     <ClCompile Include="Engine\Assets\ViewProjection.cpp" />
     <ClCompile Include="Engine\Assets\WorldTransform.cpp" />
+    <ClCompile Include="Engine\Math\Matrix3x3.cpp" />
     <ClCompile Include="Engine\System\Audio\Audio.cpp" />
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp" />
     <ClCompile Include="Engine\Assets\Collider\BoxCollider.cpp" />
@@ -166,7 +167,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\Input\Input.cpp" />
     <ClCompile Include="Engine\Lib\GameTimer.cpp" />
     <ClCompile Include="Engine\Lib\IJsonConverter.cpp" />
-    <ClCompile Include="Engine\Lib\Transform.cpp" />
     <ClCompile Include="Engine\Assets\Light\BaseLight.cpp" />
     <ClCompile Include="Engine\Assets\Light\DirectionalLight.cpp" />
     <ClCompile Include="Engine\Assets\Light\LightGroup.cpp" />
@@ -225,6 +225,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Game\Camera\BaseCamera.cpp" />
     <ClCompile Include="Game\Camera\Camera.cpp" />
+    <ClCompile Include="Game\Camera\Camera2d.cpp" />
+    <ClCompile Include="Game\Camera\Camera3d.cpp" />
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\Collider\AttackCollider.cpp" />
@@ -322,7 +324,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Lib\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
     <ClInclude Include="Engine\Lib\IJsonConverter.h" />
-    <ClInclude Include="Engine\Lib\Transform.h" />
     <ClInclude Include="Engine\Lib\VertexData.h" />
     <ClInclude Include="Engine\Assets\Light\BaseLight.h" />
     <ClInclude Include="Engine\Assets\Light\DirectionalLight.h" />
@@ -386,6 +387,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Camera\BaseCamera.h" />
     <ClInclude Include="Game\Camera\Camera.h" />
+    <ClInclude Include="Game\Camera\Camera2d.h" />
+    <ClInclude Include="Game\Camera\Camera3d.h" />
     <ClInclude Include="Game\Camera\DebugCamera.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
     <ClInclude Include="Game\Collider\AttackCollider.h" />

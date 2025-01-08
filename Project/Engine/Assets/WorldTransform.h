@@ -55,16 +55,18 @@ public:
 	const Quaternion& GetQuaternion() const { return rotation_; }
 	const Matrix4x4& GetWorldMatrix() const { return worldMat_; }
 
-private:
+public:
 
 	Vector3 scale_;
 	Quaternion rotation_;
-	Quaternion moveQuaternion_;
 	Vector3 translate_;
+
+private:
+
+	Quaternion moveQuaternion_;
 	Matrix4x4 worldMat_;
 
-	const Matrix4x4* parentMat_ = nullptr;
-	const Matrix4x4* chiledMat_ = nullptr;
+	const Matrix4x4* parentWorldMat_ = nullptr;
 	const Vector3* parentTranslate_ = nullptr;
 	const Quaternion* parentRotate_ = nullptr;
 

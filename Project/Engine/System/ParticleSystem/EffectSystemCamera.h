@@ -35,11 +35,16 @@ public:
 	const Matrix4x4 GetViewMatrix() const { return viewMatrix_; }
 	const Matrix4x4 GetProjectionMatrix() const { return projectionMatrix_; }
 
+	void SetIsFocused(bool isFocesd) { isFocused_ = isFocesd; }
+	const bool GetIsFocused() const { return isFocused_; }
+
 private:
 
 	Quaternion quaternion_;
 	// 回転する前のQuaternion
 	Quaternion moveQuaternion_;
+
+	bool isFocused_;
 
 	// ---------------------------------------------------------------
 	// ↓ デバックカメラで使う変数

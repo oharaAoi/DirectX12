@@ -25,7 +25,7 @@ void SphereCollider::Init(uint32_t bitTag, ColliderShape shape) {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void SphereCollider::Update(const SRT& srt) {
+void SphereCollider::Update(const QuaternionSRT& srt) {
 	centerPos_ = srt.translate;
 	std::get<Sphere>(shape_).center = centerPos_;
 }

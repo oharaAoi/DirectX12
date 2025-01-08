@@ -37,3 +37,33 @@ std::vector<Vector3> OBB::MakeIndex() const {
 	}
 	return vertices;
 }
+
+Matrix4x4 SRT::MakeAffine() {
+	Matrix4x4 scaleMatrix{};
+	Matrix4x4 rotateMatrix{};
+	Matrix4x4 translateMatrix{};
+	Matrix4x4 affineMatrix{};
+
+	scaleMatrix = scale.MakeScaleMat();
+	rotateMatrix = rotate.MakeRotateMat();
+	translateMatrix = translate.MakeTranslateMat();
+
+	affineMatrix = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
+
+	return affineMatrix;
+}
+
+Matrix4x4 QuaternionSRT::MakeAffine() {
+	Matrix4x4 scaleMatrix{};
+	Matrix4x4 rotateMatrix{};
+	Matrix4x4 translateMatrix{};
+	Matrix4x4 affineMatrix{};
+
+	scaleMatrix = scale.MakeScaleMat();
+	rotateMatrix = rotate.MakeMatrix();
+	translateMatrix = translate.MakeTranslateMat();
+
+	affineMatrix = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
+
+	return affineMatrix;
+}

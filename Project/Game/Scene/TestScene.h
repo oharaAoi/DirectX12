@@ -1,12 +1,9 @@
 #pragma once
-#include "Engine.h"
-#include "Engine/System/Input/Input.h"
 #include "Game/Scene/BaseScene.h"
-#include "Game/Camera/Camera.h"
+#include "Game/Camera/Camera2d.h"
+#include "Game/Camera/Camera3d.h"
 #include "Game/Camera/DebugCamera.h"
-#include "Engine/System/ParticleSystem/EffectSystem.h"
 #include "Engine/Assets/Collider/MeshCollider.h"
-#include "Engine/Math/Easing.h"
 #include "Engine/System/Manager/CollisionManager.h"
 #include "Engine/Assets/GameObject/TestObject.h"
 #include "Game/WorldObject/Skydome.h"
@@ -35,7 +32,8 @@ public:
 private:
 
 	// camera ----------------------------------------------
-	std::unique_ptr<Camera> camera_ = nullptr;
+	std::unique_ptr<Camera2d> camera2d_ = nullptr;
+	std::unique_ptr<Camera3d> camera3d_ = nullptr;
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
 	bool isDebugCamera_ = true;
 
@@ -44,7 +42,6 @@ private:
 	std::unique_ptr<Floor> floor_ = nullptr;
 
 	// gameObject ------------------------------------
-	
 	std::unique_ptr<TestObject> testObjA_;
 	
 	std::unique_ptr<MeshCollider> meshColliderA_;

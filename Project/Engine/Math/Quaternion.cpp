@@ -82,17 +82,23 @@ Quaternion Quaternion::EulerToQuaternion(const Vector3& euler) {
 }
 
 Quaternion Quaternion::FromToRotation(const Vector3& fromDire, const Vector3& toDire) {
-	// 外積を用いて軸ベクトルを求める
-	Vector3 axis = Cross(fromDire, toDire);
-	// 外積が0の時は無回転のquaternionにする
-	if (axis.x == 0 && axis.y == 0 && axis.z == 0) {
-		return Quaternion();
+	Vector3 cross = Vector3::Cross(fromDire, toDire);  // クロス積
+	float dot = Vector3::Dot(fromDire, toDire);        // ドット積
+
+	// 回転角度
+	float angle = std::acos(dot);
+
+	// 回転軸
+	if (cross.x == 0 && cross.y == 0 && cross.z == 0) {
+		cross = Vector3(fromDire.y, -fromDire.x, 0.0f);
 	}
+	Vector3 axis = cross.Normalize();
 
-	// 内積の定義から回転量を求める 
-	float rad = std::acosf(Vector3::Dot(fromDire, toDire) / (fromDire.Length() * toDire.Length()));
+	// クォータニオンを計算
+	float sinHalfAngle = std::sin(angle / 2.0f);
+	float cosHalfAngle = std::cos(angle / 2.0f);
 
-	return AngleAxis(rad * toDegree, axis);
+	return Quaternion(axis.x * sinHalfAngle, axis.y * sinHalfAngle, axis.z * sinHalfAngle, cosHalfAngle);
 }
 
 Quaternion Quaternion::Inverse(const Quaternion& rotation) {

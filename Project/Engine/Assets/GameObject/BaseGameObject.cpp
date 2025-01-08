@@ -70,7 +70,7 @@ void BaseGameObject::PostUpdate() {
 	}
 
 	if (collider_ != nullptr) {
-		collider_->Update(SRT{.scale = transform_->GetScale(),
+		collider_->Update(QuaternionSRT{.scale = transform_->GetScale(),
 						  .rotate = transform_->GetQuaternion(),
 						  .translate = transform_->GetTranslation()}
 		);

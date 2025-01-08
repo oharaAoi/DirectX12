@@ -1,4 +1,5 @@
 #include "GpuParticle.h"
+#include "Engine/Lib/GameTimer.h"
 
 GpuParticle::GpuParticle() {
 }

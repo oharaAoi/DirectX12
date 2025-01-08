@@ -16,8 +16,8 @@ void TestObject::Finalize() {
 
 void TestObject::Init() {
 	BaseGameObject::Init();
-	SetObject("player.gltf");
-	SetAnimater("./Engine/Resources/Animation/", "player.gltf", true, true, false);
+	SetObject("cube.obj");
+	//SetAnimater("./Engine/Resources/Animation/", "player.gltf", true, true, false);
 
 	SetMeshCollider("testObj");
 	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other);});
@@ -29,12 +29,12 @@ void TestObject::Init() {
 
 	animationTime_ = 0.0f;
 
-	sword_ = std::make_unique<BaseGameObject>();
+	/*sword_ = std::make_unique<BaseGameObject>();
 	sword_->Init();
 	sword_->SetObject("sword.obj");
 	swordMat_ = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
 	sword_->GetTransform()->SetScale(Vector3(100, 100, 100));
-	sword_->GetTransform()->SetParent(swordMat_);
+	sword_->GetTransform()->SetParent(swordMat_);*/
 
 	test_.ToJson("testParame");
 	test_.FromJson(AdjustmentItem::GetData("Player", "testParame"));
@@ -45,16 +45,16 @@ void TestObject::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TestObject::Update() {
-	Matrix4x4 jointMat = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand");
+	/*Matrix4x4 jointMat = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand");
 	swordMat_ = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
-	sword_->Update();
+	sword_->Update();*/
 	BaseGameObject::Update();
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestObject::Draw() const {
-	sword_->Draw();
+	//sword_->Draw();
 	BaseGameObject::Draw();
 }
 
