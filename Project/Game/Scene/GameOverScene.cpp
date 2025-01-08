@@ -15,7 +15,7 @@ void GameOverScene::Finalize() {
 
 void GameOverScene::Init() {
 	debugCamera_ = std::make_unique<DebugCamera>();
-	camera_ = std::make_unique<Camera>();
+	camera_ = std::make_unique<Camera3d>();
 	camera_->Init();
 
 	clearUI_ = Engine::CreateSprite("gameOverBack.png");
