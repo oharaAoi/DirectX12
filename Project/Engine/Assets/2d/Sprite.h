@@ -1,11 +1,7 @@
 #pragma once
+#include "Engine/Utilities/DirectXUtils.h"
 #include "Engine/Math/Vector2.h"
-#include "Engine/Assets/Meshes/Mesh.h"
-#include "Engine/Lib/Transform.h"
-#include "Engine/System/Manager/TextureManager.h"
-#include "Engine/System/Manager/ImGuiManager.h"
-#include "Engine/Assets/WorldTransform.h"
-#include "Engine/Assets/ViewProjection.h"
+#include "Engine/Math/MathStructures.h"
 
 class Render;
 
@@ -127,8 +123,8 @@ private:
 	TextureTransformData* transformData_;
 
 	// Transform情報
-	kTransform transform_;
-	kTransform uvTransform_;
+	SRT transform_;
+	SRT uvTransform_;
 
 	std::string textureName_;
 

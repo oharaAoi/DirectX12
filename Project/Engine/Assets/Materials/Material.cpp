@@ -54,7 +54,7 @@ void Material::ImGuiDraw() {
 	ImGui::ColorEdit4("color", &material_->color.x);
 	ImGui::Combo("Lighting", &material_->enableLighting, "None\0Lambert\0HalfLambert");
 
-	material_->uvTransform = MakeAffineMatrix(kTransform(uvScale_, uvRotation_, uvTranslation_));
+	material_->uvTransform = SRT(uvScale_, uvRotation_, uvTranslation_).MakeAffine();
 }
 #endif
 

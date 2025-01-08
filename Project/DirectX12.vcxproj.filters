@@ -324,9 +324,6 @@
     <ClCompile Include="Engine\Assets\Animation\AnimationClip.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Lib\Transform.cpp">
-      <Filter>Engine\Lib</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Lib\GameTimer.cpp">
       <Filter>Engine\Lib</Filter>
     </ClCompile>
@@ -495,6 +492,12 @@
     <ClCompile Include="Engine\Utilities\BitChecker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Camera\Camera3d.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\Camera2d.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -556,9 +559,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\MyMatrix.h">
       <Filter>Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Lib\Transform.h">
-      <Filter>Engine\Lib</Filter>
     </ClInclude>
     <ClInclude Include="Externals\ImGui\imconfig.h">
       <Filter>Engine\ImGui</Filter>
@@ -894,6 +894,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utilities\BitChecker.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\Camera3d.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\Camera2d.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

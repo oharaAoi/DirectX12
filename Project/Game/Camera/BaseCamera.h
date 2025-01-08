@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine/Math/MyMatrix.h"
 #include "Engine/Math/MyMath.h"
-#include "Engine/Lib/Transform.h"
+#include "Engine/Math/MathStructures.h"
 #include "Engine/Assets/WorldTransform.h"
 #include "Enviroment.h"
 #include "Engine/Lib/GameTimer.h"
@@ -51,7 +51,7 @@ protected:
 
 	WorldTransform* target_;
 
-	kTransform transform_;
+	SRT transform_;
 
 	Matrix4x4 translateMat_;
 	Matrix4x4 scaleMat_;

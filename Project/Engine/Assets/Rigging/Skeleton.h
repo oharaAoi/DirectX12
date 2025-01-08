@@ -5,7 +5,7 @@
 #include <map>
 #include <optional>
 #include "Engine/Math/MyMatrix.h"
-#include "Engine/Lib/Transform.h"
+#include "Engine/Math/MathStructures.h"
 #include "Engine/Assets/GameObject/Model.h"
 #include "Engine/Math/Matrix4x4.h"
 
@@ -18,7 +18,7 @@ class Skeleton {
 public:
 
 	struct Joint {
-		QuaternionTransform transform;	// transform
+		QuaternionSRT transform;	// transform
 		Matrix4x4 localMat;				// localMatrix
 		Matrix4x4 skeltonSpaceMat;		// skeltonSpaceでの変換行列
 		std::string name;				// 名前

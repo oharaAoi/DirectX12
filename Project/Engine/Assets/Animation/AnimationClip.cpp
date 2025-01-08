@@ -1,5 +1,6 @@
 #include "AnimationClip.h"
 #include "Engine/System/Manager/AnimationManager.h"
+#include "Engine/Lib/GameTimer.h"
 
 AnimationClip::AnimationClip() {
 	manager_ = AnimationManager::GetInstance();

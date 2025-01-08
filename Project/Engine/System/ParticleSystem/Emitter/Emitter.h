@@ -48,7 +48,7 @@ private:
 	bool isRangeDraw_;
 
 	// 保存するデータ
-	kTransform transform_;	// 場所
+	SRT transform_;	// 場所
 	uint32_t count_;		// 発生個数
 	float frequency_;		// 発生頻度
 	Vector3 size_;			// エミッターのサイズ
