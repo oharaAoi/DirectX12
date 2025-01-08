@@ -39,3 +39,5 @@ void DrawOBB(const OBB& obb, const Vector4& color);
 void DrawMatrix(const Matrix4x4& mat, const std::string& id);
 
 void DrawQuaternion(const Quaternion& q, const std::string& id);
+
+void DrawVector(const Vector3& vector, const std::string& id);

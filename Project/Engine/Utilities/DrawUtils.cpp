@@ -190,4 +190,9 @@ void DrawQuaternion(const Quaternion& q, const std::string& id) {
 	ImGui::SameLine();
 	ImGui::Text(": %f, %f, %f, %f\n", q.x, q.y, q.z, q.w);
 }
+void DrawVector(const Vector3& vector, const std::string& id) {
+	ImGui::Text(id.c_str());
+	ImGui::SameLine();
+	ImGui::Text(": %f, %f, %f\n", vector.x, vector.y, vector.z);
+}
 #endif

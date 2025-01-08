@@ -23,28 +23,19 @@ void TestScene::Draw() const {
 void TestScene::Debug_Gui() {
 	ImGui::Begin("TestScene");
 
-	Quaternion q1 = Quaternion(2.0f, 3.0f, 4.0f, 1.0f);
-	Quaternion q2 = Quaternion(1.0f, 3.0f, 5.0f, 2.0f);
+	Quaternion rotation = Quaternion::AngleAxis(0.45f, Vector3{1.0f, 0.4f, -0.2f}.Normalize());
+	Vector3 pointY = { 2.1f, -0.9f, 1.3f };
+	Matrix4x4 rotateMat = rotation.MakeMatrix();
+	Vector3 rotateByQuaternion = rotation * pointY;
+	Vector3 rotateByMatrix = Transform(pointY, rotateMat);
 
-	Quaternion identity = Quaternion();
-	Quaternion conj = q1.Conjugate();
-	Quaternion inverse = Quaternion::Inverse(q1);
-	Quaternion normal = q1.Normalize();
+	DrawQuaternion(rotation, "rotation");
+	DrawMatrix(rotateMat, "rotateMatrix");
+	DrawVector(rotateByQuaternion, "rotateByQuaternion");
+	DrawVector(rotateByMatrix, "rotateByMatrix");
+	
 
-	Quaternion mul1 = q1 * q2;
-	Quaternion mul2 = q2 * q1;
-
-	float norm =q1.Norm();
-
-	DrawQuaternion(identity, "identity");
-	DrawQuaternion(conj, "conj");
-	DrawQuaternion(inverse, "inverse");
-	DrawQuaternion(normal, "normal");
-	DrawQuaternion(mul1, "mul1");
-	DrawQuaternion(mul2, "mul2");
-
-	ImGui::Text("norm : %f", norm);
-
+	
 	ImGui::End();
 }
 #endif
