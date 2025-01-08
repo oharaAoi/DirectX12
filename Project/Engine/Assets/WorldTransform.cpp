@@ -61,8 +61,8 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	// ↓ world行列を生成
 	// -------------------------------------------------
 	worldMat_ = mat * Matrix4x4::MakeAffine(scale_, worldRotate, worldTranslate);
-	if (parentMat_ != nullptr) {
-		worldMat_ *= *parentMat_;
+	if (parentWorldMat_ != nullptr) {
+		worldMat_ = worldMat_  * *parentWorldMat_;
 	}
 
 	// GPUに送るデータを更新
@@ -117,7 +117,7 @@ void WorldTransform::Debug_Quaternion() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WorldTransform::SetParent(const Matrix4x4& parentMat) {
-	parentMat_ = &parentMat;
+	parentWorldMat_ = &parentMat;
 }
 
 void WorldTransform::SetParentTranslate(const Vector3& parentTranslate) {
