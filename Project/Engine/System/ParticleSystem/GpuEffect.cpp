@@ -41,7 +41,7 @@ void GpuEffect::Init(const EmitterShape& shape) {
 	ID3D12Device* dxDevice = Engine::GetDevice();
 
 	// -------------------------------------------------
-	// ↓ freeListIndexの作成
+	// ↓ 
 	// -------------------------------------------------
 	allDeathBuffer_ = CreateUAVResource(Engine::GetDevice(), sizeof(uint32_t));
 	// UAVの設定
