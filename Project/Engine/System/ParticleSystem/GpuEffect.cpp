@@ -109,14 +109,14 @@ void GpuEffect::Update() {
 		Dispatch(commandList, Vector3(1, 1, 1));
 	}
 
-	// particleが消えた方の確認
-	if (gpuEmitter_->GetIsDead()) {
-		CheckParticlesAlpha();
-	}
+	//// particleが消えた方の確認
+	//if (gpuEmitter_->GetIsDead()) {
+	//	CheckParticlesAlpha();
+	//}
 
-	if (allAlphaZero_) {
-		isAlive_ = false;
-	}
+	//if (allAlphaZero_) {
+	//	isAlive_ = false;
+	//}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
