@@ -1,10 +1,11 @@
 #include "GpuParticles.h"
 #include "Engine/Engine.h"
+#include "Engine/Lib/GameTimer.h"
 
-GpuParticles::GpuParticles() {
-}
+GpuParticles::GpuParticles() {}
+GpuParticles::~GpuParticles() {}
 
-GpuParticles::~GpuParticles() {
+void GpuParticles::Finalize() {
 	perViewBuffer_.Reset();
 	perFrameBuffer_.Reset();
 	particleResource_->Finalize();
@@ -32,15 +33,15 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	defaultHeapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
 	// particle
-	particleResource_->Init(dxDevice, dxHeap, &CreateUploadResourceDesc(sizeof(Particle) * kInstanceNum_),
-							&uploadHeapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_GENERIC_READ);
+	particleResource_->Init(dxDevice, dxHeap, CreateUavResourceDesc(sizeof(Particle) * kInstanceNum_),
+							&defaultHeapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COMMON);
 
 	// freeListIndex
-	freeListIndexResource_->Init(dxDevice, dxHeap, &CreateUavResourceDesc(sizeof(uint32_t) * kInstanceNum_),
+	freeListIndexResource_->Init(dxDevice, dxHeap, CreateUavResourceDesc(sizeof(uint32_t) * kInstanceNum_),
 								 &defaultHeapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COMMON);
 
 	// freeList
-	freeListResource_->Init(dxDevice, dxHeap, &CreateUavResourceDesc(sizeof(uint32_t) * kInstanceNum_),
+	freeListResource_->Init(dxDevice, dxHeap, CreateUavResourceDesc(sizeof(uint32_t) * kInstanceNum_),
 							&defaultHeapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COMMON);
 
 	// 各UAV, SRV
@@ -70,14 +71,34 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	Engine::SetCsPipeline(CsPipelineType::GpuParticleInit);
 	InitBindCmdList(commandList, 0);
 	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
-
 }
 
 void GpuParticles::Update() {
+	perFrame_->deltaTime = GameTimer::DeltaTime();
+	perFrame_->time = GameTimer::TotalTime();
+
+	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
+	Engine::SetCsPipeline(CsPipelineType::GpuParticleUpdate);
+	commandList->SetComputeRootDescriptorTable(0, particleResource_->GetUAV().handleGPU);
+	commandList->SetComputeRootDescriptorTable(1, freeListIndexResource_->GetUAV().handleGPU);
+	commandList->SetComputeRootConstantBufferView(2, perFrameBuffer_->GetGPUVirtualAddress());
+	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
+
+	// UAVの変更
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.UAV.pResource = particleResource_->GetResource();
+	commandList->ResourceBarrier(1, &barrier);
 }
 
 void GpuParticles::InitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex, particleResource_->GetUAV().handleGPU);
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 1, freeListIndexResource_->GetUAV().handleGPU);
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 2, freeListResource_->GetUAV().handleGPU);
+}
+
+void GpuParticles::EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
+	commandList->SetComputeRootDescriptorTable(rootParameterIndex, particleResource_->GetUAV().handleGPU);
+	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 1, freeListIndexResource_->GetUAV().handleGPU);
 }

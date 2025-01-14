@@ -40,10 +40,14 @@ public:
 	GpuParticles();
 	~GpuParticles();
 
+	void Finalize();
+
 	void Init(uint32_t instanceNum);
 	void Update();
 
 	void InitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
+
+	void EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
 	
 private:
 

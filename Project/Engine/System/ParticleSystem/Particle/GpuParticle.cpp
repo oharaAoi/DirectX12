@@ -1,5 +1,6 @@
 #include "GpuParticle.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/System/Manager/MeshManager.h"
 
 GpuParticle::GpuParticle() {
 }
@@ -23,7 +24,7 @@ void GpuParticle::Init(const std::string& modelName, uint32_t instanceNum) {
 
 	// materilとmeshの設定
 	materialArray_ = LoadMaterialData(ModelManager::GetModelPath(modelName), modelName, dxDevice);
-	meshArray_ = LoadMesh(ModelManager::GetModelPath(modelName), modelName, dxDevice);
+	meshArray_ = MeshManager::GetInstance()->GetMeshes(modelName);
 	// gpuに送るResourceの作成
 
 	perViewBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerView));

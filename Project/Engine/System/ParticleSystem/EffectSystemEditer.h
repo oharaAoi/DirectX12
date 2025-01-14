@@ -6,6 +6,7 @@
 #include "Engine/System/ParticleSystem/ParticleField.h"
 #include "Engine/System/ParticleSystem/EffectSystemCamera.h"
 #include "Engine/System/ParticleSystem/GpuEffect.h"
+#include "Engine/System/ParticleSystem/Particle/GpuParticles.h"
 
 /// <summary>
 /// effectを作成する用のクラス
@@ -75,6 +76,8 @@ private:
 
 	// ----------- effect ----------- //
 	std::list<std::unique_ptr<GpuEffect>> effectList_;
+
+	std::unique_ptr<GpuParticles> gpuParticles_ = nullptr;
 
 	std::list<std::unique_ptr<GpuParticle>> gpuParticleList_;
 

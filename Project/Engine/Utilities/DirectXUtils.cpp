@@ -27,6 +27,7 @@ D3D12_SHADER_RESOURCE_VIEW_DESC CreateSrvDesc(UINT  numElemnts, UINT structureBy
 	srvDesc.Buffer.NumElements = numElemnts;  // 頂点の数
 	srvDesc.Buffer.StructureByteStride = structureByte;  // 頂点1つあたりのサイズ
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	return srvDesc;
 }
 
 D3D12_RESOURCE_DESC CreateUploadResourceDesc(size_t sizeInBytes) {

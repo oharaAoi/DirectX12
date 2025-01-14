@@ -13,6 +13,7 @@ EffectSystemEditer::~EffectSystemEditer() {}
 void EffectSystemEditer::Finalize() {
 	depthStencilResource_.Reset();
 	effectList_.clear();
+	gpuParticles_->Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,6 +25,9 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 	renderTarget_ = renderTarget;
 	descriptorHeaps_ = descriptorHeaps;
 	dxCommands_ = dxCommands;
+
+	gpuParticles_ = std::make_unique<GpuParticles>();
+	gpuParticles_->Init(1024);
 
 	// -------------------------------------------------
 	// ↓ 深度バッファの作成

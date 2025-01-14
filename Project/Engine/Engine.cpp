@@ -59,6 +59,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	audio_->Init();
 	effectSystem_->Init();
 
+	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
+
 #ifdef _DEBUG
 	editerWindows_->Init();
 	imguiManager_ = ImGuiManager::GetInstacne();
@@ -72,8 +74,6 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	isFullScreen_ = false;
 	isEffectEditer_ = true;
 	runGame_ = true;
-
-	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
 
 	Log("Engine Initialize compulete!\n");
 }
