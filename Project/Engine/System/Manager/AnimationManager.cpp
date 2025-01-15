@@ -54,13 +54,13 @@ void AnimationManager::AddMap(const std::unordered_map<std::string, Animation>& 
 // ↓　Animationをmapから取得する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-Animation AnimationManager::GetAnimation(const std::string& animationFile, const std::string& animationName) {
+Animation AnimationManager::GetAnimation(const std::string& fileName, const std::string& animationName) {
 	// mapに存在していなかったら読み込んでmapに追加する
-	if (auto it = animationMap_.find(animationFile); it == animationMap_.end()) {
+	if (auto it = animationMap_.find(fileName); it == animationMap_.end()) {
 		assert(false && "animationFile not Load!");
 	}
 
-	return animationMap_[animationFile][animationName];
+	return animationMap_[fileName][animationName];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
