@@ -65,6 +65,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
 
+	resources_.Load();
+
 #ifdef _DEBUG
 	imguiManager_ = ImGuiManager::GetInstacne();
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_->GetDevice(), dxCommon_->GetSwapChainBfCount(), descriptorHeap_->GetSRVHeap());

@@ -24,6 +24,7 @@
 #include "Engine/Assets/RenderTexture.h"
 #include "Engine/Editer/Window/EditerWindows.h"
 #include "Engine/Assets/Rigging/Skinning.h"
+#include "Game/GameResources.h"
 #include "Render.h"
 
 class EffectSystem;
@@ -198,6 +199,8 @@ namespace {
 	DirectXCommon* dxCommon_ = nullptr;
 
 	EffectSystem* effectSystem_;
+
+	GameResources resources_;
 
 #ifdef _DEBUG
 	ImGuiManager* imguiManager_ = nullptr;

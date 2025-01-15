@@ -8,7 +8,6 @@
 #include "Engine/System/ParticleSystem/EffectSystem.h"
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/System/Input/Input.h"
-#include "Game/GameResources.h"
 
 /// <summary>
 /// シーンを管理するクラス
@@ -40,8 +39,6 @@ private:
 	std::unique_ptr<BaseScene> nextScene_ = nullptr;
 
 	EffectSystem* effectSystem_ = nullptr;
-
-	GameResources resources_;
 
 #ifdef _DEBUG
 	int selectSceneNum_ = 0;

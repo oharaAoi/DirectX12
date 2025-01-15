@@ -67,8 +67,8 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
 
 	// mesh・Material情報
-	meshArray_ = MeshManager::GetInstance()->GetMeshes("cube.obj");
-	materialArray_ = LoadMaterialData(ModelManager::GetModelPath("cube.obj"), "cube.obj", dxDevice);
+	meshArray_ = MeshManager::GetInstance()->GetMeshes("sphere.obj");
+	materialArray_ = LoadMaterialData(ModelManager::GetModelPath("sphere.obj"), "sphere.obj", dxDevice);
 
 	// -------------------------------------------------
 	// ↓ Particleの初期化をGPUで行う
@@ -98,6 +98,20 @@ void GpuParticles::Update() {
 	commandList->ResourceBarrier(1, &barrier);
 }
 
+void GpuParticles::Draw(ID3D12GraphicsCommandList* commandList){
+	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
+		meshArray_[oi]->Draw(commandList);
+		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
+		commandList->SetGraphicsRootDescriptorTable(1, particleResource_->GetSRV().handleGPU);
+		commandList->SetGraphicsRootConstantBufferView(4, perViewBuffer_->GetGPUVirtualAddress());
+
+		std::string textureName = "white.png";
+		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 2);
+
+		commandList->DrawIndexedInstanced(meshArray_[oi]->GetIndexNum(), kInstanceNum_, 0, 0, 0);
+	}
+}
+
 void GpuParticles::InitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex, particleResource_->GetUAV().handleGPU);
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 1, freeListIndexResource_->GetUAV().handleGPU);
@@ -107,4 +121,8 @@ void GpuParticles::InitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT 
 void GpuParticles::EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex, particleResource_->GetUAV().handleGPU);
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 1, freeListIndexResource_->GetUAV().handleGPU);
+}
+
+void GpuParticles::SetViewProjection(const Matrix4x4& viewProjection) {
+	perView_->viewProjection = viewProjection;
 }

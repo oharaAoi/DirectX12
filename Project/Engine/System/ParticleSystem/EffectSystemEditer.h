@@ -29,7 +29,7 @@ public:
 	void Begin();
 	void End();
 
-	void CreateEffect(const std::string& newName);
+	//void CreateEffect(const std::string& newName);
 
 	void Debug_Gui();
 
@@ -75,11 +75,9 @@ private:
 	std::unique_ptr<ParticleField> particleField_ = nullptr;
 
 	// ----------- effect ----------- //
-	std::list<std::unique_ptr<GpuEffect>> effectList_;
 
 	std::unique_ptr<GpuParticles> gpuParticles_ = nullptr;
-
-	std::list<std::unique_ptr<GpuParticle>> gpuParticleList_;
+	std::list<std::unique_ptr<GpuEmitter>> gpuEmitterList_;
 
 	// ----------- Saveに使用 ----------- //
 	const std::string kDirectoryPath_ = "./Game/Resources/Effects/";

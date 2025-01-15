@@ -44,10 +44,13 @@ public:
 
 	void Init(uint32_t instanceNum);
 	void Update();
+	void Draw(ID3D12GraphicsCommandList* commandList);
 
 	void InitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
 
 	void EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
+
+	void SetViewProjection(const Matrix4x4& viewProjection);
 	
 private:
 
