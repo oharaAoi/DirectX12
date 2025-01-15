@@ -1,6 +1,8 @@
 #include "GpuParticles.h"
 #include "Engine/Engine.h"
 #include "Engine/Lib/GameTimer.h"
+#include <System/Manager/MeshManager.h>
+#include <System/Manager/ModelManager.h>
 
 GpuParticles::GpuParticles() {}
 GpuParticles::~GpuParticles() {}
@@ -63,6 +65,10 @@ void GpuParticles::Init(uint32_t instanceNum) {
 
 	perFrameBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
+
+	// mesh・Material情報
+	meshArray_ = MeshManager::GetInstance()->GetMeshes("cube.obj");
+	materialArray_ = LoadMaterialData(ModelManager::GetModelPath("cube.obj"), "cube.obj", dxDevice);
 
 	// -------------------------------------------------
 	// ↓ Particleの初期化をGPUで行う

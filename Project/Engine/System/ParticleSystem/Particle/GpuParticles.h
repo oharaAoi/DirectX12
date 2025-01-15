@@ -62,5 +62,8 @@ private:
 
 	ComPtr<ID3D12Resource> perFrameBuffer_;
 	PerFrame* perFrame_;
+
+	std::vector<std::unique_ptr<Mesh>> meshArray_;
+	std::unordered_map<std::string, std::unique_ptr<Material>> materialArray_;
 };
 
