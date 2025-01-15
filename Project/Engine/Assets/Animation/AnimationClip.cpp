@@ -74,12 +74,13 @@ void AnimationClip::LoadAnimation(const std::string directoryPath, const std::st
 	animationFileName_ = animationFile;
 	// animationが登録されているかを確認
 	if (manager_->CheckAnimationMap(animationFile)) {
-		animation_ = manager_->GetAnimation(directoryPath, animationFile);
+		nowAnimationName_ = manager_->GetAnimationFirstName(animationFile);
+		animation_ = manager_->GetAnimation(animationFile, nowAnimationName_);
 	} else {
 		animation_ = manager_->LoadAnimationFile(directoryPath, animationFile);
+		nowAnimationName_ = manager_->GetAnimationFirstName(animationFile);
 	}
 
-	nowAnimationName_ = manager_->GetAnimationFirstName(animationFile);
 	animationNames_ = manager_->GetModelHaveAnimationNames(animationFile);
 }
 
