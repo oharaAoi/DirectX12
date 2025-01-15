@@ -35,7 +35,8 @@ void TestScene::Debug_Gui() {
 	DrawVector(rotateByMatrix, "rotateByMatrix");*/
 
 	Quaternion rotate0 = Quaternion::AngleAxis(0.3f, {0.71f, 0.71f, 0.0f});
-	Quaternion rotate1 = Quaternion::AngleAxis(PI, {0.71f, 0.0f, 0.71f});
+	//Quaternion rotate1 = Quaternion::AngleAxis(PI, {0.71f, 0.0f, 0.71f});
+	Quaternion rotate1 = Quaternion(-rotate0.x, -rotate0.y, -rotate0.z, -rotate0.w);
 	
 	Quaternion lerp0 = Quaternion::Slerp(rotate0, rotate1, 0.0f);
 	Quaternion lerp1 = Quaternion::Slerp(rotate0, rotate1, 0.3f);
