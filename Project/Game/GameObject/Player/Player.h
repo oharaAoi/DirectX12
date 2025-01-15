@@ -7,6 +7,7 @@
 // game
 #include "Game/Interface/ICharactorState.h"
 #include "Game/GameObject/Player/State/PlayerAttackState.h"
+#include "Game/GameObject/Player/Sword.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Collider/AttackCollider.h"
 #include "Game/System/LockOn/LockOn.h"
@@ -206,12 +207,8 @@ private:
 	float inputReceptionFrame_;	// 入力を受け付ける時間
 
 	// 武器
-	std::unique_ptr<BaseGameObject> sword_;
 	Matrix4x4 swordMat_;
-
-	std::unique_ptr<BaseGameObject> swordCenter_;
-	Vector3 swordRotate_;
-	Vector3 swordOffset_ = { -2.0f, 0.0f, 0.0f };
+	std::unique_ptr<Sword> sword_;
 
 	// ------------------- 影関連 ------------------- //
 	std::unique_ptr<BaseGameObject> shadow_;

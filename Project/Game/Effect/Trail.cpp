@@ -82,6 +82,10 @@ void Trail::Update() {
 	if (!verticesData_.empty()) {
 		for (uint32_t oi = 0; oi < verticesData_.size() - 1; ++oi) {
 			verticesData_[oi].color.w -= GameTimer::DeltaTime() * 3.0f;
+
+			if (verticesData_[oi].color.w <= 0.0f) {
+
+			}
 		}
 	}
 
@@ -111,26 +115,21 @@ void Trail::Draw(const ViewProjection* viewprojection) const {
 // 追加
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Trail::AddTrail(const Matrix4x4& mat) {
-	Vector3 translate = Transform(Vector3::ZERO(), mat);
+void Trail::AddTrail(const Matrix4x4& tipMat, const Matrix4x4& rootMat) {
+	Vector3 tipTranslate = Transform(Vector3::ZERO(), tipMat);
+	Vector3 rootTranslate = Transform(Vector3::ZERO(), rootMat);
 	
 	time_ += GameTimer::DeltaTime();
 	if (time_ > popTime_) {
-		Vector3 rect[4] = {
-			(TransformNormal(rect_.leftTop , mat)) + translate,
-			(TransformNormal(rect_.rightTop , mat)) + translate,
-			(TransformNormal(rect_.leftBottom ,mat)) + translate,
-			(TransformNormal(rect_.rightBottom, mat)) + translate
-		};
-
+		
 		// 最初の四角形かどうかを判定
 		if (uint32_t(nowTrailCount_) == 0) {
 			/*auto& quad = quades.emplace_back();*/
 			// 最初の四角形の場合、4つの頂点を追加
-			verticesData_.push_back(VertexData({ Vector4(rect[0], 1.0f) }, { 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
-			verticesData_.push_back(VertexData({ Vector4(rect[1], 1.0f) }, { 1.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
-			verticesData_.push_back(VertexData({ Vector4(rect[2], 1.0f) }, { 0.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
-			verticesData_.push_back(VertexData({ Vector4(rect[3], 1.0f) }, { 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
+			verticesData_.push_back(VertexData({ Vector4(tipTranslate, 1.0f) }, { 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
+			verticesData_.push_back(VertexData({ Vector4(rootTranslate, 1.0f) }, { 1.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
+			verticesData_.push_back(VertexData({ Vector4(tipTranslate, 1.0f) }, { 0.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
+			verticesData_.push_back(VertexData({ Vector4(rootTranslate, 1.0f) }, { 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
 
 			// 最初の四角形のインデックスを設定
 			indices_.push_back(0);
@@ -145,8 +144,8 @@ void Trail::AddTrail(const Matrix4x4& mat) {
 			uint32_t baseIndex = uint32_t(nowTrailCount_) * 2; // 新しい頂点のインデックス
 			//auto& quad = quades.emplace_back();
 
-			verticesData_.push_back(VertexData({ Vector4(rect[0], 1.0f) }, { 0.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
-			verticesData_.push_back(VertexData({ Vector4(rect[1], 1.0f) }, { 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
+			verticesData_.push_back(VertexData({ Vector4(tipTranslate, 1.0f) }, { 0.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
+			verticesData_.push_back(VertexData({ Vector4(rootTranslate, 1.0f) }, { 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }));
 
 			indices_.push_back(baseIndex - 2); // 前回の rect[2]
 			indices_.push_back(baseIndex - 1); // 前回の rect[3]

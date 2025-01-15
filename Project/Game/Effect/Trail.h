@@ -38,7 +38,7 @@ public:
 	void Update();
 	void Draw(const ViewProjection* viewprojection) const;
 
-	void AddTrail(const Matrix4x4& mat);
+	void AddTrail(const Matrix4x4& tipMat, const Matrix4x4& rootMat);
 
 	void ResetTrail();
 

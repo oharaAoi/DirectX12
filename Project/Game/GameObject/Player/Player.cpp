@@ -50,20 +50,11 @@ void Player::Init() {
 	attackCollider_->SetRadius(4.0f);
 
 	// 武器の初期化
-	sword_ = std::make_unique<BaseGameObject>();
+	sword_ = std::make_unique<Sword>();
 	sword_->Init();
-	sword_->SetObject("sword.obj");
-	sword_->GetTransform()->SetScale(Vector3(100, 100, 100));	// 親子関係で小さくなってしまっているため
 
 	swordMat_ = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
 	sword_->GetTransform()->SetParent(swordMat_);
-
-	swordCenter_ = std::make_unique<BaseGameObject>();
-	swordCenter_->Init();
-	swordCenter_->SetObject("plane.obj");
-	swordCenter_->GetTransform()->SetQuaternion(Quaternion::AngleAxis(PI, Vector3::RIGHT()));
-	swordCenter_->GetTransform()->SetParent(sword_->GetTransform()->GetWorldMatrix());
-	//swordCenter_->SetObjectAxis();
 
 	// 影の初期化
 	shadow_ = std::make_unique<BaseGameObject>();
@@ -106,15 +97,6 @@ void Player::Update() {
 	swordMat_ = animetor_->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
 	sword_->Update();
 
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	swordRotate_ = TransformNormal(Vector3::RIGHT(), sword_->GetTransform()->GetWorldMatrix());
-
-	swordCenter_->GetTransform()->SetTranslaion(swordOffset_);
-	swordCenter_->Update();
-
-	Vector3 translate = Transform(Vector3::ZERO(), swordCenter_->GetTransform()->GetWorldMatrix());
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 	if (isJump_) {
 		if (behavior_ == Behavior::JUMP) {
 			transform_->SetTranslationY(0);
@@ -123,7 +105,7 @@ void Player::Update() {
 	}
 
 	if (behavior_ == Behavior::ATTACK) {
-		pTrail_->AddTrail(swordCenter_->GetTransform()->GetWorldMatrix());
+		pTrail_->AddTrail(sword_->GetSwordTip()->GetTransform()->GetWorldMatrix(), sword_->GetSwordRoot()->GetTransform()->GetWorldMatrix());
 	}
 
 	// objectの更新
@@ -358,7 +340,8 @@ void Player::Debug_Gui() {
 	}
 
 	ImGui::DragFloat3("attackColliderDiff", &attackColliderDiff_.x, 0.1f);
-	ImGui::DragFloat3("swordOffset_", &swordOffset_.x, 0.1f);
+
+	sword_->Debug_Gui();
 }
 
 void Player::Debug_Draw() {
