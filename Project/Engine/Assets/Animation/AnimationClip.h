@@ -48,7 +48,7 @@ public:
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
 	void LerpAnimation(const std::string& lerpAnimation, float blendSpeed);
 
-	void ResetAnimation(const std::string& animationName, float blendSpeed);
+	void ResetAnimation(const std::string& animationName);
 
 	/// <summary>
 	/// Animationの予約
