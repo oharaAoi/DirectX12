@@ -34,7 +34,10 @@ public :
 
 public:
 
-	void ImGuiDraw();
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif // _DEBUG
+
 
 	void SetEyePos(const Vector3& pos) { spotLightData_->eyePos = pos; }
 

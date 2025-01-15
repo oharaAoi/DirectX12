@@ -20,7 +20,7 @@ public:
 	void Finalize();
 	void Update();
 
-	void UpdateScript(float& animationTime, float transitionTime = 1.0f);
+	void UpdateScript(float& animationTime);
 
 	void UpdateSkinning();
 
@@ -70,13 +70,6 @@ public:
 	const float GetAnimationTime() const { return animationClip_->GetAnimationTime(); }	// 取得
 	void SetAnimationTime(float time) { animationClip_->SetAnimationTime(time); }		// 設定
 
-	// animationの制御をスクリプトで行うかの取得・設定
-	const bool GetIsControlScript() const { return isControlScript_; }			// 取得
-	void SetIsControlScript(bool isControl) { isControlScript_ = isControl; }	// 設定
-
-	// skinningを行うかを取得
-	const bool GetIsSkinning() const { return isSkinning_; }
-
 	// Animationの切り替えがあるかを取得
 	const bool GetIsAnimationChange() const { return animationClip_->GetIsChange(); }
 
@@ -85,6 +78,14 @@ public:
 
 	// アニメーションの速度を設定する
 	void SetAnimationSpeed(float speed) { animationClip_->SetAnimationSpeed(speed); }
+
+	// animationの制御をスクリプトで行うかの取得・設定
+	const bool GetIsControlScript() const { return isControlScript_; }			// 取得
+	void SetIsControlScript(bool isControl) { isControlScript_ = isControl; }	// 設定
+
+	// skinningを行うかを取得
+	const bool GetIsSkinning() const { return isSkinning_; }
+
 
 private:
 

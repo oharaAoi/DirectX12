@@ -1,19 +1,21 @@
 #include "AnimationClip.h"
+#include "Engine/Assets/Animation/AnimationFunctions.h"
 #include "Engine/System/Manager/AnimationManager.h"
 #include "Engine/Lib/GameTimer.h"
 
-AnimationClip::AnimationClip() {
+AnimationClip::AnimationClip() {}
+AnimationClip ::~AnimationClip() {}
+
+void AnimationClip::Init(const std::string& rootName, bool isSkinning, bool isLoop) {
 	manager_ = AnimationManager::GetInstance();
+
+	rootName_ = rootName;
+	isSkinnig_ = isSkinning;
+	isLoop_ = isLoop;
 
 	isAnimationChange_ = false;
 	blendFactor_ = 0.0f;
 	blendSpeed_ = 1.0f;
-}
-
-AnimationClip ::~AnimationClip() {
-}
-
-void AnimationClip::Init() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,145 +70,17 @@ void AnimationClip::Update() {
 // ↓　読み込み
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AnimationClip::LoadAnimation(const std::string directoryPath, const std::string& animationFile, const std::string& rootName, bool isSkinning) {
+void AnimationClip::LoadAnimation(const std::string directoryPath, const std::string& animationFile) {
 	animationFileName_ = animationFile;
-	isSkinnig_ = isSkinning;
-	rootName_ = rootName;
-
-	Assimp::Importer importer;
-	std::string filePath = directoryPath + animationFile;
-	const aiScene* scene = importer.ReadFile(filePath.c_str(), 0);
-	if (!scene || scene->mNumAnimations == 0) {
-		throw std::runtime_error("Failed to load animations or no animations present");
+	// animationが登録されているかを確認
+	if (manager_->CheckAnimationMap(animationFile)) {
+		animation_ = manager_->GetAnimation(directoryPath, animationFile);
+	} else {
+		animation_ = manager_->LoadAnimationFile(directoryPath, animationFile);
 	}
 
-	Log("Start LoadAnimationFile [" + animationFile + "]\n");
-
-	std::unordered_map<std::string, Animation> animationMap{};
-
-	for (uint32_t animationIndex = 0; animationIndex < scene->mNumAnimations; ++animationIndex) {
-		// sceneからanimationの情報を取得する
-		aiAnimation* animationAssimp = scene->mAnimations[animationIndex];
-
-		std::string animationName = animationAssimp->mName.C_Str();										// animationの名前
-		Animation animationData{};																		// animationのデータ
-		animationData.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	// 時間の単位を秒に変換
-		animationData.animationName = animationName;													// animatonの名前を取得
-
-		Log("LoadAnimation[" + animationName + "]\n");
-
-		// -------------------------------------------------
-		// ↓ アニメーションの解析
-		// -------------------------------------------------
-		// assimpでは個々のNodeのAnimationをchannelと呼ぶ
-		for (uint32_t channelIndex = 0; channelIndex < animationAssimp->mNumChannels; ++channelIndex) {
-			aiNodeAnim* nodeAnimationAssimp = animationAssimp->mChannels[channelIndex];
-			NodeAnimation& nodeAnimation = animationData.nodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
-
-			// -------------------------------------------------
-			// ↓ Vector3の読み込み
-			// -------------------------------------------------
-			Log("\n");
-			Log("[animation Translate]\n");
-			Log("\n");
-			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex) {
-				aiVectorKey& keyAssimp = nodeAnimationAssimp->mPositionKeys[keyIndex];
-				KeyframeVector3 keyframe{};
-				keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
-				keyframe.value = { -keyAssimp.mValue.x,keyAssimp.mValue.y, keyAssimp.mValue.z };
-				nodeAnimation.translate.keyframes.push_back(keyframe);
-				/*Log("---------------------------------\n");
-				std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
-				Log(timeLog);
-
-				std::string valueXLog = "keyFrame.value X : " + std::to_string(keyframe.value.x) + "\n";
-				std::string valueYLog = "keyFrame.value Y : " + std::to_string(keyframe.value.y) + "\n";
-				std::string valueZLog = "keyFrame.value Z : " + std::to_string(keyframe.value.z) + "\n";
-
-				Log(valueXLog);
-				Log(valueYLog);
-				Log(valueZLog);*/
-			}
-
-			// -------------------------------------------------
-			// ↓ Quaternionの読み込み
-			// -------------------------------------------------
-			Log("\n");
-			Log("[animation Rotate]\n");
-			Log("\n");
-			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumRotationKeys; ++keyIndex) {
-
-				aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
-				KeyframeQuaternion keyframe{};
-				keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
-				keyframe.value = { keyAssimp.mValue.x, -keyAssimp.mValue.y, -keyAssimp.mValue.z, keyAssimp.mValue.w };
-				nodeAnimation.rotate.keyframes.push_back(keyframe);
-				/*std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
-				Log(timeLog);*/
-				/*Log("--------------------------------------------------\n");
-				std::string timeLog = "TicksPerSecond : " + std::to_string(animationAssimp->mTicksPerSecond) + "\n";
-				Log(timeLog);
-
-				Log("--------------------------------------------------\n");*/
-
-			}
-
-			// -------------------------------------------------
-			// ↓ Scaleの読み込み
-			// -------------------------------------------------
-			Log("\n");
-			Log("[animation Scale]\n");
-			Log("\n");
-			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumScalingKeys; ++keyIndex) {
-				aiVectorKey& keyAssimp = nodeAnimationAssimp->mScalingKeys[keyIndex];
-				KeyframeVector3 keyframe{};
-				keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
-				keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y, keyAssimp.mValue.z };
-				nodeAnimation.scale.keyframes.push_back(keyframe);
-
-				Log("---------------------------------\n");
-				std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
-				Log(timeLog);
-
-				std::string valueXLog = "keyFrame.value X : " + std::to_string(keyframe.value.x) + "\n";
-				std::string valueYLog = "keyFrame.value Y : " + std::to_string(keyframe.value.y) + "\n";
-				std::string valueZLog = "keyFrame.value Z : " + std::to_string(keyframe.value.z) + "\n";
-
-				Log(valueXLog);
-				Log(valueYLog);
-				Log(valueZLog);
-			}
-		}
-
-		animationMap.try_emplace(animationName, animationData);
-
-		/*animations_.push_back(animation);*/
-	}
-
-	Log("End LoadAnimation[" + animationFile + "]\n");
-
-	// managerにanimationデータを追加
-	manager_->AddMap(animationMap, animationFile);
-	// 先頭のアニメーションを追加しておく
 	nowAnimationName_ = manager_->GetAnimationFirstName(animationFile);
-	animation_ = manager_->GetAnimation(animationFile, nowAnimationName_);
-	// すべてのanimationの名前を取得
-	animationNames_ = manager_->GetModelHaveAnimationNames(animationFileName_);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　animationの取得
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void AnimationClip::LoadGetAnimation(const std::string& animationFile, bool isSkinning) {
-	animationFileName_ = animationFile;
-	nowAnimationName_ = animationFile;
-	isSkinnig_ = isSkinning;
-
-	nowAnimationName_ = manager_->GetAnimationFirstName(animationFile);
-	animation_ = manager_->GetAnimation(animationFile, nowAnimationName_);
-	// すべてのanimationの名前を取得
-	animationNames_ = manager_->GetModelHaveAnimationNames(animationFileName_);
+	animationNames_ = manager_->GetModelHaveAnimationNames(animationFile);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -271,94 +145,11 @@ void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
 	}
 }
 
-
-void AnimationClip::AnimationTransition(Skeleton* skelton, float time) {
-	blendFactor_ += GameTimer::DeltaTime() / time;
-	lerpAnimationTime_[1] += GameTimer::DeltaTime();
-
-	for (Skeleton::Joint& joint : skelton->GetJoints()) {
-		auto itA = lerpAnimetion_[0].nodeAnimations.find(joint.name);
-		auto itB = lerpAnimetion_[1].nodeAnimations.find(joint.name);
-
-		if (itA != lerpAnimetion_[0].nodeAnimations.end() && itB != lerpAnimetion_[1].nodeAnimations.end()) {
-			const NodeAnimation& nodeAnimationA = itA->second;
-			const NodeAnimation& nodeAnimationB = itB->second;
-
-			// アニメーションAとBのそれぞれの変換を取得
-			Vector3 translateA = CalculateValue(nodeAnimationA.translate.keyframes, lerpAnimationTime_[0]);
-			Quaternion rotateA = CalculateQuaternion(nodeAnimationA.rotate.keyframes, lerpAnimationTime_[0]);
-			Vector3 scaleA = CalculateValue(nodeAnimationA.scale.keyframes, lerpAnimationTime_[0]);
-
-			Vector3 translateB = CalculateValue(nodeAnimationB.translate.keyframes, lerpAnimationTime_[1]);
-			Quaternion rotateB = CalculateQuaternion(nodeAnimationB.rotate.keyframes, lerpAnimationTime_[1]);
-			Vector3 scaleB = CalculateValue(nodeAnimationB.scale.keyframes, lerpAnimationTime_[1]);
-
-			// blendFactor（補間率）に基づいて補間
-			float t = blendFactor_ / 1.0f;
-			joint.transform.translate = Lerp(translateA, translateB, t);
-			joint.transform.rotate = Quaternion::Slerp(rotateA, rotateB, t);
-			joint.transform.scale = Lerp(scaleA, scaleB, t);
-		}
-	}
-
-	// 遷移が完了した場合の処理
-	if (blendFactor_ >= 1.0f) {
-		isAnimationChange_ = false;
-		animationTime_ = lerpAnimationTime_[1];
-		animation_ = lerpAnimetion_[1];
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　補完(Vector3)
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-Vector3 AnimationClip::CalculateValue(const std::vector<KeyframeVector3>& keyframes, const float& time) {
-	assert(!keyframes.empty());
-	if (keyframes.size() == 1 || time <= keyframes[0].time) {
-		return keyframes[0].value;
-	}
-
-	for (size_t index = 0; index < keyframes.size() - 1; ++index) {
-		size_t nextIndex = index + 1;
-		if (keyframes[index].time <= time && time <= keyframes[nextIndex].time) {
-			// 範囲内を補完する
-			float t = (time - keyframes[index].time) / (keyframes[nextIndex].time - keyframes[index].time);
-			return Vector3::Lerp(keyframes[index].value, keyframes[nextIndex].value, t);
-		}
-	}
-
-	//　ここまで来たら一番後の時刻よりも後ろなので最後の値を返す
-	return (*keyframes.rbegin()).value;
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　補完(Quaternion)
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-Quaternion AnimationClip::CalculateQuaternion(const std::vector<KeyframeQuaternion>& keyframes, const float& time) {
-	assert(!keyframes.empty());
-	if (keyframes.size() == 1 || time <= keyframes[0].time) {
-		return keyframes[0].value;
-	}
-
-	for (size_t index = 0; index < keyframes.size() - 1; ++index) {
-		size_t nextIndex = index + 1;
-		if (keyframes[index].time <= time && time <= keyframes[nextIndex].time) {
-			// 範囲内を補完する
-			float t = (time - keyframes[index].time) / (keyframes[nextIndex].time - keyframes[index].time);
-			return Quaternion::Slerp(keyframes[index].value, keyframes[nextIndex].value, t);
-		}
-	}
-
-	//　ここまで来たら一番後の時刻よりも後ろなので最後の値を返す
-	return (*keyframes.rbegin()).value;
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　animation同士の補完を設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AnimationClip::SetLerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed) {
+void AnimationClip::LerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed) {
 	lerpAnimetion_[0] = manager_->GetAnimation(animationFileName_, preAnimation);
 	lerpAnimetion_[1] = manager_->GetAnimation(animationFileName_, lerpAnimation);
 
@@ -375,7 +166,7 @@ void AnimationClip::SetLerpAnimation(const std::string& preAnimation, const std:
 }
 
 
-void AnimationClip::SetLerpAnimation(const std::string& lerpAnimation, float blendSpeed) {
+void AnimationClip::LerpAnimation(const std::string& lerpAnimation, float blendSpeed) {
 	// 今と遷移後がAnimationが同じだったら何もしない
 	if (animation_.animationName == lerpAnimation) {
 		return;
@@ -395,14 +186,22 @@ void AnimationClip::SetLerpAnimation(const std::string& lerpAnimation, float ble
 	nowAnimationName_ = lerpAnimation;
 }
 
-void AnimationClip::SetAnimation(const std::string& animationName) {
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Animationを再設定する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AnimationClip::ResetAnimation(const std::string& animationName, float blendSpeed) {
 	animation_ = manager_->GetAnimation(animationFileName_, animationName);
 	animationTime_ = 0.0f;
 	
 	nowAnimationName_ = animation_.animationName;
 }
 
-void AnimationClip::SetAnimationReservation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed, float startTransitionRaito) {
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Animationの予約を行う
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AnimationClip::ReservationAnimation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed, float startTransitionRaito) {
 	lerpAnimetion_[0] = manager_->GetAnimation(animationFileName_, preAnimation);
 	lerpAnimetion_[1] = manager_->GetAnimation(animationFileName_, lerpAnimation);
 
@@ -501,7 +300,7 @@ void AnimationClip::Debug_Gui() {
 			ImGui::DragFloat("blendSpeed", &blendSpeed_, 0.01f);
 
 			if (ImGui::Button("isChange")) {
-				SetLerpAnimation(
+				LerpAnimation(
 					animationNames_[lerpAnimationNamesIndex_[0]],
 					animationNames_[lerpAnimationNamesIndex_[1]],
 					blendSpeed_

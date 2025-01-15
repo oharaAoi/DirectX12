@@ -1,4 +1,5 @@
 #include "AnimationManager.h"
+#include "Engine/Utilities/Loader.h"
 
 AnimationManager::~AnimationManager() {
 }
@@ -11,26 +12,60 @@ AnimationManager* AnimationManager::GetInstance() {
 void AnimationManager::Init() {
 }
 
-void AnimationManager::AddMap(const std::unordered_map<std::string, AnimationClip::Animation>& animation, const std::string& name) {
-	if (auto it = animationMap_.find(name); it != animationMap_.end()) {
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　animaitonを読み込んでいるかを確認する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool AnimationManager::CheckAnimationMap(const std::string& animationFile) {
+	if (auto it = animationMap_.find(animationFile); it == animationMap_.end()) {
+		return false;
+	}
+
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Animationのファイルを読み込む
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+Animation AnimationManager::LoadAnimationFile(const std::string& directory, const std::string& animationFile) {
+	AddMap(LoadAnimation(directory, animationFile), animationFile);
+	return animationMap_[animationFile][GetAnimationFirstName(animationFile)];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　AnimationのMapをMapに追加する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AnimationManager::AddMap(const std::unordered_map<std::string, Animation>& animation, const std::string& animationFileName) {
+	if (auto it = animationMap_.find(animationFileName); it != animationMap_.end()) {
 		return;
 	}
 
 	// ファイルに格納されているアニメーションの名前を格納する
 	for (auto animationName : animation) {
-		modelHaveAnimationNames_[name].push_back(animationName.first);
+		modelHaveAnimationNames_[animationFileName].push_back(animationName.first);
 	}
 
-	animationMap_.try_emplace(name, animation);
+	animationMap_.try_emplace(animationFileName, animation);
 }
 
-AnimationClip::Animation AnimationManager::GetAnimation(const std::string& animationFile, const std::string& animationName) {
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Animationをmapから取得する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+Animation AnimationManager::GetAnimation(const std::string& animationFile, const std::string& animationName) {
+	// mapに存在していなかったら読み込んでmapに追加する
 	if (auto it = animationMap_.find(animationFile); it == animationMap_.end()) {
-		assert(false && "Animation not found!");
+		assert(false && "animationFile not Load!");
 	}
 
 	return animationMap_[animationFile][animationName];
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　animationのmapに入っている最初のAnimation名を取得する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 std::string AnimationManager::GetAnimationFirstName(const std::string& animationFileName) {
 	return modelHaveAnimationNames_[animationFileName][0];

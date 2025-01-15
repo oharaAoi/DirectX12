@@ -34,9 +34,8 @@ void SpotLight::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& roo
 	BaseLight::Draw(commandList, rootParameterIndex);
 }
 
-void SpotLight::ImGuiDraw() {
 #ifdef _DEBUG
-	ImGui::Begin("SpotLight");
+void SpotLight::Debug_Gui() {
 	ImGui::DragFloat3("position", &spotLightData_->position.x, 0.1f, -10.0f, 10.0f);
 	ImGui::DragFloat("intensity", &spotLightData_->intensity, 0.1f, 0.0f, 10.0f);
 	ImGui::DragFloat3("direction", &spotLightData_->direction.x, 0.1f, -10.0f, 10.0f);
@@ -44,8 +43,6 @@ void SpotLight::ImGuiDraw() {
 	ImGui::DragFloat("decay", &spotLightData_->decay, 0.1f, 0.0f, 1.0f);
 	ImGui::SliderFloat("cosAngle", &cosDegree_, 0.0f, (std::numbers::pi_v<float>));
 	ImGui::SliderFloat("falloffDegree ", &falloffDegree_, 0.0f, (std::numbers::pi_v<float>));
-	ImGui::End();
-#endif
 
 	spotLightData_->direction = Normalize(spotLightData_->direction);
 	spotLightData_->cosAngle = std::cos(cosDegree_);
@@ -55,3 +52,4 @@ void SpotLight::ImGuiDraw() {
 		spotLightData_->cosFalloffStart = spotLightData_->cosAngle + 0.01f;
 	}
 }
+#endif

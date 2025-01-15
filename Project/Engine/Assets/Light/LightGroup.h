@@ -39,7 +39,6 @@ private:
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
-	std::unique_ptr<Phong> phong_ = nullptr;
-
+	
 	Vector3 eyePos_;
 };
