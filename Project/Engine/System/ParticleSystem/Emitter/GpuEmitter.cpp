@@ -151,26 +151,26 @@ void GpuEmitter::Save() {
 void GpuEmitter::Load() {
 	EffectPersistence* persistence = EffectPersistence::GetInstance();
 	// commonのLoad
-	commonEmitter_->translate = persistence->GetValue<Vector3>(label_, "translate");
-	commonEmitter_->rotate = persistence->GetValue<Vector4>(label_, "rotate");
-	commonEmitter_->minScale = persistence->GetValue<Vector3>(label_, "minScale");
-	commonEmitter_->maxScale = persistence->GetValue<Vector3>(label_, "maxScale");
-	commonEmitter_->translate = persistence->GetValue<Vector3>(label_, "translate");
-	commonEmitter_->shape = persistence->GetValue<uint32_t>(label_, "shape");
-	commonEmitter_->count = persistence->GetValue<uint32_t>(label_, "count");
-	commonEmitter_->frequency = persistence->GetValue<float>(label_, "frequency");
-	commonEmitter_->frequencyTime = persistence->GetValue<float>(label_, "frequencyTime");
-	commonEmitter_->color = persistence->GetValue<Vector4>(label_, "color");
-	commonEmitter_->speed = persistence->GetValue<float>(label_, "speed");
-	commonEmitter_->lifeTime = persistence->GetValue<float>(label_, "lifeTime");
-	commonEmitter_->gravity = persistence->GetValue<float>(label_, "gravity");
-	commonEmitter_->dampig = persistence->GetValue<float>(label_, "dampig");
+	commonEmitter_->translate		= persistence->GetValue<Vector3>(label_, "translate");
+	commonEmitter_->rotate			= persistence->GetValue<Vector4>(label_, "rotate");
+	commonEmitter_->minScale		= persistence->GetValue<Vector3>(label_, "minScale");
+	commonEmitter_->maxScale		= persistence->GetValue<Vector3>(label_, "maxScale");
+	commonEmitter_->translate		= persistence->GetValue<Vector3>(label_, "translate");
+	commonEmitter_->shape			= persistence->GetValue<uint32_t>(label_, "shape");
+	commonEmitter_->count			= persistence->GetValue<uint32_t>(label_, "count");
+	commonEmitter_->frequency		= persistence->GetValue<float>(label_, "frequency");
+	commonEmitter_->frequencyTime	= persistence->GetValue<float>(label_, "frequencyTime");
+	commonEmitter_->color			= persistence->GetValue<Vector4>(label_, "color");
+	commonEmitter_->speed			= persistence->GetValue<float>(label_, "speed");
+	commonEmitter_->lifeTime		= persistence->GetValue<float>(label_, "lifeTime");
+	commonEmitter_->gravity			= persistence->GetValue<float>(label_, "gravity");
+	commonEmitter_->dampig			= persistence->GetValue<float>(label_, "dampig");
 	// commonのSave
 	emitterParameter_.particleModel = persistence->GetValue<std::string>(label_, "modelName");
-	emitterParameter_.velocity = persistence->GetValue<Vector3>(label_, "velocity");
-	emitterParameter_.speed = persistence->GetValue<float>(label_, "speed");
-	emitterParameter_.lifeTime = persistence->GetValue<float>(label_, "emitterLifeTime");
-	emitterParameter_.oneShot = persistence->GetValue<bool>(label_, "oneShot");
+	emitterParameter_.velocity		= persistence->GetValue<Vector3>(label_, "velocity");
+	emitterParameter_.speed			= persistence->GetValue<float>(label_, "speed");
+	emitterParameter_.lifeTime		= persistence->GetValue<float>(label_, "emitterLifeTime");
+	emitterParameter_.oneShot		= persistence->GetValue<bool>(label_, "oneShot");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

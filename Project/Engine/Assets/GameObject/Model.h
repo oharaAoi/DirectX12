@@ -10,7 +10,7 @@
 #include "Engine/Assets/Rigging/SkinCluster.h"
 #include "Engine/Assets/WorldTransform.h"
 #include "Engine/Assets/ViewProjection.h"
-#include "Engine/Utilities/AnimationUtils.h"
+#include "Engine/Assets/Animation/AnimationStructures.h"
 #include "Engine/Math/MathStructures.h"
 #include <memory>
 
