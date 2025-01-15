@@ -191,6 +191,7 @@ void AnimationClip::LerpAnimation(const std::string& lerpAnimation, float blendS
 
 void AnimationClip::ResetAnimation(const std::string& animationName) {
 	animation_ = manager_->GetAnimation(animationFileName_, animationName);
+	nowAnimationName_ = animation_.animationName;
 	animationTime_ = 0.0f;
 }
 
