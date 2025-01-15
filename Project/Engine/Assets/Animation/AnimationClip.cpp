@@ -189,10 +189,9 @@ void AnimationClip::LerpAnimation(const std::string& lerpAnimation, float blendS
 // ↓　Animationを再設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AnimationClip::ResetAnimation(const std::string& animationName, float blendSpeed) {
+void AnimationClip::ResetAnimation(const std::string& animationName) {
 	animation_ = manager_->GetAnimation(animationFileName_, animationName);
 	animationTime_ = 0.0f;
-	blendSpeed_ = blendSpeed;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
