@@ -8,6 +8,7 @@
 #include "Engine/Assets/Meshes/Mesh.h"
 #include "Engine/Assets/Materials/Material.h"
 #include "Engine/Assets/Rigging/SkinCluster.h"
+#include "Engine/Assets/Animation/AnimationClip.h"
 #include "Engine/System/Manager/TextureManager.h"
 
 //================================================================================================//
@@ -58,6 +59,14 @@ void LoadMtl(const std::string& directoryPath, const std::string& fileName, Vect
 Model::Node LoadNode(const std::string& directoryPath, const std::string& fileName);
 
 Model::Node ReadNode(aiNode* node, const aiScene* scene);
+
+/// <summary>
+/// Animationを読み込む
+/// </summary>
+/// <param name="directoryPath">: directoryPath</param>
+/// <param name="animationFile">: fileName</param>
+/// <returns> Animationデータ </returns>
+std::unordered_map<std::string, Animation> LoadAnimation(const std::string directoryPath, const std::string& animationFile);
 
 /// <summary>
 /// skinCluster用のデータを読み込む

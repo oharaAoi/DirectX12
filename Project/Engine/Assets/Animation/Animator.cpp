@@ -33,13 +33,13 @@ void Animator::Update() {
 }
 
 
-void Animator::UpdateScript(float& animationTime, float transitionTime) {
+void Animator::UpdateScript(float& animationTime) {
 	if (!animationClip_->GetIsChange()) {
 		// Animationの遷移がなかったらそのままタイムの更新を行う
 		animationClip_->SetAnimationTime(animationTime);
 		animationClip_->ApplyAnimation(skeleton_.get());
 	} else {
-		animationClip_->AnimationTransition(skeleton_.get(), transitionTime);
+		animationClip_->LerpApplyAnimation(skeleton_.get());
 		// 更新を行ってAnimationが完全に切り替わったら遷移を終了しAnimationの時間を合うようにする
 		if (!animationClip_->GetIsChange()) {
 			animationTime = animationClip_->GetAnimationTime();
@@ -70,12 +70,8 @@ void Animator::LoadAnimation(const std::string& directoryPath, const std::string
 	// ↓ animationのkeyframeを取得
 	// -------------------------------------------------
 	animationClip_ = std::make_unique<AnimationClip>();
-	if (manager_->CheckAnimation(fileName)) {
-		animationClip_->LoadGetAnimation(fileName, isSkinning_);
-	} else {
-		animationClip_->LoadAnimation(directoryPath, fileName, model->GetRootNodeName(), isSkinning_);
-	}
-	animationClip_->SetIsLoop(isLoop);
+	animationClip_->Init(model->GetRootNodeName(), isSkinning_, isLoop);
+	animationClip_->LoadAnimation(directoryPath, fileName);
 	
 	// -------------------------------------------------
 	// ↓ skinningするのに必要な情報の取得
@@ -88,12 +84,16 @@ void Animator::LoadAnimation(const std::string& directoryPath, const std::string
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Animationの遷移
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Animator::TransitionAnimation(const std::string& preAnimation, const std::string& afterAnimation, float blendSpeed) {
-	animationClip_->SetLerpAnimation(preAnimation, afterAnimation, blendSpeed);
+	animationClip_->LerpAnimation(preAnimation, afterAnimation, blendSpeed);
 }
 
 void Animator::TransitionAnimation(const std::string& afterAnimation, float blendSpeed) {
-	animationClip_->SetLerpAnimation(afterAnimation, blendSpeed);
+	animationClip_->LerpAnimation(afterAnimation, blendSpeed);
 }
 
 #ifdef _DEBUG
