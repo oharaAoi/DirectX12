@@ -695,6 +695,11 @@ bool    ImGui_ImplDX12_CreateDeviceObjects()
               return out_col; \
             }";
 
+        /*if (out_col.a == 0.0f) {
+            \
+                discard; \
+        }\*/
+
         if (FAILED(D3DCompile(pixelShader, strlen(pixelShader), nullptr, nullptr, nullptr, "main", "ps_5_0", 0, 0, &pixelShaderBlob, nullptr)))
         {
             vertexShaderBlob->Release();

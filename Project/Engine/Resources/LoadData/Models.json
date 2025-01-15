@@ -16,7 +16,8 @@
                 "skin.obj",
                 "cube.obj",
                 "axis.obj",
-                "plane.obj"
+                "plane.obj",
+                "sphere.obj"
             ]
         },
         {

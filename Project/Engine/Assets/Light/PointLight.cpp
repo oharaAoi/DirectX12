@@ -28,13 +28,11 @@ void PointLight::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& ro
 	BaseLight::Draw(commandList, rootParameterIndex);
 }
 
-void PointLight::ImGuiDraw() {
 #ifdef _DEBUG
-	ImGui::Begin("PointLight");
+void PointLight::Debug_Gui() {
 	ImGui::DragFloat3("position", &pointLightData_->position.x, 0.1f, -10.0f, 10.0f);
 	ImGui::DragFloat("intensity", &pointLightData_->intensity, 0.1f, 0.0f, 1.0f);
 	ImGui::DragFloat("radius", &pointLightData_->radius, 0.1f, 0.0f, 10.0f);
 	ImGui::DragFloat("decay", &pointLightData_->decay, 0.1f, 0.0f, 1.0f);
-	ImGui::End();
-#endif
 }
+#endif

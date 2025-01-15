@@ -43,6 +43,10 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	renderTexture_ = std::make_unique<RenderTexture>();
 	audio_ = std::make_unique<Audio>();
 
+#ifdef _DEBUG
+	editerWindows_->Init();
+#endif
+
 	// -------------------------------------------------
 	// ↓ 各初期化
 	// -------------------------------------------------
@@ -60,7 +64,6 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	effectSystem_->Init();
 
 #ifdef _DEBUG
-	editerWindows_->Init();
 	imguiManager_ = ImGuiManager::GetInstacne();
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_->GetDevice(), dxCommon_->GetSwapChainBfCount(), descriptorHeap_->GetSRVHeap());
 	EffectSystem::GetInstacne()->EditerInit(renderTarget_.get(), descriptorHeap_.get(), dxCommands_.get(), dxDevice_->GetDevice());
