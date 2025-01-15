@@ -120,15 +120,15 @@ void PlayerAttackState::FirstAttack() {
 }
 
 void PlayerAttackState::SecondAttack() {
-	pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation(information_.animationName, "attack2", 0.1f, 0.85f);
+	pPlayer_->GetAnimetor()->GetAnimationClip()->ReservationAnimation(information_.animationName, "attack2", 0.1f, 0.85f);
 }
 
 void PlayerAttackState::TheradAttack() {
-	pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation("attack2", "attack3", 0.1f, 0.9f);
+	pPlayer_->GetAnimetor()->GetAnimationClip()->ReservationAnimation("attack2", "attack3", 0.1f, 0.9f);
 }
 
 void PlayerAttackState::FourAttack() {
-	pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimationReservation("attack3", "attack4", 0.1f, 0.9f);
+	pPlayer_->GetAnimetor()->GetAnimationClip()->ReservationAnimation("attack3", "attack4", 0.1f, 0.9f);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

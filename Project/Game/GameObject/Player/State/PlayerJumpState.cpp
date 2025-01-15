@@ -39,7 +39,7 @@ void PlayerJumpState::Jump() {
 		translate.y = 0.0f;
 		pPlayer_->SetIsJump(false);
 		pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
-		pPlayer_->GetAnimetor()->GetAnimationClip()->SetAnimation("idle");
+		pPlayer_->GetAnimetor()->GetAnimationClip()->ResetAnimation("idle");
 		pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
 
 	}
