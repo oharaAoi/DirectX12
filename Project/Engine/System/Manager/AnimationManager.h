@@ -41,7 +41,7 @@ public:
 	/// <param name="animationFile">: animationが格納されているファイル名</param>
 	/// <param name="animationName">: 行いたいanimation名</param>
 	/// <returns></returns>
-	Animation GetAnimation(const std::string& animationFile, const std::string& animationName);
+	Animation GetAnimation(const std::string& fileName, const std::string& animationName);
 	
 	std::string GetAnimationFirstName(const std::string& animationFileName);
 
