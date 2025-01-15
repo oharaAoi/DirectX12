@@ -294,9 +294,6 @@
     <ClCompile Include="Engine\ComputeShader\BaseCSResource.cpp">
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Utilities\AnimationUtils.cpp">
-      <Filter>Engine\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ComputeShader\GaussianBlur.cpp">
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
@@ -499,6 +496,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\Animation\AnimationFunctions.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -704,9 +704,6 @@
     <ClInclude Include="Engine\ComputeShader\BaseCSResource.h">
       <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Utilities\AnimationUtils.h">
-      <Filter>Engine\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\ComputeShader\GaussianBlur.h">
       <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
@@ -903,6 +900,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Animation\AnimationStructures.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\Animation\AnimationFunctions.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

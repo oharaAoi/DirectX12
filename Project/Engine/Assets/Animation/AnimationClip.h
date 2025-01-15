@@ -8,6 +8,7 @@
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/Quaternion.h"
 #include "Engine/Assets/Rigging/Skeleton.h"
+#include "Engine/Assets/Animation/AnimationStructures.h"
 
 class AnimationManager;
 
@@ -17,47 +18,14 @@ class AnimationManager;
 class AnimationClip {
 public:
 
-	template <typename tValue>
-	struct Keyframe {
-		float time;
-		tValue value;
-	};
-
-	using KeyframeVector3 = Keyframe<Vector3>;
-	using KeyframeQuaternion = Keyframe<Quaternion>;
-
-	template <typename tValue>
-	struct AnimationCurve {
-		std::vector<Keyframe<tValue>> keyframes;
-	};
-
-	/// <summary>
-	/// Nodeごとのアニメーション
-	/// </summary>
-	struct NodeAnimation {
-		AnimationCurve<Vector3> translate;
-		AnimationCurve<Quaternion> rotate;
-		AnimationCurve<Vector3> scale;
-	};
-
-	struct Animation {
-		float duration;		// アニメーション全体の尺
-		// NodeAnimationの集合。Node名で引けるようにしておく
-		std::map<std::string, NodeAnimation> nodeAnimations;
-		std::string animationName;
-	};
-
-public:
-
 	AnimationClip();
 	~AnimationClip();
 
-	void Init();
+	void Init(const std::string& rootName, bool isSkinning, bool isLoop);
 	void Update();
 
-	void LoadAnimation(const std::string directoryPath, const std::string& animationFile, const std::string& rootName, bool isSkinning);
-	void LoadGetAnimation(const std::string& animationFile, bool isSkinning);
-
+	void LoadAnimation(const std::string directoryPath, const std::string& animationFile);
+	
 	void ApplyAnimation(Skeleton* skelton);
 
 	/// <summary>
@@ -67,36 +35,20 @@ public:
 	void LerpApplyAnimation(Skeleton* skelton);
 
 	/// <summary>
-	/// animetionを時間を指定して遷移させる
-	/// </summary>
-	/// <param name="skelton">: skelton</param>
-	/// <param name="time">: 遷移の時間</param>
-	void AnimationTransition(Skeleton* skelton, float time);
-
-	Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, const float& time);
-	Quaternion CalculateQuaternion(const std::vector<KeyframeQuaternion>& keyframes, const float& time);
-
-	/// <summary>
-	/// animationを遷移させる設定をする
-	/// </summary>
-	/// <param name="preAnimation">: 遷移前アニメーション</param>
-	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
-
-	/// <summary>
 	/// animationを遷移させる設定をする
 	/// </summary>
 	/// <param name="preAnimation">: 遷移前アニメーション</param>
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
 	/// <param name="blendSpeed">: 遷移する速さ</param>
-	void SetLerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed);
+	void LerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed);
 
 	/// <summary>
 	/// animationを遷移させる設定をする
 	/// </summary>
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
-	void SetLerpAnimation(const std::string& lerpAnimation, float blendSpeed);
+	void LerpAnimation(const std::string& lerpAnimation, float blendSpeed);
 
-	void SetAnimation(const std::string& animationName, float blendSpeed);
+	void ResetAnimation(const std::string& animationName);
 
 	/// <summary>
 	/// Animationの予約
@@ -104,7 +56,7 @@ public:
 	/// <param name="preAnimation">: 遷移前アニメーション</param>
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
 	/// <param name="startTransitionRaito">: 前のAnimationがどのくらいの割合の時に開始するか</param>
-	void SetAnimationReservation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed, float startTransitionRaito);
+	void ReservationAnimation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed, float startTransitionRaito);
 
 #ifdef _DEBUG
 	void Debug_Gui();

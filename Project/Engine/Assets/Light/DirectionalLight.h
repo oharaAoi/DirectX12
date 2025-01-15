@@ -29,7 +29,9 @@ public:
 
 public:
 
-	void ImGuiDraw();
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
 
 	void SetEyePos(const Vector3& pos) { directionalLightData_->eyePos = pos; }
 
