@@ -13,6 +13,8 @@ void GpuParticles::Finalize() {
 	particleResource_->Finalize();
 	freeListIndexResource_->Finalize();
 	freeListResource_->Finalize();
+	meshArray_.clear();
+	materialArray_.clear();
 }
 
 void GpuParticles::Init(uint32_t instanceNum) {
@@ -55,6 +57,7 @@ void GpuParticles::Init(uint32_t instanceNum) {
 
 	freeListResource_->CreateUAV(CreateUavDesc(kInstanceNum_, sizeof(uint32_t)));
 	freeListResource_->CreateSRV(CreateSrvDesc(kInstanceNum_, sizeof(uint32_t)));
+
 
 	perViewBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerView));
 	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
@@ -105,7 +108,7 @@ void GpuParticles::Draw(ID3D12GraphicsCommandList* commandList){
 		commandList->SetGraphicsRootDescriptorTable(1, particleResource_->GetSRV().handleGPU);
 		commandList->SetGraphicsRootConstantBufferView(4, perViewBuffer_->GetGPUVirtualAddress());
 
-		std::string textureName = "white.png";
+		std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetUseTexture();
 		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 2);
 
 		commandList->DrawIndexedInstanced(meshArray_[oi]->GetIndexNum(), kInstanceNum_, 0, 0, 0);

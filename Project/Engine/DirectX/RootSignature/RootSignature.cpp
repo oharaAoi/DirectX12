@@ -126,7 +126,6 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateParticleRootSignature() {
 		.AddCBV(0, D3D12_SHADER_VISIBILITY_PIXEL)  // Material用
 		.AddDescriptorTable(descriptorRangeForInstancing, 1, D3D12_SHADER_VISIBILITY_VERTEX) // Instancing描画用
 		.AddDescriptorTable(spriteDescriptorRange, 1, D3D12_SHADER_VISIBILITY_PIXEL) // texture用
-		.AddCBV(1, D3D12_SHADER_VISIBILITY_PIXEL)  // Light用
 		.AddCBV(0, D3D12_SHADER_VISIBILITY_VERTEX)  // PerView
 		.AddSampler(CreateSampler(D3D12_TEXTURE_ADDRESS_MODE_WRAP))
 		.Build(device_);

@@ -14,7 +14,7 @@ EffectSystemEditer::~EffectSystemEditer() {}
 void EffectSystemEditer::Finalize() {
 	depthStencilResource_.Reset();
 	gpuParticles_->Finalize();
-	gpuParticles_->Finalize();
+	gpuEmitterList_.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
