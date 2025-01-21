@@ -23,7 +23,7 @@ void GpuEmitter::Init() {
 	commonEmitter_->translate = Vector3::ZERO();
 	commonEmitter_->frequency = 0.5f;
 	commonEmitter_->frequencyTime = 0.0f;
-	commonEmitter_->count = 5;
+	commonEmitter_->count = 30;
 	commonEmitter_->emit = 0;
 
 	// particle自体のparameter

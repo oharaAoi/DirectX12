@@ -74,12 +74,13 @@ void EffectSystemEditer::Update() {
 		(*it)->Update();
 
 		gpuParticles_->EmitBindCmdList(commandList, 0);
-		(*it)->BindCmdList(commandList, 2);
+		(*it)->BindCmdList(commandList, 3);
 		commandList->Dispatch(1, 1, 1);
 
 		++it;
 	}
 
+	gpuParticles_->Update();
 
 	particleField_->Update();
 

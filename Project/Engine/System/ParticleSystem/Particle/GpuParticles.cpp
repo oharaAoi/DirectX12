@@ -95,7 +95,8 @@ void GpuParticles::Update() {
 	Engine::SetCsPipeline(CsPipelineType::GpuParticleUpdate);
 	commandList->SetComputeRootDescriptorTable(0, particleResource_->GetUAV().handleGPU);
 	commandList->SetComputeRootDescriptorTable(1, freeListIndexResource_->GetUAV().handleGPU);
-	commandList->SetComputeRootConstantBufferView(2, perFrameBuffer_->GetGPUVirtualAddress());
+	commandList->SetComputeRootDescriptorTable(2, freeListResource_->GetUAV().handleGPU);
+	commandList->SetComputeRootConstantBufferView(3, perFrameBuffer_->GetGPUVirtualAddress());
 	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
 
 	// UAVの変更
@@ -130,6 +131,7 @@ void GpuParticles::InitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT 
 void GpuParticles::EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex, particleResource_->GetUAV().handleGPU);
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 1, freeListIndexResource_->GetUAV().handleGPU);
+	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 2, freeListResource_->GetUAV().handleGPU);
 }
 
 void GpuParticles::SetViewProjection(const Matrix4x4& viewProjection) {
