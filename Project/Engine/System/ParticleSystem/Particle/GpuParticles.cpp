@@ -1,6 +1,7 @@
 #include "GpuParticles.h"
 #include "Engine/Engine.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/Utilities/Loader.h"
 #include <System/Manager/MeshManager.h>
 #include <System/Manager/ModelManager.h>
 
@@ -14,7 +15,7 @@ void GpuParticles::Finalize() {
 	freeListIndexResource_->Finalize();
 	freeListResource_->Finalize();
 	meshArray_.clear();
-	materialArray_.clear();
+	materials_.clear();
 }
 
 void GpuParticles::Init(uint32_t instanceNum) {
@@ -71,7 +72,11 @@ void GpuParticles::Init(uint32_t instanceNum) {
 
 	// mesh・Material情報
 	meshArray_ = MeshManager::GetInstance()->GetMeshes("sphere.obj");
-	materialArray_ = LoadMaterialData(ModelManager::GetModelPath("sphere.obj"), "sphere.obj", dxDevice);
+	materialData_ = LoadMaterialData(ModelManager::GetModelPath("sphere.obj"), "sphere.obj");
+
+	for (const auto& material : materialData_) {
+		materials_.emplace_back(Engine::CreateMaterial(material.second));
+	}
 
 	// -------------------------------------------------
 	// ↓ Particleの初期化をGPUで行う
@@ -103,12 +108,13 @@ void GpuParticles::Update() {
 
 void GpuParticles::Draw(ID3D12GraphicsCommandList* commandList){
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
-		meshArray_[oi]->Draw(commandList);
-		materialArray_[meshArray_[oi]->GetUseMaterial()]->Draw(commandList);
+		commandList->IASetVertexBuffers(0, 1, &meshArray_[oi]->GetVBV());
+		commandList->IASetIndexBuffer(&meshArray_[oi]->GetIBV());
+		commandList->SetGraphicsRootConstantBufferView(0, materials_[oi]->GetBufferAdress());
 		commandList->SetGraphicsRootDescriptorTable(1, particleResource_->GetSRV().handleGPU);
-		commandList->SetGraphicsRootConstantBufferView(4, perViewBuffer_->GetGPUVirtualAddress());
+		commandList->SetGraphicsRootConstantBufferView(3, perViewBuffer_->GetGPUVirtualAddress());
 
-		std::string textureName = materialArray_[meshArray_[oi]->GetUseMaterial()]->GetUseTexture();
+		std::string textureName = materials_[oi]->GetUseTexture();
 		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 2);
 
 		commandList->DrawIndexedInstanced(meshArray_[oi]->GetIndexNum(), kInstanceNum_, 0, 0, 0);

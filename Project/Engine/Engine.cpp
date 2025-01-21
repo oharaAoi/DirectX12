@@ -160,7 +160,9 @@ void Engine::EndFrame() {
 	imguiManager_->Draw(dxCommands_->GetCommandList());
 
 	if (!runGame_) {
-		effectSystem_->EndEditer();
+		if (openParticleEditer_) {
+			effectSystem_->EndEditer();
+		}
 	}
 #endif
 
@@ -182,6 +184,7 @@ void Engine::RenderFrame() {
 	BlendFinalTexture();
 
 #ifdef _DEBUG
+	openParticleEditer_ = false;
 	if (runGame_) {
 		if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
 			editerWindows_->Update();
@@ -192,6 +195,7 @@ void Engine::RenderFrame() {
 		if (ImGui::Begin("EffectSystem", nullptr)) {
 			effectSystem_->EditerUpdate();
 			effectSystem_->Debug_Gui();
+			openParticleEditer_ = true;
 		}
 		ImGui::End();
 	}

@@ -237,5 +237,7 @@ namespace {
 	bool isEffectEditer_;
 
 	bool runGame_;
+
+	bool openParticleEditer_ = false;	// 後で直す
 }
 

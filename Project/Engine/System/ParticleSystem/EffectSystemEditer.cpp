@@ -101,7 +101,7 @@ void EffectSystemEditer::Draw() const {
 	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 
 	// 実際にEffectを描画する
-	Engine::SetPipeline(PipelineType::AddPipeline);
+	Engine::SetPipeline(PipelineType::ParticlePipeline);
 	gpuParticles_->Draw(Engine::GetCommandList());
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);

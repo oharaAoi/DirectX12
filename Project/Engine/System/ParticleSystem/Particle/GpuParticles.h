@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include "Engine/Assets/Meshes/Mesh.h"
 #include "Engine/Assets/Materials/Material.h"
+#include "Engine/Assets/GameObject/Model.h"
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/Vector4.h"
 #include "Engine/Math/Matrix4x4.h"
@@ -67,6 +68,8 @@ private:
 	PerFrame* perFrame_;
 
 	std::vector<std::unique_ptr<Mesh>> meshArray_;
-	std::unordered_map<std::string, std::unique_ptr<Material>> materialArray_;
+	std::vector<std::unique_ptr<Material>> materials_;
+
+	std::unordered_map<std::string, Model::ModelMaterialData> materialData_;
 };
 

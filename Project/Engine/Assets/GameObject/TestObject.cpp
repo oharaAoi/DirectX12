@@ -16,7 +16,7 @@ void TestObject::Finalize() {
 
 void TestObject::Init() {
 	BaseGameObject::Init();
-	SetObject("cube.obj");
+	SetObject("sphere.obj");
 	//SetAnimater("./Engine/Resources/Animation/", "player.gltf", true, true, false);
 
 	SetMeshCollider("testObj");
