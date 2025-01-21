@@ -1,6 +1,7 @@
 #include "EffectSystemEditer.h"
 #include "Engine/Utilities/DrawUtils.h"
 #include "Engine/System/ParticleSystem/EffectPersistence.h"
+#include "Engine/System/ParticleSystem/Emitter/SphereEmitter.h"
 #ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
 
@@ -12,7 +13,8 @@ EffectSystemEditer::~EffectSystemEditer() {}
 
 void EffectSystemEditer::Finalize() {
 	depthStencilResource_.Reset();
-	effectList_.clear();
+	gpuParticles_->Finalize();
+	gpuEmitterList_.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,6 +49,12 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 
 	particleField_ = std::make_unique<ParticleField>();
 	particleField_->Init();
+
+	gpuParticles_ = std::make_unique<GpuParticles>();
+	gpuParticles_->Init(1024);
+
+	auto& newEmitter = gpuEmitterList_.emplace_back(std::make_unique<SphereEmitter>());
+	newEmitter->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,21 +62,25 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Update() {
+	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
+
 	// カメラの更新
 	effectSystemCamera_->Update();
 
-	effectList_.remove_if([](const std::unique_ptr<GpuEffect>& enemy) {
-		if (!enemy->GetIsAlive()) {
-			return true;
-		}
-		return false;
-						  });
+	gpuParticles_->SetViewProjection(effectSystemCamera_->GetViewMatrix() * effectSystemCamera_->GetProjectionMatrix());
 
-	for (std::list<std::unique_ptr<GpuEffect>>::iterator it = effectList_.begin(); it != effectList_.end();) {
-		(*it)->SetViewProjectionMat(effectSystemCamera_->GetViewMatrix() * effectSystemCamera_->GetProjectionMatrix());
+	Engine::SetCsPipeline(CsPipelineType::EmitGpuParticle);
+	for (std::list<std::unique_ptr<GpuEmitter>>::iterator it = gpuEmitterList_.begin(); it != gpuEmitterList_.end();) {
 		(*it)->Update();
+
+		gpuParticles_->EmitBindCmdList(commandList, 0);
+		(*it)->BindCmdList(commandList, 3);
+		commandList->Dispatch(1, 1, 1);
+
 		++it;
 	}
+
+	gpuParticles_->Update();
 
 	particleField_->Update();
 
@@ -90,11 +102,8 @@ void EffectSystemEditer::Draw() const {
 	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 
 	// 実際にEffectを描画する
-	Engine::SetPipeline(PipelineType::AddPipeline);
-	for (std::list<std::unique_ptr<GpuEffect>>::const_iterator it = effectList_.begin(); it != effectList_.end();) {
-		(*it)->Draw();
-		++it;
-	}
+	Engine::SetPipeline(PipelineType::ParticlePipeline);
+	gpuParticles_->Draw(Engine::GetCommandList());
 
 	Engine::SetPipeline(PipelineType::PrimitivePipeline);
 	Render::PrimitiveDrawCall();
@@ -146,23 +155,23 @@ void EffectSystemEditer::End() {
 // ↓　Effectの作成をする
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void EffectSystemEditer::CreateEffect(const std::string& newName) {
-	auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
-	newEffect->Init(static_cast<EmitterShape>(createShape_));
-	newEffect->SetEffectName(newName);
-}
+//void EffectSystemEditer::CreateEffect(const std::string& newName) {
+//	auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
+//	newEffect->Init(static_cast<EmitterShape>(createShape_));
+//	newEffect->SetEffectName(newName);
+//}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Emitterを取り出す
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Import() {
-	EffectPersistence* persistence = EffectPersistence::GetInstance();
-	uint32_t shape = persistence->GetValue<uint32_t>(importFileName_, "shape");
+	//EffectPersistence* persistence = EffectPersistence::GetInstance();
+	//uint32_t shape = persistence->GetValue<uint32_t>(importFileName_, "shape");
 
-	auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
+	/*auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
 	newEffect->Init(static_cast<EmitterShape>(shape));
-	newEffect->SetEmitter(importFileName_);
+	newEffect->SetEmitter(importFileName_);*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -190,29 +199,29 @@ void EffectSystemEditer::Debug_Gui() {
 	//}
 
 	ImGui::Begin("Emitter List");
-	static int selectedEffectIndex = -1; // -1 means no selection
-	int index = 0;
-	for (auto it = effectList_.begin(); it != effectList_.end(); ++it, ++index) {
-		std::string name = (*it)->GetEmitterLabel();
-		std::string label = "Effect_" + name + std::to_string(index);
+	//static int selectedEffectIndex = -1; // -1 means no selection
+	//int index = 0;
+	//for (auto it = effectList_.begin(); it != effectList_.end(); ++it, ++index) {
+	//	std::string name = (*it)->GetEmitterLabel();
+	//	std::string label = "Effect_" + name + std::to_string(index);
 
-		if (ImGui::Selectable(label.c_str(), selectedEffectIndex == index)) {
-			selectedEffectIndex = index; // Update the selected index
-		}
-	}
+	//	if (ImGui::Selectable(label.c_str(), selectedEffectIndex == index)) {
+	//		selectedEffectIndex = index; // Update the selected index
+	//	}
+	//}
 
-	if (selectedEffectIndex >= 0 && selectedEffectIndex < effectList_.size()) {
-		auto it = effectList_.begin();
-		std::advance(it, selectedEffectIndex); // Move iterator to the selected index
+	//if (selectedEffectIndex >= 0 && selectedEffectIndex < effectList_.size()) {
+	//	auto it = effectList_.begin();
+	//	std::advance(it, selectedEffectIndex); // Move iterator to the selected index
 
-		ImGui::Begin("EmitterSetting");
-		(*it)->Debug_Gui();
+	//	ImGui::Begin("EmitterSetting");
+	//	(*it)->Debug_Gui();
 
-		if (ImGui::Button("Delete")) {
-			(*it)->SetIsAlive(false);
-		}
-		ImGui::End();
-	}
+	//	if (ImGui::Button("Delete")) {
+	//		(*it)->SetIsAlive(false);
+	//	}
+	//	ImGui::End();
+	//}
 	ImGui::End();
 }
 
@@ -228,11 +237,11 @@ void EffectSystemEditer::EditEmitter() {
 	ImGui::SameLine();
 	ImGui::RadioButton("Box", &createShape_, (int)EmitterShape::Box);
 
-	if (ImGui::Button("CreateEmitter")) {
+	/*if (ImGui::Button("CreateEmitter")) {
 		uint32_t effectNum = static_cast<uint32_t>(effectList_.size()) + 1;
 		std::string defalutName = "effect" + std::to_string(effectNum);
 		CreateEffect(defalutName);
-	}
+	}*/
 	ImGui::Separator();
 	if (ImGui::Button("Inport")) {
 		Import();

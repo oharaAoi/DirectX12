@@ -24,6 +24,7 @@
 #include "Engine/Assets/RenderTexture.h"
 #include "Engine/Editer/Window/EditerWindows.h"
 #include "Engine/Assets/Rigging/Skinning.h"
+#include "Game/GameResources.h"
 #include "Render.h"
 
 class EffectSystem;
@@ -199,6 +200,8 @@ namespace {
 
 	EffectSystem* effectSystem_;
 
+	GameResources resources_;
+
 #ifdef _DEBUG
 	ImGuiManager* imguiManager_ = nullptr;
 #endif
@@ -234,5 +237,7 @@ namespace {
 	bool isEffectEditer_;
 
 	bool runGame_;
+
+	bool openParticleEditer_ = false;	// 後で直す
 }
 

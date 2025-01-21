@@ -63,6 +63,10 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	audio_->Init();
 	effectSystem_->Init();
 
+	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
+
+	resources_.Load();
+
 #ifdef _DEBUG
 	imguiManager_ = ImGuiManager::GetInstacne();
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_->GetDevice(), dxCommon_->GetSwapChainBfCount(), descriptorHeap_->GetSRVHeap());
@@ -75,8 +79,6 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	isFullScreen_ = false;
 	isEffectEditer_ = true;
 	runGame_ = true;
-
-	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
 
 	Log("Engine Initialize compulete!\n");
 }
@@ -158,7 +160,9 @@ void Engine::EndFrame() {
 	imguiManager_->Draw(dxCommands_->GetCommandList());
 
 	if (!runGame_) {
-		effectSystem_->EndEditer();
+		if (openParticleEditer_) {
+			effectSystem_->EndEditer();
+		}
 	}
 #endif
 
@@ -180,6 +184,7 @@ void Engine::RenderFrame() {
 	BlendFinalTexture();
 
 #ifdef _DEBUG
+	openParticleEditer_ = false;
 	if (runGame_) {
 		if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
 			editerWindows_->Update();
@@ -190,6 +195,7 @@ void Engine::RenderFrame() {
 		if (ImGui::Begin("EffectSystem", nullptr)) {
 			effectSystem_->EditerUpdate();
 			effectSystem_->Debug_Gui();
+			openParticleEditer_ = true;
 		}
 		ImGui::End();
 	}

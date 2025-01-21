@@ -39,12 +39,12 @@ void AoiFramework::Run() {
 		// 更新
 		Update();
 
+		// 描画
+		Draw();
+
 		if (isEndRequest()) {
 			break;
 		}
-
-		// 描画
-		Draw();
 	}
 
 	Finalize();

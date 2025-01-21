@@ -15,6 +15,12 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
+D3D12_UNORDERED_ACCESS_VIEW_DESC CreateUavDesc(UINT numElemnts, UINT structureByte);
+D3D12_SHADER_RESOURCE_VIEW_DESC CreateSrvDesc(UINT numElemnts, UINT structureByte);
+
+D3D12_RESOURCE_DESC CreateUploadResourceDesc(size_t sizeInBytes);
+D3D12_RESOURCE_DESC CreateUavResourceDesc(size_t sizeInBytes);
+
 /// <summary>
 /// DiscriptorHeapの作成
 /// </summary>

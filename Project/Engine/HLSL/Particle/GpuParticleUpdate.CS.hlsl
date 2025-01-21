@@ -8,6 +8,7 @@ struct PerFrame {
 static const int kMaxParticles = 1024;
 RWStructuredBuffer<Particle> gParticles : register(u0);
 RWStructuredBuffer<int> gFreeListIndex : register(u1);
+RWStructuredBuffer<int> gFreeList : register(u2);
 ConstantBuffer<PerFrame> gPerFrame : register(b0);
 
 [numthreads(1024, 1, 1)]
@@ -43,7 +44,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 			InterlockedAdd(gFreeListIndex[0], 1, freeListIndex);
 			// 最新のfreeListIndexの場所に死んだparticleのIndexを設定する
 			if ((freeListIndex + 1) < kMaxParticles) {
-				gFreeListIndex[freeListIndex + 1] = particleIndex;
+				gFreeList[freeListIndex + 1] = particleIndex;
 			}
 			else {
 				// 本来ここにはこない

@@ -11,6 +11,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 	
 	if (countIndex == 0) {
 		gFreeListIndex[0] = kMaxParticles - 1;
+		gFreeList[0] = 0;
 	}
 	
 	if (countIndex < kMaxParticles) {

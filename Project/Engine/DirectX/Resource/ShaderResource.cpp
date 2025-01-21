@@ -13,7 +13,7 @@ void ShaderResource::Finalize() {
 }
 
 void ShaderResource::Init(ID3D12Device* device, DescriptorHeap* dxHeap, 
-						  D3D12_RESOURCE_DESC* resourceDesc, D3D12_HEAP_PROPERTIES* heapProperties, 
+						  D3D12_RESOURCE_DESC resourceDesc, D3D12_HEAP_PROPERTIES* heapProperties, 
 						  const D3D12_HEAP_FLAGS& heapFlags, const D3D12_RESOURCE_STATES& resourceState) {
 
 	assert(device);
@@ -22,7 +22,7 @@ void ShaderResource::Init(ID3D12Device* device, DescriptorHeap* dxHeap,
 	pDevice_ = device;
 	pDxHeap_ = dxHeap;
 
-	cBuffer_ = CerateShaderResource(device, resourceDesc, heapProperties, heapFlags, resourceState);
+	cBuffer_ = CerateShaderResource(device, &resourceDesc, heapProperties, heapFlags, resourceState);
 	bufferState_ = resourceState;
 }
 
