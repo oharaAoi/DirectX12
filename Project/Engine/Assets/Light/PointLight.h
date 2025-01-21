@@ -16,6 +16,32 @@ public: // メンバ構造体
 		float padding[2];
 	};
 
+	struct Paramter : public IJsonConverter {
+		Vector4 color = Vector4(1,1,1,1);		// ライトの色
+		Vector3 position = Vector3(0,1,0);	// ライトの位置
+		float intensity = 1.0f;	// 輝度
+		float radius = 5.0f;		// 範囲
+		float decay = 0.5f;		// 減衰率
+
+		json ToJson(const std::string id) const override {
+			return JsonBuilder(id)
+				.Add("color", color)
+				.Add("position", position)
+				.Add("intensity", intensity)
+				.Add("radius", radius)
+				.Add("decay", decay)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "color", color);
+			fromJson(jsonData, "position", position);
+			fromJson(jsonData, "intensity", intensity);
+			fromJson(jsonData, "radius", radius);
+			fromJson(jsonData, "decay", decay);
+		}
+	};
+
 public:
 
 	PointLight();
@@ -43,5 +69,6 @@ private:
 
 	PointLightData* pointLightData_ = nullptr;
 
+	Paramter parameter_;
 };
 

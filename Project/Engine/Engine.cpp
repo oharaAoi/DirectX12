@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Engine/System/ParticleSystem/EffectSystem.h"
+#include "Engine/Utilities/AdjustmentItem.h"
 
 Engine::Engine() {}
 
@@ -46,6 +47,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 #ifdef _DEBUG
 	editerWindows_->Init();
 #endif
+
+	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
+	adjust->Init("Engine");
 
 	// -------------------------------------------------
 	// ↓ 各初期化

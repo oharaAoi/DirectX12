@@ -1,4 +1,5 @@
 
+
 SamplerState gSampler : register(s0);
 Texture2D<float4> gTexture : register(t0);
 // 出力データにアクセスするための変数
