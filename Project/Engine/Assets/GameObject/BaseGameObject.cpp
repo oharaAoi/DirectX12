@@ -85,7 +85,7 @@ void BaseGameObject::PostUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::Draw() const {
-	if (animetor_ == nullptr) {
+	if (animetor_ == nullptr || !animetor_->GetIsSkinning()) {
 		Render::DrawModel(model_, transform_.get(), materials);
 	} else {
 		Render::DrawModel(model_, transform_.get(), animetor_->GetSkinning()->GetVBV(), materials);

@@ -101,7 +101,7 @@ void TestScene::Draw() const {
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
-	floor_->Draw();
+	//floor_->Draw();
 	testObjA_->Draw();
 }
 

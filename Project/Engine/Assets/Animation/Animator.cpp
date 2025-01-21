@@ -23,10 +23,12 @@ void Animator::Update() {
 	}
 
 	// animationの遷移がなかったらそのままanimationさせる
-	if (!animationClip_->GetIsChange()) {
-		animationClip_->ApplyAnimation(skeleton_.get());
-	} else {
-		animationClip_->LerpApplyAnimation(skeleton_.get());
+	if (isSkinning_) {
+		if (!animationClip_->GetIsChange()) {
+			animationClip_->ApplyAnimation(skeleton_.get());
+		} else {
+			animationClip_->LerpApplyAnimation(skeleton_.get());
+		}
 	}
 
 	UpdateSkinning();

@@ -21,6 +21,7 @@ public:
 private:
 
 	const std::string engineDirectoryPath_ = "./Engine/Resources/LoadData/";
+	const std::string gameDirectoryPath_ = "./Game/Resources/LoadData/";
 
 };
 

@@ -84,6 +84,13 @@ std::vector<std::unique_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 					continue;
 				}
 				useMaterial.push_back(nameStr);
+			} else {
+				std::string nameStr = "not set MaterialName" + std::to_string(meshIndex);
+				// DefaultMaterialを除く処理
+				if (nameStr == "DefaultMaterial") {
+					continue;
+				}
+				useMaterial.push_back(nameStr);
 			}
 		}
 		// nodeの解析
@@ -98,9 +105,11 @@ std::vector<std::unique_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 
 	result = MeshManager::GetInstance()->GetMeshes(fileName);
 	uint32_t index = 0;
-	for (auto& it : result) {
-		it->SetUseMaterial(useMaterial[index]);
-		index++;
+	if (!useMaterial.empty()) {
+		for (auto& it : result) {
+			it->SetUseMaterial(useMaterial[index]);
+			index++;
+		}
 	}
 
 	return result;
@@ -173,6 +182,8 @@ std::unordered_map<std::string, Model::ModelMaterialData> LoadMaterialData(const
 			if (nameStr == "DefaultMaterial") {
 				continue;
 			}
+		} else {
+			materialName = "not set MaterialName" + std::to_string(materialIndex);
 		}
 
 		materialData[materialName.C_Str()] = Model::ModelMaterialData();
