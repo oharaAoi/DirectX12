@@ -48,7 +48,7 @@ void NormalEnemy::Update() {
 
 	if (hp_ <= 0) {
 		isDead_ = true;
-		EffectSystem::GetInstacne()->Emit("down", transform_->GetTranslation());
+		//EffectSystem::GetInstacne()->Emit("down", transform_->GetTranslation());
 		return;
 	}
 
@@ -117,7 +117,7 @@ void NormalEnemy::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 		hp_--;
 		isHited_ = true;
 		
-		EffectSystem::GetInstacne()->Emit("spark", transform_->GetTranslation());
+		//EffectSystem::GetInstacne()->Emit("spark", transform_->GetTranslation());
 	}
 }
 

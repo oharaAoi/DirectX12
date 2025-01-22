@@ -15,7 +15,9 @@ void TitleScene::Init() {
 	debugCamera_ = std::make_unique<DebugCamera>();
 	debugCamera_->Init();
 	camera_ = std::make_unique<Camera3d>();
+	camera2d_ = std::make_unique<Camera2d>();
 	camera_->Init();
+	camera2d_->Init();
 
 	// -------------------------------------------------
 	// ↓ worldObject
@@ -50,6 +52,7 @@ void TitleScene::Update() {
 	// -------------------------------------------------
 
 	camera_->Update();
+	camera2d_->Update();
 
 	if (isDebug_) {
 		debugCamera_->Update();
