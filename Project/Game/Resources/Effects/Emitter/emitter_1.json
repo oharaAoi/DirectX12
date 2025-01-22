@@ -1,11 +1,16 @@
 {
+<<<<<<<< HEAD:Project/Game/Resources/Effects/Emitter/spark3.json
     "spark3": {
+========
+    "emitter_1": {
+>>>>>>>> main:Project/Game/Resources/Effects/Emitter/emitter_1.json
         "color": [
             1.0,
             1.0,
             1.0,
             1.0
         ],
+<<<<<<<< HEAD:Project/Game/Resources/Effects/Emitter/spark3.json
         "count": 5,
         "dampig": 1.5,
         "emitterLifeTime": 10.0,
@@ -25,6 +30,17 @@
         ],
         "modelName": "cube.obj",
         "oneShot": true,
+========
+        "count": 30,
+        "dampig": 1.0,
+        "emitterLifeTime": 10.0,
+        "frequency": 0.5,
+        "frequencyTime": 0.11779534816741943,
+        "gravity": 0.0,
+        "lifeTime": 4.0,
+        "modelName": "",
+        "oneShot": false,
+>>>>>>>> main:Project/Game/Resources/Effects/Emitter/emitter_1.json
         "radius": 1.0,
         "rotate": [
             0.0,
@@ -33,7 +49,11 @@
             1.0
         ],
         "shape": 0,
+<<<<<<<< HEAD:Project/Game/Resources/Effects/Emitter/spark3.json
         "speed": 8.5,
+========
+        "speed": 1.0,
+>>>>>>>> main:Project/Game/Resources/Effects/Emitter/emitter_1.json
         "translate": [
             0.0,
             0.0,

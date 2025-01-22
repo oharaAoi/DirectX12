@@ -76,13 +76,15 @@ public:
 	void SelectEmitModel();
 #endif
 
-	const std::string& GetLabel() const { return label_; }
+	void SetLabel(const std::string& label) { label_ = label; }
+	const std::string GetLabel() const { return label_; }
 
 	const std::string& GetParticleModel() const { return emitterParameter_.particleModel; }
 
 	void SetEmitterPos(const Vector3& pos) { commonEmitter_->translate = pos; }
 	void SetEmitterColor(const Vector4& color) { commonEmitter_->color = color; }
 
+	void SetIsDead(bool isDead) { isDead_ = isDead; }
 	const bool GetIsDead() const { return isDead_; }
 
 protected:

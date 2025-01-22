@@ -2,6 +2,8 @@
 #include "Engine/Utilities/DrawUtils.h"
 #include "Engine/System/ParticleSystem/EffectPersistence.h"
 #include "Engine/System/ParticleSystem/Emitter/SphereEmitter.h"
+#include "Engine/System/ParticleSystem/Emitter/ConeEmitter.h"
+#include "Engine/System/ParticleSystem/Emitter/BoxEmitter.h"
 #ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
 
@@ -47,14 +49,8 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 	effectSystemCamera_ = std::make_unique<EffectSystemCamera>();
 	effectSystemCamera_->Init();
 
-	particleField_ = std::make_unique<ParticleField>();
-	particleField_->Init();
-
 	gpuParticles_ = std::make_unique<GpuParticles>();
 	gpuParticles_->Init(1024);
-
-	auto& newEmitter = gpuEmitterList_.emplace_back(std::make_unique<SphereEmitter>());
-	newEmitter->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,9 +66,12 @@ void EffectSystemEditer::Update() {
 	gpuParticles_->SetViewProjection(effectSystemCamera_->GetViewMatrix() * effectSystemCamera_->GetProjectionMatrix());
 
 	Engine::SetCsPipeline(CsPipelineType::EmitGpuParticle);
+	gpuEmitterList_.remove_if([](auto& emitter) {return emitter->GetIsDead(); });
+
 	for (std::list<std::unique_ptr<GpuEmitter>>::iterator it = gpuEmitterList_.begin(); it != gpuEmitterList_.end();) {
 		(*it)->Update();
 
+		// 生成の命令を送る
 		gpuParticles_->EmitBindCmdList(commandList, 0);
 		(*it)->BindCmdList(commandList, 3);
 		commandList->Dispatch(1, 1, 1);
@@ -81,9 +80,7 @@ void EffectSystemEditer::Update() {
 	}
 
 	gpuParticles_->Update();
-
-	particleField_->Update();
-
+	
 	if (effectSystemCamera_->GetIsFocused()) {
 		isFocused_ = true;
 	} else {
@@ -151,27 +148,16 @@ void EffectSystemEditer::End() {
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　Effectの作成をする
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-//void EffectSystemEditer::CreateEffect(const std::string& newName) {
-//	auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
-//	newEffect->Init(static_cast<EmitterShape>(createShape_));
-//	newEffect->SetEffectName(newName);
-//}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Emitterを取り出す
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Import() {
-	//EffectPersistence* persistence = EffectPersistence::GetInstance();
-	//uint32_t shape = persistence->GetValue<uint32_t>(importFileName_, "shape");
-
-	/*auto& newEffect = effectList_.emplace_back(std::make_unique<GpuEffect>());
-	newEffect->Init(static_cast<EmitterShape>(shape));
-	newEffect->SetEmitter(importFileName_);*/
+	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	uint32_t shape = persistence->GetValue<uint32_t>(importFileName_, "shape");
+	createShape_ = shape;
+	CreateEmitter(importFileName_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,47 +168,26 @@ void EffectSystemEditer::Debug_Gui() {
 	EditEmitter();
 
 	EditEffect();
+}
 
-	//if (ImGui::BeginTabBar("EmitterTabs")) {
-	//	// リストを反復してタブを作成
-	//	for (auto it = effectList_.begin(); it != effectList_.end(); ++it) {
-	//		// タブのラベルを生成（インデックスではなくポインタアドレスを利用）
-	//		std::string tabLabel = (*it)->GetEmitterLabel() + std::to_string(std::distance(effectList_.begin(), it));
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Effectの作成をする
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//		if (ImGui::BeginTabItem(tabLabel.c_str())) {
-	//			(*it)->Debug_Gui();
-
-	//			ImGui::EndTabItem();
-	//		}
-	//	}
-	//	ImGui::EndTabBar();
-	//}
-
-	ImGui::Begin("Emitter List");
-	//static int selectedEffectIndex = -1; // -1 means no selection
-	//int index = 0;
-	//for (auto it = effectList_.begin(); it != effectList_.end(); ++it, ++index) {
-	//	std::string name = (*it)->GetEmitterLabel();
-	//	std::string label = "Effect_" + name + std::to_string(index);
-
-	//	if (ImGui::Selectable(label.c_str(), selectedEffectIndex == index)) {
-	//		selectedEffectIndex = index; // Update the selected index
-	//	}
-	//}
-
-	//if (selectedEffectIndex >= 0 && selectedEffectIndex < effectList_.size()) {
-	//	auto it = effectList_.begin();
-	//	std::advance(it, selectedEffectIndex); // Move iterator to the selected index
-
-	//	ImGui::Begin("EmitterSetting");
-	//	(*it)->Debug_Gui();
-
-	//	if (ImGui::Button("Delete")) {
-	//		(*it)->SetIsAlive(false);
-	//	}
-	//	ImGui::End();
-	//}
-	ImGui::End();
+void EffectSystemEditer::CreateEmitter(const std::string& emitterName) {
+	if (createShape_ == (int)EmitterShape::Sphere) {
+		auto& newEmitter = gpuEmitterList_.emplace_back(std::make_unique<SphereEmitter>());
+		newEmitter->Init();
+		newEmitter->SetLabel(emitterName);
+	} else if(createShape_ == (int)EmitterShape::Cone) {
+		auto& newEmitter = gpuEmitterList_.emplace_back(std::make_unique<ConeEmitter>());
+		newEmitter->Init();
+		newEmitter->SetLabel(emitterName);
+	} else if (createShape_ == (int)EmitterShape::Box) {
+		auto& newEmitter = gpuEmitterList_.emplace_back(std::make_unique<BoxEmitter>());
+		newEmitter->Init();
+		newEmitter->SetLabel(emitterName);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -230,6 +195,9 @@ void EffectSystemEditer::Debug_Gui() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::EditEmitter() {
+	// -------------------------------------------------
+	// ↓ 生成するEmitterを選択
+	// -------------------------------------------------
 	ImGui::Begin("Create Emitter");
 	ImGui::RadioButton("Sphere", &createShape_, (int)EmitterShape::Sphere);
 	ImGui::SameLine();
@@ -237,11 +205,11 @@ void EffectSystemEditer::EditEmitter() {
 	ImGui::SameLine();
 	ImGui::RadioButton("Box", &createShape_, (int)EmitterShape::Box);
 
-	/*if (ImGui::Button("CreateEmitter")) {
-		uint32_t effectNum = static_cast<uint32_t>(effectList_.size()) + 1;
-		std::string defalutName = "effect" + std::to_string(effectNum);
-		CreateEffect(defalutName);
-	}*/
+	if (ImGui::Button("CreateEmitter")) {
+		uint32_t effectNum = static_cast<uint32_t>(gpuEmitterList_.size()) + 1;
+		std::string defalutName = "emitter" + std::to_string(effectNum);
+		CreateEmitter(defalutName);
+	}
 	ImGui::Separator();
 	if (ImGui::Button("Inport")) {
 		Import();
@@ -265,6 +233,37 @@ void EffectSystemEditer::EditEmitter() {
 
 	ImGui::End();
 
+
+	// -------------------------------------------------
+	// ↓ 生成したEmitterを管理
+	// -------------------------------------------------
+	ImGui::Begin("Emitter List");
+	// emitterのリスト
+	static int selectedEffectIndex = -1;
+	int index = 0;
+	for (auto it = gpuEmitterList_.begin(); it != gpuEmitterList_.end(); ++it, ++index) {
+		std::string name = (*it)->GetLabel();
+		std::string label = "emitter_" + name + std::to_string(index);
+
+		if (ImGui::Selectable(label.c_str(), selectedEffectIndex == index)) {
+			selectedEffectIndex = index;
+		}
+	}
+
+	// リストから選択されたEmitterを編集
+	if (selectedEffectIndex >= 0 && selectedEffectIndex < gpuEmitterList_.size()) {
+		auto it = gpuEmitterList_.begin();
+		std::advance(it, selectedEffectIndex);
+
+		ImGui::Begin("EmitterSetting");
+		(*it)->Debug_Gui();
+
+		if (ImGui::Button("Delete")) {
+			(*it)->SetIsDead(true);
+		}
+		ImGui::End();
+	}
+	ImGui::End();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
