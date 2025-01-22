@@ -1,4 +1,5 @@
 #include "BaseCamera.h"
+#include "Engine/Utilities/AdjustmentItem.h"
 
 BaseCamera::~BaseCamera() {Finalize();}
 void BaseCamera::Finalize() {}
@@ -8,11 +9,9 @@ void BaseCamera::Finalize() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseCamera::Init() {
-	transform_ = {
-		{1.0f, 1.0f, 1.0f},
-		Quaternion::AngleAxis(25.0f * toRadian, Vector3::RIGHT()),
-		{0.0f, 8.0f, -15.0f}
-	};
+	transform_.scale = Vector3(1, 1, 1);
+	transform_.rotate = parameter_.rotate;
+	transform_.translate = parameter_.translate;
 
 	// worldの生成
 	cameraMatrix_ = transform_.MakeAffine();
@@ -36,12 +35,22 @@ void BaseCamera::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
-void BaseCamera::Debug_Gui() {
+void BaseCamera::Debug_Gui(const std::string& label) {
 	ImGui::DragFloat("near", &near_, 0.1f);
 	ImGui::DragFloat("far", &far_, 0.1f);
 	ImGui::DragFloat("fovY", &fovY_, 0.1f);
-	ImGui::DragFloat2("rotate", &transform_.rotate.x, 1.0f);
-	ImGui::DragFloat2("translate", &transform_.translate.x, 1.0f);
+	ImGui::DragFloat3("rotate", &parameter_.rotate.x, 0.1f);
+	ImGui::DragFloat3("translate", &parameter_.translate.x, 0.1f);
+
+	transform_.rotate = parameter_.rotate;
+	transform_.translate = parameter_.translate;
+
+	if (ImGui::Button("Save")) {
+		AdjustmentItem::Save("Camera", parameter_.ToJson(label));
+	}
+	if (ImGui::Button("Apply")) {
+		parameter_.FromJson(AdjustmentItem::GetData("Camera", label));
+	}
 
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
 }
