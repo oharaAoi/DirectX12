@@ -29,9 +29,9 @@ public:
 	void Begin();
 	void End();
 
-	//void CreateEffect(const std::string& newName);
-
 	void Debug_Gui();
+
+	void CreateEmitter(const std::string& emitterName);
 
 public:
 

@@ -14,6 +14,7 @@ void GameResources::Load() {
 	ModelManager::LoadModel("./Engine/Resources/Animation/", "amimationCharacter.fbx");*/
 
 	LoadResourcesData(engineDirectoryPath_);
+	LoadResourcesData(gameDirectoryPath_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
