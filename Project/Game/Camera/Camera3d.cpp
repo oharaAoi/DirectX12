@@ -11,6 +11,8 @@ void Camera3d::Init() {
 	BaseCamera::Init();
 
 	parameter_.FromJson(AdjustmentItem::GetData("Camera", "camera3d"));
+	transform_.rotate = parameter_.rotate;
+	transform_.translate = parameter_.translate;
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&Camera3d::Debug_Gui, this, "camera3d"), "camera3d");
 #endif // _DEBUG

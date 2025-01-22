@@ -21,7 +21,7 @@ void FollowCamera::Init() {
 	eulerRotate_ = Vector3::ZERO();
 
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(std::bind(&FollowCamera::Debug_Gui, this), "followCamera");
+	EditerWindows::AddObjectWindow(std::bind(&FollowCamera::Debug_Gui, this, "followCamera"), "followCamera");
 #endif // _DEBUG
 }
 
@@ -117,7 +117,7 @@ Vector3 FollowCamera::CalcucOffset() {
 // ↓　編集
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
-void FollowCamera::Debug_Gui() {
+void FollowCamera::Debug_Gui([[maybe_unused]] const std::string& label) {
 	ImGui::DragFloat3("rotate", &transform_.rotate.x, 0.1f);
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
 	ImGui::DragFloat3("offset", &information_.offset.x, 0.1f);

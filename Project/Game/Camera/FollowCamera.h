@@ -43,7 +43,7 @@ private:
 public:
 
 #ifdef _DEBUG
-	void Debug_Gui() override;
+	void Debug_Gui([[maybe_unused]] const std::string& label) override;
 #endif
 
 	void SetLockOn(LockOn* lockOn) { lockOn_ = lockOn; }
