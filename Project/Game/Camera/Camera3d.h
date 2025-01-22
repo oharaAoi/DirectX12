@@ -8,6 +8,12 @@ class Camera3d :
 	public BaseCamera {
 public:
 
+	struct Parameter {
+		Vector3 translate;
+	};
+
+public:
+
 	Camera3d();
 	~Camera3d() override;
 

@@ -13,6 +13,7 @@ void TitleScene::Init() {
 	adjust->Init("TitleScene");
 
 	debugCamera_ = std::make_unique<DebugCamera>();
+	debugCamera_->Init();
 	camera_ = std::make_unique<Camera3d>();
 	camera_->Init();
 
@@ -96,6 +97,6 @@ void TitleScene::Draw() const {
 
 #ifdef _DEBUG
 void TitleScene::Debug_Gui() {
-	
+	ImGui::Checkbox("debugMode", &isDebug_);
 }
 #endif
