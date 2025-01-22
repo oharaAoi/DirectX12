@@ -192,6 +192,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\Vector4.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Particle\CpuParticles.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectPersistence.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\ConeEmitter.cpp" />
@@ -321,6 +323,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Particle\CpuParticles.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectPersistence.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\ConeEmitter.h" />
