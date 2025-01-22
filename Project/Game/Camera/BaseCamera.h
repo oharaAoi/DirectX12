@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/Lib/IJsonConverter.h"
 #include "Engine/Math/MyMatrix.h"
 #include "Engine/Math/MyMath.h"
 #include "Engine/Math/MathStructures.h"
@@ -12,6 +13,25 @@
 class BaseCamera {
 public:
 
+	struct Parameter : public IJsonConverter {
+		Quaternion rotate = Quaternion::AngleAxis(25.0f * toRadian, Vector3::RIGHT());
+		Vector3 translate = Vector3(0.0f,4.0f,-8.0f);
+
+		json ToJson(const std::string id) const override {
+			return JsonBuilder(id)
+				.Add("rotate", rotate)
+				.Add("translate", translate)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "rotate", rotate);
+			fromJson(jsonData, "translate", translate);
+		}
+	};
+
+public:
+
 	BaseCamera() = default;
 	virtual ~BaseCamera();
 
@@ -20,7 +40,7 @@ public:
 	virtual void Update();
 
 #ifdef _DEBUG
-	virtual void Debug_Gui();
+	virtual void Debug_Gui(const std::string& label);
 #endif // _DEBUG
 
 public:	// アクセッサ
@@ -35,6 +55,8 @@ public:	// アクセッサ
 	const Vector3 GetWorldPosition() const;
 
 protected:
+
+	Parameter parameter_;
 
 	QuaternionSRT transform_;
 

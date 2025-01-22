@@ -17,7 +17,7 @@ public:
 	void Update() override;
 
 #ifdef _DEBUG
-	void Debug_Gui() override;
+	void Debug_Gui([[maybe_unused]] const std::string& label) override;
 #endif
 
 public:

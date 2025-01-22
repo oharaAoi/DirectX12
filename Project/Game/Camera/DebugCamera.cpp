@@ -23,7 +23,7 @@ void DebugCamera::Init() {
 	isFocused_ = true;
 	
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(std::bind(&DebugCamera::Debug_Gui, this), "debugCamera");
+	EditerWindows::AddObjectWindow(std::bind(&DebugCamera::Debug_Gui, this, "debugCamera"), "debugCamera");
 #endif // _DEBUG
 }
 
@@ -47,7 +47,7 @@ void DebugCamera::Update() {
 }
 
 #ifdef _DEBUG
-void DebugCamera::Debug_Gui() {
+void DebugCamera::Debug_Gui([[maybe_unused]] const std::string& label) {
 	Vector3 right = moveRotate_.MakeRight();
 	Vector3 up = moveRotate_.MakeUp();
 	Vector3 forward = moveRotate_.MakeForward();
