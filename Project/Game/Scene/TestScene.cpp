@@ -97,7 +97,11 @@ void TestScene::Update() {
 }
 
 void TestScene::Draw() const {
-	DrawGrid(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
+	if (isDebugCamera_) {
+		DrawGrid(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
+	} else {
+		DrawGrid(camera3d_->GetViewMatrix(), camera3d_->GetProjectionMatrix());
+	}
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
