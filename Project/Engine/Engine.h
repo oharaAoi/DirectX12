@@ -74,8 +74,6 @@ public:
 	static std::unique_ptr<Sprite> CreateSprite(const std::string& fileName);
 	// モデルのポインタを作成
 	static std::unique_ptr<Model> CreateModel(const std::string& directoryPath, const std::string& filePath);
-	// パーティクルのポインタを作成
-	static std::unique_ptr<BaseParticle> CreateBaseParticle(const std::string& directoryPath, const std::string& fileName, const uint32_t& instanceNum);
 	// ワールドトランスフォームを作成
 	static std::unique_ptr<WorldTransform> CreateWorldTransform();
 	// Skinningの作成

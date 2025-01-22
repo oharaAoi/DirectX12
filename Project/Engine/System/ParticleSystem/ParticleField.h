@@ -1,5 +1,4 @@
 #pragma once
-#include "BaseEffect.h"
 #include "Render.h"
 #include "Engine/Math/MathStructures.h"
 #include "Engine/Assets/Collider/BoxCollider.h"
@@ -35,19 +34,9 @@ public:
 
 public:
 
-	/// <summary>
-	/// 当たり判定を取るParticleをセットする
-	/// </summary>
-	/// <param name="particle"></param>
-	void SetParticle(BaseEffect* particle) {
-		particle_ = particle;
-	}
-
 private:
 
 	AccelerationField accelerationField_;
-
-	BaseEffect* particle_ = nullptr;
 
 	bool onField_;
 

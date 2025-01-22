@@ -268,13 +268,6 @@ std::unique_ptr<Model> Engine::CreateModel(const std::string& directoryPath, con
 	return model;
 }
 
-std::unique_ptr<BaseParticle> Engine::CreateBaseParticle(const std::string& directoryPath, const std::string& fileName, const uint32_t& instanceNum) {
-	std::unique_ptr<BaseParticle> particle = std::make_unique<BaseParticle>();
-	particle->Init(dxDevice_->GetDevice(), directoryPath, fileName, instanceNum);
-	particle->CreateSRV(dxDevice_->GetDevice(), descriptorHeap_.get(), instanceNum);
-	return particle;
-}
-
 std::unique_ptr<WorldTransform> Engine::CreateWorldTransform() {
 	std::unique_ptr<WorldTransform> result = std::make_unique<WorldTransform>();
 	result->Init(dxDevice_->GetDevice());
