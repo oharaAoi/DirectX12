@@ -5,6 +5,67 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dxcompiler.lib")
 
+D3D12_UNORDERED_ACCESS_VIEW_DESC CreateUavDesc(UINT  numElemnts, UINT structureByte) {
+	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
+	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
+	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	uavDesc.Buffer.FirstElement = 0;
+	uavDesc.Buffer.NumElements = numElemnts;
+	uavDesc.Buffer.CounterOffsetInBytes = 0;
+	uavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+	uavDesc.Buffer.StructureByteStride = structureByte;
+
+	return uavDesc;
+}
+
+D3D12_SHADER_RESOURCE_VIEW_DESC CreateSrvDesc(UINT  numElemnts, UINT structureByte) {
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.Format = DXGI_FORMAT_UNKNOWN;  // 頂点データなのでフォーマットはUNKNOWN
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	srvDesc.Buffer.FirstElement = 0;
+	srvDesc.Buffer.NumElements = numElemnts;  // 頂点の数
+	srvDesc.Buffer.StructureByteStride = structureByte;  // 頂点1つあたりのサイズ
+	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	return srvDesc;
+}
+
+D3D12_RESOURCE_DESC CreateUploadResourceDesc(size_t sizeInBytes) {
+	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
+	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+	// 頂点リソースの設定
+	D3D12_RESOURCE_DESC desc = {};
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	desc.Width = sizeInBytes;
+	// バッファの場合がこれらは1にする決まり
+	desc.Height = 1;
+	desc.DepthOrArraySize = 1;
+	desc.MipLevels = 1;
+	desc.SampleDesc.Count = 1;
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+	// バッファの場合はこれにする決まり
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	return desc;
+}
+
+D3D12_RESOURCE_DESC CreateUavResourceDesc(size_t sizeInBytes) {
+	D3D12_RESOURCE_DESC desc = {};
+	// バッファリソース。テクスチャの場合はまた別の設定をする
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	desc.Width = sizeInBytes;
+	// バッファの場合がこれらは1にする決まり
+	desc.Height = 1;
+	desc.DepthOrArraySize = 1;
+	desc.MipLevels = 1;
+	desc.SampleDesc.Count = 1;
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+	// バッファの場合はこれにする決まり
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
+	return desc;
+}
+
 ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap(Microsoft::WRL::ComPtr<ID3D12Device> device,
 												  const D3D12_DESCRIPTOR_HEAP_TYPE& heapType,
 												  const UINT& numDescriptor,

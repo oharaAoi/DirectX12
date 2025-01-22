@@ -12,7 +12,7 @@ ModelManager* ModelManager::GetInstance() {
 }
 
 void ModelManager::Init() {
-	modelMap_.clear();
+	
 }
 
 void ModelManager::Finalize() {

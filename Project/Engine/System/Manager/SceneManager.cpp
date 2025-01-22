@@ -15,8 +15,6 @@ void SceneManager::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void SceneManager::Init() {
 	// gameに必要なResourceの読み込み
-	resources_.Load();
-
 	sceneFactory_ = std::make_unique<SceneFactory>();
 
 	effectSystem_ = EffectSystem::GetInstacne();

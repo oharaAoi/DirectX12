@@ -55,7 +55,7 @@ void AdjustmentItem::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AdjustmentItem::LoadAllFile() {
-
+	jsonMap_.clear();
 	std::filesystem::directory_iterator rootDir(kDirectoryPath_ + "/" + nowSceneName_ );
 	for (const fs::directory_entry& entryDir : fs::directory_iterator(rootDir)) {
 		if (entryDir.is_directory()) {

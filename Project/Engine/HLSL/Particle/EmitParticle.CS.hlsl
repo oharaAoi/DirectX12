@@ -43,6 +43,7 @@ struct PerFrame {
 static const int kMaxParticles = 1024;
 RWStructuredBuffer<Particle> gParticles : register(u0);
 RWStructuredBuffer<int> gFreeListIndex : register(u1);
+RWStructuredBuffer<int> gFreeList : register(u2);
 ConstantBuffer<PerFrame> gPerFrame : register(b0);
 ConstantBuffer<CommonEmitter> gCommonEmitter : register(b1);
 ConstantBuffer<SphereEmitter> gSphereEmitter : register(b2);
@@ -80,18 +81,17 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 			InterlockedAdd(gFreeListIndex[0], -1, freeListIndex);
 			
 			if (0 <= freeListIndex && freeListIndex < kMaxParticles) {
-				// ここは良くない処理
-				int particleIndex = countIndex;
-				//int particleIndex = gFreeListIndex[freeListIndex];
+				int particleIndex = gFreeList[freeListIndex];
 				gParticles[particleIndex] = (Particle) 0;
 				//gParticles[particleIndex].scale = generator.Generated3d();
-				float x = generator.Generated1dRange(gCommonEmitter.minScale.x, gCommonEmitter.maxScale.x);
-				float y = generator.Generated1dRange(gCommonEmitter.minScale.y, gCommonEmitter.maxScale.y);
-				float z = generator.Generated1dRange(gCommonEmitter.minScale.z, gCommonEmitter.maxScale.z);
+				//float x = generator.Generated1dRange(gCommonEmitter.minScale.x, gCommonEmitter.maxScale.x);
+				//float y = generator.Generated1dRange(gCommonEmitter.minScale.y, gCommonEmitter.maxScale.y);
+				//float z = generator.Generated1dRange(gCommonEmitter.minScale.z, gCommonEmitter.maxScale.z);
+				float scale = generator.Generated1dRange(0.1, 1);
 				
-				gParticles[particleIndex].scale = float3(x, y, z);
+				gParticles[particleIndex].scale = float3(scale, scale, scale);
 				gParticles[particleIndex].rotate = float3(0, 0, 0);
-				gParticles[particleIndex].translate = gCommonEmitter.translate + generator.Generated3d();
+				gParticles[particleIndex].translate = generator.Generated3dRange(-5, 5);
 				gParticles[particleIndex].color.rgb = gCommonEmitter.color.rgb;
 				gParticles[particleIndex].color.a = gCommonEmitter.color.a;
 				gParticles[particleIndex].lifeTime = gCommonEmitter.lifeTime;
@@ -101,7 +101,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				gParticles[particleIndex].gravity = gCommonEmitter.gravity;
 				
 				if (gCommonEmitter.shape == 0) { // sphere
-					gParticles[particleIndex].translate = gCommonEmitter.translate;
+					gParticles[particleIndex].translate = generator.Generated3dRange(-2, 2);
 					gParticles[particleIndex].velocity = generator.Generated3d() * gCommonEmitter.speed;
 				}
 				else if (gCommonEmitter.shape == 1) { // Cone

@@ -10,7 +10,7 @@ void Floor::Init() {
 	BaseGameObject::Init();
 	SetObject("floor.obj");
 	
-	transform_->translate_.y = -0.01f;
+	transform_->translate_.y = -0.1f;
 }
 
 void Floor::Update() {

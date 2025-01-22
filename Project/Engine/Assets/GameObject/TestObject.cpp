@@ -16,8 +16,8 @@ void TestObject::Finalize() {
 
 void TestObject::Init() {
 	BaseGameObject::Init();
-	SetObject("player.gltf");
-	SetAnimater("./Engine/Resources/Animation/", "player.gltf", true, true, false);
+	SetObject("Animation_Node_01.gltf");
+	SetAnimater("./Engine/Resources/Gltf/Animation_Node/", "Animation_Node_01.gltf", false, true, false);
 
 	SetMeshCollider("testObj");
 	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other);});

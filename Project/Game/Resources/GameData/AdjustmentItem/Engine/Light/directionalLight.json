@@ -1,0 +1,17 @@
+{
+    "directionalLight": {
+        "color": {
+            "w": 0.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "direction": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "intensity": 0.0,
+        "limPower": 0.0
+    }
+}

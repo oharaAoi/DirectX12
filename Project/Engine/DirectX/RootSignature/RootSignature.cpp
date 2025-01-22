@@ -126,7 +126,6 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateParticleRootSignature() {
 		.AddCBV(0, D3D12_SHADER_VISIBILITY_PIXEL)  // Material用
 		.AddDescriptorTable(descriptorRangeForInstancing, 1, D3D12_SHADER_VISIBILITY_VERTEX) // Instancing描画用
 		.AddDescriptorTable(spriteDescriptorRange, 1, D3D12_SHADER_VISIBILITY_PIXEL) // texture用
-		.AddCBV(1, D3D12_SHADER_VISIBILITY_PIXEL)  // Light用
 		.AddCBV(0, D3D12_SHADER_VISIBILITY_VERTEX)  // PerView
 		.AddSampler(CreateSampler(D3D12_TEXTURE_ADDRESS_MODE_WRAP))
 		.Build(device_);
@@ -358,9 +357,17 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateGpuParticleUpdate() {
 	freeListIndexUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
 	freeListIndexUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
+	// freeList
+	D3D12_DESCRIPTOR_RANGE freeListUAV[1] = {};
+	freeListUAV[0].BaseShaderRegister = 2;
+	freeListUAV[0].NumDescriptors = 1;
+	freeListUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
+	freeListUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
 	return builder_
 		.AddDescriptorTable(descriptorRangeUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // particles
 		.AddDescriptorTable(freeListIndexUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // freeListIndex
+		.AddDescriptorTable(freeListUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // freeList
 		.AddCBV(0, D3D12_SHADER_VISIBILITY_ALL)// frame
 		.Build(device_);
 }
@@ -379,9 +386,17 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateGpuParticleEnd() {
 	boolIndexUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
 	boolIndexUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
+	// freeList
+	D3D12_DESCRIPTOR_RANGE freeListUAV[1] = {};
+	freeListUAV[0].BaseShaderRegister = 2;
+	freeListUAV[0].NumDescriptors = 1;
+	freeListUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
+	freeListUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
 	return builder_
 		.AddDescriptorTable(descriptorRangeUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // particles
 		.AddDescriptorTable(boolIndexUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // freeListIndex
+		.AddDescriptorTable(freeListUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // freeList
 		.Build(device_);
 }
 
@@ -400,9 +415,17 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateEmitGpuParticle() {
 	counterUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
 	counterUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
+	// freeList
+	D3D12_DESCRIPTOR_RANGE freeListUAV[1] = {};
+	freeListUAV[0].BaseShaderRegister = 2;
+	freeListUAV[0].NumDescriptors = 1;
+	freeListUAV[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
+	freeListUAV[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
 	return builder_
 		.AddDescriptorTable(descriptorRangeUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // particles(particle)
 		.AddDescriptorTable(counterUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // counter(particle)
+		.AddDescriptorTable(freeListUAV, 1, D3D12_SHADER_VISIBILITY_ALL) // freeList
 		.AddCBV(0, D3D12_SHADER_VISIBILITY_ALL) // perFrame(emitter)
 		.AddCBV(1, D3D12_SHADER_VISIBILITY_ALL) // emitter(emitter)
 		.AddCBV(2, D3D12_SHADER_VISIBILITY_ALL) // sphere(emitter)

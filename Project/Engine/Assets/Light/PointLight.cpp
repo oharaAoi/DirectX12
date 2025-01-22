@@ -1,4 +1,6 @@
 #include "PointLight.h"
+#include "Engine/Utilities/AdjustmentItem.h"
+
 
 PointLight::PointLight() {
 }
@@ -9,11 +11,12 @@ PointLight::~PointLight() {
 void PointLight::Init(ID3D12Device* device, const size_t& size) {
 	BaseLight::Init(device, size);
 	lightBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData_));
-	pointLightData_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
-	pointLightData_->position = { 0.0f, 2.0f, 0.0f };
-	pointLightData_->intensity = 1.0f;
-	pointLightData_->radius = 10.0f;
-	pointLightData_->decay = 1.0f;
+
+	pointLightData_->color = parameter_.color;
+	pointLightData_->position = parameter_.position;
+	pointLightData_->intensity = parameter_.intensity;
+	pointLightData_->radius = parameter_.radius;
+	pointLightData_->decay = parameter_.decay;
 }
 
 void PointLight::Finalize() {
@@ -30,9 +33,23 @@ void PointLight::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& ro
 
 #ifdef _DEBUG
 void PointLight::Debug_Gui() {
-	ImGui::DragFloat3("position", &pointLightData_->position.x, 0.1f, -10.0f, 10.0f);
-	ImGui::DragFloat("intensity", &pointLightData_->intensity, 0.1f, 0.0f, 1.0f);
-	ImGui::DragFloat("radius", &pointLightData_->radius, 0.1f, 0.0f, 10.0f);
-	ImGui::DragFloat("decay", &pointLightData_->decay, 0.1f, 0.0f, 1.0f);
+	ImGui::ColorEdit4("color", &parameter_.color.x);
+	ImGui::DragFloat3("position", &parameter_.position.x, 0.1f);
+	ImGui::DragFloat("intensity", &parameter_.intensity, 0.1f, 0.0f, 1.0f);
+	ImGui::DragFloat("radius", &parameter_.radius, 0.1f, 0.0f, 10.0f);
+	ImGui::DragFloat("decay", &parameter_.decay, 0.1f, 0.0f, 1.0f);
+
+	pointLightData_->color = parameter_.color;
+	pointLightData_->position = parameter_.position;
+	pointLightData_->intensity = parameter_.intensity;
+	pointLightData_->radius = parameter_.radius;
+	pointLightData_->decay = parameter_.decay;
+
+	if (ImGui::Button("Save")) {
+		AdjustmentItem::Save("Light", parameter_.ToJson("pointLight"));
+	}
+	if (ImGui::Button("Apply")) {
+		parameter_.FromJson(AdjustmentItem::GetData("Light", "pointLight"));
+	}
 }
 #endif

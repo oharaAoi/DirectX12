@@ -7,6 +7,7 @@
 #include "Engine/Utilities/DirectXUtils.h"
 // math
 #include "Engine/Math/MyMath.h"
+#include "Engine/Lib/IJsonConverter.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
 class BaseLight {

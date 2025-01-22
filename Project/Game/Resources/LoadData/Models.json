@@ -23,8 +23,15 @@
         },
         {
             "directory": "./Game/Resources/Models/Shadow/",
+            "directory": "./Engine/Resources/Gltf/Animation_Node/",
             "files": [
                 "shadow.obj"
+                "Animation_Node_00.gltf",
+                "Animation_Node_01.gltf",
+                "Animation_Node_02.gltf",
+                "Animation_Node_03.gltf",
+                "Animation_Node_04.gltf",
+                "Animation_Node_05.gltf"
             ]
         }
     ]
