@@ -16,8 +16,9 @@ void TestObject::Finalize() {
 
 void TestObject::Init() {
 	BaseGameObject::Init();
-	SetObject("Animation_Node_01.gltf");
-	SetAnimater("./Engine/Resources/Gltf/Animation_Node/", "Animation_Node_01.gltf", false, true, false);
+	SetObject("cube.obj");
+	/*SetObject("Animation_Node_01.gltf");
+	SetAnimater("./Engine/Resources/Gltf/Animation_Node/", "Animation_Node_01.gltf", false, true, false);*/
 
 	SetMeshCollider("testObj");
 	meshCollider_->SetCollisionEnter([this](MeshCollider& other) {OnCollisionEnter(other);});
