@@ -56,11 +56,6 @@ private:
 
 	bool isCollision_;
 
-	float animationTime_;
-
-	float transitionAnimationTime_;
-	float transitionAnimationTimeLimit_;
-
 	bool isLerp_ = false;
 
 	Test test_;
