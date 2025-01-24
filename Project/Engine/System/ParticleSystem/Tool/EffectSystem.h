@@ -5,7 +5,7 @@
 #include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
 #include "Engine/System/ParticleSystem/ParticleField.h"
 #include "Engine/System/ParticleSystem/GpuEffect.h"
-#include "Engine/System/ParticleSystem/EffectPersistence.h"
+#include "Engine/System/ParticleSystem/Tool/EffectPersistence.h"
 
 class EffectSystemEditer;
 

@@ -5,7 +5,6 @@
 #include "Engine/Assets/2d/PrimitiveDrawer.h"
 #include "Engine/Assets/Light/LightGroup.h"
 #include "Engine/Assets/GameObject/Model.h"
-#include "Engine/System/ParticleSystem/Particle/BaseParticle.h"
 #include "Engine/DirectX/Pipeline/PrimitivePipeline.h"
 
 /// <summary>
@@ -57,13 +56,6 @@ public:
 
 	static void DrawModel(Model* model, const WorldTransform* worldTransform,
 						  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::vector<std::unique_ptr<Material>>& materials);
-
-	/// <summary>
-	/// Particleの描画
-	/// </summary>
-	/// <param name="baseParticle">: particleの描画</param>
-	/// <param name="numInstance">: 何個描画するか</param>
-	static void DrawParticle(BaseParticle* baseParticle, const uint32_t& numInstance);
 
 	/// <summary>
 	/// 線の描画

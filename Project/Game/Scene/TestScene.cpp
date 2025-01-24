@@ -3,7 +3,7 @@
 #include "Engine/System/Input/Input.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/Editer/Window/EditerWindows.h"
-#include "Engine/System/ParticleSystem/EffectSystem.h"
+#include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
 
 TestScene::TestScene() {}
 TestScene::~TestScene() {}
@@ -105,7 +105,7 @@ void TestScene::Draw() const {
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
-	floor_->Draw();
+	//floor_->Draw();
 	testObjA_->Draw();
 }
 

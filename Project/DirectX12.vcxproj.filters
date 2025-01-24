@@ -240,7 +240,7 @@
     <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\ParticleForGPU.cpp">
+    <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleForGPU.cpp">
       <Filter>Engine\ParticleSystem</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utilities\Loader.cpp">
@@ -297,9 +297,6 @@
     <ClCompile Include="Engine\ComputeShader\GaussianBlur.cpp">
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\BaseEffect.cpp">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ComputeShader\DepthOfField.cpp">
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
@@ -336,10 +333,10 @@
     <ClCompile Include="Engine\Assets\2d\Triangle.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\EffectSystemEditer.cpp">
+    <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectSystemEditer.cpp">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\EffectSystem.cpp">
+    <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectSystem.cpp">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\ParticleField.cpp">
@@ -381,9 +378,6 @@
     <ClCompile Include="Engine\Math\Vector2.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\Particle\BaseParticle.cpp">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Game\GameResources.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -403,9 +397,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Easing.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuEmitter.cpp">
@@ -435,9 +426,6 @@
     <ClCompile Include="Engine\Lib\IJsonConverter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\Emitter.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -450,7 +438,7 @@
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\EffectPersistence.cpp">
+    <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectPersistence.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Resource\DxResource.cpp">
@@ -499,6 +487,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Assets\Animation\AnimationFunctions.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ParticleSystem\Particle\CpuParticles.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -647,7 +641,7 @@
     <ClInclude Include="Engine\DirectX\Pipeline\Blend.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\ParticleForGPU.h">
+    <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleForGPU.h">
       <Filter>Engine\ParticleSystem</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utilities\Loader.h">
@@ -707,9 +701,6 @@
     <ClInclude Include="Engine\ComputeShader\GaussianBlur.h">
       <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\BaseEffect.h">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\ComputeShader\DepthOfField.h">
       <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
@@ -746,10 +737,10 @@
     <ClInclude Include="Engine\Assets\2d\Triangle.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\EffectSystemEditer.h">
+    <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectSystemEditer.h">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\EffectSystem.h">
+    <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectSystem.h">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\ParticleField.h">
@@ -782,9 +773,6 @@
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorAllocator.h">
       <Filter>Engine\DirectX\Descriptor</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\Particle\BaseParticle.h">
-      <Filter>Engine\ParticleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Game\GameResources.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -804,9 +792,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Easing.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuEmitter.h">
@@ -845,9 +830,6 @@
     <ClInclude Include="Engine\Lib\IJsonConverter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\Emitter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -857,7 +839,7 @@
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\EffectPersistence.h">
+    <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectPersistence.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\Resource\DxResource.h">
@@ -906,6 +888,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Assets\Animation\AnimationFunctions.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ParticleSystem\Particle\CpuParticles.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
