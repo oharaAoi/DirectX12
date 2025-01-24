@@ -64,8 +64,8 @@ void Material::SetUseTexture(const std::string& name) {
 
 void Material::SetMaterialData(Model::ModelMaterialData materialData) {
 	materialsData_ = materialData;
-
-	material_->color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	
+	material_->color = materialData.color;
 	material_->enableLighting = true;
 	material_->uvTransform = Matrix4x4::MakeUnit();
 	material_->shininess = 50;

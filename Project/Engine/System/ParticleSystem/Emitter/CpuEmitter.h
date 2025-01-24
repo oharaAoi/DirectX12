@@ -50,5 +50,8 @@ private:
 
 	CommonEmitter commonEmitter_;
 	EmitterParameter emitterParametr_;
+
+	bool isDead_ = false;
+	bool isMove_ = false;
 };
 

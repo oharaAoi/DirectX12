@@ -23,9 +23,6 @@ void MeshManager::Finalize() {
 void MeshManager::AddMesh(ID3D12Device* device, const std::string& modelName, const std::string& meshName,
 						  const std::vector<Mesh::VertexData>& vertexData, std::vector<uint32_t>& indices) {
 
-	// すでに存在していれば追加しない
-	if (meshMap_.find(modelName) != meshMap_.end()) return;
-
 	MeshPair meshPair(meshName, std::make_unique<Mesh>());
 	meshPair.mesh->Init(device, vertexData, indices);
 

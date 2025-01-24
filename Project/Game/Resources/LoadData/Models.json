@@ -10,6 +10,12 @@
                 "Animation_Node_04.gltf",
                 "Animation_Node_05.gltf"
             ]
+        },
+        {
+            "directory": "./Engine/Resources/Gltf/Mesh_Primitives/",
+            "files": [
+                "Mesh_Primitives_00.gltf"
+            ]
         }
     ]
 }
