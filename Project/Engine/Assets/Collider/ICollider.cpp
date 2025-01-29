@@ -1,8 +1,17 @@
 #include "ICollider.h"
 #include <assert.h>
 
-void ICollider::SwitchCollision() {
-	switch (collisionState_) {
+void ICollider::SwitchCollision(ICollider* partner) {
+	int state = 0b00;
+
+	auto it = collisionPartnersMap_.find(partner);
+	if (it != collisionPartnersMap_.end()) {
+		state = it->second;
+	} else {
+		collisionPartnersMap_[partner] = 0b00;
+	}
+
+	switch (state) {
 	case 0b00:	// 衝突していない
 		collisionState_ = CollisionFlags::ENTER;	// NONE → ENTER
 		break;
@@ -19,6 +28,10 @@ void ICollider::SwitchCollision() {
 		assert("not registered CollisionState");
 		break;
 	}
+}
+
+void ICollider::DeletePartner(ICollider* partner) {
+	collisionPartnersMap_.erase(partner);
 }
 
 void ICollider::OnCollision(ICollider& other) {

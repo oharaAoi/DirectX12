@@ -35,7 +35,13 @@ public:
 	/// <summary>
 	/// 状態の変更
 	/// </summary>
-	void SwitchCollision();
+	void SwitchCollision(ICollider* partner);
+
+	/// <summary>
+	/// 当たっている相手を削除する
+	/// </summary>
+	/// <param name="partner"></param>
+	void DeletePartner(ICollider* partner);
 
 	/// <summary>
 	/// 衝突時にコールバック関数を呼び出す
@@ -121,6 +127,8 @@ protected:
 	Vector3 centerPos_;
 	// AABBやOBBで使用するsize
 	Vector3 size_;
+
+	std::unordered_map<ICollider*, int> collisionPartnersMap_;
 	
 	// 衝突時のcallBack
 	std::function<void(ICollider&)> onCollisionEnter_;
