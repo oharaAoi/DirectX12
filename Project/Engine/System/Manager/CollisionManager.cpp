@@ -43,8 +43,8 @@ void CollisionManager::CheckAllCollision() {
 void CollisionManager::CheckCollisionPair(ICollider* colliderA, ICollider* colliderB) {
 	if (CheckCollision(colliderA->GetShape(), colliderB->GetShape())) {
 		// Colliderの状態を変化させる
-		colliderA->SwitchCollision();
-		colliderB->SwitchCollision();
+		colliderA->SwitchCollision(colliderB);
+		colliderB->SwitchCollision(colliderA);
 
 		colliderA->OnCollision(*colliderB);
 		colliderB->OnCollision(*colliderA);
