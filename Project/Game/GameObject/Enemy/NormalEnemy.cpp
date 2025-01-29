@@ -1,6 +1,6 @@
 #include "NormalEnemy.h"
 #include "Engine/Editer/Window/EditerWindows.h"
-#include "Engine/System/ParticleSystem/EffectSystem.h"
+#include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
 #include "Game/Collider/ColliderTags.h"
 #include "Engine/Utilities/BitChecker.h"
 #include "Game/GameObject/Enemy/State/NormalEnemyDefaultState.h"

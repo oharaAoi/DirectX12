@@ -95,9 +95,9 @@ void GpuEffect::Dispatch(ID3D12GraphicsCommandList* commandList, const Vector3& 
 	commandList->Dispatch((UINT)group.x, (UINT)group.y, (UINT)group.z);
 }
 
-void GpuEffect::ResetParticleName(const std::string& effectName) {
-	gpuParticle_->ResetModel(effectName.c_str());
-}
+//void GpuEffect::ResetParticleName(const std::string& effectName) {
+//	//gpuParticle_->ResetModel(effectName.c_str());
+//}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Particleがすべてきえているか確認

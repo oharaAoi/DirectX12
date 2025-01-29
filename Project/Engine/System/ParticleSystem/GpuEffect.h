@@ -14,7 +14,7 @@ public:
 
 	void Dispatch(ID3D12GraphicsCommandList* commandList, const Vector3& group);
 
-	void ResetParticleName(const std::string& effectName);
+	//void ResetParticleName(const std::string& effectName);
 
 #ifdef _DEBUG
 	void Debug_Gui();
