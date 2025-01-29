@@ -23,6 +23,12 @@
                 "hart.png",
                 "reticle.png"
             ]
+        },
+        {
+            "directory": "./Game/Resources/Models/Enemy/",
+            "files": [
+                "deadNormalEnemy.png"
+            ]
         }
     ]
 }

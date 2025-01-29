@@ -39,7 +39,7 @@ void EnemyManager::Update() {
 		return false; // 削除しない
 	});
 
-	RandomPop();
+	//RandomPop();
 
 	for (std::list<std::shared_ptr<NormalEnemy>>::iterator it = normalEnemyList_.begin(); it != normalEnemyList_.end();) {
 		(*it)->SetPlayerPos(playerPos_);

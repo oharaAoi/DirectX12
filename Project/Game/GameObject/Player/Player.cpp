@@ -48,6 +48,7 @@ void Player::Init() {
 	attackCollider_ = std::make_unique<AttackCollider>();
 	attackCollider_->Init(ColliderTags::Player::ATTACK, ColliderShape::SPHERE);
 	attackCollider_->SetRadius(4.0f);
+	attackCollider_->SetCollisionEnter([this](ICollider& other) { AttackColliderOnCollisionEnter(other); });
 
 	// 武器の初期化
 	sword_ = std::make_unique<Sword>();
@@ -116,6 +117,17 @@ void Player::Update() {
 	pos.y = 0.05f;	// 少し浮かす
 	shadow_->GetTransform()->SetTranslaion(pos);
 	shadow_->Update();
+
+	// hitStopの更新
+	if (isHitStop_) {
+		hitStopTimeCount_ += GameTimer::DeltaTime();
+		
+		if (hitStopTimeCount_ >= hitStopTime_) {
+			isHitStop_ = false;
+			hitStopTimeCount_ = 0.0f;
+			animetor_->SetAnimationSpeed(1.0f);
+		}
+	}
 
 	// attackColliderの位置を更新する
 	attackCollider_->Update(QuaternionSRT{
@@ -307,6 +319,14 @@ void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 
 void Player::OnCollisionStay([[maybe_unused]] ICollider& other) {
 	
+}
+
+void Player::AttackColliderOnCollisionEnter(ICollider& other) {
+	if (CheckBit(other.GetTag(), ColliderTags::Enemy::DEFAULT, CheckType::EQUAL)
+		|| CheckBit(other.GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
+		isHitStop_ = true;
+		animetor_->SetAnimationSpeed(hitStopAnimationSpeed_);
+	}
 }
 
 //================================================================================================//

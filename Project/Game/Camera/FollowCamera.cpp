@@ -94,6 +94,10 @@ void FollowCamera::Shake() {
 		RandomFloat(-shakeStrength_, shakeStrength_),
 		RandomFloat(-shakeStrength_, shakeStrength_)
 	};
+
+	if (shakeTime_ == 0.0f) {
+		shakeVelocity_ = Vector3();
+	}
 }
 
 void FollowCamera::SetIsShake() {

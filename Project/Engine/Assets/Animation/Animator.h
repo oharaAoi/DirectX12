@@ -86,6 +86,7 @@ public:
 	// skinningを行うかを取得
 	const bool GetIsSkinning() const { return isSkinning_; }
 
+	void SetStop(bool isStop) { animationClip_->SetIsStop(isStop); }
 
 private:
 

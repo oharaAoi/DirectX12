@@ -98,6 +98,8 @@ public:
 	// Animationの速度
 	void SetAnimationSpeed(float speed) { animationSpeed_ = speed; }
 
+	void SetIsStop(bool isStop) { isStop_ = isStop; }
+
 private:
 
 	AnimationManager* manager_;

@@ -232,6 +232,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameObject\Enemy\NormalEnemy.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\State\NormalEnemyAttackState.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\State\NormalEnemyDefaultState.cpp" />
+    <ClCompile Include="Game\GameObject\Enemy\State\NormalEnemyHitedState.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\State\NormalEnemyMoveState.cpp" />
     <ClCompile Include="Game\GameObject\Player\Player.cpp" />
     <ClCompile Include="Game\GameObject\Player\State\PlayerAttackState.cpp" />
@@ -395,6 +396,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\GameObject\Enemy\NormalEnemy.h" />
     <ClInclude Include="Game\GameObject\Enemy\State\NormalEnemyAttackState.h" />
     <ClInclude Include="Game\GameObject\Enemy\State\NormalEnemyDefaultState.h" />
+    <ClInclude Include="Game\GameObject\Enemy\State\NormalEnemyHitedState.h" />
     <ClInclude Include="Game\GameObject\Enemy\State\NormalEnemyMoveState.h" />
     <ClInclude Include="Game\GameObject\Player\Player.h" />
     <ClInclude Include="Game\GameObject\Player\State\PlayerAttackState.h" />

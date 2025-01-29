@@ -7,7 +7,7 @@ float GameTimer::deletaTime_ = 0.0f;
 float GameTimer::fps_ = 60.0f;
 float GameTimer::timeRate_ = 0.0f;
 float GameTimer::totalTime_ = 0.0f;
-bool GameTimer::isSlow_ = false;
+bool GameTimer::isStop_ = false;
 
 GameTimer::GameTimer(const uint32_t& fps) {
 	frameDuration_ = std::chrono::milliseconds(1000 / fps);
@@ -16,6 +16,12 @@ GameTimer::GameTimer(const uint32_t& fps) {
 }
 
 GameTimer::~GameTimer() {
+}
+
+void GameTimer::Reset() {
+	if (isStop_) {
+		stopCount_++;
+	}
 }
 
 void GameTimer::CalculationFrame() {
@@ -35,4 +41,12 @@ void GameTimer::Debug() {
 	ImGui::Text("%f m/s", deletaTime_ * 1000.0f);
 	ImGui::End();
 #endif
+}
+
+float GameTimer::DeltaTime() {
+	if (isStop_) {
+		return 0.0f;
+	} else {
+		return deletaTime_;
+	}
 }

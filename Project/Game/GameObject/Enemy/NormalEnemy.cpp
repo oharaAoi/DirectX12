@@ -6,6 +6,7 @@
 #include "Game/GameObject/Enemy/State/NormalEnemyDefaultState.h"
 #include "Game/GameObject/Enemy/State/NormalEnemyMoveState.h"
 #include "Game/GameObject/Enemy/State/NormalEnemyAttackState.h"
+#include "Game/GameObject/Enemy/State/NormalEnemyHitedState.h"
 
 NormalEnemy::NormalEnemy() {}
 NormalEnemy::~NormalEnemy() {}
@@ -47,7 +48,7 @@ void NormalEnemy::Update() {
 	isHited_ = false;
 
 	if (hp_ <= 0) {
-		isDead_ = true;
+		//isDead_ = true;
 		//EffectSystem::GetInstacne()->Emit("down", transform_->GetTranslation());
 		return;
 	}
@@ -56,6 +57,18 @@ void NormalEnemy::Update() {
 	CheckBehaviorRequest();
 
 	BaseGameObject::Update();
+
+
+	// hitStopの更新
+	if (isHitStop_) {
+		hitStopTimeCount_ += GameTimer::DeltaTime();
+
+		if (hitStopTimeCount_ >= hitStopTime_) {
+			isHitStop_ = false;
+			hitStopTimeCount_ = 0.0f;
+			this->SetTexture("normalEnemy.png");
+		}
+	}
 
 	// 影の更新
 	Vector3 pos = transform_->GetTranslation();
@@ -94,6 +107,9 @@ void NormalEnemy::CheckBehaviorRequest() {
 		case EnemyBehavior::ATTACK:
 			SetBehaviorState(std::make_unique<NormalEnemyAttackState>(this));
 			break;
+		case EnemyBehavior::HITED:
+			SetBehaviorState(std::make_unique<NormalEnemyHitedState>(this));
+			break;
 		default:
 			break;
 		}
@@ -116,7 +132,9 @@ void NormalEnemy::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 	if (CheckBit(other.GetTag(), ColliderTags::Player::ATTACK, CheckType::EQUAL)) {
 		hp_--;
 		isHited_ = true;
-		
+		isHitStop_ = true;
+		this->SetTexture("deadNormalEnemy.png");
+		behaviorRequest_ = EnemyBehavior::HITED;
 		//EffectSystem::GetInstacne()->Emit("spark", transform_->GetTranslation());
 	}
 }

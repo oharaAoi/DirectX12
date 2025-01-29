@@ -13,15 +13,16 @@ public:
 	GameTimer(const uint32_t& fps);
 	~GameTimer();
 
+	void Reset();
 	void CalculationFrame();
 
 	void Debug();
 
-	static float DeltaTime() { return deletaTime_; }
+	static float DeltaTime();
 	static float TotalTime(){ return totalTime_; }
 	static float TimeRate() { return timeRate_; }
 
-	static void SetIsSlow() { isSlow_ = true; }
+	static void SetIsStop(bool isStop) { isStop_ = isStop; }
 
 	static float fps_;
 
@@ -32,7 +33,9 @@ private:
 	static float timeRate_;
 	static float totalTime_;
 
-	static bool isSlow_;
+	static bool isStop_;
+
+	uint16_t stopCount_;
 };
 
 const float kDeltaTime_ = (1.0f / GameTimer::fps_);

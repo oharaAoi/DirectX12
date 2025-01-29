@@ -9,6 +9,7 @@ enum class EnemyBehavior {
 	DEFAULT,
 	MOVE,
 	ATTACK,
+	HITED
 };
 
 /// <summary>
@@ -73,6 +74,12 @@ private:
 
 	// ------------------- 影関連 ------------------- //
 	std::unique_ptr<BaseGameObject> shadow_;
+
+	// ------------------- hitStop関連 ------------------- //
+
+	bool isHitStop_ = false;
+	float hitStopTimeCount_ = .0f;
+	float hitStopTime_ = .5f;
 
 	// ------------------- 他クラス関連 ------------------- //
 	Vector3 playerPos_;

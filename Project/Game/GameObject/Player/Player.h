@@ -106,6 +106,8 @@ private:
 	void OnCollisionEnter([[maybe_unused]] ICollider& other);
 	void OnCollisionStay([[maybe_unused]] ICollider& other);
 
+	void AttackColliderOnCollisionEnter([[maybe_unused]] ICollider& other);
+
 #ifdef _DEBUG
 	void Debug_Gui();
 
@@ -209,6 +211,14 @@ private:
 	// 武器
 	Matrix4x4 swordMat_;
 	std::unique_ptr<Sword> sword_;
+
+	// ------------------- HitStop関連 ------------------- //
+
+	bool isHitStop_ = false; 
+	float hitStopTimeCount_ = .0f;
+	float hitStopTime_ = .5f;
+
+	float hitStopAnimationSpeed_ = 0.2f;
 
 	// ------------------- 影関連 ------------------- //
 	std::unique_ptr<BaseGameObject> shadow_;
