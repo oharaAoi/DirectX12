@@ -55,7 +55,6 @@ void CollisionManager::CheckCollisionPair(ICollider* colliderA, ICollider* colli
 			colliderA->OnCollision(*colliderB);
 		} else {
 			colliderA->SetCollisionState(CollisionFlags::NONE);
-			colliderA->DeletePartner(colliderB);
 		}
 
 		// 衝突している状態だったら脱出した状態にする
@@ -64,7 +63,9 @@ void CollisionManager::CheckCollisionPair(ICollider* colliderA, ICollider* colli
 			colliderB->OnCollision(*colliderA);
 		} else {
 			colliderB->SetCollisionState(CollisionFlags::NONE);
-			colliderB->DeletePartner(colliderA);
 		}
+
+		colliderA->DeletePartner(colliderB);
+		colliderB->DeletePartner(colliderA);
 	}
 }

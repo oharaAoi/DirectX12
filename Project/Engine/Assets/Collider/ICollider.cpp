@@ -14,12 +14,15 @@ void ICollider::SwitchCollision(ICollider* partner) {
 	switch (state) {
 	case 0b00:	// 衝突していない
 		collisionState_ = CollisionFlags::ENTER;	// NONE → ENTER
+		collisionPartnersMap_[partner] = collisionState_;
 		break;
 	case 0b01:	// 初衝突
 		collisionState_ = CollisionFlags::STAY;		// ENTER → STAY
+		collisionPartnersMap_[partner] = collisionState_;
 		break;
 	case 0b10:	// 衝突しなくなった直後
 		collisionState_ = CollisionFlags::NONE;		// EXIT → NONE
+		collisionPartnersMap_[partner] = collisionState_;
 		break;
 	case 0b11:	// 連続衝突時
 		break;

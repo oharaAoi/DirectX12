@@ -13,8 +13,8 @@ void EnemyManager::Init() {
 	normalEnemyList_.clear();
 
 	Pop(Vector3(0.0f, 0.0f, 10.0f));
-	Pop(Vector3(9.0f, 0.0f, 15.0f));
-	Pop(Vector3(-9.0f, 0.0f, 15.0f));
+	/*Pop(Vector3(9.0f, 0.0f, 15.0f));
+	Pop(Vector3(-9.0f, 0.0f, 15.0f));*/
 
 	downNum_ = 0;
 
