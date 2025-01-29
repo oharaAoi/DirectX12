@@ -57,6 +57,8 @@ public:
 	/// フレームを終了する
 	/// </summary>
 	static void EndFrame();
+
+	static void UpdateEditerWindow();
 	
 	static void RenderFrame();
 

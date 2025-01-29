@@ -175,6 +175,15 @@ void Engine::EndFrame() {
 	audio_->Update();
 }
 
+void Engine::UpdateEditerWindow() {
+	if (runGame_) {
+		if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
+			editerWindows_->Update();
+		}
+		ImGui::End();
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　1frameの結果を描画する
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -191,7 +200,6 @@ void Engine::RenderFrame() {
 	openParticleEditer_ = false;
 	if (runGame_) {
 		if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
-			editerWindows_->Update();
 			renderTexture_->DrawGui();
 		}
 		ImGui::End();
