@@ -13,8 +13,12 @@ PlayerAttackState::~PlayerAttackState() {
 void PlayerAttackState::Init() {
 	stateName_ = "playerAttackState";
 
+	colliderActiveTimes_.FromJson(AdjustmentItem::GetData("AttacCollider", stateName_));
+
 	work_.time = 0.0f;
 	work_.timeLimit = 1.0f;
+
+	colliderActiveTime_ = 0.0f;
 
 	isComb_ = false;
 
@@ -43,6 +47,8 @@ void PlayerAttackState::Update() {
 	//	return ;
 	//}
 
+	colliderActiveTime_ += GameTimer::DeltaTime();
+
 	if (pPlayer_->GetAttackStep() != AttackStep::Step_JUMPATTACK) {
 		CombAttack();
 	} else {
@@ -60,10 +66,10 @@ void PlayerAttackState::CombAttack() {
 	if (!pPlayer_->GetAnimetor()->GetAnimationClip()->GetIsChange()) {
 		if (pPlayer_->GetAnimetor()->GetAnimationClip()->GetIsAnimationFinish()) {
 			if (!isComb_) {
-				pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
+				/*pPlayer_->SetBehaviorRequest(Behavior::DEFAULT);
 				pPlayer_->GetAnimetor()->TransitionAnimation("idle", 0.1f);
 				pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(true);
-				pPlayer_->SetIsAttack(false);
+				pPlayer_->SetIsAttack(false);*/
 			}
 		}
 	}
@@ -75,12 +81,15 @@ void PlayerAttackState::CombAttack() {
 			if (combNum_ == 1) {
 				AudioPlayer::SinglShotPlay("attack2.mp3", 0.6f);
 				pPlayer_->ResetTrail();
+				colliderActiveTime_ = 0.0f;
 			} else if (combNum_ == 2) {
 				AudioPlayer::SinglShotPlay("attack3.mp3", 0.6f);
 				pPlayer_->ResetTrail();
+				colliderActiveTime_ = 0.0f;
 			} else if (combNum_ == 3) {
 				AudioPlayer::SinglShotPlay("attack4.mp3", 0.6f);
 				pPlayer_->ResetTrail();
+				colliderActiveTime_ = 0.0f;
 			}
 		}
 	}
@@ -164,10 +173,21 @@ void PlayerAttackState::Debug_Gui() {
 	ImGui::Text(stateName_.c_str());
 	ImGui::SliderFloat("work_.time", &work_.time, 0.0f, work_.timeLimit);
 
+	ImGui::BulletText("colliderActiveTime");
+	ImGui::DragFloat("firstTime", &colliderActiveTimes_.activeStartTime[0], 0.01f);
+	ImGui::DragFloat("secondTime", &colliderActiveTimes_.activeStartTime[1], 0.01f);
+	ImGui::DragFloat("theradTime", &colliderActiveTimes_.activeStartTime[2], 0.01f);
+	ImGui::DragFloat("fourTime", &colliderActiveTimes_.activeStartTime[3], 0.01f);
+
 	information_.animationName = pPlayer_->GetAnimetor()->SelectAnimationName();
 	ImGui::Text(information_.animationName.c_str());
 	if (ImGui::Button("Save")) {
 		AdjustmentItem::Save(stateName_, information_.ToJson(stateName_));
+		AdjustmentItem::Save("AttacCollider", colliderActiveTimes_.ToJson(stateName_));
+	}
+
+	if (ImGui::Button("Reset")) {
+		this->Init();
 	}
 }
 #endif // _DEBUG

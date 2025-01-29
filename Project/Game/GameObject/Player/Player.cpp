@@ -341,6 +341,11 @@ void Player::Debug_Gui() {
 
 	ImGui::DragFloat3("attackColliderDiff", &attackColliderDiff_.x, 0.1f);
 
+	// 攻撃時の当たり判定の修正
+	if (ImGui::CollapsingHeader("attackCollider")) {
+
+	}
+
 	sword_->Debug_Gui();
 }
 

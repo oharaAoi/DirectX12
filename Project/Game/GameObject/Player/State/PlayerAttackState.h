@@ -23,6 +23,26 @@ public:
 		float timeLimit;
 	};
 
+	struct AttackColliderActiveTime : public IJsonConverter {
+		float activeStartTime[4];
+
+		json ToJson(const std::string id) const override {
+			return JsonBuilder(id)
+				.Add("first", activeStartTime[0])
+				.Add("second", activeStartTime[1])
+				.Add("therad", activeStartTime[2])
+				.Add("four", activeStartTime[3])
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "first", activeStartTime[0]);
+			fromJson(jsonData, "second", activeStartTime[1]);
+			fromJson(jsonData, "therad", activeStartTime[2]);
+			fromJson(jsonData, "four", activeStartTime[3]);
+		}
+	};
+
 	using AttackPointer = void(PlayerAttackState::*)();
 
 	std::unordered_map<AttackStep, AttackPointer> functionMap_ = {
@@ -64,6 +84,8 @@ private:
 	Player* pPlayer_ = nullptr;
 
 	Work work_;
+	AttackColliderActiveTime colliderActiveTimes_;
+	float colliderActiveTime_;
 
 	Vector3 velocity_;
 	Vector3 acceleration_;
