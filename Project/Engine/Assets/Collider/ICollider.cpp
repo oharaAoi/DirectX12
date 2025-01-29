@@ -30,6 +30,10 @@ void ICollider::SwitchCollision(ICollider* partner) {
 	}
 }
 
+void ICollider::DeletePartner(ICollider* partner) {
+	collisionPartnersMap_.erase(partner);
+}
+
 void ICollider::OnCollision(ICollider& other) {
 	switch (collisionState_) {
 	case 0b00:	// 衝突していない

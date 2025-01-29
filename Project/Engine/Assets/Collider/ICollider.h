@@ -38,6 +38,12 @@ public:
 	void SwitchCollision(ICollider* partner);
 
 	/// <summary>
+	/// 当たっている相手を削除する
+	/// </summary>
+	/// <param name="partner"></param>
+	void DeletePartner(ICollider* partner);
+
+	/// <summary>
 	/// 衝突時にコールバック関数を呼び出す
 	/// </summary>
 	/// <param name="other"></param>
