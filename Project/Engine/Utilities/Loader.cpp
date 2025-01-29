@@ -32,8 +32,8 @@ std::vector<std::unique_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
 		std::vector<Mesh::VertexData> triangle;
 		aiMesh* mesh = scene->mMeshes[meshIndex];
-		assert(mesh->HasNormals()); // 法線がないなら非対応
-		assert(mesh->HasTextureCoords(0)); // texcoordがないmeshは非対応
+		//assert(mesh->HasNormals()); // 法線がないなら非対応
+		//assert(mesh->HasTextureCoords(0)); // texcoordがないmeshは非対応
 
 		meshIndices.resize(scene->mNumMeshes);
 		meshNames.push_back((mesh->mName.C_Str()));
@@ -45,17 +45,34 @@ std::vector<std::unique_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 		vertices.resize(mesh->mNumVertices);
 		// vertexの解析を行う
 		for (uint32_t vertexIndex = 0; vertexIndex < mesh->mNumVertices; ++vertexIndex) {
-			//uint32_t vertexIndex = .mIndices[element];
 			aiVector3D& position = mesh->mVertices[vertexIndex];
-			aiVector3D& normal = mesh->mNormals[vertexIndex];
-			aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
-			aiVector3D& tangent = mesh->mTangents[vertexIndex];
-
 			vertices[vertexIndex].pos = { position.x, position.y, position.z, 1.0f };
-			vertices[vertexIndex].normal = { normal.x, normal.y, normal.z };
-			vertices[vertexIndex].texcoord = { texcoord.x * uvScale.x, texcoord.y * uvScale.y };
-			vertices[vertexIndex].tangent = { tangent.x, tangent.y, tangent.z };
+			
+			// normal
+			if (mesh->mNormals) {
+				aiVector3D& normal = mesh->mNormals[vertexIndex];
+				vertices[vertexIndex].normal = { normal.x, normal.y, normal.z };
+			} else {
+				vertices[vertexIndex].normal = { 0.0f, 0.0f, 1.0f };
+			}
 
+			// texcoord
+			if (mesh->mTextureCoords[0]) {
+				aiVector3D& texcoord = mesh->mTextureCoords[0][vertexIndex];
+				vertices[vertexIndex].texcoord = { texcoord.x * uvScale.x, texcoord.y * uvScale.y };
+			} else {
+				vertices[vertexIndex].texcoord = { 0.0f, 0.0f };
+			}
+
+			// tangent
+			if (mesh->mTangents) {
+				aiVector3D& tangent = mesh->mTangents[vertexIndex];
+				vertices[vertexIndex].tangent = { tangent.x, tangent.y, tangent.z };
+			} else {
+				vertices[vertexIndex].tangent = { 0.0f, 0.0f, 0.0f };
+			}
+
+			// 読み込み後の処理
 			vertices[vertexIndex].pos.x *= -1.0f;
 			vertices[vertexIndex].normal.x *= -1.0f;
 		}
@@ -66,7 +83,7 @@ std::vector<std::unique_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 
 			for (uint32_t element = 0; element < face.mNumIndices; ++element) {
 				uint32_t vertexIndex = face.mIndices[element];
-				meshIndices[scene->mNumMeshes - 1].push_back(vertexIndex);
+				meshIndices[meshIndex].push_back(vertexIndex);
 			}
 		}
 
@@ -193,6 +210,11 @@ std::unordered_map<std::string, Model::ModelMaterialData> LoadMaterialData(const
 			std::string objTexture = textureFilePath.C_Str();
 			materialData[materialName.C_Str()].textureFilePath = objTexture;
 			TextureManager::LoadTextureFile(directoryPath, objTexture);
+		}
+
+		aiColor3D color;
+		if (AI_SUCCESS == material->Get(AI_MATKEY_COLOR_DIFFUSE, color)) {
+			materialData[materialName.C_Str()].color = { color.r, color.g, color.b, 1.0f };
 		}
 	}
 

@@ -4,10 +4,7 @@
             "directory": "./Engine/Resources/Animation/",
             "files": [
                 "amimationCharacter.gltf",
-                "walk.gltf",
-                "simpleSkin.gltf",
-                "player.gltf",
-                "sword.obj"
+                "walk.gltf"
             ]
         },
         {
@@ -25,12 +22,6 @@
             "files": [
                 "skydome.obj",
                 "floor.obj"
-            ]
-        },
-        {
-            "directory": "./Engine/Resources/Effect/",
-            "files": [
-                "spark.obj"
             ]
         }
     ]

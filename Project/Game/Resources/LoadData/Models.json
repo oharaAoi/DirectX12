@@ -26,6 +26,12 @@
             "files": [
                 "shadow.obj"
             ]
+        },
+        {
+            "directory": "./Engine/Resources/Gltf/Mesh_Primitives/",
+            "files": [
+                "Mesh_Primitives_00.gltf"
+            ]
         }
     ]
 }

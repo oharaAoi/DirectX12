@@ -1,6 +1,5 @@
 #pragma once
 #include <memory>
-#include "Engine/System/ParticleSystem/Particle/GpuParticle.h"
 #include "Engine/System/ParticleSystem/Emitter/GpuEmitter.h"
 
 class GpuEffect {
@@ -45,15 +44,10 @@ public:
 
 private:
 
-	std::unique_ptr<GpuParticle> gpuParticle_;
+
 	std::unique_ptr<GpuEmitter> gpuEmitter_;
 
 	Matrix4x4 viewProjectionMat_;
-
-	ComPtr<ID3D12Resource> outputBuffer_;
-	ComPtr<ID3D12Resource> allDeathBuffer_;
-	DescriptorHeap::DescriptorHandles allDeathUav_;
-	DescriptorHeap::DescriptorHandles allDeathSrv_;
 
 	// effectの名前
 	std::string effectName_ = "";

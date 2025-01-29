@@ -19,13 +19,6 @@ void ParticleField::Update() {
 	if (!onField_) {
 		return;
 	}
-	std::list<BaseEffect::ParticleData>& particleList = particle_->GetParticleList();
-	for (std::list<BaseEffect::ParticleData>::iterator particleIter = particleList.begin(); particleIter != particleList.end();) {
-		/*if (CheckCollision(accelerationField_.area, (*particleIter).transform.translate)) {
-			(*particleIter).velocity += accelerationField_.acceleration * kDeltaTime_;
-		}*/
-		++particleIter;
-	}
 }
 
 void ParticleField::Draw(const Matrix4x4& vpMatrix) const {

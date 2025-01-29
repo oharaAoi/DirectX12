@@ -1,5 +1,5 @@
 #include "Engine.h"
-#include "Engine/System/ParticleSystem/EffectSystem.h"
+#include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 
 Engine::Engine() {}
@@ -175,6 +175,15 @@ void Engine::EndFrame() {
 	audio_->Update();
 }
 
+void Engine::UpdateEditerWindow() {
+	if (runGame_) {
+		if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
+			editerWindows_->Update();
+		}
+		ImGui::End();
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　1frameの結果を描画する
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -191,7 +200,6 @@ void Engine::RenderFrame() {
 	openParticleEditer_ = false;
 	if (runGame_) {
 		if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
-			editerWindows_->Update();
 			renderTexture_->DrawGui();
 		}
 		ImGui::End();
@@ -266,13 +274,6 @@ std::unique_ptr<Model> Engine::CreateModel(const std::string& directoryPath, con
 	std::unique_ptr<Model> model = std::make_unique<Model>();
 	model->Init(dxDevice_->GetDevice(), directoryPath, filePath);
 	return model;
-}
-
-std::unique_ptr<BaseParticle> Engine::CreateBaseParticle(const std::string& directoryPath, const std::string& fileName, const uint32_t& instanceNum) {
-	std::unique_ptr<BaseParticle> particle = std::make_unique<BaseParticle>();
-	particle->Init(dxDevice_->GetDevice(), directoryPath, fileName, instanceNum);
-	particle->CreateSRV(dxDevice_->GetDevice(), descriptorHeap_.get(), instanceNum);
-	return particle;
 }
 
 std::unique_ptr<WorldTransform> Engine::CreateWorldTransform() {

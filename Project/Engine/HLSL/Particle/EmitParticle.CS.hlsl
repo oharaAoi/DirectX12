@@ -91,7 +91,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				
 				gParticles[particleIndex].scale = float3(scale, scale, scale);
 				gParticles[particleIndex].rotate = float3(0, 0, 0);
-				gParticles[particleIndex].translate = generator.Generated3dRange(-5, 5);
+				gParticles[particleIndex].translate = gCommonEmitter.translate;
 				gParticles[particleIndex].color.rgb = gCommonEmitter.color.rgb;
 				gParticles[particleIndex].color.a = gCommonEmitter.color.a;
 				gParticles[particleIndex].lifeTime = gCommonEmitter.lifeTime;
@@ -101,7 +101,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				gParticles[particleIndex].gravity = gCommonEmitter.gravity;
 				
 				if (gCommonEmitter.shape == 0) { // sphere
-					gParticles[particleIndex].translate = generator.Generated3dRange(-2, 2);
+					gParticles[particleIndex].translate = gCommonEmitter.translate + generator.Generated3dRange(-2, 2);
 					gParticles[particleIndex].velocity = generator.Generated3d() * gCommonEmitter.speed;
 				}
 				else if (gCommonEmitter.shape == 1) { // Cone
