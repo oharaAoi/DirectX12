@@ -43,8 +43,8 @@ void CollisionManager::CheckAllCollision() {
 void CollisionManager::CheckCollisionPair(ICollider* colliderA, ICollider* colliderB) {
 	if (CheckCollision(colliderA->GetShape(), colliderB->GetShape())) {
 		// Colliderの状態を変化させる
-		colliderA->SwitchCollision();
-		colliderB->SwitchCollision();
+		colliderA->SwitchCollision(colliderB);
+		colliderB->SwitchCollision(colliderA);
 
 		colliderA->OnCollision(*colliderB);
 		colliderB->OnCollision(*colliderA);
@@ -55,6 +55,7 @@ void CollisionManager::CheckCollisionPair(ICollider* colliderA, ICollider* colli
 			colliderA->OnCollision(*colliderB);
 		} else {
 			colliderA->SetCollisionState(CollisionFlags::NONE);
+			colliderA->DeletePartner(colliderB);
 		}
 
 		// 衝突している状態だったら脱出した状態にする
@@ -63,6 +64,7 @@ void CollisionManager::CheckCollisionPair(ICollider* colliderA, ICollider* colli
 			colliderB->OnCollision(*colliderA);
 		} else {
 			colliderB->SetCollisionState(CollisionFlags::NONE);
+			colliderB->DeletePartner(colliderA);
 		}
 	}
 }
