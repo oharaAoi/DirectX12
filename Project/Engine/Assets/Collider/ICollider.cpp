@@ -37,7 +37,7 @@ void ICollider::DeletePartner(ICollider* partner) {
 	collisionPartnersMap_.erase(partner);
 }
 
-void ICollider::OnCollision(ICollider& other) {
+void ICollider::OnCollision(ICollider* other) {
 	switch (collisionState_) {
 	case 0b00:	// 衝突していない
 		break;
@@ -57,19 +57,19 @@ void ICollider::OnCollision(ICollider& other) {
 	}
 }
 
-void ICollider::OnCollisionEnter(ICollider& other) {
+void ICollider::OnCollisionEnter(ICollider* other) {
 	if (onCollisionEnter_) {
 		onCollisionEnter_(other);
 	}
 }
 
-void ICollider::OnCollisionStay(ICollider& other) {
+void ICollider::OnCollisionStay(ICollider* other) {
 	if (onCollisionStay_) {
 		onCollisionStay_(other);
 	}
 }
 
-void ICollider::OnCollisionExit(ICollider& other) {
+void ICollider::OnCollisionExit(ICollider* other) {
 	if (onCollisionExit_) {
 		onCollisionExit_(other);
 	}

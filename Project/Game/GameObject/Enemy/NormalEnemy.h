@@ -33,8 +33,8 @@ private:
 	/// </summary>
 	void CheckBehaviorRequest();
 
-	void OnCollisionEnter([[maybe_unused]] ICollider& other);
-	void OnCollisionStay([[maybe_unused]] ICollider& other);
+	void OnCollisionEnter([[maybe_unused]] ICollider* other);
+	void OnCollisionStay([[maybe_unused]] ICollider* other);
 
 public:
 
@@ -59,6 +59,8 @@ public:
 
 	ICollider* GetCollider() { return collider_.get(); }
 
+	const Vector3 GetKnockBackVelocity() const { return knockBackVelocity_; }
+
 private:
 
 	bool isDead_ = false;
@@ -77,9 +79,15 @@ private:
 
 	// ------------------- hitStop関連 ------------------- //
 
+	Vector3 knockBackVelocity_;
+
 	bool isHitStop_ = false;
 	float hitStopTimeCount_ = .0f;
-	float hitStopTime_ = .5f;
+	float hitStopTime_ = 1.0f;
+
+	float invincibleTime_;
+	float invincibleTimeCount_;
+	bool isInvincible_ = false;
 
 	// ------------------- 他クラス関連 ------------------- //
 	Vector3 playerPos_;

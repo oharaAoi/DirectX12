@@ -35,6 +35,10 @@ void SphereCollider::Update(const QuaternionSRT& srt) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SphereCollider::Draw() const {
+	if (!isActive_) {
+		return;
+	}
+
 	if (collisionState_ == CollisionFlags::ENTER || collisionState_ == CollisionFlags::STAY) {
 		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, Render::GetViewProjectionMat(), Vector4(1, 0, 0, 1));
 	} else {

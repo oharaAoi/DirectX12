@@ -42,13 +42,13 @@ void Player::Init() {
 	// Colliderの初期化
 	SetCollider(ColliderTags::Player::DEFAULT, ColliderShape::SPHERE);
 	collider_->SetRadius(3.0f);
-	collider_->SetCollisionEnter([this](ICollider& other) { OnCollisionEnter(other); });
-	collider_->SetCollisionStay([this](ICollider& other) { OnCollisionStay(other); });
+	collider_->SetCollisionEnter([this](ICollider* other) { OnCollisionEnter(other); });
+	collider_->SetCollisionStay([this](ICollider* other) { OnCollisionStay(other); });
 
 	attackCollider_ = std::make_unique<AttackCollider>();
 	attackCollider_->Init(ColliderTags::Player::ATTACK, ColliderShape::SPHERE);
 	attackCollider_->SetRadius(4.0f);
-	attackCollider_->SetCollisionEnter([this](ICollider& other) { AttackColliderOnCollisionEnter(other); });
+	attackCollider_->SetCollisionEnter([this](ICollider* other) { AttackColliderOnCollisionEnter(other); });
 
 	// 武器の初期化
 	sword_ = std::make_unique<Sword>();
@@ -62,6 +62,7 @@ void Player::Init() {
 	shadow_->Init();
 	shadow_->SetObject("shadow.obj");
 	shadow_->SetColor({ 0.0f, 0.0f, 0.0f, 0.8f });
+	shadow_->SetIsLighting(false);
 
 	// フラグの初期化
 	isJump_ = false;
@@ -289,7 +290,7 @@ void Player::LookTarget() {
 // ↓　一番最初
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
+void Player::OnCollisionEnter([[maybe_unused]] ICollider* other) {
 	// 回避中は取らない
 	if (behavior_ == Behavior::AVOIDANCE) {
 		return;
@@ -300,9 +301,9 @@ void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 		return;
 	}
 
-	if (CheckBit(other.GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
+	if (CheckBit(other->GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
 		SetBehaviorRequest(Behavior::DAMAGE);
-		knockBackVelocity_ = (transform_->GetTranslation() - other.GetCenterPos()).Normalize();
+		knockBackVelocity_ = (transform_->GetTranslation() - other->GetCenterPos()).Normalize();
 		isAttack_ = false;
 
 		isInvincible_ = true;
@@ -317,15 +318,17 @@ void Player::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 // ↓　連続
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::OnCollisionStay([[maybe_unused]] ICollider& other) {
+void Player::OnCollisionStay([[maybe_unused]] ICollider* other) {
 	
 }
 
-void Player::AttackColliderOnCollisionEnter(ICollider& other) {
-	if (CheckBit(other.GetTag(), ColliderTags::Enemy::DEFAULT, CheckType::EQUAL)
-		|| CheckBit(other.GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
+void Player::AttackColliderOnCollisionEnter(ICollider* other) {
+	if (CheckBit(other->GetTag(), ColliderTags::Enemy::DEFAULT, CheckType::EQUAL)
+		|| CheckBit(other->GetTag(), ColliderTags::Enemy::ATTACK, CheckType::EQUAL)) {
 		isHitStop_ = true;
 		animetor_->SetAnimationSpeed(hitStopAnimationSpeed_);
+
+		attackCollider_->SetPartnersMap(other, 0b00);
 	}
 }
 

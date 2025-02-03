@@ -23,6 +23,9 @@ void CollisionManager::CheckAllCollision() {
 	std::list<ICollider*>::iterator iterA = colliders_.begin();
 	for (; iterA != colliders_.end(); ++iterA) {
 		ICollider* colliderA = *iterA;
+		if (!colliderA->GetIsActive()) {
+			continue;
+		}
 
 		// イテレータBはイテレータAの次の要素から回す
 		std::list<ICollider*>::iterator iterB = iterA;
@@ -30,6 +33,9 @@ void CollisionManager::CheckAllCollision() {
 
 		for (; iterB != colliders_.end(); ++iterB) {
 			ICollider* colliderB = *iterB;
+			if (!colliderB->GetIsActive()) {
+				continue;
+			}
 			// ペアの当たり判定
 			CheckCollisionPair(colliderA, colliderB);
 		}
@@ -46,13 +52,13 @@ void CollisionManager::CheckCollisionPair(ICollider* colliderA, ICollider* colli
 		colliderA->SwitchCollision(colliderB);
 		colliderB->SwitchCollision(colliderA);
 
-		colliderA->OnCollision(*colliderB);
-		colliderB->OnCollision(*colliderA);
+		colliderA->OnCollision(colliderB);
+		colliderB->OnCollision(colliderA);
 	} else {
 		// 衝突している状態だったら脱出した状態にする
 		if (colliderA->GetCollisionState() == CollisionFlags::STAY) {
 			colliderA->SetCollisionState(CollisionFlags::EXIT);
-			colliderA->OnCollision(*colliderB);
+			colliderA->OnCollision(colliderB);
 		} else {
 			colliderA->SetCollisionState(CollisionFlags::NONE);
 		}
@@ -60,7 +66,7 @@ void CollisionManager::CheckCollisionPair(ICollider* colliderA, ICollider* colli
 		// 衝突している状態だったら脱出した状態にする
 		if (colliderB->GetCollisionState() == CollisionFlags::STAY) {
 			colliderB->SetCollisionState(CollisionFlags::EXIT);
-			colliderB->OnCollision(*colliderA);
+			colliderB->OnCollision(colliderA);
 		} else {
 			colliderB->SetCollisionState(CollisionFlags::NONE);
 		}

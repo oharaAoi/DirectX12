@@ -22,7 +22,7 @@ void NormalEnemy::Init() {
 	SetAnimater("./Game/Resources/Models/Enemy/", "enemy.gltf", true, true, false);
 	
 	SetCollider(ColliderTags::Enemy::DEFAULT, ColliderShape::SPHERE);
-	collider_->SetCollisionEnter([this](ICollider& other) { OnCollisionEnter(other); });
+	collider_->SetCollisionEnter([this](ICollider* other) { OnCollisionEnter(other); });
 
 	// 状態の設定
 	behaviorRequest_ = EnemyBehavior::DEFAULT;
@@ -33,11 +33,15 @@ void NormalEnemy::Init() {
 	shadow_->Init();
 	shadow_->SetObject("shadow.obj");
 	shadow_->SetColor({ 0.0f, 0.0f, 0.0f, 0.8f });
+	shadow_->SetIsLighting(false);
 
 	hp_ = 3;
 
 	isDead_ = false;
 	isHited_ = false;
+
+	invincibleTime_ = 0.0f;
+	invincibleTimeCount_ = .6f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +54,17 @@ void NormalEnemy::Update() {
 	if (hp_ <= 0) {
 		//isDead_ = true;
 		//EffectSystem::GetInstacne()->Emit("down", transform_->GetTranslation());
-		return;
+		//return;
+	}
+
+	if (isInvincible_) {
+		invincibleTime_ += GameTimer::DeltaTime();
+
+		if (invincibleTime_ > invincibleTimeCount_) {
+			isInvincible_ = false;
+			invincibleTime_ = .0f;
+			collider_->SetIsActive(true);
+		}
 	}
 
 	state_->Update();
@@ -128,14 +142,20 @@ void NormalEnemy::CheckBehaviorRequest() {
 // ↓　一番最初
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void NormalEnemy::OnCollisionEnter([[maybe_unused]] ICollider& other) {
-	if (CheckBit(other.GetTag(), ColliderTags::Player::ATTACK, CheckType::EQUAL)) {
+void NormalEnemy::OnCollisionEnter([[maybe_unused]] ICollider* other) {
+	if (CheckBit(other->GetTag(), ColliderTags::Player::ATTACK, CheckType::EQUAL)) {
 		hp_--;
 		isHited_ = true;
 		isHitStop_ = true;
+		isInvincible_ = true;
+		collider_->SetIsActive(false);
 		this->SetTexture("deadNormalEnemy.png");
 		behaviorRequest_ = EnemyBehavior::HITED;
 		//EffectSystem::GetInstacne()->Emit("spark", transform_->GetTranslation());
+
+		knockBackVelocity_ = (transform_->translate_ - other->GetCenterPos()).Normalize();
+
+		collider_->SetPartnersMap(other, 0b00);
 	}
 }
 
@@ -143,7 +163,7 @@ void NormalEnemy::OnCollisionEnter([[maybe_unused]] ICollider& other) {
 // ↓　連続
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void NormalEnemy::OnCollisionStay([[maybe_unused]] ICollider& other) {
+void NormalEnemy::OnCollisionStay([[maybe_unused]] ICollider* other) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

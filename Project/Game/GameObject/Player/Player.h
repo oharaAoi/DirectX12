@@ -103,10 +103,10 @@ private:
 	void CheckBehaviorRequest();
 
 	// 衝突時の処理
-	void OnCollisionEnter([[maybe_unused]] ICollider& other);
-	void OnCollisionStay([[maybe_unused]] ICollider& other);
+	void OnCollisionEnter([[maybe_unused]] ICollider* other);
+	void OnCollisionStay([[maybe_unused]] ICollider* other);
 
-	void AttackColliderOnCollisionEnter([[maybe_unused]] ICollider& other);
+	void AttackColliderOnCollisionEnter([[maybe_unused]] ICollider* other);
 
 #ifdef _DEBUG
 	void Debug_Gui();
@@ -216,7 +216,7 @@ private:
 
 	bool isHitStop_ = false; 
 	float hitStopTimeCount_ = .0f;
-	float hitStopTime_ = .5f;
+	float hitStopTime_ = .4f;
 
 	float hitStopAnimationSpeed_ = 0.2f;
 

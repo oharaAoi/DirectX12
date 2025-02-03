@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include "Game/Interface/ICharactorState.h"
+#include "Engine/Assets/Collider/Collider.h"
 
 class Player;
 
@@ -25,6 +26,7 @@ public:
 
 	struct AttackColliderActiveTime : public IJsonConverter {
 		float activeStartTime[4];
+		float activeEndTime[4];
 
 		json ToJson(const std::string id) const override {
 			return JsonBuilder(id)
@@ -32,6 +34,12 @@ public:
 				.Add("second", activeStartTime[1])
 				.Add("therad", activeStartTime[2])
 				.Add("four", activeStartTime[3])
+
+				.Add("firstEnd", activeEndTime[0])
+				.Add("secondEnd", activeEndTime[1])
+				.Add("theradEnd", activeEndTime[2])
+				.Add("fourEnd", activeEndTime[3])
+
 				.Build();
 		}
 
@@ -40,6 +48,11 @@ public:
 			fromJson(jsonData, "second", activeStartTime[1]);
 			fromJson(jsonData, "therad", activeStartTime[2]);
 			fromJson(jsonData, "four", activeStartTime[3]);
+
+			fromJson(jsonData, "firstEnd", activeEndTime[0]);
+			fromJson(jsonData, "secondEnd", activeEndTime[1]);
+			fromJson(jsonData, "theradEnd", activeEndTime[2]);
+			fromJson(jsonData, "fourEnd", activeEndTime[3]);
 		}
 	};
 
@@ -93,5 +106,7 @@ private:
 	bool isComb_;
 
 	uint32_t combNum_;
+
+	ICollider* collider_ = nullptr;
 };
 

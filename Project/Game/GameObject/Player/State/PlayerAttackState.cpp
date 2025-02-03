@@ -13,7 +13,8 @@ PlayerAttackState::~PlayerAttackState() {
 void PlayerAttackState::Init() {
 	stateName_ = "playerAttackState";
 
-	colliderActiveTimes_.FromJson(AdjustmentItem::GetData("AttacCollider", stateName_));
+	colliderActiveTimes_.FromJson(AdjustmentItem::GetData("AttacCollider", "colliderTimes"));
+	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
 
 	work_.time = 0.0f;
 	work_.timeLimit = 1.0f;
@@ -25,8 +26,6 @@ void PlayerAttackState::Init() {
 	velocity_ = { 0.0f, 4.0f, 0.0f };
 	acceleration_.y = -9.8f;
 
-	information_.FromJson(AdjustmentItem::GetData(stateName_, stateName_));
-
 	pPlayer_->GetAnimetor()->GetAnimationClip()->SetIsLoop(false);
 	if (pPlayer_->GetAttackStep() != AttackStep::Step_JUMPATTACK) {
 		pPlayer_->GetAnimetor()->TransitionAnimation(information_.animationName, 0.1f);
@@ -34,6 +33,9 @@ void PlayerAttackState::Init() {
 		pPlayer_->GetAnimetor()->TransitionAnimation("fallAttack", 0.1f);
 		pPlayer_->GetAnimetor()->SetAnimationSpeed(1.3f);
 	}
+
+	collider_ = pPlayer_->GetAttackCollider();
+	collider_->SetIsActive(false);
 
 	combNum_ = 0;
 }
@@ -48,6 +50,13 @@ void PlayerAttackState::Update() {
 	//}
 
 	colliderActiveTime_ += GameTimer::DeltaTime();
+
+	if (colliderActiveTime_ > colliderActiveTimes_.activeStartTime[combNum_] && 
+		colliderActiveTime_ < colliderActiveTimes_.activeEndTime[combNum_]) {
+		collider_->SetIsActive(true);
+	} else {
+		collider_->SetIsActive(false);
+	}
 
 	if (pPlayer_->GetAttackStep() != AttackStep::Step_JUMPATTACK) {
 		CombAttack();
@@ -179,11 +188,17 @@ void PlayerAttackState::Debug_Gui() {
 	ImGui::DragFloat("theradTime", &colliderActiveTimes_.activeStartTime[2], 0.01f);
 	ImGui::DragFloat("fourTime", &colliderActiveTimes_.activeStartTime[3], 0.01f);
 
+	ImGui::BulletText("colliderActiveEndTime");
+	ImGui::DragFloat("firstTimeEnd", &colliderActiveTimes_.activeEndTime[0], 0.01f);
+	ImGui::DragFloat("secondTimeEnd", &colliderActiveTimes_.activeEndTime[1], 0.01f);
+	ImGui::DragFloat("theradTimeEnd", &colliderActiveTimes_.activeEndTime[2], 0.01f);
+	ImGui::DragFloat("fourTimeEnd", &colliderActiveTimes_.activeEndTime[3], 0.01f);
+
 	information_.animationName = pPlayer_->GetAnimetor()->SelectAnimationName();
 	ImGui::Text(information_.animationName.c_str());
 	if (ImGui::Button("Save")) {
-		AdjustmentItem::Save(stateName_, information_.ToJson(stateName_));
-		AdjustmentItem::Save("AttacCollider", colliderActiveTimes_.ToJson(stateName_));
+		//AdjustmentItem::Save(stateName_, information_.ToJson(stateName_));
+		AdjustmentItem::Save("AttacCollider", colliderActiveTimes_.ToJson("colliderTimes"));
 	}
 
 	if (ImGui::Button("Reset")) {

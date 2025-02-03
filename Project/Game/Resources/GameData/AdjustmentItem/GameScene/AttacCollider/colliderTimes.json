@@ -1,0 +1,12 @@
+{
+    "colliderTimes": {
+        "first": 0.550000011920929,
+        "firstEnd": 0.8,
+        "four": 0.5,
+        "fourEnd": 1.5,
+        "second": 0.5,
+        "secondEnd": 2.0,
+        "therad": 0.5,
+        "theradEnd": 1.0
+    }
+}

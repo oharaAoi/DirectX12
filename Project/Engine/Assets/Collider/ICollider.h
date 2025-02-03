@@ -47,13 +47,13 @@ public:
 	/// 衝突時にコールバック関数を呼び出す
 	/// </summary>
 	/// <param name="other"></param>
-	void OnCollision(ICollider& other);
+	void OnCollision(ICollider* other);
 
 	/// <summary>
 	/// 最初の衝突時に呼ばれる関数の設定
 	/// </summary>
 	/// <param name="callback"></param>
-	void SetCollisionEnter(std::function<void(ICollider&)> callback) {
+	void SetCollisionEnter(std::function<void(ICollider*)> callback) {
 		onCollisionEnter_ = callback;
 	}
 
@@ -61,7 +61,7 @@ public:
 	/// 最初の衝突時に呼ばれる関数の設定
 	/// </summary>
 	/// <param name="callback"></param>
-	void SetCollisionStay(std::function<void(ICollider&)> callback) {
+	void SetCollisionStay(std::function<void(ICollider*)> callback) {
 		onCollisionStay_ = callback;
 	}
 
@@ -69,9 +69,18 @@ public:
 	/// 最初の衝突時に呼ばれる関数の設定
 	/// </summary>
 	/// <param name="callback"></param>
-	void SetCollisionExit(std::function<void(ICollider&)> callback) {
+	void SetCollisionExit(std::function<void(ICollider*)> callback) {
 		onCollisionExit_ = callback;
 	}
+
+	void SetPartnersMap(ICollider* other, int state) {
+		collisionPartnersMap_[other] = state;
+		collisionState_ = state;
+	}
+
+	// ------------ 活動中かの設定・取得 ------------ // 
+	void SetIsActive(bool isActive) { isActive_ = isActive; }
+	const bool GetIsActive() const { return isActive_; }
 
 	// --------------- tagの設定・取得 -------------- //
 	void SetTag(uint32_t tag) { bitTag_ = tag; }
@@ -101,22 +110,23 @@ private:
 	/// 最初の衝突時に呼ばれる関数
 	/// </summary>
 	/// <param name="other">: 他の衝突物</param>
-	void OnCollisionEnter(ICollider& other);
+	void OnCollisionEnter(ICollider* other);
 
 	/// <summary>
 	/// 衝突中に呼ばれる関数
 	/// </summary>
 	/// <param name="other">: 他の衝突物</param>
-	void OnCollisionStay(ICollider& other);
+	void OnCollisionStay(ICollider* other);
 
 	/// <summary>
 	/// 衝突しなくなったら呼ばれる関数
 	/// </summary>
 	/// <param name="other">: 他の衝突物</param>
-	void OnCollisionExit(ICollider& other);
+	void OnCollisionExit(ICollider* other);
 
 protected:
 
+	bool isActive_ = true;
 	// タグ
 	uint32_t bitTag_;
 	// 形状
@@ -131,8 +141,8 @@ protected:
 	std::unordered_map<ICollider*, int> collisionPartnersMap_;
 	
 	// 衝突時のcallBack
-	std::function<void(ICollider&)> onCollisionEnter_;
-	std::function<void(ICollider&)> onCollisionStay_;
-	std::function<void(ICollider&)> onCollisionExit_;
+	std::function<void(ICollider*)> onCollisionEnter_;
+	std::function<void(ICollider*)> onCollisionStay_;
+	std::function<void(ICollider*)> onCollisionExit_;
 };
 
