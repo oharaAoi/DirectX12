@@ -7,6 +7,7 @@
 #include "Game/GameObject/Enemy/State/NormalEnemyMoveState.h"
 #include "Game/GameObject/Enemy/State/NormalEnemyAttackState.h"
 #include "Game/GameObject/Enemy/State/NormalEnemyHitedState.h"
+#include "Game/Manager/ParticleManager.h"
 
 NormalEnemy::NormalEnemy() {}
 NormalEnemy::~NormalEnemy() {}
@@ -52,9 +53,11 @@ void NormalEnemy::Update() {
 	isHited_ = false;
 
 	if (hp_ <= 0) {
-		//isDead_ = true;
-		//EffectSystem::GetInstacne()->Emit("down", transform_->GetTranslation());
-		//return;
+		isDead_ = true;
+		Vector3 pos = worldPos_;
+		pos.y += 1.5f;
+		ParticleManager::GetInstance()->CreateParticle(ParticlesType::EnemyDown, pos, 16);
+		return;
 	}
 
 	if (isInvincible_) {
@@ -154,6 +157,12 @@ void NormalEnemy::OnCollisionEnter([[maybe_unused]] ICollider* other) {
 		//EffectSystem::GetInstacne()->Emit("spark", transform_->GetTranslation());
 
 		knockBackVelocity_ = (transform_->translate_ - other->GetCenterPos()).Normalize();
+		knockBackVelocity_.y = 0.0f;
+
+		Vector3 pos = worldPos_;
+		pos.y += 1.5f;
+		ParticleManager::GetInstance()->CreateParticle(ParticlesType::HitSpark, pos, 16);
+		ParticleManager::GetInstance()->CreateParticle(ParticlesType::SwordEffect, pos, 10);
 
 		collider_->SetPartnersMap(other, 0b00);
 	}

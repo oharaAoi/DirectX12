@@ -38,7 +38,7 @@ public:
 
 private:
 
-	const uint32_t kMaxTarget_ = 30;
+	const uint32_t kMaxTarget_ = 25;
 
 	// ------------------- camera ------------------- //
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;

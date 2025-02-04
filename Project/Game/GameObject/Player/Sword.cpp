@@ -34,12 +34,14 @@ void Sword::Update() {
 }
 
 void Sword::Draw() const {
-	swordTip_->Draw();
-	swordRoot_->Draw();
+	/*swordTip_->Draw();
+	swordRoot_->Draw();*/
 	BaseGameObject::Draw();
 }
 
+#ifdef _DEBUG
 void Sword::Debug_Gui() {
 	ImGui::DragFloat3("swordTipOffset", &swordTipOffset_.x, 0.1f);
 	ImGui::DragFloat3("swordRootOffset", &swordRootOffset_.x, 0.1f);
 }
+#endif

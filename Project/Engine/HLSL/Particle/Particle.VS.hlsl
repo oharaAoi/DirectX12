@@ -1,17 +1,24 @@
 #include "Particle.hlsli"
 
+struct ParticleData {
+	float4x4 worldMat;
+	float4 color;
+};
+
 struct PerView {
 	float4x4 viewProjection;
 	float4x4 billboardMat;
 };
 
-StructuredBuffer<Particle> gParticles : register(t0);
+StructuredBuffer<ParticleData> gParticles : register(t0);
 ConstantBuffer<PerView> gPerView : register(b0);
 
-struct VertexShaderInput{
+struct VertexShaderInput {
 	float4 position : POSITION0;
 	float2 texcoord : TEXCOORD0;
-	float4 colot : COLOR0;
+	float3 normal : NORMAL0;
+	float4 worldPos : WORLDPOS0;
+	float3 tangent : TANGENT0;
 };
 
 float4x4 MakeUnit() {
@@ -84,12 +91,9 @@ float4x4 MakeRotateMat(float3 rotate){
 VertexShaderOutput main(VertexShaderInput input, uint instanceId : SV_InstanceID){
 	VertexShaderOutput output;
 	
-	Particle particle = gParticles[instanceId];
-	float4x4 worldMat = mul(
-	mul(MakeScaleMat(gParticles[instanceId].scale), MakeRotateMat(gParticles[instanceId].rotate)),
-	MakeTranslateMat(gParticles[instanceId].translate));
+	ParticleData particle = gParticles[instanceId];
 
-	output.position = mul(input.position, mul(worldMat, gPerView.viewProjection));
+	output.position = mul(input.position, mul(particle.worldMat, gPerView.viewProjection));
 	output.texcoord = input.texcoord;
 	output.color = particle.color;
 	

@@ -228,6 +228,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\Collider\AttackCollider.cpp" />
+    <ClCompile Include="Game\Effect\BaseCpuParticle.cpp" />
+    <ClCompile Include="Game\Effect\EnemyDownEffect.cpp" />
+    <ClCompile Include="Game\Effect\HitSparkEffect.cpp" />
+    <ClCompile Include="Game\Effect\SwordEffect.cpp" />
     <ClCompile Include="Game\Effect\Trail.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\NormalEnemy.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\State\NormalEnemyAttackState.cpp" />
@@ -246,6 +250,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\GameResources.cpp" />
     <ClCompile Include="Game\Interface\ICharactorState.cpp" />
     <ClCompile Include="Game\Manager\EnemyManager.cpp" />
+    <ClCompile Include="Game\Manager\ParticleManager.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\ClearScene.cpp" />
     <ClCompile Include="Game\Scene\GameOverScene.cpp" />
@@ -392,6 +397,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Camera\FollowCamera.h" />
     <ClInclude Include="Game\Collider\AttackCollider.h" />
     <ClInclude Include="Game\Collider\ColliderTags.h" />
+    <ClInclude Include="Game\Effect\BaseCpuParticle.h" />
+    <ClInclude Include="Game\Effect\EnemyDownEffect.h" />
+    <ClInclude Include="Game\Effect\HitSparkEffect.h" />
+    <ClInclude Include="Game\Effect\SwordEffect.h" />
     <ClInclude Include="Game\Effect\Trail.h" />
     <ClInclude Include="Game\GameObject\Enemy\NormalEnemy.h" />
     <ClInclude Include="Game\GameObject\Enemy\State\NormalEnemyAttackState.h" />
@@ -410,6 +419,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\GameResources.h" />
     <ClInclude Include="Game\Interface\ICharactorState.h" />
     <ClInclude Include="Game\Manager\EnemyManager.h" />
+    <ClInclude Include="Game\Manager\ParticleManager.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\ClearScene.h" />

@@ -43,6 +43,8 @@ public:
 
 	BaseGameObject* GetTarget() { return target_.lock().get(); }
 
+	void SetCameraPos(const Vector3& pos) { cameraPos_ = pos; }
+
 private:
 
 	EnemyManager* enemyManager_ = nullptr;
@@ -55,6 +57,8 @@ private:
 	bool isLockOn_;
 
 	uint32_t lockOnEnemyIndex_ = 0;
+
+	Vector3 cameraPos_;
 
 };
 

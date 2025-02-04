@@ -4,11 +4,13 @@
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/Editer/Window/EditerWindows.h"
 #include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
+#include "Game/Manager/ParticleManager.h"
 
 TestScene::TestScene() {}
-TestScene::~TestScene() {}
+TestScene::~TestScene() { Finalize(); }
 
 void TestScene::Finalize() {
+	ParticleManager::GetInstance()->Finalize();
 }
 
 void TestScene::Init() {
@@ -32,17 +34,20 @@ void TestScene::Init() {
 	floor_->Init();
 
 	// gameObject -------------------------------------------------------------------
-	testObjA_ = std::make_unique<TestObject>();
+	/*testObjA_ = std::make_unique<TestObject>();
 
 	testObjA_->Init();
-	testObjA_->SetCollider(1 << 1, ColliderShape::SPHERE);
+	testObjA_->SetCollider(1 << 1, ColliderShape::SPHERE);*/
 
 	trail_ = std::make_unique<Trail>();
 	trail_->Init();
 	
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjA_.get()), "testAObj");
+	//EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjA_.get()), "testAObj");
 #endif
+
+	ParticleManager::GetInstance()->Init();
+	ParticleManager::GetInstance()->CreateParticle(ParticlesType::HitSpark, { 0, -1, 0 },10 );
 
 	// Manager -------------------------------------------------------------------
 
@@ -79,14 +84,15 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
-	testObjA_->Update();
+	//testObjA_->Update();
 	
 	collisionManager_->Reset();
-	collisionManager_->AddCollider(testObjA_->GetCollider());
+	//collisionManager_->AddCollider(testObjA_->GetCollider());
 	collisionManager_->CheckAllCollision();
 
-	trail_->Update();
+	//trail_->Update();
 
+	ParticleManager::GetInstance()->Update();
 	// -------------------------------------------------
 	// ↓ ParticleのViewを設定する
 	// -------------------------------------------------
@@ -103,10 +109,13 @@ void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
 	//floor_->Draw();
-	testObjA_->Draw();
+	//testObjA_->Draw();
 
 	Engine::SetPipeline(PipelineType::TrailPipeline);
 	trail_->Draw(Render::GetViewProjection());
+
+	Engine::SetPipeline(PipelineType::ParticlePipeline);
+	ParticleManager::GetInstance()->Draw();
 }
 
 #ifdef _DEBUG
@@ -114,8 +123,13 @@ void TestScene::Debug_Gui() {
 	ImGui::Checkbox("isDebug", &isDebugCamera_);
 
 	if (ImGui::Button("reserve")) {
-		testObjA_->GetAnimetor()->GetAnimationClip()->ReservationAnimation("slash", "attack2", 0.5f, raito_);
+		//testObjA_->GetAnimetor()->GetAnimationClip()->ReservationAnimation("slash", "attack2", 0.5f, raito_);
 	}
+
+	if (ImGui::Button("hit")) {
+		ParticleManager::GetInstance()->CreateParticle(ParticlesType::HitSpark, { 0, 0, 0 }, 10);
+	}
+
 	ImGui::DragFloat("raito", &raito_, 0.01f);
 }
 #endif

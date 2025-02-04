@@ -19,6 +19,7 @@ void FollowCamera::Init() {
 
 	lockOnDestinationAngleY_ = 0.0f;
 	eulerRotate_ = Vector3::ZERO();
+	eulerRotate_.x = .2f;
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(std::bind(&FollowCamera::Debug_Gui, this, "followCamera"), "followCamera");

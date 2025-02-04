@@ -311,6 +311,8 @@ void Player::OnCollisionEnter([[maybe_unused]] ICollider* other) {
 		hp_--;
 
 		followCamera_->SetIsShake();
+
+
 	}
 }
 

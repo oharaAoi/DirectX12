@@ -12,7 +12,7 @@ void NormalEnemyHitedState::Init() {
 
 void NormalEnemyHitedState::Update() {
 
-	pEnemy_->GetTransform()->translate_ += (pEnemy_->GetKnockBackVelocity() * 2.0f) * GameTimer::DeltaTime();
+	pEnemy_->GetTransform()->translate_ += (pEnemy_->GetKnockBackVelocity()) * GameTimer::DeltaTime();
 
 	if (pEnemy_->GetAnimetor()->GetAnimationClip()->GetIsAnimationFinish()) {
 		pEnemy_->SetBehaviorRequest(EnemyBehavior::DEFAULT);

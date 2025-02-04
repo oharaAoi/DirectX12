@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "Engine/Utilities/AdjustmentItem.h"
 #include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
+#include "Game/Manager/ParticleManager.h"
 #include "Engine/Editer/Window/EditerWindows.h"
 
 GameScene::GameScene() {
@@ -13,6 +14,7 @@ GameScene::~GameScene() {
 
 void GameScene::Finalize() {
 	bgm_->Finalize();
+	ParticleManager::GetInstance()->Finalize();
 }
 
 void GameScene::Init() {
@@ -75,6 +77,8 @@ void GameScene::Init() {
 
 	bgm_ = std::make_unique<AudioPlayer>();
 	bgm_->Init("mainBGM.mp3");
+
+	ParticleManager::GetInstance()->Init();
 
 	// -------------------------------------------------
 	// ↓ その他設定
@@ -152,7 +156,7 @@ void GameScene::Update() {
 
 	trail_->Update();
 
-	lockOn_->SetCameraMat(followCamera_->GetCameraMatrix());
+	lockOn_->SetCameraPos(followCamera_->GetWorldPosition());
 	lockOn_->Update();
 
 	enemyManager_->SetPlayerPos(player_->GetTransform()->GetTranslation());
@@ -181,6 +185,8 @@ void GameScene::Update() {
 		followCamera_->SetIsShake();
 	}
 
+	ParticleManager::GetInstance()->Update();
+
 	// -------------------------------------------------
 	// ↓ UIの更新
 	// -------------------------------------------------
@@ -208,6 +214,9 @@ void GameScene::Draw() const {
 
 	Engine::SetPipeline(PipelineType::TrailPipeline);
 	trail_->Draw(Render::GetViewProjection());
+
+	Engine::SetPipeline(PipelineType::ParticlePipeline);
+	ParticleManager::GetInstance()->Draw();
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	Engine::ClearDepth();

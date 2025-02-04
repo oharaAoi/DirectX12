@@ -158,7 +158,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	
 	if (gMaterial.enableLighting == 0) {
 		output.color = gMaterial.color * textureColor;
-		if (output.color.a == 0.0) {
+		if (output.color.a <= 0.01f) {
 			discard;
 		}
 		return output;
@@ -208,7 +208,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	
 	output.color = clamp(output.color, 0.0f, 1.0f);
 	
-	if (output.color.a == 0.0) {
+	if (output.color.a <= 0.01f) {
 		discard;
 	}
 	

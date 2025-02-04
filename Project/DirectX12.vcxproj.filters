@@ -183,6 +183,11 @@
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game\GameObject\Enemy\State\NormalEnemyHitedState.cpp" />
+    <ClCompile Include="Game\Effect\BaseCpuParticle.cpp" />
+    <ClCompile Include="Game\Manager\ParticleManager.cpp" />
+    <ClCompile Include="Game\Effect\HitSparkEffect.cpp" />
+    <ClCompile Include="Game\Effect\SwordEffect.cpp" />
+    <ClCompile Include="Game\Effect\EnemyDownEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Assets\2d\PrimitiveDrawer.h" />
@@ -320,6 +325,11 @@
     <ClInclude Include="Game\WorldObject\Floor.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />
     <ClInclude Include="Game\GameObject\Enemy\State\NormalEnemyHitedState.h" />
+    <ClInclude Include="Game\Effect\BaseCpuParticle.h" />
+    <ClInclude Include="Game\Manager\ParticleManager.h" />
+    <ClInclude Include="Game\Effect\HitSparkEffect.h" />
+    <ClInclude Include="Game\Effect\SwordEffect.h" />
+    <ClInclude Include="Game\Effect\EnemyDownEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Assets\2d\PrimitiveDrawer.h" />

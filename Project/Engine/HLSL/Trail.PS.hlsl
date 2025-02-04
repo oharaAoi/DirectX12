@@ -20,7 +20,8 @@ PixelShaderOutput main(TrailVertexShaderOutput input) {
 	
 	output.color = input.color * textureColor;
 	output.color = clamp(output.color, 0.0f, 1.0f);
-	if (output.color.a == 0.0) {
+	
+	if (output.color.a <= 0.0) {
 		discard;
 	}
 	return output;

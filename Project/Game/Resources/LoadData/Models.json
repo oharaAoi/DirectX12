@@ -16,6 +16,12 @@
             ]
         },
         {
+            "directory": "./Game/Resources/Models/Effect/",
+            "files": [
+                "spark.obj"
+            ]
+        },
+        {
             "directory": "./Game/Resources/Models/Enemy/",
             "files": [
                 "enemy.gltf"
@@ -25,12 +31,6 @@
             "directory": "./Game/Resources/Models/Shadow/",
             "files": [
                 "shadow.obj"
-            ]
-        },
-        {
-            "directory": "./Engine/Resources/Gltf/Mesh_Primitives/",
-            "files": [
-                "Mesh_Primitives_00.gltf"
             ]
         }
     ]

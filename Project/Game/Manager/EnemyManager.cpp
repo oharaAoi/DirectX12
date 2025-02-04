@@ -13,8 +13,8 @@ void EnemyManager::Init() {
 	normalEnemyList_.clear();
 
 	Pop(Vector3(0.0f, 0.0f, 10.0f));
-	/*Pop(Vector3(9.0f, 0.0f, 15.0f));
-	Pop(Vector3(-9.0f, 0.0f, 15.0f));*/
+	Pop(Vector3(9.0f, 0.0f, 15.0f));
+	Pop(Vector3(-9.0f, 0.0f, 15.0f));
 
 	downNum_ = 0;
 
@@ -39,7 +39,7 @@ void EnemyManager::Update() {
 		return false; // 削除しない
 	});
 
-	//RandomPop();
+	RandomPop();
 
 	for (std::list<std::shared_ptr<NormalEnemy>>::iterator it = normalEnemyList_.begin(); it != normalEnemyList_.end();) {
 		(*it)->SetPlayerPos(playerPos_);

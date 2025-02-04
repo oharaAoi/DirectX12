@@ -176,12 +176,14 @@ void Engine::EndFrame() {
 }
 
 void Engine::UpdateEditerWindow() {
+#ifdef _DEBUG
 	if (runGame_) {
 		if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
 			editerWindows_->Update();
 		}
 		ImGui::End();
 	}
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

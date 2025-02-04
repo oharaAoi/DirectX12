@@ -54,6 +54,8 @@ public:
 	const Quaternion& GetQuaternion() const { return rotation_; }
 	const Matrix4x4& GetWorldMatrix() const { return worldMat_; }
 
+	void SetWorldMat(const Matrix4x4& mat) { worldMat_ = mat; }
+
 public:
 
 	Vector3 scale_;

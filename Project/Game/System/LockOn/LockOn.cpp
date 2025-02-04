@@ -42,6 +42,7 @@ void LockOn::Update() {
 			isLockOn_ = false;
 		}
 	}
+	transform_->rotation_ = Quaternion::LookAt(Vector3(), cameraPos_);
 	BaseGameObject::Update();
 }
 
@@ -95,7 +96,7 @@ void LockOn::SetCameraMat(const Matrix4x4& cameraMat) {
 	cameraMat_.m[3][0] = 0.0f;
 	cameraMat_.m[3][1] = 0.0f;
 	cameraMat_.m[3][2] = 0.0f;
-	cameraMat_ = Vector3().MakeYawMatrix(PI) * cameraMat_;
+	cameraMat_ = cameraMat_;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
