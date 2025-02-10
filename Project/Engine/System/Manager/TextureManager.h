@@ -6,10 +6,10 @@
 #include <Externals/DirectXTex/DirectXTex.h>
 #include <Externals/DirectXTex/d3dx12.h>
 #include "Engine/Utilities/Convert.h"
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/Math/Vector2.h"
+#include "Engine/Lib/Math/Vector2.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

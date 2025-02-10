@@ -9,7 +9,7 @@
 #include "Engine/Utilities/Loader.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/MeshManager.h"
-#include "Engine/Math/MyMatrix.h"
+#include "Engine/Lib/Math/MyMatrix.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Components/Rigging/Skinning.h"
 

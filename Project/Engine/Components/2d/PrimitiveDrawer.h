@@ -1,9 +1,9 @@
 #pragma once
 #include <memory>
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
-#include "Engine/Math/MyMatrix.h"
-#include "Engine/Math/MyMath.h"
+#include "Engine/Lib/Math/MyMatrix.h"
+#include "Engine/Lib/Math/MyMath.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
 class PrimitiveDrawer {

@@ -1,8 +1,8 @@
 #pragma once
-#include "Engine/Math/Vector2.h"
-#include "Engine/Math/Vector3.h"
-#include "Engine/Math/Vector4.h"
-#include "Engine/Math/MyMatrix.h"
+#include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Vector4.h"
+#include "Engine/Lib/Math/MyMatrix.h"
 #include <cmath>
 #define _USE_MATH_DEFINES
 #include <math.h>

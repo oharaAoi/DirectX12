@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Math/MathStructures.h"
+#include "Engine/Lib/Math/MathStructures.h"
 #include <variant>
 
 //================================================================================================//

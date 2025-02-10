@@ -4,8 +4,8 @@
 #include <vector>
 #include <string>
 #include <map>
-#include "Engine/Utilities/DirectXUtils.h"
-#include "Engine/Math/MyMath.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
+#include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Components/GameObject/Model.h"
 
 class PBRMaterial {

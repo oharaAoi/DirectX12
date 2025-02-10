@@ -5,7 +5,7 @@
 #include <cassert>
 #include <wrl.h>
 #include <list>
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 
 #include "Engine/DirectX/Descriptor/DescriptorSize.h"
 

@@ -1,5 +1,5 @@
 #include "DirectionalLight.h"
-#include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/Lib/Json//JsonItems.h"
 
 DirectionalLight::DirectionalLight() {
 }
@@ -46,10 +46,10 @@ void DirectionalLight::Debug_Gui() {
 	directionalLightData_->limPower = parameter_.limPower;
 
 	if (ImGui::Button("Save")) {
-		AdjustmentItem::Save("Light", parameter_.ToJson("directionalLight"));
+		JsonItems::Save("Light", parameter_.ToJson("directionalLight"));
 	}
 	if (ImGui::Button("Apply")) {
-		parameter_.FromJson(AdjustmentItem::GetData("Light", "directionalLight"));
+		parameter_.FromJson(JsonItems::GetData("Light", "directionalLight"));
 	}
 }
 #endif

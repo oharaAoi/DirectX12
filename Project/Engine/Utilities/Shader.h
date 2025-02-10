@@ -2,7 +2,7 @@
 #include <cassert>
 #include <string>
 #include <map>
-#include "DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 
 class Shader {
 public:

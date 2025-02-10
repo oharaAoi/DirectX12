@@ -1,14 +1,13 @@
 #pragma once
-#include "Engine/Math/Vector2.h"
-#include "Engine/Math/Vector3.h"
-#include "Engine/Math/Vector4.h"
 #include <nlohmann/json.hpp>
 #include <string>
 #include <assert.h>
 #include <type_traits>
 #include <unordered_map>
 #include <variant>
-#include <Engine/Utilities/DirectXUtils.h>
+#include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Vector4.h"
 
 using json = nlohmann::json;
 
@@ -124,7 +123,7 @@ inline void fromJson(const json& j, const std::string& name, T& value) {
 		} else {
 			// json内にnameが存在していなかったら
 			std::string erroeLog = "not contains jsonData  : " + name;
-			Log(erroeLog);
+			//Log(erroeLog);
 			//assert(false && "Name is missing in the JSON");
 		}
 	}

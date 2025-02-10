@@ -11,7 +11,7 @@
 #include "Engine/Components/WorldTransform.h"
 #include "Engine/Components/ViewProjection.h"
 #include "Engine/Components/Animation/AnimationStructures.h"
-#include "Engine/Math/MathStructures.h"
+#include "Engine/Lib/Math/MathStructures.h"
 #include <memory>
 
 class Material;

@@ -1,9 +1,9 @@
 #pragma once
 #include <cstdint>
 #include <string>
-#include "Engine/Math/Vector3.h"
-#include "Engine/Math/Vector4.h"
-#include "Engine/Math/MathStructures.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Vector4.h"
+#include "Engine/Lib/Math/MathStructures.h"
 #include "Engine/Components/Collider/MeshCollider.h"
 
 /// <summary>

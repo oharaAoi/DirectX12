@@ -4,10 +4,10 @@
 #include <vector>
 #include <map>
 #include <optional>
-#include "Engine/Math/MyMatrix.h"
-#include "Engine/Math/MathStructures.h"
+#include "Engine/Lib/Math/MyMatrix.h"
+#include "Engine/Lib/Math/MathStructures.h"
+#include "Engine/Lib/Math/Matrix4x4.h"
 #include "Engine/Components/GameObject/Model.h"
-#include "Engine/Math/Matrix4x4.h"
 
 class BaseGameObject;
 

@@ -2,8 +2,8 @@
 #include <map>
 #include <vector>
 #include <string>
-#include "Engine/Math/Vector3.h"
-#include "Engine/Math/Quaternion.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Quaternion.h"
 
 template <typename tValue>
 struct Keyframe {

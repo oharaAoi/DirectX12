@@ -5,7 +5,7 @@
 #include <wrl.h>
 // utilities
 #include "Engine/Utilities/Convert.h"
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 // DirectX系
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 

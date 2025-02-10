@@ -1,7 +1,7 @@
 #pragma once
-#include "Engine/Utilities/DirectXUtils.h"
-#include "Engine/Math/Vector2.h"
-#include "Engine/Math/MathStructures.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
+#include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Lib/Math/MathStructures.h"
 
 class Render;
 

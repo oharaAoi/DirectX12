@@ -2,7 +2,7 @@
 #include <functional>
 #include <string>
 #include <variant>
-#include "Engine/Math/MathStructures.h"
+#include "Engine/Lib/Math/MathStructures.h"
 
 enum CollisionFlags {
 	NONE = 0b00,

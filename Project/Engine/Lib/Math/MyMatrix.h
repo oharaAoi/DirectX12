@@ -1,7 +1,7 @@
 #pragma once
-#include <Engine/Math/Matrix3x3.h>
-#include <Engine/Math/Matrix4x4.h>
-#include <Engine/Math/Vector3.h>
+#include <Engine/Lib/Math/Matrix3x3.h>
+#include <Engine/Lib/Math/Matrix4x4.h>
+#include <Engine/Lib/Math/Vector3.h>
 #include <assert.h>
 #include <cmath>
 

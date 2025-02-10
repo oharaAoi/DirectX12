@@ -1,10 +1,10 @@
 #pragma once
 #include <array>
 #include "Engine.h"
-#include "Engine/Math/Vector3.h"
-#include "Engine/Math/Quaternion.h"
-#include "Engine/Math/MyMatrix.h"
-#include "Engine/Math/MathStructures.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Quaternion.h"
+#include "Engine/Lib/Math/MyMatrix.h"
+#include "Engine/Lib/Math/MathStructures.h"
 
 /// <summary>
 /// グリット線を描画する

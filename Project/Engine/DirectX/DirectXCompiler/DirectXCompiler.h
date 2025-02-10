@@ -4,7 +4,7 @@
 #include <wrl.h>
 #include <cassert>
 #include <string>
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

@@ -3,11 +3,11 @@
 #include <d3d12.h>
 #include <wrl.h>
 #include <string>
-#include "Engine/Utilities/DirectXUtils.h"
-#include "Engine/Math/Matrix4x4.h"
-#include "Engine/Math/MyMath.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
+#include "Engine/Lib/Math/Matrix4x4.h"
+#include "Engine/Lib/Math/MyMath.h"
+#include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/System/Manager/ImGuiManager.h"
-#include "Engine/Math/Quaternion.h"
 
 
 template<typename T>

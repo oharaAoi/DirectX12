@@ -1,6 +1,6 @@
 #pragma once
-#include "Engine/Utilities/DirectXUtils.h"
-#include "Engine/Math/MyMath.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
+#include "Engine/Lib/Math/MyMath.h"
 
 class Mesh final {
 public: // 構造体

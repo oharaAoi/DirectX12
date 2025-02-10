@@ -1,6 +1,6 @@
 #pragma once
-#include "Engine/Math/MyMatrix.h"
-#include "Engine/Math/Vector2.h"
+#include "Engine/Lib/Math/MyMatrix.h"
+#include "Engine/Lib/Math/Vector2.h"
 
 /// <summary>
 /// 2dのカメラ

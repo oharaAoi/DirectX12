@@ -2,7 +2,7 @@
 #include <utility>
 #include <algorithm>
 #include <DirectXTex/d3dx12.h>
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Components/Rigging/Skeleton.h"
 #include "Engine/Components/GameObject/Model.h"
 #include "Engine/Components/Meshes/Mesh.h"

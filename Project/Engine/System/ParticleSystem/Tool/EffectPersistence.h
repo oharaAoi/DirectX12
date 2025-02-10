@@ -8,9 +8,9 @@
 #include <unordered_map>
 #include <cstdint>
 #include <nlohmann/json.hpp>
-#include "Engine/Math/Vector2.h"
-#include "Engine/Math/Vector3.h"
-#include "Engine/Math/Vector4.h"
+#include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Vector4.h"
 
 using json = nlohmann::json;
 

@@ -1,4 +1,4 @@
-#include "AdjustmentItem.h"
+#include "JsonItems.h"
 #include <iostream>
 #include <fstream>
 #ifdef _DEBUG
@@ -6,13 +6,13 @@
 #include "Engine/Editer/Window/EditerWindows.h"
 #endif
 
-const std::string AdjustmentItem::kDirectoryPath_ = "./Game/Resources/GameData/AdjustmentItem/";
-std::string AdjustmentItem::nowSceneName_ = "";
+const std::string JsonItems::kDirectoryPath_ = "./Game/Resources/GameData/JsonItems/";
+std::string JsonItems::nowSceneName_ = "";
 
 namespace fs = std::filesystem;
 
-AdjustmentItem* AdjustmentItem::GetInstance() {
-	static AdjustmentItem instance;
+JsonItems* JsonItems::GetInstance() {
+	static JsonItems instance;
 	return &instance;
 }
 
@@ -20,7 +20,7 @@ AdjustmentItem* AdjustmentItem::GetInstance() {
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AdjustmentItem::Init(const std::string& nowScene) {
+void JsonItems::Init(const std::string& nowScene) {
 	nowSceneName_ = nowScene;
 
 	// ------------------------------------------
@@ -33,7 +33,7 @@ void AdjustmentItem::Init(const std::string& nowScene) {
 
 	LoadAllFile();
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(std::bind(&AdjustmentItem::Update, this), "AdjustmentItem");
+	EditerWindows::AddObjectWindow(std::bind(&JsonItems::Update, this), "JsonItems");
 #endif // _DEBUG
 }
 
@@ -41,7 +41,7 @@ void AdjustmentItem::Init(const std::string& nowScene) {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AdjustmentItem::Update() {
+void JsonItems::Update() {
 #ifdef _DEBUG
 	if (ImGui::Button("HotReload")) {
 		LoadAllFile();
@@ -54,7 +54,7 @@ void AdjustmentItem::Update() {
 // ↓　読み込みを行う
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AdjustmentItem::LoadAllFile() {
+void JsonItems::LoadAllFile() {
 	jsonMap_.clear();
 	std::filesystem::directory_iterator rootDir(kDirectoryPath_ + "/" + nowSceneName_ );
 	for (const fs::directory_entry& entryDir : fs::directory_iterator(rootDir)) {
@@ -83,7 +83,7 @@ void AdjustmentItem::LoadAllFile() {
 // ↓　Groupの追加
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AdjustmentItem::AddGroup(const std::string& groupName, const json& jsonData) {
+void JsonItems::AddGroup(const std::string& groupName, const json& jsonData) {
 	std::string rootKey;
 	if (jsonData.is_object() && !jsonData.empty()) {
 		rootKey = jsonData.begin().key();
@@ -96,7 +96,7 @@ void AdjustmentItem::AddGroup(const std::string& groupName, const json& jsonData
 // ↓　保存を行う
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AdjustmentItem::Save(const std::string& groupName, const json& saveData) {
+void JsonItems::Save(const std::string& groupName, const json& saveData) {
 	// 最上位キーの取得
 	if (saveData.is_object() && !saveData.empty()) {
 		// 最上位のキーの名前をファイル名とする
@@ -140,7 +140,7 @@ void AdjustmentItem::Save(const std::string& groupName, const json& saveData) {
 // ↓　読み込みを行う
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AdjustmentItem::Load(const std::string& groupName, const std::string& rootKey) {
+void JsonItems::Load(const std::string& groupName, const std::string& rootKey) {
 	std::string filePath = kDirectoryPath_ + nowSceneName_ + "/" + groupName + "/" + rootKey + ".json";
 
 	// 読み込み用ファイルストリーム
@@ -168,10 +168,10 @@ void AdjustmentItem::Load(const std::string& groupName, const std::string& rootK
 // ↓　値を取得する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-json AdjustmentItem::GetData(const std::string& groupName, const std::string& rootKey) {
+json JsonItems::GetData(const std::string& groupName, const std::string& rootKey) {
 	return GetInstance()->GetValue(groupName, rootKey);
 }
 
-json AdjustmentItem::GetValue(const std::string& groupName, const std::string& rootKey) {
+json JsonItems::GetValue(const std::string& groupName, const std::string& rootKey) {
 	return jsonMap_[groupName].items[rootKey];
 }

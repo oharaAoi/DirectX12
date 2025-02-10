@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "MyMath.h"
-#include "Engine/Math/Quaternion.h"
+#include "Engine/Lib/Math/Quaternion.h"
 
 /// <summary>
 /// 拡縮、回転、移動

@@ -5,7 +5,7 @@
 
 using json = nlohmann::json;
 
-class AdjustmentItem {
+class JsonItems {
 public:
 
 	struct Group {
@@ -14,14 +14,14 @@ public:
 
 public:
 
-	AdjustmentItem() = default;
-	~AdjustmentItem() = default;
+	JsonItems() = default;
+	~JsonItems() = default;
 
 	// シングルトン化
-	AdjustmentItem(const AdjustmentItem&) = delete;
-	AdjustmentItem& operator=(const AdjustmentItem&) = delete;
+	JsonItems(const JsonItems&) = delete;
+	JsonItems& operator=(const JsonItems&) = delete;
 
-	static AdjustmentItem* GetInstance();
+	static JsonItems* GetInstance();
 
 	void Init(const std::string& nowScene);
 	void Update();

@@ -4,9 +4,9 @@
 #include <d3d12.h>
 #include <wrl.h>
 // DirectX
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 // math
-#include "Engine/Math/MyMath.h"
+#include "Engine/Lib/Math/MyMath.h"
 
 class Phong {
 public: // データ構造体

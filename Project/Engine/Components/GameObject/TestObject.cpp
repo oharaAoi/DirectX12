@@ -1,5 +1,5 @@
 #include "TestObject.h"
-#include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/Lib/Json//JsonItems.h"
 
 TestObject::TestObject() {
 }
@@ -21,7 +21,7 @@ void TestObject::Init() {
 	//SetAnimater("./Engine/Resources/Gltf/Animation_Node/", "Animation_Node_01.gltf", false, true, false);
 
 	test_.ToJson("testParame");
-	test_.FromJson(AdjustmentItem::GetData("Player", "testParame"));
+	test_.FromJson(JsonItems::GetData("Player", "testParame"));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include "Engine/Utilities/Convert.h"
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Utilities/Debug.h"
 #include "Engine/DirectX/RootSignature/RootSignatureBuilder.h"
 

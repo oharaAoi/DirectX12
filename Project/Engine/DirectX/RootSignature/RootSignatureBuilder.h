@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "Engine/Utilities/Convert.h"
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Utilities/Debug.h"
 
 class RootSignatureBuilder {

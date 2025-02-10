@@ -1,5 +1,5 @@
 #include "PointLight.h"
-#include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/Lib/Json/JsonItems.h"
 
 
 PointLight::PointLight() {
@@ -46,10 +46,10 @@ void PointLight::Debug_Gui() {
 	pointLightData_->decay = parameter_.decay;
 
 	if (ImGui::Button("Save")) {
-		AdjustmentItem::Save("Light", parameter_.ToJson("pointLight"));
+		JsonItems::Save("Light", parameter_.ToJson("pointLight"));
 	}
 	if (ImGui::Button("Apply")) {
-		parameter_.FromJson(AdjustmentItem::GetData("Light", "pointLight"));
+		parameter_.FromJson(JsonItems::GetData("Light", "pointLight"));
 	}
 }
 #endif

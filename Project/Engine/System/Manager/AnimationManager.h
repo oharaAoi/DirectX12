@@ -6,8 +6,8 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include "Engine/Math/Vector3.h"
-#include "Engine/Math/Quaternion.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Components/Rigging/Skeleton.h"
 #include "Engine/Components/Animation/AnimationClip.h"
 #include "Engine/Components/Animation/AnimationStructures.h"

@@ -2,7 +2,7 @@
 #include <memory>
 #include "Engine/Components/GameObject/BaseGameObject.h"
 #include "Engine/Components/Collider/MeshCollider.h"
-#include "Engine/Lib/IJsonConverter.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 
 class TestObject : public BaseGameObject {
 public:

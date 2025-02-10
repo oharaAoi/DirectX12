@@ -3,8 +3,8 @@
 #include <cstdint>
 #include <d3d12.h>
 #include <wrl.h>
-#include "Engine/Utilities/DirectXUtils.h"
-#include "Engine/Math/MyMath.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
+#include "Engine/Lib/Math/MyMath.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Components/GameObject/Model.h"
 

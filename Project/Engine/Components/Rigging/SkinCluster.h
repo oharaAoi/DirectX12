@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include <map>
-#include "Engine/Math/Matrix4x4.h"
+#include "Engine/Lib/Math/Matrix4x4.h"
 
 struct VertexWeightData {
 	float weight;

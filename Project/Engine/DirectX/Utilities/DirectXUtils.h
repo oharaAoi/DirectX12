@@ -10,7 +10,7 @@
 #include <string>
 #include "Utilities/Convert.h"
 #include "Enviroment.h"
-#include "Engine/Math/Vector3.h"
+#include "Engine/Lib/Math/Vector3.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

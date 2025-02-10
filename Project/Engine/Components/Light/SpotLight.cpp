@@ -1,5 +1,5 @@
 #include "SpotLight.h"
-#include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/Lib/Json//JsonItems.h"
 
 SpotLight::SpotLight() {
 }
@@ -66,10 +66,10 @@ void SpotLight::Debug_Gui() {
 	}
 
 	if (ImGui::Button("Save")) {
-		AdjustmentItem::Save("Light", parameter_.ToJson("spotLight"));
+		JsonItems::Save("Light", parameter_.ToJson("spotLight"));
 	}
 	if (ImGui::Button("Apply")) {
-		parameter_.FromJson(AdjustmentItem::GetData("Light", "spotLight"));
+		parameter_.FromJson(JsonItems::GetData("Light", "spotLight"));
 	}
 }
 #endif

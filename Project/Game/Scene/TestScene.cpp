@@ -1,7 +1,7 @@
 #include "TestScene.h"
 #include "Engine.h"
 #include "Engine/System/Input/Input.h"
-#include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Editer/Window/EditerWindows.h"
 #include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
 
@@ -12,7 +12,7 @@ void TestScene::Finalize() {
 }
 
 void TestScene::Init() {
-	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
+	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("TestScene");
 
 	// カメラ -------------------------------------------------------------------
