@@ -21,7 +21,7 @@ void DirectXCommands::Finalize() {
 
 	commandQueue_.Reset();
 	for (auto oi = 0; oi < kFrameCount_; ++oi) {
-		commandAllocator_[oi].Reset();
+		commandAllocators_[oi].Reset();
 	}
 	commandList_.Reset();
 }
@@ -41,12 +41,12 @@ void DirectXCommands::CreateCommand() {
 	// CommandAllocatorの生成 --------------------------------
 	// コマンドアロケータを生成する
 	for (auto oi = 0; oi < kFrameCount_; ++oi) {
-		hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator_[oi]));
+		hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocators_[oi]));
 		assert(SUCCEEDED(hr));
 	}
 	
 	// コマンドリストを生成する ----------------------------
-	hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_[fenceIndex_].Get(), nullptr, IID_PPV_ARGS(&commandList_));
+	hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocators_[fenceIndex_].Get(), nullptr, IID_PPV_ARGS(&commandList_));
 	assert(SUCCEEDED(hr));
 }
 

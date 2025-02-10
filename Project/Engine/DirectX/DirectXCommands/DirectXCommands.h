@@ -45,7 +45,7 @@ public:
 	/// <returns></returns>
 	ID3D12CommandQueue* GetCommandQueue() { return commandQueue_.Get(); }
 
-	ID3D12CommandAllocator* GetCommandAllocator() { return commandAllocator_[fenceIndex_].Get(); }
+	ID3D12CommandAllocator* GetCommandAllocator() { return commandAllocators_[fenceIndex_].Get(); }
 
 	ID3D12GraphicsCommandList* GetCommandList() { return commandList_.Get(); }
 
@@ -57,7 +57,7 @@ private:
 	
 	// graphics用のコマンド系 ---------------------------------------------
 	ComPtr<ID3D12CommandQueue> commandQueue_ = nullptr;
-	ComPtr<ID3D12CommandAllocator> commandAllocator_[kFrameCount_];
+	ComPtr<ID3D12CommandAllocator> commandAllocators_[kFrameCount_];
 	ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
 
 	// Fence & Event
