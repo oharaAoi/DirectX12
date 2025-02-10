@@ -29,7 +29,7 @@ public:
 		float cosAngle = std::cos(std::numbers::pi_v<float>);
 		float cosFalloffStart = std::cos(std::numbers::pi_v<float> / 4.0f);
 
-		json ToJson(const std::string id) const override {
+		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("color", color)
 				.Add("position", position)

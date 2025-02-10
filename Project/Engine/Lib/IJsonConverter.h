@@ -29,7 +29,7 @@ public:
 	/// json形式"に"変換する純粋仮想関数
 	/// </summary>
 	/// <returns>: jsonファイル形式に格納されたデータ</returns>
-	virtual json ToJson(const std::string id) const = 0;
+	virtual json ToJson(const std::string& id) const = 0;
 
 	/// <summary>
 	/// json形式"から"変換する純粋仮想関数

@@ -17,7 +17,7 @@ public:
 		Quaternion rotate = Quaternion::AngleAxis(25.0f * toRadian, Vector3::RIGHT());
 		Vector3 translate = Vector3(0.0f,4.0f,-8.0f);
 
-		json ToJson(const std::string id) const override {
+		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("rotate", rotate)
 				.Add("translate", translate)

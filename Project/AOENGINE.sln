@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectX12", "DirectX12.vcxproj", "{E3F9DAB2-D372-4968-871F-005C677439F3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AOENGINE", "AOENGINE.vcxproj", "{E3F9DAB2-D372-4968-871F-005C677439F3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{342CDBE9-EAF6-4DE4-A7A5-13751B897BED}"
 	ProjectSection(SolutionItems) = preProject
