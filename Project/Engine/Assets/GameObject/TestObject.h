@@ -12,6 +12,7 @@ public:
 		float lifeTime;
 		float speed;
 		float hp;
+		float test;
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
