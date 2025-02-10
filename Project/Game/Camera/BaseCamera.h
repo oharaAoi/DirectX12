@@ -3,7 +3,7 @@
 #include "Engine/Math/MyMatrix.h"
 #include "Engine/Math/MyMath.h"
 #include "Engine/Math/MathStructures.h"
-#include "Engine/Assets/WorldTransform.h"
+#include "Engine/Components/WorldTransform.h"
 #include "Enviroment.h"
 #include "Engine/Lib/GameTimer.h"
 

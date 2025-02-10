@@ -6,7 +6,7 @@
 #include <optional>
 #include "Engine/Math/MyMatrix.h"
 #include "Engine/Math/MathStructures.h"
-#include "Engine/Assets/GameObject/Model.h"
+#include "Engine/Components/GameObject/Model.h"
 #include "Engine/Math/Matrix4x4.h"
 
 class BaseGameObject;

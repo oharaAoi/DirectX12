@@ -6,11 +6,11 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include "Engine/Assets/Meshes/Mesh.h"
-#include "Engine/Assets/Rigging/SkinCluster.h"
-#include "Engine/Assets/WorldTransform.h"
-#include "Engine/Assets/ViewProjection.h"
-#include "Engine/Assets/Animation/AnimationStructures.h"
+#include "Engine/Components/Meshes/Mesh.h"
+#include "Engine/Components/Rigging/SkinCluster.h"
+#include "Engine/Components/WorldTransform.h"
+#include "Engine/Components/ViewProjection.h"
+#include "Engine/Components/Animation/AnimationStructures.h"
 #include "Engine/Math/MathStructures.h"
 #include <memory>
 

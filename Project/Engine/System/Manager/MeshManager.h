@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "Engine/Assets/Meshes/Mesh.h"
+#include "Engine/Components/Meshes/Mesh.h"
 
 class MeshManager {
 public:

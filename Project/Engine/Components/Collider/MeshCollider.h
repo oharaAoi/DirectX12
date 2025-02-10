@@ -1,10 +1,10 @@
 #pragma once
 #include <functional>
-#include "Engine/Assets/Meshes/Mesh.h"
+#include "Engine/Components/Meshes/Mesh.h"
 #include "Engine/Math/MathStructures.h"
 #include "Engine/Utilities/DrawUtils.h"
-#include "Engine/Assets/WorldTransform.h"
-#include "Engine/Assets/Collider/ICollider.h"
+#include "Engine/Components/WorldTransform.h"
+#include "Engine/Components/Collider/ICollider.h"
 
 class MeshCollider {
 public:

@@ -3,9 +3,9 @@
 #include <algorithm>
 #include <DirectXTex/d3dx12.h>
 #include "Engine/Utilities/DirectXUtils.h"
-#include "Engine/Assets/Rigging/Skeleton.h"
-#include "Engine/Assets/GameObject/Model.h"
-#include "Engine/Assets/Meshes/Mesh.h"
+#include "Engine/Components/Rigging/Skeleton.h"
+#include "Engine/Components/GameObject/Model.h"
+#include "Engine/Components/Meshes/Mesh.h"
 
 Skinning::Skinning() {}
 Skinning::~Skinning() {}

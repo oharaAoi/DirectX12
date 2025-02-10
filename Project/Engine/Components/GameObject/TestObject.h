@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
-#include "Engine/Assets/GameObject/BaseGameObject.h"
-#include "Engine/Assets/Collider/MeshCollider.h"
+#include "Engine/Components/GameObject/BaseGameObject.h"
+#include "Engine/Components/Collider/MeshCollider.h"
 #include "Engine/Lib/IJsonConverter.h"
 
 class TestObject : public BaseGameObject {

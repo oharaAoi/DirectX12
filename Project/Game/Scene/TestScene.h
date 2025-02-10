@@ -3,9 +3,9 @@
 #include "Game/Camera/Camera2d.h"
 #include "Game/Camera/Camera3d.h"
 #include "Game/Camera/DebugCamera.h"
-#include "Engine/Assets/Collider/MeshCollider.h"
+#include "Engine/Components/Collider/MeshCollider.h"
 #include "Engine/System/Manager/CollisionManager.h"
-#include "Engine/Assets/GameObject/TestObject.h"
+#include "Engine/Components/GameObject/TestObject.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/WorldObject/Floor.h"
 

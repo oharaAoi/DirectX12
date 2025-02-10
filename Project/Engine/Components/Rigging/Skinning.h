@@ -6,7 +6,7 @@
 #include <map>
 #include "Engine/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
-#include "Engine/Assets/Rigging/SkinCluster.h"
+#include "Engine/Components/Rigging/SkinCluster.h"
 
 const uint32_t kNumMaxInfluence = 4;
 

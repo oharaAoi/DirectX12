@@ -6,15 +6,15 @@
 #include "Engine/Math/MyMatrix.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/System/Manager/ModelManager.h"
-#include "Engine/Assets/GameObject/Model.h"
-#include "Engine/Assets/WorldTransform.h"
-#include "Engine/Assets/GameObject/ObjectAxis.h"
-#include "Engine/Assets/Animation/Animator.h"
+#include "Engine/Components/GameObject/Model.h"
+#include "Engine/Components/WorldTransform.h"
+#include "Engine/Components/GameObject/ObjectAxis.h"
+#include "Engine/Components/Animation/Animator.h"
 
-#include "Engine/Assets/Collider/MeshCollider.h"
-#include "Engine/Assets/Collider/ICollider.h"
-#include "Engine/Assets/Collider/SphereCollider.h"
-#include "Engine/Assets/Collider/BoxCollider.h"
+#include "Engine/Components/Collider/MeshCollider.h"
+#include "Engine/Components/Collider/ICollider.h"
+#include "Engine/Components/Collider/SphereCollider.h"
+#include "Engine/Components/Collider/BoxCollider.h"
 
 class BaseGameObject {
 public:

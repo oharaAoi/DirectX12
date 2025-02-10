@@ -1,6 +1,6 @@
 #include "Sprite.h"
 #include "Render.h"
-#include "Engine/Assets/Meshes/Mesh.h"
+#include "Engine/Components/Meshes/Mesh.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 

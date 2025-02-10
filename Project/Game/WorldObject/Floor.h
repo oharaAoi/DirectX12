@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Assets/GameObject/BaseGameObject.h"
+#include "Engine/Components/GameObject/BaseGameObject.h"
 
 class Floor : public BaseGameObject {
 public:

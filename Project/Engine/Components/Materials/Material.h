@@ -6,7 +6,7 @@
 #include "Engine/Utilities/DirectXUtils.h"
 #include "Engine/Math/MyMath.h"
 #include "Engine/System/Manager/ImGuiManager.h"
-#include "Engine/Assets/GameObject/Model.h"
+#include "Engine/Components/GameObject/Model.h"
 
 
 template<typename T>

@@ -1,10 +1,10 @@
 #pragma once
 #include "Engine/DirectX/RTV/RenderTarget.h"
-#include "Engine/Assets/2d/Triangle.h"
-#include "Engine/Assets/2d/Sprite.h"
-#include "Engine/Assets/2d/PrimitiveDrawer.h"
-#include "Engine/Assets/Light/LightGroup.h"
-#include "Engine/Assets/GameObject/Model.h"
+#include "Engine/Components/2d/Triangle.h"
+#include "Engine/Components/2d/Sprite.h"
+#include "Engine/Components/2d/PrimitiveDrawer.h"
+#include "Engine/Components/Light/LightGroup.h"
+#include "Engine/Components/GameObject/Model.h"
 #include "Engine/DirectX/Pipeline/PrimitivePipeline.h"
 
 /// <summary>

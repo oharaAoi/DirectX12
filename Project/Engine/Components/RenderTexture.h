@@ -1,6 +1,6 @@
 #pragma once
-#include "Engine/Assets/Meshes/Mesh.h"
-#include "Engine/Assets/Materials/Material.h"
+#include "Engine/Components/Meshes/Mesh.h"
+#include "Engine/Components/Materials/Material.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/DirectX/Resource/ShaderResource.h"

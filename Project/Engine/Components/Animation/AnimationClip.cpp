@@ -1,5 +1,5 @@
 #include "AnimationClip.h"
-#include "Engine/Assets/Animation/AnimationFunctions.h"
+#include "Engine/Components/Animation/AnimationFunctions.h"
 #include "Engine/System/Manager/AnimationManager.h"
 #include "Engine/Lib/GameTimer.h"
 

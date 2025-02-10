@@ -1,6 +1,6 @@
 #pragma once
 #include <list>
-#include "Engine/Assets/Collider/ICollider.h"
+#include "Engine/Components/Collider/ICollider.h"
 
 /// <summary>
 /// Collisionの判定を取る

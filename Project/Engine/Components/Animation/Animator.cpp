@@ -1,7 +1,7 @@
 #include "Animator.h"
-#include "Engine/Assets/Animation/AnimationClip.h"
-#include "Engine/Assets/Rigging/Skeleton.h"
-#include "Engine/Assets/Rigging/Skinning.h"
+#include "Engine/Components/Animation/AnimationClip.h"
+#include "Engine/Components/Rigging/Skeleton.h"
+#include "Engine/Components/Rigging/Skinning.h"
 
 Animator::Animator() {
 	manager_ = AnimationManager::GetInstance();

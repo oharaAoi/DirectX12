@@ -44,13 +44,13 @@ void GameObjectWindow::AddFunction(std::function<void()> func, const std::string
 #include "Engine/System/Manager/ImGuiManager.h"
 void GameObjectWindow::Edit() {
 	ImGui::Begin("SceneObject");
-	static int selectedEffectIndex = -1; // -1 means no selection
+	static int selectedEffectIndex = -1; 
 	int index = 0;
 	for (auto it = functionList.begin(); it != functionList.end(); ++it, ++index) {
 		std::string label = it->first;
 
 		if (ImGui::Selectable(label.c_str(), selectedEffectIndex == index)) {
-			selectedEffectIndex = index; // Update the selected index
+			selectedEffectIndex = index; 
 		}
 	}
 	ImGui::End();

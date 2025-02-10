@@ -6,7 +6,7 @@
 #include <map>
 #include "Engine/Utilities/DirectXUtils.h"
 #include "Engine/Math/MyMath.h"
-#include "Engine/Assets/GameObject/Model.h"
+#include "Engine/Components/GameObject/Model.h"
 
 class PBRMaterial {
 public:

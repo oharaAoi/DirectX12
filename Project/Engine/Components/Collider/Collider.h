@@ -4,7 +4,7 @@
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/Vector4.h"
 #include "Engine/Math/MathStructures.h"
-#include "Engine/Assets/Collider/MeshCollider.h"
+#include "Engine/Components/Collider/MeshCollider.h"
 
 /// <summary>
 /// 衝突判定オブジェクト

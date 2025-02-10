@@ -1,5 +1,5 @@
 #include "ObjectAxis.h"
-#include "Engine/Assets/GameObject/BaseGameObject.h"
+#include "Engine/Components/GameObject/BaseGameObject.h"
 
 ObjectAxis::ObjectAxis() {
 }

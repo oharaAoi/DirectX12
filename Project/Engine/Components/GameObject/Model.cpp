@@ -4,14 +4,14 @@
 #include <sstream>
 #include <cassert>
 #include <cmath>
-#include "Engine/Assets/Materials/Material.h"
-#include "Engine/Assets/Materials/PBRMaterial.h"
+#include "Engine/Components/Materials/Material.h"
+#include "Engine/Components/Materials/PBRMaterial.h"
 #include "Engine/Utilities/Loader.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/MeshManager.h"
 #include "Engine/Math/MyMatrix.h"
 #include "Engine/Lib/GameTimer.h"
-#include "Engine/Assets/Rigging/Skinning.h"
+#include "Engine/Components/Rigging/Skinning.h"
 
 Model::Model() {
 }

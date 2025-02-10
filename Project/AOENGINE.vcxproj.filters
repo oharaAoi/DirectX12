@@ -189,10 +189,10 @@
     <ClCompile Include="Engine\System\Manager\TextureManager.cpp">
       <Filter>Engine\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Light\DirectionalLight.cpp">
+    <ClCompile Include="Engine\Components\Light\DirectionalLight.cpp">
       <Filter>Engine\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Light\LightGroup.cpp">
+    <ClCompile Include="Engine\Components\Light\LightGroup.cpp">
       <Filter>Engine\Light</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Input\Input.cpp">
@@ -201,7 +201,7 @@
     <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\2d\PrimitiveDrawer.cpp">
+    <ClCompile Include="Engine\Components\2d\PrimitiveDrawer.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Pipeline\PrimitivePipeline.cpp">
@@ -210,22 +210,22 @@
     <ClCompile Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.cpp">
       <Filter>Engine\DirectX\DirectXCompiler</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Light\Phong.cpp">
+    <ClCompile Include="Engine\Components\Light\Phong.cpp">
       <Filter>Engine\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Materials\Material.cpp">
+    <ClCompile Include="Engine\Components\Materials\Material.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Meshes\Mesh.cpp">
+    <ClCompile Include="Engine\Components\Meshes\Mesh.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\GameObject\BaseGameObject.cpp">
+    <ClCompile Include="Engine\Components\GameObject\BaseGameObject.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\TransformationMatrix.cpp">
+    <ClCompile Include="Engine\Components\TransformationMatrix.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\GameObject\Model.cpp">
+    <ClCompile Include="Engine\Components\GameObject\Model.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utilities\DrawUtils.cpp">
@@ -252,16 +252,16 @@
     <ClCompile Include="Engine\Math\MathStructures.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Collider\BoxCollider.cpp">
+    <ClCompile Include="Engine\Components\Collider\BoxCollider.cpp">
       <Filter>Engine\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Light\PointLight.cpp">
+    <ClCompile Include="Engine\Components\Light\PointLight.cpp">
       <Filter>Engine\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Light\BaseLight.cpp">
+    <ClCompile Include="Engine\Components\Light\BaseLight.cpp">
       <Filter>Engine\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Light\SpotLight.cpp">
+    <ClCompile Include="Engine\Components\Light\SpotLight.cpp">
       <Filter>Engine\Light</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Audio\Audio.cpp">
@@ -270,13 +270,13 @@
     <ClCompile Include="Game\Scene\TestScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\ViewProjection.cpp">
+    <ClCompile Include="Engine\Components\ViewProjection.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\WorldTransform.cpp">
+    <ClCompile Include="Engine\Components\WorldTransform.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\RenderTexture.cpp">
+    <ClCompile Include="Engine\Components\RenderTexture.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Pipeline\GraphicsPipelines.cpp">
@@ -306,7 +306,7 @@
     <ClCompile Include="Game\Scene\BaseScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Materials\PBRMaterial.cpp">
+    <ClCompile Include="Engine\Components\Materials\PBRMaterial.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Manager\ModelManager.cpp">
@@ -315,22 +315,22 @@
     <ClCompile Include="Engine\Math\Quaternion.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Animation\AnimationClip.cpp">
+    <ClCompile Include="Engine\Components\Animation\AnimationClip.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Lib\GameTimer.cpp">
       <Filter>Engine\Lib</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Rigging\Skeleton.cpp">
+    <ClCompile Include="Engine\Components\Rigging\Skeleton.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Rigging\Skinning.cpp">
+    <ClCompile Include="Engine\Components\Rigging\Skinning.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\2d\Sprite.cpp">
+    <ClCompile Include="Engine\Components\2d\Sprite.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\2d\Triangle.cpp">
+    <ClCompile Include="Engine\Components\2d\Triangle.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectSystemEditer.cpp">
@@ -354,7 +354,7 @@
     <ClCompile Include="Engine\Math\Vector3.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Animation\Animator.cpp">
+    <ClCompile Include="Engine\Components\Animation\Animator.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp">
@@ -381,7 +381,7 @@
     <ClCompile Include="Game\GameResources.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Collider\Collider.cpp">
+    <ClCompile Include="Engine\Components\Collider\Collider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Manager\CollisionManager.cpp">
@@ -390,10 +390,10 @@
     <ClCompile Include="Engine\Utilities\AdjustmentItem.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Collider\MeshCollider.cpp">
+    <ClCompile Include="Engine\Components\Collider\MeshCollider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\GameObject\ObjectAxis.cpp">
+    <ClCompile Include="Engine\Components\GameObject\ObjectAxis.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Easing.cpp">
@@ -405,7 +405,7 @@
     <ClCompile Include="Engine\System\ParticleSystem\GpuEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\GameObject\TestObject.cpp">
+    <ClCompile Include="Engine\Components\GameObject\TestObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Manager\AudioManager.cpp">
@@ -456,19 +456,19 @@
     <ClCompile Include="Game\WorldObject\Skydome.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Collider\ICollider.cpp">
+    <ClCompile Include="Engine\Components\Collider\ICollider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Collider\SphereCollider.cpp">
+    <ClCompile Include="Engine\Components\Collider\SphereCollider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Collider\CollisionFunctions.cpp">
+    <ClCompile Include="Engine\Components\Collider\CollisionFunctions.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Game\WorldObject\Floor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Rigging\SkinCluster.cpp">
+    <ClCompile Include="Engine\Components\Rigging\SkinCluster.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utilities\BitChecker.cpp">
@@ -486,7 +486,7 @@
     <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Assets\Animation\AnimationFunctions.cpp">
+    <ClCompile Include="Engine\Components\Animation\AnimationFunctions.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Particle\CpuParticles.cpp">
@@ -590,10 +590,10 @@
     <ClInclude Include="Engine\Lib\VertexData.h">
       <Filter>Engine\Lib</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Light\DirectionalLight.h">
+    <ClInclude Include="Engine\Components\Light\DirectionalLight.h">
       <Filter>Engine\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Light\LightGroup.h">
+    <ClInclude Include="Engine\Components\Light\LightGroup.h">
       <Filter>Engine\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Input\Input.h">
@@ -602,7 +602,7 @@
     <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\2d\PrimitiveDrawer.h">
+    <ClInclude Include="Engine\Components\2d\PrimitiveDrawer.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\Pipeline\PrimitivePipeline.h">
@@ -611,22 +611,22 @@
     <ClInclude Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.h">
       <Filter>Engine\DirectX\DirectXCompiler</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Light\Phong.h">
+    <ClInclude Include="Engine\Components\Light\Phong.h">
       <Filter>Engine\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Materials\Material.h">
+    <ClInclude Include="Engine\Components\Materials\Material.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Meshes\Mesh.h">
+    <ClInclude Include="Engine\Components\Meshes\Mesh.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\GameObject\BaseGameObject.h">
+    <ClInclude Include="Engine\Components\GameObject\BaseGameObject.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\TransformationMatrix.h">
+    <ClInclude Include="Engine\Components\TransformationMatrix.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\GameObject\Model.h">
+    <ClInclude Include="Engine\Components\GameObject\Model.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utilities\DrawUtils.h">
@@ -653,16 +653,16 @@
     <ClInclude Include="Engine\Math\MathStructures.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Collider\BoxCollider.h">
+    <ClInclude Include="Engine\Components\Collider\BoxCollider.h">
       <Filter>Engine\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Light\PointLight.h">
+    <ClInclude Include="Engine\Components\Light\PointLight.h">
       <Filter>Engine\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Light\BaseLight.h">
+    <ClInclude Include="Engine\Components\Light\BaseLight.h">
       <Filter>Engine\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Light\SpotLight.h">
+    <ClInclude Include="Engine\Components\Light\SpotLight.h">
       <Filter>Engine\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Audio\Audio.h">
@@ -671,13 +671,13 @@
     <ClInclude Include="Game\Scene\TestScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\ViewProjection.h">
+    <ClInclude Include="Engine\Components\ViewProjection.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\WorldTransform.h">
+    <ClInclude Include="Engine\Components\WorldTransform.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\RenderTexture.h">
+    <ClInclude Include="Engine\Components\RenderTexture.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
     <ClInclude Include="Enviroment.h">
@@ -710,7 +710,7 @@
     <ClInclude Include="Game\Scene\BaseScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Materials\PBRMaterial.h">
+    <ClInclude Include="Engine\Components\Materials\PBRMaterial.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Manager\ModelManager.h">
@@ -719,22 +719,22 @@
     <ClInclude Include="Engine\Math\Quaternion.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Animation\AnimationClip.h">
+    <ClInclude Include="Engine\Components\Animation\AnimationClip.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Lib\GameTimer.h">
       <Filter>Engine\Lib</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Rigging\Skeleton.h">
+    <ClInclude Include="Engine\Components\Rigging\Skeleton.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Rigging\Skinning.h">
+    <ClInclude Include="Engine\Components\Rigging\Skinning.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\2d\Sprite.h">
+    <ClInclude Include="Engine\Components\2d\Sprite.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\2d\Triangle.h">
+    <ClInclude Include="Engine\Components\2d\Triangle.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectSystemEditer.h">
@@ -752,7 +752,7 @@
     <ClInclude Include="Engine\System\ParticleSystem\EffectSystemCamera.h">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Animation\Animator.h">
+    <ClInclude Include="Engine\Components\Animation\Animator.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h">
@@ -776,7 +776,7 @@
     <ClInclude Include="Game\GameResources.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Collider\Collider.h">
+    <ClInclude Include="Engine\Components\Collider\Collider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Manager\CollisionManager.h">
@@ -785,10 +785,10 @@
     <ClInclude Include="Engine\Utilities\AdjustmentItem.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Collider\MeshCollider.h">
+    <ClInclude Include="Engine\Components\Collider\MeshCollider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\GameObject\ObjectAxis.h">
+    <ClInclude Include="Engine\Components\GameObject\ObjectAxis.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Easing.h">
@@ -800,7 +800,7 @@
     <ClInclude Include="Engine\System\ParticleSystem\GpuEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\GameObject\TestObject.h">
+    <ClInclude Include="Engine\Components\GameObject\TestObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Manager\AudioManager.h">
@@ -857,19 +857,19 @@
     <ClInclude Include="Game\WorldObject\Skydome.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Collider\ICollider.h">
+    <ClInclude Include="Engine\Components\Collider\ICollider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Collider\SphereCollider.h">
+    <ClInclude Include="Engine\Components\Collider\SphereCollider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Collider\CollisionFunctions.h">
+    <ClInclude Include="Engine\Components\Collider\CollisionFunctions.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Game\WorldObject\Floor.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Rigging\SkinCluster.h">
+    <ClInclude Include="Engine\Components\Rigging\SkinCluster.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utilities\BitChecker.h">
@@ -884,10 +884,10 @@
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Animation\AnimationStructures.h">
+    <ClInclude Include="Engine\Components\Animation\AnimationStructures.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Assets\Animation\AnimationFunctions.h">
+    <ClInclude Include="Engine\Components\Animation\AnimationFunctions.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Particle\CpuParticles.h">

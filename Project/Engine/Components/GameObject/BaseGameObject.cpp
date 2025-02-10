@@ -1,6 +1,6 @@
 #include "BaseGameObject.h"
-#include "Engine/Assets/Collider/SphereCollider.h"
-#include "Engine/Assets/Collider/BoxCollider.h"
+#include "Engine/Components/Collider/SphereCollider.h"
+#include "Engine/Components/Collider/BoxCollider.h"
 
 void BaseGameObject::Finalize() {
 	if (transform_ != nullptr) {

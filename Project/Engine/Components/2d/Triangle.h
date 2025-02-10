@@ -1,9 +1,9 @@
 #pragma once
-#include "Engine/Assets/Meshes/Mesh.h"
-#include "Engine/Assets/Materials/Material.h"
-#include "Engine/Assets/WorldTransform.h"
-#include "Engine/Assets/ViewProjection.h"
-#include "Engine/Assets/TransformationMatrix.h"
+#include "Engine/Components/Meshes/Mesh.h"
+#include "Engine/Components/Materials/Material.h"
+#include "Engine/Components/WorldTransform.h"
+#include "Engine/Components/ViewProjection.h"
+#include "Engine/Components/TransformationMatrix.h"
 #include "Engine/System/Manager/TextureManager.h"
 
 class Engine;

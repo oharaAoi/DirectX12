@@ -4,8 +4,8 @@
 #include <memory>
 #include "Engine.h"
 #include "Engine/System/Manager/ModelManager.h"
-#include "Engine/Assets/GameObject/Model.h"
-#include "Engine/Assets/WorldTransform.h"
+#include "Engine/Components/GameObject/Model.h"
+#include "Engine/Components/WorldTransform.h"
 
 class ObjectAxis {
 public:

@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Assets/Collider/ICollider.h"
+#include "Engine/Components/Collider/ICollider.h"
 #include <string>
 
 class BoxCollider 

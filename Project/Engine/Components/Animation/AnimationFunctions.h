@@ -2,7 +2,7 @@
 #include <vector>
 #include "Engine/Math/Vector3.h"
 #include "Engine/Math/Quaternion.h"
-#include "Engine/Assets/Animation/AnimationStructures.h"
+#include "Engine/Components/Animation/AnimationStructures.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　補完(Vector3)

@@ -1,7 +1,7 @@
 #pragma once
 #include "Render.h"
 #include "Engine/Math/MathStructures.h"
-#include "Engine/Assets/Collider/BoxCollider.h"
+#include "Engine/Components/Collider/BoxCollider.h"
 #include "Engine/Utilities/DrawUtils.h"
 #include "Engine/Lib/GameTimer.h"
 
