@@ -86,14 +86,12 @@ void DirectXCommon::End() {
 	ID3D12CommandList* commandLists[] = { dxCommands_->GetCommandList() };
 	dxCommands_->GetCommandQueue()->ExecuteCommandLists(1, commandLists);
 
-	swapChain_->Present(1, 0);
-
 	// ---------------------------------------------------------------
 	// CPUとGPUの同期をとる
-	dxCommands_->SyncGPUAndCPU();
+	dxCommands_->SyncGPUAndCPU(swapChain_.Get());
 
 	// ---------------------------------------------------------------
-	hr = dxCommands_->GetCommandAllocator()->Reset();
+	hr = dxCommands_->GetCommandAllocator()->Reset();  
 	assert(SUCCEEDED(hr));
 	hr = dxCommands_->GetCommandList()->Reset(dxCommands_->GetCommandAllocator(), nullptr);
 	assert(SUCCEEDED(hr));

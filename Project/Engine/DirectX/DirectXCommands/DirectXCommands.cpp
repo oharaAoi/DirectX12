@@ -16,17 +16,13 @@ void DirectXCommands::Initialize(ID3D12Device* device) {
 }
 
 void DirectXCommands::Finalize() {
-	CloseHandle(effectFenceEvent_);
-	effectFence_.Reset();
 	CloseHandle(fenceEvent_);
 	fence_.Reset();
 
-	effectCommandQueue_.Reset();
-	effectCommandAllocator_.Reset();
-	effectCommandList_.Reset();
-
 	commandQueue_.Reset();
-	commandAllocator_.Reset();
+	for (auto oi = 0; oi < kFrameCount_; ++oi) {
+		commandAllocator_[oi].Reset();
+	}
 	commandList_.Reset();
 }
 
@@ -44,27 +40,13 @@ void DirectXCommands::CreateCommand() {
 
 	// CommandAllocatorの生成 --------------------------------
 	// コマンドアロケータを生成する
-	hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator_));
-	assert(SUCCEEDED(hr));
-
+	for (auto oi = 0; oi < kFrameCount_; ++oi) {
+		hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocator_[oi]));
+		assert(SUCCEEDED(hr));
+	}
+	
 	// コマンドリストを生成する ----------------------------
-	hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_.Get(), nullptr, IID_PPV_ARGS(&commandList_));
-	assert(SUCCEEDED(hr));
-
-	// effectShader用のコマンド系の初期化 ======================================================================
-	// コマンドキューを生成する
-	D3D12_COMMAND_QUEUE_DESC effectQueueDesc = {};
-	effectQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_COMPUTE;
-	effectQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-	hr = device_->CreateCommandQueue(&effectQueueDesc, IID_PPV_ARGS(&effectCommandQueue_));
-	assert(SUCCEEDED(hr));
-
-	// コマンドアロケータを生成する
-	hr = device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COMPUTE, IID_PPV_ARGS(&effectCommandAllocator_));
-	assert(SUCCEEDED(hr));
-
-	// コマンドリストを生成する ----------------------------
-	hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_COMPUTE, effectCommandAllocator_.Get(), nullptr, IID_PPV_ARGS(&effectCommandList_));
+	hr = device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocator_[fenceIndex_].Get(), nullptr, IID_PPV_ARGS(&commandList_));
 	assert(SUCCEEDED(hr));
 }
 
@@ -72,44 +54,42 @@ void DirectXCommands::CreateCommand() {
 /// Fenceを作成する
 /// </summary>
 void DirectXCommands::CreateFence() {
+	for (auto oi = 0; oi < kFrameCount_; ++oi) {
+		fanceCounter_[oi] = 0;
+	}
+
 	// graphics用のフェンスの初期化 ======================================================================
 	HRESULT hr = S_FALSE;
-	fenceValue_ = 0;
-	hr = device_->CreateFence(fenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
+	hr = device_->CreateFence(fanceCounter_[fenceIndex_], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
 	assert(SUCCEEDED(hr));
+
+	fanceCounter_[fenceIndex_]++;
 
 	// Fenceのsignalを待つためのイベントを作成する
 	fenceEvent_ = CreateEvent(NULL, false, false, NULL);
 	assert(fenceEvent_ != nullptr);
-
-	// effectShader用のフェンスの初期化 ======================================================================
-	effectFenceValue_ = 0;
-	hr = device_->CreateFence(effectFenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&effectFence_));
-	assert(SUCCEEDED(hr));
-
-	// Fenceのsignalを待つためのイベントを作成する
-	effectFenceEvent_ = CreateEvent(NULL, false, false, NULL);
-	assert(effectFenceEvent_ != nullptr);
-
 }
 
 /// <summary>
 /// CPUとGPUの同期をはかる
 /// </summary>
-void DirectXCommands::SyncGPUAndCPU() {
-	// fenceの値を更新
-	fenceValue_++;
-	// GPUがここまでたどり着いた時に,fenceの値を指定した値に第謬するようにsignelを送る
-	commandQueue_->Signal(fence_.Get(), fenceValue_);
+void DirectXCommands::SyncGPUAndCPU(IDXGISwapChain4* swapChain){
+	// 画面の交換を行う
+	swapChain->Present(1, 0);
 
-	// Fenceの値が指定したSignal値にたどりついているか確認する
-	// GetCompletedValueの初期値はFence作成時に渡した初期値
-	if (fence_->GetCompletedValue() != fenceValue_) {
-		// 指定下Signalにたどりついていないので、たどりつくまで松ようにイベントを設定する
-		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
-		fence_->SetEventOnCompletion(fenceValue_, event);
-		WaitForSingleObject(event, INFINITE);
-		CloseHandle(event);
+	// 今フレームで描画コマンドを積ん方の画面のvalueを取得し、valueまでの処理が完了しら次の処理を開始する
+	const auto currentValue = fanceCounter_[fenceIndex_];
+	commandQueue_->Signal(fence_.Get(), currentValue);
 
+	// 現在のbackBufferのIndexを取得する
+	fenceIndex_ = swapChain->GetCurrentBackBufferIndex();
+	
+	if (fence_->GetCompletedValue() < fanceCounter_[fenceIndex_]) {
+		// 指定下Signal(currentValueのシグナル)にたどりついていないので、たどりつくまで待つようにイベントを設定する
+		fence_->SetEventOnCompletion(fanceCounter_[fenceIndex_], fenceEvent_);
+		WaitForSingleObject(fenceEvent_, INFINITE);
 	}
+
+	// 次frameのfaceCounterを増やす
+	fanceCounter_[fenceIndex_] = currentValue + 1;
 }
