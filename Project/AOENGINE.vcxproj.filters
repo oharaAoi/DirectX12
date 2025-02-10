@@ -447,10 +447,10 @@
     <ClCompile Include="Engine\DirectX\Resource\ShaderResource.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Editer\Window\GameObjectWindow.cpp">
+    <ClCompile Include="Engine\System\Editer\Window\GameObjectWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Editer\Window\EditerWindows.cpp">
+    <ClCompile Include="Engine\System\Editer\Window\EditerWindows.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Game\WorldObject\Skydome.cpp">
@@ -845,10 +845,10 @@
     <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Editer\Window\GameObjectWindow.h">
+    <ClInclude Include="Engine\System\Editer\Window\GameObjectWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Editer\Window\EditerWindows.h">
+    <ClInclude Include="Engine\System\Editer\Window\EditerWindows.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Game\WorldObject\Skydome.h">
@@ -895,67 +895,67 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Object3d.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Object3d.VS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Object3d.VS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Textureless.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Textureless.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Primitive.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Primitive.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Primitive.VS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Primitive.VS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Phong.Lighting.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Phong.Lighting.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\PBR.VS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\PBR.VS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Particle\Particle.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Particle\Particle.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\PBR.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\PBR.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Particle\Particle.VS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Particle\Particle.VS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Sprite.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Sprite.PS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Sprite.VS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Sprite.VS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\GrayScale.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\GrayScale.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\Blend.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\Blend.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\VerticalBlur.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\VerticalBlur.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\HorizontalBlur.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\HorizontalBlur.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\DepthOfField.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\DepthOfField.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\ResultRender.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\ResultRender.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\Skinning.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\Skinning.CS.hlsl">
       <Filter>Engine\HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Particle\GpuParticleInit.CS.hlsl" />
-    <FxCompile Include="Engine\HLSL\Particle\EmitParticle.CS.hlsl" />
-    <FxCompile Include="Engine\HLSL\Particle\GpuParticleUpdate.CS.hlsl" />
-    <FxCompile Include="Engine\HLSL\Particle\GpuParticleEnd.CS.hlsl" />
+    <FxCompile Include="Engine\Resources\HLSL\Particle\GpuParticleInit.CS.hlsl" />
+    <FxCompile Include="Engine\Resources\HLSL\Particle\EmitParticle.CS.hlsl" />
+    <FxCompile Include="Engine\Resources\HLSL\Particle\GpuParticleUpdate.CS.hlsl" />
+    <FxCompile Include="Engine\Resources\HLSL\Particle\GpuParticleEnd.CS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">
@@ -963,21 +963,21 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\HLSL\Object3d.hlsli">
+    <None Include="Engine\Resources\HLSL\Object3d.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
-    <None Include="Engine\HLSL\Primitive.hlsli">
+    <None Include="Engine\Resources\HLSL\Primitive.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
-    <None Include="Engine\HLSL\Particle\Particle.hlsli">
+    <None Include="Engine\Resources\HLSL\Particle\Particle.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
-    <None Include="Engine\HLSL\PBR.hlsli">
+    <None Include="Engine\Resources\HLSL\PBR.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
-    <None Include="Engine\HLSL\Sprite.hlsli">
+    <None Include="Engine\Resources\HLSL\Sprite.hlsli">
       <Filter>Engine\HLSL</Filter>
     </None>
-    <None Include="Engine\HLSL\Random.hlsli" />
+    <None Include="Engine\Resources\HLSL\Random.hlsli" />
   </ItemGroup>
 </Project>

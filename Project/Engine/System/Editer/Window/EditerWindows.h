@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "Engine/Editer/Window/GameObjectWindow.h"
+#include "Engine/System/Editer/Window/GameObjectWindow.h"
 
 class EditerWindows {
 public:

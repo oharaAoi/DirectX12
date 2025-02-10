@@ -22,7 +22,7 @@
 #include "Engine/Utilities/Shader.h"
 #include "Engine/Components/WorldTransform.h"
 #include "Engine/Components/RenderTexture.h"
-#include "Engine/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/Components/Rigging/Skinning.h"
 #include "Game/GameResources.h"
 #include "Render.h"

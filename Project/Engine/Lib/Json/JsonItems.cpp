@@ -3,7 +3,7 @@
 #include <fstream>
 #ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
-#include "Engine/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditerWindows.h"
 #endif
 
 const std::string JsonItems::kDirectoryPath_ = "./Game/Resources/GameData/JsonItems/";
