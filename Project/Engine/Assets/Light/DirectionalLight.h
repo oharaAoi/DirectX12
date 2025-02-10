@@ -20,7 +20,7 @@ public: // メンバ構造体
 		float intensity = 1.0f;	// 輝度
 		float limPower = 0.5f;		// リムライトの強さ
 
-		json ToJson(const std::string id) const override {
+		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("color", color)
 				.Add("direction", direction)

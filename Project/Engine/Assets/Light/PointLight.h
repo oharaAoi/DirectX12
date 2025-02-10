@@ -23,7 +23,7 @@ public: // メンバ構造体
 		float radius = 5.0f;		// 範囲
 		float decay = 0.5f;		// 減衰率
 
-		json ToJson(const std::string id) const override {
+		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("color", color)
 				.Add("position", position)
