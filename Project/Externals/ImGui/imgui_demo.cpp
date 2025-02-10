@@ -96,7 +96,7 @@ Index of this file:
 // [SECTION] Example App: Custom Rendering using ImDrawList API / ShowExampleAppCustomRendering()
 // [SECTION] Example App: Docking, DockSpace / ShowExampleAppDockSpace()
 // [SECTION] Example App: Documents Handling / ShowExampleAppDocuments()
-// [SECTION] Example App: Assets Browser / ShowExampleAppAssetsBrowser()
+// [SECTION] Example App: Components Browser / ShowExampleAppComponentsBrowser()
 
 */
 
@@ -205,7 +205,7 @@ Index of this file:
 // Forward Declarations
 struct ImGuiDemoWindowData;
 static void ShowExampleAppMainMenuBar();
-static void ShowExampleAppAssetsBrowser(bool* p_open);
+static void ShowExampleAppComponentsBrowser(bool* p_open);
 static void ShowExampleAppConsole(bool* p_open);
 static void ShowExampleAppCustomRendering(bool* p_open);
 static void ShowExampleAppDockSpace(bool* p_open);
@@ -360,7 +360,7 @@ struct ImGuiDemoWindowData
 {
     // Examples Apps (accessible from the "Examples" menu)
     bool ShowMainMenuBar = false;
-    bool ShowAppAssetsBrowser = false;
+    bool ShowAppComponentsBrowser = false;
     bool ShowAppConsole = false;
     bool ShowAppCustomRendering = false;
     bool ShowAppDocuments = false;
@@ -405,7 +405,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
     if (demo_data.ShowMainMenuBar)          { ShowExampleAppMainMenuBar(); }
     if (demo_data.ShowAppDockSpace)         { ShowExampleAppDockSpace(&demo_data.ShowAppDockSpace); } // Important: Process the Docking app first, as explicit DockSpace() nodes needs to be submitted early (read comments near the DockSpace function)
     if (demo_data.ShowAppDocuments)         { ShowExampleAppDocuments(&demo_data.ShowAppDocuments); } // ...process the Document app next, as it may also use a DockSpace()
-    if (demo_data.ShowAppAssetsBrowser)     { ShowExampleAppAssetsBrowser(&demo_data.ShowAppAssetsBrowser); }
+    if (demo_data.ShowAppComponentsBrowser)     { ShowExampleAppComponentsBrowser(&demo_data.ShowAppComponentsBrowser); }
     if (demo_data.ShowAppConsole)           { ShowExampleAppConsole(&demo_data.ShowAppConsole); }
     if (demo_data.ShowAppCustomRendering)   { ShowExampleAppCustomRendering(&demo_data.ShowAppCustomRendering); }
     if (demo_data.ShowAppLog)               { ShowExampleAppLog(&demo_data.ShowAppLog); }
@@ -744,7 +744,7 @@ static void ShowDemoWindowMenuBar(ImGuiDemoWindowData* demo_data)
             ImGui::MenuItem("Main menu bar", NULL, &demo_data->ShowMainMenuBar);
 
             ImGui::SeparatorText("Mini apps");
-            ImGui::MenuItem("Assets Browser", NULL, &demo_data->ShowAppAssetsBrowser);
+            ImGui::MenuItem("Components Browser", NULL, &demo_data->ShowAppComponentsBrowser);
             ImGui::MenuItem("Console", NULL, &demo_data->ShowAppConsole);
             ImGui::MenuItem("Custom rendering", NULL, &demo_data->ShowAppCustomRendering);
             ImGui::MenuItem("Documents", NULL, &demo_data->ShowAppDocuments);
@@ -3562,11 +3562,11 @@ static void ShowDemoWindowMultiSelect(ImGuiDemoWindowData* demo_data)
             ImGui::TreePop();
         }
 
-        // See ShowExampleAppAssetsBrowser()
-        if (ImGui::TreeNode("Multi-Select (tiled assets browser)"))
+        // See ShowExampleAppComponentsBrowser()
+        if (ImGui::TreeNode("Multi-Select (tiled Components browser)"))
         {
-            ImGui::Checkbox("Assets Browser", &demo_data->ShowAppAssetsBrowser);
-            ImGui::Text("(also access from 'Examples->Assets Browser' in menu)");
+            ImGui::Checkbox("Components Browser", &demo_data->ShowAppComponentsBrowser);
+            ImGui::Text("(also access from 'Examples->Components Browser' in menu)");
             ImGui::TreePop();
         }
 
@@ -10263,7 +10263,7 @@ void ShowExampleAppDocuments(bool* p_open)
 }
 
 //-----------------------------------------------------------------------------
-// [SECTION] Example App: Assets Browser / ShowExampleAppAssetsBrowser()
+// [SECTION] Example App: Components Browser / ShowExampleAppComponentsBrowser()
 //-----------------------------------------------------------------------------
 
 //#include "imgui_internal.h" // NavMoveRequestTryWrapping()
@@ -10308,7 +10308,7 @@ struct ExampleAsset
 };
 const ImGuiTableSortSpecs* ExampleAsset::s_current_sort_specs = NULL;
 
-struct ExampleAssetsBrowser
+struct ExampleComponentsBrowser
 {
     // Options
     bool            ShowTypeOverlay = true;
@@ -10338,7 +10338,7 @@ struct ExampleAssetsBrowser
     int             LayoutLineCount = 0;
 
     // Functions
-    ExampleAssetsBrowser()
+    ExampleComponentsBrowser()
     {
         AddItems(10000);
     }
@@ -10456,7 +10456,7 @@ struct ExampleAssetsBrowser
 
         ImGuiIO& io = ImGui::GetIO();
         ImGui::SetNextWindowContentSize(ImVec2(0.0f, LayoutOuterPadding + LayoutLineCount * (LayoutItemSize.x + LayoutItemSpacing)));
-        if (ImGui::BeginChild("Assets", ImVec2(0.0f, -ImGui::GetTextLineHeightWithSpacing()), ImGuiChildFlags_Borders, ImGuiWindowFlags_NoMove))
+        if (ImGui::BeginChild("Components", ImVec2(0.0f, -ImGui::GetTextLineHeightWithSpacing()), ImGuiChildFlags_Borders, ImGuiWindowFlags_NoMove))
         {
             ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
@@ -10489,7 +10489,7 @@ struct ExampleAssetsBrowser
 
             // Use custom selection adapter: store ID in selection (recommended)
             Selection.UserData = this;
-            Selection.AdapterIndexToStorageId = [](ImGuiSelectionBasicStorage* self_, int idx) { ExampleAssetsBrowser* self = (ExampleAssetsBrowser*)self_->UserData; return self->Items[idx].ID; };
+            Selection.AdapterIndexToStorageId = [](ImGuiSelectionBasicStorage* self_, int idx) { ExampleComponentsBrowser* self = (ExampleComponentsBrowser*)self_->UserData; return self->Items[idx].ID; };
             Selection.ApplyRequests(ms_io);
 
             const bool want_delete = (ImGui::Shortcut(ImGuiKey_Delete, ImGuiInputFlags_Repeat) && (Selection.Size > 0)) || RequestDelete;
@@ -10560,14 +10560,14 @@ struct ExampleAssetsBrowser
                                 else
                                     while (Selection.GetNextSelectedItem(&it, &id))
                                         payload_items.push_back(id);
-                                ImGui::SetDragDropPayload("ASSETS_BROWSER_ITEMS", payload_items.Data, (size_t)payload_items.size_in_bytes());
+                                ImGui::SetDragDropPayload("Components_BROWSER_ITEMS", payload_items.Data, (size_t)payload_items.size_in_bytes());
                             }
 
                             // Display payload content in tooltip, by extracting it from the payload data
                             // (we could read from selection, but it is more correct and reusable to read from payload)
                             const ImGuiPayload* payload = ImGui::GetDragDropPayload();
                             const int payload_count = (int)payload->DataSize / (int)sizeof(ImGuiID);
-                            ImGui::Text("%d assets", payload_count);
+                            ImGui::Text("%d Components", payload_count);
 
                             ImGui::EndDragDropSource();
                         }
@@ -10653,11 +10653,11 @@ struct ExampleAssetsBrowser
     }
 };
 
-void ShowExampleAppAssetsBrowser(bool* p_open)
+void ShowExampleAppComponentsBrowser(bool* p_open)
 {
-    IMGUI_DEMO_MARKER("Examples/Assets Browser");
-    static ExampleAssetsBrowser assets_browser;
-    assets_browser.Draw("Example: Assets Browser", p_open);
+    IMGUI_DEMO_MARKER("Examples/Components Browser");
+    static ExampleComponentsBrowser Components_browser;
+    Components_browser.Draw("Example: Components Browser", p_open);
 }
 
 // End of Demo code

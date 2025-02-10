@@ -1,13 +1,13 @@
 #pragma once
 #include <string>
 #include <unordered_map>
-#include "Engine/Assets/Meshes/Mesh.h"
-#include "Engine/Assets/Materials/Material.h"
-#include "Engine/Assets/GameObject/Model.h"
-#include "Engine/Math/Vector3.h"
-#include "Engine/Math/Vector4.h"
-#include "Engine/Math/Matrix4x4.h"
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/Components/Meshes/Mesh.h"
+#include "Engine/Components/Materials/Material.h"
+#include "Engine/Components/GameObject/Model.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Vector4.h"
+#include "Engine/Lib/Math/Matrix4x4.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Resource/ShaderResource.h"
 
 class GpuParticles {

@@ -1,5 +1,5 @@
 #include "BaseCamera.h"
-#include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/Lib/Json//JsonItems.h"
 
 BaseCamera::~BaseCamera() {Finalize();}
 void BaseCamera::Finalize() {}
@@ -46,10 +46,10 @@ void BaseCamera::Debug_Gui(const std::string& label) {
 	transform_.translate = parameter_.translate;
 
 	if (ImGui::Button("Save")) {
-		AdjustmentItem::Save("Camera", parameter_.ToJson(label));
+		JsonItems::Save("Camera", parameter_.ToJson(label));
 	}
 	if (ImGui::Button("Apply")) {
-		parameter_.FromJson(AdjustmentItem::GetData("Camera", label));
+		parameter_.FromJson(JsonItems::GetData("Camera", label));
 	}
 
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);

@@ -1,5 +1,5 @@
 #include "CollisionManager.h"
-#include "Engine/Assets/Collider/CollisionFunctions.h"
+#include "Engine/Components/Collider/CollisionFunctions.h"
 
 CollisionManager::CollisionManager() {}
 CollisionManager::~CollisionManager() {}

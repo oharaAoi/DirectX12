@@ -5,10 +5,10 @@
 #include <sstream>
 #include <cassert>
 #include <unordered_map>
-#include "Engine/Assets/Meshes/Mesh.h"
-#include "Engine/Assets/Materials/Material.h"
-#include "Engine/Assets/Rigging/SkinCluster.h"
-#include "Engine/Assets/Animation/AnimationClip.h"
+#include "Engine/Components/Meshes/Mesh.h"
+#include "Engine/Components/Materials/Material.h"
+#include "Engine/Components/Rigging/SkinCluster.h"
+#include "Engine/Components/Animation/AnimationClip.h"
 #include "Engine/System/Manager/TextureManager.h"
 
 //================================================================================================//

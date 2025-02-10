@@ -109,31 +109,31 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Assets\2d\PrimitiveDrawer.cpp" />
-    <ClCompile Include="Engine\Assets\2d\Sprite.cpp" />
-    <ClCompile Include="Engine\Assets\2d\Triangle.cpp" />
-    <ClCompile Include="Engine\Assets\Animation\AnimationClip.cpp" />
-    <ClCompile Include="Engine\Assets\Animation\AnimationFunctions.cpp" />
-    <ClCompile Include="Engine\Assets\Animation\Animator.cpp" />
-    <ClCompile Include="Engine\Assets\Materials\Material.cpp" />
-    <ClCompile Include="Engine\Assets\Meshes\Mesh.cpp" />
-    <ClCompile Include="Engine\Assets\Materials\PBRMaterial.cpp" />
-    <ClCompile Include="Engine\Assets\RenderTexture.cpp" />
-    <ClCompile Include="Engine\Assets\Rigging\Skeleton.cpp" />
-    <ClCompile Include="Engine\Assets\Rigging\SkinCluster.cpp" />
-    <ClCompile Include="Engine\Assets\Rigging\Skinning.cpp" />
-    <ClCompile Include="Engine\Assets\TransformationMatrix.cpp" />
-    <ClCompile Include="Engine\Assets\ViewProjection.cpp" />
-    <ClCompile Include="Engine\Assets\WorldTransform.cpp" />
-    <ClCompile Include="Engine\Math\Matrix3x3.cpp" />
+    <ClCompile Include="Engine\Components\2d\PrimitiveDrawer.cpp" />
+    <ClCompile Include="Engine\Components\2d\Sprite.cpp" />
+    <ClCompile Include="Engine\Components\2d\Triangle.cpp" />
+    <ClCompile Include="Engine\Components\Animation\AnimationClip.cpp" />
+    <ClCompile Include="Engine\Components\Animation\AnimationFunctions.cpp" />
+    <ClCompile Include="Engine\Components\Animation\Animator.cpp" />
+    <ClCompile Include="Engine\Components\Materials\Material.cpp" />
+    <ClCompile Include="Engine\Components\Meshes\Mesh.cpp" />
+    <ClCompile Include="Engine\Components\Materials\PBRMaterial.cpp" />
+    <ClCompile Include="Engine\Components\RenderTexture.cpp" />
+    <ClCompile Include="Engine\Components\Rigging\Skeleton.cpp" />
+    <ClCompile Include="Engine\Components\Rigging\SkinCluster.cpp" />
+    <ClCompile Include="Engine\Components\Rigging\Skinning.cpp" />
+    <ClCompile Include="Engine\Components\TransformationMatrix.cpp" />
+    <ClCompile Include="Engine\Components\ViewProjection.cpp" />
+    <ClCompile Include="Engine\Components\WorldTransform.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Matrix3x3.cpp" />
     <ClCompile Include="Engine\System\Audio\Audio.cpp" />
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp" />
-    <ClCompile Include="Engine\Assets\Collider\BoxCollider.cpp" />
-    <ClCompile Include="Engine\Assets\Collider\Collider.cpp" />
-    <ClCompile Include="Engine\Assets\Collider\CollisionFunctions.cpp" />
-    <ClCompile Include="Engine\Assets\Collider\ICollider.cpp" />
-    <ClCompile Include="Engine\Assets\Collider\MeshCollider.cpp" />
-    <ClCompile Include="Engine\Assets\Collider\SphereCollider.cpp" />
+    <ClCompile Include="Engine\Components\Collider\BoxCollider.cpp" />
+    <ClCompile Include="Engine\Components\Collider\Collider.cpp" />
+    <ClCompile Include="Engine\Components\Collider\CollisionFunctions.cpp" />
+    <ClCompile Include="Engine\Components\Collider\ICollider.cpp" />
+    <ClCompile Include="Engine\Components\Collider\MeshCollider.cpp" />
+    <ClCompile Include="Engine\Components\Collider\SphereCollider.cpp" />
     <ClCompile Include="Engine\ComputeShader\BaseCSResource.cpp" />
     <ClCompile Include="Engine\ComputeShader\ComputeShader.cpp" />
     <ClCompile Include="Engine\ComputeShader\ComputeShaderPipeline.cpp" />
@@ -159,22 +159,22 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp" />
-    <ClCompile Include="Engine\Editer\Window\EditerWindows.cpp" />
-    <ClCompile Include="Engine\Editer\Window\GameObjectWindow.cpp" />
+    <ClCompile Include="Engine\System\Editer\Window\EditerWindows.cpp" />
+    <ClCompile Include="Engine\System\Editer\Window\GameObjectWindow.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
-    <ClCompile Include="Engine\Assets\GameObject\BaseGameObject.cpp" />
-    <ClCompile Include="Engine\Assets\GameObject\Model.cpp" />
-    <ClCompile Include="Engine\Assets\GameObject\ObjectAxis.cpp" />
-    <ClCompile Include="Engine\Assets\GameObject\TestObject.cpp" />
+    <ClCompile Include="Engine\Components\GameObject\BaseGameObject.cpp" />
+    <ClCompile Include="Engine\Components\GameObject\Model.cpp" />
+    <ClCompile Include="Engine\Components\GameObject\ObjectAxis.cpp" />
+    <ClCompile Include="Engine\Components\GameObject\TestObject.cpp" />
     <ClCompile Include="Engine\System\Input\Input.cpp" />
     <ClCompile Include="Engine\Lib\GameTimer.cpp" />
-    <ClCompile Include="Engine\Lib\IJsonConverter.cpp" />
-    <ClCompile Include="Engine\Assets\Light\BaseLight.cpp" />
-    <ClCompile Include="Engine\Assets\Light\DirectionalLight.cpp" />
-    <ClCompile Include="Engine\Assets\Light\LightGroup.cpp" />
-    <ClCompile Include="Engine\Assets\Light\Phong.cpp" />
-    <ClCompile Include="Engine\Assets\Light\PointLight.cpp" />
-    <ClCompile Include="Engine\Assets\Light\SpotLight.cpp" />
+    <ClCompile Include="Engine\Lib\Json\IJsonConverter.cpp" />
+    <ClCompile Include="Engine\Components\Light\BaseLight.cpp" />
+    <ClCompile Include="Engine\Components\Light\DirectionalLight.cpp" />
+    <ClCompile Include="Engine\Components\Light\LightGroup.cpp" />
+    <ClCompile Include="Engine\Components\Light\Phong.cpp" />
+    <ClCompile Include="Engine\Components\Light\PointLight.cpp" />
+    <ClCompile Include="Engine\Components\Light\SpotLight.cpp" />
     <ClCompile Include="Engine\System\Manager\AnimationManager.cpp" />
     <ClCompile Include="Engine\System\Manager\AudioManager.cpp" />
     <ClCompile Include="Engine\System\Manager\CollisionManager.cpp" />
@@ -183,16 +183,16 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\Manager\ModelManager.cpp" />
     <ClCompile Include="Engine\System\Manager\SceneManager.cpp" />
     <ClCompile Include="Engine\System\Manager\TextureManager.cpp" />
-    <ClCompile Include="Engine\Math\Easing.cpp" />
-    <ClCompile Include="Engine\Math\MathStructures.cpp" />
-    <ClCompile Include="Engine\Math\Matrix4x4.cpp" />
-    <ClCompile Include="Engine\Math\MyMath.cpp" />
-    <ClCompile Include="Engine\Math\MyMatrix.cpp" />
-    <ClCompile Include="Engine\Math\MyRandom.cpp" />
-    <ClCompile Include="Engine\Math\Quaternion.cpp" />
-    <ClCompile Include="Engine\Math\Vector2.cpp" />
-    <ClCompile Include="Engine\Math\Vector3.cpp" />
-    <ClCompile Include="Engine\Math\Vector4.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Easing.cpp" />
+    <ClCompile Include="Engine\Lib\Math\MathStructures.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Matrix4x4.cpp" />
+    <ClCompile Include="Engine\Lib\Math\MyMath.cpp" />
+    <ClCompile Include="Engine\Lib\Math\MyMatrix.cpp" />
+    <ClCompile Include="Engine\Lib\Math\MyRandom.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Quaternion.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Vector2.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Vector3.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Vector4.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Particle\CpuParticles.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectPersistence.cpp" />
@@ -208,10 +208,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleForGPU.cpp" />
     <ClCompile Include="Engine\Render.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp" />
-    <ClCompile Include="Engine\Utilities\AdjustmentItem.cpp" />
+    <ClCompile Include="Engine\Lib\Json\JsonItems.cpp" />
     <ClCompile Include="Engine\Utilities\BitChecker.cpp" />
     <ClCompile Include="Engine\Utilities\Convert.cpp" />
-    <ClCompile Include="Engine\Utilities\DirectXUtils.cpp" />
+    <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp" />
     <ClCompile Include="Engine\Utilities\DrawUtils.cpp" />
     <ClCompile Include="Engine\Utilities\Loader.cpp" />
     <ClCompile Include="Engine\Utilities\Shader.cpp" />
@@ -237,31 +237,31 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Assets\2d\PrimitiveDrawer.h" />
-    <ClInclude Include="Engine\Assets\2d\Sprite.h" />
-    <ClInclude Include="Engine\Assets\2d\Triangle.h" />
-    <ClInclude Include="Engine\Assets\Animation\AnimationClip.h" />
-    <ClInclude Include="Engine\Assets\Animation\AnimationFunctions.h" />
-    <ClInclude Include="Engine\Assets\Animation\AnimationStructures.h" />
-    <ClInclude Include="Engine\Assets\Animation\Animator.h" />
-    <ClInclude Include="Engine\Assets\Materials\Material.h" />
-    <ClInclude Include="Engine\Assets\Meshes\Mesh.h" />
-    <ClInclude Include="Engine\Assets\Materials\PBRMaterial.h" />
-    <ClInclude Include="Engine\Assets\RenderTexture.h" />
-    <ClInclude Include="Engine\Assets\Rigging\Skeleton.h" />
-    <ClInclude Include="Engine\Assets\Rigging\SkinCluster.h" />
-    <ClInclude Include="Engine\Assets\Rigging\Skinning.h" />
-    <ClInclude Include="Engine\Assets\TransformationMatrix.h" />
-    <ClInclude Include="Engine\Assets\ViewProjection.h" />
-    <ClInclude Include="Engine\Assets\WorldTransform.h" />
+    <ClInclude Include="Engine\Components\2d\PrimitiveDrawer.h" />
+    <ClInclude Include="Engine\Components\2d\Sprite.h" />
+    <ClInclude Include="Engine\Components\2d\Triangle.h" />
+    <ClInclude Include="Engine\Components\Animation\AnimationClip.h" />
+    <ClInclude Include="Engine\Components\Animation\AnimationFunctions.h" />
+    <ClInclude Include="Engine\Components\Animation\AnimationStructures.h" />
+    <ClInclude Include="Engine\Components\Animation\Animator.h" />
+    <ClInclude Include="Engine\Components\Materials\Material.h" />
+    <ClInclude Include="Engine\Components\Meshes\Mesh.h" />
+    <ClInclude Include="Engine\Components\Materials\PBRMaterial.h" />
+    <ClInclude Include="Engine\Components\RenderTexture.h" />
+    <ClInclude Include="Engine\Components\Rigging\Skeleton.h" />
+    <ClInclude Include="Engine\Components\Rigging\SkinCluster.h" />
+    <ClInclude Include="Engine\Components\Rigging\Skinning.h" />
+    <ClInclude Include="Engine\Components\TransformationMatrix.h" />
+    <ClInclude Include="Engine\Components\ViewProjection.h" />
+    <ClInclude Include="Engine\Components\WorldTransform.h" />
     <ClInclude Include="Engine\System\Audio\Audio.h" />
     <ClInclude Include="Engine\System\Audio\AudioPlayer.h" />
-    <ClInclude Include="Engine\Assets\Collider\BoxCollider.h" />
-    <ClInclude Include="Engine\Assets\Collider\Collider.h" />
-    <ClInclude Include="Engine\Assets\Collider\CollisionFunctions.h" />
-    <ClInclude Include="Engine\Assets\Collider\ICollider.h" />
-    <ClInclude Include="Engine\Assets\Collider\MeshCollider.h" />
-    <ClInclude Include="Engine\Assets\Collider\SphereCollider.h" />
+    <ClInclude Include="Engine\Components\Collider\BoxCollider.h" />
+    <ClInclude Include="Engine\Components\Collider\Collider.h" />
+    <ClInclude Include="Engine\Components\Collider\CollisionFunctions.h" />
+    <ClInclude Include="Engine\Components\Collider\ICollider.h" />
+    <ClInclude Include="Engine\Components\Collider\MeshCollider.h" />
+    <ClInclude Include="Engine\Components\Collider\SphereCollider.h" />
     <ClInclude Include="Engine\ComputeShader\BaseCSResource.h" />
     <ClInclude Include="Engine\ComputeShader\ComputeShader.h" />
     <ClInclude Include="Engine\ComputeShader\ComputeShaderPipeline.h" />
@@ -287,24 +287,23 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h" />
-    <ClInclude Include="Engine\Editer\Window\EditerWindows.h" />
-    <ClInclude Include="Engine\Editer\Window\GameObjectWindow.h" />
+    <ClInclude Include="Engine\System\Editer\Window\EditerWindows.h" />
+    <ClInclude Include="Engine\System\Editer\Window\GameObjectWindow.h" />
     <ClInclude Include="Engine\Engine.h" />
-    <ClInclude Include="Engine\Assets\GameObject\BaseGameObject.h" />
-    <ClInclude Include="Engine\Assets\GameObject\Model.h" />
-    <ClInclude Include="Engine\Assets\GameObject\ObjectAxis.h" />
-    <ClInclude Include="Engine\Assets\GameObject\TestObject.h" />
+    <ClInclude Include="Engine\Components\GameObject\BaseGameObject.h" />
+    <ClInclude Include="Engine\Components\GameObject\Model.h" />
+    <ClInclude Include="Engine\Components\GameObject\ObjectAxis.h" />
+    <ClInclude Include="Engine\Components\GameObject\TestObject.h" />
     <ClInclude Include="Engine\System\Input\Input.h" />
     <ClInclude Include="Engine\Lib\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
-    <ClInclude Include="Engine\Lib\IJsonConverter.h" />
-    <ClInclude Include="Engine\Lib\VertexData.h" />
-    <ClInclude Include="Engine\Assets\Light\BaseLight.h" />
-    <ClInclude Include="Engine\Assets\Light\DirectionalLight.h" />
-    <ClInclude Include="Engine\Assets\Light\LightGroup.h" />
-    <ClInclude Include="Engine\Assets\Light\Phong.h" />
-    <ClInclude Include="Engine\Assets\Light\PointLight.h" />
-    <ClInclude Include="Engine\Assets\Light\SpotLight.h" />
+    <ClInclude Include="Engine\Lib\Json\IJsonConverter.h" />
+    <ClInclude Include="Engine\Components\Light\BaseLight.h" />
+    <ClInclude Include="Engine\Components\Light\DirectionalLight.h" />
+    <ClInclude Include="Engine\Components\Light\LightGroup.h" />
+    <ClInclude Include="Engine\Components\Light\Phong.h" />
+    <ClInclude Include="Engine\Components\Light\PointLight.h" />
+    <ClInclude Include="Engine\Components\Light\SpotLight.h" />
     <ClInclude Include="Engine\System\Manager\AnimationManager.h" />
     <ClInclude Include="Engine\System\Manager\AudioManager.h" />
     <ClInclude Include="Engine\System\Manager\CollisionManager.h" />
@@ -313,17 +312,17 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\System\Manager\ModelManager.h" />
     <ClInclude Include="Engine\System\Manager\SceneManager.h" />
     <ClInclude Include="Engine\System\Manager\TextureManager.h" />
-    <ClInclude Include="Engine\Math\Easing.h" />
-    <ClInclude Include="Engine\Math\MathStructures.h" />
-    <ClInclude Include="Engine\Math\Matrix3x3.h" />
-    <ClInclude Include="Engine\Math\Matrix4x4.h" />
-    <ClInclude Include="Engine\Math\MyMath.h" />
-    <ClInclude Include="Engine\Math\MyMatrix.h" />
-    <ClInclude Include="Engine\Math\MyRandom.h" />
-    <ClInclude Include="Engine\Math\Quaternion.h" />
-    <ClInclude Include="Engine\Math\Vector2.h" />
-    <ClInclude Include="Engine\Math\Vector3.h" />
-    <ClInclude Include="Engine\Math\Vector4.h" />
+    <ClInclude Include="Engine\Lib\Math\Easing.h" />
+    <ClInclude Include="Engine\Lib\Math\MathStructures.h" />
+    <ClInclude Include="Engine\Lib\Math\Matrix3x3.h" />
+    <ClInclude Include="Engine\Lib\Math\Matrix4x4.h" />
+    <ClInclude Include="Engine\Lib\Math\MyMath.h" />
+    <ClInclude Include="Engine\Lib\Math\MyMatrix.h" />
+    <ClInclude Include="Engine\Lib\Math\MyRandom.h" />
+    <ClInclude Include="Engine\Lib\Math\Quaternion.h" />
+    <ClInclude Include="Engine\Lib\Math\Vector2.h" />
+    <ClInclude Include="Engine\Lib\Math\Vector3.h" />
+    <ClInclude Include="Engine\Lib\Math\Vector4.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Particle\CpuParticles.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectPersistence.h" />
@@ -339,11 +338,11 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleForGPU.h" />
     <ClInclude Include="Engine\Render.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h" />
-    <ClInclude Include="Engine\Utilities\AdjustmentItem.h" />
+    <ClInclude Include="Engine\Lib\Json\JsonItems.h" />
     <ClInclude Include="Engine\Utilities\BitChecker.h" />
     <ClInclude Include="Engine\Utilities\Convert.h" />
     <ClInclude Include="Engine\Utilities\Debug.h" />
-    <ClInclude Include="Engine\Utilities\DirectXUtils.h" />
+    <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h" />
     <ClInclude Include="Engine\Utilities\DrawUtils.h" />
     <ClInclude Include="Engine\Utilities\Loader.h" />
     <ClInclude Include="Engine\Utilities\Shader.h" />
@@ -372,15 +371,15 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\WorldObject\Skydome.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Engine\HLSL\CS\Blend.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\Blend.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\DepthOfField.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\DepthOfField.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Particle\EmitParticle.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Particle\EmitParticle.CS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
@@ -388,7 +387,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Particle\GpuParticleEnd.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Particle\GpuParticleEnd.CS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
@@ -396,7 +395,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Particle\GpuParticleInit.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Particle\GpuParticleInit.CS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
@@ -404,7 +403,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Particle\GpuParticleUpdate.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Particle\GpuParticleUpdate.CS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
@@ -412,71 +411,71 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\GrayScale.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\GrayScale.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\HorizontalBlur.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\HorizontalBlur.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Object3d.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Object3d.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Object3d.VS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Object3d.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Particle\Particle.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Particle\Particle.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Particle\Particle.VS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Particle\Particle.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\PBR.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\PBR.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\PBR.VS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\PBR.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Phong.Lighting.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Phong.Lighting.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Primitive.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Primitive.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Primitive.VS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Primitive.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\ResultRender.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\ResultRender.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\Skinning.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\Skinning.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Sprite.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Sprite.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Sprite.VS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Sprite.VS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\Textureless.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\Textureless.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\HLSL\CS\VerticalBlur.CS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\CS\VerticalBlur.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
@@ -485,20 +484,20 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <Text Include="Externals\ImGui\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\HLSL\Object3d.hlsli">
+    <None Include="Engine\Resources\HLSL\Object3d.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="Engine\HLSL\Particle\Particle.hlsli">
+    <None Include="Engine\Resources\HLSL\Particle\Particle.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="Engine\HLSL\PBR.hlsli">
+    <None Include="Engine\Resources\HLSL\PBR.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="Engine\HLSL\Primitive.hlsli">
+    <None Include="Engine\Resources\HLSL\Primitive.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
-    <None Include="Engine\HLSL\Random.hlsli" />
-    <None Include="Engine\HLSL\Sprite.hlsli">
+    <None Include="Engine\Resources\HLSL\Random.hlsli" />
+    <None Include="Engine\Resources\HLSL\Sprite.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
   </ItemGroup>

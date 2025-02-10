@@ -5,7 +5,7 @@
 #include <wrl.h>
 // utilities
 #include "Engine/Utilities/Convert.h"
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 // DirectX系
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
@@ -35,7 +35,7 @@ public:
 	/// <summary>
 	/// CPUとGPUの同期をはかる
 	/// </summary>
-	void SyncGPUAndCPU();
+	void SyncGPUAndCPU(IDXGISwapChain4* swapChain);
 
 
 public:
@@ -45,31 +45,25 @@ public:
 	/// <returns></returns>
 	ID3D12CommandQueue* GetCommandQueue() { return commandQueue_.Get(); }
 
-	ID3D12CommandAllocator* GetCommandAllocator() { return commandAllocator_.Get(); }
+	ID3D12CommandAllocator* GetCommandAllocator() { return commandAllocators_[fenceIndex_].Get(); }
 
 	ID3D12GraphicsCommandList* GetCommandList() { return commandList_.Get(); }
 
 private:
 
+	static const uint32_t kFrameCount_ = 2;
+
 	ID3D12Device* device_ = nullptr;
 	
 	// graphics用のコマンド系 ---------------------------------------------
 	ComPtr<ID3D12CommandQueue> commandQueue_ = nullptr;
-	ComPtr<ID3D12CommandAllocator> commandAllocator_ = nullptr;
+	ComPtr<ID3D12CommandAllocator> commandAllocators_[kFrameCount_];
 	ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
 
 	// Fence & Event
 	ComPtr<ID3D12Fence> fence_ = nullptr;
-	uint64_t fenceValue_;
 	HANDLE fenceEvent_;
+	uint64_t fanceCounter_[kFrameCount_];
+	uint32_t fenceIndex_;
 
-	// computeShader用のコマンド系 ---------------------------------------------
-	ComPtr<ID3D12CommandQueue> effectCommandQueue_ = nullptr;
-	ComPtr<ID3D12CommandAllocator> effectCommandAllocator_ = nullptr;
-	ComPtr<ID3D12GraphicsCommandList> effectCommandList_ = nullptr;
-
-	// Fence & Event
-	ComPtr<ID3D12Fence> effectFence_ = nullptr;
-	uint64_t effectFenceValue_;
-	HANDLE effectFenceEvent_;
 };

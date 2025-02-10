@@ -1,6 +1,6 @@
 #pragma once
 #include "Game/Camera/BaseCamera.h"
-#include "Engine/Math/Quaternion.h"
+#include "Engine/Lib/Math/Quaternion.h"
 
 /// <summary>
 /// Effectを作成する際に使用するカメラ

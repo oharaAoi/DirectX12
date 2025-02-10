@@ -1,9 +1,9 @@
 #pragma once
-#include "Engine/Lib/IJsonConverter.h"
-#include "Engine/Math/MyMatrix.h"
-#include "Engine/Math/MyMath.h"
-#include "Engine/Math/MathStructures.h"
-#include "Engine/Assets/WorldTransform.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Lib/Math/MyMatrix.h"
+#include "Engine/Lib/Math/MyMath.h"
+#include "Engine/Lib/Math/MathStructures.h"
+#include "Engine/Components/WorldTransform.h"
 #include "Enviroment.h"
 #include "Engine/Lib/GameTimer.h"
 

@@ -1,6 +1,6 @@
 #include "Engine.h"
 #include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
-#include "Engine/Utilities/AdjustmentItem.h"
+#include "Engine/Lib/Json//JsonItems.h"
 
 Engine::Engine() {}
 
@@ -48,7 +48,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	editerWindows_->Init();
 #endif
 
-	AdjustmentItem* adjust = AdjustmentItem::GetInstance();
+	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("Engine");
 
 	// -------------------------------------------------

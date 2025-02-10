@@ -1,6 +1,6 @@
 #pragma once
 #include <optional>
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
 enum class ResourceType {

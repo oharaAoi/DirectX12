@@ -2,7 +2,7 @@
 #include <cassert>
 #include <string>
 #include <map>
-#include "DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 
 class Shader {
 public:
@@ -34,7 +34,7 @@ public:
 	};
 
 	// 構造体
-	struct ShaderData {
+	struct ShaderData final {
 		std::string vsShader;
 		std::string psShader;
 	};
@@ -53,11 +53,11 @@ public:
 
 	void Load(const std::string& csPath, const CsShaderName& type);
 
-	const ShaderData GetShaderData(const ShaderName& name){
+	const ShaderData& GetShaderData(const ShaderName& name){
 		return shaderData_[name];
 	}
 
-	const std::string GetCsShaderData(const CsShaderName& name) {
+	const std::string& GetCsShaderData(const CsShaderName& name) {
 		return csShaderData_[name];
 	}
 

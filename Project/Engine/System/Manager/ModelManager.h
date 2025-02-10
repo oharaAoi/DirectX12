@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <assert.h>
 #include "Engine.h"
-#include "Engine/Assets/GameObject/Model.h"
+#include "Engine/Components/GameObject/Model.h"
 
 /// <summary>
 /// Modelを管理するクラス

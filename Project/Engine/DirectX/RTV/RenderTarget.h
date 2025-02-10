@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/Utilities/Convert.h"
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/Descriptor/DescriptorSize.h"
 #include "Engine/DirectX/Resource/DxResource.h"

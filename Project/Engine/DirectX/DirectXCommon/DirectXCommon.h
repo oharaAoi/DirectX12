@@ -15,7 +15,7 @@
 #include "Engine/DirectX/RTV/RenderTarget.h"
 // utilities
 #include "Engine/Utilities/Convert.h"
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Utilities/Debug.h"
 
 template<typename T>

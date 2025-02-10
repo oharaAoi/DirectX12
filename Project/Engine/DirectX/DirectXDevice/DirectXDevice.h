@@ -6,7 +6,7 @@
 #include <dxgidebug.h>
 // utilities
 #include "Engine/Utilities/Convert.h"
-#include "Engine/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

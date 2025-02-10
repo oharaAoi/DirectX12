@@ -7,8 +7,8 @@
 #include <cassert>
 #include <Xinput.h>
 #include <limits>
-#include "Engine/Math/Vector2.h"
-#include "Engine/Math/MyMath.h"
+#include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Lib/Math/MyMath.h"
 
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")

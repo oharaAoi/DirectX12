@@ -1,7 +1,7 @@
 #pragma once
 #include "Game/Camera/BaseCamera.h"
 #include "Engine/System/Input/Input.h"
-#include "Engine/Math/Quaternion.h"
+#include "Engine/Lib/Math/Quaternion.h"
 
 const float kDebugCameraMoveSpeed_ = 0.05f;
 
