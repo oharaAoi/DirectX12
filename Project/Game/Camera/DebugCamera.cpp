@@ -23,7 +23,7 @@ void DebugCamera::Init() {
 	isFocused_ = true;
 	
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(std::bind(&DebugCamera::Debug_Gui, this, "debugCamera"), "debugCamera");
+	EditerWindows::AddObjectWindow(this, "debugCamera");
 #endif // _DEBUG
 }
 
@@ -47,20 +47,20 @@ void DebugCamera::Update() {
 }
 
 #ifdef _DEBUG
-void DebugCamera::Debug_Gui([[maybe_unused]] const std::string& label) {
+void DebugCamera::Debug_Gui() {
 	Vector3 right = moveRotate_.MakeRight();
 	Vector3 up = moveRotate_.MakeUp();
 	Vector3 forward = moveRotate_.MakeForward();
-	
+
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
 	ImGui::DragFloat4("rotate", &moveRotate_.x, 0.01f);
 	ImGui::DragFloat("sensitivity", &sensitivity_, 0.01f, 0.0f, 0.1f);
 	ImGui::Separator();
 	ImGui::DragFloat4("qYaw", &qYaw.x, 0.01f);
 	ImGui::DragFloat4("qPitch", &qPitch.x, 0.01f);
-	
+
 	if (ImGui::Button("Reset")) {
-		transform_ = { {1.0f, 1.0f, 1.0f}, Quaternion(), {0.0f, 5.0f, -30.0f}};
+		transform_ = { {1.0f, 1.0f, 1.0f}, Quaternion(), {0.0f, 5.0f, -30.0f} };
 		moveRotate_ = Quaternion();
 		yaw_ = 0.0f;
 		pitch_ = 0.0f;

@@ -10,13 +10,15 @@
 #include "Engine/Components/WorldTransform.h"
 #include "Engine/Components/GameObject/ObjectAxis.h"
 #include "Engine/Components/Animation/Animator.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
 
 #include "Engine/Components/Collider/MeshCollider.h"
 #include "Engine/Components/Collider/ICollider.h"
 #include "Engine/Components/Collider/SphereCollider.h"
 #include "Engine/Components/Collider/BoxCollider.h"
 
-class BaseGameObject {
+class BaseGameObject :
+	public AttributeGui {
 public:
 
 	BaseGameObject() = default;
@@ -32,7 +34,7 @@ public:
 #ifdef _DEBUG
 	void Debug_Draw();
 
-	void Debug_Gui();
+	void Debug_Gui() override;
 
 	void Debug_Axis();
 

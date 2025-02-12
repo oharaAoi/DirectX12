@@ -38,7 +38,7 @@ void TestScene::Init() {
 	testObjA_->SetCollider(1 << 1, ColliderShape::SPHERE);
 	
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(std::bind(&TestObject::Debug_Gui, testObjA_.get()), "testAObj");
+	EditerWindows::AddObjectWindow(testObjA_.get(), "testAObj");
 #endif
 
 	// Manager -------------------------------------------------------------------

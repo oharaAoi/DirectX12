@@ -30,7 +30,7 @@ public:
 		}
 	};
 
-public:
+public: // member method
 
 	BaseCamera() = default;
 	virtual ~BaseCamera();
@@ -39,11 +39,7 @@ public:
 	virtual void Init();
 	virtual void Update();
 
-#ifdef _DEBUG
-	virtual void Debug_Gui(const std::string& label);
-#endif // _DEBUG
-
-public:	// アクセッサ
+public:	// accesseor method
 
 	const Matrix4x4& GetCameraMatrix() const { return cameraMatrix_; }
 

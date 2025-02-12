@@ -9,6 +9,7 @@ PointLight::~PointLight() {
 }
 
 void PointLight::Init(ID3D12Device* device, const size_t& size) {
+	AttributeGui::SetName("Point Light");
 	BaseLight::Init(device, size);
 	lightBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData_));
 

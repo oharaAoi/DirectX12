@@ -2,10 +2,12 @@
 #include <string>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
+#include "Engine/Components/Attribute/AttributeGui.h"
 
 using json = nlohmann::json;
 
-class JsonItems {
+class JsonItems :
+	public AttributeGui {
 public:
 
 	struct Group {
@@ -47,6 +49,10 @@ public:
 	/// <param name="rootKey">: 取得するファイル名</param>
 	/// <returns>json型を返す</returns>
 	static json GetData(const std::string& groupName, const std::string& rootKey);
+
+#ifdef _DEBUG
+	void Debug_Gui() override;
+#endif // _DEBUG
 
 private :
 

@@ -2,11 +2,13 @@
 #include "Game/Camera/BaseCamera.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Math/Quaternion.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
 
 const float kDebugCameraMoveSpeed_ = 0.05f;
 
-class DebugCamera
-	: public BaseCamera {
+class DebugCamera :
+	public BaseCamera,
+	public AttributeGui {
 public:
 
 	DebugCamera();
@@ -17,7 +19,7 @@ public:
 	void Update() override;
 
 #ifdef _DEBUG
-	void Debug_Gui([[maybe_unused]] const std::string& label) override;
+	void Debug_Gui() override;
 #endif
 
 public:

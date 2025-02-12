@@ -12,11 +12,13 @@ void LightGroup::Init(ID3D12Device* device) {
 	directionalLight_->Init(device, sizeof(DirectionalLight::DirectionalLightData));
 	pointLight_->Init(device, sizeof(PointLight::PointLightData));
 	spotLight_->Init(device, sizeof(SpotLight::SpotLightData));
+
+	this->AddChild(directionalLight_.get());
+	this->AddChild(pointLight_.get());
+	this->AddChild(spotLight_.get());
 	
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(std::bind(&DirectionalLight::Debug_Gui, directionalLight_.get()), "directionalLight");
-	EditerWindows::AddObjectWindow(std::bind(&PointLight::Debug_Gui, pointLight_.get()), "pointLight");
-	EditerWindows::AddObjectWindow(std::bind(&SpotLight::Debug_Gui, spotLight_.get()), "spotLight");
+	EditerWindows::AddObjectWindow(this, "LightGroup");
 #endif
 }
 
@@ -49,3 +51,9 @@ void LightGroup::DrawLi(ID3D12GraphicsCommandList* commandList, const uint32_t& 
 void LightGroup::DrawPar(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
 	directionalLight_->Draw(commandList, rootParameterIndex);
 }
+
+#ifdef _DEBUG
+void LightGroup::Debug_Gui() {
+
+}
+#endif // _DEBUG

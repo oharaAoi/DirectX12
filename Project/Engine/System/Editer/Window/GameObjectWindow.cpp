@@ -11,13 +11,13 @@ void GameObjectWindow::Init() {
 // ↓　Objectの追加
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameObjectWindow::AddFunction(std::function<void()> func, const std::string& label) {
+void GameObjectWindow::AddFunction(AttributeGui* attribute, const std::string& label) {
 	std::string uniqueLabel = label;
 	int counter = 1;
 
 	// ラベルがすでにリスト内に存在するかチェック
 	auto isLabelDuplicate = [&](const std::string& labelToCheck) {
-		for (const auto& pair : functionList) {
+		for (const auto& pair : attributeArray_) {
 			if (pair.first == labelToCheck) {
 				return true;
 			}
@@ -33,7 +33,7 @@ void GameObjectWindow::AddFunction(std::function<void()> func, const std::string
 	}
 
 	// ユニークなラベルでリストに追加
-	functionList.emplace_back(uniqueLabel, func);
+	attributeArray_.emplace_back(uniqueLabel, attribute);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,24 +43,46 @@ void GameObjectWindow::AddFunction(std::function<void()> func, const std::string
 #ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
 void GameObjectWindow::Edit() {
-	ImGui::Begin("SceneObject");
-	static int selectedEffectIndex = -1; 
+	// -------------------------------------------------
+	// ↓ Itemの選択
+	// -------------------------------------------------
+	ImGui::Begin("Scene Object");
+	static AttributeGui* selectAttribute = nullptr;
 	int index = 0;
-	for (auto it = functionList.begin(); it != functionList.end(); ++it, ++index) {
+	for (auto it = attributeArray_.begin(); it != attributeArray_.end(); ++it, ++index) {
 		std::string label = it->first;
+		const AttributeGui* ptr = it->second;
 
-		if (ImGui::Selectable(label.c_str(), selectedEffectIndex == index)) {
-			selectedEffectIndex = index; 
+		if (ptr->HasChild()) {
+			if (ImGui::TreeNode(label.c_str())) {
+				for (auto child : ptr->GetChildren()) {
+					if (ImGui::TreeNode(child->GetName().c_str())) {
+						selectAttribute = child;
+						ImGui::TreePop();
+					}
+				}
+				ImGui::TreePop();
+			}
+		} else {
+			if (ImGui::Selectable(label.c_str(), selectAttribute == ptr)) {
+				selectAttribute = it->second;
+			}
 		}
 	}
 	ImGui::End();
 
+	// -------------------------------------------------
+	// ↓ ItemごとのImGuiを編集する
+	// -------------------------------------------------
 	ImGui::Begin("Object Setting");
-	if (selectedEffectIndex >= 0 && selectedEffectIndex < functionList.size()) {
-		auto it = functionList.begin();
-		std::advance(it, selectedEffectIndex); // Move iterator to the selected index
-		it->second();
+	if (selectAttribute != nullptr) {
+		selectAttribute->Debug_Gui();
 	}
+	//if (selectedEffectIndex >= 0 && selectedEffectIndex < attributeArray_.size()) {
+	//	auto it = attributeArray_.begin();
+	//	std::advance(it, selectedEffectIndex); // Move iterator to the selected index
+	//	it->second->Debug_Gui();
+	//}
 	ImGui::End();
 }
 #endif // _DEBUG

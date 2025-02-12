@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "Engine/System/Editer/Window/GameObjectWindow.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
 
 class EditerWindows {
 public:
@@ -30,7 +31,7 @@ public:
 
 public:
 
-	static void AddObjectWindow(std::function<void()> func, const std::string& label);
+	static void AddObjectWindow(AttributeGui* attribute, const std::string& label);
 
 private:
 

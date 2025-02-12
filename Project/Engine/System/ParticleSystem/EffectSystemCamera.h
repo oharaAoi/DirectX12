@@ -1,12 +1,14 @@
 #pragma once
 #include "Game/Camera/BaseCamera.h"
 #include "Engine/Lib/Math/Quaternion.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
 
 /// <summary>
 /// Effectを作成する際に使用するカメラ
 /// </summary>
 class EffectSystemCamera :
-	public BaseCamera {
+	public BaseCamera,
+	public AttributeGui {
 public:
 
 	EffectSystemCamera();
@@ -17,7 +19,7 @@ public:
 	void Update() override;
 
 #ifdef _DEBUG
-	void Debug_Gui(const std::string& label) override;
+	void Debug_Gui() override;
 #endif
 
 	/// <summary>

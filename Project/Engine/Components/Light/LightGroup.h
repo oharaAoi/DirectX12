@@ -4,9 +4,11 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
-#include "Phong.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
 
-class LightGroup {
+
+class LightGroup : 
+	public AttributeGui {
 public:
 
 	enum LightKind {
@@ -29,6 +31,10 @@ public:
 	void DrawPar(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
 
 	void DrawLi(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
+
+#ifdef _DEBUG
+	void Debug_Gui() override;
+#endif // _DEBUG
 
 public:
 

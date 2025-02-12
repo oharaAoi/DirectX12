@@ -1,8 +1,10 @@
 #pragma once
 #include "BaseLight.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
 
-class DirectionalLight
-: public BaseLight {
+class DirectionalLight :
+	public BaseLight,
+	public AttributeGui {
 public: // メンバ構造体
 
 	struct DirectionalLightData {
@@ -53,7 +55,7 @@ public:
 public:
 
 #ifdef _DEBUG
-	void Debug_Gui();
+	void Debug_Gui() override;
 #endif
 
 	void SetEyePos(const Vector3& pos) { directionalLightData_->eyePos = pos; }

@@ -115,6 +115,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Components\Animation\AnimationClip.cpp" />
     <ClCompile Include="Engine\Components\Animation\AnimationFunctions.cpp" />
     <ClCompile Include="Engine\Components\Animation\Animator.cpp" />
+    <ClCompile Include="Engine\Components\Attribute\AttributeGui.cpp" />
     <ClCompile Include="Engine\Components\Materials\Material.cpp" />
     <ClCompile Include="Engine\Components\Meshes\Mesh.cpp" />
     <ClCompile Include="Engine\Components\Materials\PBRMaterial.cpp" />
@@ -244,6 +245,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Components\Animation\AnimationFunctions.h" />
     <ClInclude Include="Engine\Components\Animation\AnimationStructures.h" />
     <ClInclude Include="Engine\Components\Animation\Animator.h" />
+    <ClInclude Include="Engine\Components\Attribute\AttributeGui.h" />
     <ClInclude Include="Engine\Components\Materials\Material.h" />
     <ClInclude Include="Engine\Components\Meshes\Mesh.h" />
     <ClInclude Include="Engine\Components\Materials\PBRMaterial.h" />

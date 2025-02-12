@@ -1,6 +1,6 @@
 #include "Matrix4x4.h"
-#include "Engine/Math/Vector3.h"
-#include "Engine/Math/Quaternion.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Quaternion.h"
 
 Matrix4x4 Matrix4x4::Transpose() const {
 	Matrix4x4 result{};

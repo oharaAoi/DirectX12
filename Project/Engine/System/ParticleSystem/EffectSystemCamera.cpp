@@ -108,7 +108,7 @@ void EffectSystemCamera::RotateMove() {
 }
 
 #ifdef _DEBUG
-void EffectSystemCamera::Debug_Gui([[maybe_unused]] const std::string& label) {
+void EffectSystemCamera::Debug_Gui() {
 	ImGui::Begin("effectCamera");
 	ImGui::DragFloat3("rotate", &transform_.rotate.x, 0.1f);
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);

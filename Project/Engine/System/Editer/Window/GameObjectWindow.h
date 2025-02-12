@@ -1,7 +1,8 @@
 #pragma once
-#include <list>
+#include <vector>
 #include <functional>
 #include <string>
+#include "Engine/Components/Attribute/AttributeGui.h"
 
 /// <summary>
 /// GameObjectをまとめたwindow
@@ -14,16 +15,16 @@ public:
 
 	void Init();
 
-	void AddFunction(std::function<void()> func, const std::string& label);
+	void AddFunction(AttributeGui* attribute, const std::string& label);
 
 #ifdef _DEBUG
 	void Edit();
 #endif // _DEBUG
 private:
 
-	using Pair = std::pair<std::string, std::function<void()>>;
+	using Pair = std::pair<std::string, AttributeGui*>;
 
-	std::list<Pair> functionList;
+	std::vector<Pair> attributeArray_;
 
 };
 

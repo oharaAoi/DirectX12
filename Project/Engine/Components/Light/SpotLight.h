@@ -1,8 +1,10 @@
 #pragma once
 #include "BaseLight.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
 
-class SpotLight
-: public BaseLight {
+class SpotLight :
+	public BaseLight,
+	public AttributeGui {
 public:
 
 	struct SpotLightData {

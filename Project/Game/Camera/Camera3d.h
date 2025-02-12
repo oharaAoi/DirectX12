@@ -1,11 +1,13 @@
 #pragma once
 #include "Game/Camera/BaseCamera.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
 
 /// <summary>
 /// 3d空間上に配置するカメラ
 /// </summary>
 class Camera3d :
-	public BaseCamera {
+	public BaseCamera,
+	public AttributeGui{
 public:
 
 	Camera3d();
@@ -16,7 +18,7 @@ public:
 	void Update() override;
 
 #ifdef _DEBUG
-	void Debug_Gui(const std::string& label) override;
+	void Debug_Gui() override;
 #endif
 
 private:

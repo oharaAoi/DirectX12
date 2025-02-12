@@ -63,7 +63,7 @@ void EditerWindows::End() {
 // ↓　Objectの追加
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void EditerWindows::AddObjectWindow(std::function<void()> func, const std::string& label) {
-	GetInstance()->GetObjectWindow()->AddFunction(func, label);
+void EditerWindows::AddObjectWindow(AttributeGui* attribute, const std::string& label) {
+	GetInstance()->GetObjectWindow()->AddFunction(attribute, label);
 }
 #endif // _DEBUG

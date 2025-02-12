@@ -16,6 +16,14 @@ JsonItems* JsonItems::GetInstance() {
 	return &instance;
 }
 
+#ifdef _DEBUG
+void JsonItems::Debug_Gui() {
+	if (ImGui::Button("HotReload")) {
+		LoadAllFile();
+	}
+}
+#endif // _DEBUG
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +41,7 @@ void JsonItems::Init(const std::string& nowScene) {
 
 	LoadAllFile();
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(std::bind(&JsonItems::Update, this), "JsonItems");
+	EditerWindows::AddObjectWindow(this, "JsonItems");
 #endif // _DEBUG
 }
 
@@ -42,12 +50,6 @@ void JsonItems::Init(const std::string& nowScene) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void JsonItems::Update() {
-#ifdef _DEBUG
-	if (ImGui::Button("HotReload")) {
-		LoadAllFile();
-	}
-	
-#endif // _DEBUG
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

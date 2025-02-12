@@ -12,7 +12,7 @@ void Camera3d::Init() {
 
 	parameter_.FromJson(JsonItems::GetData("Camera", "camera3d"));
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(std::bind(&Camera3d::Debug_Gui, this, "camera3d"), "camera3d");
+	EditerWindows::AddObjectWindow(this, "camera3d");
 #endif // _DEBUG
 }
 
@@ -25,7 +25,23 @@ void Camera3d::Update() {
 }
 
 #ifdef _DEBUG
-void Camera3d::Debug_Gui(const std::string& label) {
-	BaseCamera::Debug_Gui(label);
+void Camera3d::Debug_Gui() {
+	ImGui::DragFloat("near", &near_, 0.1f);
+	ImGui::DragFloat("far", &far_, 0.1f);
+	ImGui::DragFloat("fovY", &fovY_, 0.1f);
+	ImGui::DragFloat3("rotate", &parameter_.rotate.x, 0.1f);
+	ImGui::DragFloat3("translate", &parameter_.translate.x, 0.1f);
+
+	transform_.rotate = parameter_.rotate;
+	transform_.translate = parameter_.translate;
+
+	if (ImGui::Button("Save")) {
+		JsonItems::Save("Camera", parameter_.ToJson("camera3d"));
+	}
+	if (ImGui::Button("Apply")) {
+		parameter_.FromJson(JsonItems::GetData("Camera", "camera3d"));
+	}
+
+	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
 }
 #endif
